@@ -1,0 +1,146 @@
+package geometry.implementations.shapeRunners;
+
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.geom.Point2D;
+
+import geometry.AbstractShape2D;
+import geometry.ShapeRunnersImplemented;
+import geometry.implementations.AbstractShapeRunnerImpl;
+import geometry.implementations.shapes.ShapeLine;
+import geometry.pointTools.PointConsumer;
+import tools.MathUtilities;
+
+public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
+	private static final long serialVersionUID = 455240963888849770L;
+	private static ShapeRunnerLine srl;
+
+	public static ShapeRunnerLine getInstance() {
+		if (srl == null)
+			srl = new ShapeRunnerLine();
+		return srl;
+	}
+
+	private ShapeRunnerLine() {
+	}
+
+	@Override
+	public ShapeRunnersImplemented getShapeRunnersImplemented() {
+		return ShapeRunnersImplemented.Line;
+	}
+
+	@Override
+	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action) {
+		int length;
+		double angDeg;
+		Point point;
+		ShapeLine sp;
+		Polygon p;
+		sp = (ShapeLine) shape;
+		angDeg = MathUtilities.adjustDegAngle(shape.getAngleRotation());
+		p = shape.toPolygon();
+		length = sp.getLength();
+		point = new Point(p.xpoints[0], p.ypoints[0]);
+		runSpan(action, point, length, angDeg, p.xpoints[1], p.ypoints[1]);
+		return true;
+	}
+
+	public static void runSpan(PointConsumer action, Point2D point1, Point2D point2) {
+		double d, a, x1, y1, x2, y2;
+		d = Math.hypot((x1 = point1.getX()) - (x2 = point2.getX()), (y1 = point1.getY()) - (y2 = point2.getY()));
+		a = MathUtilities.angleDeg(x1, y1, x2, y2);
+		runSpan(action, point1, (int) d, (int) a);
+	}
+
+	public static void runSpan(PointConsumer action, Point2D point, int length, double angDeg) {
+		if (angDeg == 0.0 || angDeg == 180.0)
+			runHorizontalSpan(action, point, length);
+		else if (angDeg == 90.0 || angDeg == 270.0)
+			runVerticalSpan(action, point, length);
+		else {
+			angDeg = Math.toRadians(angDeg);
+			runRotatedSpan(action, point, length, angDeg, //
+					(int) Math.round(point.getX() + (length * Math.cos(angDeg))), //
+					(int) Math.round(point.getY() + (length * Math.sin(angDeg))));
+		}
+	}
+
+	public static void runSpan(PointConsumer action, Point2D point, int length, double angDeg, int lastx, int lasty) {
+		if (angDeg == 0.0 || angDeg == 180.0)
+			runHorizontalSpan(action, point, length);
+		else if (angDeg == 90.0 || angDeg == 270.0)
+			runVerticalSpan(action, point, length);
+		else
+			runRotatedSpan(action, point, length, angDeg, lastx, lasty);
+	}
+
+	protected static void runHorizontalSpan(PointConsumer action, Point2D pp, int length) {
+		int i;
+		Point point;
+		point = new Point((int) pp.getX(), (int) pp.getY());
+		i = -1;
+		while (++i < length && action.canContinue()) {
+			action.accept(point);
+			point.x++;
+		}
+	}
+
+	protected static void runVerticalSpan(PointConsumer action, Point2D pp, int length) {
+		int i;
+		Point point;
+		point = new Point((int) pp.getX(), (int) pp.getY());
+		i = -1;
+		while (++i < length && action.canContinue()) {
+			action.accept(point);
+			point.y++;
+		}
+	}
+
+	protected static void runRotatedSpan(PointConsumer action, Point2D pp, int length, double angDeg, int lastx,
+			int lasty) {
+		int x, y, i;
+		double rad, sin, cos;
+		Point point;
+		point = new Point((int) pp.getX(), (int) pp.getY());
+		x = point.x;
+		y = point.y;
+		rad = Math.toRadians(angDeg);
+		sin = Math.sin(rad);
+		cos = Math.cos(rad);
+		i = 0;
+		action.accept(point);
+		while (++i < length) {
+			point.x = (int) Math.round(x + cos * i);
+			point.y = (int) Math.round(y + sin * i);
+			action.accept(point);
+		}
+		point.x = lastx;
+		point.y = lasty;
+		action.accept(point);
+	}
+
+	/*
+	 * protected static void runRotatedSpan_FatLine(PointConsumer action, Point
+	 * point, int length, double angDeg, int lastx, int lasty) {boolean
+	 * yfloorDifferent,yCeilDifferent // boolean isRoundx,isRoundy; int x, y, i; int
+	 * xfloor, yfloor, xceil, yceil, x1, y1, x2, y2, x3, y3, x4, y4;// act as a
+	 * cache, to not repeat points double rad, sin, cos, xx, yy; rad =
+	 * Math.toRadians(angDeg); sin = Math.sin(rad); cos = Math.cos(rad); i = 0;
+	 * action.accept(point); x1 = x2 = x3 = x4 = x = point.x; y1 = y2 = y3 = y4 = y
+	 * = point.y; while (++i < length) { xx = x + cos * i; yy = y + sin * i; //
+	 * check cache xfloor = (int) Math.floor(xx); yfloor = (int) Math.floor(yy);
+	 * xceil = (int) Math.ceil(xx); yceil = (int) Math.ceil(yy);
+	 * 
+	 * if (xfloor != x1) { point.x = xfloor; if (yfloor != y1) { y1 = yfloor;
+	 * point.y = yfloor; action.accept(point); } if (yfloor != yceil) { point.y =
+	 * yfloor; action.accept(point); } y2 = yceil;
+	 * 
+	 * x1 = xfloor; } if (xfloor != xceil) {
+	 * 
+	 * }
+	 * 
+	 * if (xt != x1) point.x = (int) Math.round(x + cos * i); point.y = (int)
+	 * Math.round(y + sin * i); action.accept(point); } point.x = lastx; point.y =
+	 * lasty; action.accept(point); }
+	 */
+}
