@@ -13,12 +13,12 @@ import tools.MathUtilities;
 
 public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 	private static final long serialVersionUID = 455240963888849770L;
-	private static ShapeRunnerLine srl;
+	private static ShapeRunnerLine SINGLETON;
 
 	public static ShapeRunnerLine getInstance() {
-		if (srl == null)
-			srl = new ShapeRunnerLine();
-		return srl;
+		if (SINGLETON == null)
+			SINGLETON = new ShapeRunnerLine();
+		return SINGLETON;
 	}
 
 	private ShapeRunnerLine() {

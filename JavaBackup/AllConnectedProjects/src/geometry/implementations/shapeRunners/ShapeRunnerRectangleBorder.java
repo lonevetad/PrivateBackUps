@@ -11,6 +11,13 @@ import geometry.pointTools.PointConsumer;
 
 public class ShapeRunnerRectangleBorder extends AbstractShapeRunnerImpl {
 	private static final long serialVersionUID = 3565885292245201000L;
+	public static ShapeRunnerRectangleBorder SINGLETON;
+
+	public static ShapeRunnerRectangleBorder getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new ShapeRunnerRectangleBorder();
+		return SINGLETON;
+	}
 
 	private ShapeRunnerRectangleBorder() {
 	}

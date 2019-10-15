@@ -2,6 +2,10 @@ package geometry;
 
 import geometry.implementations.shapeRunners.ShapeRunnerCircleBorder;
 import geometry.implementations.shapeRunners.ShapeRunnerCircleFilled;
+import geometry.implementations.shapeRunners.ShapeRunnerLine;
+import geometry.implementations.shapeRunners.ShapeRunnerPoint;
+import geometry.implementations.shapeRunners.ShapeRunnerPolygonBorder;
+import geometry.implementations.shapeRunners.ShapeRunnerRectangleBorder;
 import geometry.pointTools.PointConsumer;
 
 public class ProviderShapeRunner implements AbstractShapeRunner {
@@ -12,6 +16,10 @@ public class ProviderShapeRunner implements AbstractShapeRunner {
 		RUNNERS = new AbstractShapeRunner[ShapeRunnersImplemented.values().length];
 		RUNNERS[ShapeRunnersImplemented.Circumference.ordinal()] = ShapeRunnerCircleBorder.getInstance();
 		RUNNERS[ShapeRunnersImplemented.Disk.ordinal()] = ShapeRunnerCircleFilled.getInstance();
+		RUNNERS[ShapeRunnersImplemented.Line.ordinal()] = ShapeRunnerLine.getInstance();
+		RUNNERS[ShapeRunnersImplemented.Point.ordinal()] = ShapeRunnerPoint.getInstance();
+		RUNNERS[ShapeRunnersImplemented.PolygonBorder.ordinal()] = ShapeRunnerPolygonBorder.getInstance();
+		RUNNERS[ShapeRunnersImplemented.RectangleBorder.ordinal()] = ShapeRunnerRectangleBorder.getInstance();
 	}
 
 	public static ProviderShapeRunner getInstance() {

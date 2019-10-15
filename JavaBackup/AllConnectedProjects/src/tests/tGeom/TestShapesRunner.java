@@ -15,16 +15,18 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import geometry.implementations.shapeRunners.ShapeRunnerCircleBorder;
-import geometry.implementations.shapeRunners.ShapeRunnerCircleFilled;
+import geometry.AbstractShape2D;
+import geometry.AbstractShapeRunner;
+import geometry.ProviderShapeRunner;
+import geometry.ShapeRunnersImplemented;
 import geometry.implementations.shapes.ShapeCircle;
 import geometry.pointTools.PointConsumer;
 import tools.GraphicTools;
 
-public class TestRunnerCircle extends TestGeneric {
-	static final int PIXEL_SQUARE_POINT = 5, MAX_SQUARE_PIXEL = 700; //
+public class TestShapesRunner extends TestGeneric {
+	static final int PIXEL_SQUARE_POINT = 10, MAX_SQUARE_PIXEL = 700; //
 
-	public TestRunnerCircle() {
+	public TestShapesRunner() {
 	}
 
 	protected class CircleRunnerModel extends ShapeModel {
@@ -34,16 +36,21 @@ public class TestRunnerCircle extends TestGeneric {
 		}
 
 		BufferedImage bi;
-		ShapeCircle c;
-		MyObserver<ShapeCircle> cicleObserver;
+		MyObserver<AbstractShape2D> shapeObserver;
 		MyObserver<ColorToPaintOnImage> imageObserver;
 		final ColorToPaintOnImage ctpoi;
+		ShapeRunnersImplemented[] shapesToTest;
+		ProviderShapeRunner providerShapeRunner;
+		AbstractShapeRunner runner;
 
 		@Override
 		void init() {
-			c = (ShapeCircle) super.s1;
+			providerShapeRunner = ProviderShapeRunner.getInstance();
+			shapesToTest = new ShapeRunnersImplemented[] { ShapeRunnersImplemented.Disk,
+					ShapeRunnersImplemented.Circumference, ShapeRunnersImplemented.Line,
+					ShapeRunnersImplemented.PolygonBorder };
 			ctpoi.bi = bi = new BufferedImage(MAX_SQUARE_PIXEL, MAX_SQUARE_PIXEL, BufferedImage.TYPE_INT_ARGB);
-			setDiameter(1);
+//			setDiameter(1);
 		}
 
 		public void setDiameter(int diameter) {
@@ -54,21 +61,25 @@ public class TestRunnerCircle extends TestGeneric {
 			ctpoi.c = Color.LIGHT_GRAY;
 			if (imageObserver != null)
 				imageObserver.update(ctpoi);
-			c.setDiameter(diameter);
-			c.setCenter(rr, rr);
+			s1.setDiameter(diameter);
+			s1.setCenter(rr, rr);
 			ctpoi.c = Color.BLUE;
 			if (imageObserver != null)
 				imageObserver.update(ctpoi);
-			if (cicleObserver != null)
-				cicleObserver.update(c);
+			if (shapeObserver != null)
+				shapeObserver.update(s1);
 		}
 
-		void setCicleObserver(MyObserver<ShapeCircle> cicleObserver) {
-			this.cicleObserver = cicleObserver;
+		void setCicleObserver(MyObserver<AbstractShape2D> cicleObserver) {
+			this.shapeObserver = cicleObserver;
 		}
 
 		void setImageObserver(MyObserver<ColorToPaintOnImage> imageObserver) {
 			this.imageObserver = imageObserver;
+		}
+
+		public AbstractShapeRunner gerRunner() {
+			return runner;
 		}
 	}
 
@@ -104,6 +115,7 @@ public class TestRunnerCircle extends TestGeneric {
 		@Override
 		public void update(ColorToPaintOnImage ctpoi) {
 			BufferedImage bi;
+			AbstractShapeRunner sr;
 			if (ctpoi == null)
 				return;
 			this.ctpoi = ctpoi;
@@ -111,8 +123,11 @@ public class TestRunnerCircle extends TestGeneric {
 			if (bi == null)
 				return;
 			this.g = bi.getGraphics();
-			(m.c.isFilled() ? ShapeRunnerCircleFilled.getInstance() : ShapeRunnerCircleBorder.getInstance())
-					.runShape(m.c, this);
+			sr = m.gerRunner();
+			if (sr != null) {
+				sr.runShape(m.s1, this);
+			}
+//			(m.c.isFilled() ? ShapeRunnerCircleFilled.getInstance() : ShapeRunnerCircleBorder.getInstance())
 		}
 	}
 
@@ -226,8 +241,8 @@ public class TestRunnerCircle extends TestGeneric {
 	}
 
 	public static void main(String[] args) {
-		TestRunnerCircle t;
-		t = new TestRunnerCircle();
+		TestShapesRunner t;
+		t = new TestShapesRunner();
 		t.startTest();
 	}
 }
