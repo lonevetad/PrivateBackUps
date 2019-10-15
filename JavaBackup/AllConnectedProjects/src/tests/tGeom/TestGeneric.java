@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import geometry.AbstractShape2D;
 
 public abstract class TestGeneric {
+	static final int JPANEL_DIMENSION = 700;
 
 	public static interface MyObserver<E> {
 		void update(E e);
