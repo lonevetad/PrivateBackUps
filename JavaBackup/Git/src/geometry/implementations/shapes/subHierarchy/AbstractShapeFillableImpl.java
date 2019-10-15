@@ -29,7 +29,7 @@ public abstract class AbstractShapeFillableImpl extends AbstractShapeImpl implem
 	}
 
 	@Override
-	public AbstractFillable setFilled(boolean isFilled) {
+	public AbstractShapeFillableImpl setFilled(boolean isFilled) {
 		this.isFilled = isFilled;
 		return this;
 	}
