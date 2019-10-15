@@ -19,7 +19,7 @@ import geometry.implementations.shapes.ShapePolygon;
 import geometry.implementations.shapes.ShapePolygonRegular;
 import tools.MathUtilities;
 
-public class TestLineIntersection extends TestIntersection {
+public class TestLineIntersection extends TestShapeIntersection {
 
 	protected class LineIntersectionModel extends ShapeIntersectionModel {
 		protected LineIntersectionModel() {

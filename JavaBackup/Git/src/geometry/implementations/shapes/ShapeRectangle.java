@@ -39,6 +39,10 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 	protected Polygon polygonCache;
 
 	//
+	@Override
+	public ShapeRunnersImplemented getShapeImplementing() {
+		return isFilled ? ShapeRunnersImplemented.Rectangle : ShapeRunnersImplemented.RectangleBorder;
+	}
 
 	@Override
 	public int getWidth() {

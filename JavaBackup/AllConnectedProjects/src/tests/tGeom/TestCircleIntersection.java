@@ -15,8 +15,7 @@ import javax.swing.JPanel;
 import geometry.implementations.shapes.ShapeCircle;
 import tools.MathUtilities;
 
-public class TestCircleIntersection extends TestIntersection {
-
+public class TestCircleIntersection extends TestShapeIntersection {
 	@Override
 	ShapeModel newModel() {
 		return new CircleIntersectionModel();
@@ -63,8 +62,6 @@ public class TestCircleIntersection extends TestIntersection {
 	}
 
 	protected class CirclesIntersectionView extends ShapeIntersectionView {
-		final int JPANEL_DIMENSION = 700;
-
 		@Override
 		void init() {
 			GridBagConstraints c;
