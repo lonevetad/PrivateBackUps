@@ -25,8 +25,8 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 
 	@Override
 	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action) {
-		return PointConsumer.FORCE_EARLY_STOPPING ? runShapeImpl_NoEarlyStop(shape, action)
-				: runShapeImpl_WithEarlyStop(shape, action);
+		return PointConsumer.FORCE_EARLY_STOPPING ? runShapeImpl_WithEarlyStop(shape, action)
+				: runShapeImpl_NoEarlyStop(shape, action);
 	}
 
 	protected boolean runShapeImpl_NoEarlyStop(AbstractShape2D shape, PointConsumer action) {

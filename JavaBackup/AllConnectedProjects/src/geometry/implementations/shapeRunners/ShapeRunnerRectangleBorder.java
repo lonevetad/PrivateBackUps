@@ -38,9 +38,11 @@ public class ShapeRunnerRectangleBorder extends AbstractShapeRunnerImpl {
 			return false;
 		sr = (ShapeRectangle) shape;
 		angDeg = sr.getAngleRotation();
+		System.out.println("ang: " + angDeg);
 		poly = sr.toPolygon();
 		xx = poly.xpoints;
 		yy = poly.ypoints;
+		System.out.println(sr.getDimension());
 		corner = new Point();
 		if (angDeg == 0.0 || angDeg == 180.0) {
 			corner.x = xx[0];
@@ -48,6 +50,7 @@ public class ShapeRunnerRectangleBorder extends AbstractShapeRunnerImpl {
 			ShapeRunnerLine.runHorizontalSpan(action, corner, sr.getWidth());
 			corner.x = xx[1]; // the same as 0
 //			corner.y = yy[1]; // same as 0
+//			corner.y++;
 			ShapeRunnerLine.runVerticalSpan(action, corner, sr.getHeight());
 			// the 3 is needed instead of 2 because of it runs from left to right
 			corner.x = xx[3]; // same as 0

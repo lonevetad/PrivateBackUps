@@ -7,8 +7,8 @@ import dataStructures.graph.PathFindStrategy;
 import dataStructures.isom.InSpaceObjectsManager;
 import geometry.AbstractShape2D;
 import geometry.ProviderObjectsInSpace;
-import geometry.ProviderShapeRunner;
 import geometry.ProviderShapesIntersectionDetector;
+import geometry.implementations.ProviderShapeRunnerImpl;
 import tools.LoggerMessages;
 
 public class MatrixInSpaceObjectsManager<IDowid> implements InSpaceObjectsManager {
@@ -53,7 +53,7 @@ public class MatrixInSpaceObjectsManager<IDowid> implements InSpaceObjectsManage
 	}
 
 	@Override
-	public ProviderShapeRunner getProviderShapeRunner() {
+	public ProviderShapeRunnerImpl getProviderShapeRunner() {
 		return null;
 	}
 
@@ -89,7 +89,7 @@ public class MatrixInSpaceObjectsManager<IDowid> implements InSpaceObjectsManage
 	}
 
 	@Override
-	public void setProviderShapeRunner(ProviderShapeRunner providerShapeRunner) {
+	public void setProviderShapeRunner(ProviderShapeRunnerImpl providerShapeRunner) {
 		// TODO Auto-generated method stub
 
 	}

@@ -114,7 +114,7 @@ public final class Comparators {
 					return -1;
 				if (p2 == null)
 					return 1;
-				return Double.compare(p2.getY(), p1.getY());
+				return Double.compare(p1.getY(), p2.getY());
 			} //
 			, POINT_2D_COMPARATOR_LEFT_FIRST = (p1, p2) -> {
 				if (p1 == p2)

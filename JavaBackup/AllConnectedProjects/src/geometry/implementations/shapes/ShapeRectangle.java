@@ -7,6 +7,8 @@ import java.awt.geom.Point2D;
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeFillableImpl;
+import geometry.implementations.shapes.subHierarchy.AbstractShapeRotated;
+import geometry.pointTools.impl.PolygonPointsUtilities;
 import tools.MathUtilities;
 
 public class ShapeRectangle extends AbstractShapeFillableImpl {
@@ -113,7 +115,7 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 	@Override
 	public AbstractShape2D setDiameter(int diameter) {
 		double ratio, radius, angleRad;
-		if (diameter == this.diameterCache) {
+		if (diameter != this.diameterCache) {
 			if (diameter == 0) {
 				this.diameterCache = width = height = 0;
 			} else {
@@ -220,7 +222,26 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 	}
 
 	@Override
+	public AbstractShapeRotated setAngleRotation(double angleRotation) {
+		super.setAngleRotation(angleRotation);
+		this.polygonCache = null;
+		return this;
+	}
+
+	@Override
 	public AbstractShape2D clone() {
 		return new ShapeRectangle(this);
+	}
+
+	//
+
+	//
+
+	public static void main(String[] args) {
+		ShapeRectangle r;
+		Polygon p;
+		r = new ShapeRectangle(30, 100, 100, false, 50, 80);
+		p = r.toPolygon();
+		System.out.println(PolygonPointsUtilities.polygonToString(p));
 	}
 }
