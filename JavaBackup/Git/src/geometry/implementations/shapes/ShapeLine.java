@@ -95,7 +95,7 @@ public class ShapeLine extends AbstractShapeImpl {
 		if (length == 0)
 			return polygonCache = new Polygon(new int[] { xCenter, xCenter }, new int[] { yCenter, yCenter }, 1);
 		halfLength = length / 2.0;
-		rad = this.getAngleRotation() % 360.0;
+		rad = this.getAngleRotation();
 		if (rad == 0.0 || rad == 180.0) {
 			xx = new int[] { (int) (xCenter - halfLength), (int) (xCenter + halfLength) };
 			yy = new int[] { (yCenter), (yCenter) };
@@ -103,9 +103,13 @@ public class ShapeLine extends AbstractShapeImpl {
 			xx = new int[] { (xCenter), (xCenter) };
 			yy = new int[] { (int) (yCenter - halfLength), (int) (yCenter + halfLength) };
 		} else {
-			rad = Math.toRadians(rad / 2.0);
-			dx = Math.sin(rad) * halfLength;
-			dy = Math.cos(rad) * halfLength;
+//			rad = Math.toRadians(rad / 2.0);
+			rad = Math.toRadians(rad);
+			dx = Math.cos(rad) * halfLength;
+			dy = Math.sin(rad) * halfLength;
+			halfLength = length / 4.0;
+//			xx = new int[] { (int) (xCenter - dx), (int) (xCenter + dx) };
+//			yy = new int[] { (int) (yCenter - dy), (int) (yCenter + dy) };
 			xx = new int[] { (int) (xCenter - dx), (int) (xCenter + dx) };
 			yy = new int[] { (int) (yCenter - dy), (int) (yCenter + dy) };
 //			return polygonCache = super.toPolygon();

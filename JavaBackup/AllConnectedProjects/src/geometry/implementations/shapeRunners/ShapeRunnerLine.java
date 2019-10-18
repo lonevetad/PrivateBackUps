@@ -120,7 +120,18 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 	protected static void runHorizontalSpan(PointConsumer action, Point2D pp, int length) {
 		Point point;
 		point = new Point((int) pp.getX(), (int) pp.getY());
-		while (length-- >= 0 && action.canContinue()) {
+		if (length == 0)
+			length = 1;
+		while (length-- > 0 && action.canContinue()) {
+			action.accept(point);
+			point.x++;
+		}
+	}
+
+	protected static void runHorizontalSpan(PointConsumer action, Point point, int length) {
+		if (length == 0)
+			length = 1;
+		while (length-- > 0 && action.canContinue()) {
 			action.accept(point);
 			point.x++;
 		}
@@ -129,7 +140,18 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 	protected static void runVerticalSpan(PointConsumer action, Point2D pp, int length) {
 		Point point;
 		point = new Point((int) pp.getX(), (int) pp.getY());
-		while (length-- >= 0 && action.canContinue()) {
+		if (length == 0)
+			length = 1;
+		while (length-- > 0 && action.canContinue()) {
+			action.accept(point);
+			point.y++;
+		}
+	}
+
+	protected static void runVerticalSpan(PointConsumer action, Point point, int length) {
+		if (length == 0)
+			length = 1;
+		while (length-- > 0 && action.canContinue()) {
 			action.accept(point);
 			point.y++;
 		}

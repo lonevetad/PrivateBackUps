@@ -8,7 +8,7 @@ public abstract class AbstractShapeRunnerImpl implements AbstractShapeRunner {
 	private static final long serialVersionUID = 30215489521L;
 
 	@Override
-	public final boolean runShape(AbstractShape2D shape, PointConsumer action) {
+	public /* final */ boolean runShape(AbstractShape2D shape, PointConsumer action) {
 		if (shape == null || action == null || (shape.getShapeImplementing() != this.getShapeRunnersImplemented()))
 			return false;
 		return runShapeImpl(shape, action);

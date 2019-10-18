@@ -23,6 +23,7 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 		this.width = 0;
 		this.height = 0;
 		this.diameterCache = 0;
+		this.isFilled = isFilled;
 	}
 
 	public ShapeRectangle(ShapeRectangle s) {

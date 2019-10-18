@@ -156,7 +156,6 @@ public class TestShapesRunner extends TestGeneric {
 
 		public void setAngle(int angle) {
 			this.angle = angle;
-			System.out.println(angle);
 			ctpoi.c = Color.LIGHT_GRAY;
 			if (imageObserver != null)
 				imageObserver.update(ctpoi);
@@ -297,7 +296,6 @@ public class TestShapesRunner extends TestGeneric {
 
 				@Override
 				public void itemStateChanged(ItemEvent e) {
-//					System.out.println(e.getStateChange() + ", " + e.getItem());
 					if (e.getStateChange() == ItemEvent.SELECTED) {
 						m.setSelectedShape((ShapeRunnersImplemented) e.getItem());
 					}

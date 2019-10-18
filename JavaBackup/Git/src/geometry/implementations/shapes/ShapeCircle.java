@@ -15,6 +15,7 @@ public class ShapeCircle extends AbstractShapeFillableImpl {
 
 	public ShapeCircle(boolean isFilled) {
 		super((isFilled ? ShapeRunnersImplemented.Disk : ShapeRunnersImplemented.Circumference));
+		super.isFilled = isFilled;
 	}
 
 	public ShapeCircle(ShapeCircle s) {
