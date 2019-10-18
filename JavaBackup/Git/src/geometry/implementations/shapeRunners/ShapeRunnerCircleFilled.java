@@ -10,7 +10,13 @@ import geometry.pointTools.PointConsumer;
 
 public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 	private static final long serialVersionUID = 72014502659888L;
-	public static final ShapeRunnerCircleFilled SINGLETON = new ShapeRunnerCircleFilled();
+	private static ShapeRunnerCircleFilled SINGLETON = null;
+
+	public static ShapeRunnerCircleFilled getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new ShapeRunnerCircleFilled();
+		return SINGLETON;
+	}
 
 	@Override
 	public ShapeRunnersImplemented getShapeRunnersImplemented() {
@@ -18,13 +24,18 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 	}
 
 	@Override
+	public boolean runShape(AbstractShape2D shape, PointConsumer action) {
+		return super.runShape(shape, action);
+	}
+
+	@Override
 	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action) {
-		return PointConsumer.FORCE_EARLY_STOPPING ? runShapeImpl_NoEarlyStop(shape, action)
-				: runShapeImpl_WithEarlyStop(shape, action);
+		return PointConsumer.FORCE_EARLY_STOPPING ? runShapeImpl_WithEarlyStop(shape, action)
+				: runShapeImpl_NoEarlyStop(shape, action);
 	}
 
 	protected boolean runShapeImpl_NoEarlyStop(AbstractShape2D shape, PointConsumer action) {
-		int xcentre, ycentre, r, dx, dy, diameter, r2, xc1, xc2, xc3, xc4, yc1, /* yc2, yc3, */ yc4/* , dy2 */;
+		int xcentre, ycentre, r, dx, dy, diameter, r2, xc, xc_1, yc, yc_1;
 		ShapeCircle sc;
 		Point point;
 		if (shape == null || action == null || shape.getShapeImplementing() != this.getShapeRunnersImplemented())
@@ -32,14 +43,12 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 		sc = (ShapeCircle) shape;
 		diameter = sc.getDiameter();
 		r = diameter >> 1;
-		xcentre = sc.getXCenter();
+		xc = xcentre = sc.getXCenter();
 		ycentre = sc.getYCenter();
 		point = new Point(xcentre, ycentre);
-		if (r >= 0)// TODO
-			throw new UnsupportedOperationException("DEBUG NEEDED");
 		if (r < 1)
 			return false;
-		switch (r) {
+		switch (diameter) {
 		case 1: {
 			action.accept(point);
 			return true;
@@ -59,8 +68,10 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 			point.x--;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
 			point.y++;
+			point.x = --xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
 			point.y++;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
 			return true;
 		}
@@ -74,24 +85,32 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 			point.x--;
 			action.accept(point);
 			point.x--;
+			xc = point.x;
 			point.y--;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 4);
 			point.y--;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 4);
 			return true;
 		}
 		case 5: {
 			point.y -= 2;
 			point.x--;
+			xc = point.x;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
-			point.y += 5;
+			point.y += 4;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
-			point.x--;
+			point.x = --xc;
+//			point.x--;
 			point.y--;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 5);
 			point.y--;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 5);
 			point.y--;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 5);
 			return true;
 		}
@@ -102,17 +121,21 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 			action.accept(point);//
 			point.y++;
 			point.x -= 2;
+			xc = point.x - 1;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 4);
-			point.x--;
+			point.x = xc;
+			point.y++;
+			ShapeRunnerLine.runHorizontalSpan(action, point, 6);
+			point.x = xc; /// -6;
 			point.y++;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 6);
 			point.y++;
-			ShapeRunnerLine.runHorizontalSpan(action, point, 6);
-			point.y++;
-			point.x++;
+//			point.x++;
+			point.x = xc + 1;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 4);
 			point.y++;
-			point.x++;
+//			point.x++;
+			point.x = xc + 2;
 			action.accept(point);
 			point.x++;
 			action.accept(point);
@@ -126,35 +149,36 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 		 * (the south) and go up.
 		 */
 		if ((diameter & 0x1) == 0) {
-			xc1 = xc4 = xcentre;
-			xc2 = xc3 = xcentre + 1;
-			yc1 = /* yc2 = */ ycentre + 1;
-			/* yc3 = */ yc4 = ycentre;
+			xc = xcentre;
+			yc = ycentre;
+			xc_1 = xcentre + 1;
+			yc_1 = ycentre + 1;
 			r--;
 		} else {
-			xc1 = xc2 = xc3 = xc4 = xcentre;
-			yc1 = /* yc2 = yc3 = */ yc4 = ycentre;
+			xc = xc_1 = xcentre;
+			yc_1 = yc = ycentre;
 		}
 		r2 = r * r;
 		dy = 0;
 		dx = r;
 		while (dy <= dx) {
-			point.x = xc1 - dx;
-			point.y = yc1 + dy;
-			action.accept(point);
-			ShapeRunnerLine.runHorizontalSpan(action, point, (point.x - (xc2 + dx)) + 1);
-			//
-			point.x = xc1 - dx;
-			point.y = yc4 - dy;
-			ShapeRunnerLine.runHorizontalSpan(action, point, (point.x - (xc2 + dx)) + 1);
+			// recycle diameter as the length of the span
+			point.x = xc - dx;
+			point.y = yc_1 + dy;
+			diameter = ((xc_1 + dx) + 1) - point.x;
+			ShapeRunnerLine.runHorizontalSpan(action, point, diameter);
+			point.y = yc - dy;
+			point.x = xc - dx;
+			ShapeRunnerLine.runHorizontalSpan(action, point, diameter);
 //--
-			point.x = xc2 + dy;
-			point.y = yc1 + dx;
-			ShapeRunnerLine.runHorizontalSpan(action, point, (point.x - (xc1 - dy)) + 1);
+			point.x = xc - dy;
+			point.y = yc_1 + dx;
+			diameter = ((xc_1 + dy) + 1) - point.x;
+			ShapeRunnerLine.runHorizontalSpan(action, point, diameter);
+			point.y = yc - dx;
+			point.x = xc - dy;
+			ShapeRunnerLine.runHorizontalSpan(action, point, diameter);
 			// --
-			point.x = xc4 - dy;
-			point.y = yc4 - dx;
-			ShapeRunnerLine.runHorizontalSpan(action, point, (point.x - (xc3 + dy)) + 1);
 			dy++;
 			dx = (int) Math.round(Math.sqrt(r2 - dy * dy));
 		}
@@ -162,7 +186,7 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 	}
 
 	protected boolean runShapeImpl_WithEarlyStop(AbstractShape2D shape, PointConsumer action) {
-		int xcentre, ycentre, r, dx, dy, diameter, r2, xc1, xc2, xc3, xc4, yc1, /* yc2, yc3, */ yc4/* , dy2 */;
+		int xcentre, ycentre, r, dx, dy, diameter, r2, xc, xc_1, yc, yc_1;
 		ShapeCircle sc;
 		Point point;
 		if (shape == null || action == null || shape.getShapeImplementing() != this.getShapeRunnersImplemented())
@@ -172,7 +196,7 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 		r = diameter >> 1;
 		xcentre = sc.getXCenter();
 		ycentre = sc.getYCenter();
-		point = new Point(xcentre, ycentre);
+		point = new Point(xc = xcentre, ycentre);
 
 		if (r < 1)
 			return false;
@@ -206,8 +230,14 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 			point.x--;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
 			point.y++;
+			if (!action.canContinue())
+				return true;
+			point.x = --xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
 			point.y++;
+			if (!action.canContinue())
+				return true;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
 			return true;
 		}
@@ -229,24 +259,42 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 				return true;
 			action.accept(point);
 			point.x--;
+			xc = point.x;
 			point.y--;
+			if (!action.canContinue())
+				return true;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 4);
 			point.y--;
+			if (!action.canContinue())
+				return true;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 4);
 			return true;
 		}
 		case 5: {
 			point.y -= 2;
 			point.x--;
+			xc = point.x;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
 			point.y += 5;
+			if (!action.canContinue())
+				return true;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 3);
-			point.x--;
+			point.x = --xc;
+//			point.x--;
 			point.y--;
+			if (!action.canContinue())
+				return true;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 5);
 			point.y--;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 5);
 			point.y--;
+			if (!action.canContinue())
+				return true;
+			point.x = xc;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 5);
 			return true;
 		}
@@ -261,17 +309,28 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 			action.accept(point);//
 			point.y++;
 			point.x -= 2;
+			if (!action.canContinue())
+				return true;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 4);
-			point.x--;
+			point.x = xc - 1;
 			point.y++;
+			if (!action.canContinue())
+				return true;
+			ShapeRunnerLine.runHorizontalSpan(action, point, 6);
+			point.x = xc; /// -6;
+			point.y++;
+			if (!action.canContinue())
+				return true;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 6);
 			point.y++;
-			ShapeRunnerLine.runHorizontalSpan(action, point, 6);
-			point.y++;
-			point.x++;
+//			point.x++;
+			point.x = xc + 1;
+			if (!action.canContinue())
+				return true;
 			ShapeRunnerLine.runHorizontalSpan(action, point, 4);
 			point.y++;
-			point.x++;
+//			point.x++;
+			point.x = xc + 1;
 			if (!action.canContinue())
 				return true;
 			action.accept(point);
@@ -289,38 +348,45 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 		 * (the south) and go up.
 		 */
 		if ((diameter & 0x1) == 0) {
-			xc1 = xc4 = xcentre;
-			xc2 = xc3 = xcentre + 1;
-			yc1 = /* yc2 = */ ycentre + 1;
-			/* yc3 = */ yc4 = ycentre;
+			xc = xcentre;
+			yc = ycentre;
+			xc_1 = xcentre + 1;
+			yc_1 = ycentre + 1;
 			r--;
 		} else {
-			xc1 = xc2 = xc3 = xc4 = xcentre;
-			yc1 = /* yc2 = yc3 = */ yc4 = ycentre;
+			xc = xc_1 = xcentre;
+			yc_1 = yc = ycentre;
 		}
 		r2 = r * r;
 		dy = 0;
 		dx = r;
 		while (dy <= dx) {
-			point.x = xc1 - dx;
-			point.y = yc1 + dy;
+			// recycle diameter as the length of the span
+			point.x = xc - dx;
+			point.y = yc_1 + dy;
+			diameter = ((xc_1 + dx) + 1) - point.x;
 			if (!action.canContinue())
 				return true;
-			action.accept(point);
-			ShapeRunnerLine.runHorizontalSpan(action, point, (point.x - (xc2 + dx)) + 1);
-			//
-			point.x = xc2 + dx;
-			point.y = yc4 - dy;
-			ShapeRunnerLine.runHorizontalSpan(action, point, (point.x - (xc1 - dx)) + 1);
-//--
-			point.x = xc1 - dy;
-			point.y = yc1 + dx;
-			ShapeRunnerLine.runHorizontalSpan(action, point, (point.x - (xc2 + dy)) + 1);
+			ShapeRunnerLine.runHorizontalSpan(action, point, diameter);
+//			point.x = xc;
+			point.x = xc - dx;
+			point.y = yc - dy;
+			if (!action.canContinue())
+				return true;
+			ShapeRunnerLine.runHorizontalSpan(action, point, diameter);
+			point.x = xc - dy;
+			point.y = yc_1 + dx;
+			diameter = ((xc_1 + dy) + 1) - point.x;
+			if (!action.canContinue())
+				return true;
+			ShapeRunnerLine.runHorizontalSpan(action, point, diameter);
+			point.y = yc - dx;
+			point.x = xc - dy;
+			if (!action.canContinue())
+				return true;
+			ShapeRunnerLine.runHorizontalSpan(action, point, diameter);
 			// --
-			point.x = xc4 - dy;
-			point.y = yc4 - dx;
-			ShapeRunnerLine.runHorizontalSpan(action, point, (point.x - (xc3 + dy)) + 1);
-			// --dy++;
+			dy++;
 			dx = (int) Math.round(Math.sqrt(r2 - dy * dy));
 		}
 		return true;

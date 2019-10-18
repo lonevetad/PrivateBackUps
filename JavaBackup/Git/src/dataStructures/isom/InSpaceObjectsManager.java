@@ -10,7 +10,6 @@ import geometry.ProviderObjectsInSpace;
 import geometry.ProviderShapeRunner;
 import geometry.ProviderShapesIntersectionDetector;
 import tools.LoggerMessages;
-import videogames.gridObjectManager.core.GomConsumer;
 
 /**
  * This interface denotes a huge object managing a set of object placed in space

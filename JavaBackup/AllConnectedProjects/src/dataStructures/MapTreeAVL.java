@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import dataStructures.MapTreeAVL.MapTreeAVLFactory;
 import dataStructures.mtAvl.MapTreeAVLFull;
 import dataStructures.mtAvl.MapTreeAVLLightweight;
 import dataStructures.mtAvl.MapTreeAVLMinIter;
@@ -360,7 +361,16 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 
 	public Entry<K, V> getFirstInserted();
 
-	// TODO MERGE
+	/**
+	 * Returns the lowest {@link Entry} that could be the root of the subtree
+	 * holding the given pair of keys.<br Special cases:
+	 * <ul>
+	 * <li>If the tree is empty, <code>null</code> is returned</li>
+	 * <li>If the keys are the same (a comparison is performed), then the leaf node
+	 * best-matching a possible result is provided</li>
+	 * </ul>
+	 */
+	public Entry<K, V> getLowesCommonAncestor(K k1, K k2);
 
 	/**
 	 * Merge the smaller tree in the bigger ones. The smaller one will be cleared

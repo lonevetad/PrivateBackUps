@@ -11,7 +11,13 @@ import geometry.pointTools.PointConsumer;
 
 public class ShapeRunnerCircleBorder extends AbstractShapeRunnerImpl {
 	private static final long serialVersionUID = 72014502659887L;
-	public static final ShapeRunnerCircleBorder SINGLETON = new ShapeRunnerCircleBorder();
+	private static ShapeRunnerCircleBorder SINGLETON;
+
+	public static ShapeRunnerCircleBorder getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new ShapeRunnerCircleBorder();
+		return SINGLETON;
+	}
 
 	@Override
 	public ShapeRunnersImplemented getShapeRunnersImplemented() {

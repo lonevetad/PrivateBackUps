@@ -21,25 +21,28 @@ import geometry.implementations.shapes.ShapeCircle;
 import geometry.pointTools.PointConsumer;
 import tools.GraphicTools;
 
-public class TestRunnerCircleBorder extends TestGeneric {
-	static final int PIXEL_SQUARE_POINT = 20; //
+public class TestRunnerCircle extends TestGeneric {
+	static final int PIXEL_SQUARE_POINT = 5, MAX_SQUARE_PIXEL = 700; //
 
-	public TestRunnerCircleBorder() {
+	public TestRunnerCircle() {
 	}
 
-	protected class CircleRunnerBorderModel extends ShapeModel {
-		protected CircleRunnerBorderModel() {
+	protected class CircleRunnerModel extends ShapeModel {
+		protected CircleRunnerModel() {
 			super(new ShapeCircle(false));
+			ctpoi = new ColorToPaintOnImage();
 		}
 
 		BufferedImage bi;
 		ShapeCircle c;
 		MyObserver<ShapeCircle> cicleObserver;
-		MyObserver<BufferedImage> imageObserver;
+		MyObserver<ColorToPaintOnImage> imageObserver;
+		final ColorToPaintOnImage ctpoi;
 
 		@Override
 		void init() {
 			c = (ShapeCircle) super.s1;
+			ctpoi.bi = bi = new BufferedImage(MAX_SQUARE_PIXEL, MAX_SQUARE_PIXEL, BufferedImage.TYPE_INT_ARGB);
 			setDiameter(1);
 		}
 
@@ -48,11 +51,14 @@ public class TestRunnerCircleBorder extends TestGeneric {
 			if (diameter < 1)
 				return;
 			rr = 1 + (diameter >> 1);
+			ctpoi.c = Color.LIGHT_GRAY;
+			if (imageObserver != null)
+				imageObserver.update(ctpoi);
 			c.setDiameter(diameter);
 			c.setCenter(rr, rr);
-			bi = new BufferedImage(50 * PIXEL_SQUARE_POINT, 50 * PIXEL_SQUARE_POINT, BufferedImage.TYPE_INT_ARGB);
+			ctpoi.c = Color.BLUE;
 			if (imageObserver != null)
-				imageObserver.update(bi);
+				imageObserver.update(ctpoi);
 			if (cicleObserver != null)
 				cicleObserver.update(c);
 		}
@@ -61,62 +67,68 @@ public class TestRunnerCircleBorder extends TestGeneric {
 			this.cicleObserver = cicleObserver;
 		}
 
-		void setImageObserver(MyObserver<BufferedImage> imageObserver) {
+		void setImageObserver(MyObserver<ColorToPaintOnImage> imageObserver) {
 			this.imageObserver = imageObserver;
 		}
 	}
 
-	protected class SquarePainter implements PointConsumer, MyObserver<BufferedImage> {
-		private static final long serialVersionUID = 1L;
-		CircleRunnerBorderModel m;
-		Graphics g;
+	protected class ColorToPaintOnImage {
+		Color c;
 		BufferedImage bi;
+	}
+
+	protected class SquarePainter implements PointConsumer, MyObserver<ColorToPaintOnImage> {
+		private static final long serialVersionUID = 1L;
+		CircleRunnerModel m;
+		Graphics g;
+		ColorToPaintOnImage ctpoi;
 
 		@Override
 		public void accept(Point2D p) {
-			int x, y, col;
-			if (g == null)
+			BufferedImage bi;
+			int x, col, px, py;
+			bi = this.ctpoi.bi;
+			if (g == null || bi == null)
 				return;
-			col = Color.BLUE.getRGB();
-			y = (int) p.getY() * PIXEL_SQUARE_POINT;
+			col = ctpoi.c.getRGB();
+			py = (int) p.getY() * PIXEL_SQUARE_POINT;
+			x = (int) p.getX() * PIXEL_SQUARE_POINT;
 			for (int r = 0; r < PIXEL_SQUARE_POINT; r++) {
-				x = (int) p.getX() * PIXEL_SQUARE_POINT;
-				for (int c = 0; c < PIXEL_SQUARE_POINT; c++) {
-					bi.setRGB(x++, y, col);
-				}
-				y++;
+				px = x;
+				for (int c = 0; c < PIXEL_SQUARE_POINT; c++)
+					bi.setRGB(px++, py, col);
+				py++;
 			}
-//			g.drawRect((int) p.getX() * PIXEL_SQUARE_POINT, 
-//(int) p.getY() * PIXEL_SQUARE_POINT, //
-//					PIXEL_SQUARE_POINT, PIXEL_SQUARE_POINT);
 		}
 
 		@Override
-		public void update(BufferedImage bi) {
+		public void update(ColorToPaintOnImage ctpoi) {
+			BufferedImage bi;
+			if (ctpoi == null)
+				return;
+			this.ctpoi = ctpoi;
+			bi = this.ctpoi.bi;
 			if (bi == null)
 				return;
-			this.bi = bi;
 			this.g = bi.getGraphics();
-			System.out.println("Start running?");
-			(m.c.isFilled() ? ShapeRunnerCircleFilled.SINGLETON : ShapeRunnerCircleBorder.SINGLETON).runShape(m.c,
-					this);
-			System.out.println("LOL");
+			(m.c.isFilled() ? ShapeRunnerCircleFilled.getInstance() : ShapeRunnerCircleBorder.getInstance())
+					.runShape(m.c, this);
 		}
 	}
 
-	protected class CircleRunnerBorderView extends ShapeView {
+	protected class CircleRunnerView extends ShapeView {
 		SquarePainter squarePainter;
 
 		@Override
 		void init() {
 			GridBagConstraints c;
-			CircleRunnerBorderModel m;
+			CircleRunnerModel m;
 			JPanel jp;
 			TextField tf;
 			JButton jb;
 			JSpinner js;
 			JCheckBox jcb;
-			m = (CircleRunnerBorderModel) model;
+			m = (CircleRunnerModel) model;
 			squarePainter = new SquarePainter();
 			squarePainter.m = m;
 			m.setImageObserver(squarePainter);
@@ -144,7 +156,8 @@ public class TestRunnerCircleBorder extends TestGeneric {
 
 				@Override
 				protected void paintComponent(Graphics g) {
-					g.drawImage(squarePainter.bi, 0, 0, null);
+					if (squarePainter.ctpoi != null)
+						g.drawImage(squarePainter.ctpoi.bi, 0, 0, null);
 					g.setColor(Color.GREEN);
 					GraphicTools.paintGrid(g, JPANEL_DIMENSION, JPANEL_DIMENSION, PIXEL_SQUARE_POINT);
 //					squarePainter.g = g;
@@ -200,12 +213,12 @@ public class TestRunnerCircleBorder extends TestGeneric {
 
 	@Override
 	ShapeModel newModel() {
-		return new CircleRunnerBorderModel();
+		return new CircleRunnerModel();
 	}
 
 	@Override
 	ShapeView newView() {
-		return new CircleRunnerBorderView();
+		return new CircleRunnerView();
 	}
 
 	@Override
@@ -213,8 +226,8 @@ public class TestRunnerCircleBorder extends TestGeneric {
 	}
 
 	public static void main(String[] args) {
-		TestRunnerCircleBorder t;
-		t = new TestRunnerCircleBorder();
+		TestRunnerCircle t;
+		t = new TestRunnerCircle();
 		t.startTest();
 	}
 }

@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -24,17 +25,16 @@ public class TestLineIntersection extends TestShapeIntersection {
 	protected class LineIntersectionModel extends ShapeIntersectionModel {
 		protected LineIntersectionModel() {
 			super(new ShapePolygonRegular(0, 200, 200, true, 300, 7), //
-					new ShapePolygon(new Point2D[] { //
-							new Point2D.Double(5, 5), //
-							new Point2D.Double(374, 20), //
-							new Point2D.Double(25, 356), //
-							new Point2D.Double(200, 300), //
-							new Point2D.Double(239, 432), //
-							new Point2D.Double(234, 50), // 5
-							new Point2D.Double(77, 100), //
-							new Point2D.Double(188, 111), //
-							new Point2D.Double(15, 200), //
-							new Point2D.Double(10, 10) }, false));
+					(new ShapePolygon(new Point2D[] { // new Point2D.Double(5, 5), //<br>
+							new Point2D.Double(374, 20), // <br>
+							new Point2D.Double(25, 356), // <br>
+							new Point2D.Double(200, 300), // <br>
+							new Point2D.Double(239, 432), // <br>
+							new Point2D.Double(234, 50), // 5<br>
+							new Point2D.Double(77, 100), // <br>
+							new Point2D.Double(188, 111), // <br>
+							new Point2D.Double(15, 200), // <br>
+							new Point2D.Double(10, 10) }, false))/* .setCenter(110, 110) */);
 		}
 
 		// as model
@@ -104,6 +104,7 @@ public class TestLineIntersection extends TestShapeIntersection {
 				@Override
 				protected void paintComponent(Graphics g) {
 					int i;
+					List<Point2D> inters;
 					g.setColor(Color.BLUE);
 					g.drawLine(//
 							(int) m.line1.getX1(), //
@@ -129,8 +130,10 @@ public class TestLineIntersection extends TestShapeIntersection {
 
 					g.setColor(Color.BLUE);
 					i = 0;
-					for (Point2D p : m.getIntersections())
-						drawPoint(g, p, i++ + "");
+					inters = m.getIntersections();
+					if (inters != null)
+						for (Point2D p : inters)
+							drawPoint(g, p, i++ + "");
 				}
 
 				@Override
