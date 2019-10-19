@@ -31,14 +31,15 @@ import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.PointConsumer;
 import tools.GraphicTools;
 
+// TODO add Triangle
 public class TestShapesRunner extends TestGeneric {
 	static final int PIXEL_SQUARE_POINT = 5, MAX_SQUARE_PIXEL = 800; //
 
 	public TestShapesRunner() {
 	}
 
-	protected class CircleRunnerModel extends ShapeModel {
-		protected CircleRunnerModel() {
+	protected class ShapeRunnerModel extends ShapeModel {
+		protected ShapeRunnerModel() {
 			super(new ShapeCircle(false));
 			ctpoi = new ColorToPaintOnImage();
 
@@ -175,7 +176,7 @@ public class TestShapesRunner extends TestGeneric {
 
 	protected class SquarePainter implements PointConsumer, MyObserver<ColorToPaintOnImage> {
 		private static final long serialVersionUID = 1L;
-		CircleRunnerModel m;
+		ShapeRunnerModel m;
 		Graphics g;
 		ColorToPaintOnImage ctpoi;
 
@@ -222,13 +223,13 @@ public class TestShapesRunner extends TestGeneric {
 		}
 	}
 
-	protected class CircleRunnerView extends ShapeView {
+	protected class ShapeRunnerView extends ShapeView {
 		SquarePainter squarePainter;
 
 		@Override
 		void init() {
 			GridBagConstraints c;
-			CircleRunnerModel m;
+			ShapeRunnerModel m;
 			JPanel jp;
 			TextField tf;
 			JButton jb;
@@ -236,7 +237,7 @@ public class TestShapesRunner extends TestGeneric {
 			JSpinner jsAngle;
 //			JCheckBox jcb;
 			JComboBox<ShapeRunnersImplemented> jcbShapes;
-			m = (CircleRunnerModel) model;
+			m = (ShapeRunnerModel) model;
 			squarePainter = new SquarePainter();
 			squarePainter.m = m;
 			m.setImageObserver(squarePainter);
@@ -346,12 +347,12 @@ public class TestShapesRunner extends TestGeneric {
 
 	@Override
 	ShapeModel newModel() {
-		return new CircleRunnerModel();
+		return new ShapeRunnerModel();
 	}
 
 	@Override
 	ShapeView newView() {
-		return new CircleRunnerView();
+		return new ShapeRunnerView();
 	}
 
 	@Override
