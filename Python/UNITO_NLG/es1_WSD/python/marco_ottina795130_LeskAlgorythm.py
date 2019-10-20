@@ -1,4 +1,4 @@
-
+import nltk
 from nltk.wsd import lesk
 from nltk.stem import WordNetLemmatizer 
 from nltk.corpus import wordnet as wn
@@ -46,27 +46,71 @@ def bag_of_words_TooConfusing(selfe, word, sentence):
 		# filtrare poi le coppie con conteggio > 1
 		return None
 
-
-
-
 def context_from_sentence( word, sentence):
 	#simply, use a bag of words, using lemmatizing and removing stop words
 	ret = bag_of_words(sentence)
 	#2) fai  la lemmatizzazione ( "fiammella bruciò legnetto cenere" -> "fiamma bruciare legno cenere" ) (== portare in forma base le nomi, verbi, aggettivi)
 	return ret
 
+def synset_to_signature(sense):
+	#create a list bag of words derived from all definitions and examples
+	bag = set()
+	sources = [sense.definition(), sense.examples()]
+	for source in sources:
+		for element in source:
+			b = bag_of_words(element)
+			for w in b:
+				bag.add(w)
+	return bag
+
+def computeOverlap(signature, context):
+	"""
+	given a signature (a set of lemmatized words from all symsets' examples and definitions	of
+	a word to be disambiguated) and a context (a list of lemmatized words from a sentence holding the word
+	to be disambiguated), compute the overlapping: just count the intersection of lemmatized words
+	"""
+	context_set = set(context)
+	intersection = signature & context_set
+	return len(intersection)
+
 def simplifiedLesk( word, sentence):
 	best_sense = None
 	max_overlap = 0
-	context = context_from_sentence(word, sentence) 
+	context = context_from_sentence(word, sentence)
+	for sense in wn.synsets(word):
+		signature = synset_to_signature(sense)
+		overlap = computeOverlap(signature, context)
+		if overlap > max_overlap:
+			max_overlap = overlap
+			best_sense = sense
+	return best_sense
+
+def print_synset(synset):
+	if synset is not None:
+		print(synset.name())
+		print(synset.definition())
+		print(synset.examples())
+
+def loadSentences(fileName=None):
+	if fileName is None:
+		fileName = './../sentences.txt';
+	with open(tabFileName, 'r') as fp:
+		read_lines = [line.rstrip('\n')[2:] for line in fp.readlines() if line.startswith('- ', beg=0, end=4)]
+		return read_lines
 	return None
 
-def computeOverlap():
-	return None
+
 
 #
 
+
 print('start')
-manager = ExerciseManager_LeskSimply()
-manager.context_from_sentence
+
+sentence = "Two electric guitar rocks players, and also a better bass player, are standing off to two sides reading corpora while walking"
+word = "bass"
+sense = simplifiedLesk(word, sentence)
+
+print(sentence, "\n", word, "\n\nsense: ", sense)
+print_synset(sense)
+
 print("END")
