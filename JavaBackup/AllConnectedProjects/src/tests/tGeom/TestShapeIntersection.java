@@ -8,7 +8,7 @@ import javax.swing.JComponent;
 
 import geometry.AbstractShape2D;
 
-public abstract class TestIntersection extends TestGeneric {
+public abstract class TestShapeIntersection extends TestGeneric {
 
 	protected abstract class ShapeIntersectionModel extends ShapeModel {
 		protected ShapeIntersectionModel(AbstractShape2D s1, AbstractShape2D s2) {

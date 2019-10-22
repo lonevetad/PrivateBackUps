@@ -26,7 +26,7 @@ import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification.SS_Triangle;
  */
 public interface AbstractShapeRunners extends Serializable {
 	public static enum ShapesImplemented implements Serializable, MyComparator<ShapesImplemented> {
-		Point, Rectangle, Rectangle_Border, Circumference, Circle, Triangle, // Triangle_Border,
+		Point, Rectangle, Rectangle_Border, Circumference, Circle, Triangle, // TriangleBorder,
 		Arrow, ArrowBorderBodySameLength, Cone, // Cono_Border,
 		Line, EllipseNoRotation, EllipseNoRotation_Border;
 

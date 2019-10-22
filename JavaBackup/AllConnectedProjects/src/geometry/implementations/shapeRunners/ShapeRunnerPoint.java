@@ -8,7 +8,13 @@ import geometry.pointTools.PointConsumer;
 
 public class ShapeRunnerPoint extends AbstractShapeRunnerImpl {
 	private static final long serialVersionUID = 72014502659886L;
-	public static final ShapeRunnerPoint SINGLETON = new ShapeRunnerPoint();
+	private static ShapeRunnerPoint SINGLETON;
+
+	public static ShapeRunnerPoint getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new ShapeRunnerPoint();
+		return SINGLETON;
+	}
 
 	@Override
 	public ShapeRunnersImplemented getShapeRunnersImplemented() {
