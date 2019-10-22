@@ -23,7 +23,7 @@ public class ShapeTriangle extends AbstractShapeFillableImpl {
 	}
 
 	public ShapeTriangle(double angleRotation, boolean isFilled, Point2D[] vertexes) {
-		super((isFilled ? ShapeRunnersImplemented.Triangle : ShapeRunnersImplemented.Triangle_Border), angleRotation, 0,
+		super((isFilled ? ShapeRunnersImplemented.Triangle : ShapeRunnersImplemented.TriangleBorder), angleRotation, 0,
 				0, isFilled);
 		setVertexes(vertexes);
 	}
@@ -34,6 +34,13 @@ public class ShapeTriangle extends AbstractShapeFillableImpl {
 	}
 
 	protected Point2D[] vertexes;
+
+	//
+
+	@Override
+	public ShapeRunnersImplemented getShapeImplementing() {
+		return isFilled ? ShapeRunnersImplemented.Triangle : ShapeRunnersImplemented.TriangleBorder;
+	}
 
 	/** The centroid, the center of gravity */
 	protected void recalculateCenter() {

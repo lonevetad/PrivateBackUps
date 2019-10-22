@@ -14,7 +14,8 @@ public class ShapeCircle extends AbstractShapeFillableImpl {
 			MAX_AMOUNT_SIDES_POLYGON_APPROXIMATOR = 360;
 
 	public ShapeCircle(boolean isFilled) {
-		super((isFilled ? ShapeRunnersImplemented.Circumference : ShapeRunnersImplemented.Disk));
+		super((isFilled ? ShapeRunnersImplemented.Disk : ShapeRunnersImplemented.Circumference));
+		super.isFilled = isFilled;
 	}
 
 	public ShapeCircle(ShapeCircle s) {
@@ -24,7 +25,7 @@ public class ShapeCircle extends AbstractShapeFillableImpl {
 	}
 
 	public ShapeCircle(int x, int y, boolean isFilled, int radiusCenterExcluded) {
-		super((isFilled ? ShapeRunnersImplemented.Circumference : ShapeRunnersImplemented.Disk), 0.0, x, y, isFilled);
+		super((isFilled ? ShapeRunnersImplemented.Disk : ShapeRunnersImplemented.Circumference), 0.0, x, y, isFilled);
 		setRadius(radiusCenterExcluded);
 	}
 
@@ -41,6 +42,10 @@ public class ShapeCircle extends AbstractShapeFillableImpl {
 //	public int getRadius() {
 //		return radius;
 //	}
+	@Override
+	public ShapeRunnersImplemented getShapeImplementing() {
+		return isFilled ? ShapeRunnersImplemented.Disk : ShapeRunnersImplemented.Circumference;
+	}
 
 	/** {@inheritDoc} */
 	@Override

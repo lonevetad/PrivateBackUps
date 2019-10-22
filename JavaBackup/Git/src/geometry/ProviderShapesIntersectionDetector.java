@@ -4,6 +4,10 @@ import java.awt.geom.Point2D;
 import java.util.Comparator;
 import java.util.List;
 
+import geometry.implementations.intersectors.CircleToCircleIntersectionDetector;
+import geometry.implementations.intersectors.PointToCircleIntersector;
+import geometry.implementations.intersectors.PointToLineIntersector;
+import geometry.implementations.intersectors.PointToPointIntersectionDetector;
 import geometry.implementations.intersectors.PolygonToPolygonIntersection;
 import geometry.implementations.intersectors.PolygonToRectangleIntersection;
 import geometry.implementations.intersectors.RectangleToCircleIntersectionDetector;
@@ -69,12 +73,32 @@ public class ProviderShapesIntersectionDetector implements ShapesIntersectionDet
 				this.intersectionDetectorsImplemented[si.ordinal()] = new ShapesIntersectionDetector[vals.length - i++];
 			}
 		}
+		// point
+		row = this.intersectionDetectorsImplemented[ShapesImplemented.Point.ordinal()];
+		row[ShapesImplemented.Point.ordinal()] = new PointToPointIntersectionDetector();
+		row[ShapesImplemented.Line.ordinal()] = new PointToLineIntersector();
+		row[ShapesImplemented.Circle.ordinal()] = new PointToCircleIntersector();
 
 		// rectangle
 		row = this.intersectionDetectorsImplemented[ShapesImplemented.Rectangle.ordinal()];
 		row[ShapesImplemented.Rectangle.ordinal()] = new RectangleToRectangleIntersection();
 		row[ShapesImplemented.Polygon.ordinal()] = new PolygonToRectangleIntersection();
 		row[ShapesImplemented.Circle.ordinal()] = new RectangleToCircleIntersectionDetector();
+
+		// Line
+		row = this.intersectionDetectorsImplemented[ShapesImplemented.Line.ordinal()];
+		row[ShapesImplemented.Point.ordinal()] = new PointToLineIntersector();
+		row[ShapesImplemented.Rectangle.ordinal()] = new RectangleToRectangleIntersection();
+		row[ShapesImplemented.Polygon.ordinal()] = new PolygonToRectangleIntersection();
+		row[ShapesImplemented.Circle.ordinal()] = new RectangleToCircleIntersectionDetector();
+
+		// Circle
+		row = this.intersectionDetectorsImplemented[ShapesImplemented.Circle.ordinal()];
+		row[ShapesImplemented.Point.ordinal()] = new PointToLineIntersector();
+//		row[ShapesImplemented.Rectangle.ordinal()] = new RectangleToRectangleIntersection();
+//		row[ShapesImplemented.Polygon.ordinal()] = new PolygonToRectangleIntersection();
+		row[ShapesImplemented.Circle.ordinal()] = new CircleToCircleIntersectionDetector();
+
 	}
 
 	public ShapesIntersectionDetector getShapesIntersectionDetector(ShapesImplemented si1, ShapesImplemented si2) {
