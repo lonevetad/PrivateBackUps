@@ -1,7 +1,7 @@
 package geometry.implementations.intersectors;
 
-import tools.geometry.AbstractShape;
-import tools.geometry.ShapesIntersectionDetector;
+import geometry.AbstractShape2D;
+import geometry.ShapesIntersectionDetector;
 
 public class PointToRectangleIntersector implements ShapesIntersectionDetector {
 	private static final long serialVersionUID = 1111L;

@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import geometry.implementations.shapes.ShapePolygonRegular;
-import geometry.pointTools.impl.PolygonPointsUtilities;
+import geometry.pointTools.impl.PolygonUtilities;
 
 public class TestShapePolygonEquilater {
 	static final double degreesPerClick = 5;
@@ -26,7 +26,7 @@ public class TestShapePolygonEquilater {
 				//
 				150, 150 };
 		SEMI_SQUARE = new Polygon(xx, yy, xx.length);
-//		System.out.println(PolygonPointsUtilities.areaPolygon2D(SEMI_SQUARE));
+//		System.out.println(PolygonUtilities.areaPolygon2D(SEMI_SQUARE));
 	}
 
 	public static void main(String[] args) {
@@ -37,7 +37,7 @@ public class TestShapePolygonEquilater {
 		System.out.println("Now create the polygon");
 		p = pr.toPolygon();
 		System.out.println("got it:");
-		System.out.println(PolygonPointsUtilities.polygonToString(p));
+		System.out.println(PolygonUtilities.polygonToString(p));
 		printInFrame(pr, p);
 
 	}
@@ -56,7 +56,7 @@ public class TestShapePolygonEquilater {
 			@Override
 			protected void paintComponent(Graphics g) {
 				g.drawPolygon(polygonPointer[0]);
-//				PolygonPointsUtilities.forEachPoint(p, (x,y)->{});
+//				PolygonUtilities.forEachPoint(p, (x,y)->{});
 				g.drawPolygon(SEMI_SQUARE);
 			}
 		};
@@ -67,8 +67,8 @@ public class TestShapePolygonEquilater {
 				pr.setAngleRotation(pr.getAngleRotation() + e.getWheelRotation() * degreesPerClick);
 				polygonPointer[0] = pr.toPolygon();
 				System.out.println("angle: " + pr.getAngleRotation());
-				System.out.println(PolygonPointsUtilities.polygonToString(polygonPointer[0]));
-//				System.out.println(PolygonPointsUtilities.areaPolygon2D(polygonPointer[0]));
+				System.out.println(PolygonUtilities.polygonToString(polygonPointer[0]));
+//				System.out.println(PolygonUtilities.areaPolygon2D(polygonPointer[0]));
 				jp.repaint();
 				fin.repaint();
 			}

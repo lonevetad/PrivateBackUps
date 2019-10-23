@@ -73,7 +73,7 @@ public abstract class TestShapeIntersection extends TestGeneric {
 			return cIntersectionShower;
 		}
 
-		public void setcIntersectionShower(JComponent c) {
+		public void setCIntersectionShower(JComponent c) {
 			this.cIntersectionShower = c;
 			if (c != null)
 				((ShapeIntersectionModel) model).setListPointIntersectionObserver(l -> c.repaint());
