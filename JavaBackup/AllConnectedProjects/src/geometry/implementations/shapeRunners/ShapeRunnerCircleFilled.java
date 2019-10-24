@@ -8,6 +8,8 @@ import geometry.implementations.AbstractShapeRunnerImpl;
 import geometry.implementations.shapes.ShapeCircle;
 import geometry.pointTools.PointConsumer;
 
+// TODO UNIFICARE RUN_SHAPE COME IN CIRCLE_BORDER E DISCRIMINARE SE SI FORZA L'EARLY_STOPPING
+
 public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 	private static final long serialVersionUID = 72014502659888L;
 	private static ShapeRunnerCircleFilled SINGLETON = null;
@@ -35,7 +37,8 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 	}
 
 	protected boolean runShapeImpl_NoEarlyStop(AbstractShape2D shape, PointConsumer action) {
-		int xcentre, ycentre, r, dx, dy, diameter, r2, xc, xc_1, yc, yc_1;
+		int xcentre, ycentre, r, r2, dx, dy, diameter, xc, xc_1, yc, yc_1;
+//		double r2;
 		ShapeCircle sc;
 		Point point;
 		if (shape == null || action == null || shape.getShapeImplementing() != this.getShapeRunnersImplemented())
@@ -159,6 +162,8 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 			yc_1 = yc = ycentre;
 		}
 		r2 = r * r;
+//		r2 = diameter / 2.0;
+//		r2 *= r2;
 		dy = 0;
 		dx = r;
 		while (dy <= dx) {
@@ -186,7 +191,8 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 	}
 
 	protected boolean runShapeImpl_WithEarlyStop(AbstractShape2D shape, PointConsumer action) {
-		int xcentre, ycentre, r, dx, dy, diameter, r2, xc, xc_1, yc, yc_1;
+		int xcentre, ycentre, r, r2, dx, dy, diameter, xc, xc_1, yc, yc_1;
+//		double r2;
 		ShapeCircle sc;
 		Point point;
 		if (shape == null || action == null || shape.getShapeImplementing() != this.getShapeRunnersImplemented())
@@ -358,6 +364,8 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 			yc_1 = yc = ycentre;
 		}
 		r2 = r * r;
+//		r2 = diameter / 2.0;
+//		r2 *= r2;
 		dy = 0;
 		dx = r;
 		while (dy <= dx) {

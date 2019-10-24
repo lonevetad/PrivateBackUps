@@ -35,7 +35,8 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 	}
 
 	protected boolean runShapeImpl_NoEarlyStop(AbstractShape2D shape, PointConsumer action) {
-		int xcentre, ycentre, r, dx, dy, diameter, r2, xc, xc_1, yc, yc_1;
+		int xcentre, ycentre, r, r2, dx, dy, diameter, xc, xc_1, yc, yc_1;
+//		double r2;
 		ShapeCircle sc;
 		Point point;
 		if (shape == null || action == null || shape.getShapeImplementing() != this.getShapeRunnersImplemented())
@@ -159,6 +160,8 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 			yc_1 = yc = ycentre;
 		}
 		r2 = r * r;
+//		r2 = diameter / 2.0;
+//		r2 *= r2;
 		dy = 0;
 		dx = r;
 		while (dy <= dx) {
@@ -186,7 +189,8 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 	}
 
 	protected boolean runShapeImpl_WithEarlyStop(AbstractShape2D shape, PointConsumer action) {
-		int xcentre, ycentre, r, dx, dy, diameter, r2, xc, xc_1, yc, yc_1;
+		int xcentre, ycentre, r, r2, dx, dy, diameter, xc, xc_1, yc, yc_1;
+//		double r2;
 		ShapeCircle sc;
 		Point point;
 		if (shape == null || action == null || shape.getShapeImplementing() != this.getShapeRunnersImplemented())
@@ -358,6 +362,8 @@ public class ShapeRunnerCircleFilled extends AbstractShapeRunnerImpl {
 			yc_1 = yc = ycentre;
 		}
 		r2 = r * r;
+//		r2 = diameter / 2.0;
+//		r2 *= r2;
 		dy = 0;
 		dx = r;
 		while (dy <= dx) {

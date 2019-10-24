@@ -64,8 +64,10 @@ public class TestShapesRunner extends TestGeneric {
 					new Point2D.Double(16, 16), //
 					new Point2D.Double(16, 8) }, false);
 			sPoly.setCenter(10, 10);
+			showWeirdRectangle = false;
 		}
 
+		boolean showWeirdRectangle;
 		int diameter, angle;
 		BufferedImage bi;
 		MyObserver<AbstractShape2D> shapeObserver;
@@ -212,7 +214,8 @@ public class TestShapesRunner extends TestGeneric {
 				return;
 			this.g = bi.getGraphics();
 			sr = m.gerRunner();
-			ShapeRunnerPolygonBorder.getInstance().runShape(m.sPoly, this);
+			if (m.showWeirdRectangle)
+				ShapeRunnerPolygonBorder.getInstance().runShape(m.sPoly, this);
 			if (sr != null) {
 				sr.runShape(m.s1, this);
 			} else {
@@ -314,7 +317,7 @@ public class TestShapesRunner extends TestGeneric {
 
 			jp.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 5));
 			c.gridx = 0;
-			c.gridy = 2;
+			c.gridy = 4;
 			c.weightx = c.weighty = c.gridwidth = c.gridheight = 8;
 			pContainer.add(jp, c);
 			m.setCicleObserver(circ -> {

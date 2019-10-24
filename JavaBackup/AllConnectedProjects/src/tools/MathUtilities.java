@@ -962,7 +962,7 @@ public final class MathUtilities {
 				(int) Math.round(circleCentre.getY()), //
 				diameter, slope, //
 				(slope == 0.0 ? pointOfALine.getY() : //
-						(slope == Double.POSITIVE_INFINITY ? pointOfALine.getX()
+						((slope == Double.POSITIVE_INFINITY || slope == Double.NEGATIVE_INFINITY) ? pointOfALine.getX()
 								: (pointOfALine.getY() - slope * pointOfALine.getX()))//
 				));
 	}

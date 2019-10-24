@@ -79,7 +79,7 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 					y1 - y2);
 			a =
 //			Math.toDegrees(Math.atan(MathUtilities.slope(x1, y1, x2, y2)));
-					MathUtilities.angleDeg(x1, y1, x2, y2);
+					MathUtilities.angleDegrees(x1, y1, x2, y2);
 		}
 		runSpanFrom(action, point1, ((int) d), a);
 	}
@@ -122,19 +122,31 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 		point = new Point((int) pp.getX(), (int) pp.getY());
 		if (length == 0)
 			length = 1;
-		while (length-- > 0 && action.canContinue()) {
-			action.accept(point);
-			point.x++;
-		}
+		if (PointConsumer.FORCE_EARLY_STOPPING)
+			while (length-- > 0 && action.canContinue()) {
+				action.accept(point);
+				point.x++;
+			}
+		else
+			while (length-- > 0) {
+				action.accept(point);
+				point.x++;
+			}
 	}
 
 	protected static void runHorizontalSpan(PointConsumer action, Point point, int length) {
 		if (length == 0)
 			length = 1;
-		while (length-- > 0 && action.canContinue()) {
-			action.accept(point);
-			point.x++;
-		}
+		if (PointConsumer.FORCE_EARLY_STOPPING)
+			while (length-- > 0 && action.canContinue()) {
+				action.accept(point);
+				point.x++;
+			}
+		else
+			while (length-- > 0) {
+				action.accept(point);
+				point.x++;
+			}
 	}
 
 	protected static void runVerticalSpan(PointConsumer action, Point2D pp, int length) {
@@ -142,19 +154,31 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 		point = new Point((int) pp.getX(), (int) pp.getY());
 		if (length == 0)
 			length = 1;
-		while (length-- > 0 && action.canContinue()) {
-			action.accept(point);
-			point.y++;
-		}
+		if (PointConsumer.FORCE_EARLY_STOPPING)
+			while (length-- > 0 && action.canContinue()) {
+				action.accept(point);
+				point.y++;
+			}
+		else
+			while (length-- > 0) {
+				action.accept(point);
+				point.y++;
+			}
 	}
 
 	protected static void runVerticalSpan(PointConsumer action, Point point, int length) {
 		if (length == 0)
 			length = 1;
-		while (length-- > 0 && action.canContinue()) {
-			action.accept(point);
-			point.y++;
-		}
+		if (PointConsumer.FORCE_EARLY_STOPPING)
+			while (length-- > 0 && action.canContinue()) {
+				action.accept(point);
+				point.y++;
+			}
+		else
+			while (length-- > 0) {
+				action.accept(point);
+				point.y++;
+			}
 	}
 
 	protected static void runRotatedSpan(PointConsumer action, Point2D pp, int length, double angDeg) {
@@ -172,14 +196,31 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 		System.out.println("from " + point + " to (" + lastx + ", " + lasty + ")");
 		i = 0;
 		action.accept(point);
-		while (++i <= length && action.canContinue()) {
-			point.x = (int) Math.round(x + cos * i);
-			point.y = (int) Math.round(y + sin * i);
+		if (PointConsumer.FORCE_EARLY_STOPPING) {
+			if (!action.canContinue())
+				return;
+			action.accept(point);
+			while (++i <= length && action.canContinue()) {
+				point.x = (int) Math.round(x + cos * i);
+				point.y = (int) Math.round(y + sin * i);
+				action.accept(point);
+			}
+			point.x = lastx;
+			point.y = lasty;
+			if (!action.canContinue())
+				return;
+			action.accept(point);
+		} else {
+			action.accept(point);
+			while (++i <= length) {
+				point.x = (int) Math.round(x + cos * i);
+				point.y = (int) Math.round(y + sin * i);
+				action.accept(point);
+			}
+			point.x = lastx;
+			point.y = lasty;
 			action.accept(point);
 		}
-		point.x = lastx;
-		point.y = lasty;
-		action.accept(point);
 	}
 
 	/*
