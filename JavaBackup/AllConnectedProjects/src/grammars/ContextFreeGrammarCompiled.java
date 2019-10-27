@@ -1,4 +1,4 @@
-package cfg;
+package grammars;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import cfg.ContextFreeGrammarCompiled.AbstractTokensIterator;
+import grammars.ContextFreeGrammarCompiled.AbstractTokensIterator;
 
 public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensIterator> {
 	static final Comparator<String> STR_COMP = String::compareTo;
