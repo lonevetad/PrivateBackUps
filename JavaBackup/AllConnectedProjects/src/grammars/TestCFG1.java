@@ -1,4 +1,4 @@
-package cfg;
+package grammars;
 
 import java.util.Arrays;
 import java.util.LinkedList;
