@@ -10,7 +10,6 @@ import geometry.ProviderObjectsInSpace;
 import geometry.ProviderShapesIntersectionDetector;
 import geometry.implementations.ProviderShapeRunnerImpl;
 import tools.LoggerMessages;
-import videogames.gridObjectManager.core.GomConsumer;
 
 /**
  * This interface denotes a huge object managing a set of object placed in space
@@ -96,7 +95,7 @@ public interface InSpaceObjectsManager extends Serializable {
 	}
 
 	/**
-	 * As for {@link #runOnShape(AbstractShape2D, GomConsumer)}, but giving the
+	 * As for {@link #runOnShape(AbstractShape2D, IsomConsumer)}, but giving the
 	 * {@link AbstractShape2D} returned by {@link #getSpaceShape()}.
 	 */
 	public default void runOnShape(IsomConsumer action) {

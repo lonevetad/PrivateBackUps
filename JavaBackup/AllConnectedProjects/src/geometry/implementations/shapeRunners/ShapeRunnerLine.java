@@ -30,7 +30,7 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 	}
 
 	@Override
-	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action) {
+	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action, boolean shouldPerformEarlyStops) {
 //		int length;
 //		double angDeg;
 //		Point point;
@@ -44,11 +44,12 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 //		System.out.println(
 //				"POINT: " + point + ", centre: " + sp.getCenter() + ", p2: " + new Point(p.xpoints[1], p.ypoints[1]));
 //		runSpan_ControlledEnvironment(action, point, length, angDeg, p.xpoints[1], p.ypoints[1]);
-		runSpan(action, new Point(p.xpoints[0], p.ypoints[0]), new Point(p.xpoints[1], p.ypoints[1]));
+		runSpan(action, new Point(p.xpoints[0], p.ypoints[0]), new Point(p.xpoints[1], p.ypoints[1]),
+				shouldPerformEarlyStops);
 		return true;
 	}
 
-	public static void runSpan(PointConsumer action, Point2D point1, Point2D point2) {
+	public static void runSpan(PointConsumer action, Point2D point1, Point2D point2, boolean shouldPerformEarlyStops) {
 		double d, a, x1, y1, x2, y2;
 		x1 = point1.getX();
 		y1 = point1.getY();
@@ -79,85 +80,115 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 					y1 - y2);
 			a =
 //			Math.toDegrees(Math.atan(MathUtilities.slope(x1, y1, x2, y2)));
-					MathUtilities.angleDeg(x1, y1, x2, y2);
+					MathUtilities.angleDegrees(x1, y1, x2, y2);
 		}
-		runSpanFrom(action, point1, ((int) d), a);
+		runSpanFrom(action, point1, ((int) d), a, shouldPerformEarlyStops);
 	}
 
-	public static void runSpanFrom(PointConsumer action, Point2D point, int length, double angDeg) {
+	public static void runSpanFrom(PointConsumer action, Point2D point, int length, double angDeg,
+			boolean shouldPerformEarlyStops) {
 		if (action == null || point == null | length <= 0)
 			return;
 		if (angDeg == 0.0)
-			runHorizontalSpan(action, point, length);
+			runHorizontalSpan(action, point, length, shouldPerformEarlyStops);
 		else if (angDeg == 180.0) {
 			point.setLocation(point.getX() - length, point.getY());
-			runHorizontalSpan(action, point, length);
+			runHorizontalSpan(action, point, length, shouldPerformEarlyStops);
 		} else if (angDeg == 90.0)
-			runVerticalSpan(action, point, length);
+			runVerticalSpan(action, point, length, shouldPerformEarlyStops);
 		else if (angDeg == 270.0) {
 			point.setLocation(point.getX(), point.getY() - length);
-			runVerticalSpan(action, point, length);
+			runVerticalSpan(action, point, length, shouldPerformEarlyStops);
 		} else
-			runRotatedSpan(action, point, length, angDeg);
+			runRotatedSpan(action, point, length, angDeg, shouldPerformEarlyStops);
 	}
 
-	protected static void runSpan_ControlledEnvironment(PointConsumer action, Point2D point, int length,
-			double angDeg) {
+	protected static void runSpan_ControlledEnvironment(PointConsumer action, Point2D point, int length, double angDeg,
+			boolean shouldPerformEarlyStops) {
 		if (angDeg == 0.0)
-			runHorizontalSpan(action, point, length);
+			runHorizontalSpan(action, point, length, shouldPerformEarlyStops);
 		else if (angDeg == 180.0) {
 			point.setLocation(point.getX() - length, point.getY());
-			runHorizontalSpan(action, point, length);
+			runHorizontalSpan(action, point, length, shouldPerformEarlyStops);
 		} else if (angDeg == 90.0)
-			runVerticalSpan(action, point, length);
+			runVerticalSpan(action, point, length, shouldPerformEarlyStops);
 		else if (angDeg == 270.0) {
 			point.setLocation(point.getX(), point.getY() - length);
-			runVerticalSpan(action, point, length);
+			runVerticalSpan(action, point, length, shouldPerformEarlyStops);
 		} else
-			runRotatedSpan(action, point, length, angDeg);
+			runRotatedSpan(action, point, length, angDeg, shouldPerformEarlyStops);
 	}
 
-	protected static void runHorizontalSpan(PointConsumer action, Point2D pp, int length) {
+	protected static void runHorizontalSpan(PointConsumer action, Point2D pp, int length,
+			boolean shouldPerformEarlyStops) {
 		Point point;
 		point = new Point((int) pp.getX(), (int) pp.getY());
 		if (length == 0)
 			length = 1;
-		while (length-- > 0 && action.canContinue()) {
-			action.accept(point);
-			point.x++;
-		}
+		if (shouldPerformEarlyStops)
+			while (length-- > 0 && action.canContinue()) {
+				action.accept(point);
+				point.x++;
+			}
+		else
+			while (length-- > 0) {
+				action.accept(point);
+				point.x++;
+			}
 	}
 
-	protected static void runHorizontalSpan(PointConsumer action, Point point, int length) {
+	protected static void runHorizontalSpan(PointConsumer action, Point point, int length,
+			boolean shouldPerformEarlyStops) {
 		if (length == 0)
 			length = 1;
-		while (length-- > 0 && action.canContinue()) {
-			action.accept(point);
-			point.x++;
-		}
+		if (shouldPerformEarlyStops)
+			while (length-- > 0 && action.canContinue()) {
+				action.accept(point);
+				point.x++;
+			}
+		else
+			while (length-- > 0) {
+				action.accept(point);
+				point.x++;
+			}
 	}
 
-	protected static void runVerticalSpan(PointConsumer action, Point2D pp, int length) {
+	protected static void runVerticalSpan(PointConsumer action, Point2D pp, int length,
+			boolean shouldPerformEarlyStops) {
 		Point point;
 		point = new Point((int) pp.getX(), (int) pp.getY());
 		if (length == 0)
 			length = 1;
-		while (length-- > 0 && action.canContinue()) {
-			action.accept(point);
-			point.y++;
-		}
+		if (shouldPerformEarlyStops)
+			while (length-- > 0 && action.canContinue()) {
+				action.accept(point);
+				point.y++;
+			}
+		else
+			while (length-- > 0) {
+				action.accept(point);
+				point.y++;
+			}
 	}
 
-	protected static void runVerticalSpan(PointConsumer action, Point point, int length) {
+	protected static void runVerticalSpan(PointConsumer action, Point point, int length,
+			boolean shouldPerformEarlyStops) {
 		if (length == 0)
 			length = 1;
-		while (length-- > 0 && action.canContinue()) {
-			action.accept(point);
-			point.y++;
-		}
+		if (shouldPerformEarlyStops)
+			while (length-- > 0 && action.canContinue()) {
+				action.accept(point);
+				point.y++;
+			}
+		else
+			while (length-- > 0) {
+				action.accept(point);
+				point.y++;
+			}
 	}
 
-	protected static void runRotatedSpan(PointConsumer action, Point2D pp, int length, double angDeg) {
+	protected static void runRotatedSpan(PointConsumer action, Point2D pp, int length, double angDeg,
+			boolean shouldPerformEarlyStops) {
 		int x, y, i, lastx, lasty;
 		double rad, sin, cos;
 		Point point;
@@ -172,14 +203,31 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 		System.out.println("from " + point + " to (" + lastx + ", " + lasty + ")");
 		i = 0;
 		action.accept(point);
-		while (++i <= length && action.canContinue()) {
-			point.x = (int) Math.round(x + cos * i);
-			point.y = (int) Math.round(y + sin * i);
+		if (shouldPerformEarlyStops) {
+			if (!action.canContinue())
+				return;
+			action.accept(point);
+			while (++i <= length && action.canContinue()) {
+				point.x = (int) Math.round(x + cos * i);
+				point.y = (int) Math.round(y + sin * i);
+				action.accept(point);
+			}
+			point.x = lastx;
+			point.y = lasty;
+			if (!action.canContinue())
+				return;
+			action.accept(point);
+		} else {
+			action.accept(point);
+			while (++i <= length) {
+				point.x = (int) Math.round(x + cos * i);
+				point.y = (int) Math.round(y + sin * i);
+				action.accept(point);
+			}
+			point.x = lastx;
+			point.y = lasty;
 			action.accept(point);
 		}
-		point.x = lastx;
-		point.y = lasty;
-		action.accept(point);
 	}
 
 	/*

@@ -11,6 +11,13 @@ import geometry.implementations.shapes.ShapePoint;
 
 public class PointToCircleIntersector implements ShapesIntersectionDetector {
 	private static final long serialVersionUID = 1111L;
+	private static PointToCircleIntersector SINGLETON;
+
+	public static PointToCircleIntersector getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new PointToCircleIntersector();
+		return SINGLETON;
+	}
 
 	@Override
 	public boolean areIntersecting(AbstractShape2D s1, AbstractShape2D s2) {

@@ -4,13 +4,20 @@ import java.awt.geom.Point2D;
 import java.util.LinkedList;
 import java.util.List;
 
+import geometry.AbstractShape2D;
+import geometry.ShapesIntersectionDetector;
+import geometry.implementations.shapes.ShapeLine;
 import tools.MathUtilities;
-import tools.geometry.AbstractShape;
-import tools.geometry.ShapesIntersectionDetector;
-import tools.geometry.implementations.shapes.ShapeLine;
 
 public class LineToLineIntersectorDetector implements ShapesIntersectionDetector {
 	private static final long serialVersionUID = 1111L;
+	private static LineToLineIntersectorDetector SINGLETON;
+
+	public static LineToLineIntersectorDetector getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new LineToLineIntersectorDetector();
+		return SINGLETON;
+	}
 
 	@Override
 	public boolean areIntersecting(AbstractShape2D s1, AbstractShape2D s2) {

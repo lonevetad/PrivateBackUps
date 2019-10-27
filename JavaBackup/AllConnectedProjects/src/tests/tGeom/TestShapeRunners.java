@@ -31,10 +31,10 @@ import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.PointConsumer;
 import tools.GraphicTools;
 
-public class TestShapesRunner extends TestGeneric {
+public class TestShapeRunners extends TestGeneric {
 	static final int PIXEL_SQUARE_POINT = 5, MAX_SQUARE_PIXEL = 800; //
 
-	public TestShapesRunner() {
+	public TestShapeRunners() {
 	}
 
 	protected class CircleRunnerModel extends ShapeModel {
@@ -64,8 +64,10 @@ public class TestShapesRunner extends TestGeneric {
 					new Point2D.Double(16, 16), //
 					new Point2D.Double(16, 8) }, false);
 			sPoly.setCenter(10, 10);
+			showWeirdRectangle = false;
 		}
 
+		boolean showWeirdRectangle;
 		int diameter, angle;
 		BufferedImage bi;
 		MyObserver<AbstractShape2D> shapeObserver;
@@ -212,8 +214,10 @@ public class TestShapesRunner extends TestGeneric {
 				return;
 			this.g = bi.getGraphics();
 			sr = m.gerRunner();
-			ShapeRunnerPolygonBorder.getInstance().runShape(m.sPoly, this);
+			if (m.showWeirdRectangle)
+				ShapeRunnerPolygonBorder.getInstance().runShape(m.sPoly, this);
 			if (sr != null) {
+//				System.out.println(sr.getClass().getName());
 				sr.runShape(m.s1, this);
 			} else {
 				System.out.println("RUNNER NULL");
@@ -314,7 +318,7 @@ public class TestShapesRunner extends TestGeneric {
 
 			jp.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 5));
 			c.gridx = 0;
-			c.gridy = 2;
+			c.gridy = 4;
 			c.weightx = c.weighty = c.gridwidth = c.gridheight = 8;
 			pContainer.add(jp, c);
 			m.setCicleObserver(circ -> {
@@ -359,8 +363,8 @@ public class TestShapesRunner extends TestGeneric {
 	}
 
 	public static void main(String[] args) {
-		TestShapesRunner t;
-		t = new TestShapesRunner();
+		TestShapeRunners t;
+		t = new TestShapeRunners();
 		t.startTest();
 	}
 }

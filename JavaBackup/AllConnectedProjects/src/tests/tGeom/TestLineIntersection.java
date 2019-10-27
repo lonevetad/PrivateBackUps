@@ -152,7 +152,7 @@ public class TestLineIntersection extends TestShapeIntersection {
 					return 500;
 				}
 			};
-			setcIntersectionShower(jp);
+			setCIntersectionShower(jp);
 			jp.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 5));
 			m.setPointIntersectionObserver((p) -> {
 				jl.setText(p == null ? "no intersection" : p.toString());

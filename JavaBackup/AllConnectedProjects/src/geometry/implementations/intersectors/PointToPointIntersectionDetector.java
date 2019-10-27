@@ -10,6 +10,13 @@ import geometry.implementations.shapes.ShapePoint;
 
 public class PointToPointIntersectionDetector implements ShapesIntersectionDetector {
 	private static final long serialVersionUID = 1111L;
+	private static PointToPointIntersectionDetector SINGLETON;
+
+	public static PointToPointIntersectionDetector getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new PointToPointIntersectionDetector();
+		return SINGLETON;
+	}
 
 	@Override
 	public boolean areIntersecting(AbstractShape2D s1, AbstractShape2D s2) {
