@@ -11,13 +11,14 @@ import geometry.implementations.shapes.ShapePolygon;
 import tools.MathUtilities;
 
 public class CircleToPolygonIntersectorDetector implements ShapesIntersectionDetector {
-	private static final long serialVersionUID = 1111L;
-	private static CircleToPolygonIntersectorDetector SINGLETON ;
-	public static CircleToPolygonIntersectorDetector newInstance(){
-		if( SINGLETON == null){
-			SINGLETON = new CircleToPolygonIntersectorDetector;
-			return SINGLETO;
+	private static final long serialVersionUID = 11111112316516501L;
+	private static CircleToPolygonIntersectorDetector SINGLETON;
+
+	public static CircleToPolygonIntersectorDetector newInstance() {
+		if (SINGLETON == null) {
+			SINGLETON = new CircleToPolygonIntersectorDetector();
 		}
+		return SINGLETON;
 	}
 
 	@Override

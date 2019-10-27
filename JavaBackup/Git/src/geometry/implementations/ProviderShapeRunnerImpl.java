@@ -11,7 +11,7 @@ import geometry.implementations.shapeRunners.ShapeRunnerPolygonBorder;
 import geometry.implementations.shapeRunners.ShapeRunnerRectangleBorder;
 import geometry.implementations.shapeRunners.ShapeRunnerRectangleFilled;
 
-public class ProviderShapeRunnerImpl implements ProviderShapeRunner {
+public class ProviderShapeRunnerImpl extends ProviderShapeRunner {
 	private static final long serialVersionUID = 342405452L;
 	private static final AbstractShapeRunner[] RUNNERS;
 	private static ProviderShapeRunnerImpl SINGLETON;
@@ -41,5 +41,10 @@ public class ProviderShapeRunnerImpl implements ProviderShapeRunner {
 	@Override
 	public AbstractShapeRunner getShapeRunner(ShapeRunnersImplemented sri) {
 		return RUNNERS[sri.ordinal()];
+	}
+
+	@Override
+	public ShapeRunnersImplemented getShapeRunnersImplemented() {
+		return null;
 	}
 }
