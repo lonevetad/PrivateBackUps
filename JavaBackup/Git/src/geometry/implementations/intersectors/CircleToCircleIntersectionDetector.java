@@ -10,6 +10,13 @@ import tools.MathUtilities;
 
 public class CircleToCircleIntersectionDetector implements ShapesIntersectionDetector {
 	private static final long serialVersionUID = -7459854103L;
+	private static CircleToCircleIntersectionDetector SINGLETON;
+
+	public static CircleToCircleIntersectionDetector getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new CircleToCircleIntersectionDetector();
+		return SINGLETON;
+	}
 
 	@Override
 	public boolean areIntersecting(AbstractShape2D s1, AbstractShape2D s2) {

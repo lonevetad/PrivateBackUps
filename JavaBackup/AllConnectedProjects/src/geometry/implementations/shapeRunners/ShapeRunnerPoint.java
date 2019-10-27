@@ -22,10 +22,10 @@ public class ShapeRunnerPoint extends AbstractShapeRunnerImpl {
 	}
 
 	@Override
-	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action) {
+	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action, boolean shouldPerformEarlyStops) {
 		ShapePoint sp;
 		sp = (ShapePoint) shape;
-		if (action.canContinue()) {
+		if ((!shouldPerformEarlyStops) || action.canContinue()) {
 			action.accept(sp.getCenter());
 			return true;
 		}

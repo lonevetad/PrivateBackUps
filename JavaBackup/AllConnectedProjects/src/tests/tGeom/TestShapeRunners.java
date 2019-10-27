@@ -31,10 +31,10 @@ import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.PointConsumer;
 import tools.GraphicTools;
 
-public class TestShapesRunner extends TestGeneric {
+public class TestShapeRunners extends TestGeneric {
 	static final int PIXEL_SQUARE_POINT = 5, MAX_SQUARE_PIXEL = 800; //
 
-	public TestShapesRunner() {
+	public TestShapeRunners() {
 	}
 
 	protected class CircleRunnerModel extends ShapeModel {
@@ -217,6 +217,7 @@ public class TestShapesRunner extends TestGeneric {
 			if (m.showWeirdRectangle)
 				ShapeRunnerPolygonBorder.getInstance().runShape(m.sPoly, this);
 			if (sr != null) {
+//				System.out.println(sr.getClass().getName());
 				sr.runShape(m.s1, this);
 			} else {
 				System.out.println("RUNNER NULL");
@@ -362,8 +363,8 @@ public class TestShapesRunner extends TestGeneric {
 	}
 
 	public static void main(String[] args) {
-		TestShapesRunner t;
-		t = new TestShapesRunner();
+		TestShapeRunners t;
+		t = new TestShapeRunners();
 		t.startTest();
 	}
 }

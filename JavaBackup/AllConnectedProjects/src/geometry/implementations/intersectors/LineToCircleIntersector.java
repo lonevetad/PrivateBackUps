@@ -1,7 +1,6 @@
 package geometry.implementations.intersectors;
 
 import java.awt.geom.Point2D;
-import java.util.Arrays;
 import java.util.List;
 
 import geometry.AbstractShape2D;
@@ -39,18 +38,18 @@ public class LineToCircleIntersector implements ShapesIntersectionDetector {
 			return null;
 		sl = (ShapeLine) s1;
 		sc = (ShapeCircle) s2;
-		System.out.println(sc.getCenter());
 		d = sc.getDiameter();
 		l = MathUtilities.getCircleLineIntersections(/* pcl = */ sc.getCenter(), d, sl.getCenter(),
 				sl.getAngleRotation(), false);
 //		l = MathUtilities.getCircleLineIntersections(sc.getCenter(), d, sl.getP1(), sl.getP2());
 		if (l == null)
 			return null;
-		System.out.println(Arrays.toString(l.toArray()));
 		pl1 = sl.getP1();
 		pl2 = sl.getP2();
 		p1 = l.remove(0);
 		p2 = l.remove(0);
+		p1.setLocation(Math.round(p1.getX()), Math.round(p1.getY())); // round locations
+		p2.setLocation(Math.round(p2.getX()), Math.round(p2.getY())); // round locations
 //		if (Point.distance(pcl.getX(), pcl.getY(), p1.getX(), p1.getY()) <= d)
 //		if (Math.hypot(pcl.getX() - p1.getX(), p1.getY() - pcl.getY()) <= d)
 		if (MathUtilities.isBetween(p1, pl1, pl2))

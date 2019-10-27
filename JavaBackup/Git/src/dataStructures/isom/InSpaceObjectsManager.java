@@ -7,8 +7,8 @@ import dataStructures.graph.PathFindStrategy;
 import geometry.AbstractShape2D;
 import geometry.AbstractShapeRunner;
 import geometry.ProviderObjectsInSpace;
-import geometry.ProviderShapeRunner;
 import geometry.ProviderShapesIntersectionDetector;
+import geometry.implementations.ProviderShapeRunnerImpl;
 import tools.LoggerMessages;
 
 /**
@@ -52,7 +52,7 @@ public interface InSpaceObjectsManager extends Serializable {
 
 	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector();
 
-	public ProviderShapeRunner getProviderShapeRunner();
+	public ProviderShapeRunnerImpl getProviderShapeRunner();
 
 	//
 
@@ -71,7 +71,7 @@ public interface InSpaceObjectsManager extends Serializable {
 	public void setProviderShapesIntersectionDetector(
 			ProviderShapesIntersectionDetector providerShapesIntersectionDetector);
 
-	public void setProviderShapeRunner(ProviderShapeRunner providerShapeRunner);
+	public void setProviderShapeRunner(ProviderShapeRunnerImpl providerShapeRunner);
 
 //
 
@@ -95,7 +95,7 @@ public interface InSpaceObjectsManager extends Serializable {
 	}
 
 	/**
-	 * As for {@link #runOnShape(AbstractShape2D, GomConsumer)}, but giving the
+	 * As for {@link #runOnShape(AbstractShape2D, IsomConsumer)}, but giving the
 	 * {@link AbstractShape2D} returned by {@link #getSpaceShape()}.
 	 */
 	public default void runOnShape(IsomConsumer action) {
@@ -109,6 +109,6 @@ public interface InSpaceObjectsManager extends Serializable {
 		runner = this.getProviderShapeRunner().getShapeRunner(shape.getShapeImplementing());
 		if (runner == null)
 			return;
-		runner.runShape(shape, action);
+		runner.runShape(shape, (PointConsumer) action);
 	}
 }

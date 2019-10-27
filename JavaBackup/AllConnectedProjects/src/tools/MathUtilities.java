@@ -207,7 +207,7 @@ public final class MathUtilities {
 
 	public static double angleDegrees(double x1, double y1, double x2, double y2) {
 		if (x1 == x2)
-			return y1 <= y2 ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+			return y1 <= y2 ? 90.0 : 270.0; // Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
 		if (y1 == y2)
 			return 0.0;
 		return Math.toDegrees(Math.atan((y2 - y1) / (x2 - x1)));

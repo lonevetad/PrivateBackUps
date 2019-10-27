@@ -8,7 +8,7 @@ import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeFillableImpl;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeRotated;
-import geometry.pointTools.impl.PolygonPointsUtilities;
+import geometry.pointTools.impl.PolygonUtilities;
 import tools.MathUtilities;
 
 public class ShapeRectangle extends AbstractShapeFillableImpl {
@@ -196,7 +196,7 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 				tempx = addingx ? (xCenter + halfWidth) : (xCenter - halfWidth);
 
 				rad = Math.toRadians(//
-						MathUtilities.angleDeg(xCenter, yCenter, tempx, tempy) //
+						MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy) //
 								+ angRotation);
 				xx[counter] = (int) Math.round(//
 						xCenter + radius * Math.cos(rad));
@@ -243,6 +243,6 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 		Polygon p;
 		r = new ShapeRectangle(30, 100, 100, false, 50, 80);
 		p = r.toPolygon();
-		System.out.println(PolygonPointsUtilities.polygonToString(p));
+		System.out.println(PolygonUtilities.polygonToString(p));
 	}
 }

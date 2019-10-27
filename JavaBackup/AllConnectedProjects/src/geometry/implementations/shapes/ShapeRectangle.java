@@ -196,7 +196,7 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 				tempx = addingx ? (xCenter + halfWidth) : (xCenter - halfWidth);
 
 				rad = Math.toRadians(//
-						MathUtilities.angleDeg(xCenter, yCenter, tempx, tempy) //
+						MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy) //
 								+ angRotation);
 				xx[counter] = (int) Math.round(//
 						xCenter + radius * Math.cos(rad));

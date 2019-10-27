@@ -27,15 +27,15 @@ public class ShapeRunnerPolygonBorder extends AbstractShapeRunnerImpl {
 	}
 
 	@Override
-	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action) {
+	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action, boolean shouldPerformEarlyStops) {
 		Polygon polygon;
 		if (shape == null || action == null || shape.getShapeImplementing() != this.getShapeRunnersImplemented())
 			return false;
 		polygon = shape.toPolygon();
-		return runShapePolygon(polygon, action);
+		return runShapePolygon(polygon, action, shouldPerformEarlyStops);
 	}
 
-	public static boolean runShapePolygon(Polygon polygon, PointConsumer action) {
+	public static boolean runShapePolygon(Polygon polygon, PointConsumer action, boolean shouldPerformEarlyStops) {
 		int i, len;
 		int[] xx, yy;
 		Point p, lastp;
@@ -48,7 +48,7 @@ public class ShapeRunnerPolygonBorder extends AbstractShapeRunnerImpl {
 		while (++i < len) {
 			p.x = xx[i];
 			p.y = yy[i];
-			ShapeRunnerLine.runSpan(action, lastp, p);
+			ShapeRunnerLine.runSpan(action, lastp, p, shouldPerformEarlyStops);
 			lastp.x = p.x;
 			lastp.y = p.y;
 		}
