@@ -28,8 +28,8 @@ public class ShapeTriangle extends AbstractShapeFillableImpl {
 		setVertexes(vertexes);
 	}
 
-	public ShapeTriangle(ShapeRunnersImplemented shapeImplementing) {
-		super(shapeImplementing);
+	public ShapeTriangle(boolean isFilled) {
+		super(isFilled ? ShapeRunnersImplemented.Triangle : ShapeRunnersImplemented.TriangleBorder);
 		setVertexes(new Point2D[] { new Point2D.Double(0, 0), new Point2D.Double(0, 0), new Point2D.Double(0, 0) });
 	}
 

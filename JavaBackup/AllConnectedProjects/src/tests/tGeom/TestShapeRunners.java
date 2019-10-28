@@ -88,7 +88,8 @@ public class TestShapeRunners extends TestGeneric {
 			shapesToTest = new ShapeRunnersImplemented[] { ShapeRunnersImplemented.Disk,
 					ShapeRunnersImplemented.Circumference, ShapeRunnersImplemented.Line,
 					// ShapeRunnersImplemented.PolygonBorder, // no way to set points
-					ShapeRunnersImplemented.RectangleBorder, ShapeRunnersImplemented.Rectangle };
+					ShapeRunnersImplemented.RectangleBorder, ShapeRunnersImplemented.Rectangle, //
+					ShapeRunnersImplemented.Triangle, ShapeRunnersImplemented.TriangleBorder };
 			ctpoi.bi = bi = new BufferedImage(MAX_SQUARE_PIXEL, MAX_SQUARE_PIXEL, BufferedImage.TYPE_INT_ARGB);
 //			setDiameter(1);
 		}
