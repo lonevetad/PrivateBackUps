@@ -3,13 +3,11 @@ package geometry.implementations.shapeRunners;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
 
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.AbstractShapeRunnerImpl;
 import geometry.pointTools.PointConsumer;
-import tools.Comparators;
 import tools.MathUtilities;
 
 public class ShapeRunnerTriangleFilled extends AbstractShapeRunnerImpl {
@@ -50,16 +48,6 @@ public class ShapeRunnerTriangleFilled extends AbstractShapeRunnerImpl {
 		Point p;
 		if (action == null || corners == null || corners.length < 3)
 			return false;
-		// 1) ordina i vertici per y decrescente
-		// 2) ottieni il primo, che sarà il punto di partenza, e l'ultimo, cioè quello
-		// di arrivo
-		// 3) dei due rimanenti, capisco qual e' quello a sinistra e quello a destra
-		// l'algoritmo si divide poi in 3 parti: dal primo al secondo, dal secondo al
-		// terzo e dal terzo all'ultimo
-		// 4) quindi si discendono i segmenti "a sinstra", calcolando6 i coefficienti
-		// angolari
-//		c = new Point2D[] { corners[0], corners[1], corners[2], corners[3] }
-		Arrays.sort(corners, Comparators.POINT_2D_COMPARATOR_LOWEST_FIRST);
 		p1 = corners[0];
 		if (p1 == null)
 			return false;

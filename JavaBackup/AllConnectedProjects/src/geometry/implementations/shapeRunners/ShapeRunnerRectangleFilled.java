@@ -182,7 +182,7 @@ public class ShapeRunnerRectangleFilled extends AbstractShapeRunnerImpl {
 				p.y = y;
 				p.x = x = (int) Math.round((y - ql) / slopeLeft);
 				ShapeRunnerLine.runHorizontalSpan(action, p, //
-						((int) Math.round((y - qr) / slopeRight)) - x, shouldPerformEarlyStops);
+						((int) Math.round((y - qr) / slopeRight)) - x, false);
 			}
 			p.setLocation((int) Math.round(p4.getX()), lasty);
 			action.accept(p);

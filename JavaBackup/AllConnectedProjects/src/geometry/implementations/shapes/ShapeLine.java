@@ -83,10 +83,18 @@ public class ShapeLine extends AbstractShapeImpl {
 	}
 
 	public Point2D getP1() {
+		if (p1 == null || polygonCache == null) {
+			polygonCache = null;
+			recalculatePolygon();
+		}
 		return (Point2D) p1.clone();
 	}
 
 	public Point2D getP2() {
+		if (p2 == null || polygonCache == null) {
+			polygonCache = null;
+			recalculatePolygon();
+		}
 		return (Point2D) p2.clone();
 	}
 
@@ -190,6 +198,14 @@ public class ShapeLine extends AbstractShapeImpl {
 				halfLength = length / 4.0;
 //			xx = new int[] { (int) (xCenter - dx), (int) (xCenter + dx) };
 //			yy = new int[] { (int) (yCenter - dy), (int) (yCenter + dy) };
+				if (dx < 0) {
+					/*
+					 * angle would range in (90;270), but angle's calculus would be wrong: swap
+					 * points by swapping deltas' signs
+					 */
+					dx = -dx;
+					dy = -dy;
+				}
 				xx = new int[] { (int) Math.round(xCenter - dx), (int) Math.round(xCenter + dx) };
 				yy = new int[] { (int) Math.round(yCenter - dy), (int) Math.round(yCenter + dy) };
 //			return polygonCache = super.toPolygon();

@@ -1,7 +1,6 @@
 package geometry.implementations.shapeRunners;
 
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.geom.Point2D;
 
 import geometry.AbstractShape2D;
@@ -35,17 +34,18 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 //		double angDeg;
 //		Point point;
 		ShapeLine sp;
-		Polygon p;
+//		Polygon p;
 		sp = (ShapeLine) shape;
-		p = sp.toPolygon();
+//		p = sp.toPolygon();
 //		angDeg = MathUtilities.adjustDegAngle(shape.getAngleRotation());
 //		length = sp.getLength();
 //		point = new Point(p.xpoints[0], p.ypoints[0]);
 //		System.out.println(
 //				"POINT: " + point + ", centre: " + sp.getCenter() + ", p2: " + new Point(p.xpoints[1], p.ypoints[1]));
 //		runSpan_ControlledEnvironment(action, point, length, angDeg, p.xpoints[1], p.ypoints[1]);
-		runSpan(action, new Point(p.xpoints[0], p.ypoints[0]), new Point(p.xpoints[1], p.ypoints[1]),
-				shouldPerformEarlyStops);
+//		runSpan(action, new Point(p.xpoints[0], p.ypoints[0]), new Point(p.xpoints[1], p.ypoints[1]),
+//				shouldPerformEarlyStops);
+		runSpan(action, sp.getP1(), sp.getP2(), shouldPerformEarlyStops);
 		return true;
 	}
 
@@ -56,7 +56,7 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 		x2 = point2.getX();
 		y2 = point2.getY();
 		if (x1 == x2) {
-			if (y1 < y2) {
+			if (y1 <= y2) {
 				a = 90.0;
 				d = y2 - y1;
 			} else {
@@ -66,7 +66,7 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 				point1.setLocation(x1, y2);
 			}
 		} else if (y1 == y2) {
-			if (x1 < x2) {
+			if (x1 <= x2) {
 				a = 0.0;
 				d = x2 - x1;
 			} else {
@@ -76,13 +76,21 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 				point1.setLocation(x2, y1);
 			}
 		} else {
-			d = Math.hypot(x1 - x2, //
-					y1 - y2);
 			a =
 //			Math.toDegrees(Math.atan(MathUtilities.slope(x1, y1, x2, y2)));
 					MathUtilities.angleDegrees(x1, y1, x2, y2);
+			if (a < 0.0)
+				a += 360.0;
+			d = Math.hypot(x1 - x2, //
+					y1 - y2);
+//			System.out.println("--before run span from " + point1 + " to " + point2);
+			if (a > 90.0 && a < 270.0) {
+				point1 = point2;
+				a -= 180.0;
+//				System.out.println("--CHANGED .. angle: " + a);
+			}
 		}
-		runSpanFrom(action, point1, ((int) d), a, shouldPerformEarlyStops);
+		runSpanFrom(action, point1, (int) Math.floor(1 + d), a, shouldPerformEarlyStops);
 	}
 
 	public static void runSpanFrom(PointConsumer action, Point2D point, int length, double angDeg,
@@ -103,21 +111,21 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 			runRotatedSpan(action, point, length, angDeg, shouldPerformEarlyStops);
 	}
 
-	protected static void runSpan_ControlledEnvironment(PointConsumer action, Point2D point, int length, double angDeg,
-			boolean shouldPerformEarlyStops) {
-		if (angDeg == 0.0)
-			runHorizontalSpan(action, point, length, shouldPerformEarlyStops);
-		else if (angDeg == 180.0) {
-			point.setLocation(point.getX() - length, point.getY());
-			runHorizontalSpan(action, point, length, shouldPerformEarlyStops);
-		} else if (angDeg == 90.0)
-			runVerticalSpan(action, point, length, shouldPerformEarlyStops);
-		else if (angDeg == 270.0) {
-			point.setLocation(point.getX(), point.getY() - length);
-			runVerticalSpan(action, point, length, shouldPerformEarlyStops);
-		} else
-			runRotatedSpan(action, point, length, angDeg, shouldPerformEarlyStops);
-	}
+//	protected static void runSpan_ControlledEnvironment(PointConsumer action, Point2D point, int length, double angDeg,
+//			boolean shouldPerformEarlyStops) {
+//		if (angDeg == 0.0)
+//			runHorizontalSpan(action, point, length, shouldPerformEarlyStops);
+//		else if (angDeg == 180.0) {
+//			point.setLocation(point.getX() - length, point.getY());
+//			runHorizontalSpan(action, point, length, shouldPerformEarlyStops);
+//		} else if (angDeg == 90.0)
+//			runVerticalSpan(action, point, length, shouldPerformEarlyStops);
+//		else if (angDeg == 270.0) {
+//			point.setLocation(point.getX(), point.getY() - length);
+//			runVerticalSpan(action, point, length, shouldPerformEarlyStops);
+//		} else
+//			runRotatedSpan(action, point, length, angDeg, shouldPerformEarlyStops);
+//	}
 
 	protected static void runHorizontalSpan(PointConsumer action, Point2D pp, int length,
 			boolean shouldPerformEarlyStops) {
@@ -196,18 +204,17 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 		x = point.x;
 		y = point.y;
 		rad = Math.toRadians(angDeg);
-		sin = Math.sin(rad);
 		cos = Math.cos(rad);
+		sin = Math.sin(rad);
 		lastx = (int) Math.round(x + (length * cos));
 		lasty = (int) Math.round(y + (length * sin));
-		System.out.println("from " + point + " to (" + lastx + ", " + lasty + ")");
 		i = 0;
 		action.accept(point);
 		if (shouldPerformEarlyStops) {
 			if (!action.canContinue())
 				return;
 			action.accept(point);
-			while (++i <= length && action.canContinue()) {
+			while (++i < length && action.canContinue()) {
 				point.x = (int) Math.round(x + cos * i);
 				point.y = (int) Math.round(y + sin * i);
 				action.accept(point);
@@ -219,7 +226,7 @@ public class ShapeRunnerLine extends AbstractShapeRunnerImpl {
 			action.accept(point);
 		} else {
 			action.accept(point);
-			while (++i <= length) {
+			while (++i < length) {
 				point.x = (int) Math.round(x + cos * i);
 				point.y = (int) Math.round(y + sin * i);
 				action.accept(point);

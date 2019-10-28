@@ -36,7 +36,7 @@ public class ShapeRunnerPolygonBorder extends AbstractShapeRunnerImpl {
 	}
 
 	public static boolean runShapePolygon(Polygon polygon, PointConsumer action, boolean shouldPerformEarlyStops) {
-		int i, len;
+		int i, len, px, py;
 		int[] xx, yy;
 		Point p, lastp;
 		len = polygon.npoints;
@@ -46,11 +46,12 @@ public class ShapeRunnerPolygonBorder extends AbstractShapeRunnerImpl {
 		p = new Point();
 		i = -1;
 		while (++i < len) {
-			p.x = xx[i];
-			p.y = yy[i];
+			p.x = px = xx[i];
+			p.y = py = yy[i];
+			System.out.println("run on polygon the points: lastp: " + lastp + ", to p: " + p);
 			ShapeRunnerLine.runSpan(action, lastp, p, shouldPerformEarlyStops);
-			lastp.x = p.x;
-			lastp.y = p.y;
+			lastp.x = px;
+			lastp.y = py;
 		}
 		return true;
 	}
