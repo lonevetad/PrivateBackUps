@@ -1,7 +1,7 @@
-package games.theRisingArmy.abilities;
+package videogamesOldVersion.games.theRisingArmy.abilities;
 
-import common.mainTools.MyPredicate;
-import games.theRisingArmy.abstractTRAr.GameObjectTRAr;
+import tools.predicatesExpressions.MyPredicate;
+import videogamesOldVersion.games.theRisingArmy.abstractTRAr.GameObjectTRAr;
 
 public interface GameObjectTrarFilter extends MyPredicate<GameObjectTRAr> {
 }

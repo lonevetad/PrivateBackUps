@@ -149,7 +149,7 @@ public class MolmVisualizer extends JScrollPane {
 			}
 			jpMolmVisualizer.setSize(maxw * getSizeSquare(), maxh * getSizeSquare());
 			jpMolmVisualizer.setPreferredSize(jpMolmVisualizer.getSize());
-			// System.out.println("MOLM visualizer: setAllMolms .. jp size: " +
+			// System.out.println("MOLM visualizer: setAllMolms .. jpGridViewer size: " +
 			// jpMolmVisualizer.getSize());
 		}
 		return this;
