@@ -1,0 +1,100 @@
+antropologia	archeologia	2.5
+Dell	Dingle	0.1
+succo	cucchiaio	1.1
+Pfizer	medicinale	3.4
+camion	pacco	2.5
+recettore	molecola proteica	2.8
+Google Drive	driver	1.3
+miliardario	senzatetto	3.8
+episodio	capitolo	2.9
+infinito	zero	3.8
+servo	schiavo	3.7
+suffisso	affisso	1.6
+riscaldamento globale	calore	2.8
+ormone della crescita	somatotropina	4.0
+cielo	sogno	1.7
+prezzo di offerta	Londra	1.3
+fertilizzante	crescita	2.5
+hashtag	argomento	2.4
+Orione	costellazione	3.7
+Nietzsche	Chelsea	2.1
+rispetto reciproco	competizione	2.6
+ramo	braccio	2.8
+vittima	telefono	2.4
+deviazione standard	accumulazione	3.6
+valanga	neve	3.7
+insegnante	studente	3.3
+bestiame	yogurt	2.8
+sessismo	discriminazione di genere	4.0
+Polo Sud	danza	0.4
+pubblico ministero	avvocato	2.4
+racchetta	palla	2.7
+mutuo	debito	3.6
+prospettiva	distanza	2.6
+Federer	Dylan	0.5
+avvocato	galleria	0.4
+aspettativa di vita	misura statistica	3.4
+membrana cellulare	provirus	2.6
+Unione Europea	Mosca	2.7
+mondo	Asia	2.8
+Paint	Photoshop	3.8
+senato	costituzione	2.8
+prezzemolo	muffin	1.8
+mente	cervello	2.9
+Mercedes	Opel	3.0
+martello	dente	1.8
+Rinascimento	Rinascimento	3.95	#esiste un negozio di nome Rinascimento
+gonna	orologio	0.7
+opera	cinema	2.6
+insegnante	istruttore	4.0
+Sole	cavo	1.6
+recessione	PIL	2.8
+Cesare	Giulio Cesare	3.2
+paziente	sessione	2.2
+comportamentismo	terapia	2.8
+imperatore	costituzione	2.7
+matematico	spettacolo	1.6
+entropia	informazione	2.8
+acqua di rose	olio di rosa	1.7
+agrume	pompelmo	2.8
+Regina Vittoria	Inghilterra	2.9
+Giochi Olimpici	spirito	2.1
+vescovo	musulmano	2.9
+uomo	sospetto	1.4
+meteorite	Terra	2.7
+simbolo	segno	2.5
+antropologia	New York	0.3
+tramonto	tavolo	0.4
+cittadina	città	4.0
+giacca	acqua minerale	0.2
+natura	flora	2.8
+subroutine	compilatore	2.9
+Hamadan	Roma	1.3
+ombrello	stufa	0.5
+onore	stima	2.6
+insegna	dignità	2.3
+KFC	McDonald'stima	3.3
+joystick	radar	1.6
+basmati	riso jasmine	1.7
+medaglia	scarpe da ginnastica	1.7
+legge	piscina	1.1
+sorgente	scatola	0.8
+teatro	batteria	0.6
+flora	web browser	0.3
+camicia	cardigan	2.1
+poema	ritmo	2.2
+profeta	prete	3.1
+Oscar	stadio	2.2
+backgammon	Go	3.0	#Go è sia un gioco tipo Dama sia un linguaggio di programmazione
+farfalla	rosa	1.8
+recinto	salto	1.7
+nichilismo	film	1.3
+asteroide	stella	2.4
+sommossa	disegno	1.8
+intimo	corpo	2.3
+Boeing	aereo	2.6
+cameo	interpretazione	2.7
+semestre	quadrimestre	3.8
+arancia	agrume	2.8
+ghiacciaio	riscaldamento globale	1.8
+galleria	percorso	0.65
