@@ -275,7 +275,7 @@ public class TestShapeRunners extends TestGeneric {
 		public abstract void init();
 	}
 
-	//
+	// TODO ShapeRunnersView
 
 	protected class ShapeRunnersView extends ShapeView implements MyObserver<ShapeRunnersImplemented> {
 		protected ShapeRunnersView() {

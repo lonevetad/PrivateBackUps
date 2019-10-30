@@ -80,7 +80,7 @@ public class ShapeRunnerRectangleFilled extends AbstractShapeRunnerImpl {
 		Point p;
 		if (width <= 0 || height <= 0 || action == null)
 			return;
-		p = new Point(yCentre - (height >> 1), x = xCentre - (width >> 1));
+		p = new Point(x = xCentre - (width >> 1), yCentre - (height >> 1));
 		while (height-- > 0 && action.canContinue()) {
 			ShapeRunnerLine.runHorizontalSpan(action, p, width, shouldPerformEarlyStops);
 			p.x = x;
@@ -97,14 +97,7 @@ public class ShapeRunnerRectangleFilled extends AbstractShapeRunnerImpl {
 	 * BEWARE: it modify the original array !
 	 */
 	public static void runRectangleRotated(PointConsumer action, Point2D[] corners, boolean shouldPerformEarlyStops) {
-//		if (PointConsumer.FORCE_EARLY_STOP_CHECKS)
-//			runRectangleRotated_EarlyStopped(action, corners);
-//		else
-//			runRectangleRotated_NonStopping(action, corners);
-//	}
-//
-//	public static void runRectangleRotated_NonStopping(PointConsumer action, Point2D[] corners) {
-		int x, y, lasty, y2, y3;
+		int x, y, lasty, y2, y3, widthCache;
 		double slopeLeft, slopeRight, ql, qr; /* slope12, slope13, slope24, slope34, */
 		Point2D p1, p2, p3, p4; // , c[]; // == top, left, right, bottom
 		Point p;
@@ -149,6 +142,7 @@ public class ShapeRunnerRectangleFilled extends AbstractShapeRunnerImpl {
 		lasty = (int) Math.round(p4.getY());
 		y2 = (int) Math.round(p2.getY());
 		y3 = (int) Math.round(p3.getY());
+		widthCache = -1;
 		if (shouldPerformEarlyStops) {
 			while (++y < lasty && action.canContinue()) {
 				if (y == y2) {
@@ -158,12 +152,20 @@ public class ShapeRunnerRectangleFilled extends AbstractShapeRunnerImpl {
 				if (y == y3) {
 					slopeRight = MathUtilities.slope(p3, p4);
 					qr = p3.getY() - slopeRight * p3.getX();
+//					widthCache = -1;
 				}
 				x = (int) Math.round((y - ql) / slopeLeft);
 				p.y = y;
 				p.x = x;
-				ShapeRunnerLine.runHorizontalSpan(action, p, //
-						((int) Math.round((y - qr) / slopeRight)) - x, shouldPerformEarlyStops);
+				if (slopeRight == Double.POSITIVE_INFINITY || slopeRight == Double.NEGATIVE_INFINITY) {
+					if (widthCache < 0) {
+						widthCache = (int) Math.round(p2.getX() - p1.getX());
+					}
+					ShapeRunnerLine.runHorizontalSpan(action, p, //
+							widthCache, shouldPerformEarlyStops);
+				} else
+					ShapeRunnerLine.runHorizontalSpan(action, p, //
+							((int) Math.round((y - qr) / slopeRight)) - x, shouldPerformEarlyStops);
 			}
 			if (action.canContinue()) {
 				p.setLocation((int) Math.round(p4.getX()), lasty);
