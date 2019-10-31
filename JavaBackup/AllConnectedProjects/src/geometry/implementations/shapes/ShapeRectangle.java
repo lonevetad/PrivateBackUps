@@ -200,8 +200,8 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 			else if (rad > 360.0)
 				rad -= 360.0;
 			rad = Math.toRadians(rad);
-			System.out.println("xCenter: " + xCenter + ", yCenter: " + yCenter + "\n\t tempx: " + tempx + ", tempy: "
-					+ tempy + ",\n\t ang between" + MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy));
+//			System.out.println("xCenter: " + xCenter + ", yCenter: " + yCenter + "\n\t tempx: " + tempx + ", tempy: "
+//					+ tempy + ",\n\t ang between" + MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy));
 			xx[counter] = (int) Math.round(//
 					xCenter + radius * Math.cos(rad));
 			yy[counter] = (int) Math.round(//
