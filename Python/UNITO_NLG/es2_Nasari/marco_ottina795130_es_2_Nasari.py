@@ -16,6 +16,7 @@ TAG_DICT = {"J": wn.ADJ,
 			"N": wn.NOUN,
 			"V": wn.VERB,
 			"R": wn.ADV}
+MINIMUM_WORD_REPETITION_COUNT = 3
 
 	#
 	# NOTE: END code took from the Lesk exercise 
@@ -31,7 +32,7 @@ def indexOf(stringToScan, charToLookFor):
 
 
 class ArticleExtracter(object):
-	"""docstring for ArticleExtracter"""
+	"""Equivalente delle 'interfacce funzionali' di Java"""
 	def __init__(self):
 		pass
 
@@ -44,6 +45,17 @@ class ArticleExtracter(object):
 # EXTRACTOR from WordNet
 #
 class WordNetExtractor(ArticleExtracter):
+	'''
+	Prima implementazione di estrazione, scartata perchè non utilizza Nasari,
+	mantenuta nel codice per storia.
+	Si usa il titolo per generare il contesto (bag of words), analogamente
+	per ogni paragrafo si ricava il contesto, dopodichè si estraggono le
+	parole ritenibili importanti per definire l’estratto.
+	Infatti si considerano importanti le parole del contesto che occorrono 
+	un quantitativo superiore ad una certa soglia
+	'''
+	def __init__(self):
+		pass
 
 	def extract_wnpostag_from_postag(self, tag):
 		for key in TAG_DICT:
@@ -90,7 +102,7 @@ class WordNetExtractor(ArticleExtracter):
 				else:
 					synsets_repetited[p_w] = 1
 		#print( [ (synsets_repetited[w], w) for w in synsets_repetited if synsets_repetited[w] > 1 ])
-		return [ w[0] for w in synsets_repetited if synsets_repetited[w] > 1 ] #w[0] because only words are needed, not tags
+		return [ w[0] for w in synsets_repetited if synsets_repetited[w] >= MINIMUM_WORD_REPETITION_COUNT ] #w[0] because only words are needed, not tags
 	#
 
 
@@ -105,7 +117,7 @@ class NasariExtractor(ArticleExtracter):
 		self.articleManager = articleManager
 		self.wordNetExtractor = wordNetExtractor
 
-	def extract_content(self, article):
+	def extract_content(self, article, compression_rate_percentage = 10):
 		print("implement and print it, later")
 		return None
 
@@ -161,22 +173,19 @@ class NasariExtractor_ParagraphByTitle(NasariExtractor):
 		# poi cercare il paragrafo con il più alto score
 		bag_words_title_temp = self.wordNetExtractor.bag_of_tagged_words(article[0])
 		bag_words_title = [ w[0].lower() for w in bag_words_title_temp ]
-		#print("\n\n--- TITLE UNSTOPPING: ", bag_words_title)
 		bag_words_title_temp = None
 		title_vectors = [ self.get_vector(tw) for tw in bag_words_title ]
-		#print("--- TITLE VECTORED: ", title_vectors)
-		#print("PARAGRAPH\n",article[1],"\n")
 		#scored_paragraphs = []
-		amount_of_paragraph_to_retrieve = math.ceil( len(article[1]) * compression_rate_percentage / 100.0)
 		paragraph_and_score = []
 		for paragraph in article[1]:
 			botw_t  = self.wordNetExtractor.bag_of_tagged_words(paragraph)
-			botw_paragraph = [ w[0] for w in botw_t ]
+			botw_paragraph = [ w[0].lower() for w in botw_t ]
 			botw_t = None
 			score = self.score_paragraph(title_vectors, botw_paragraph)
 #			scored_paragraphs.append( (score, botw_paragraph) )
 			paragraph_and_score.append( (score, botw_paragraph, paragraph) )
 		paragraph_and_score = sorted(paragraph_and_score, key= lambda x:x[0], reverse=True)
+		amount_of_paragraph_to_retrieve = math.ceil( len(article[1]) * compression_rate_percentage / 100.0)
 		compressed = []
 		i = 0
 		while i < amount_of_paragraph_to_retrieve:
@@ -193,37 +202,6 @@ class NasariExtractor_ParagraphByTitle(NasariExtractor):
 			for t_v in title_vectors:
 				score += self.vector_similarity(t_v, puw_vector)
 		return score
-
-'''
-	def get_best_paragraph(self, article):
-		#determinare le parole importanti del titolo, cercando poi i vettori di Nasari associati
-		# poi cercare il paragrafo con il più alto score
-		bag_words_title_temp = self.wordNetExtractor.bag_of_tagged_words(article[0])
-		bag_words_title = [ w[0].lower() for w in bag_words_title_temp ]
-		bag_words_title_temp = None
-		title_vectors = [ self.get_vector(tw) for tw in bag_words_title ]
-		#scored_paragraphs = []
-		best_paragraph = (0, None)
-		for paragraph in article[1]:
-			botw_t  = self.wordNetExtractor.bag_of_tagged_words(article[0])
-			botw_paragraph = [ w[0] for w in botw_t ]
-			botw_t = None
-			score = self.score_paragraph(title_vectors, botw_paragraph)
-#			scored_paragraphs.append( (score, botw_paragraph) )
-			if score > best_paragraph[0]:
-				best_paragraph = (score, botw_paragraph)
-		return best_paragraph
-	
-	def max_score_in_paragraph(self, title_vectors, paragraph_unstopping_words):
-		max_score = 0
-		for puw in paragraph_unstopping_words:
-			puw_vector = self.get_vector(puw)
-			for t_v in title_vectors:
-				score = self.vector_similarity(t_v, puw_vector)
-				if score > max_score:
-					max_score = score
-		return max_score
-'''
 
 
 #
@@ -244,8 +222,11 @@ class ArticleManager(object):
 		self.dd_nasari = None
 		self.lines_to_read = -1 # negative number == all files
 		self.articles = None
-		self.article_extractors = [ WordNetExtractor() ]
-		self.article_extractors.append( NasariExtractor_ParagraphByTitle(self, self.article_extractors[0]) )
+		self.array_of_text_files = None #use as cache
+		wordNetExtr = WordNetExtractor()
+		self.article_extractors = [ None, None ]
+		self.article_extractors[0] = NasariExtractor_ParagraphByTitle(self, wordNetExtr)
+		self.article_extractors[1] = wordNetExtr
 
 	def load_dd_nasari(self, pathFileName = None):
 		if pathFileName is None:
@@ -254,8 +235,6 @@ class ArticleManager(object):
 		 	return
 		self.dd_nasari = {}
 		with open(pathFileName, 'r') as fp:
-			#	read_lines = [line.rstrip('\n') for line in fp.readlines()]
-			#for line in read_lines:
 			counter = 1
 			line = fp.readline()
 			while line and (self.lines_to_read < 0 or counter < self.lines_to_read):
@@ -266,16 +245,10 @@ class ArticleManager(object):
 				del parts[0]
 				correlated_words = {} #the "vector"
 				for p in parts:
-					#try :
-					#	index_underscore = p.index("_")
 					index_underscore  = indexOf(p, "_")
 					if index_underscore >= 0:
 						subword = p[0:index_underscore].lower()
-						#correlated_words.append( (p[0:index_underscore], float(p[index_underscore+1:])) ) #<word, id_word>
-						correlated_words[subword] = float(p[index_underscore+1:]) #<word, id_word>
-#					except ValueError:
-					#else:
-					#	print("ERROR not divisible word: --", p, "--")
+						correlated_words[subword] = float(p[index_underscore+1:]) #<word, id_word> TODO TO TEST
 				#add the "vector"
 				#self.dd_nasari.append( (word, identifier, correlated_words) )
 				self.dd_nasari[word] = (word, identifier, correlated_words) 
@@ -314,6 +287,9 @@ class ArticleManager(object):
 				prefix + "People-Arent-Upgrading-Smartphones-as-Quickly-and-That-Is-Bad-for-Apple.txt",
 				prefix + "The-Last-Man-on-the-Moon--Eugene-Cernan-gives-a-compelling-account.txt"
 			]
+			self.array_of_text_files = array_of_text_files
+		if self.articles is not None and (array_of_text_files is not self.array_of_text_files):
+			return self.articles
 		self.articles = []
 		for f_t in array_of_text_files:
 			with open(f_t, 'r') as fp:
@@ -326,7 +302,7 @@ class ArticleManager(object):
 					if not(line == ""):
 						all_paragraphs.append(line)
 				self.articles.append( (title, all_paragraphs) )
-
+		return self.articles
 
 	#now start the exercise
 
@@ -344,37 +320,28 @@ class ArticleManager(object):
 		return [ (article, extractor.extract_content(article, 30)) for article in self.articles ]
 
 	def print_exercise(self, index_article_extractor=0):
-		print("ciaone")
 		extracted_articles = self.perform_exercise(index_article_extractor)
 		print("\n\n\n")
 		for e_a in extracted_articles:
 			print("article's title: -- ", e_a[0][0])
-			print("extracted words:\n\t", e_a[1])
+			print("extracted words:")
+			for extracted_paragraph in e_a[1]:
+				print("\t-", extracted_paragraph) 
 			print("\n\n---------------\n")
 
+#
+
 # the "main"
+
+#
 
 nm = ArticleManager()
 print("start:")
 
-'''
-print("start lines read:")
-nm.print_dd_nasari()
-print("end read lines")
-'''
 
 nm.print_exercise(0)
 print("\t###################\n\t#\tSEPARATOR\t#\n\t###################")
 nm.print_exercise(1)
 
-'''
-nasari_extractor = nm.article_extractors[1]
-wo = nasari_extractor.word_similarity("silicon", "helium" )
-print("wo: ", wo)
-wo = nasari_extractor.word_similarity("angstrom", "helium" )
-print("wo: ", wo)
-wo = nasari_extractor.word_similarity("angstrom", "silicon" )
-print("wo: ", wo)
-'''
 
 print("\n\n\nend")

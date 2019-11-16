@@ -1,36 +1,33 @@
 import math
-
+#import urllib2
+#import urllib
+#from urllib import request
+import requests
+'''
+from urllib.request import urlopen
+try:
+	from urllib import urlencode
+except ImportError: 
+	try:
+		from urllib.request import urlencode
+	except ImportError: 
+		from urllib.parse import urlencode
+import json
+import gzip
+try:
+	from StringIO import StringIO ## for Python 2
+except ImportError:
+	from io import StringIO ## for Python 3
+'''
+			 #"https://babelnet.io/v5/getSynset?id=bn:14792761n&key=c7f1058b-3674-4bc9-b345-d9f8ad54cafd"
+SERVICE_URL = 'https://babelnet.io/v5/getSynset'
+#SERVICE_URL = 'https://babelnet.io/v5/getSynsetIds'
+KEY = 'c7f1058b-3674-4bc9-b345-d9f8ad54cafd'
+LANG = "IT"
 MAX_RANGE = 4.0
+PREFIX_BN_SYNSET_REMOVED_ON_DICTIONARIES = "bn:"
 
 #class CosineSimilarityCalculator(object):
-
-def dot_product2(v1, v2):
-	return sum(map(lambda x, y: x*y , v1, v2))
-
-#
-def cosine_similarity_1(v1, v2):
-	prod = dot_product2(v1, v2)
-	len1 = math.sqrt(dot_product2(v1, v1))
-	len2 = math.sqrt(dot_product2(v2, v2))
-	return prod / (len1 * len2)
-
-#
-def cosine_similarity_2(a, b):
-	return sum([i*j for i,j in zip(a, b)])/(math.sqrt(sum([i*i for i in a]))* math.sqrt(sum([i*i for i in b])))
-
-#
-def cosine_similarity_3(text1, text2):
-	vec1 = text1
-	vec2 = text2
-	intersection = set(vec1.keys()) & set(vec2.keys())
-	numerator = sum([vec1[x] * vec2[x] for x in intersection])
-	sum1 = sum([vec1[x]**2 for x in vec1.keys()])
-	sum2 = sum([vec2[x]**2 for x in vec2.keys()])
-	denominator = math.sqrt(sum1) * math.sqrt(sum2)
-	if not denominator:
-		 return 0.0
-	else:
-		 return round(float(numerator) / denominator, 3)
 
 #
 #
@@ -111,9 +108,13 @@ class WordsToBabelNetIDMap(object):
 			self.synset_id_to_word[s] = word
 
 	def get_word_by_synset_id(self, synset_id):
+		if synset_id is None:
+			return None
 		return self.synset_id_to_word[synset_id] if synset_id in self.synset_id_to_word else None
 
 	def get_synsets_id_by_word(self, word):
+		if word is None:
+			return None
 		return self.word_to_synsets_id[word] if word in self.word_to_synsets_id else None
 
 #
@@ -164,14 +165,13 @@ class Es3Manager(object):
 					babelnet_id_synsets.append( line[3:].strip() )
 					line = fp.readline()
 				self.it_words_to_babelnet_id.add_match_word_to_synsets_id(word_name, babelnet_id_synsets)
-				#print("readin babelnet word_name: ", word_name, " -> ", babelnet_id_synsets)
 
 
 	def load_babelnet_words(self, file_name=None):
 		if self.bn_vectors is not None:
 			return self.bn_vectors
 		if file_name is None:
-			file_name = "./mini_NASARI_hardlink.tsv"
+			file_name = "./mini_NASARI.tsv"
 		self.bn_vectors = BabelNetVectorsManager()
 		with open(file_name, 'r') as fp:
 			line = fp.readline()
@@ -184,13 +184,16 @@ class Es3Manager(object):
 				vectors = [ float(x.strip()) for x in parts ]
 				parts = None
 				self.bn_vectors.add_word(bn_id, bn_word, vectors)
-				#print("\nreadin babelnet vector_identifier: id:", bn_id, ", word:", bn_word, ", vectors:", None) # vectors)
 				line = fp.readline()
 		return self.bn_vectors
 
+	#
+
 	def cosine_similarity(self, bn1, bn2):
-		# TODO
-		return cosine_similarity_1(bn1[2], bn2[2]) * MAX_RANGE
+		#cosine_similarity(bn1[2], bn2[2])
+		a = bn1[2] 
+		b = bn2[2] 
+		return sum([i*j for i,j in zip(a, b)])/(math.sqrt(sum([i*i for i in a]))* math.sqrt(sum([i*i for i in b]))) * MAX_RANGE
 
 	def tuple_bnvectors_score(self, w1, w2):
 		#first redirect/mapping described on the "mappature" part, close to the EOF
@@ -200,7 +203,7 @@ class Es3Manager(object):
 			return None
 		greater_ss1 = None
 		greater_ss2 = None
-		greater_ss_similarity = 0
+		greater_ss_similarity = -2
 		caching_ss2_to_bnvectors = {}
 		#now perform the second mapping: start it through ...
 
@@ -210,6 +213,7 @@ class Es3Manager(object):
 			if bn is not None:
 				caching_ss2_to_bnvectors[ss2] = bn
 
+		cos_sim = self.cosine_similarity #cache the function
 		for ss1 in synsets1:
 			#second and last part of the second mapping
 			bn1 = self.bn_vectors.get_by_bn_id(ss1)
@@ -217,7 +221,7 @@ class Es3Manager(object):
 				for ss2 in caching_ss2_to_bnvectors:
 					bn2 = caching_ss2_to_bnvectors[ss2]
 					#i have all synset pairs
-					score = self.cosine_similarity(bn1, bn2)
+					score = cos_sim(bn1, bn2)
 					if score > greater_ss_similarity:
 						greater_ss_similarity = score
 						greater_ss1 = ss1
@@ -225,11 +229,57 @@ class Es3Manager(object):
 						#tuple_bnvectors_score = score # a che serve?
 			#else:
 			#	print(ss1, "not mapped in babelnet")
+		if greater_ss1 is None:
+			glossa_ss1 = None
+		else:	
+			glossa_ss1 = self.get_babelnet_gloss_by_babel_id(PREFIX_BN_SYNSET_REMOVED_ON_DICTIONARIES + greater_ss1)
+		if greater_ss2 is None:
+			glossa_ss2 = None
+		else:	
+			glossa_ss2 = self.get_babelnet_gloss_by_babel_id(PREFIX_BN_SYNSET_REMOVED_ON_DICTIONARIES + greater_ss2)
+		return (greater_ss1, greater_ss2, greater_ss_similarity, glossa_ss1, glossa_ss2)
 
+	#
 
+	def get_babelnet_gloss_by_word(self, word):
 
-		# TODO perform similarity
-		return (greater_ss1, greater_ss2, greater_ss_similarity)
+		'''
+		a word string, not the babel_id
+		'''
+		return None
+
+	def get_babelnet_gloss_by_babel_id(self, babel_id):
+		params = {
+			'id' : babel_id,
+			'searchLang' : LANG,
+			'key'  : "c7f1058b-3674-4bc9-b345-d9f8ad54cafd"
+		}
+		'''
+		url = SERVICE_URL + '?' + urlencode(params)
+		req = request(url)
+		req.add_header('Accept-encoding', 'gzip')
+		response = urlopen(req)
+		results = []
+		if response.info().get('Content-Encoding') == 'gzip':
+				buf = StringIO( response.read())
+				f = gzip.GzipFile(fileobj=buf)
+				data = json.loads(f.read())
+				for result in data:
+						results.append(result['id'])
+		return results
+		'''
+		'''
+		'''
+		r = requests.get(url=SERVICE_URL, params=params)
+		data = r.json()
+
+		#print("\n\n ........ get_babelnet_gloss of", babel_id, ": ###", data)
+
+		if data is None or len(data["glosses"]) == 0:
+			return ["GLOSS INESISTENTE"]
+		else:
+			return [ g["gloss"] for g in data["glosses"] ]
+	#
 
 	def perform_exercise(self):
 		self.load_pairs_scored_by_hands()
@@ -237,7 +287,6 @@ class Es3Manager(object):
 		self.load_babelnet_words()
 
 		print("\n\n\n--------READ\n\n")
-
 		results = []
 		'''
 		for pair in self.pairs_scored_by_hand:
@@ -248,6 +297,7 @@ class Es3Manager(object):
 		return results
 
 	def print_exercise(self):
+		print("START\n\n\n")
 		res = self.perform_exercise()
 		for r in res:
 			print("\n\n w1: ", r[0], ", w2: ", r[1])
@@ -258,11 +308,15 @@ class Es3Manager(object):
 			if computed_score is None:
 				print("\t\tNone")
 			else:
-				print("\t\t", computed_score[2], ".....from: ", computed_score[0], "->", self.it_words_to_babelnet_id.get_word_by_synset_id(computed_score[0]), "and", computed_score[1], "->", self.it_words_to_babelnet_id.get_word_by_synset_id(computed_score[1]))
-
-	#deprecated
-	'''
-	def word_dissimilarity(w1, s2):
+				w1 = self.it_words_to_babelnet_id.get_word_by_synset_id(computed_score[0])
+				w2 = self.it_words_to_babelnet_id.get_word_by_synset_id(computed_score[1])
+				print("\t\t", computed_score[2], ".....from: ", computed_score[0], "->", w1 , "and", computed_score[1], "->", w2)
+				print("\t\thaving glossa:\n\t\t - ", w1)
+				print("\t\t\t ", computed_score[3])
+				print("\t\t - ", w2)
+				print("\t\t\t ", computed_score[4])
+	#(w1, s2):
+		print("\n\n\nEND")
 		return None
 	'''
 
@@ -273,12 +327,24 @@ class Es3Manager(object):
 # quindi
 # "100_coppie.." -> "SemVal17_IT.." -> "mini_babelnet..."
 
-
-em = Es3Manager()
-em.load_pairs_scored_by_hands()
 '''
+
+'''
+em.load_pairs_scored_by_hands()
 printer = lambda w1, w2, sim_prior : print("w1:\t", w1, ", w2:\t", w2, ",\tsim_prior: ", sim_prior)
 #printer = lambda w1, w2, sim_prior, sim_computed : print("w1:\t", w1, ", w2:\t", w2, ",\tsim_prior: ", sim_prior, ",\tsim_computed: ", sim_computed)
 em.pairs_scored_by_hand.for_each(printer)
 '''
+em = Es3Manager()
 em.print_exercise()
+'''
+import pprint
+d = requests.get("https://babelnet.io/v5/getSynset?id=bn:14792761n&key=c7f1058b-3674-4bc9-b345-d9f8ad54cafd").json()
+print(d)
+print("\n\n\n\n\n\n\n............\n\n\n\n ")
+pp = pprint.PrettyPrinter(indent=4)
+pp.pprint(d)
+
+print("\n\n\n\n\n\n\n.......babel gloss.....\n\n\n\n ")
+'''
+
