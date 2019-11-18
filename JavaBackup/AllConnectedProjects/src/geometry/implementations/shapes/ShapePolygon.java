@@ -16,7 +16,7 @@ public class ShapePolygon extends AbstractShapeFillableImpl {
 	}
 
 	public ShapePolygon(Point2D[] points, boolean isFilled) {
-		super(ShapeRunnersImplemented.Polygon, 0.0, 0, 0, isFilled);
+		super(isFilled ? ShapeRunnersImplemented.Polygon : ShapeRunnersImplemented.PolygonBorder, 0.0, 0, 0, isFilled);
 		setPoints(points);
 	}
 
@@ -48,6 +48,7 @@ public class ShapePolygon extends AbstractShapeFillableImpl {
 				}
 				this.xCenter = (int) Math.round(meanx);
 				this.yCenter = (int) Math.round(meany);
+				System.out.println(this.getCenter());
 			}
 		}
 		return this;

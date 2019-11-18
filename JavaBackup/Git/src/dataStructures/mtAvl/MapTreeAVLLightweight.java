@@ -849,6 +849,45 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		throw new UnsupportedOperationException("Not enought informations in this class to implement it");
 	}
 
+	@Override
+	public Entry<K, V> getLowesCommonAncestor(K k1, K k2) {
+//		Entry<K, V>
+		int c1, c2;
+		NodeAVL n, prev;
+		if (root == NIL)
+			return null;
+		n = root;
+		if (comp.compare(k1, k2) == 0) {
+			do {
+				prev = n;
+				c1 = comp.compare(k1, n.k);
+				n = (c1 < 0) ? n.left : n.right;
+			} while (n != NIL);
+		} else {
+			boolean notFound, c1low, c2low;
+			notFound = true;
+			do {
+				prev = n;
+				c1 = comp.compare(k1, n.k);
+				if (c1 == 0)
+					return n;
+				c2 = comp.compare(k2, n.k);
+				if (c2 == 0)
+					return n;
+				c1low = c1 < 0;
+				c2low = c2 < 0;
+				// if all belongs to the same child's subnodes -> go there
+				if (c1low && c2low)
+					n = n.left;
+				else if (!(c1low || c2low))
+					n = n.right;
+				else
+					notFound = false;
+			} while (notFound && n != NIL);
+		}
+		return prev;
+	}
+
 	// TODO MERGE
 
 	/**

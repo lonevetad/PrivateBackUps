@@ -7,8 +7,8 @@ import dataStructures.graph.PathFindStrategy;
 import geometry.AbstractShape2D;
 import geometry.AbstractShapeRunner;
 import geometry.ProviderObjectsInSpace;
-import geometry.ProviderShapeRunner;
 import geometry.ProviderShapesIntersectionDetector;
+import geometry.implementations.ProviderShapeRunnerImpl;
 import tools.LoggerMessages;
 import videogames.gridObjectManager.core.GomConsumer;
 
@@ -53,7 +53,7 @@ public interface InSpaceObjectsManager extends Serializable {
 
 	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector();
 
-	public ProviderShapeRunner getProviderShapeRunner();
+	public ProviderShapeRunnerImpl getProviderShapeRunner();
 
 	//
 
@@ -72,7 +72,7 @@ public interface InSpaceObjectsManager extends Serializable {
 	public void setProviderShapesIntersectionDetector(
 			ProviderShapesIntersectionDetector providerShapesIntersectionDetector);
 
-	public void setProviderShapeRunner(ProviderShapeRunner providerShapeRunner);
+	public void setProviderShapeRunner(ProviderShapeRunnerImpl providerShapeRunner);
 
 //
 

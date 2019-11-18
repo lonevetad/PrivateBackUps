@@ -7,8 +7,12 @@ import geometry.implementations.shapes.subHierarchy.AbstractShapeFillableImpl;
 public class ShapePolygonRegular extends AbstractShapeFillableImpl {
 	private static final long serialVersionUID = 326178704L;
 
+	public ShapePolygonRegular() {
+		this(ShapeRunnersImplemented.PolygonRegularBorder);
+	}
+
 	public ShapePolygonRegular(ShapeRunnersImplemented shapeImplementing) {
-		super(shapeImplementing);
+		super(shapeImplementing == null ? ShapeRunnersImplemented.PolygonRegularBorder : shapeImplementing);
 		this.diameter = 0;
 		this.cornersAmounts = 0;
 	}
@@ -20,7 +24,7 @@ public class ShapePolygonRegular extends AbstractShapeFillableImpl {
 	}
 
 	public ShapePolygonRegular(double angleRotation, int x, int y, boolean isFilled, int diameter, int cornersAmounts) {
-		super(ShapeRunnersImplemented.Polygon, angleRotation, x, y, isFilled);
+		super(ShapeRunnersImplemented.PolygonRegularBorder, angleRotation, x, y, isFilled);
 		if (diameter < 0)
 			throw new IllegalArgumentException("Radius cannot be negative: " + diameter);
 		this.diameter = diameter;
