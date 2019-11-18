@@ -1,14 +1,14 @@
-antropologia	archeologia	2.5
+antropologia	archeologia	3.1
 Dell	Dingle	0.1
 succo	cucchiaio	1.1
 Pfizer	medicinale	3.4
-camion	pacco	2.5
+camion	pacco	1.8
 recettore	molecola proteica	2.8
 Google Drive	driver	1.3
 miliardario	senzatetto	3.8
-episodio	capitolo	2.9
-infinito	zero	3.8
-servo	schiavo	3.7
+episodio	capitolo	3.9
+infinito	zero	3.85
+servo	schiavo	3.87
 suffisso	affisso	1.6
 riscaldamento globale	calore	2.8
 ormone della crescita	somatotropina	4.0
@@ -97,4 +97,4 @@ cameo	interpretazione	2.7
 semestre	quadrimestre	3.8
 arancia	agrume	2.8
 ghiacciaio	riscaldamento globale	1.8
-galleria	percorso	0.65
+galleria	percorso	2.65

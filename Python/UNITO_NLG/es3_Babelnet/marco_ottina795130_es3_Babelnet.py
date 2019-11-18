@@ -207,16 +207,19 @@ class Es3Manager(object):
 		caching_ss2_to_bnvectors = {}
 		#now perform the second mapping: start it through ...
 
-		#..filling the cache
+		#..filling the cache:
+		# since the retrival operation requires an Internet connection,
+		# ti's wise to perform it only once and hold results in RAM
+		vector_retriver_by_id = self.bn_vectors.get_by_bn_id #cache the function, also
 		for ss2 in synsets2:
-			bn = self.bn_vectors.get_by_bn_id(ss2)
+			bn = vector_retriver_by_id(ss2)
 			if bn is not None:
 				caching_ss2_to_bnvectors[ss2] = bn
 
 		cos_sim = self.cosine_similarity #cache the function
 		for ss1 in synsets1:
 			#second and last part of the second mapping
-			bn1 = self.bn_vectors.get_by_bn_id(ss1)
+			bn1 = vector_retriver_by_id(ss1)
 			if bn1 is not None:
 				for ss2 in caching_ss2_to_bnvectors:
 					bn2 = caching_ss2_to_bnvectors[ss2]
@@ -273,8 +276,6 @@ class Es3Manager(object):
 		r = requests.get(url=SERVICE_URL, params=params)
 		data = r.json()
 
-		#print("\n\n ........ get_babelnet_gloss of", babel_id, ": ###", data)
-
 		if data is None or len(data["glosses"]) == 0:
 			return ["GLOSS INESISTENTE"]
 		else:
@@ -286,7 +287,6 @@ class Es3Manager(object):
 		self.load_it_words_to_babelnet_id_map()
 		self.load_babelnet_words()
 
-		print("\n\n\n--------READ\n\n")
 		results = []
 		'''
 		for pair in self.pairs_scored_by_hand:
@@ -297,7 +297,6 @@ class Es3Manager(object):
 		return results
 
 	def print_exercise(self):
-		print("START\n\n\n")
 		res = self.perform_exercise()
 		for r in res:
 			print("\n\n w1: ", r[0], ", w2: ", r[1])
@@ -316,7 +315,6 @@ class Es3Manager(object):
 				print("\t\t - ", w2)
 				print("\t\t\t ", computed_score[4])
 	#(w1, s2):
-		print("\n\n\nEND")
 		return None
 	'''
 
@@ -336,7 +334,14 @@ printer = lambda w1, w2, sim_prior : print("w1:\t", w1, ", w2:\t", w2, ",\tsim_p
 em.pairs_scored_by_hand.for_each(printer)
 '''
 em = Es3Manager()
+
+print("START\n\n\n")
+
 em.print_exercise()
+
+print("\n\n\nEND")
+
+
 '''
 import pprint
 d = requests.get("https://babelnet.io/v5/getSynset?id=bn:14792761n&key=c7f1058b-3674-4bc9-b345-d9f8ad54cafd").json()

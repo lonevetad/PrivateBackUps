@@ -15,13 +15,16 @@ TAG_DICT = {"J": wn.ADJ,
 			"R": wn.ADV}
 WORDS_FROM_SEM_CORPUS = 50 # dovrebbero essere 50
 
-def name_pure_from_synset(synset):
+def extract_synset_name(synset):
 	if synset is None:
 		return None
 	name = synset.name()
+	'''
+	old vesion, collapsing different synsets with the same "literals"
 	index = name.find('.')
 	return name[:index] if index >= 0 else name
-
+	'''
+	return name
 
 def extract_wnpostag_from_postag(tag):
 	#version 2:
@@ -127,6 +130,14 @@ def computeOverlap(signature, context):
 	a word to be disambiguated) and a context (a list of lemmatized words from a sentence holding the word
 	to be disambiguated), compute the overlapping: just count the intersection of lemmatized words
 	"""
+	'''
+	Knowing that the stemming implemente on nltk package is badly implemented as it
+	returns the first shortest-in-length word (i.e., it could return a plural word
+	if it's as long as the single one, like 'men' and 'man'), the overlapping could
+	be computed as the best overlapping among all possible alternatives provided by
+	the call "wn._morphy(your_word_as_string, wn.ASSOCIATED-POS_TAG)", but
+	this could be a not easy, not trivial and heavy computation. -> Too lazy.
+	'''
 	sign = signature # set([ w[0] for w in signature])
 	contx = set([ w[0] for w in context])
 	return len(sign & contx) + 1
@@ -231,9 +242,9 @@ def perform_exercise_SemCor(sentences_tree = None):
 		return None
 	matches = 0
 	total_matches = 0
-
+	#caching of functions
 	lesk_fn = nltk.wsd.lesk
-	nameextractor = name_pure_from_synset
+	nameextractor = extract_synset_name
 	for s_t in sentences_tree:
 		tagged_sentence = extract_taggedSentence_from_sentenceTree(s_t)
 		nouns = extract_nouns_from_taggedSentence(tagged_sentence)
