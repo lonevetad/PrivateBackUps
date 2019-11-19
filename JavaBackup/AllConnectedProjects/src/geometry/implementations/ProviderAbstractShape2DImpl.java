@@ -1,5 +1,7 @@
 package geometry.implementations;
 
+import java.awt.geom.Point2D;
+
 import geometry.AbstractShape2D;
 import geometry.ProviderAbstractShape2D;
 import geometry.ShapeRunnersImplemented;
@@ -9,6 +11,7 @@ import geometry.implementations.shapes.ShapePoint;
 import geometry.implementations.shapes.ShapePolygon;
 import geometry.implementations.shapes.ShapePolygonRegular;
 import geometry.implementations.shapes.ShapeRectangle;
+import geometry.implementations.shapes.ShapeTriangle;
 
 public class ProviderAbstractShape2DImpl implements ProviderAbstractShape2D {
 	private static ProviderAbstractShape2DImpl SINGLETON;
@@ -54,9 +57,11 @@ public class ProviderAbstractShape2DImpl implements ProviderAbstractShape2D {
 		case RectangleBorder:
 			return new ShapeRectangle(false);
 		case Triangle:
-			break;
+			return (new ShapeTriangle(true)).setVertexes(new Point2D.Double[] { //
+					new Point2D.Double(5, 5), new Point2D.Double(2, 8), new Point2D.Double(9, 13) });
 		case TriangleBorder:
-			break;
+			return (new ShapeTriangle(false)).setVertexes(new Point2D.Double[] { //
+					new Point2D.Double(5, 5), new Point2D.Double(2, 8), new Point2D.Double(9, 13) });
 		default:
 			break;
 

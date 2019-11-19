@@ -8,32 +8,36 @@ import java.util.function.BiConsumer;
 import dataStructures.MapTreeAVL;
 import tools.LoggerMessages;
 
-public abstract class GraphSimple<E> {
+public abstract class GraphSimple<E, Distance> {
 
-	public static enum ColorDijkstra {
-		White, Grey, Black;
+	public static enum NodePositionInFrontier {
+		NeverAdded, InFrontier, Closed;
 	}
 
-	public static final Comparator<Integer> INT_COMPARATOR = // Integer::compare;
-			(i1, i2) -> {
-				if (i1 == null && i2 == null)
-					return 0;
-				if (i1 == null)
-					return -1;
-				if (i2 == null)
-					return 1;
-				return Integer.compare(i1, i2);
-			};
-	public static final Comparator<Double> DOUBLE_COMPARATOR = // Integer::compare;
-			(i1, i2) -> {
-				if (i1 == null && i2 == null)
-					return 0;
-				if (i1 == null)
-					return -1;
-				if (i2 == null)
-					return 1;
-				return Double.compare(i1, i2);
-			};
+	/**
+	 * public static final Comparator<Integer> INT_COMPARATOR = // Integer::compare;
+	 * // <br>
+	 * (i1, i2) -> { // <br>
+	 * if (i1 == null && i2 == null) // <br>
+	 * return 0; // <br>
+	 * if (i1 == null) // <br>
+	 * return -1; // <br>
+	 * if (i2 == null) // <br>
+	 * return 1; // <br>
+	 * return Integer.compare(i1, i2); // <br>
+	 * }; // <br>
+	 * public static final Comparator<Double> DOUBLE_COMPARATOR = //
+	 * Integer::compare; // <br>
+	 * (i1, i2) -> { // <br>
+	 * if (i1 == null && i2 == null) // <br>
+	 * return 0; // <br>
+	 * if (i1 == null) // <br>
+	 * return -1; // <br>
+	 * if (i2 == null) // <br>
+	 * return 1; // <br>
+	 * return Double.compare(i1, i2); // <br>
+	 * }; // <br>
+	 */
 
 	//
 
@@ -47,13 +51,13 @@ public abstract class GraphSimple<E> {
 	protected final Map<E, NodeGraph> nodes;
 	protected final Comparator<E> comparatorElements;
 	protected LoggerMessages log;
-	protected PathFindStrategy<E> pathFinder;
+	protected PathFindStrategy<E, Distance> pathFinder;
 
-	public GraphSimple(PathFindStrategy<E> pathFinder, Comparator<E> comparatorElements) {
+	public GraphSimple(PathFindStrategy<E, Distance> pathFinder, Comparator<E> comparatorElements) {
 		this(false, pathFinder, comparatorElements);
 	}
 
-	public GraphSimple(boolean isDirected, PathFindStrategy<E> pathFinder, Comparator<E> comparatorElements) {
+	public GraphSimple(boolean isDirected, PathFindStrategy<E, Distance> pathFinder, Comparator<E> comparatorElements) {
 		if (comparatorElements == null)
 			throw new IllegalArgumentException("Element's comparator cannot be null");
 		this.isDirected = isDirected;
@@ -89,7 +93,7 @@ public abstract class GraphSimple<E> {
 		return linksAmount;
 	}
 
-	public PathFindStrategy<E> getPathFinder() {
+	public PathFindStrategy<E, Distance> getPathFinder() {
 		return pathFinder;
 	}
 
@@ -107,12 +111,12 @@ public abstract class GraphSimple<E> {
 
 	//
 
-	public GraphSimple<E> setLog(LoggerMessages log) {
+	public GraphSimple<E, Distance> setLog(LoggerMessages log) {
 		this.log = log;
 		return this;
 	}
 
-	public GraphSimple<E> setPathFinder(PathFindStrategy<E> pathFinder) {
+	public GraphSimple<E, Distance> setPathFinder(PathFindStrategy<E, Distance> pathFinder) {
 		this.pathFinder = pathFinder;
 		return this;
 	}
@@ -135,8 +139,7 @@ public abstract class GraphSimple<E> {
 		nodes.put(e, n);
 	}
 
-	public void addLink(E from, E dest, int distance) {
-		Integer dist;
+	public void addLink(E from, E dest, Distance distance) {
 		NodeGraph f, d;
 		f = nodes.get(from);
 		d = nodes.get(dest);
@@ -145,11 +148,10 @@ public abstract class GraphSimple<E> {
 		if (d == null)
 			nodes.put(dest, d = newNodeGraph(dest));
 //				if(!f.getAdjacent().containsKey(d)) {}
-		dist = Integer.valueOf(distance);
-		if (f.adjacents.put(d, dist) == null)
+		if (f.adjacents.put(d, distance) == null)
 			this.linksAmount++;
 		if (!this.isDirected)
-			if (d.adjacents.put(f, dist) == null)
+			if (d.adjacents.put(f, distance) == null)
 				this.linksAmount++;
 	}
 
@@ -197,14 +199,14 @@ public abstract class GraphSimple<E> {
 		return nf.adjacents.containsKey(dest);
 	}
 
-	public PathGraph<E> getPath(E start, E dest) {
-		return this.pathFinder == null ? null : this.pathFinder.getPath(this, start, dest);
+	public PathGraph<E, Distance> getPath(E start, E dest, NodeDistanceManager<Distance> distanceManager) {
+		return this.pathFinder == null ? null : this.pathFinder.getPath(this, start, dest, distanceManager);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb;
-		BiConsumer<NodeGraph, Integer> adjPrinter;
+		BiConsumer<NodeGraph, Distance> adjPrinter;
 		sb = new StringBuilder(1024);
 		sb.append("Graph ").append(isDirected ? "directed" : "undirected").append(" having ").append(this.linksAmount)
 				.append(" links and this nodes:\n");
@@ -231,9 +233,9 @@ public abstract class GraphSimple<E> {
 	// subclasses
 
 	public abstract class NodeGraph {
-//				Integer id;ColorDijkstra
+//				Integer id;NodePositionInFrontier
 		private E elem;
-		protected Map<NodeGraph, Integer> adjacents; // the "value" is the distance
+		protected Map<NodeGraph, Distance> adjacents; // the "value" is the distance
 		// for dijkstra
 
 		protected NodeGraph(E e) {
@@ -247,7 +249,7 @@ public abstract class GraphSimple<E> {
 //			return adjacents;
 //		}
 
-		public void forEachAdjacents(BiConsumer<NodeGraph, Integer> consumer) {
+		public void forEachAdjacents(BiConsumer<NodeGraph, Distance> consumer) {
 			checkAdj();
 			if (!adjacents.isEmpty())
 				adjacents.forEach(consumer);

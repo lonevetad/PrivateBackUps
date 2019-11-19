@@ -1,13 +1,12 @@
 package geometry.implementations.intersectors;
 
-import geometry.AbstractShape2D;
-import geometry.ShapesIntersectionDetector;
-
-public class LineToRectangleIntersector implements ShapesIntersectionDetector {
+public class LineToRectangleIntersector extends PolygonToLineIntersection {
 	private static final long serialVersionUID = 1111L;
+	private static LineToRectangleIntersector SINGLETON;
 
-	@Override
-	public boolean areIntersecting(AbstractShape2D s1, AbstractShape2D s2) {
-
+	public static LineToRectangleIntersector getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new LineToRectangleIntersector();
+		return SINGLETON;
 	}
 }

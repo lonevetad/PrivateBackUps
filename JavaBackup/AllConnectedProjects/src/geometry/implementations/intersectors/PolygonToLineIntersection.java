@@ -6,14 +6,21 @@ import java.awt.geom.Point2D;
 import java.util.LinkedList;
 import java.util.List;
 
+import geometry.AbstractShape2D;
+import geometry.ShapesIntersectionDetector;
+import geometry.implementations.shapes.ShapeLine;
+import geometry.pointTools.impl.PolygonUtilities;
 import tools.MathUtilities;
-import tools.geometry.AbstractShape;
-import tools.geometry.ShapesIntersectionDetector;
-import tools.geometry.implementations.shapes.ShapeLine;
-import tools.geometry.pointTools.impl.PolygonPointsConsumer;
 
 public class PolygonToLineIntersection implements ShapesIntersectionDetector {
 	private static final long serialVersionUID = 651246543015L;
+	private static PolygonToLineIntersection SINGLETON;
+
+	public static PolygonToLineIntersection getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new PolygonToLineIntersection();
+		return SINGLETON;
+	}
 
 	@Override
 	public boolean areIntersecting(AbstractShape2D s1, AbstractShape2D s2) {
@@ -35,9 +42,9 @@ public class PolygonToLineIntersection implements ShapesIntersectionDetector {
 		if (l1 == null || polygon == null)
 			return false;
 
-		if (PolygonPointsUtilities.isPointInsideThePolygon(line.getP1(), polygon)
-				|| PolygonPointsUtilities.isPointInsideThePolygon(line.getP2(), polygon)
-				|| PolygonPointsUtilities.isPointInsideThePolygon(s1.getCenter(), polygon))
+		if (PolygonUtilities.isPointInsideThePolygon(line.getP1(), polygon)
+				|| PolygonUtilities.isPointInsideThePolygon(line.getP2(), polygon)
+				|| PolygonUtilities.isPointInsideThePolygon(s1.getCenter(), polygon))
 			return true;
 		// perform check on the tinier polygon and put in secondPoint
 		len = polygon.npoints;

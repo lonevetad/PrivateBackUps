@@ -12,7 +12,7 @@ import java.util.TreeMap;
 
 public class SearchFileContainingString {
 
-	public static final String[] defaultExtension = { "fileList", "txt", "c", "lua", "htm", "html", "js", "py", "php",
+	public static final String[] defaultExtension = { "fileList", "txt", "c", "lua", "htm", "html", "jsDiameter", "py", "php",
 			"h", "yml", "config", "java", "go", "golang", "sh", "log" };
 	public static final Comparator<String> stringComparator = (String s1, String s2) -> {
 		if (s1 == s2)

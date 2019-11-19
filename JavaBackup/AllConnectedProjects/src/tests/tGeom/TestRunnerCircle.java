@@ -148,7 +148,7 @@ public class TestRunnerCircle extends TestGeneric {
 			pContainer.add(jb, c);
 			c.gridx = 6;
 			js = new JSpinner(new SpinnerNumberModel(16, 1, 1000, 1));
-//			jb = new JButton("Set the radius");
+//			jbDiameter = new JButton("Set the radius");
 			pContainer.add(js, c);
 
 			jp = new JPanel() {

@@ -4,7 +4,7 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import geometry.pointTools.impl.PolygonPointsUtilities;
+import geometry.pointTools.impl.PolygonUtilities;
 
 public class TestStressPolygonIsInside {
 
@@ -16,7 +16,7 @@ public class TestStressPolygonIsInside {
 		Random r;
 		Point2D pointInside, pointOutside;
 
-//		System.out.println(PolygonPointsUtilities
+//		System.out.println(PolygonUtilities
 //				.areaPolygon2D(new Polygon(new int[] { 0, 10, 0, 10, 0 }, new int[] { 0, 0, 5, 10, 10 }, 5)));
 
 		r = new Random();
@@ -50,12 +50,12 @@ public class TestStressPolygonIsInside {
 			System.out.println("---\nstart mine.. inside");
 			start = System.currentTimeMillis();
 			for (int i = 0; i < repetitions; i++)
-				PolygonPointsUtilities.isPointInsideThePolygon(pointInside, p);
+				PolygonUtilities.isPointInsideThePolygon(pointInside, p);
 			delta = System.currentTimeMillis() - start;
 			System.out.print("\tdelta: " + delta + "\noutside:\n\t");
 			start = System.currentTimeMillis();
 			for (int i = 0; i < repetitions; i++)
-				PolygonPointsUtilities.isPointInsideThePolygon(pointOutside, p);
+				PolygonUtilities.isPointInsideThePolygon(pointOutside, p);
 			delta = System.currentTimeMillis() - start;
 			System.out.println(delta);
 

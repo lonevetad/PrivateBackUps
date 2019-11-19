@@ -3,19 +3,22 @@ package dataStructures.graph;
 import java.util.Comparator;
 import java.util.function.BiConsumer;
 
-public class GraphSimpleSynchronized<E> extends GraphSimple<E> {
+// 2019-11-17 : DijkstraColor is changed to NodePositionInFrontier
+public class GraphSimpleSynchronized<E, Distance> extends GraphSimple<E, Distance> {
 
 	protected int pathFindRuns;
 
 	//
 
-	public GraphSimpleSynchronized(boolean isDirected, PathFindStrategy<E> pathFinder,
+	//
+
+	public GraphSimpleSynchronized(boolean isDirected, PathFindStrategy<E, Distance> pathFinder,
 			Comparator<E> comparatorElements) {
 		super(isDirected, pathFinder, comparatorElements);
 		this.pathFindRuns = 0;
 	}
 
-	public GraphSimpleSynchronized(PathFindStrategy<E> pathFinder, Comparator<E> comparatorElements) {
+	public GraphSimpleSynchronized(PathFindStrategy<E, Distance> pathFinder, Comparator<E> comparatorElements) {
 		super(pathFinder, comparatorElements);
 		this.pathFindRuns = 0;
 	}
@@ -34,7 +37,7 @@ public class GraphSimpleSynchronized<E> extends GraphSimple<E> {
 		return pathFindRuns;
 	}
 
-	public GraphSimpleSynchronized<E> setPathFindRuns(int pathFindRuns) {
+	public GraphSimpleSynchronized<E, Distance> setPathFindRuns(int pathFindRuns) {
 		this.pathFindRuns = pathFindRuns;
 		return this;
 	}
@@ -44,7 +47,7 @@ public class GraphSimpleSynchronized<E> extends GraphSimple<E> {
 	@Override
 	public String toString() {
 		StringBuilder sb;
-		BiConsumer<NodeGraph, Integer> adjPrinter;
+		BiConsumer<NodeGraph, Distance> adjPrinter;
 		sb = new StringBuilder(1024);
 		sb.append("Graph ").append(isDirected ? "directed" : "undirected").append(" having ").append(this.linksAmount)
 				.append(" links and this nodes:\n");
@@ -65,22 +68,22 @@ public class GraphSimpleSynchronized<E> extends GraphSimple<E> {
 
 	public class NodeGraphSimpleSynchronized extends NodeGraph {
 		// for dijkstra
-		protected int pathFIndierIdRuns;
-		protected ColorDijkstra color;
-		private Integer distFromStart;
-		private Integer distFromFather;
+		protected int pathFindierIdRuns;
+		protected NodePositionInFrontier color;
+		private Distance distFromStart;
+		private Distance distFromFather;
 		private NodeGraphSimpleSynchronized father;
 
 		protected NodeGraphSimpleSynchronized(E e) {
 			super(e);
-			pathFIndierIdRuns = 0;
+			pathFindierIdRuns = 0;
 			checkAndReset(-1);
 		}
 
 		public void checkAndReset(int dr) {
-			if (dr != pathFIndierIdRuns) {
-				pathFIndierIdRuns = dr;
-				color = ColorDijkstra.White;
+			if (dr != pathFindierIdRuns) {
+				pathFindierIdRuns = dr;
+				color = NodePositionInFrontier.NeverAdded;
 				distFromStart = distFromFather = null;
 				father = null;
 			}
@@ -96,18 +99,18 @@ public class GraphSimpleSynchronized<E> extends GraphSimple<E> {
 		}
 
 		public int getDijkstraRuns() {
-			return pathFIndierIdRuns;
+			return pathFindierIdRuns;
 		}
 
-		public ColorDijkstra getColor() {
+		public NodePositionInFrontier getColor() {
 			return color;
 		}
 
-		public Integer getDistFromStart() {
+		public Distance getDistFromStart() {
 			return distFromStart;
 		}
 
-		public Integer getDistFromFather() {
+		public Distance getDistFromFather() {
 			return distFromFather;
 		}
 
@@ -116,21 +119,21 @@ public class GraphSimpleSynchronized<E> extends GraphSimple<E> {
 		}
 
 		public NodeGraphSimpleSynchronized setDijkstraRuns(int dijkstraRuns) {
-			this.pathFIndierIdRuns = dijkstraRuns;
+			this.pathFindierIdRuns = dijkstraRuns;
 			return this;
 		}
 
-		public NodeGraphSimpleSynchronized setColor(ColorDijkstra color) {
+		public NodeGraphSimpleSynchronized setColor(NodePositionInFrontier color) {
 			this.color = color;
 			return this;
 		}
 
-		public NodeGraphSimpleSynchronized setDistFromStart(Integer distFromStart) {
+		public NodeGraphSimpleSynchronized setDistFromStart(Distance distFromStart) {
 			this.distFromStart = distFromStart;
 			return this;
 		}
 
-		public NodeGraphSimpleSynchronized setDistFromFather(Integer distFromFather) {
+		public NodeGraphSimpleSynchronized setDistFromFather(Distance distFromFather) {
 			this.distFromFather = distFromFather;
 			return this;
 		}
