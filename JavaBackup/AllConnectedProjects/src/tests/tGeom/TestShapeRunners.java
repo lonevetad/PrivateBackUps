@@ -4,11 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.TextField;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import dataStructures.MapTreeAVL;
 import geometry.AbstractShape2D;
 import geometry.AbstractShapeRunner;
 import geometry.ProviderAbstractShape2D;
@@ -26,6 +32,7 @@ import geometry.implementations.ProviderAbstractShape2DImpl;
 import geometry.implementations.ProviderShapeRunnerImpl;
 import geometry.implementations.shapeRunners.ShapeRunnerPolygonBorder;
 import geometry.implementations.shapes.ShapeCircle;
+import geometry.implementations.shapes.ShapeLine;
 import geometry.implementations.shapes.ShapePolygon;
 import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.PointConsumer;
@@ -37,8 +44,8 @@ public class TestShapeRunners extends TestGeneric {
 	public TestShapeRunners() {
 	}
 
-	protected class CircleRunnerModel extends ShapeModel {
-		protected CircleRunnerModel() {
+	protected class ShapeRunnersModel extends ShapeModel {
+		protected ShapeRunnersModel() {
 			super(new ShapeCircle(false));
 			ctpoi = new ColorToPaintOnImage();
 
@@ -68,10 +75,12 @@ public class TestShapeRunners extends TestGeneric {
 		}
 
 		boolean showWeirdRectangle;
-		int diameter, angle;
+		int diameter;
+		double angle;
 		BufferedImage bi;
 		MyObserver<AbstractShape2D> shapeObserver;
 		MyObserver<ColorToPaintOnImage> imageObserver;
+		MyObserver<ShapeRunnersImplemented> shapeRunnersImplementedObserver;
 		final ColorToPaintOnImage ctpoi;
 		ShapeRunnersImplemented[] shapesToTest;
 		ProviderShapeRunnerImpl providerShapeRunner;
@@ -88,13 +97,19 @@ public class TestShapeRunners extends TestGeneric {
 			shapesToTest = new ShapeRunnersImplemented[] { ShapeRunnersImplemented.Disk,
 					ShapeRunnersImplemented.Circumference, ShapeRunnersImplemented.Line,
 					// ShapeRunnersImplemented.PolygonBorder, // no way to set points
-					ShapeRunnersImplemented.RectangleBorder, ShapeRunnersImplemented.Rectangle };
+					ShapeRunnersImplemented.RectangleBorder, ShapeRunnersImplemented.Rectangle, //
+					ShapeRunnersImplemented.Triangle, ShapeRunnersImplemented.TriangleBorder };
 			ctpoi.bi = bi = new BufferedImage(MAX_SQUARE_PIXEL, MAX_SQUARE_PIXEL, BufferedImage.TYPE_INT_ARGB);
 //			setDiameter(1);
 		}
 
-		void setCicleObserver(MyObserver<AbstractShape2D> cicleObserver) {
-			this.shapeObserver = cicleObserver;
+		public void setShapeObserver(MyObserver<AbstractShape2D> shapeObserver) {
+			this.shapeObserver = shapeObserver;
+		}
+
+		public void setShapeRunnersImplementedObserver(
+				MyObserver<ShapeRunnersImplemented> shapeRunnersImplementedObserver) {
+			this.shapeRunnersImplementedObserver = shapeRunnersImplementedObserver;
 		}
 
 		void setImageObserver(MyObserver<ColorToPaintOnImage> imageObserver) {
@@ -133,8 +148,9 @@ public class TestShapeRunners extends TestGeneric {
 			ctpoi.c = Color.BLUE;
 			if (imageObserver != null)
 				imageObserver.update(ctpoi);
-			if (shapeObserver != null)
-				shapeObserver.update(s1);
+			if (shapeRunnersImplementedObserver != null)
+				shapeRunnersImplementedObserver.update(this.selectedShape);
+			updateShapeAfterChanges(null);
 		}
 
 		public void setDiameter(int diameter) {
@@ -144,31 +160,43 @@ public class TestShapeRunners extends TestGeneric {
 			this.diameter = diameter;
 			// rr = 1 + (diameter >> 1);
 			rr = (diameter * 3) >> 2;
-			ctpoi.c = Color.LIGHT_GRAY;
-			if (imageObserver != null)
-				imageObserver.update(ctpoi);
-			s1.setDiameter(diameter);
-			s1.setCenter(rr, rr);
-			ctpoi.c = Color.BLUE;
-			if (imageObserver != null)
-				imageObserver.update(ctpoi);
-			if (shapeObserver != null)
-				shapeObserver.update(s1);
+			updateShapeAfterChanges(sh -> {
+				s1.setDiameter(diameter);
+				s1.setCenter(rr, rr);
+			});
 		}
 
-		public void setAngle(int angle) {
+		public void setAngle(double angle) {
 			this.angle = angle;
+//			s1.setAngleRotation(angle);
+			updateShapeAfterChanges(sh -> sh.setAngleRotation(angle));
+		}
+
+		public void setCenter(int x, int y) {
+			updateShapeAfterChanges(sh -> {
+				s1.setCenter(x / PIXEL_SQUARE_POINT, y / PIXEL_SQUARE_POINT);
+			});
+		}
+
+		public void updateShapeAfterChanges() {
+			updateShapeAfterChanges(null);
+		}
+
+		public void updateShapeAfterChanges(Consumer<AbstractShape2D> shapeUpdater) {
 			ctpoi.c = Color.LIGHT_GRAY;
 			if (imageObserver != null)
 				imageObserver.update(ctpoi);
-			s1.setAngleRotation(angle);
+
+			if (shapeUpdater != null)
+				shapeUpdater.accept(s1);
+
 			ctpoi.c = Color.BLUE;
 			if (imageObserver != null)
 				imageObserver.update(ctpoi);
 			if (shapeObserver != null)
 				shapeObserver.update(s1);
 		}
-	}
+	} // end model
 
 	protected class ColorToPaintOnImage {
 		Color c;
@@ -177,7 +205,7 @@ public class TestShapeRunners extends TestGeneric {
 
 	protected class SquarePainter implements PointConsumer, MyObserver<ColorToPaintOnImage> {
 		private static final long serialVersionUID = 1L;
-		CircleRunnerModel m;
+		ShapeRunnersModel m;
 		Graphics g;
 		ColorToPaintOnImage ctpoi;
 
@@ -226,43 +254,135 @@ public class TestShapeRunners extends TestGeneric {
 		}
 	}
 
-	protected class CircleRunnerView extends ShapeView {
+	protected abstract class ShapeFieldsManager {
+		final ShapeRunnersModel m;
+//		ShapeRunnersImplemented shapeManaging;
+		final JPanel jpShapeFieldContainer;
+
+		protected ShapeFieldsManager(ShapeRunnersModel m) {
+			this.m = m;
+			jpShapeFieldContainer = new JPanel();
+//			jpShapeFieldContainer.setSize(200, 100);
+			jpShapeFieldContainer.setLayout(new GridBagLayout());
+//			jpShapeFieldContainer.setPreferredSize(jpShapeFieldContainer.getSize());
+			jpShapeFieldContainer.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+		}
+
+		public abstract AbstractShape2D getShape();
+
+		public abstract void setShape(AbstractShape2D shape);
+
+		public abstract void init();
+	}
+
+	// TODO ShapeRunnersView
+
+	protected class ShapeRunnersView extends ShapeView implements MyObserver<ShapeRunnersImplemented> {
+		protected ShapeRunnersView() {
+			super();
+			m = (ShapeRunnersModel) model;
+			m.setShapeRunnersImplementedObserver(this);
+		}
+
+		ShapeRunnersModel m;
 		SquarePainter squarePainter;
+//		ShapeFieldsManager[] 
+		Map<ShapeRunnersImplemented, ShapeFieldsManager> shapeManagers;
+		ShapeFieldsManager displayedShapeManager;
+		JPanel jpGridViewer, jpShapeManagerContainer;
+		JSpinner jsAngle;
+		JComboBox<ShapeRunnersImplemented> jcbShapes;
+		GridBagConstraints constraintsShapeManagerContainer;
+
+		void addShapeFieldManager(ShapeRunnersImplemented sri, ShapeFieldsManager sfm) {
+//			shapeManagers[sri.ordinal()] = sfm;
+			shapeManagers.put(sri, sfm);
+		}
+
+		ShapeFieldsManager getShapeFieldManager(ShapeRunnersImplemented sri) {
+//			return shapeManagers[sri.ordinal()] = sfm;
+			return shapeManagers.get(sri);
+		}
 
 		@Override
 		void init() {
 			GridBagConstraints c;
-			CircleRunnerModel m;
-			JPanel jp;
-			TextField tf;
-			JButton jb;
-			JSpinner js;
-			JSpinner jsAngle;
+			ShapeFieldsManager sfm;
 //			JCheckBox jcb;
-			JComboBox<ShapeRunnersImplemented> jcbShapes;
-			m = (CircleRunnerModel) model;
+
+			//
+
+//			shapeManagers = new ShapeFieldsManager[m.shapesToTest.length];
+			shapeManagers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
+					(sri1, sri2) -> Integer.compare(sri1.ordinal(), sri2.ordinal()));
+			sfm = new LineManager(m);
+			sfm.init();
+			addShapeFieldManager(ShapeRunnersImplemented.Line, sfm);
+			//
+			sfm = new CircleDiskManager(m);
+			sfm.init();
+			addShapeFieldManager(ShapeRunnersImplemented.Circumference, sfm);
+			addShapeFieldManager(ShapeRunnersImplemented.Disk, sfm);
+			//
+			sfm = new RectangleManager(m);
+			sfm.init();
+			addShapeFieldManager(ShapeRunnersImplemented.RectangleBorder, sfm);
+			addShapeFieldManager(ShapeRunnersImplemented.Rectangle, sfm);
+			//
+			sfm = null; // TODO not yet implemented
+			addShapeFieldManager(ShapeRunnersImplemented.TriangleBorder, sfm);
+			addShapeFieldManager(ShapeRunnersImplemented.Triangle, sfm);
+
+			//
+
+			c = new GridBagConstraints();
 			squarePainter = new SquarePainter();
 			squarePainter.m = m;
 			m.setImageObserver(squarePainter);
-			c = new GridBagConstraints();
-			c.gridx = c.gridy = 0;
+
+			//
+
+			jcbShapes = new JComboBox<>(m.shapesToTest);
+			jcbShapes.addItemListener(new ItemListener() {
+
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					if (e.getStateChange() == ItemEvent.SELECTED) {
+						m.setSelectedShape((ShapeRunnersImplemented) e.getItem());
+					}
+				}
+			});
+			c.gridx = 0;
+			c.gridy = 0;
+
 			c.weightx = 0;
 			c.weighty = 0;
-			c.gridwidth = 2;
+			c.gridwidth = 4;
 			c.gridheight = 1;
-			tf = new TextField("16");
-			pContainer.add(tf, c);
-			c.gridx = 2;
-//			jcb = new JCheckBox("V = is filled");
-//			pContainer.add(jcb, c);
-			jb = new JButton("Set the radius");
-			pContainer.add(jb, c);
-			c.gridx = 4;
-			js = new JSpinner(new SpinnerNumberModel(16, 1, 1000, 1));
-//			jb = new JButton("Set the radius");
-			pContainer.add(js, c);
+			pContainer.add(jcbShapes, c);
 
-			jp = new JPanel() {
+			c.gridwidth = 2;
+			c.gridy = 2;
+			pContainer.add(new JLabel("Rotation angle"), c);
+			jsAngle = new JSpinner(new SpinnerNumberModel(0, 0, 360, 5));
+			c.gridx = 2;
+			pContainer.add(jsAngle, c);
+
+			c.gridx = 4;
+			c.gridy = 0;
+			c.gridwidth = 4;
+			c.gridheight = 2;
+			jpShapeManagerContainer = new JPanel();
+			jpShapeManagerContainer.setSize(200, 100);
+//			jpShapeManagerContainer.setPreferredSize(jpShapeManagerContainer.getSize());
+			jpShapeManagerContainer.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+			pContainer.add(jpShapeManagerContainer, c);
+			constraintsShapeManagerContainer = (GridBagConstraints) c.clone();
+			constraintsShapeManagerContainer.gridx = 0;
+
+//			jpShapeManagerContainer
+
+			jpGridViewer = new JPanel() {
 				private static final long serialVersionUID = -7775420L;
 
 				@Override
@@ -294,68 +414,216 @@ public class TestShapeRunners extends TestGeneric {
 				 * @Override public int getY() { return 0; }
 				 */
 			};
-
-			jcbShapes = new JComboBox<>(m.shapesToTest);
-			jcbShapes.addItemListener(new ItemListener() {
-
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					if (e.getStateChange() == ItemEvent.SELECTED) {
-						m.setSelectedShape((ShapeRunnersImplemented) e.getItem());
-					}
-				}
-			});
+			jpGridViewer.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 5));
 			c.gridx = 0;
 			c.gridy = 2;
-			pContainer.add(jcbShapes, c);
-
-			c.gridx = 2;
-			pContainer.add(new JLabel("Set the rotation angle:"), c);
-
-			jsAngle = new JSpinner(new SpinnerNumberModel(0, 0, 360, 5));
-			c.gridx = 4;
-			pContainer.add(jsAngle, c);
-
-			jp.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 5));
-			c.gridx = 0;
-			c.gridy = 4;
 			c.weightx = c.weighty = c.gridwidth = c.gridheight = 8;
-			pContainer.add(jp, c);
-			m.setCicleObserver(circ -> {
-				jp.repaint();
+			pContainer.add(jpGridViewer, c);
+
+			// listeners
+			m.setShapeObserver(circ -> {
+				jpGridViewer.repaint();
 				fin.repaint();
 			});
-			jb.addActionListener(l -> {
-				m.setDiameter(Integer.parseInt(tf.getText()));
-			});
-			js.addChangeListener(e -> {
-				m.setDiameter((Integer) js.getValue());
-			});
+
 //			jcb.addChangeListener(l -> {
 //				if (m.s1 instanceof AbstractFillable)
 //					((AbstractFillable) m.s1).setFilled(jcb.isSelected());
 //			});
 			jsAngle.addChangeListener(e -> {
-				m.setAngle((Integer) jsAngle.getValue());
+				m.setAngle(((Integer) jsAngle.getValue()).doubleValue());
 			});
-			jp.setLocation(0, 0);
-			jp.setSize(JPANEL_DIMENSION, JPANEL_DIMENSION);
-			jp.setPreferredSize(jp.getSize());
-			jp.requestFocus();
-			fin.setSize(jp.getWidth() + 100, jp.getHeight() + 100);
+			jpGridViewer.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					m.setCenter(e.getX(), e.getY());
+				}
+			});
+
+			// compose the end
+
+			jpGridViewer.setLocation(0, 0);
+			jpGridViewer.setSize(JPANEL_DIMENSION, JPANEL_DIMENSION);
+			jpGridViewer.setPreferredSize(jpGridViewer.getSize());
+			jpGridViewer.requestFocus();
+			fin.setSize(jpGridViewer.getWidth() + 100, jpGridViewer.getHeight() + 100);
 			fin.setVisible(true);
 		}
 
+		@Override
+		public void update(ShapeRunnersImplemented e) {
+			System.out.println("LEL RECEIVING: " + e.name());
+			if (this.displayedShapeManager != null) {
+				this.jpShapeManagerContainer.remove(this.displayedShapeManager.jpShapeFieldContainer);
+			}
+			this.displayedShapeManager = this.getShapeFieldManager(e);
+			if (this.displayedShapeManager == null) {
+				System.out.println("displayedShapeManager is null");
+				return;
+			}
+			this.displayedShapeManager.setShape(m.s1);
+			this.jpShapeManagerContainer.add(this.displayedShapeManager.jpShapeFieldContainer,
+					constraintsShapeManagerContainer);
+			System.out.println("jpShapeManagerContainer dimension: " + jpShapeManagerContainer.getSize()
+					+ ", manager size: " + this.displayedShapeManager.jpShapeFieldContainer.getSize());
+		}
+	} // end View
+
+	protected abstract class DiameterDefyningShapeManager extends ShapeFieldsManager {
+		protected DiameterDefyningShapeManager(ShapeRunnersModel m) {
+			super(m);
+		}
+
+		TextField tfDiameter;
+		JButton jbDiameter;
+		JSpinner jsDiameter;
+
+		@Override
+		public void init() {
+			GridBagConstraints c;
+			c = new GridBagConstraints();
+			c.gridx = c.gridy = 0;
+			c.weightx = 1;
+			c.weighty = 1;
+			c.gridwidth = 2;
+			c.gridheight = 1;
+			tfDiameter = new TextField("16");
+			super.jpShapeFieldContainer.add(tfDiameter, c);
+			c.gridx = 2;
+			jbDiameter = new JButton("Set diameter");
+			super.jpShapeFieldContainer.add(jbDiameter, c);
+			c.gridx = 4;
+			jsDiameter = new JSpinner(new SpinnerNumberModel(16, 1, 1000, 1));
+			super.jpShapeFieldContainer.add(jsDiameter, c);
+			//
+			jbDiameter.addActionListener(l -> {
+				m.setDiameter(Integer.parseInt(tfDiameter.getText()));
+			});
+			jsDiameter.addChangeListener(e -> {
+				m.setDiameter((Integer) jsDiameter.getValue());
+			});
+		}
 	}
+
+	protected class CircleDiskManager extends DiameterDefyningShapeManager {
+
+		protected CircleDiskManager(ShapeRunnersModel m) {
+			super(m);
+		}
+
+		ShapeCircle shape;
+
+		@Override
+		public AbstractShape2D getShape() {
+			return shape;
+		}
+
+		@Override
+		public void setShape(AbstractShape2D shape) {
+			this.shape = (ShapeCircle) shape;
+		}
+	}
+
+	protected class StarDiskManager extends DiameterDefyningShapeManager {
+
+		protected StarDiskManager(ShapeRunnersModel m) {
+			super(m);
+		}
+
+//		StarCircle shape;
+
+		@Override
+		public AbstractShape2D getShape() {
+			return null; // shape;
+		}
+
+		@Override
+		public void setShape(AbstractShape2D shape) {
+			// this.shape = (StarCircle) shape;
+		}
+	}
+
+	protected class LineManager extends DiameterDefyningShapeManager {
+
+		protected LineManager(ShapeRunnersModel m) {
+			super(m);
+		}
+
+		ShapeLine shape;
+
+		@Override
+		public AbstractShape2D getShape() {
+			return shape;
+		}
+
+		@Override
+		public void setShape(AbstractShape2D shape) {
+			this.shape = (ShapeLine) shape;
+		}
+	}
+
+	protected class RectangleManager extends ShapeFieldsManager {
+
+		protected RectangleManager(ShapeRunnersModel m) {
+			super(m);
+		}
+
+		ShapeRectangle shape;
+		JSpinner jsWidth, jsHeight;
+
+		@Override
+		public AbstractShape2D getShape() {
+			return shape;
+		}
+
+		@Override
+		public void setShape(AbstractShape2D shape) {
+			this.shape = (ShapeRectangle) shape;
+		}
+
+		@Override
+		public void init() {
+			GridBagConstraints c;
+			c = new GridBagConstraints();
+			c.weightx = 1;
+			c.weighty = 1;
+			c.gridwidth = 2;
+			c.gridheight = 1;
+			jsWidth = new JSpinner(new SpinnerNumberModel(16, 1, 1000, 1));
+			jsHeight = new JSpinner(new SpinnerNumberModel(16, 1, 1000, 1));
+			c.gridx = c.gridy = 0;
+			super.jpShapeFieldContainer.add(new JLabel("width"), c);
+			c.gridx = 2;
+			super.jpShapeFieldContainer.add(jsWidth, c);
+			c.gridx = 0;
+			c.gridy = 2;
+			super.jpShapeFieldContainer.add(new JLabel("height"), c);
+			c.gridx = 2;
+			super.jpShapeFieldContainer.add(jsHeight, c);
+
+			jsWidth.addChangeListener(l -> {
+//				shape.setWidth((Integer) jsWidth.getValue());
+				m.updateShapeAfterChanges(sh -> ((ShapeRectangle) sh).setWidth((Integer) jsWidth.getValue()));
+			});
+			jsHeight.addChangeListener(l -> {
+//				shape.setHeight((Integer) jsHeight.getValue());
+				m.updateShapeAfterChanges(sh -> ((ShapeRectangle) sh).setHeight((Integer) jsHeight.getValue()));
+			});
+		}
+	}
+
+	//
+
+	// TODO END CLASSES
 
 	@Override
 	ShapeModel newModel() {
-		return new CircleRunnerModel();
+		return new ShapeRunnersModel();
 	}
 
 	@Override
 	ShapeView newView() {
-		return new CircleRunnerView();
+		return new ShapeRunnersView();
 	}
 
 	@Override

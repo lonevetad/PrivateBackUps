@@ -10,6 +10,8 @@ import geometry.implementations.shapeRunners.ShapeRunnerPoint;
 import geometry.implementations.shapeRunners.ShapeRunnerPolygonBorder;
 import geometry.implementations.shapeRunners.ShapeRunnerRectangleBorder;
 import geometry.implementations.shapeRunners.ShapeRunnerRectangleFilled;
+import geometry.implementations.shapeRunners.ShapeRunnerTriangleBorder;
+import geometry.implementations.shapeRunners.ShapeRunnerTriangleFilled;
 
 public class ProviderShapeRunnerImpl extends ProviderShapeRunner {
 	private static final long serialVersionUID = 342405452L;
@@ -27,6 +29,8 @@ public class ProviderShapeRunnerImpl extends ProviderShapeRunner {
 						.getInstance();
 		RUNNERS[ShapeRunnersImplemented.RectangleBorder.ordinal()] = ShapeRunnerRectangleBorder.getInstance();
 		RUNNERS[ShapeRunnersImplemented.Rectangle.ordinal()] = ShapeRunnerRectangleFilled.getInstance();
+		RUNNERS[ShapeRunnersImplemented.Triangle.ordinal()] = ShapeRunnerTriangleFilled.getInstance();
+		RUNNERS[ShapeRunnersImplemented.TriangleBorder.ordinal()] = ShapeRunnerTriangleBorder.getInstance();
 	}
 
 	public static ProviderShapeRunnerImpl getInstance() {

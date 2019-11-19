@@ -10,6 +10,7 @@ import geometry.ShapeRunnersImplemented;
 import geometry.implementations.AbstractShapeRunnerImpl;
 import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.PointConsumer;
+import geometry.pointTools.impl.PolygonUtilities;
 import tools.Comparators;
 import tools.MathUtilities;
 
@@ -77,12 +78,13 @@ public class ShapeRunnerRectangleBorder extends AbstractShapeRunnerImpl {
 			corner.y = yy[0];
 			ShapeRunnerLine.runVerticalSpan(action, corner, sr.getWidth(), shouldPerformEarlyStops);
 		} else {
-//			ShapeRunnerPolygonBorder.runShapePolygon(poly, action);
-			runRectangleBorderRotated(action, new Point2D[] { //
-					new Point2D.Double(xx[0], yy[0]), //
-					new Point2D.Double(xx[1], yy[1]), //
-					new Point2D.Double(xx[2], yy[2]), //
-					new Point2D.Double(xx[3], yy[3]) }, shouldPerformEarlyStops);
+			System.out.println("POLYGON: " + PolygonUtilities.polygonToString(poly));
+			ShapeRunnerPolygonBorder.runShapePolygon(poly, action, shouldPerformEarlyStops);
+//			runRectangleBorderRotated(action, new Point2D[] { //
+//					new Point2D.Double(xx[0], yy[0]), //
+//					new Point2D.Double(xx[1], yy[1]), //
+//					new Point2D.Double(xx[2], yy[2]), //
+//					new Point2D.Double(xx[3], yy[3]) }, shouldPerformEarlyStops);
 		}
 		return true;
 	}

@@ -3,14 +3,14 @@ package dataStructures.graph;
 import java.util.Comparator;
 import java.util.function.BiConsumer;
 
-public class GraphSimpleAsynchronized<E> extends GraphSimple<E> {
+public class GraphSimpleAsynchronized<E, Distance> extends GraphSimple<E, Distance> {
 
-	public GraphSimpleAsynchronized(boolean isDirected, PathFindStrategy<E> pathFinder,
+	public GraphSimpleAsynchronized(boolean isDirected, PathFindStrategy<E, Distance> pathFinder,
 			Comparator<E> comparatorElements) {
 		super(isDirected, pathFinder, comparatorElements);
 	}
 
-	public GraphSimpleAsynchronized(PathFindStrategy<E> pathFinder, Comparator<E> comparatorElements) {
+	public GraphSimpleAsynchronized(PathFindStrategy<E, Distance> pathFinder, Comparator<E> comparatorElements) {
 		super(pathFinder, comparatorElements);
 	}
 
@@ -31,7 +31,7 @@ public class GraphSimpleAsynchronized<E> extends GraphSimple<E> {
 	@Override
 	public String toString() {
 		StringBuilder sb;
-		BiConsumer<NodeGraph, Integer> adjPrinter;
+		BiConsumer<NodeGraph, Distance> adjPrinter;
 		sb = new StringBuilder(1024);
 		sb.append("Graph ").append(isDirected ? "directed" : "undirected").append(" having ").append(this.linksAmount)
 				.append(" links and this nodes:\n");

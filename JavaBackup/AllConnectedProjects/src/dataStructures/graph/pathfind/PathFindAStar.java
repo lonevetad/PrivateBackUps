@@ -7,12 +7,12 @@ import java.util.function.BiFunction;
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
 import dataStructures.graph.GraphSimple;
-import dataStructures.graph.GraphSimple.ColorDijkstra;
+import dataStructures.graph.GraphSimple.NodePositionInFrontier;
 import dataStructures.graph.GraphSimpleAsynchronized;
 import dataStructures.graph.PathFindStrategy;
 import dataStructures.graph.PathGraph;
 
-public class PathFindAStar<E> implements PathFindStrategy<E> {
+public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance> {
 	private static final long serialVersionUID = 56409561023300330L;
 
 	public PathFindAStar(BiFunction<E, E, Double> heuristic) {
@@ -26,7 +26,7 @@ public class PathFindAStar<E> implements PathFindStrategy<E> {
 		return heuristic;
 	}
 
-	public PathFindAStar<E> setHeuristic(BiFunction<E, E, Double> heuristic) {
+	public PathFindAStar<E, Distance> setHeuristic(BiFunction<E, E, Double> heuristic) {
 		this.heuristic = heuristic;
 		return this;
 	}
@@ -35,10 +35,11 @@ public class PathFindAStar<E> implements PathFindStrategy<E> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public PathGraph<E> getPath(GraphSimple<E> graph, E start, E dest) {
+	public PathGraph<E, Distance> getPath(GraphSimple<E, Distance> graph, E start, E dest,
+			BiFunction<Distance, Distance, Distance> distanceAdder) {
 //		final double distanceTotal;
-		PathGraph<E> p;
-		GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized s, d;
+		PathGraph<E, Distance> p;
+		GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized s, d;
 		NodeInfoAStar<E> ss, dd;
 		final Map<E, NodeInfoAStar<E>> nodeInfos;
 		PriorityQueueKey<NodeInfoAStar<E>, Double> frontier;
@@ -79,7 +80,7 @@ public class PathFindAStar<E> implements PathFindStrategy<E> {
 		) {
 			final NodeInfoAStar<E> n;
 			n = frontier.removeMinimum().getKey();
-			n.color = ColorDijkstra.Black;
+			n.color = NodePositionInFrontier.InFrontier;
 			/*
 			 * do not waste time computing nodes that have longer path of the alredy
 			 * discovered ones
@@ -117,7 +118,7 @@ public class PathFindAStar<E> implements PathFindStrategy<E> {
 	// subclasses
 
 	protected static class NodeInfoAStar<E> {
-		protected ColorDijkstra color;
+		protected NodePositionInFrontier color;
 		protected double distFromStart, distFromFather;
 		protected Double fScore;
 		protected GraphSimple<E>.NodeGraph thisNode;
@@ -125,7 +126,7 @@ public class PathFindAStar<E> implements PathFindStrategy<E> {
 
 		protected NodeInfoAStar(GraphSimple<E>.NodeGraph thisNode) {
 			this.thisNode = thisNode;
-			color = ColorDijkstra.White;
+			color = NodePositionInFrontier.White;
 			distFromStart = distFromFather = 0.0;
 			fScore = null;
 			father = null;
@@ -166,7 +167,7 @@ public class PathFindAStar<E> implements PathFindStrategy<E> {
 			else
 				nodeInfos.put(e, neighbourInfo = new NodeInfoAStar<E>(no));
 
-//			if (neighbourInfo.color == ColorDijkstra.Black) // equivalent of being in closed set
+//			if (neighbourInfo.color == NodePositionInFrontier.Closed) // equivalent of being in closed set
 //				return;
 			distToAdjDouble = distToAdj;
 			distToNo = distToAdjDouble + currentNode.distFromStart;
@@ -180,9 +181,9 @@ public class PathFindAStar<E> implements PathFindStrategy<E> {
 				neighbourInfo.distFromStart = newDistanceFromStart;
 				fScore = newDistanceFromStart
 						+ this.heuristic.apply(currentNode.thisNode.getElem(), neighbourInfo.thisNode.getElem());
-				if (neighbourInfo.color == ColorDijkstra.White) {
+				if (neighbourInfo.color == NodePositionInFrontier.White) {
 					// track that's in open set, e.g. it has been seen almost one time
-					neighbourInfo.color = ColorDijkstra.Grey;
+					neighbourInfo.color = NodePositionInFrontier.Grey;
 					neighbourInfo.fScore = fScore;
 					// add on queue
 					frontier.put(neighbourInfo);

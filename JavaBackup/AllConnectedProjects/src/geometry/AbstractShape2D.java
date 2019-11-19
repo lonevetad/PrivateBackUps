@@ -155,6 +155,12 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 		return setCornersAmounts(sidesAmounts);
 	}
 
+	public Rectangle getBoundingBox() {
+		Polygon p;
+		p = toPolygon();
+		return p == null ? null : p.getBounds();
+	}
+
 	/**
 	 * Beware: it's a heavy and non-cached computation!<br>
 	 * It's not cached because the method it uses tu build the rectangle,
@@ -163,7 +169,7 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 	 * NOTE: this {@link Rectangle}'s centre is probably NOT the one returned by
 	 * {@link #getCenter()}.
 	 */
-	public Rectangle getBoundingBox() {
+	public Rectangle getBoundingBox_OLD() {
 		Point2D ltc, corners[];
 		Dimension dim;
 		corners = getBoundingBoxCorners();
@@ -189,6 +195,8 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 	/**
 	 * Returns all of four corners of the bounding, in clockwise order: top-left,
 	 * top-right, bottom-right, bottom-left.
+	 * <p>
+	 * Note: no cache performed!
 	 */
 	public Point2D[] getBoundingBoxCorners() {
 		int len, temp, lowerx, lowery, greaterx, greatery;
@@ -302,36 +310,39 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 
 	// TODO PROTECTED METHODS
 
+	/** Test whether this shape can move */
 	protected boolean shouldMove() {
 		return true;
 	}
 
 	protected final void movePolygon(int dx, int dy, boolean hasx, boolean hasy) {
 		// move the polygon
-		int len;
-		int[] xp, yp;
-		Polygon p;
+//		int len;
+//		int[] xp, yp;
+//		Polygon p;
 		if (polygonCache == null) // do not recreate: it's required
 			return;
 		if (shouldMove()) {
-			p = polygonCache;
-			len = p.npoints - 1;
-			xp = p.xpoints;
-			yp = p.ypoints;
-			if (hasx && hasy)
-				while (--len >= 0) {
-					xp[len] += dx;
-					yp[len] += dy;
-				}
-			else {
-				if (hasx)
-					while (--len >= 0)
-						xp[len] += dx;
-				else if (hasy)
-					while (--len >= 0)
-						yp[len] += dy;
-			}
+			polygonCache.translate(dx, dy);
+//			p = polygonCache;
+//			len = p.npoints - 1;
+//			xp = p.xpoints;
+//			yp = p.ypoints;
+//			if (hasx && hasy)
+//				while (--len >= 0) {
+//					xp[len] += dx;
+//					yp[len] += dy;
+//				}
+//			else {
+//				if (hasx)
+//					while (--len >= 0)
+//						xp[len] += dx;
+//				else if (hasy)
+//					while (--len >= 0)
+//						yp[len] += dy;
+//		}
 		}
+
 	}
 
 	protected Point2D getLeftTopCorner(Point2D[] corners) {

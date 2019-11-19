@@ -6,7 +6,7 @@ from nltk.corpus import stopwords
 from nltk.corpus import wordnet as wn
 from nltk.tokenize import word_tokenize
 
-PUNCTUATION = u",.?!()-_\"\'\\\n\r\t;:+*<>@#§^$%&|/"
+PUNCTUATION = u",.?!()-_\"\'\\\n\r\t;:+*<>@#§^$%&|/’”"
 STOP_WORDS_ENG = set(stopwords.words('english'))
 LEMMATIZER = WordNetLemmatizer() 
 TAG_DICT = {"J": wn.ADJ,
@@ -15,11 +15,26 @@ TAG_DICT = {"J": wn.ADJ,
 			"R": wn.ADV}
 WORDS_FROM_SEM_CORPUS = 50 # dovrebbero essere 50
 
+def extract_synset_name(synset):
+	if synset is None:
+		return None
+	name = synset.name()
+	'''
+	old vesion, collapsing different synsets with the same "literals"
+	index = name.find('.')
+	return name[:index] if index >= 0 else name
+	'''
+	return name
 
 def extract_wnpostag_from_postag(tag):
+	#version 2:
+	for key in TAG_DICT:
+		if key in tag.upper():
+			return TAG_DICT[key]
+	return None
+	#version 1:
 	#take the first letter of the tag
-	#the second parameter is an "optional" in case of missing key in the dictionary 
-	return TAG_DICT.get(tag[0].upper(), None)
+	#return TAG_DICT.get(tag[0].upper(), None)
 
 def lemmatize_tupla_word_postag(tupla):
 	"""
@@ -90,17 +105,23 @@ def context_from_sentence(word, sentence):
 def synset_to_signature(sense):
 	#create a list bag of words derived from all definitions and examples
 	bag = set()
-	#print("\t\t\t\t sense's ", sense, " definition : ;;;; ", sense.definition())
+	#populate with it's own name through all of its lemma(s), then its hyponyms and hypernyms
+	# since both hyponyms and hypernyms produces ana list of synsets, let's generalize it
+	for some_synsets in [ [sense], sense.hyponyms(), sense.hypernyms() ]:
+		for inner_synset in some_synsets:
+			for lemma in inner_synset.lemmas():
+				bag.add(lemma.name())
+	#then add 
 	b = bag_of_tagged_words(sense.definition())
 	for w in b:
-		bag.add(w)
-	#print("\t\t\t\t has ", len(sense.examples()), " examples")
+		bag.add(w[0])
+	
 	for example in sense.examples():
 		#for element in source:
 		b = bag_of_tagged_words(example)
-		#print("\t\t\t\t...adding: ", b)
 		for w in b:
-			bag.add(w)
+			bag.add(w[0])
+	##print("\t", bag,"\n\n\n")
 	return bag
 
 def computeOverlap(signature, context):
@@ -109,20 +130,24 @@ def computeOverlap(signature, context):
 	a word to be disambiguated) and a context (a list of lemmatized words from a sentence holding the word
 	to be disambiguated), compute the overlapping: just count the intersection of lemmatized words
 	"""
-	#print("...........overlap::\n\t\t...signature: ", signature, "\n\t\t...set(context): ", set(context), "\n\t\t... res: ", signature & set(context))
-	#return len(signature & set(context))
-	sign = set([ w[0] for w in signature])
+	'''
+	Knowing that the stemming implemente on nltk package is badly implemented as it
+	returns the first shortest-in-length word (i.e., it could return a plural word
+	if it's as long as the single one, like 'men' and 'man'), the overlapping could
+	be computed as the best overlapping among all possible alternatives provided by
+	the call "wn._morphy(your_word_as_string, wn.ASSOCIATED-POS_TAG)", but
+	this could be a not easy, not trivial and heavy computation. -> Too lazy.
+	'''
+	sign = signature # set([ w[0] for w in signature])
 	contx = set([ w[0] for w in context])
-	return len(sign & contx)
+	return len(sign & contx) + 1
 
 def simplifiedLesk( word, sentence, context = None):
 	best_sense = None
 	max_overlap = 0
 	if context is None:
 		context = context_from_sentence(word, sentence)
-	#print("\t####### context:, ", context)
 	for sense in wn.synsets(word):
-		#print("\tLesk-ing of word: ", word, " and sense: ", sense)
 		signature = synset_to_signature(sense)
 		overlap = computeOverlap(signature, context)
 		#if overlap > max_overlap:
@@ -217,51 +242,36 @@ def perform_exercise_SemCor(sentences_tree = None):
 		return None
 	matches = 0
 	total_matches = 0
+	#caching of functions
+	lesk_fn = nltk.wsd.lesk
+	nameextractor = extract_synset_name
 	for s_t in sentences_tree:
 		tagged_sentence = extract_taggedSentence_from_sentenceTree(s_t)
 		nouns = extract_nouns_from_taggedSentence(tagged_sentence)
 		sent = [ x[0] for x in tagged_sentence ] #only the word, remove the tags
 		sentence_as_string = " ".join(sent)
-		'''
-		print("for sentence\n\t---", sent)
-		print("\t---sentence_as_string: ", sentence_as_string)
-		print("\t---sent tagged_sentence: ", len(tagged_sentence), ", tagged_sentence: ", tagged_sentence)
-		print("\t---sent len: ", len(sent), ", sent: ", sent)
-		print("\t---nouns len: ", len(nouns), ", nouns: ", nouns)
-		'''
-		#for each noun
 		for n in nouns:
 		#n = nouns[0]
 		#if n is not None:
 			#disambiguate
-			#disambiguated_word_by_me = simplifiedLesk(n[0], sent)
-			#disambiguated_word_by_API = nltk.wsd.lesk(context_from_sentence(n[0], sent), n[0]) #returns a synset, 'n'
 			disambiguated_word_by_me = simplifiedLesk(n[0], sentence_as_string	, tagged_sentence) # tagged_sentence == context
-			disambiguated_word_by_API = nltk.wsd.lesk(tagged_sentence, n[0]) #returns a synset, 'n'
-			#if disambiguated_word_by_API is not None:
-			#print("-disambiguated_word_by_API: ", disambiguated_word_by_API)
-
+			#disambiguated_word_by_API = lesk_fn(tagged_sentence, n[0]) #returns a synset, 'n'
+			disambiguated_word_by_API = lesk_fn(sent, n[0]) #returns a synset, 'n'
+			
+			none_count = 0
 			if disambiguated_word_by_me is not None:
 				total_matches += 1
-				none_count = 0
+			else:
+				none_count = 1
 				#if disambiguated_word_by_me is None:
 				#	none_count += 1
-				if disambiguated_word_by_API is None:
-					none_count += 1
-				if (none_count == 2) or ((none_count == 0) and ((disambiguated_word_by_me.name() == disambiguated_word_by_API.name()) or (disambiguated_word_by_me.name() is disambiguated_word_by_API.name()))) :
-					matches += 1
-				'''
-				else:
-					print("wrongly disambiguated_word_by_me: ", disambiguated_word_by_me)
-					print("wrongly disambiguated_word_by_API: ", disambiguated_word_by_API)
-				if (none_count == 2):
-					matches += 1
-				if (none_count == 0):
-					if((disambiguated_word_by_me.name() == disambiguated_word_by_API.name()) or (disambiguated_word_by_me.name() is disambiguated_word_by_API.name())):
-						matches += 1
-					else:
-						print("missclassifying .. mine: ", disambiguated_word_by_me, ", api: ", disambiguated_word_by_API)
-				'''
+			if disambiguated_word_by_API is None:
+				none_count += 1
+
+			mineDisambiguationToTest = nameextractor(disambiguated_word_by_me)
+			apiDisambiguationToTest = nameextractor(disambiguated_word_by_API)
+			if (none_count == 2) or ((none_count == 0) and ((mineDisambiguationToTest == apiDisambiguationToTest) or (mineDisambiguationToTest is apiDisambiguationToTest))) :
+				matches += 1
 	return (matches, total_matches)
 
 def calculate_accuracy(result):
@@ -270,43 +280,26 @@ def calculate_accuracy(result):
 def print_exercise_SemCor(sentences = None, ex_results = None):
 	if ex_results is None:
 		ex_results = perform_exercise_SemCor(sentences)
-	print("\n\n my matches: ", ex_results[0], ", total_matches: ", ex_results[1], ", accuracy: ", calculate_accuracy(ex_results), "%")
+	print("my matches: ", ex_results[0], ", total_matches: ", ex_results[1], ", accuracy: ", calculate_accuracy(ex_results), "%")
+
+#
+
+#
 
 #
 
 print('start')
 '''
-entence = "Two electric guitar rocks players, and also a better bass player, are standing off to two sides reading corpora while walking"
+sentence = "Two electric guitar rocks players, and also a better bass player, are standing off to two sides reading corpora while walking"
 word = "bass"
 sense = simplifiedLesk(word, sentence)
-#print(sentence, "\n", word, "\n\nsense: ", sense)
-print_synset(sense)
-
-
-allLines = load_sentences()
-for s in allLines:
-	print(s)
-results = perform_exercise_sentences(allLines)
-print_exercise_sentences(results)
+print(sentence, "\n", word, "\n\nsense: ", sense)
 '''
 print("\n\nnow perform_exercise_sentences\n\n")
 print_exercise_sentences()
 
-print("\n\nnow perform_exercise_SemCor\n\n")
+print("\n\n\nnow perform_exercise_SemCor\n\n")
 print_exercise_SemCor()
-
-'''
-semcor_tagged_sents = semcor.tagged_sents(tag='both')[:10]
-
-for sent in semcor_tagged_sents:
-	print("\n\n----", sent)
-	for subtree1 in sent:
-		print("\t---", subtree1)
-		print("\tpos: ", subtree1.pos())
-	print("\t_extracted: ",extract_taggedSentence_from_sentenceTree(sent))
-	print("\t@@only nouns: ",extract_nouns(sent))
-#print( semcor_tagged_sents )
-'''
 
 
 print("END")

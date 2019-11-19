@@ -148,6 +148,111 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 
 	@Override
 	public Polygon toPolygon() {
+		int counter;
+		double tempx, tempy, rad, halfWidth, halfHeight, radius, angRotation;
+		double[] deltasx, deltasy;
+		int[] xx, yy;
+		Polygon p;
+		if (polygonCache != null)
+			return polygonCache;
+
+		angRotation = this.getAngleRotation();
+		{
+			int minusw, plusw, minush, plush;
+			minusw = width >> 1;
+			minush = height >> 1;
+			plusw = minusw + (width & 1);
+			plush = minush + (height & 1);
+			p = null;
+			if (angRotation == 0.0 | angRotation == 180.0)
+				p = polygonCache = new Polygon(//
+						new int[] { minusw = xCenter - minusw, plusw += xCenter, plusw, minusw }, //
+						new int[] { minush = yCenter - minush, minush, plush += yCenter, plush }//
+						, 4);
+			else if (angRotation == 90.0 | angRotation == 270.0)
+				p = polygonCache = new Polygon(//
+						new int[] { minush = xCenter - minush, plush += xCenter, plush, minush }, //
+						new int[] { minusw = yCenter - minusw, minusw, plusw += yCenter, plusw }//
+						, 4);
+			if (p != null) {
+				diameterCache = (int) Math.round(Math.hypot(width, height));
+				return p;
+			}
+		}
+		radius = Math.hypot(halfWidth = width, halfHeight = height);// used as temp
+		diameterCache = (int) Math.round(radius);
+		radius /= 2.0;
+		halfHeight /= 2.0;
+		halfWidth /= 2.0;
+		// for all corners: they are 4 -> 2 booleans iterating
+		counter = -1;
+		// use xx and yy as deltas, then as they are designed for
+		xx = new int[4];
+		yy = new int[4];
+		deltasx = new double[] { -halfWidth, halfWidth, halfWidth, -halfWidth };
+		deltasy = new double[] { -halfHeight, -halfHeight, halfHeight, halfHeight };
+		while (++counter < 4) {
+			tempx = (xCenter + deltasx[counter]);
+			tempy = (yCenter + deltasy[counter]);
+			rad = MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy) + angRotation;//
+			if (rad < 0.0)
+				rad += 360.0;
+			else if (rad > 360.0)
+				rad -= 360.0;
+			rad = Math.toRadians(rad);
+//			System.out.println("xCenter: " + xCenter + ", yCenter: " + yCenter + "\n\t tempx: " + tempx + ", tempy: "
+//					+ tempy + ",\n\t ang between" + MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy));
+			xx[counter] = (int) Math.round(//
+					xCenter + radius * Math.cos(rad));
+			yy[counter] = (int) Math.round(//
+					yCenter + radius * Math.sin(rad));
+		}
+		return polygonCache = new Polygon(xx, yy, 4);
+	}
+
+	/**
+	 * NOTE: again, no cache is performed, as like as for
+	 * {@link #getLeftTopCorner()}.
+	 * <p>
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Rectangle getBoundingBox() {
+		Point2D ltc;
+		ltc = getLeftTopCorner();
+		if (ltc == null)
+			return null;
+		return new Rectangle((int) ltc.getX(), (int) ltc.getY(), width, height);
+	}
+
+	@Override
+	public AbstractShapeRotated setAngleRotation(double angleRotation) {
+		super.setAngleRotation(angleRotation);
+		this.polygonCache = null;
+		return this;
+	}
+
+	@Override
+	public AbstractShape2D clone() {
+		return new ShapeRectangle(this);
+	}
+
+	//
+
+	//
+
+	public static void main(String[] args) {
+		ShapeRectangle r;
+		Polygon p;
+		r = new ShapeRectangle(30, 100, 100, false, 50, 80);
+		p = r.toPolygon();
+		System.out.println(PolygonUtilities.polygonToString(p));
+	}
+
+	//
+
+	@Deprecated
+	public Polygon toPolygon_BROKEN() {
 		boolean addingx, addingy;
 		int counter;
 		double tempx, tempy, rad, halfWidth, halfHeight, radius, angRotation;
@@ -195,9 +300,15 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 			do {
 				tempx = addingx ? (xCenter + halfWidth) : (xCenter - halfWidth);
 
-				rad = Math.toRadians(//
-						MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy) //
-								+ angRotation);
+				rad = MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy) + angRotation;//
+				if (rad < 0.0)
+					rad += 360.0;
+				else if (rad > 360.0)
+					rad -= 360.0;
+				rad = Math.toRadians(rad);
+				System.out.println(
+						"xCenter: " + xCenter + ", yCenter: " + yCenter + "\n\t tempx: " + tempx + ", tempy: " + tempy
+								+ ",\n\t ang between" + MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy));
 				xx[counter] = (int) Math.round(//
 						xCenter + radius * Math.cos(rad));
 				yy[counter++] = (int) Math.round(//
@@ -205,44 +316,5 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 			} while (addingx = !addingx);
 		} while (addingy = !addingy);
 		return polygonCache = new Polygon(xx, yy, 4);
-	}
-
-	/**
-	 * NOTE: again, no cache is performed, as like as for
-	 * {@link #getLeftTopCorner()}.
-	 * <p>
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Rectangle getBoundingBox() {
-		Point2D ltc;
-		ltc = getLeftTopCorner();
-		if (ltc == null)
-			return null;
-		return new Rectangle((int) ltc.getX(), (int) ltc.getY(), width, height);
-	}
-
-	@Override
-	public AbstractShapeRotated setAngleRotation(double angleRotation) {
-		super.setAngleRotation(angleRotation);
-		this.polygonCache = null;
-		return this;
-	}
-
-	@Override
-	public AbstractShape2D clone() {
-		return new ShapeRectangle(this);
-	}
-
-	//
-
-	//
-
-	public static void main(String[] args) {
-		ShapeRectangle r;
-		Polygon p;
-		r = new ShapeRectangle(30, 100, 100, false, 50, 80);
-		p = r.toPolygon();
-		System.out.println(PolygonUtilities.polygonToString(p));
 	}
 }
