@@ -1,18 +1,28 @@
 package dataStructures.graph.pathfind;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
 import dataStructures.graph.GraphSimple;
-import dataStructures.graph.GraphSimple.ColorDijkstra;
+import dataStructures.graph.GraphSimple.NodePositionInFrontier;
 import dataStructures.graph.GraphSimpleAsynchronized;
 import dataStructures.graph.GraphSimpleSynchronized;
+import dataStructures.graph.NodeDistanceManager;
 import dataStructures.graph.PathFindStrategy;
 import dataStructures.graph.PathGraph;
 
-public class PathFinderDijkstra<E> implements PathFindStrategy<E> {
+/**
+ * Changes from DijkstraColor to NodePositionInFrontier:<ul>
+ * <li>Black -> Closed</li>
+ * <li>Grey -> InFrontier</li>
+ * <li>White -> NeverAdded</li>
+ * </ul>
+ * */
+/***/
+public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Distance> {
 	private static final long serialVersionUID = -26510959489410020L;
 
 	public PathFinderDijkstra() {
@@ -21,76 +31,86 @@ public class PathFinderDijkstra<E> implements PathFindStrategy<E> {
 	//
 
 	@Override
-	public PathGraph<E> getPath(GraphSimple<E> graph, E start, E dest) {
+	public PathGraph<E, Distance> getPath(GraphSimple<E, Distance> graph, E start, E dest,
+			NodeDistanceManager<Distance> distanceManager) {
 		if (graph == null)
 			return null;
-		return getPath(graph.isSynchronized(), graph, start, dest);
+		return getPath(graph.isSynchronized(), graph, start, dest, distanceManager);
 	}
 
-	public PathGraph<E> getPath(boolean isSynchronized, GraphSimple<E> graph, E start, E dest) {
+	public PathGraph<E, Distance> getPath(boolean isSynchronized, GraphSimple<E, Distance> graph, E start, E dest,
+			NodeDistanceManager<Distance> distanceManager) {
 		if (graph == null)
 			return null;
-		return isSynchronized ? getPathSynchronized(graph, start, dest) : getPathASynchronized(graph, start, dest);
+		return isSynchronized ? getPathSynchronized(graph, start, dest, distanceManager)
+				: getPathASynchronized(graph, start, dest, distanceManager);
 	}
 
 	@SuppressWarnings("unchecked")
-	public PathGraph<E> getPathSynchronized(GraphSimple<E> ggg, E start, E dest) {
+	public PathGraph<E, Distance> getPathSynchronized(GraphSimple<E, Distance> ggg, E start, E dest,
+			NodeDistanceManager<Distance> distanceManager) {
 		final int dr;
-		PathGraph<E> p;
-		GraphSimpleSynchronized<E> graph;
-		GraphSimpleSynchronized<E>.NodeGraphSimpleSynchronized s, d;
-		PriorityQueueKey<GraphSimple<E>.NodeGraph, Integer> frontier;
+		PathGraph<E, Distance> p;
+		GraphSimpleSynchronized<E, Distance> graph;
+		GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized s, d;
+		PriorityQueueKey<GraphSimple<E, Distance>.NodeGraph, Distance> frontier;
+		Comparator<Distance> comp;
 //				BiConsumer<NodeGraph, Integer> forAdjacents;
-		if (!(ggg instanceof GraphSimpleSynchronized<?>))
+		if (!(ggg instanceof GraphSimpleSynchronized<?, ?>))
 			return null;
-		graph = (GraphSimpleSynchronized<E>) ggg;
+		comp = distanceManager.getComparator();
+		graph = (GraphSimpleSynchronized<E, Distance>) ggg;
 		//
-		s = (GraphSimpleSynchronized<E>.NodeGraphSimpleSynchronized) graph.getNode(start);
-		d = (GraphSimpleSynchronized<E>.NodeGraphSimpleSynchronized) graph.getNode(dest);
+		s = (GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) graph.getNode(start);
+		d = (GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) graph.getNode(dest);
 		if (s == null || d == null || d == s)
 			return null;
-		frontier = new PriorityQueueKey<>(graph.getCompNodeGraph(), GraphSimple.INT_COMPARATOR,
-				no -> ((GraphSimpleSynchronized<E>.NodeGraphSimpleSynchronized) no).getDistFromStart());
+		frontier = new PriorityQueueKey<>(graph.getCompNodeGraph(), comp,
+				no -> ((GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) no).getDistFromStart());
 		dr = graph.getPathFindRuns();
 		s.checkAndReset(dr);
 		d.checkAndReset(dr);
 		s.setFather(s);
-		s.setDistFromFather(0);
-		s.setDistFromStart(0);
+		s.setDistFromFather(distanceManager.getZeroValue());
+		s.setDistFromStart(distanceManager.getZeroValue());
 		frontier.put(s);
 
 //				forAdjacents =
 		while (!frontier.isEmpty()) {
-			final GraphSimpleSynchronized<E>.NodeGraphSimpleSynchronized n;
-			n = (GraphSimpleSynchronized<E>.NodeGraphSimpleSynchronized) frontier.removeMinimum().getKey();
+			final GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized n;
+			n = (GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) frontier.removeMinimum().getKey();
 			/*
 			 * do not waste time computing nodes that have longer path of the alredy
 			 * discovered ones
 			 */
-			if (d.getFather() == null || d.getDistFromStart() > n.getDistFromStart())
+			if (d.getFather() == null ||
+			// d.getDistFromStart() > n.getDistFromStart()
+					comp.compare(d.getDistFromStart(), n.getDistFromStart()) > 0)
 				n.forEachAdjacents((nod, distToAdj) -> {
-					int distToNo;
-					GraphSimpleSynchronized<E>.NodeGraphSimpleSynchronized no;
-					no = (GraphSimpleSynchronized<E>.NodeGraphSimpleSynchronized) nod;
+					Distance distToNo;
+					GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized no;
+					no = (GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) nod;
 					no.checkAndReset(dr);
-					if (no.getColor() == ColorDijkstra.Black)
+					if (no.getColor() == NodePositionInFrontier.Closed)
 						return;
-					distToNo = distToAdj + n.getDistFromStart();
-					if (no.getFather() == null || distToNo < no.getDistFromStart()) {
-						final Integer newDistance;
+					distToNo = // distToAdj + n.getDistFromStart();
+							distanceManager.getAdder().apply(distToAdj, n.getDistFromStart());
+					if (no.getFather() == null || // distToNo < no.getDistFromStart()
+					comp.compare(distToNo, no.getDistFromStart()) > 0) {
+//						final Integer newDistance;
 						// update
-						newDistance = Integer.valueOf(distToNo);
+//						newDistance = Integer.valueOf(distToNo);
 						no.setFather(n);
 						no.setDistFromFather(distToAdj);
-						if (no.getColor() == ColorDijkstra.White) {
+						if (no.getColor() == NodePositionInFrontier.NeverAdded) {
 							// add on queue
-							no.setColor(ColorDijkstra.Grey);
-							no.setDistFromStart(newDistance);
+							no.setColor(NodePositionInFrontier.InFrontier);
+							no.setDistFromStart(distToNo);
 							frontier.put(no);
 						} else // it's grey, it's actually in the queue
 							frontier.alterKey(no,
-									nodd -> ((GraphSimpleSynchronized<E>.NodeGraphSimpleSynchronized) nodd)
-											.setDistFromStart(newDistance));
+									nodd -> ((GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) nodd)
+											.setDistFromStart(distToNo));
 					}
 				});
 			else
@@ -100,14 +120,14 @@ public class PathFinderDijkstra<E> implements PathFindStrategy<E> {
 				 * empty the frontier
 				 */
 				frontier.clear();
-			n.setColor(ColorDijkstra.Black);
+			n.setColor(NodePositionInFrontier.Closed);
 		}
 		graph.setPathFindRuns(graph.getPathFindRuns() + 1);
 		if (d.getFather() == null)
 			return null;
 		//
 
-		p = new PathGraph<E>();
+		p = new PathGraph<>(distanceManager);
 
 //		distanceTotal = d.getDistFromStart();
 		while (d != s) {
@@ -122,44 +142,49 @@ public class PathFinderDijkstra<E> implements PathFindStrategy<E> {
 	//
 
 	@SuppressWarnings("unchecked")
-	public PathGraph<E> getPathASynchronized(GraphSimple<E> ggg, E start, E dest) {
+	public PathGraph<E, Distance> getPathASynchronized(GraphSimple<E, Distance> ggg, E start, E dest,
+			NodeDistanceManager<Distance> distanceManager) {
 //		final double distanceTotal;
-		NodeInfoDikstra<E> ss, dd;
-		final Map<E, NodeInfoDikstra<E>> nodeInfos;
-		PriorityQueueKey<NodeInfoDikstra<E>, Double> frontier;
-		PathGraph<E> p;
-		GraphSimpleAsynchronized<E> graph;
-		GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized s, d;
-		UsynchronizedAdjacentForEacherDijkstra<E> forAdjacents;
-		if (!(ggg instanceof GraphSimpleAsynchronized<?>))
+		NodeInfoDikstra<E, Distance> ss, dd;
+		final Map<E, NodeInfoDikstra<E, Distance>> nodeInfos;
+		PriorityQueueKey<NodeInfoDikstra<E, Distance>, Distance> frontier;
+		PathGraph<E, Distance> p;
+		GraphSimpleAsynchronized<E, Distance> graph;
+		GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized s, d;
+		UsynchronizedAdjacentForEacherDijkstra<E, Distance> forAdjacents;
+		Comparator<Distance> comp;
+		if (!(ggg instanceof GraphSimpleAsynchronized<?, ?>))
 			return null;
-		graph = (GraphSimpleAsynchronized<E>) ggg;
-		s = (GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized) graph.getNode(start);
-		d = (GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized) graph.getNode(dest);
+		graph = (GraphSimpleAsynchronized<E, Distance>) ggg;
+		s = (GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized) graph.getNode(start);
+		d = (GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized) graph.getNode(dest);
 		if (s == null || d == null || d == s)
 			return null;
+		comp = distanceManager.getComparator();
 		nodeInfos = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, graph.getComparatorElements());
-		frontier = new PriorityQueueKey<>((i1, i2) -> graph.getCompNodeGraph().compare(i1.thisNode, i2.thisNode),
-				GraphSimple.DOUBLE_COMPARATOR, no -> no.distFromStart);
-		ss = new NodeInfoDikstra<E>(s);
+		frontier = new PriorityQueueKey<>((i1, i2) -> graph.getCompNodeGraph().compare(i1.thisNode, i2.thisNode), comp,
+				no -> no.distFromStart);
+		ss = new NodeInfoDikstra<E, Distance>(s, distanceManager);
 		ss.father = ss;
-		ss.distFromFather = ss.distFromStart = Double.valueOf(0);
+		ss.distFromFather = ss.distFromStart = null; // Double.valueOf(0);
 		frontier.put(ss);
 		nodeInfos.put(start, ss);
-		dd = new NodeInfoDikstra<E>(d);
+		dd = new NodeInfoDikstra<E, Distance>(d, distanceManager);
 		nodeInfos.put(dest, dd);
 
-		forAdjacents = new UsynchronizedAdjacentForEacherDijkstra<>(nodeInfos, frontier);
+		forAdjacents = new UsynchronizedAdjacentForEacherDijkstra<>(nodeInfos, frontier, distanceManager);
 
 		while (!frontier.isEmpty()) {
-			final NodeInfoDikstra<E> n;
+			final NodeInfoDikstra<E, Distance> n;
 			n = frontier.removeMinimum().getKey();
 			/*
 			 * do not waste time computing nodes that have longer path of the alredy
 			 * discovered ones
 			 */
-			if (dd.father == null || dd.distFromStart > n.distFromStart) {
+			if (dd.father == null ||
+			// dd.distFromStart > n.distFromStart
+					comp.compare(dd.distFromStart, n.distFromStart) > 0) {
 				forAdjacents.setCurrentNode(n);
 				n.thisNode.forEachAdjacents(forAdjacents);
 			} else
@@ -169,13 +194,13 @@ public class PathFinderDijkstra<E> implements PathFindStrategy<E> {
 				 * empty the frontier
 				 */
 				frontier.clear();
-			n.color = ColorDijkstra.Black;
+			n.color = NodePositionInFrontier.Closed;
 		}
 		if (dd.father == null)
 			return null;
 		//
 		nodeInfos.clear();
-		p = new PathGraph<E>();
+		p = new PathGraph<>(distanceManager);
 //		distanceTotal = dd.distFromStart;
 		while (dd != ss) {
 			p.addStep(dd.thisNode.getElem(), dd.distFromFather);
@@ -190,68 +215,79 @@ public class PathFinderDijkstra<E> implements PathFindStrategy<E> {
 
 	// subclasses
 
-	protected static class NodeInfoDikstra<E> {
-		protected ColorDijkstra color;
-		protected Double distFromStart, distFromFather;
-		protected GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized thisNode;
-		protected NodeInfoDikstra<E> father;
+	protected static class NodeInfoDikstra<E, Distance> {
+		protected NodePositionInFrontier color;
+		protected Distance distFromStart, distFromFather;
+		protected GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized thisNode;
+		protected NodeInfoDikstra<E, Distance> father;
+		//
+		protected NodeDistanceManager<Distance> distanceManager;
 
-		protected NodeInfoDikstra(GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized thisNode) {
+		protected NodeInfoDikstra(GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized thisNode,
+				NodeDistanceManager<Distance> distanceManager) {
+			this.distanceManager = distanceManager;
 			this.thisNode = thisNode;
-			color = ColorDijkstra.White;
+			color = NodePositionInFrontier.NeverAdded;
 			distFromStart = distFromFather = null;
 			father = null;
 		}
 	}
 
-	private static class UsynchronizedAdjacentForEacherDijkstra<E>
-			implements BiConsumer<GraphSimple<E>.NodeGraph, Integer> {
+	private static class UsynchronizedAdjacentForEacherDijkstra<E, Distance>
+			implements BiConsumer<GraphSimple<E, Distance>.NodeGraph, Distance> {
 
-		private NodeInfoDikstra<E> currentNode;
-		private final Map<E, NodeInfoDikstra<E>> nodeInfos;
-		private final PriorityQueueKey<NodeInfoDikstra<E>, Double> frontier;
+		private NodeInfoDikstra<E, Distance> currentNode;
+		private final Map<E, NodeInfoDikstra<E, Distance>> nodeInfos;
+		private final PriorityQueueKey<NodeInfoDikstra<E, Distance>, Distance> frontier;
+		//
+		protected NodeDistanceManager<Distance> distanceManager;
 
-		UsynchronizedAdjacentForEacherDijkstra(Map<E, NodeInfoDikstra<E>> nodeInfos,
-				PriorityQueueKey<NodeInfoDikstra<E>, Double> frontier) {
+		UsynchronizedAdjacentForEacherDijkstra(Map<E, NodeInfoDikstra<E, Distance>> nodeInfos,
+				PriorityQueueKey<NodeInfoDikstra<E, Distance>, Distance> frontier,
+				NodeDistanceManager<Distance> distanceManager) {
 			this.nodeInfos = nodeInfos;
 			this.frontier = frontier;
+			this.distanceManager = distanceManager;
 		}
 
-		public void setCurrentNode(NodeInfoDikstra<E> n) {
+		public void setCurrentNode(NodeInfoDikstra<E, Distance> n) {
 			this.currentNode = n;
 		}
 
 //		public void accept(GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized nod, Integer distToAdj) {
 		@SuppressWarnings("unchecked")
 		@Override
-		public void accept(GraphSimple<E>.NodeGraph nnn, Integer distToAdj) {
-			double distToNo;
+		public void accept(GraphSimple<E, Distance>.NodeGraph nnn, Distance distToAdj) {
+			Distance distToNo;
 			E e;
-			GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized no;
-			NodeInfoDikstra<E> noInfo;
-			no = (GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized) nnn;
+			GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized no;
+			NodeInfoDikstra<E, Distance> noInfo;
+			no = (GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized) nnn;
 			e = no.getElem();
 			if (nodeInfos.containsKey(e))
 				noInfo = nodeInfos.get(e);
 			else
-				nodeInfos.put(e, noInfo = new NodeInfoDikstra<E>(no));
+				nodeInfos.put(e, noInfo = new NodeInfoDikstra<E, Distance>(no, distanceManager));
 
-			if (noInfo.color == ColorDijkstra.Black)
+			if (noInfo.color == NodePositionInFrontier.Closed)
 				return;
-			distToNo = distToAdj + currentNode.distFromStart;
-			if (noInfo.father == null || distToNo < noInfo.distFromStart) {
-				final Double newDistance;
+			distToNo = // distToAdj + currentNode.distFromStart;
+					this.distanceManager.getAdder().apply(distToAdj, currentNode.distFromStart);
+			if (noInfo.father == null ||
+			// distToNo < noInfo.distFromStart
+					distanceManager.getComparator().compare(distToNo, noInfo.distFromStart) < 0) {
+//				final Double newDistance;
 				// update
-				newDistance = Double.valueOf(distToNo);
+//				newDistance = Double.valueOf(distToNo);
 				noInfo.father = currentNode;
-				noInfo.distFromFather = Double.valueOf(distToAdj);
-				if (noInfo.color == ColorDijkstra.White) {
+				noInfo.distFromFather = distToAdj; // Double.valueOf(distToAdj);
+				if (noInfo.color == NodePositionInFrontier.NeverAdded) {
 					// add on queue
-					noInfo.color = ColorDijkstra.Grey;
-					noInfo.distFromStart = newDistance;
+					noInfo.color = NodePositionInFrontier.InFrontier;
+					noInfo.distFromStart = distToNo;
 					frontier.put(noInfo);
 				} else // it's grey, it's actually in the queue
-					frontier.alterKey(noInfo, nodd -> (nodd).distFromStart = newDistance);
+					frontier.alterKey(noInfo, nodd -> (nodd).distFromStart = distToNo);
 			}
 		}
 	}
