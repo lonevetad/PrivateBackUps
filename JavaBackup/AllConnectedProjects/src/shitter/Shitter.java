@@ -1,8 +1,16 @@
-package lol.shitter;
+package shitter;
 
 import java.io.File;
 import java.io.OutputStream;
 
+/**
+ * The shitter is a "virus" that reads files, shatters and torn apart them in
+ * random tiny pieces and spread those pieces in the folder they are located,
+ * removing then the original file.<br>
+ * Each "file-type handler" must be capable of re-assembling back the pieces
+ * into the original file.<br>
+ * One working example is {@link TextDisassembler}.
+ */
 public class Shitter {
 	public static final int MAX_SIZE_BYTE = 64;
 

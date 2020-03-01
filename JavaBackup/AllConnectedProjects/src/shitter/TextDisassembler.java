@@ -1,4 +1,4 @@
-package lol.shitter;
+package shitter;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -10,9 +10,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 
-import lol.MapTreeAVL;
-import lol.shitter.Shitter.FileDisassemblerHandler;
-import lol.shitter.ShitterUtils.TornedApartFileCollector;
+import dataStructures.MapTreeAVL;
+import shitter.Shitter.FileDisassemblerHandler;
+import shitter.ShitterUtils.TornedApartFileCollector;
 
 public class TextDisassembler extends FileDisassemblerHandler {
 	@Override
