@@ -1,4 +1,4 @@
-package geometry.pointTools.impl;
+package geometry.pointTools;
 
 import java.awt.Point;
 import java.awt.Polygon;
@@ -9,7 +9,8 @@ import java.util.function.Consumer;
 import tools.MathUtilities;
 import tools.MathUtilities.PointRelativeToLine;
 
-public final class PolygonPointsUtilities {
+public final class PolygonUtilities {
+	static final double PI_2 = Math.PI * 2.0;
 
 	public static void forEachPoint(Polygon p, Consumer<Point> action) {
 		int i, len;
@@ -186,23 +187,23 @@ public final class PolygonPointsUtilities {
 	 * 
 	 * @return: wn = the winding number's computation (=0 only when P is outside)
 	 */
-	public static boolean isPointInsideThePolygon(Point2D pointToBeTested, Polygon polygon) {
+	public static boolean isPointInsidePolygon(Point2D pointToBeTested, Polygon polygon) {
 		int n;
 		n = polygon.npoints;
 		if (n < 3 || (!polygon.getBounds().contains(((pointToBeTested instanceof Point) ? ((Point) pointToBeTested)
 				: new Point((int) pointToBeTested.getX(), (int) pointToBeTested.getY()))))//
 		)
 			return false;
-		return isPointInsideThePolygon(pointToBeTested.getX(), pointToBeTested.getY(), polygon);
+		return isPointInsidePolygon(pointToBeTested.getX(), pointToBeTested.getY(), polygon);
 	}
 
-	/** See {@link #isPointInsideThePolygon(Point2D,Polygon)}. */
-	public static boolean isPointInsideThePolygon(double px, double py, Polygon polygon) {
+	/** See {@link #isPointInsidePolygon(Point2D,Polygon)}. */
+	public static boolean isPointInsidePolygon(double px, double py, Polygon polygon) {
 		int wn = 0, n, x, y; // the winding number counter
 		double prevx, prevy;
 		int[] xx, yy;
 		n = polygon.npoints;
-		if (n < 3 || (!polygon.getBounds().contains(px, py)))
+		if (n < 3 || (!MathUtilities.isInside(polygon.getBounds(), (int) px, (int) py)))
 			return false;
 		xx = polygon.xpoints;
 		yy = polygon.ypoints;
@@ -212,21 +213,72 @@ public final class PolygonPointsUtilities {
 		prevy = yy[n];
 		for (int i = 0; i < n; i++) { // edge from V[i] to V[i+1]
 			x = xx[i];
-			if ((y = yy[i]) <= py) { // start y <= P.getY()
+			if ((y = yy[i]) == py && x == px)
+				return true;
+			if (y <= py) { // start y <= P.getY()
 				if ((prevy >= py)// an upward crossing
-						&& MathUtilities.relationToLine(x, y, prevx, prevy, px, py) == PointRelativeToLine.Left)
+//						&& MathUtilities.relationToLine(x, y, prevx, prevy, px, py) == PointRelativeToLine.Left)
+						&& MathUtilities.relationToLine(x, y, prevx, prevy, px, py) != PointRelativeToLine.Right)
 					// P left of edge
 					++wn; // have a valid up intersect
 			} else { // start y > P.getY() (no test needed)
 				if ((prevy <= py)// a downward crossing
-						&& MathUtilities.relationToLine(x, yy[i], prevx, prevy, px, py) == PointRelativeToLine.Right)
+//						&& MathUtilities.relationToLine(x, y, prevx, prevy, px, py) == PointRelativeToLine.Right)
+						&& MathUtilities.relationToLine(x, y, prevx, prevy, px, py) != PointRelativeToLine.Left)
 					// P right of edge
 					--wn; // have a valid down intersect
 			}
 			prevx = x;
 			prevx = y;
 		}
-		return wn == 0;
+		return wn != 0;
+	}
+
+	public static boolean isConvex(Polygon polygon) {
+		int i, pointsCalculated, n, oldx, oldy, newx, newy;
+		int[] xx, yy;
+		double angle, olddir, newdir, anglesum, orientation;
+		n = polygon.npoints;
+		if (n < 3)
+			return false;
+		if (n == 3)
+			return true;
+		xx = polygon.xpoints;
+		yy = polygon.ypoints;
+		oldx = xx[n - 3];
+		oldy = yy[n - 3];
+		newx = xx[n - 2];
+		newy = yy[n - 2];
+		newdir = Math.atan2(newy - oldy, newx - oldx);
+		anglesum = 0.0;
+		orientation = 1.0;
+		i = -1;
+		pointsCalculated = 0;
+		while (++i < n) {
+			oldx = newx;
+			oldy = newy;
+			olddir = newdir;
+			newx = xx[i];
+			newy = yy[i];
+			if (oldx != newx || oldy != newy) { // ignore overlapping points
+				newdir = Math.atan2(newy - oldy, newx - oldx);
+				angle = newdir - olddir;
+				if (angle <= -Math.PI)
+					angle += PI_2;
+				else if (angle > Math.PI)
+					angle -= PI_2;
+				if (pointsCalculated++ == 0) {
+					if (angle == 0.0)
+						return false;
+					orientation = angle > 0.0 ? 1.0 : -1.0;
+				} else {
+					if (orientation * angle <= 0.0)
+						return false;
+				}
+				anglesum += angle;
+			}
+		}
+		return Math.abs(Math.round(anglesum / PI_2)) == 1.0;
 	}
 
 	@Deprecated

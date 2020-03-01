@@ -454,7 +454,7 @@ public abstract class MapEditor extends JPanel implements GraphComponentSizeAdap
 		 * | |btnCloseEdit|| . . . . . . . . |/\| | . . . . |<br>
 		 * | ------------- | . . . . . . . . |--| | . . . . |<br>
 		 * | | . all. |/\| | . . . . . . . . | .| | . . . . |<br>
-		 * | | enums. |--| | . . . . . . . . | .| | buttons |<br>
+		 * | | enums. |--| | . . . . . . . . | .| | buttonsCache |<br>
 		 * | |of GOIMP|__| | . MapGameView . | .| | . . . . |<br>
 		 * | |________|\/| | . . . . . . . . |[]| |_________|<br>
 		 * | ____________| | . . . . . . . . | .| | . . . . |<br>
@@ -465,7 +465,7 @@ public abstract class MapEditor extends JPanel implements GraphComponentSizeAdap
 		 * |________________________________________________|
 		 */
 		// rows: 1 btn, 4 all enum, 5 single enum
-		// rows: 4 buttons, 3 log, 3 controls
+		// rows: 4 buttonsCache, 3 log, 3 controls
 
 		// left section
 
@@ -580,7 +580,7 @@ public abstract class MapEditor extends JPanel implements GraphComponentSizeAdap
 		listTileSingleEnum.addListSelectionListener(l -> doOnMouseClick_OnTilemapSelectedFromList());
 		mapGameView.addMouseListener(mouseAdapterMolmVisualizer);
 		mapGameView.addMouseMotionListener(mouseAdapterMolmVisualizer);
-		// add listeners to buttons
+		// add listeners to buttonsCache
 		jbAllBackToStart.addActionListener(l -> hideAndCloseAll());
 		jbCloseEditor.addActionListener(l -> closeMapEditorSection());
 		jbClearSelectedArea.addActionListener(l -> {

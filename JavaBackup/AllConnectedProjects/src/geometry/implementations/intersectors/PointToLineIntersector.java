@@ -13,6 +13,13 @@ import tools.MathUtilities;
 
 public class PointToLineIntersector implements ShapesIntersectionDetector {
 	private static final long serialVersionUID = 1111L;
+	private static PointToLineIntersector SINGLETON;
+
+	public static PointToLineIntersector getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new PointToLineIntersector();
+		return SINGLETON;
+	}
 
 	@Override
 	public boolean areIntersecting(AbstractShape2D s1, AbstractShape2D s2) {

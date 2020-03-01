@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import dataStructures.MapTreeAVL.MapTreeAVLFactory;
+//import dataStructures.MapTreeAVL.MapTreeAVLFactory;
 import dataStructures.mtAvl.MapTreeAVLFull;
 import dataStructures.mtAvl.MapTreeAVLLightweight;
 import dataStructures.mtAvl.MapTreeAVLMinIter;
@@ -296,6 +296,30 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 
 	public Entry<K, V> getAt(int i);
 
+	public default V set(int index, V element) {
+		Entry<K, V> e;
+		V v;
+		e = getAt(index);
+		if (e == null)
+			return null;
+		v = e.getValue();
+		e.setValue(element);
+		return v;
+	}
+
+	public default V remove(int index) {
+		Entry<K, V> e;
+		V v;
+		e = getAt(index);
+		if (e == null)
+			return null;
+		v = e.getValue();
+		delete(e.getKey());
+		return v;
+	}
+
+	public int indexOf(Object o);
+
 	/**
 	 * Similar to {@link #forEach(java.util.function.Consumer)}, but allow to
 	 * iterate over the elements in different ways.<br>
@@ -357,8 +381,10 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	 */
 	public Entry<K, V> removeMaximum();
 
+	/** Returns the last pair inserted in chronological order. */
 	public Entry<K, V> getLastInserted();
 
+	/** See {@link #getLastInserted()}. */
 	public Entry<K, V> getFirstInserted();
 
 	/**
@@ -447,22 +473,92 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	 */
 	public List<V> toListValue(Function<V, K> keyExtractor);
 
-	public Set<K> toSetKey();
+	public SortedSet<K> toSetKey();
 
-	public Set<Entry<K, V>> toSetEntry();
+	public SortedSet<Entry<K, V>> toSetEntry();
 
-	public Set<V> toSetValue(Function<V, K> keyExtractor);
+	public SortedSet<V> toSetValue(Function<V, K> keyExtractor);
 
 	// ENDCOLLECTION CONVERTITORS
 
 	@Override
-	public void putAll(Map<? extends K, ? extends V> m);
+	public default void putAll(Map<? extends K, ? extends V> m) {
+		MapTreeAVL<K, V> thisMap;
+		thisMap = this;
+		m.forEach((k, v) -> {
+			thisMap.put(k, v);
+		});
+	}
 
-	public boolean containsAll(Collection<?> c);
+	public default boolean containsAll(Collection<?> c) {
+		for (Object o : c) {
+			if (!containsKey(o))
+				return false;
+		}
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	public default boolean addAll(Collection<?> c) {
+		boolean[] flag;
+		final int prevSize;
+		MapTreeAVL<K, V> thisList;
+		thisList = this;
+		prevSize = size();
+		flag = new boolean[] { false };
+		c.forEach(o -> {
+			if (o != null) {
+				try {
+					Entry<K, V> e;
+					e = (Entry<K, V>) o;
+					thisList.put(e.getKey(), e.getValue());
+				} catch (ClassCastException e1) {
+					try {
+						thisList.put((K) o, null);
+					} catch (ClassCastException e2) {
+						try {
+							thisList.put(null, (V) o);
+						} catch (ClassCastException e3) {
+							throw new ClassCastException("Cannot determine and use the class of " + o.getClass());
+						}
+					}
+				}
+				flag[0] |= prevSize != thisList.size();
+			}
+		});
+		return flag[0];
+	}
+
+	public default boolean retainAll(Collection<?> c) {
+		return false; // backMap.reta;
+	}
 
 	public default Stream<Entry<K, V>> stream() {
 //		return new StreamTreeAVL<Entry<K, V>>();
 		throw new UnsupportedOperationException("Operation not implemented yet");
 	}
 
+	/**
+	 * With some particular inputs, the tree could be nearly unbalanced, making some
+	 * operations heavier than the predicted <code>O(log(n))</code>, where <i>n</i>
+	 * is the total size of the tree. <br>
+	 * Three examples making the tree left-tailed:
+	 * <ul>
+	 * <li>{ 10, 4, 20, 2, 6, 15, 22, 1, 3, 5, 11, 0 }</li>
+	 * <li>{ 99, 10, 140, 4, 20, 120, 160, 2, 6, 15, 22, 110, 103, 150, 1, 3, 5, 11,
+	 * 100, 0 }</li>
+	 * <li>{ 1000, <br>
+	 * 99, 1500, <br>
+	 * 10, 140, 1200, 2000, <br>
+	 * 4, 20, 110, 160, 1100, 1250, 1700, 2200, <br>
+	 * 2, 6, 15, 22, 103, 120, 150, 1050, 1150, 1225, 1600, <br>
+	 * 1, 3, 5, 11, 100, 1025, <br>
+	 * 0 }</li>
+	 * </ul>
+	 * <br>
+	 * This way, the maximum height is minimized and so the worst case is
+	 * O(log2(n)). <br>
+	 * This method runs on <code>O(n*log2(n))</code> time.
+	 */
+	public void compact();
 }

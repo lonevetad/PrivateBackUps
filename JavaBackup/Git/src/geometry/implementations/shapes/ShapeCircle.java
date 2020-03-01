@@ -24,9 +24,9 @@ public class ShapeCircle extends AbstractShapeFillableImpl {
 		this.diameter = s.diameter;
 	}
 
-	public ShapeCircle(int x, int y, boolean isFilled, int radiusCenterExcluded) {
+	public ShapeCircle(int x, int y, boolean isFilled, int diameter) {
 		super((isFilled ? ShapeRunnersImplemented.Disk : ShapeRunnersImplemented.Circumference), 0.0, x, y, isFilled);
-		setRadius(radiusCenterExcluded);
+		setDiameter(diameter);
 	}
 
 	protected int // radius, /** Used as cache */

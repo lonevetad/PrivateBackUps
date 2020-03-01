@@ -10,7 +10,7 @@ import geometry.pointTools.PointConsumer;
 
 public class ShapeRunnerPolygonBorder extends AbstractShapeRunnerImpl {
 	private static final long serialVersionUID = -6501855552021048L;
-	public static ShapeRunnerPolygonBorder SINGLETON;
+	private static ShapeRunnerPolygonBorder SINGLETON;
 
 	public static ShapeRunnerPolygonBorder getInstance() {
 		if (SINGLETON == null)
@@ -18,7 +18,7 @@ public class ShapeRunnerPolygonBorder extends AbstractShapeRunnerImpl {
 		return SINGLETON;
 	}
 
-	private ShapeRunnerPolygonBorder() {
+	protected ShapeRunnerPolygonBorder() {
 	}
 
 	@Override
@@ -27,16 +27,16 @@ public class ShapeRunnerPolygonBorder extends AbstractShapeRunnerImpl {
 	}
 
 	@Override
-	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action) {
+	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action, boolean shouldPerformEarlyStops) {
 		Polygon polygon;
 		if (shape == null || action == null || shape.getShapeImplementing() != this.getShapeRunnersImplemented())
 			return false;
 		polygon = shape.toPolygon();
-		return runShapePolygon(polygon, action);
+		return runShapePolygon(polygon, action, shouldPerformEarlyStops);
 	}
 
-	public static boolean runShapePolygon(Polygon polygon, PointConsumer action) {
-		int i, len;
+	public static boolean runShapePolygon(Polygon polygon, PointConsumer action, boolean shouldPerformEarlyStops) {
+		int i, len, px, py;
 		int[] xx, yy;
 		Point p, lastp;
 		len = polygon.npoints;
@@ -46,11 +46,12 @@ public class ShapeRunnerPolygonBorder extends AbstractShapeRunnerImpl {
 		p = new Point();
 		i = -1;
 		while (++i < len) {
-			p.x = xx[i];
-			p.y = yy[i];
-			ShapeRunnerLine.runSpan(action, lastp, p);
-			lastp.x = p.x;
-			lastp.y = p.y;
+			p.x = px = xx[i];
+			p.y = py = yy[i];
+			System.out.println("run on polygon the points: lastp: " + lastp + ", to p: " + p);
+			ShapeRunnerLine.runSpan(action, lastp, p, shouldPerformEarlyStops);
+			lastp.x = px;
+			lastp.y = py;
 		}
 		return true;
 	}

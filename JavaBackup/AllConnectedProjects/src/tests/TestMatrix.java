@@ -1,5 +1,6 @@
 package tests;
 
+@Deprecated
 public class TestMatrix {
 
 	public TestMatrix() {

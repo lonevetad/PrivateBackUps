@@ -7,9 +7,14 @@ import java.util.List;
 /** Detects if two {@link AbstractShape2D}s are intersecting each others. */
 public interface ShapesIntersectionDetector extends Serializable {
 	/**
-	 * Detects if the given two {@link AbstractShape2D}s are intersecting each others.
+	 * Detects if the given two {@link AbstractShape2D}s are intersecting each
+	 * others.
 	 */
-	public boolean areIntersecting(AbstractShape2D s1, AbstractShape2D s2);
+	public default boolean areIntersecting(AbstractShape2D s1, AbstractShape2D s2) {
+		List<Point2D> l;
+		l = computeIntersectionPoints(s1, s2);
+		return (l != null) && (!l.isEmpty());
+	}
 
 	/**
 	 * Compute a set of intersections points, if they intersects, or

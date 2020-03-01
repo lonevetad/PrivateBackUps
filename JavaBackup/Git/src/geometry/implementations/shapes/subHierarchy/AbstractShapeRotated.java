@@ -38,9 +38,10 @@ public abstract class AbstractShapeRotated extends AbstractShape2D {
 		angleRotation %= 360.0;
 		if (angleRotation < 0)
 			angleRotation += 360.0;
-		if (this.angleRotation != angleRotation)
+		if (this.angleRotation != angleRotation) {
 			this.polygonCache = null;
-		this.angleRotation = angleRotation;
+			this.angleRotation = angleRotation;
+		}
 		return this;
 	}
 }

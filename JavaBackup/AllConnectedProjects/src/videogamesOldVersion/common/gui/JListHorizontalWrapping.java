@@ -1,4 +1,4 @@
-package common.gui;
+package videogamesOldVersion.common.gui;
 
 import java.awt.Dimension;
 import java.util.Vector;

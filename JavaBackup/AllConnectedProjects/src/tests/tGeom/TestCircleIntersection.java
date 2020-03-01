@@ -126,7 +126,7 @@ public class TestCircleIntersection extends TestShapeIntersection {
 				 * @Override public int getY() { return 0; }
 				 */
 			};
-			setcIntersectionShower(jp);
+			setCIntersectionShower(jp);
 			jp.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 5));
 			jp.addMouseListener(new MouseAdapter() {
 				@Override
