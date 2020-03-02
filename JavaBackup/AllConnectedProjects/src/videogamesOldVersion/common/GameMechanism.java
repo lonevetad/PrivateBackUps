@@ -1,13 +1,13 @@
-package common;
+package videogamesOldVersion.common;
 
-import common.abstractCommon.AbstractMapGame;
-import common.abstractCommon.GameMechanismType;
-import common.abstractCommon.GameModelGeneric;
-import common.abstractCommon.MainController;
-import common.abstractCommon.referenceHolderAC.ThreadsHolder;
-import common.mainTools.RunnableSuspendible;
-import common.mainTools.mOLM.abstractClassesMOLM.ObserverMolm;
 import tools.RedBlackTree;
+import videogamesOldVersion.common.abstractCommon.AbstractMapGame;
+import videogamesOldVersion.common.abstractCommon.GameMechanismType;
+import videogamesOldVersion.common.abstractCommon.GameModelGeneric;
+import videogamesOldVersion.common.abstractCommon.MainController;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.ThreadsHolder;
+import videogamesOldVersion.common.mainTools.RunnableSuspendible;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObserverMolm;
 
 /**
  * This class holds all of the implementation of the game.<br>
@@ -44,8 +44,8 @@ public abstract class GameMechanism implements ThreadsHolder {
 	// TODO GETTER
 
 	/**
-	 * A map game could be specifically created for a specific kind of game, so
-	 * that map is related to a specific instance of {@link GameMechanism}.<br>
+	 * A map game could be specifically created for a specific kind of game, so that
+	 * map is related to a specific instance of {@link GameMechanism}.<br>
 	 * Usually, to specify the "default" GameMechanism, <code>0</code> or
 	 * <code>-1</code> should be returned;
 	 * <p>
@@ -103,8 +103,8 @@ public abstract class GameMechanism implements ThreadsHolder {
 		gmg = gameModel.setMapGameCurrent(mapGameCurrent);
 		/*
 		 * mm = mapGameCurrent.getMolmManagerDelegated(); if (mm instanceof
-		 * MOLMManagerObservable) this.observableMolmManager =
-		 * (MOLMManagerObservable) mm;
+		 * MOLMManagerObservable) this.observableMolmManager = (MOLMManagerObservable)
+		 * mm;
 		 */
 		gmg.setMolmManagerDelegated(getObservableMolmManager());
 		return gmg;
@@ -143,7 +143,8 @@ public abstract class GameMechanism implements ThreadsHolder {
 		MapGame.MapGameBuilder mgb;
 		mgb = MapGame.startBuilding(this.mainController, mapName);
 		mgb.setMolmManagerDelegated(getObservableMolmManager());
-		if (obs != null) mgb.addMolmObserver(obs);
+		if (obs != null)
+			mgb.addMolmObserver(obs);
 		return mgb.setReallocMolmsNeeded(true).setSizeMicropixel(widthMicropixel, heightMicropixel)
 				.setGameTypeOrdinal(gameTypeOrdinal).build();
 	}
@@ -193,12 +194,14 @@ public abstract class GameMechanism implements ThreadsHolder {
 
 	@Override
 	public void pauseThreads() {
-		if (runnableGame != null) runnableGame.suspendRunnable();
+		if (runnableGame != null)
+			runnableGame.suspendRunnable();
 	}
 
 	@Override
 	public void resumeThreads() {
-		if (runnableGame != null) runnableGame.resumeRunnable();
+		if (runnableGame != null)
+			runnableGame.resumeRunnable();
 	}
 
 }

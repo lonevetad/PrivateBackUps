@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import lol.MapTreeAVL;
+import dataStructures.MapTreeAVL;
 
 public class IntegerStream {
 	public static final Comparator<Integer> INT_COMPARATOR = (e1, e2) -> {

@@ -1,10 +1,10 @@
-package common;
+package videogamesOldVersion.common;
 
-import common.abstractCommon.AbstractSaveData;
-import common.abstractCommon.GameModelGeneric;
-import common.abstractCommon.LoaderGeneric;
-import common.abstractCommon.MainController;
-import common.gui.MainGUI;
+import videogamesOldVersion.common.abstractCommon.AbstractSaveData;
+import videogamesOldVersion.common.abstractCommon.GameModelGeneric;
+import videogamesOldVersion.common.abstractCommon.LoaderGeneric;
+import videogamesOldVersion.common.abstractCommon.MainController;
+import videogamesOldVersion.common.gui.MainGUI;
 
 public class MainControllerEmpty extends MainController {
 	private static final long serialVersionUID = -899258539335L;

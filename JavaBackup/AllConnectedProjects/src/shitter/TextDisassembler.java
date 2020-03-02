@@ -15,6 +15,7 @@ import shitter.Shitter.FileDisassemblerHandler;
 import shitter.ShitterUtils.TornedApartFileCollector;
 
 public class TextDisassembler extends FileDisassemblerHandler {
+
 	@Override
 	public boolean canHandle(File f) {
 		return f != null && f.exists() && (!f.isDirectory())//
@@ -96,7 +97,7 @@ public class TextDisassembler extends FileDisassemblerHandler {
 				if (randomNumber != null) {
 					bos = new BufferedOutputStream(new FileOutputStream(
 							new File(nameNoExtension + SEPARATOR_NAME_INDEX + randomNumber + extension)));
-					if (randomNumber.intValue() == 0) {
+					if (randomNumber.intValue() == Shitter.INDEX_FILE_WITH_SEED) {
 						// write the seed
 						bos.write(ShitterUtils.splitLongInBytes(seed));
 						bos.flush();
@@ -148,7 +149,7 @@ public class TextDisassembler extends FileDisassemblerHandler {
 		fc = new ShitterUtils.TornedApartFileCollector(this, nameNoExtension, extension);
 		folderContaining.listFiles(fc);
 		pieces = fc.pieces;
-		fileWithSeed = pieces.peekMinimum().getValue();
+		fileWithSeed = fc.getFileWithSeed();
 
 		if (fileWithSeed == null)
 			return;

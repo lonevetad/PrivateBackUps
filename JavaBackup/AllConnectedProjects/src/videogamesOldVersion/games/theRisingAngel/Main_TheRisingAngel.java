@@ -1,14 +1,14 @@
-package games.theRisingAngel;
+package videogamesOldVersion.games.theRisingAngel;
 
 import java.awt.event.MouseEvent;
 
-import common.abstractCommon.AbstractPlayer;
-import common.abstractCommon.AbstractSaveData;
-import common.abstractCommon.MainController;
-import common.gui.MainGUI;
-import common.mainTools.FileUtilities;
-import games.theRisingAngel.main.Loader_TRAn;
-import games.theRisingArmy.guiTRAr.MapEditorTRAr;
+import tools.FileUtilities;
+import videogamesOldVersion.common.abstractCommon.AbstractPlayer;
+import videogamesOldVersion.common.abstractCommon.AbstractSaveData;
+import videogamesOldVersion.common.abstractCommon.MainController;
+import videogamesOldVersion.common.gui.MainGUI;
+import videogamesOldVersion.games.theRisingAngel.main.Loader_TRAn;
+import videogamesOldVersion.games.theRisingArmy.guiTRAr.MapEditorTRAr;
 
 public class Main_TheRisingAngel extends MainController// _RealTime
 {
@@ -47,7 +47,8 @@ public class Main_TheRisingAngel extends MainController// _RealTime
 	}
 
 	/*
-	 * @Override public MatrixObjectLocationManager getMOLM() { return getMolmAllObjects(); }
+	 * @Override public MatrixObjectLocationManager getMOLM() { return
+	 * getMolmAllObjects(); }
 	 */
 
 	public boolean isCanUserInteract() {
@@ -55,8 +56,9 @@ public class Main_TheRisingAngel extends MainController// _RealTime
 	}
 
 	/*
-	 * public MatrixObjectLocationManager getMolmBackground() { return molmBackground; } public
-	 * MatrixObjectLocationManager getMolmAllObjects() { return molmAllObjects; }
+	 * public MatrixObjectLocationManager getMolmBackground() { return
+	 * molmBackground; } public MatrixObjectLocationManager getMolmAllObjects() {
+	 * return molmAllObjects; }
 	 */
 	//
 
@@ -67,13 +69,13 @@ public class Main_TheRisingAngel extends MainController// _RealTime
 	}
 
 	/*
-	 * public Main_TheRisingArmy setMolmBackground(MatrixObjectLocationManager molmBackground) {
-	 * this.molmBackground = molmBackground; return this; }
+	 * public Main_TheRisingArmy setMolmBackground(MatrixObjectLocationManager
+	 * molmBackground) { this.molmBackground = molmBackground; return this; }
 	 */
 
 	/*
-	 * public Main_TheRisingArmy setMolmAllObjects(MatrixObjectLocationManager molmAllObjects) {
-	 * this.molmAllObjects = molmAllObjects; return this; }
+	 * public Main_TheRisingArmy setMolmAllObjects(MatrixObjectLocationManager
+	 * molmAllObjects) { this.molmAllObjects = molmAllObjects; return this; }
 	 */
 
 	//
@@ -116,13 +118,15 @@ public class Main_TheRisingAngel extends MainController// _RealTime
 		AbstractSaveData sd;
 		sd = newSaveData(getPlayer());
 		if (sd == null) {
-			if (errorHolder.length() == 0) errorHolder.append(starttextError);
+			if (errorHolder.length() == 0)
+				errorHolder.append(starttextError);
 			errorHolder.append("- SaveData empty");
 		}
 		path = getLoader().getPathSaves();
 		error = FileUtilities.writeObject(sd, path);
 		if (error != null) {
-			if (errorHolder.length() == 0) errorHolder.append(starttextError);
+			if (errorHolder.length() == 0)
+				errorHolder.append(starttextError);
 			errorHolder.append("- error while writing:n\t");
 			errorHolder.append(error);
 		}
@@ -133,8 +137,10 @@ public class Main_TheRisingAngel extends MainController// _RealTime
 	// TODO CLASSES
 
 	/*
-	 * static class JFrame_Updating extends JFrame implements GraphicComponentUpdating {
-	 * JFrame_Updating(){ super(); } JFrame_Updating(Main main){ } Main m;
+	 * static class JFrame_Updating extends JFrame implements
+	 * GraphicComponentUpdating { JFrame_Updating(){ super(); } JFrame_Updating(Main
+	 * main){ } Main m;
+	 * 
 	 * @Override public void updateValues() { } }
 	 */
 }

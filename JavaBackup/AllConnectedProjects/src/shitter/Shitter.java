@@ -13,6 +13,7 @@ import java.io.OutputStream;
  */
 public class Shitter {
 	public static final int MAX_SIZE_BYTE = 64;
+	protected static final int INDEX_FILE_WITH_SEED = 0;
 
 	/**
 	 * Could generalise the output defining a factory for the instance of

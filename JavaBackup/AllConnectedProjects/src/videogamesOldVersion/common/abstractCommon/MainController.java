@@ -1,4 +1,4 @@
-package common.abstractCommon;
+package videogamesOldVersion.common.abstractCommon;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -9,25 +9,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import common.EnumGameObjectTileImageCollection;
-import common.GameMechanism;
-import common.GameObjectInMap;
-import common.MOLMManager;
-import common.abstractCommon.LoaderGeneric.LoadWriteType;
-import common.abstractCommon.behaviouralObjectsAC.AbstractMOLMManager;
-import common.abstractCommon.behaviouralObjectsAC.ObjectActingOnPassingTime;
-import common.abstractCommon.behaviouralObjectsAC.ObjectSerializableDoingNothingAfter;
-import common.abstractCommon.referenceHolderAC.LoggerMessagesHolder;
-import common.abstractCommon.referenceHolderAC.MainHolder;
-import common.abstractCommon.referenceHolderAC.ThreadsHolder;
-import common.gui.MainGUI;
-import common.mainTools.LoggerMessages;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
-import common.mainTools.mOLM.abstractClassesMOLM.DoSomethingWithNode;
-import common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID;
-import common.mainTools.mOLM.abstractClassesMOLM.ObserverMolm;
 import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
-import common.utilities.StringSorter;
+import tools.minorStuffs.StringSorter;
+import videogamesOldVersion.common.EnumGameObjectTileImageCollection;
+import videogamesOldVersion.common.GameMechanism;
+import videogamesOldVersion.common.GameObjectInMap;
+import videogamesOldVersion.common.MOLMManager;
+import videogamesOldVersion.common.abstractCommon.LoaderGeneric.LoadWriteType;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.AbstractMOLMManager;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.ObjectActingOnPassingTime;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.ObjectSerializableDoingNothingAfter;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.LoggerMessagesHolder;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.MainHolder;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.ThreadsHolder;
+import videogamesOldVersion.common.gui.MainGUI;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.DoSomethingWithNode;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObserverMolm;
 
 /**
  * The Controller, the one who holds a Model (a data), interact with the View,

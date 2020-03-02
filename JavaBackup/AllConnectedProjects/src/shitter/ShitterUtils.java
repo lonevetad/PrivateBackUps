@@ -89,7 +89,7 @@ public class ShitterUtils {
 			this.nameSeparator = nameNoExtension + Shitter.FileDisassemblerHandler.SEPARATOR_NAME_INDEX;
 			this.extension = extension;
 			pieces = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Integer::compare);
-			System.out.println("nameNoExtension: " + nameNoExtension + ", extension: " + extension);
+//			System.out.println("nameNoExtension: " + nameNoExtension + ", extension: " + extension);
 		}
 
 		@Override
@@ -106,6 +106,10 @@ public class ShitterUtils {
 				pieces.put(numAssociated, thisFile);
 			}
 			return b;
+		}
+
+		public File getFileWithSeed() {
+			return this.pieces.peekMinimum().getValue();
 		}
 	}
 }
