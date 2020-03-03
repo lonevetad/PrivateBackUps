@@ -209,11 +209,11 @@ public abstract class GraphSimple<E, Distance> {
 //				if(!f.getAdjacent().containsKey(d)) {}
 		f.checkAdj();
 		if (f.adjacents.put(d, distance) == null)
-			this.linksAmount = -1;
+			this.linksAmount++; // why shoyld be: this.linksAmount = -1; ????
 		if (!this.isDirected) {
 			d.checkAdj();
 			if (d.adjacents.put(f, distance) == null)
-				this.linksAmount = -1;
+				this.linksAmount++; // why shoyld be: this.linksAmount = -1; ????
 		}
 	}
 
@@ -373,12 +373,11 @@ public abstract class GraphSimple<E, Distance> {
 //			checkAdj();
 //			return adjacents;
 //		}
-
+		
 		public int adjacentsSize() {
 			checkAdj();
 			return adjacents.size();
 		}
-
 		public void forEachAdjacents(BiConsumer<NodeGraph, Distance> consumer) {
 			checkAdj();
 			if (!adjacents.isEmpty())

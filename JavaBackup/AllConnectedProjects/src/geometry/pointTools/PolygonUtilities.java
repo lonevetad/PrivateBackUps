@@ -149,7 +149,7 @@ public final class PolygonUtilities {
 	 * 
 	 * @return: wn = the winding number's computation (=0 only when P is outside)
 	 */
-	public static boolean isPointInsideThePolygon(Point2D pointToBeTested, Point2D[] polygonAsConsecutivePoints) {
+	public static boolean isPointInsidePolygon(Point2D pointToBeTested, Point2D[] polygonAsConsecutivePoints) {
 		int wn = 0, nextIndex, n; // the winding number counter
 		n = polygonAsConsecutivePoints.length;
 		// loop through all edges of the polygon

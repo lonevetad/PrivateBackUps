@@ -49,13 +49,15 @@ public class TestStressPolygonIsInside {
 
 			System.out.println("---\nstart mine.. inside");
 			start = System.currentTimeMillis();
-			for (int i = 0; i < repetitions; i++)
+			for (int i = 0; i < repetitions; i++){
 				PolygonUtilities.isPointInsidePolygon(pointInside, p);
+			}
 			delta = System.currentTimeMillis() - start;
 			System.out.print("\tdelta: " + delta + "\noutside:\n\t");
 			start = System.currentTimeMillis();
-			for (int i = 0; i < repetitions; i++)
+			for (int i = 0; i < repetitions; i++){
 				PolygonUtilities.isPointInsidePolygon(pointOutside, p);
+			}
 			delta = System.currentTimeMillis() - start;
 			System.out.println(delta);
 

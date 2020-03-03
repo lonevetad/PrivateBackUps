@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 import tools.MathUtilities;
 import tools.MathUtilities.PointRelativeToLine;
 
-public final class PolygonPointsUtilities {
+public final class PolygonUtilities {
 
 	public static void forEachPoint(Polygon p, Consumer<Point> action) {
 		int i, len;

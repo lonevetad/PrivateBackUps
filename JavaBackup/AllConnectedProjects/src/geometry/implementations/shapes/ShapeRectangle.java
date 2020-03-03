@@ -8,6 +8,7 @@ import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeFillableImpl;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeRotated;
+import geometry.pointTools.PolygonUtilities;
 import tools.MathUtilities;
 
 public class ShapeRectangle extends AbstractShapeFillableImpl {
@@ -247,6 +248,7 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 		double tempx, tempy, rad, halfWidth, halfHeight, radius, angRotation;
 		int[] xx, yy;
 		Polygon p;
+
 		if (polygonCache != null)
 			return polygonCache;
 
