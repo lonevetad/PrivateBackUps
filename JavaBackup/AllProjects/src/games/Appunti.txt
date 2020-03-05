@@ -1,0 +1,65 @@
+STRUTTURA GENERALE GROSSA
+
+
+Ogni istanza di GameLauncher ha una istanza di GameGUI e GameController.
+
+Quest'ultima gestisce un ControllerModel, che ne definisce lo "stato" appunto,
+il sistema di Input (mouse e tastiera, gamepad, touch, frecce direzionali, etc)
+e, soprattutto un insieme di GameModality
+(Es:
+- PvsIA, 1v1, Multi_VS_Multi, etc
+- dungeons, open world, YouVsWawesOfEnemies
+- chess like, usual RPG through maps, etc
+)
+
+
+
+__________________________________
+
+
+
+In ogni GameModality:
+static final long MIN_DELTA = 10L;
+
+void runGame(){
+	long start, lastDelta;
+	while( isAlive() ){
+		lastDelta = MIN_DELTA;
+		while(isPlaying()){
+			start = System.currentTimeMillis();
+			doOnEachCycle(lastDelta);
+			lastDelta = Math.min(MIN_DELTA, System.currentTimeMillis() - start );
+		}
+	}
+}
+
+/**Designed to be overrided*/
+void doOnEachCycle(long millisecToElapse){
+	for each ActiveObject ao {
+		ao.act(lastDelta); // fai progredire QUALSIASI cosa: abilità che si ricaricano col tempo, rigenerazioni, movimento di proiettili e cose, etc
+	}
+}
+
+e mettere a disposizione metodi per aggiungere ActiveObjects e non solo
+
+
+
+
+--------------------------------------------------------------
+
+
+ActiveObject - TimeProgressingObject - TimeEvolvingObject
+interfaccia per definire un qualcosa che modifica il suo stato nel tempo, che progredisce
+può definire metodi come "act", "move", etc
+può far innescare eventi, come l'essersi mosso (utile per le "trappole a pressione", per controllare le collisioni tra oggetti,
+ascoltatori di eventi come "ogniqualvolta entra una creatura in campo, fai XYZ", etc...)
+
+Si consiglia di architettare la GameModality come avente un metodo del tipo "moveObject",
+il quale può essere interpretato come un "teleport" (sarà quindi compito dell'oggetto stesso e
+non del GameModality [o di un più generico GameObjectsInSpaceManager] tenere traccia del percorso
+che sta seguendo, di far muovere passo passo l'oggetto, etc)
+(magari moveObject può essere generico, del tipo:
+- se non era presente, allora addObject()
+- se la destinazione è "null", allora removeObject()
+- altrimenti, muovilo: remove(obj, false); add(obj, false); fireEvent(ObjectMoved, obj);
+[il booleano è un overload per specificare se bisogna generare un evento associato oppure no]
