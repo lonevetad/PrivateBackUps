@@ -1,26 +1,26 @@
-package videogamesOldVersion.common.mainTools;
+package common.mainTools;
 
-import java.util.LinkedList; 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 
-/** Copied from {@link java.swing.DefaultListModel} to avoid the strict necessity of a {@link Vector} under the hood. */
-public class ListModelList<E> extends AbstractListModel<E> {
+/** Copied from {@link java.swing.DefaultListModel}. */
+public class ListModel<E> extends AbstractListModel<E> {
 	private static final long serialVersionUID = -2306541818707L;
 
-	public ListModelList() {
+	public ListModel() {
 		this(new LinkedList<>());
 	}
 
-	public ListModelList(List<E> delegate) {
+	public ListModel(List<E> delegate) {
 		this.delegate = delegate;
 	}
 
 	private List<E> delegate = null;
 
-	public ListModelList<E> setDelegate(List<E> delegate) {
+	public ListModel<E> setDelegate(List<E> delegate) {
 		if (delegate == null) throw new IllegalArgumentException("Cannot set delegate as a null list");
 		if (this.delegate != null && (!this.delegate.isEmpty())) // clear();
 			fireIntervalRemoved(this, 0, this.delegate.size() - 1);

@@ -23,7 +23,7 @@ import javax.imageio.stream.ImageInputStream;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import tools.minorTools.ManipulatingArrays;
+import tools.minorStuffs.ManipulatingArrays;
 
 public class CastingClass {
 

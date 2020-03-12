@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
-import tools.minorStuffs.StringSorter;
+import tools.minorTools.StringSorter;
 import videogamesOldVersion.common.EnumGameObjectTileImageCollection;
 import videogamesOldVersion.common.GameMechanism;
 import videogamesOldVersion.common.GameObjectInMap;

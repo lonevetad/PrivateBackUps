@@ -1,12 +1,12 @@
-package videogamesOldVersion.common.mainTools;
+package common.mainTools;
 
-import java.util.LinkedList; 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 
-/** Copied from {@link java.swing.DefaultListModel} to avoid the strict necessity of a {@link Vector} under the hood. */
+/** Copied from {@link java.swing.DefaultListModel}. */
 public class ListModelList<E> extends AbstractListModel<E> {
 	private static final long serialVersionUID = -2306541818707L;
 
