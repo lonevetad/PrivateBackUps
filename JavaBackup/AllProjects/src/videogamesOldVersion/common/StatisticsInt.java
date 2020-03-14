@@ -1,7 +1,7 @@
-package common;
+package videogamesOldVersion.common;
 
-import common.abstractCommon.StatisticField;
-import common.abstractCommon.referenceHolderAC.StatisticsHolderIntOnly;
+import videogamesOldVersion.common.abstractCommon.StatisticField;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.StatisticsHolderIntOnly;
 
 public class StatisticsInt implements StatisticsHolderIntOnly {
 	private static final long serialVersionUID = 98456016519L;
@@ -31,7 +31,8 @@ public class StatisticsInt implements StatisticsHolderIntOnly {
 
 	@Override
 	public StatisticsInt setStatsInt(int[] statsInt) {
-		if (statsInt == null || statsInt.length > 0) this.statsInt = statsInt;
+		if (statsInt == null || statsInt.length > 0)
+			this.statsInt = statsInt;
 		return this;
 	}
 

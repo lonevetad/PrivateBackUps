@@ -1,4 +1,4 @@
-package gridObjectManager.core;
+package videogames.gridObjectManager.core;
 
 import java.io.Serializable;
 import java.util.Comparator;

@@ -1,7 +1,6 @@
-package common.abstractCommon;
+package videogamesOldVersion.common.abstractCommon;
 
-import common.ExperienceLevelHolder;
-import common.abstractCommon.behaviouralObjectsAC.PartOfToString;
+import videogamesOldVersion.common.ExperienceLevelHolder;
 
 /**
  * This class hold all players's data.<br>

@@ -10,6 +10,9 @@ public abstract class GameController {
 	//
 	
 	//
+	
+
+	public abstract boolean isAlive() ;
 
 	public abstract void init();
 	public abstract void closeAll();

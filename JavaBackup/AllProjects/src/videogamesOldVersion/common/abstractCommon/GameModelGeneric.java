@@ -1,25 +1,23 @@
-package common.abstractCommon;
+package videogamesOldVersion.common.abstractCommon;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import common.FullReloadEnvironment;
-import common.GameObjectInMap;
-import common.abstractCommon.behaviouralObjectsAC.AbstractMOLMManager;
-import common.abstractCommon.behaviouralObjectsAC.AbstractMOLMManager_Delegating;
-import common.abstractCommon.behaviouralObjectsAC.MementoPatternImplementor;
-import common.abstractCommon.behaviouralObjectsAC.MyObservable;
-import common.abstractCommon.behaviouralObjectsAC.MyObserver;
-import common.abstractCommon.referenceHolderAC.LoggerMessagesHolder;
-import common.abstractCommon.referenceHolderAC.MainHolder;
-import common.mainTools.Comparators;
-import common.mainTools.LoggerMessages;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
-import common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID;
-import common.mainTools.mOLM.abstractClassesMOLM.ObservableMolm;
-import common.mainTools.mOLM.abstractClassesMOLM.ObserverMolm;
+import tools.Comparators;
 import tools.RedBlackTree;
+import videogamesOldVersion.common.FullReloadEnvironment;
+import videogamesOldVersion.common.GameObjectInMap;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.AbstractMOLMManager;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.AbstractMOLMManager_Delegating;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.MementoPatternImplementor;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.MyObservable;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.LoggerMessagesHolder;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.MainHolder;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObservableMolm;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObservableMolm.MolmEvent;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObserverMolm;
 
 public abstract class GameModelGeneric implements Serializable, AbstractMOLMManager_Delegating, MyObservable,
 		ObservableMolm, MementoPatternImplementor {
@@ -138,14 +136,15 @@ public abstract class GameModelGeneric implements Serializable, AbstractMOLMMana
 	// public
 
 	/**
-	 * Reset all values to initial/default values. Usefull when preparing on
-	 * loading a new game or a new save.
+	 * Reset all values to initial/default values. Usefull when preparing on loading
+	 * a new game or a new save.
 	 */
 	public void resetAll() {
 		String error;
 		resetProgressiveIDGameObject();
 		error = clearMOLMs();
-		if (error != null) mainController.log(error);
+		if (error != null)
+			mainController.log(error);
 	}
 
 	public void resetProgressiveIDGameObject() {
@@ -153,8 +152,7 @@ public abstract class GameModelGeneric implements Serializable, AbstractMOLMMana
 	}
 
 	/**
-	 * Add the given object to a collection WITHOUT adding it to the
-	 * MOLM(s).<br>
+	 * Add the given object to a collection WITHOUT adding it to the MOLM(s).<br>
 	 * It will be stored in {@link #getAllGameObjectInMap()}.
 	 */
 	public String addGameObjectNotInMolm(GameObjectInMap o) {
@@ -371,9 +369,8 @@ public abstract class GameModelGeneric implements Serializable, AbstractMOLMMana
 
 	/**
 	 * Clear all molms AND the set {@link #getAllGameObjectInMap()}.<br>
-	 * SO BEWARE: remember manually of what {@link GameObjectInMap()} are not
-	 * added to the molm(s) and keep them in another set, if necessary.
-	 * {@inheritDoc}
+	 * SO BEWARE: remember manually of what {@link GameObjectInMap()} are not added
+	 * to the molm(s) and keep them in another set, if necessary. {@inheritDoc}
 	 */
 	@Override
 	public String clearMOLMs() {
@@ -399,8 +396,8 @@ public abstract class GameModelGeneric implements Serializable, AbstractMOLMMana
 		String error;
 		error = getMolmManagerDelegated().clearMOLM(preferredMolm);
 		/*
-		 * if (error == null) { RedBlackTree<Integer, GameObjectInMap> all; all
-		 * = getAllGameObjectInMap(); if (all != null) all.clear(); else error =
+		 * if (error == null) { RedBlackTree<Integer, GameObjectInMap> all; all =
+		 * getAllGameObjectInMap(); if (all != null) all.clear(); else error =
 		 * "ERROR on clearMOLMs: the given set of GameObjectInMap is null"; } /*
 		 */
 		return error;

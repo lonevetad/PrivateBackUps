@@ -1,9 +1,9 @@
 package games.generic.controlModel;
 
-/**Handler for objects in game*/
+/** Handler for objects in game */
 public interface GameObjectsInSpaceManager {
 
-	public boolean contains(GameObjectInSpace o);
+	public boolean contains(ObjectInSpace o);
 
 	/**
 	 * To be intended as "teleport". <br>
@@ -13,24 +13,25 @@ public interface GameObjectsInSpaceManager {
 		// else then TELEPORT
 	 * </code>
 	 */
-	public boolean moveObject(GameObjectInSpace o, Object from, Object to);
+	public boolean moveObject(ObjectInSpace o, Object from, Object to);
 
-	public default void addObject(GameObjectInSpace o) {
+	public default void addObject(ObjectInSpace o) {
 		addObject(true, o);
 	}
 
 	/**
 	 * Set the object's location before adding it.
+	 * 
 	 * @param fireEvent specify if a "add" event should be fired
 	 */
-	public void addObject(boolean fireEvent, GameObjectInSpace o);
+	public void addObject(boolean fireEvent, ObjectInSpace o);
 
-	public default void removeObject(GameObjectInSpace o) {
+	public default void removeObject(ObjectInSpace o) {
 		removeObject(true, o);
 	}
 
 	/**
 	 * @param fireEvent specify if a "remove" event should be fired
 	 */
-	public void removeObject(boolean fireEvent, GameObjectInSpace o);
+	public void removeObject(boolean fireEvent, ObjectInSpace o);
 }

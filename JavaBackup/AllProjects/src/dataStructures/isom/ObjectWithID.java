@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import geometry.ObjectLocated;
 
+/** Deprecated since 19/03/2020 because its a type referred to games. */
+@Deprecated
 public abstract class ObjectWithID<IDType> implements Serializable, ObjectLocated
 //		, ObjectSerializableDoingNothingAfter, LoggerMessagesHolder, MementoPatternImplementor 
 {
