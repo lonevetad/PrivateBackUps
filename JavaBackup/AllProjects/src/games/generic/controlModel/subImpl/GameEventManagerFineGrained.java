@@ -82,6 +82,25 @@ public class GameEventManagerFineGrained extends GameEventManager {
 	}
 
 	@Override
+	public void forEachEventObservers(Consumer<GameEventObserver> action) {
+		Map<Integer, GameEventObserver> alreadySeenObservers;
+		alreadySeenObservers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
+		this.observers.forEach((idEvent, pq) -> {
+			pq.forEach(e -> {
+				GameEventObserver geo;
+				geo = e.getKey();
+				alreadySeenObservers.put(geo.getObserverID(), geo);
+				action.accept(geo);
+			});
+		});
+		this.genericObservers.forEach((id, obs) -> {
+			if (!alreadySeenObservers.containsKey(id)) {
+				action.accept(obs);
+			}
+		});
+	}
+
+	@Override
 	public void notifyEventObservers(GameEvent ge) {
 //		Integer idEvent;
 		PriorityQueueKey<GameEventObserver, Integer> pq;

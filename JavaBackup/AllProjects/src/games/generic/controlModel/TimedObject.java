@@ -2,7 +2,7 @@ package games.generic.controlModel;
 
 /**
  * Used for {@link GameModality}es using some concept of "time" (real time or
- * turn-based).
+ * turn-based) to describe objects performing actions over time.
  * <p>
  * interfaccia per definire un qualcosa che modifica il suo stato nel tempo, che
  * progredisce può definire metodi come "act", "move", etc può far innescare
@@ -10,6 +10,6 @@ package games.generic.controlModel;
  * controllare le collisioni tra oggetti, ascoltatori di eventi come
  * "ogniqualvolta entra una creatura in campo, fai XYZ", etc...)
  */
-public interface TimeProgressingObject extends ObjectWIthID {
+public interface TimedObject extends ObjectWIthID {
 	public void act(long milliseconds);
 }

@@ -61,6 +61,24 @@ public abstract class GameModality {
 		return this.isRunning;
 	}
 
+	public GameController getController() {
+		return controller;
+	}
+
+	public GameModel getModel() {
+		return model;
+	}
+
+	public String getModalityName() {
+		return modalityName;
+	}
+
+	//
+
+	public void setModel(GameModel model) {
+		this.model = model;
+	}
+
 	// setter
 
 	//
@@ -93,10 +111,10 @@ public abstract class GameModality {
 
 	/**
 	 * Used by other objects and threads (like GUI, sound, animation, etc) to check
-	 * if the game is running or paused AND making that tread sleep <br>
+	 * if the game is running or, if paused, make that thread sleep <br>
 	 * Differs from {@link #isRunning()}, see it for differences.
 	 */
-	public boolean checkAndSleepIsRunning() {
+	public boolean checkIsRunningElseSleep() {
 		if (!this.isRunning()) {
 			try {
 				synchronized (pauseThreadsLock) {
@@ -118,15 +136,25 @@ public abstract class GameModality {
 		this.pauseThreadsLock.notifyAll();
 	}
 
+	/**
+	 * Perform the game. Should be called by the game's thread.<br>
+	 * No exactly "override designed", redefine {@link #doOnEachCycle(long)}
+	 * instead.
+	 */
 	public void runGame() {
 		long start, lastDeltaElapsed;
 		while(isAlive()) {
 			lastDeltaElapsed = MIN_DELTA;
-			while(isRunning()) {
+			while(checkIsRunningElseSleep()) {
 				start = System.currentTimeMillis();
 				doOnEachCycle(lastDeltaElapsed);
 				lastDeltaElapsed = Math.min(MIN_DELTA, System.currentTimeMillis() - start);
 			}
 		}
+	}
+
+	/** Override AND call the super implementation. */
+	public void closeAll() {
+		this.pause();
 	}
 }

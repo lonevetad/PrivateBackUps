@@ -3,6 +3,7 @@ package games.generic.controlModel;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import tools.Comparators;
@@ -30,7 +31,7 @@ import tools.Comparators;
  * contemporanea
  */
 public abstract class GameEventManager {
-	GameModality gameModality;
+	GameModality gameModality; // back reference
 	Map<Integer, List<GameEvent>> eventQueued;
 
 	public GameEventManager(GameModality gameModality) {
@@ -69,6 +70,8 @@ public abstract class GameEventManager {
 
 	public abstract void notifyEventObservers(GameEvent ge);
 
+	public abstract void forEachEventObservers(Consumer<GameEventObserver> action);
+
 	//
 
 	//
@@ -90,7 +93,7 @@ public abstract class GameEventManager {
 		gm = this.gameModality;
 		this.eventQueued.forEach((id, l) -> {
 			while(!l.isEmpty()) {
-				while(gm.checkAndSleepIsRunning()) { // make me sleep and waiting the game to be resumed
+				while(gm.checkIsRunningElseSleep()) { // make me sleep and waiting the game to be resumed
 //					l.remove(0).performEvent(gm);
 					notifyEventObservers(l.remove(0));
 				}

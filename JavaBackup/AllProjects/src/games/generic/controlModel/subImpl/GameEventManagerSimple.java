@@ -2,6 +2,7 @@ package games.generic.controlModel.subImpl;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GameEvent;
@@ -35,6 +36,11 @@ public class GameEventManagerSimple extends GameEventManager {
 	@Override
 	public void removeAllEventObserver() {
 		this.observers.clear();
+	}
+
+	@Override
+	public void forEachEventObservers(Consumer<GameEventObserver> action) {
+		this.observers.forEach((id, obs) -> action.accept(obs));
 	}
 
 	@Override

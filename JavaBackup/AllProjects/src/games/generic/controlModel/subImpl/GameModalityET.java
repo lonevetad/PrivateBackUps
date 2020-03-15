@@ -1,14 +1,17 @@
 package games.generic.controlModel.subImpl;
 
+import java.util.Map;
+
 import games.generic.controlModel.GameController;
 import games.generic.controlModel.GameEventManager;
 import games.generic.controlModel.GameModality;
-import games.generic.controlModel.GameModel;
+import games.generic.controlModel.TimedObject;
 
-public class GameModImpl1 extends GameModality implements IGameModalityTimeBased, IGameModalityEventBased {
+public abstract class GameModalityET extends GameModality implements IGameModalityTimeBased, IGameModalityEventBased {
 	GameEventManager eventManager;
+	protected Map<Integer, TimedObject> timedObjects;
 
-	public GameModImpl1(GameController controller, String modalityName) {
+	public GameModalityET(GameController controller, String modalityName) {
 		super(controller, modalityName);
 	}
 
@@ -24,24 +27,7 @@ public class GameModImpl1 extends GameModality implements IGameModalityTimeBased
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		this.eventManager = newEventManager();
-	}
-
-	@Override
-	public GameEventManager newEventManager() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GameModel newGameModel() {
-		return null;
-	}
-
-	@Override
-	public void startGame() {
-
 	}
 
 	//
@@ -59,4 +45,12 @@ public class GameModImpl1 extends GameModality implements IGameModalityTimeBased
 		});
 	}
 
+	//
+
+// TODO objects handlers
+
+	/** Proxy-like method */
+	public void addTimedObject(TimedObject to) {
+		this.getModelTimeBased().addTimeProgressingObject(to);
+	}
 }

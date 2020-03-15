@@ -4,12 +4,12 @@ import java.util.Map;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GameModel;
-import games.generic.controlModel.TimeProgressingObject;
+import games.generic.controlModel.TimedObject;
 import tools.Comparators;
 
-public class GameModelTimeBased extends GameModel {
+public abstract class GameModelTimeBased extends GameModel {
 
-	protected Map<Integer, TimeProgressingObject> timedObjects;
+	protected Map<Integer, TimedObject> timedObjects;
 
 	public GameModelTimeBased() {
 		super();
@@ -19,19 +19,15 @@ public class GameModelTimeBased extends GameModel {
 
 	//
 
-	public Map<Integer, TimeProgressingObject> getTimedObjects() {
+	public Map<Integer, TimedObject> getTimedObjects() {
 		return timedObjects;
 	}
 
 	//
 
-	@Override
-	public void onCreate() {
-	}
-
 	//
 
-	public void addTimeProgressingObject(TimeProgressingObject to) {
+	public void addTimeProgressingObject(TimedObject to) {
 		this.timedObjects.put(to.getID(), to);
 	}
 }
