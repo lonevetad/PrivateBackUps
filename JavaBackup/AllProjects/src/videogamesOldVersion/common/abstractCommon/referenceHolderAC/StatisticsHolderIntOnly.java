@@ -1,9 +1,9 @@
-package common.abstractCommon.referenceHolderAC;
+package videogamesOldVersion.common.abstractCommon.referenceHolderAC;
 
 import java.io.Serializable;
 
-import common.abstractCommon.StatisticField;
-import common.abstractCommon.behaviouralObjectsAC.StatisticModifierInt;
+import videogamesOldVersion.common.abstractCommon.StatisticField;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.StatisticModifierInt;
 
 /** Holder of a set of values. */
 public interface StatisticsHolderIntOnly extends Serializable {

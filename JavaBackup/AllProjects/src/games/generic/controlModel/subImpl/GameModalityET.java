@@ -5,7 +5,7 @@ import java.util.Map;
 import games.generic.controlModel.GameController;
 import games.generic.controlModel.GameEventManager;
 import games.generic.controlModel.GameModality;
-import games.generic.controlModel.TimedObject;
+import games.generic.controlModel.gameObj.TimedObject;
 
 public abstract class GameModalityET extends GameModality implements IGameModalityTimeBased, IGameModalityEventBased {
 	GameEventManager eventManager;

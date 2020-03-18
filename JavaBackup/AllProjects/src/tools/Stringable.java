@@ -2,7 +2,7 @@ package tools;
 
 import java.io.Serializable;
 
-public interface PartOfToString extends Serializable {
+public interface Stringable extends Serializable {
 
 	public void toString(StringBuilder sb, int tabLevel);
 

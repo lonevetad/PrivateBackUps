@@ -1,4 +1,7 @@
-package games.generic.controlModel;
+package games.generic.controlModel.gameObj;
+
+import games.generic.controlModel.GameModality;
+import games.generic.controlModel.ObjectWIthID;
 
 /**
  * Used for {@link GameModality}es using some concept of "time" (real time or

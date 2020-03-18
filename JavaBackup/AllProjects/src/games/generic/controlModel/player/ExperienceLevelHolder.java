@@ -1,4 +1,4 @@
-package videogamesOldVersion.common;
+package games.generic.controlModel.player;
 
 import java.util.Arrays;
 

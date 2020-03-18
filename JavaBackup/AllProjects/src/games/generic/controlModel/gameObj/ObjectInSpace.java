@@ -1,4 +1,4 @@
-package games.generic.controlModel;
+package games.generic.controlModel.gameObj;
 
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;

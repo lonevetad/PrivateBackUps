@@ -1,9 +1,10 @@
 package tests.tGame.tgEvent1;
 
-import java.awt.Container;
+import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import games.generic.controlModel.GameController;
 import games.generic.view.GameView;
@@ -15,23 +16,52 @@ public class GV_E1 extends GameView {
 	}
 
 	JFrame fin;
-	JButton jbCloseAll;
+	JButton jbCloseAll, jbStartPause;
 
 	@Override
 	public void initAndShow() {
-//		JPanel jp;
-		Container panel;
+		JPanel jp;
+//		Container panel;
 		GameController c;
 		c = super.gc;
 
 		fin = new JFrame("Test Event loop 1");
-		panel = fin.getContentPane();
-		jbCloseAll = new JButton("Start");
-		panel.add(jbCloseAll);
+		fin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		panel = fin.getContentPane();
+		jp = new JPanel();
+		jp.setLayout(new FlowLayout());
+		fin.add(jp);
+		jbStartPause = new JButton("Start");
+		jp.add(jbStartPause);
+		jbCloseAll = new JButton("CLOSE ALL");
+		jp.add(jbCloseAll);
 
+		jbStartPause.addActionListener(l -> {
+			if (gc == null) {
+				System.out.println("CIao");
+				return;
+			}
+			if (gc.isPlaying()) {
+				gc.pauseGame();
+				jbStartPause.setText("Resume");
+			} else {
+				gc.resumeGame();
+				jbStartPause.setText("Pause");
+			}
+		});
 		jbCloseAll.addActionListener(l -> {
+			System.out.println("CLOSING ALL");
 			c.closeAll();
 		});
+		fin.setSize(500, 500);
+		jp.setSize(fin.getSize());
+		fin.setVisible(true);
+//		fin.pack();
 	}
 
+	public static void main(String[] args) {
+		GV_E1 view;
+		view = new GV_E1(null);
+		view.initAndShow();
+	}
 }

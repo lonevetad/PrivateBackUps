@@ -4,7 +4,7 @@ import java.util.Map;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GameModel;
-import games.generic.controlModel.TimedObject;
+import games.generic.controlModel.gameObj.TimedObject;
 import tools.Comparators;
 
 public abstract class GameModelTimeBased extends GameModel {

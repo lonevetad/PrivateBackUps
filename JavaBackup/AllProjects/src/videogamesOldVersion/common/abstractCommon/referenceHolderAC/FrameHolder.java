@@ -1,9 +1,9 @@
-package common.abstractCommon.referenceHolderAC;
+package videogamesOldVersion.common.abstractCommon.referenceHolderAC;
 
 import java.io.Serializable;
 
-import common.FrameHolderDEFAULT;
-import common.gui.GameObjectInMapView;
+import videogamesOldVersion.common.FrameHolderDEFAULT;
+import videogamesOldVersion.common.gui.GameObjectInMapView;
 
 public interface FrameHolder extends Serializable {
 

@@ -1,9 +1,9 @@
-package common.abstractCommon.behaviouralObjectsAC;
+package videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC;
 
 import java.io.Serializable;
 
-import common.abstractCommon.StatisticField;
-import common.abstractCommon.referenceHolderAC.StatisticsHolderIntOnly;
+import videogamesOldVersion.common.abstractCommon.StatisticField;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.StatisticsHolderIntOnly;
 
 public interface StatisticModifierInt extends Serializable {
 

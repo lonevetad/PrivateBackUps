@@ -1,5 +1,6 @@
 package videogamesOldVersion.common.abstractCommon;
 
+import tools.Stringable;
 import videogamesOldVersion.common.ExperienceLevelHolder;
 
 /**
@@ -9,7 +10,7 @@ import videogamesOldVersion.common.ExperienceLevelHolder;
  * This classes' instances are made to store user's data (name, money,
  * experience, level, items, ecc) and serialize them.
  */
-public abstract class AbstractPlayer implements PartOfToString {
+public abstract class AbstractPlayer implements Stringable {
 
 	private static final long serialVersionUID = 96203707070892330L;
 

@@ -1,5 +1,7 @@
 package games.generic.controlModel;
 
+import games.generic.controlModel.gameObj.ObjectInSpace;
+
 /** Handler for objects in game */
 public interface GameObjectsInSpaceManager {
 
