@@ -33,6 +33,7 @@ public abstract class GameController {
 	//
 
 	public void setCurrentGameModality(GameModality currentGameModality) {
+		System.out.println("GameCOntroller#setCurrentGameModality : " + currentGameModality.getModalityName());
 		this.currentGameModality = currentGameModality;
 	}
 
@@ -46,15 +47,6 @@ public abstract class GameController {
 	 */
 	protected abstract void defineGameModalitiesFactories();
 
-	public abstract void init();
-
-	/**
-	 * DESTRY EVERYTHING WITH DOUBLE OF THANOS'S EFFICEINCY.
-	 * <p>
-	 * Remember to set the flag {@link #isAlive} to <code>false</code>.
-	 */
-	public abstract void closeAll();
-
 	//
 
 	public boolean isAlive() {
@@ -67,20 +59,43 @@ public abstract class GameController {
 		return gm != null && gm.isRunning();
 	}
 
-	/** Override designed */
+	/** Override designed BUT call <code>super.</code>{@link #init()}}. */
+	public void init() {
+		defineGameModalitiesFactories();
+	}
+
+	/**
+	 * Override designed. BUT call <code>super.</code>{@link #init()}}.
+	 * <p>
+	 * Call {@link #setCurrentGameModality(GameModality)}} before invoking me.
+	 */
 	public void startGame() {
 		this.getCurrentGameModality().startGame();
 		this.isAlive = true;
+		this.resumeGame(); // make it run, added on 19/03/2020
 	}
 
-	/** Override designed */
+	/** Override designed BUT call <code>super.</code>{@link #pauseGame()}}. */
 	public void pauseGame() {
 		this.getCurrentGameModality().pause();
 	}
 
-	/** Override designed */
+	/** Override designed BUT call <code>super.</code>{@link #resumeGame()}}. */
 	public void resumeGame() {
 		this.getCurrentGameModality().resume();
+	}
+
+	/**
+	 * DESTRY EVERYTHING WITH DOUBLE OF THANOS'S EFFICEINCY.
+	 * <p>
+	 * Remember to set the flag {@link #isAlive} to <code>false</code>.
+	 */
+	public void closeAll() {
+		this.isAlive = false;
+		if (this.getCurrentGameModality() != null) {
+			this.getCurrentGameModality().closeAll();
+			this.setCurrentGameModality(null);
+		}
 	}
 
 	//

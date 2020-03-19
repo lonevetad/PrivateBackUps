@@ -1,5 +1,10 @@
 package games.generic.controlModel;
 
+import java.util.Map;
+
+import dataStructures.MapTreeAVL;
+import tools.Comparators;
+
 /**
  * One of the Core classes.<br>
  * Represents the real "game", how it works, its type, its modality. Implements
@@ -30,11 +35,14 @@ public abstract class GameModality {
 	protected String modalityName;
 	/** Used to suspend threads */
 	protected final Object pauseThreadsLock = new Object();
+	protected Map<Long, ThreadGame> threadsSleeping; // List<ThreadGame>
 
 	public GameModality(GameController controller, String modalityName) {
 		this.controller = controller;
 		this.modalityName = modalityName;
 		this.model = newGameModel();
+		threadsSleeping = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR);
+//				new LinkedList<>();
 		onCreate();
 	}
 
@@ -85,7 +93,7 @@ public abstract class GameModality {
 
 	// TODO ABSTRACT
 
-	/** Override designed */
+	/** Override designed BUT call <code>super.</code>{@link #onCreate()}}. */
 	public abstract void onCreate();
 
 	public abstract GameModel newGameModel();
@@ -115,9 +123,13 @@ public abstract class GameModality {
 	 * Differs from {@link #isRunning()}, see it for differences.
 	 */
 	public boolean checkIsRunningElseSleep() {
-		if (!this.isRunning()) {
+		if (!(this.isRunning() && this.isAlive())) {
 			try {
 				synchronized (pauseThreadsLock) {
+					ThreadGame t;
+					t = (ThreadGame) Thread.currentThread();
+					threadsSleeping.put(t.getId(), t);
+//					threadsSleeping.add(t);
 					this.pauseThreadsLock.wait();
 				}
 			} catch (InterruptedException e) {
@@ -133,22 +145,35 @@ public abstract class GameModality {
 
 	public void resume() {
 		this.isRunning = true;
-		this.pauseThreadsLock.notifyAll();
+		synchronized (pauseThreadsLock) {
+			threadsSleeping.clear();
+			this.pauseThreadsLock.notifyAll();
+		}
 	}
 
 	/**
-	 * Perform the game. Should be called by the game's thread.<br>
+	 * Perform a SINGLE game cycle/step.<br>
+	 * Should be called by the game's thread inside a cycle.<br>
+	 * It's designed as a single cycle to allow step-by-step execution.
+	 * <p>
 	 * No exactly "override designed", redefine {@link #doOnEachCycle(long)}
 	 * instead.
 	 */
-	public void runGame() {
+	public void runGameCycle() {
 		long start, lastDeltaElapsed;
-		while(isAlive()) {
+		if (isAlive()) {
 			lastDeltaElapsed = MIN_DELTA;
 			while(checkIsRunningElseSleep()) {
 				start = System.currentTimeMillis();
 				doOnEachCycle(lastDeltaElapsed);
 				lastDeltaElapsed = Math.min(MIN_DELTA, System.currentTimeMillis() - start);
+			}
+		} else {
+			System.out.println("died runGame");
+			try {
+				Thread.sleep(MIN_DELTA);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -156,5 +181,15 @@ public abstract class GameModality {
 	/** Override AND call the super implementation. */
 	public void closeAll() {
 		this.pause();
+		synchronized (pauseThreadsLock) {
+			this.pauseThreadsLock.notifyAll();
+			threadsSleeping.forEach(//
+					(id, t) -> { // t
+						/*
+						 * try { t.interrupt(); } catch (SecurityException e) { e.printStackTrace(); }
+						 */
+						t.stopAndDie();
+					});
+		}
 	}
 }

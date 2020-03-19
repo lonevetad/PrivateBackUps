@@ -1,7 +1,7 @@
-package common.abstractCommon;
+package videogamesOldVersion.common.abstractCommon;
 
-import common.abstractCommon.referenceHolderAC.MainHolder;
-import common.gui.MainGUI;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.MainHolder;
+import videogamesOldVersion.common.gui.MainGUI;
 
 public //
 abstract //
@@ -142,11 +142,11 @@ class MainGenericController_RealTime extends MainController {
 			long currentTime;
 
 			System.out.println("Thread Game started : isStillWorking:" + m.isWorking());
-			while (m.isWorking()) {
+			while(m.isWorking()) {
 
 				// millisFrameCounterRefresh = 0;
 				try {
-					while (m.isPlaying) {
+					while(m.isPlaying) {
 
 						currentTime = System.currentTimeMillis();
 						if (timeResetNeeded) {
@@ -170,8 +170,8 @@ class MainGenericController_RealTime extends MainController {
 						// at the end of the stuffs, calculate FPS
 						/*
 						 * if ((millisFrameCounterRefresh += deltaTimePassed) >= 1000) {
-						 * millisFrameCounterRefresh -= 1000; lastFramesPerformed = frames; frames =
-						 * 0; } else { frames++; }
+						 * millisFrameCounterRefresh -= 1000; lastFramesPerformed = frames; frames = 0;
+						 * } else { frames++; }
 						 */
 						//
 

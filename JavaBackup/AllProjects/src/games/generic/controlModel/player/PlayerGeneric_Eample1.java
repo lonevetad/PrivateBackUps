@@ -5,7 +5,7 @@ import games.generic.controlModel.GameModality;
 import games.generic.controlModel.gameObj.ObjectInSpace;
 import games.generic.controlModel.gameObj.WithLifeObject;
 
-public abstract class PlayerExample extends ObjectInSpace implements WithLifeObject {
+public abstract class PlayerGeneric_Eample1 extends ObjectInSpace implements WithLifeObject {
 	private static final long serialVersionUID = -777564684007L;
 
 	int life, lifeMax;
@@ -14,7 +14,7 @@ public abstract class PlayerExample extends ObjectInSpace implements WithLifeObj
 	CurrencyHolder moneys;
 	GameModality gameModalty;
 
-	public PlayerExample(GameModality gm) {
+	public PlayerGeneric_Eample1(GameModality gm) {
 		this.gameModalty = gm;
 		this.life = 1;
 		this.lifeMax = 1;
@@ -107,6 +107,17 @@ public abstract class PlayerExample extends ObjectInSpace implements WithLifeObj
 	}
 
 	//
+
+	/**
+	 * Override designed. <br>
+	 * When the game actually starts and the player "drops into the game", some
+	 * actions could be performed.
+	 */
+	public abstract void onStaringGame(GameModality mg);
+
+	//
+
+	// TODO EVENTS FIRING
 
 	public abstract void fireExpGainedEvent(int expGained, GameModality gm);
 

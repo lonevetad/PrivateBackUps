@@ -41,17 +41,24 @@ public class GV_E1 extends GameView {
 				System.out.println("CIao");
 				return;
 			}
-			if (gc.isPlaying()) {
-				gc.pauseGame();
-				jbStartPause.setText("Resume");
+			System.out.println("gc.isAlive()? " + gc.isAlive());
+			if (gc.isAlive()) {
+				if (gc.isPlaying()) {
+					gc.pauseGame();
+					jbStartPause.setText("Resume");
+				} else {
+					gc.resumeGame();
+					jbStartPause.setText("Pause");
+				}
 			} else {
-				gc.resumeGame();
+				gc.startGame();
 				jbStartPause.setText("Pause");
 			}
 		});
 		jbCloseAll.addActionListener(l -> {
 			System.out.println("CLOSING ALL");
 			c.closeAll();
+			jbStartPause.setText("START");
 		});
 		fin.setSize(500, 500);
 		jp.setSize(fin.getSize());

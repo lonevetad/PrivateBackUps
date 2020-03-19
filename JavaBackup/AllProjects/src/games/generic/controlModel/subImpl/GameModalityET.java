@@ -43,6 +43,7 @@ public abstract class GameModalityET extends GameModality implements IGameModali
 			to.act(millisecToElapse); // fai progredire QUALSIASI cosa: abilità che si ricaricano col tempo,
 										// rigenerazioni, movimento di proiettili e cose, etc
 		});
+		this.eventManager.performAllEvents();
 	}
 
 	//
@@ -51,6 +52,6 @@ public abstract class GameModalityET extends GameModality implements IGameModali
 
 	/** Proxy-like method */
 	public void addTimedObject(TimedObject to) {
-		this.getModelTimeBased().addTimeProgressingObject(to);
+		this.getModelTimeBased().addTimedObject(to);
 	}
 }

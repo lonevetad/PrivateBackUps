@@ -27,7 +27,7 @@ public abstract class GameModelTimeBased extends GameModel {
 
 	//
 
-	public void addTimeProgressingObject(TimedObject to) {
+	public void addTimedObject(TimedObject to) {
 		this.timedObjects.put(to.getID(), to);
 	}
 }

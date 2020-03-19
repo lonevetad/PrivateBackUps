@@ -1,8 +1,8 @@
 package tests.tGame.tgEvent1;
 
-import games.generic.controlModel.player.PlayerExample;
+import games.generic.controlModel.player.PlayerGeneric_Eample1;
 
-public class Player_E1 extends PlayerExample {
+public class Player_E1 extends PlayerGeneric_Eample1 {
 	static final int LIFE_MAX = 100;
 
 	public Player_E1() {

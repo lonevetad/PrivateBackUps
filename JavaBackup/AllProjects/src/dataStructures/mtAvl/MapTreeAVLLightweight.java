@@ -323,7 +323,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		NodeAVL n;
 		notFound = true;
 		n = root;
-		while (notFound && n != NIL) {
+		while(notFound && n != NIL) {
 			c = comp.compare(k, n.k);
 			if (notFound = c != 0) {
 				if (c > 0) {
@@ -406,7 +406,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	// TODO insertFixup
 	protected void insertFixup(NodeAVL n) {
 		int hl, hr, delta;
-		while (n != NIL) {
+		while(n != NIL) {
 			// lh= ;rh=;
 			// recalculate, just to be sure
 			n.height = (((hl = n.left.height) > (hr = n.right.height)) ? hl : hr) + 1;
@@ -447,7 +447,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		next = x = root; // must not be set to NIL, due to the while condition
 		// descend the tree
 		c = 0;
-		while (next != NIL) {
+		while(next != NIL) {
 			x = next;
 			c = comp.compare(k, x.k);
 			if (c == 0) {
@@ -627,19 +627,19 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		// simple case: i == 0
 		if (i == 0) {
-			while (n.left != NIL)
+			while(n.left != NIL)
 				n = n.left;
 			return n;
 		}
 		// and i == size-1
 		if (i == size - 1) {
-			while (n.right != NIL)
+			while(n.right != NIL)
 				n = n.right;
 			return n;
 		}
 
 		// push the left-most first
-		while (n.left != NIL) {
+		while(n.left != NIL) {
 			nodesCalls.push(n);
 			n = n.left;
 		}
@@ -656,13 +656,13 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 					// start recursion: push the right ..
 					nodesCalls.push(n = n.right);
 					// then the left-most, coming back to the initial case
-					while (n.left != NIL) {
+					while(n.left != NIL) {
 						nodesCalls.push(n);
 						n = n.left;
 					}
 				}
 			}
-		} while (!nodesCalls.isEmpty());
+		} while(!nodesCalls.isEmpty());
 		return n;
 	}
 
@@ -682,25 +682,25 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				case SortedDecreasing:
 					n = root;
 					if (n.right != NIL)// descend to maximum
-						while ((n = n.right) != NIL)
+						while((n = n.right) != NIL)
 							;
 					action.accept(n);
-					while ((n = predecessorSorted(n)) != NIL)
+					while((n = predecessorSorted(n)) != NIL)
 						action.accept(n);
 					break;
 				case SortedGrowing:
 					n = root;
 					if (n.left != NIL)// descend to minimum
-						while ((n = n.left) != NIL)
+						while((n = n.left) != NIL)
 							;
 					action.accept(n);
-					while ((n = successorSorted(n)) != NIL)
+					while((n = successorSorted(n)) != NIL)
 						action.accept(n);
 					break;
 				case BreadthGrowing:
 					q = new QueueLightweight<>();
 					q.add(root);
-					while (!q.isEmpty()) {
+					while(!q.isEmpty()) {
 						action.accept(n = q.poll());
 						if (n.left != NIL)
 							q.add(n);
@@ -711,7 +711,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				case BreadthDecreasing:
 					q = new QueueLightweight<>();
 					q.add(root);
-					while (!q.isEmpty()) {
+					while(!q.isEmpty()) {
 						action.accept(n = q.poll());
 						if (n.right != NIL)
 							q.add(n);
@@ -797,7 +797,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		if (root == NIL)
 			return null;
 		n = root;
-		while (n.left != NIL)
+		while(n.left != NIL)
 			n = n.left;
 		return n;
 	}
@@ -813,7 +813,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		if (root == NIL)
 			return null;
 		n = root;
-		while (n.right != NIL)
+		while(n.right != NIL)
 			n = n.right;
 		return n;
 	}
@@ -869,7 +869,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				prev = n;
 				c1 = comp.compare(k1, n.k);
 				n = (c1 < 0) ? n.left : n.right;
-			} while (n != NIL);
+			} while(n != NIL);
 		} else {
 			boolean notFound, c1low, c2low;
 			notFound = true;
@@ -890,7 +890,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 					n = n.right;
 				else
 					notFound = false;
-			} while (notFound && n != NIL);
+			} while(notFound && n != NIL);
 		}
 		return prev;
 	}
@@ -943,7 +943,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			if (sameClasses) {
 				this.mergeOnSameClass(iter, (MapTreeAVLLightweight<K, V>) tThis, (MapTreeAVLLightweight<K, V>) tOther);
 			} else {
-				while (iter.hasNext()) {
+				while(iter.hasNext()) {
 					n = (NodeAVL) iter.next();
 					tThis.put(n.k, n.v);
 				}
@@ -959,7 +959,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			MapTreeAVLLightweight<K, V> tOther) {
 		NodeAVL n, ttNIL;
 		ttNIL = tThis.NIL;
-		while (iter.hasNext()) {
+		while(iter.hasNext()) {
 			n = (NodeAVL) iter.next();
 			n.father = n.left = n.right = //
 					// n.prevInserted = n.nextInserted = n.nextInOrder = n.prevInOrder =
@@ -1058,12 +1058,12 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			return n;
 		if (n.right != NIL) {
 			if ((n = n.right).left != NIL)
-				while ((n = n.left).left != NIL)
+				while((n = n.left).left != NIL)
 					;
 			return n;
 		}
 		// travel fathers
-		while (n.father != NIL && n.father.right == n)
+		while(n.father != NIL && n.father.right == n)
 			n = n.father;
 //			if (n.father == NIL)return NIL;
 		return n.father;
@@ -1074,12 +1074,12 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			return n;
 		if (n.left != NIL) {
 			if ((n = n.left).right != NIL)
-				while ((n = n.right).right != NIL)
+				while((n = n.right).right != NIL)
 					;
 			return n;
 		}
 		// travel fathers
-		while (n.father != NIL && n.father.left == n)
+		while(n.father != NIL && n.father.left == n)
 			n = n.father;
 //			if (n.father == NIL)return NIL;
 		return n.father;
@@ -1101,7 +1101,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		if (root != NIL) {
 			valueNull = value == null;
 			iter = this.iterator();
-			while (iter.hasNext()) {
+			while(iter.hasNext()) {
 				e = iter.next();
 				if ((valueNull && value == e.getValue()) || (value.equals(e.getValue())))
 					return true;
@@ -1289,7 +1289,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 //			addTab(sb, level - 1, false);
 			tabLevel = level - 1;
 			sb.ensureCapacity(sb.length() + tabLevel << 2);
-			while (tabLevel-- > 0) {
+			while(tabLevel-- > 0) {
 				sb.append('\t');
 			}
 			sb.append(String.valueOf(node));
@@ -1531,7 +1531,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 //in absence of other node's data, use a O(n*log(n)) algorithm: cycle over the tree
 			i = 0;
 			n = (MapTreeAVLLightweight<K, V>.NodeAVL) peekMinimum();
-			while (n != this && n != NIL) { // n!=NIL to avoid infinite cycle on weird concurrency
+			while(n != this && n != NIL) { // n!=NIL to avoid infinite cycle on weird concurrency
 				n = successorSorted(n);
 				i++;
 			}
@@ -1586,19 +1586,22 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			super();
 			this.irt = irt;
 			this.normalOrder = normalOrder;
+			this.isEmpty = isEmpty();
 			restart();
 		}
 
 		// boolean neverStarted;
-		protected int jumps;
-		protected final boolean normalOrder;
+		protected final boolean normalOrder, isEmpty;
 		protected boolean canRemove;
+		protected int jumps;
 		protected NodeAVL current, end;
 		protected final IteratorReturnType irt;
 
 		protected void restart() {
 			jumps = 0;
 			canRemove = false;
+			if (isEmpty)
+				return;
 			if (normalOrder) {
 				current = (NodeAVL) getAt(0);
 				end = (NodeAVL) getAt(size - 1);
@@ -1640,6 +1643,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public boolean hasNext() {
+			if (isEmpty)
+				return false;
 			return (size > 0) && (current != NIL);// end|| (jumps < size;// == 0
 //			)); // neverStarted;
 		}
@@ -1647,6 +1652,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public E next() {
 			E e;
+			if (isEmpty)
+				return null;
 			if (!hasNext())
 				return null;
 //			// NOTE: all methods' call shown in comments are explicity copied due to
@@ -1669,6 +1676,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public boolean hasPrevious() {
+			if (isEmpty)
+				return false;
 			return // hasNext();
 			(size > 0) && (current != end) && (jumps > 0);
 		}
@@ -2206,7 +2215,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			if (index < 0 || index >= size)
 				throw new IndexOutOfBoundsException("Index: " + index);
 			iter = listIterator();
-			while (--index >= 0)
+			while(--index >= 0)
 				iter.next();
 			return iter;
 		}
@@ -2825,7 +2834,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		t = new MapTreeAVLLightweight<>(Integer::compareTo);
 		len = 10;
 		i = -1;
-		while (++i < len) {
+		while(++i < len) {
 			x = i;
 			t.put(x, x);
 		}
@@ -2836,7 +2845,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		System.out.println("getting " + n.getKey() + " as start \n");
 
 		i = -1;
-		while (++i < len) {
+		while(++i < len) {
 			n = t.successorSorted(n);
 			System.out.println("...." + n.getKey());
 		}
@@ -2846,7 +2855,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		System.out.println("getting " + n.getKey() + " as end \n");
 
 		i = -1;
-		while (++i < len) {
+		while(++i < len) {
 			n = t.predecessorSorted(n);
 			System.out.println("...." + n.getKey());
 		}

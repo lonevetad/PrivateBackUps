@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
 import tools.minorTools.StringSorter;
 import videogamesOldVersion.common.EnumGameObjectTileImageCollection;
 import videogamesOldVersion.common.GameMechanism;
@@ -691,7 +690,7 @@ public abstract class MainController
 			files = folderSave.listFiles();
 			if (files != null && (len = files.length) > 0) {
 				i = -1;
-				while (++i < len) {
+				while(++i < len) {
 					// recycle
 					folderSave = files[i];
 					if ((filename = folderSave.getName()).endsWith(load.getMapExtension())) {
