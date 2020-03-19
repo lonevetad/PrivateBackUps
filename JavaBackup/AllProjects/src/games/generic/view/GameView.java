@@ -1,11 +1,11 @@
 package games.generic.view;
 
-import games.generic.controlModel.GameController;
+import games.generic.controlModel.GController;
 
 public abstract class GameView {
-	protected GameController gc;
+	protected GController gc;
 
-	public GameView(GameController gc) {
+	public GameView(GController gc) {
 		super();
 		this.gc = gc;
 	}

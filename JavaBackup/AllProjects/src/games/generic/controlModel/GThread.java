@@ -1,10 +1,10 @@
 package games.generic.controlModel;
 
-public class ThreadGame extends Thread {
+public class GThread extends Thread {
 
-	protected TGRunnable tgr;
+	protected GTRunnable tgr;
 
-	public ThreadGame(TGRunnable target) {
+	public GThread(GTRunnable target) {
 		super(target);
 		this.tgr = target;
 	}
@@ -14,7 +14,7 @@ public class ThreadGame extends Thread {
 		this.tgr.stopAndDie();
 	}
 
-	public static interface TGRunnable extends Runnable {
+	public static interface GTRunnable extends Runnable {
 
 		// makes me stops
 		public void stopAndDie();

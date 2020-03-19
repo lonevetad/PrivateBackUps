@@ -3,18 +3,23 @@ package games.generic.controlModel;
 import java.util.Map;
 
 import dataStructures.MapTreeAVL;
+import games.generic.controlModel.player.PlayerGeneric;
+import games.generic.controlModel.player.PlayerInGame_Generic;
+import games.generic.controlModel.player.PlayerOutside_Generic;
+import games.generic.controlModel.utils.CurrencyHolder;
 import tools.Comparators;
 
 /**
  * One of the Core classes.<br>
+ * See differences with {@link GController}.<br>
  * Represents the real "game", how it works, its type, its modality. Implements
  * every dynamics, rules, win conditions, interactions, etc. Obviously, those
  * concepts could (and should) be defined in separated classes. <br>
  * This class (and its related components) should manage the event-firing
- * systems (i.e. {@link GameEvent} and {@link GameEventManager}), like "object
- * moved", "spawn creatures / projectiles", "stuffs dropped", "damage dealt",
- * "someone healed", etc through a set of specific methods (that could be
- * wrapped in a specific class).<br>
+ * systems (i.e. {@link GEvent} and {@link GEventManager}), like "object moved",
+ * "spawn creatures / projectiles", "stuffs dropped", "damage dealt", "someone
+ * healed", etc through a set of specific methods (that could be wrapped in a
+ * specific class).<br>
  * The following examples will provides an idea of what a "modality" is:
  * <ul>
  * <li>PvsIA, 1v1, Multi_VS_Multi, etc</li>
@@ -24,20 +29,21 @@ import tools.Comparators;
  * YouVsWawesOfEnemies</li>
  * </ul>
  */
-public abstract class GameModality {
+public abstract class GModality {
 	static final long MIN_DELTA = 10L;
 
 	//
 
 	boolean isRunning;
-	protected GameController controller;
-	protected GameModel model;
+	protected GController controller;
+	protected GModel model;
 	protected String modalityName;
 	/** Used to suspend threads */
 	protected final Object pauseThreadsLock = new Object();
-	protected Map<Long, ThreadGame> threadsSleeping; // List<ThreadGame>
+	protected Map<Long, GThread> threadsSleeping; // List<ThreadGame>
+	protected PlayerInGame_Generic player;
 
-	public GameModality(GameController controller, String modalityName) {
+	public GModality(GController controller, String modalityName) {
 		this.controller = controller;
 		this.modalityName = modalityName;
 		this.model = newGameModel();
@@ -69,12 +75,16 @@ public abstract class GameModality {
 		return this.isRunning;
 	}
 
-	public GameController getController() {
+	public GController getController() {
 		return controller;
 	}
 
-	public GameModel getModel() {
+	public GModel getModel() {
 		return model;
+	}
+
+	public PlayerInGame_Generic getPlayer() {
+		return player;
 	}
 
 	public String getModalityName() {
@@ -83,7 +93,7 @@ public abstract class GameModality {
 
 	//
 
-	public void setModel(GameModel model) {
+	public void setModel(GModel model) {
 		this.model = model;
 	}
 
@@ -96,7 +106,12 @@ public abstract class GameModality {
 	/** Override designed BUT call <code>super.</code>{@link #onCreate()}}. */
 	public abstract void onCreate();
 
-	public abstract GameModel newGameModel();
+	public abstract GModel newGameModel();
+
+	public abstract CurrencyHolder newCurrencyHolder();
+
+	/** See {@link PlayerGeneric} to see what is meant. */
+	protected abstract PlayerInGame_Generic newPlayerInGame(PlayerOutside_Generic superPlayer);
 
 	/**
 	 * Override designed-.<br>
@@ -126,8 +141,8 @@ public abstract class GameModality {
 		if (!(this.isRunning() && this.isAlive())) {
 			try {
 				synchronized (pauseThreadsLock) {
-					ThreadGame t;
-					t = (ThreadGame) Thread.currentThread();
+					GThread t;
+					t = (GThread) Thread.currentThread();
 					threadsSleeping.put(t.getId(), t);
 //					threadsSleeping.add(t);
 					this.pauseThreadsLock.wait();

@@ -1,10 +1,10 @@
 package games.generic.controlModel.gameObj;
 
-import games.generic.controlModel.GameModality;
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.ObjectWIthID;
 
 /**
- * Used for {@link GameModality}es using some concept of "time" (real time or
+ * Used for {@link GModality}es using some concept of "time" (real time or
  * turn-based) to describe objects performing actions over time.
  * <p>
  * interfaccia per definire un qualcosa che modifica il suo stato nel tempo, che
@@ -14,5 +14,5 @@ import games.generic.controlModel.ObjectWIthID;
  * "ogniqualvolta entra una creatura in campo, fai XYZ", etc...)
  */
 public interface TimedObject extends ObjectWIthID {
-	public void act(long milliseconds);
+	public void act(GModality modality, long milliseconds);
 }

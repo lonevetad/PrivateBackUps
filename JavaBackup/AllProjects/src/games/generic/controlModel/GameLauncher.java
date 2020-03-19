@@ -6,10 +6,10 @@ public abstract class GameLauncher {
 	public GameLauncher() {
 	}
 
-	protected GameController controller;
+	protected GController controller;
 	protected GameView view;
 
-	public GameController getController() {
+	public GController getController() {
 		return controller;
 	}
 
@@ -17,12 +17,12 @@ public abstract class GameLauncher {
 		return view;
 	}
 
-	public abstract GameController newController();
+	public abstract GController newController();
 
-	public abstract GameView newView(GameController gc);
+	public abstract GameView newView(GController gc);
 
 	public static void initGame(GameLauncher gl) {
-		GameController gc;
+		GController gc;
 		GameView gv;
 		gc = gl.newController();
 		gl.controller = gc;

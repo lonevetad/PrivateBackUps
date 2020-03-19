@@ -8,25 +8,26 @@ import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
-import games.generic.controlModel.GameEvent;
-import games.generic.controlModel.GameEventManager;
-import games.generic.controlModel.GameEventObserver;
-import games.generic.controlModel.GameModality;
+import games.generic.controlModel.GEvent;
+import games.generic.controlModel.GEventManager;
+import games.generic.controlModel.GEventObserver;
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.subImpl.GameEventManagerSimple.EventNotifier;
 import tools.Comparators;
 
-public class GameEventManagerFineGrained extends GameEventManager {
+public class GameEventManagerFineGrained extends GEventManager {
 	/** id observer -> observer */
-	public Map<Integer, GameEventObserver> genericObservers;
+	public Map<Integer, GEventObserver> genericObservers;
 	/** event id -> queue of observer, ordered by their priorities */
-	public Map<Integer, PriorityQueueKey<GameEventObserver, Integer>> observers;
+	public Map<String, PriorityQueueKey<GEventObserver, Integer>> observersByTypes;
 	protected EventNotifier notifierGeneric;
 //	protected EventNotifierPQ notifier;
 	protected EventNotifierE_PQ_ID notifierPQHelper;
 
-	public GameEventManagerFineGrained(GameModality gameModality) {
+	public GameEventManagerFineGrained(GModality gameModality) {
 		super(gameModality);
-		observers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration, Comparators.INTEGER_COMPARATOR);
+		observersByTypes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
+				Comparators.STRING_COMPARATOR);
 		genericObservers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
 		// used to optimize iterations
 		this.notifierGeneric = new EventNotifier(this);
@@ -35,21 +36,21 @@ public class GameEventManagerFineGrained extends GameEventManager {
 	}
 
 	@Override
-	public void addEventObserver(GameEventObserver geo) {
+	public void addEventObserver(GEventObserver geo) {
 		Integer idGeo;
-		List<Integer> l;
+		List<String> l;
 		idGeo = geo.getObserverID();
 		l = geo.getEventsWatching();
 		if (l == null || l.isEmpty()) {
 			genericObservers.put(idGeo, geo);
 		} else {
 			l.forEach(idEvent -> {
-				PriorityQueueKey<GameEventObserver, Integer> pq;
-				pq = observers.get(idEvent);
+				PriorityQueueKey<GEventObserver, Integer> pq;
+				pq = observersByTypes.get(idEvent);
 				if (pq == null) {
-					pq = new PriorityQueueKey<>(GameEventObserver.COMPARATOR_GameEventObserver,
-							Comparators.INTEGER_COMPARATOR, GameEventObserver.KEY_EXTRACTOR);
-					observers.put(idEvent, pq);
+					pq = new PriorityQueueKey<>(GEventObserver.COMPARATOR_GameEventObserver,
+							Comparators.INTEGER_COMPARATOR, GEventObserver.KEY_EXTRACTOR);
+					observersByTypes.put(idEvent, pq);
 				}
 				pq.put(geo);
 			});
@@ -57,17 +58,17 @@ public class GameEventManagerFineGrained extends GameEventManager {
 	}
 
 	@Override
-	public void removeEventObserver(GameEventObserver geo) {
+	public void removeEventObserver(GEventObserver geo) {
 		Integer idGeo;
-		List<Integer> l;
+		List<String> l;
 		idGeo = geo.getObserverID();
 		l = geo.getEventsWatching();
 		if (l == null || l.isEmpty()) {
 			genericObservers.remove(idGeo);
 		} else {
 			l.forEach(idEvent -> {
-				PriorityQueueKey<GameEventObserver, Integer> pq;
-				pq = observers.get(idEvent);
+				PriorityQueueKey<GEventObserver, Integer> pq;
+				pq = observersByTypes.get(idEvent);
 				if (pq != null) {
 					pq.remove(geo);
 				}
@@ -77,17 +78,17 @@ public class GameEventManagerFineGrained extends GameEventManager {
 
 	@Override
 	public void removeAllEventObserver() {
-		this.observers.clear();
+		this.observersByTypes.clear();
 		this.genericObservers.clear();
 	}
 
 	@Override
-	public void forEachEventObservers(Consumer<GameEventObserver> action) {
-		Map<Integer, GameEventObserver> alreadySeenObservers;
+	public void forEachEventObservers(Consumer<GEventObserver> action) {
+		Map<Integer, GEventObserver> alreadySeenObservers;
 		alreadySeenObservers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
-		this.observers.forEach((idEvent, pq) -> {
+		this.observersByTypes.forEach((idEvent, pq) -> {
 			pq.forEach(e -> {
-				GameEventObserver geo;
+				GEventObserver geo;
 				geo = e.getKey();
 				alreadySeenObservers.put(geo.getObserverID(), geo);
 				action.accept(geo);
@@ -101,15 +102,15 @@ public class GameEventManagerFineGrained extends GameEventManager {
 	}
 
 	@Override
-	public void notifyEventObservers(GameEvent ge) {
+	public void notifyEventObservers(GEvent ge) {
 //		Integer idEvent;
-		PriorityQueueKey<GameEventObserver, Integer> pq;
-		pq = observers.get(ge.getID());
+		PriorityQueueKey<GEventObserver, Integer> pq;
+		pq = observersByTypes.get(ge.getType());
 		notifierGeneric.ge = ge;
 		if (pq == null) {
 			this.genericObservers.forEach(notifierGeneric);
 		} else {
-//			this.observers.forEach(notifier);
+//			this.observersByTypes.forEach(notifier);
 			pq.forEach(notifierPQHelper);
 		}
 	}
@@ -118,10 +119,10 @@ public class GameEventManagerFineGrained extends GameEventManager {
 
 	//
 
-	/** Do not iterate over ALL observers */
+	/** Do not iterate over ALL observersByTypes */
 	protected static class EventNotifierPQ
-			implements BiConsumer<Integer, PriorityQueueKey<GameEventObserver, Integer>> {
-		GameEvent ge;
+			implements BiConsumer<Integer, PriorityQueueKey<GEventObserver, Integer>> {
+		GEvent ge;
 		GameEventManagerFineGrained gem;
 
 		public EventNotifierPQ(GameEventManagerFineGrained gem) {
@@ -130,7 +131,7 @@ public class GameEventManagerFineGrained extends GameEventManager {
 		}
 
 		@Override
-		public void accept(Integer t, PriorityQueueKey<GameEventObserver, Integer> pq) {
+		public void accept(Integer t, PriorityQueueKey<GEventObserver, Integer> pq) {
 			EventNotifierE_PQ_ID ee;
 			ee = gem.notifierPQHelper;
 			ee.ge = this.ge;
@@ -138,8 +139,8 @@ public class GameEventManagerFineGrained extends GameEventManager {
 		}
 	}
 
-	protected static class EventNotifierE_PQ_ID implements Consumer<Map.Entry<GameEventObserver, Integer>> {
-		GameEvent ge;
+	protected static class EventNotifierE_PQ_ID implements Consumer<Map.Entry<GEventObserver, Integer>> {
+		GEvent ge;
 		GameEventManagerFineGrained gem;
 
 		public EventNotifierE_PQ_ID(GameEventManagerFineGrained gem) {
@@ -148,8 +149,8 @@ public class GameEventManagerFineGrained extends GameEventManager {
 		}
 
 		@Override
-		public void accept(Entry<GameEventObserver, Integer> e) {
-			e.getKey().notifyEvent(ge, gem.getGameModality());
+		public void accept(Entry<GEventObserver, Integer> e) {
+			e.getKey().notifyEvent(gem.getGameModality(), ge);
 		}
 	}
 }

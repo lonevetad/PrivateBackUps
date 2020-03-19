@@ -1,7 +1,7 @@
 package tests.staticAbilities;
 
 public class GameController {
-    GameModel gm;
+    GModel gm;
 
 
     public void recalculateStaticAbilities(){

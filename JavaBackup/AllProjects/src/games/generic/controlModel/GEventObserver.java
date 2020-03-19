@@ -4,17 +4,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
+import games.generic.UniqueIDProvider;
 import tools.Comparators;
 
 /**
- * Object able to react upon {@link GameEvent}s.<br>
- * Some subclasses (and sublasses of {@link GameEventManager}) could implement
+ * Object able to react upon {@link GEvent}s.<br>
+ * Some subclasses (and sublasses of {@link GEventManager}) could implement
  * some more fine-grained notification system, refers to
- * {@link GameEventManager} for more details, providing a list of specific
+ * {@link GEventManager} for more details, providing a list of specific
  * Events to watch (so, filtering the non required ones).
  */
-public interface GameEventObserver {
-	public static final Comparator<GameEventObserver> COMPARATOR_GameEventObserver = (o1, o2) -> {
+public interface GEventObserver {
+	public static final Comparator<GEventObserver> COMPARATOR_GameEventObserver = (o1, o2) -> {
 		if (o1 == o2)
 			return 0;
 		if (o1 == null)
@@ -23,15 +24,15 @@ public interface GameEventObserver {
 			return 1;
 		return Comparators.INTEGER_COMPARATOR.compare(o1.getObserverID(), o2.getObserverID());
 	};
-	public static final Function<GameEventObserver, Integer> KEY_EXTRACTOR = geo -> geo.getObserverPriority();
+	public static final Function<GEventObserver, Integer> KEY_EXTRACTOR = geo -> geo.getObserverPriority();
 
 	//
 
 	/**
-	 * Notify this observer about the happening of an {@link GameEvent}, referring
-	 * to the current {@link GameModality}.
+	 * Notify this observer about the happening of an {@link GEvent}, referring
+	 * to the current {@link GModality}.
 	 * <p>
-	 * The given {@link GameModality} could be usefull, for instance:
+	 * The given {@link GModality} could be usefull, for instance:
 	 * <ul>
 	 * <li>if the object is an automatic turret, reacting to the movement of an
 	 * object could trigger it to shoot</li>
@@ -44,11 +45,11 @@ public interface GameEventObserver {
 	 * and saving the related character</li>
 	 * </ul>
 	 */
-	public void notifyEvent(GameEvent ge, GameModality modality);
+	public void notifyEvent(GModality modality, GEvent ge);
 
 	/**
 	 * Some observers could requires different priorities, as described on
-	 * {@link GameEventManager}. The greater the value, the greater the priority
+	 * {@link GEventManager}. The greater the value, the greater the priority
 	 * (usually).<br>
 	 * The default value is 0.
 	 */
@@ -59,22 +60,26 @@ public interface GameEventObserver {
 	/**
 	 * Optional method, it's strongly recommended to return a unique ID and it's
 	 * left unimplemented to be more clear to subclasses, used by
-	 * {@link GameEventManager} along with {@link #getEventsWatching()}. See this
+	 * {@link GEventManager} along with {@link #getEventsWatching()}. See this
 	 * last method for further informations.
+	 * <p>
+	 * Use {@link UniqueIDProvider} to help on creating IDs.
 	 */
 	public Integer getObserverID();
 
 	/**
-	 * Returns the list of {@link GameEvent} (identified by its
-	 * {@link #getObserverID()}) to watch, meaning that "everything else" is
+	 * Returns the list of {@link GEvent} (identified by its
+	 * {@link GEvent#getType()}) to watch, meaning that "everything else" is
 	 * ignored.<br>
 	 * If empty or <code>null</code>, it should be intended as "watching everything"
-	 * and {@link #getObserverID()} could be usefull.
+	 * and {@link #getObserverID()} could be useful to distinguish from one observer
+	 * to another.
 	 * <p>
 	 * NOTE: this is an optional method, it's not required by
-	 * {@link GameEventManager} to implement this fine-grained system.
+	 * {@link GEventManager} to implement it (but it's usefull for fine-grained
+	 * systems).
 	 */
-	public default List<Integer> getEventsWatching() {
+	public default List<String> getEventsWatching() {
 		return null;
 	}
 }

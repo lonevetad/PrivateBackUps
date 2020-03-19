@@ -1,6 +1,6 @@
 package games.generic.controlModel.gameObj;
 
-import games.generic.controlModel.GameModality;
+import games.generic.controlModel.GModality;
 
 public interface WithLifeObject extends DestructibleObject {
 
@@ -20,30 +20,30 @@ public interface WithLifeObject extends DestructibleObject {
 
 	/**
 	 * Make this object receiving a non-negative amount of damage, in a context
-	 * expressed by {@link GameModality}, which could be used to fire events.
+	 * expressed by {@link GModality}, which could be used to fire events.
 	 */
-	public void receiveDamage(int damage, GameModality gm);
+	public void receiveDamage(GModality gm, int damage);
 
 	/**
 	 * Make this object receiving a non-negative amount of damage, in a context
-	 * expressed by {@link GameModality}, which could be used to fire events.
+	 * expressed by {@link GModality}, which could be used to fire events.
 	 */
-	public void receiveHealing(int healingAmount, GameModality gm);
+	public void receiveHealing(GModality gm, int healingAmount);
 
 	/**
-	 * Similar to {@link #notifyDestruction(GameModality)}, upon receiving damage
-	 * (that means: "during the {@link #receiveDamage(int, GameModality)} call")
+	 * Similar to {@link #fireDestruction(GModality)}, upon receiving damage
+	 * (that means: "during the {@link #receiveDamage(GModality, int)} call")
 	 * this event should be fired, in case of complex games, to notify all objects
 	 * that "responds to a damage-received event" that this kind of event has
 	 * occurred
 	 */
-	public void notifyDamageReceived(int originalDamage, int actualDamageReceived, GameModality gm);
+	public void fireDamageReceived(GModality gm, int originalDamage, int actualDamageReceived);
 
 	/**
-	 * Similar to {@link #notifyDamageReceived(int, int, GameModality)}, but about
+	 * Similar to {@link #fireDamageReceived( GModality, int, int)}, but about
 	 * healing.
 	 */
-	public void notifyHealingReceived(int originalHealing, int actualHealingReceived, GameModality gm);
+	public void notifyHealingReceived(GModality gm, int originalHealing, int actualHealingReceived);
 
 	//
 

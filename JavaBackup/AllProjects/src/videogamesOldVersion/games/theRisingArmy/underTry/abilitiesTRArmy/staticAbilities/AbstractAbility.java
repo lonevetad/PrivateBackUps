@@ -9,7 +9,7 @@ public abstract class AbstractAbility extends SomethingWithIDName {
 		this.instanceID = Long.valueOf(serialID++);
 	}
 
-	public abstract boolean canApply(GameModel gm, Creature owner);
+	public abstract boolean canApply(GModel gm, Creature owner);
 
-	public abstract void applyTo(GameModel gm, Creature owner);
+	public abstract void applyTo(GModel gm, Creature owner);
 }

@@ -6,12 +6,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import games.generic.controlModel.GameController;
+import games.generic.controlModel.GController;
 import games.generic.view.GameView;
 
 public class GV_E1 extends GameView {
 
-	public GV_E1(GameController gc) {
+	public GV_E1(GController gc) {
 		super(gc);
 	}
 
@@ -22,7 +22,7 @@ public class GV_E1 extends GameView {
 	public void initAndShow() {
 		JPanel jp;
 //		Container panel;
-		GameController c;
+		GController c;
 		c = super.gc;
 
 		fin = new JFrame("Test Event loop 1");

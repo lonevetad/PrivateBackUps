@@ -1,6 +1,7 @@
 package tests.tGame.tgEvent1.oggettiDesempio;
 
 import games.generic.UniqueIDProvider;
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.gameObj.TimedObject;
 
 // TODO fare con GUI e affini
@@ -21,7 +22,7 @@ public class ObjDamageDeliver implements TimedObject {
 	}
 
 	@Override
-	public void act(long milliseconds) {
+	public void act(GModality modality, long milliseconds) {
 		if (milliseconds > 0) {
 			if ((this.timeEnlapsed += milliseconds) > MILLIS_EACH__DAMAGE) {
 				this.timeEnlapsed %= MILLIS_EACH__DAMAGE;

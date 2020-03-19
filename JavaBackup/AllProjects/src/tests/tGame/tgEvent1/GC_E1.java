@@ -1,5 +1,6 @@
 package tests.tGame.tgEvent1;
 
+import games.generic.controlModel.player.PlayerOutside_Generic;
 import games.generic.controlModel.subImpl.GameControllerET;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliver;
 
@@ -48,5 +49,10 @@ public class GC_E1 extends GameControllerET {
 //		isAlive = false;
 		super.closeAll();
 //		this.getCurrentGameModality().closeAll(); // yet done in super
+	}
+
+	@Override
+	protected PlayerOutside_Generic newPlayerOutside() {
+		return null;
 	}
 }

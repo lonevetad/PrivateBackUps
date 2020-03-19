@@ -1,9 +1,19 @@
 package games.generic.controlModel;
 
+import dataStructures.isom.InSpaceObjectsManager;
 import games.generic.controlModel.gameObj.ObjectInSpace;
 
-/** Handler for objects in game */
-public interface GameObjectsInSpaceManager {
+/**
+ * Handler for objects in game. <br>
+ * Related to {@link InSpaceObjectsManager} to delegates the real object
+ * management BUT wraps it to let {@link GEvent}s to be fired.
+ */
+public interface GObjectsInSpaceManager {
+
+	/** Delegates there the real objects management */
+	public InSpaceObjectsManager getOIMManager();
+
+	//
 
 	public boolean contains(ObjectInSpace o);
 

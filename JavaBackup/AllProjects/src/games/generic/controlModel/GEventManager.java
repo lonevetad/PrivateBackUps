@@ -9,8 +9,8 @@ import dataStructures.MapTreeAVL;
 import tools.Comparators;
 
 /**
- * Manager of {@link GameEvent}s. <br>
- * As described in {@link GameEvent}, maybe applying all
+ * Manager of {@link GEvent}s. <br>
+ * As described in {@link GEvent}, maybe applying all
  * <p>
  * NOTE:
  * <p>
@@ -30,11 +30,11 @@ import tools.Comparators;
  * Questo manager dovrebbe gestire ogni singolo evento come se avvenissero in
  * contemporanea
  */
-public abstract class GameEventManager {
-	GameModality gameModality; // back reference
-	Map<Integer, List<GameEvent>> eventQueued;
+public abstract class GEventManager {
+	GModality gameModality; // back reference
+	Map<Integer, List<GEvent>> eventQueued;
 
-	public GameEventManager(GameModality gameModality) {
+	public GEventManager(GModality gameModality) {
 		this.gameModality = gameModality;
 		this.eventQueued = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				Comparators.INTEGER_COMPARATOR);
@@ -45,16 +45,16 @@ public abstract class GameEventManager {
 
 	//
 
-	public GameModality getGameModality() {
+	public GModality getGameModality() {
 		return gameModality;
 	}
 
 	/** Use with caution. */
-	public Map<Integer, List<GameEvent>> getEventQueued() {
+	public Map<Integer, List<GEvent>> getEventQueued() {
 		return eventQueued;
 	}
 
-	public void setGameModality(GameModality gameModality) {
+	public void setGameModality(GModality gameModality) {
 		this.gameModality = gameModality;
 	}
 
@@ -62,23 +62,23 @@ public abstract class GameEventManager {
 
 	// TODO ABSTRACT
 
-	public abstract void addEventObserver(GameEventObserver geo);
+	public abstract void addEventObserver(GEventObserver geo);
 
-	public abstract void removeEventObserver(GameEventObserver geo);
+	public abstract void removeEventObserver(GEventObserver geo);
 
 	public abstract void removeAllEventObserver();
 
-	public abstract void notifyEventObservers(GameEvent ge);
+	public abstract void notifyEventObservers(GEvent ge);
 
-	public abstract void forEachEventObservers(Consumer<GameEventObserver> action);
-
-	//
+	public abstract void forEachEventObservers(Consumer<GEventObserver> action);
 
 	//
 
-	public void addEvent(GameEvent ge) {
+	//
+
+	public void addEvent(GEvent ge) {
 		Integer id;
-		List<GameEvent> l; ///
+		List<GEvent> l; ///
 		id = ge.getID();
 		l = this.eventQueued.get(id);
 		if (l == null) {
@@ -89,7 +89,7 @@ public abstract class GameEventManager {
 	}
 
 	public void performAllEvents() {
-		final GameModality gm;
+		final GModality gm;
 		gm = this.gameModality;
 		this.eventQueued.forEach((id, l) -> {
 			while(!l.isEmpty()) {

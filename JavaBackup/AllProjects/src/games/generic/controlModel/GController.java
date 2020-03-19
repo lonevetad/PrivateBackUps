@@ -3,18 +3,37 @@ package games.generic.controlModel;
 import java.util.Map;
 
 import dataStructures.MapTreeAVL;
+import games.generic.controlModel.player.PlayerGeneric;
+import games.generic.controlModel.player.PlayerOutside_Generic;
 import tools.Comparators;
 
 /**
- * Layer between the View and the actual game: {@linkGameModality} instances.
+ * One of the Core classes.<br>
+ * Layer between the View and the actual game: {@link GModality} instances.
+ * There lies ALL game's implementations (i.e.: when the player "plays", what
+ * he/she can do depends on {@link GModality}s' implementations. Think about
+ * playing cards, RPG or driving vehicles).<br>
+ * The Controller manages:
+ * <ul>
+ * <li>Settings</li>
+ * <li>Saves</li>
+ * <li>Player's data</li>
+ * <li>Chat and other media channels</li>
+ * <li>{@link GModality}, creating and destroying them</li>
+ * <li>Connections: Internet, DataBase, banks, etc</li>
+ * <li>If available, markets, editors, etc</li>
+ * <li>etc</li>
+ * </ul>
+ * 
  */
-public abstract class GameController {
+public abstract class GController {
 
 	protected boolean isAlive;
-	protected Map<String, GameModalityFactory> gameModalitiesFactories;
-	protected GameModality currentGameModality;
+	protected Map<String, GModalityFactory> gameModalitiesFactories;
+	protected GModality currentGameModality;
+	protected PlayerOutside_Generic player;
 
-	protected GameController() {
+	protected GController() {
 		this.isAlive = false;
 		this.gameModalitiesFactories = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				Comparators.STRING_COMPARATOR);
@@ -22,18 +41,18 @@ public abstract class GameController {
 
 	//
 
-	public GameModality getCurrentGameModality() {
+	public GModality getCurrentGameModality() {
 		return currentGameModality;
 	}
 
-	public Map<String, GameModalityFactory> getGameModalitiesFactories() {
+	public Map<String, GModalityFactory> getGameModalitiesFactories() {
 		return gameModalitiesFactories;
 	}
 
 	//
 
-	public void setCurrentGameModality(GameModality currentGameModality) {
-		System.out.println("GameCOntroller#setCurrentGameModality : " + currentGameModality.getModalityName());
+	public void setCurrentGameModality(GModality currentGameModality) {
+		System.out.println("GController#setCurrentGameModality : " + currentGameModality.getModalityName());
 		this.currentGameModality = currentGameModality;
 	}
 
@@ -42,10 +61,13 @@ public abstract class GameController {
 	//
 
 	/**
-	 * Add all {@link GameModalityFactory}} to the set of possible modalities,
+	 * Add all {@link GModalityFactory}} to the set of possible modalities,
 	 * identified by {@link #getGameModalitiesFactories()}.
 	 */
 	protected abstract void defineGameModalitiesFactories();
+
+	/** See {@link PlayerGeneric} to see what is meant. */
+	protected abstract PlayerOutside_Generic newPlayerOutside();
 
 	//
 
@@ -54,7 +76,7 @@ public abstract class GameController {
 	}
 
 	public boolean isPlaying() {
-		GameModality gm;
+		GModality gm;
 		gm = this.getCurrentGameModality();
 		return gm != null && gm.isRunning();
 	}
@@ -67,7 +89,7 @@ public abstract class GameController {
 	/**
 	 * Override designed. BUT call <code>super.</code>{@link #init()}}.
 	 * <p>
-	 * Call {@link #setCurrentGameModality(GameModality)}} before invoking me.
+	 * Call {@link #setCurrentGameModality(GModality)}} before invoking me.
 	 */
 	public void startGame() {
 		this.getCurrentGameModality().startGame();
@@ -107,8 +129,8 @@ public abstract class GameController {
 	 * {@link #defineGameModalitiesFactories()} or, at least, contained by
 	 * {@link #getGameModalitiesFactories()}.
 	 */
-	public GameModality newModalityByName(String name) {
-		GameModalityFactory gmf;
+	public GModality newModalityByName(String name) {
+		GModalityFactory gmf;
 		gmf = this.getGameModalitiesFactories().get(name);
 		return gmf == null ? null : gmf.newGameModality(this, name);
 	}

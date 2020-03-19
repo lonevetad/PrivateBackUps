@@ -1,7 +1,7 @@
 package games.generic.controlModel.gameObj;
 
-import games.generic.controlModel.GameEventManager;
-import games.generic.controlModel.GameModality;
+import games.generic.controlModel.GEventManager;
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.ObjectWIthID;
 
 /**
@@ -35,14 +35,14 @@ public interface DestructibleObject extends ObjectWIthID {
 	 * this kind of event has occurred, also to make the "objects manager" to remove
 	 * this object from the game.
 	 * <p>
-	 * Note: Originally, the parameter was an instance of {@link GameEventManager},
+	 * Note: Originally, the parameter was an instance of {@link GEventManager},
 	 * now it's generalized to allow simpler event notification systems.
 	 */
-	public void notifyDestruction(GameModality gm);
+	public void fireDestruction(GModality gm);
 
 	/**
 	 * Apply the destruction, maybe by calling
-	 * {@link #notifyDestruction(GameEventManager)}
+	 * {@link #fireDestruction(GEventManager)}
 	 */
 	public boolean destroy();
 }
