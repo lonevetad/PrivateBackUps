@@ -1,9 +1,9 @@
-package games.theRisingArmy.tiles;
+package videogamesOldVersion.games.theRisingArmy.tiles;
 
-import common.EnumGameObjectTileImage;
-import common.abstractCommon.AbstractEnumElementGOTI;
-import common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
-import common.abstractCommon.AbstractEnumGOTI;
+import videogamesOldVersion.common.EnumGameObjectTileImage;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGOTI;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumGOTI;
 
 public class EnumGOTI_TRAr_Battlefield extends EnumGameObjectTileImage {
 	private static final long serialVersionUID = -106845094L;

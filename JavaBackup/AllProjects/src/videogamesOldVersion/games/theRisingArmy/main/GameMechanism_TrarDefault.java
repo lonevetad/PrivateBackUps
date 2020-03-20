@@ -1,20 +1,20 @@
-package games.theRisingArmy.main;
+package videogamesOldVersion.games.theRisingArmy.main;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Map;
 
-import common.GameMechanism;
-import common.GameObjectInMap;
-import common.abstractCommon.GameModelGeneric;
-import common.abstractCommon.MainController;
-import common.abstractCommon.referenceHolderAC.LoggerMessagesHolder;
-import common.mainTools.RunnableSuspendible;
-import games.theRisingArmy.MainController_TheRisingArmy;
-import games.theRisingArmy.abilities.AbilityAndCasterPair;
-import games.theRisingArmy.abilities.AbilityEnvironmentTrar;
-import games.theRisingArmy.abstractTRAr.AbilitiesListHolder;
-import games.theRisingArmy.abstractTRAr.AbstractAbilityTRAr;
-import tools.RedBlackTree;
+import videogamesOldVersion.common.GameMechanism;
+import videogamesOldVersion.common.GameObjectInMap;
+import videogamesOldVersion.common.abstractCommon.GameModelGeneric;
+import videogamesOldVersion.common.abstractCommon.MainController;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.LoggerMessagesHolder;
+import videogamesOldVersion.common.mainTools.RunnableSuspendible;
+import videogamesOldVersion.games.theRisingArmy.MainController_TheRisingArmy;
+import videogamesOldVersion.games.theRisingArmy.abilities.AbilityAndCasterPair;
+import videogamesOldVersion.games.theRisingArmy.abilities.AbilityEnvironmentTrar;
+import videogamesOldVersion.games.theRisingArmy.abstractTRAr.AbilitiesListHolder;
+import videogamesOldVersion.games.theRisingArmy.abstractTRAr.AbstractAbilityTRAr;
 
 public class GameMechanism_TrarDefault extends GameMechanism {
 	private static final long serialVersionUID = -4091214044093L;
@@ -60,7 +60,7 @@ public class GameMechanism_TrarDefault extends GameMechanism {
 	protected String activateAbility(AbilityAndCasterPair acp) {
 		String error;
 		GameModelGeneric gm;
-		RedBlackTree<Integer, GameObjectInMap> allPermanents;
+		Map<Integer, GameObjectInMap> allPermanents;
 		AbstractAbilityTRAr ability;
 
 		ability = acp.getAbility();

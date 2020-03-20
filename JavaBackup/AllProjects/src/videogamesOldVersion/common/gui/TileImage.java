@@ -1,26 +1,27 @@
-package common.gui;
+package videogamesOldVersion.common.gui;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import common.abstractCommon.referenceHolderAC.ImageAnimationHolder;
-import common.mainTools.AnimatedImage;
-import common.utilities.CastingClass;
+import tools.CastingClass;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.ImageAnimationHolder;
+import videogamesOldVersion.common.mainTools.AnimatedImage;
 
 /**
- * Simple object holding two {@link BufferedImage} (one for the original size as read by file and
- * one resized) and a {@link AnimatedImage} (who is used both for original and resized size, thanks
- * to its implementation that keeps inside it the original {@link BufferedImage} and the resized
- * ones).
+ * Simple object holding two {@link BufferedImage} (one for the original size as
+ * read by file and one resized) and a {@link AnimatedImage} (who is used both
+ * for original and resized size, thanks to its implementation that keeps inside
+ * it the original {@link BufferedImage} and the resized ones).
  * <p>
- * The original {@link BufferedImage} and the {@link AnimatedImage} are used for sharing and
- * reducing I/O operations and memory resources.<br>
- * WARNING: In particular, {@link AnimatedImage} is shared but its internal and <i>original<i>
- * {@link BufferedImage} is shared. The : if it's resized through
- * {@link AnimatedImage#resizeAllImages(int, int)}, then ALL of the objects holding an instance of
- * {@link AnimatedImage} coming from this class will be affected.<br>
- * Call once the method {@link #cloneAnimationFromThis()} to make the {@link AnimatedImage} stored
- * independent.
+ * The original {@link BufferedImage} and the {@link AnimatedImage} are used for
+ * sharing and reducing I/O operations and memory resources.<br>
+ * WARNING: In particular, {@link AnimatedImage} is shared but its internal and
+ * <i>original<i> {@link BufferedImage} is shared. The : if it's resized through
+ * {@link AnimatedImage#resizeAllImages(int, int)}, then ALL of the objects
+ * holding an instance of {@link AnimatedImage} coming from this class will be
+ * affected.<br>
+ * Call once the method {@link #cloneAnimationFromThis()} to make the
+ * {@link AnimatedImage} stored independent.
  */
 public class TileImage implements ImageAnimationHolder {
 	private static final long serialVersionUID = 5418910009096512990L;
@@ -150,9 +151,9 @@ public class TileImage implements ImageAnimationHolder {
 	}
 
 	/**
-	 * Scale the original image (or animated image) to the given size (IN REAL PIXEL !!) and save
-	 * the new image in a cache. That new image can be obtained through {@link #getImageResized()}
-	 * or {@link #getAnimatedImageResized()}.
+	 * Scale the original image (or animated image) to the given size (IN REAL PIXEL
+	 * !!) and save the new image in a cache. That new image can be obtained through
+	 * {@link #getImageResized()} or {@link #getAnimatedImageResized()}.
 	 */
 	public TileImage scaleImages(int width, int height) {
 		boolean imageDone;
@@ -168,8 +169,9 @@ public class TileImage implements ImageAnimationHolder {
 			if (air != null) {
 				if (air == null || air.getWidth() != width || air.getHeight() != height) {
 					// air = air.clone();
-					setAnimatedImage((air.getWidth() != width || air.getHeight() != height)
-							? air.resizeAllImages(width, height) : air);
+					setAnimatedImage(
+							(air.getWidth() != width || air.getHeight() != height) ? air.resizeAllImages(width, height)
+									: air);
 				}
 				setImageResized(air.getImageResized());
 				imageDone = true;
@@ -177,7 +179,8 @@ public class TileImage implements ImageAnimationHolder {
 			if ((!imageDone) && bio != null) {
 				if (air == null || bir.getWidth() != width || bir.getHeight() != height) {
 					setImageResized((bio.getWidth() == width && bio.getHeight() == height)//
-							? bio : CastingClass.castImage_ARGB_ToBufferedImage(//
+							? bio
+							: CastingClass.castImage_ARGB_ToBufferedImage(//
 									bio.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
 				}
 			}
@@ -190,7 +193,8 @@ public class TileImage implements ImageAnimationHolder {
 		// AnimatedImage animatedImage;
 		// animatedImage = getAnimatedI/mage();
 		if (animatedImage != null) {
-			if (animatedImage.passTime(millisPassed)) setImageResized(animatedImage.getImageResized());
+			if (animatedImage.passTime(millisPassed))
+				setImageResized(animatedImage.getImageResized());
 		}
 		return false;
 	}

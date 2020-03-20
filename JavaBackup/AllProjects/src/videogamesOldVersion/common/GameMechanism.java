@@ -1,6 +1,7 @@
 package videogamesOldVersion.common;
 
-import tools.RedBlackTree;
+import java.util.Map;
+
 import videogamesOldVersion.common.abstractCommon.AbstractMapGame;
 import videogamesOldVersion.common.abstractCommon.GameMechanismType;
 import videogamesOldVersion.common.abstractCommon.GameModelGeneric;
@@ -68,7 +69,7 @@ public abstract class GameMechanism implements ThreadsHolder {
 	}
 
 	@Override
-	public RedBlackTree<Long, Thread> getPoolThread() {
+	public Map<Long, Thread> getPoolThread() {
 		return mainController.getPoolThread();
 	}
 
@@ -93,7 +94,7 @@ public abstract class GameMechanism implements ThreadsHolder {
 	}
 
 	@Override
-	public ThreadsHolder setPoolThread(RedBlackTree<Long, Thread> poolThread) {
+	public ThreadsHolder setPoolThread(Map<Long, Thread> poolThread) {
 		return mainController.getGameMechanism();
 	}
 

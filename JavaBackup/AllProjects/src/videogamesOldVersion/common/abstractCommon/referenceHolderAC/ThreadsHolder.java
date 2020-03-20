@@ -1,11 +1,11 @@
-package common.abstractCommon.referenceHolderAC;
+package videogamesOldVersion.common.abstractCommon.referenceHolderAC;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-import common.abstractCommon.behaviouralObjectsAC.ThreadManagerTiny;
-import common.mainTools.Comparators;
-import common.mainTools.dataStruct.MapTreeAVL;
+import dataStructures.MapTreeAVL;
+import tools.Comparators;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.ThreadManagerTiny;
 
 public interface ThreadsHolder extends ThreadManagerTiny {
 
@@ -26,7 +26,7 @@ public interface ThreadsHolder extends ThreadManagerTiny {
 	public ThreadsHolder setPoolThread(Map<Long, Thread> poolThread);
 
 	public default Map<Long, Thread> newPoolThread() {
-		return new MapTreeAVL<Long, Thread>(Comparators.LONG_COMPARATOR);
+		return MapTreeAVL.newMap(Comparators.LONG_COMPARATOR);
 	}
 
 	public default boolean addThreadToPool(Thread newThread) {

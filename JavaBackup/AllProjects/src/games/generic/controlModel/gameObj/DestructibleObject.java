@@ -2,14 +2,14 @@ package games.generic.controlModel.gameObj;
 
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.ObjectWIthID;
+import games.generic.controlModel.ObjectWithID;
 
 /**
  * Denotes an object that could be destroyed and removed from the game(i.e. has
  * a kind of "state", which one of its value is "destroyed") and could fire
  * events accordingly.
  */
-public interface DestructibleObject extends ObjectWIthID {
+public interface DestructibleObject extends ObjectWithID {
 
 	/**
 	 * Flag-like method to check if this has been destroyed (and hopefully removed
@@ -35,8 +35,8 @@ public interface DestructibleObject extends ObjectWIthID {
 	 * this kind of event has occurred, also to make the "objects manager" to remove
 	 * this object from the game.
 	 * <p>
-	 * Note: Originally, the parameter was an instance of {@link GEventManager},
-	 * now it's generalized to allow simpler event notification systems.
+	 * Note: Originally, the parameter was an instance of {@link GEventManager}, now
+	 * it's generalized to allow simpler event notification systems.
 	 */
 	public void fireDestruction(GModality gm);
 

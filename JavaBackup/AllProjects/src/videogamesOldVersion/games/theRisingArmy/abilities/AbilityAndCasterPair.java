@@ -1,7 +1,7 @@
-package games.theRisingArmy.abilities;
+package videogamesOldVersion.games.theRisingArmy.abilities;
 
-import games.theRisingArmy.abstractTRAr.AbstractAbilityTRAr;
-import games.theRisingArmy.abstractTRAr.GameObjectTRAr;
+import videogamesOldVersion.games.theRisingArmy.abstractTRAr.AbstractAbilityTRAr;
+import videogamesOldVersion.games.theRisingArmy.abstractTRAr.GameObjectTRAr;
 
 public class AbilityAndCasterPair {
 

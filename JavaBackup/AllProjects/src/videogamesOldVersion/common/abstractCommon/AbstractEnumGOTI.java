@@ -1,15 +1,14 @@
-package common.abstractCommon;
+package videogamesOldVersion.common.abstractCommon;
 
 import java.io.Serializable;
 import java.util.SortedMap;
 import java.util.function.BiConsumer;
 
-import common.EnumGameObjectTileImage;
-import common.EnumGameObjectTileImageCollection;
-import common.GameObjectInMap;
-import common.gui.GameObjectInMapView;
-import common.gui.TileImage;
-import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
+import videogamesOldVersion.common.EnumGameObjectTileImage;
+import videogamesOldVersion.common.EnumGameObjectTileImageCollection;
+import videogamesOldVersion.common.GameObjectInMap;
+import videogamesOldVersion.common.gui.GameObjectInMapView;
+import videogamesOldVersion.common.gui.TileImage;
 
 /**
  * "GOTI" stands for "GameObjectTileImage"<br>
@@ -135,7 +134,7 @@ public interface AbstractEnumGOTI extends Iterable<AbstractEnumElementGOTI>, Ser
 		int i, len;
 		if (groupOfEnumElement != null && ((len = groupOfEnumElement.length) > 0)) {
 			i = -1;
-			while (++i < len)
+			while(++i < len)
 				store(groupOfEnumElement[i]);
 		}
 		return this;

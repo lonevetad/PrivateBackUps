@@ -1,10 +1,9 @@
-package common;
+package videogamesOldVersion.common;
 
-import common.abstractCommon.AbstractEnumElementGOTI;
-import common.abstractCommon.behaviouralObjectsAC.GameObjectInMapFactory;
-import common.abstractCommon.behaviouralObjectsAC.TileImageFactory;
-import common.gui.TileImage;
-import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGOTI;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.GameObjectInMapFactory;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.TileImageFactory;
+import videogamesOldVersion.common.gui.TileImage;
 
 /***/
 public class EnumElementTileImageFactory implements AbstractEnumElementGOTI {
@@ -103,8 +102,7 @@ public class EnumElementTileImageFactory implements AbstractEnumElementGOTI {
 	}
 
 	@Override
-	public AbstractEnumElementGOTI setGameObjectInMapFactory(
-			GameObjectInMapFactory gameObjectInMapFactory) {
+	public AbstractEnumElementGOTI setGameObjectInMapFactory(GameObjectInMapFactory gameObjectInMapFactory) {
 		this.gameObjectInMapFactory = GameObjectInMapFactory.getOrDefault(gameObjectInMapFactory);
 		return this;
 	}

@@ -1,11 +1,11 @@
-package games.theRisingArmy.tiles;
+package videogamesOldVersion.games.theRisingArmy.tiles;
 
-import common.EnumGameObjectTileImage;
-import common.abstractCommon.AbstractEnumElementGOTI;
-import common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
-import common.abstractCommon.AbstractEnumGOTI;
-import common.abstractCommon.MainController;
 import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
+import videogamesOldVersion.common.EnumGameObjectTileImage;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGOTI;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumGOTI;
+import videogamesOldVersion.common.abstractCommon.MainController;
 
 public class EnumGOTI_TRAr_Magics extends EnumGameObjectTileImage {
 	private static final long serialVersionUID = -63300807044126307L;
@@ -22,15 +22,41 @@ public class EnumGOTI_TRAr_Magics extends EnumGameObjectTileImage {
 		ShieldMagicSphere(AbstractEnumGOTI
 				.newDefaultElement(ShapeSpecification.newCircle(true, MainController.MICROPIXEL_EACH_TILE * 3 / 2))
 				.setName("Shield Magic Spheric"))//
-		, BlackHoleExploding(AbstractEnumGOTI.newDefaultElement(ShapeSpecification.newRectangle(true, MainController.MICROPIXEL_EACH_TILE * 2, MainController.MICROPIXEL_EACH_TILE * 2)).setName("Black Hole Exploding"))//
+		,
+		BlackHoleExploding(
+				AbstractEnumGOTI
+						.newDefaultElement(ShapeSpecification.newRectangle(true,
+								MainController.MICROPIXEL_EACH_TILE * 2, MainController.MICROPIXEL_EACH_TILE * 2))
+						.setName("Black Hole Exploding"))//
 		, WaterSpiral("Water Spiral")//
 		, HealBasic("Heal Basic")//
-		, HealGreat(AbstractEnumGOTI.newDefaultElement(ShapeSpecification.newRectangle(true, MainController.MICROPIXEL_EACH_TILE * 2, MainController.MICROPIXEL_EACH_TILE * 2)).setName("Heal Great"))//
-		, FireballMicro(AbstractEnumGOTI.newDefaultElement(ShapeSpecification.newRectangle(true, MainController.MICROPIXEL_EACH_TILE / 2, MainController.MICROPIXEL_EACH_TILE / 2)).setName("Fireball Micro"))//
-		, ThunderLittle(AbstractEnumGOTI.newDefaultElement(ShapeSpecification.newRectangle(true, MainController.MICROPIXEL_EACH_TILE, MainController.MICROPIXEL_EACH_TILE * 2)).setName("Thunder Little"))//
+		,
+		HealGreat(
+				AbstractEnumGOTI
+						.newDefaultElement(ShapeSpecification.newRectangle(true,
+								MainController.MICROPIXEL_EACH_TILE * 2, MainController.MICROPIXEL_EACH_TILE * 2))
+						.setName("Heal Great"))//
+		,
+		FireballMicro(
+				AbstractEnumGOTI
+						.newDefaultElement(ShapeSpecification.newRectangle(true,
+								MainController.MICROPIXEL_EACH_TILE / 2, MainController.MICROPIXEL_EACH_TILE / 2))
+						.setName("Fireball Micro"))//
+		,
+		ThunderLittle(AbstractEnumGOTI.newDefaultElement(ShapeSpecification.newRectangle(true,
+				MainController.MICROPIXEL_EACH_TILE, MainController.MICROPIXEL_EACH_TILE * 2))
+				.setName("Thunder Little"))//
 		, IceStalactite("Ice Stalactite")//
-		, FireColumn(AbstractEnumGOTI.newDefaultElement(ShapeSpecification.newRectangle(true, MainController.MICROPIXEL_EACH_TILE * 2, MainController.MICROPIXEL_EACH_TILE * 3)).setName("Fire Column"))//
-		, ExplosionLittle(AbstractEnumGOTI.newDefaultElement(ShapeSpecification.newCircle(true, MainController.MICROPIXEL_EACH_TILE)).setName("Explosion Little"))//
+		,
+		FireColumn(
+				AbstractEnumGOTI
+						.newDefaultElement(ShapeSpecification.newRectangle(true,
+								MainController.MICROPIXEL_EACH_TILE * 2, MainController.MICROPIXEL_EACH_TILE * 3))
+						.setName("Fire Column"))//
+		,
+		ExplosionLittle(AbstractEnumGOTI
+				.newDefaultElement(ShapeSpecification.newCircle(true, MainController.MICROPIXEL_EACH_TILE))
+				.setName("Explosion Little"))//
 		//
 		;
 

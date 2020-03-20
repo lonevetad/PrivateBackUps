@@ -7,14 +7,14 @@ import games.generic.controlModel.eventsGame.EventInfo_SourceToTarget;
 import games.generic.controlModel.eventsGame.EventMoneyChange;
 import games.generic.controlModel.eventsGame.ExampleGameEvents;
 import games.generic.controlModel.player.PlayerInGame_Generic;
-import games.generic.controlModel.subImpl.GameEventManagerFineGrained;
+import games.generic.controlModel.subImpl.GEventManagerFineGrained;
 
 public class GEventInterface_E1 implements GEventInterface {
 	GEventManager gem;
 
 	@Override
 	public void setNewGameEventManager(GModality gameModality) {
-		this.gem = new GameEventManagerFineGrained(gameModality);
+		this.gem = new GEventManagerFineGrained(gameModality);
 	}
 
 	@Override

@@ -154,12 +154,22 @@ public class PolygonDrawer {
 			jpCenterPoly.setLayout(new GridBagLayout());
 			// TODO impostare un layout DECENTE
 			jpBuildPoly = new JPanel() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void paintComponent(Graphics g) {
 					paintPolyBuilderPanel(g);
 				}
 			};
 			jpImageFiltered = new JPanel() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void paintComponent(Graphics g) {
 					if (bi != null)
@@ -169,6 +179,11 @@ public class PolygonDrawer {
 				}
 			};
 			jpOracle = new JPanel() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void paintComponent(Graphics g) {
 					if (biOracle != null)
@@ -215,11 +230,11 @@ public class PolygonDrawer {
 		}
 
 		void resizeEveryone() {
-			int fw, fh;
+//			int fw, fh;
 			Dimension d;
 			d = (Dimension) fin.getSize().clone();
-			fw = d.width;
-			fh = d.height;
+//			fw = d.width;
+//			fh = d.height;
 			d.width -= widthList;
 			d.height -= 50;
 			jpCenterPoly.setSize(d);
@@ -246,7 +261,7 @@ public class PolygonDrawer {
 				i = n = polyOriginal.npoints;
 				xx = new int[n];
 				yy = new int[n];
-				while (--i >= 0) {
+				while(--i >= 0) {
 					xx[i] = polyOriginal.xpoints[i] * PIXEL_SIZE;
 					yy[i] = polyOriginal.ypoints[i] * PIXEL_SIZE;
 				}
@@ -274,10 +289,10 @@ public class PolygonDrawer {
 			i = r = -1;
 			rr = cc = c = 0;
 //			try {
-			while (++r < h) {
+			while(++r < h) {
 				c = -1;
 				System.out.print("- " + r + ":\t");
-				while (++c < w) {
+				while(++c < w) {
 //						if (res[++i]) {
 					b = res[++i];
 					if (b) {
@@ -357,6 +372,10 @@ public class PolygonDrawer {
 			}
 
 			class JBDeleting extends JButton {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 				PointWithID pwiReferring;
 
 				public JBDeleting(PointWithID value) {
@@ -366,7 +385,7 @@ public class PolygonDrawer {
 					this.setPreferredSize(d);
 					this.addActionListener(l -> {
 						if (pdm.removePoint(pwiReferring)) {
-							buttonsCache.remove(pwiReferring);
+							buttonsCache.remove(pwiReferring.id);
 						}
 					});
 				}

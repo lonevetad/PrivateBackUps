@@ -1,12 +1,12 @@
-package games.theRisingArmy.tiles;
+package videogamesOldVersion.games.theRisingArmy.tiles;
 
-import common.EnumGameObjectTileImage;
-import common.abstractCommon.AbstractEnumElementGOTI;
-import common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
-import common.abstractCommon.AbstractEnumGOTI;
-import common.abstractCommon.MainController;
 import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
-import games.theRisingArmy.MainController_TheRisingArmy;
+import videogamesOldVersion.common.EnumGameObjectTileImage;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGOTI;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumGOTI;
+import videogamesOldVersion.common.abstractCommon.MainController;
+import videogamesOldVersion.games.theRisingArmy.MainController_TheRisingArmy;
 
 public class EnumGOTI_TRAr_Nature extends EnumGameObjectTileImage {
 	private static final long serialVersionUID = -63300807044126307L;

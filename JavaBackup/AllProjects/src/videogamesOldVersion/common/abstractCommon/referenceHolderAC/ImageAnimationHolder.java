@@ -1,10 +1,10 @@
-package common.abstractCommon.referenceHolderAC;
+package videogamesOldVersion.common.abstractCommon.referenceHolderAC;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-import common.gui.TileImage;
-import common.mainTools.AnimatedImage;
+import videogamesOldVersion.common.gui.TileImage;
+import videogamesOldVersion.common.mainTools.AnimatedImage;
 
 /**
  * Represent a class holding an image, more precisely {@link BufferedImage},
@@ -113,13 +113,12 @@ public interface ImageAnimationHolder extends Serializable {
 
 	/**
 	 * Update any possible animation with the given amount of time (expressed in
-	 * milliseconds) and get the current image (that is a animation's frame if
-	 * that animation exists, or a "static" image otherwise).<br>
+	 * milliseconds) and get the current image (that is a animation's frame if that
+	 * animation exists, or a "static" image otherwise).<br>
 	 * Beware of <code>null</code>s.
 	 * 
-	 * @param millis
-	 *            update the progression of animation by given amount of time in
-	 *            milliseconds, then return the current frame
+	 * @param millis update the progression of animation by given amount of time in
+	 *               milliseconds, then return the current frame
 	 */
 	public default BufferedImage getNextImage(int millis) {
 		AnimatedImage ai;
@@ -129,7 +128,8 @@ public interface ImageAnimationHolder extends Serializable {
 			return null;
 		}
 		if (ai != null) {
-			if (millis > 0) ai.passTime(millis);
+			if (millis > 0)
+				ai.passTime(millis);
 			setImageResized(bi = ai.getImageResized());
 			setImageOriginal(ai.getImageOriginalSize());
 			return bi;

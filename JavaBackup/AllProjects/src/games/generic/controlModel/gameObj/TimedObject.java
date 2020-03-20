@@ -1,7 +1,7 @@
 package games.generic.controlModel.gameObj;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.ObjectWIthID;
+import games.generic.controlModel.ObjectWithID;
 
 /**
  * Used for {@link GModality}es using some concept of "time" (real time or
@@ -13,6 +13,6 @@ import games.generic.controlModel.ObjectWIthID;
  * controllare le collisioni tra oggetti, ascoltatori di eventi come
  * "ogniqualvolta entra una creatura in campo, fai XYZ", etc...)
  */
-public interface TimedObject extends ObjectWIthID {
+public interface TimedObject extends ObjectWithID {
 	public void act(GModality modality, long milliseconds);
 }

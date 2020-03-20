@@ -1,20 +1,18 @@
-package common.abstractCommon.behaviouralObjectsAC;
+package videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC;
 
 import java.util.List;
+import java.util.Map;
 
-import common.FullReloadEnvironment;
-import common.MOLMManager;
-import common.abstractCommon.AbstractMOLMFactory;
-import common.abstractCommon.Memento;
-import common.abstractCommon.referenceHolderAC.MolmsHolder;
-import common.abstractCommon.referenceHolderAC.ShapeSpecificationHolder;
-import common.mainTools.Comparators;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager.AbstractMementoMOLM;
-import common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID;
-import common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID.MementoOWID;
-import tools.RedBlackTree;
-import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
+import tools.Comparators;
+import videogamesOldVersion.common.FullReloadEnvironment;
+import videogamesOldVersion.common.MOLMManager;
+import videogamesOldVersion.common.abstractCommon.AbstractMOLMFactory;
+import videogamesOldVersion.common.abstractCommon.Memento;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.MolmsHolder;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.ShapeSpecificationHolder;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager.AbstractMementoMOLM;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID.MementoOWID;
 
 /**
  * Collect and manage (closely) uniformly a group of
@@ -63,8 +61,7 @@ public interface AbstractMOLMManager
 	}
 
 	/**
-	 * Realloc all AbstractMatrixObjectLocationManager_s if the dimensions
-	 * changes
+	 * Realloc all AbstractMatrixObjectLocationManager_s if the dimensions changes
 	 */
 	public default AbstractMatrixObjectLocationManager[] reallocMolms(int widthMicropixel, int heightMicropixel) {
 		int i, len;
@@ -83,7 +80,7 @@ public interface AbstractMOLMManager
 			len = ms.length;
 			i = -1;
 
-			while (++i < len)
+			while(++i < len)
 				// make the instances
 				ms[i] = molmFactory.newMolmInstance(widthMicropixel, heightMicropixel);
 			setMolms(ms);
@@ -164,8 +161,7 @@ public interface AbstractMOLMManager
 	}
 
 	/**
-	 * @param preferredMolm
-	 *            if <code>null</code>, it means "all" molms.
+	 * @param preferredMolm if <code>null</code>, it means "all" molms.
 	 */
 	public default String doOnMOLM(ObjectWithID owid, DoSomethingWithMolmShapespecOwid doSome,
 			AbstractMatrixObjectLocationManager preferredMolm) {
@@ -174,8 +170,9 @@ public interface AbstractMOLMManager
 		AbstractMatrixObjectLocationManager[] molms;
 		ShapeSpecification ss;
 
-		if (doSome == null) return "ERROR: on " + this.getClass().getSimpleName()
-				+ ".doOnMolm, cannot perform a null operation over molms.";
+		if (doSome == null)
+			return "ERROR: on " + this.getClass().getSimpleName()
+					+ ".doOnMolm, cannot perform a null operation over molms.";
 		ss = null;
 		if (owid != null && (owid instanceof ShapeSpecificationHolder)) {
 			ss = ((ShapeSpecificationHolder) owid).getShapeSpecification();
@@ -217,17 +214,17 @@ public interface AbstractMOLMManager
 	/** Override designed */
 	public default void fillMementoWithMolmsInfo(AbstractMementoMOLMManager_OLD ammm) {
 		int i, len;
-		RedBlackTree<Integer, MementoOWID> allMementoOWIDFromMolms;
+		Map<Integer, MementoOWID> allMementoOWIDFromMolms;
 		AbstractMatrixObjectLocationManager.AbstractMementoMOLM mementosFromMolms[], mementoMolm;
 		AbstractMatrixObjectLocationManager molms[], molm;
 		List<ObjectWithID.MementoOWID> mementosOWIDRecorded;
 
 		molms = getMolms();
 		if (molms != null && (len = molms.length) > 0) {
-			ammm.allMementoOWIDFromMolms = allMementoOWIDFromMolms = new RedBlackTree<>(Comparators.INTEGER_COMPARATOR);
+			ammm.allMementoOWIDFromMolms = allMementoOWIDFromMolms = new Map<>(Comparators.INTEGER_COMPARATOR);
 			ammm.mementosFromMolms = mementosFromMolms = new AbstractMatrixObjectLocationManager.AbstractMementoMOLM[len];
 			i = -1;
-			while (++i < len) {
+			while(++i < len) {
 				/* for each MOLM */
 				molm = molms[i];
 				if (molm != null) {
@@ -236,9 +233,8 @@ public interface AbstractMOLMManager
 					if (mementoMolm != null) {
 						mementosFromMolms[i] = mementoMolm;
 						/*
-						 * now, save ObjectWithID' mementos into our list and
-						 * make empty the molm's memento's ones : we don't want
-						 * the same ObjectWithID instance create multiple
+						 * now, save ObjectWithID' mementos into our list and make empty the molm's
+						 * memento's ones : we don't want the same ObjectWithID instance create multiple
 						 * mementos for each MolmManager's mementos
 						 */
 						mementosOWIDRecorded = mementoMolm.getMementosRecorded();
@@ -282,21 +278,20 @@ public interface AbstractMOLMManager
 			// this.reallocMolms(ammm.widthMicropixel, ammm.heightMicropixel);
 			/* re-creating all molms */
 			i = -1;
-			while (++i < len) {
+			while(++i < len) {
 				amm = ammManager.mementosFromMolms[i];
 				if (amm != null) {
 					molm = amm.reinstanceFromMe(fre);
-					if (molm != null) molms[i] = molm;
+					if (molm != null)
+						molms[i] = molm;
 				}
 			}
 			/*
-			 * recreate OWID instances and add them to the associated MOLM,
-			 * obtained via "getMolmFromNotSolidity" ... 12/12/20017 : jet done
-			 * by "amm.reinstanceFromMe"
+			 * recreate OWID instances and add them to the associated MOLM, obtained via
+			 * "getMolmFromNotSolidity" ... 12/12/20017 : jet done by "amm.reinstanceFromMe"
 			 */
 			/**
-			 * ammManager.allMementoOWIDFromMolms.forEach((integ, mowid) ->
-			 * {//<br>
+			 * ammManager.allMementoOWIDFromMolms.forEach((integ, mowid) -> {//<br>
 			 * ObjectWithID owid;//<br>
 			 * Object o;//<br>
 			 * ShapeSpecificationHolder ssh;//<br>
@@ -308,8 +303,7 @@ public interface AbstractMOLMManager
 			 * ssh = (ShapeSpecificationHolder) owid;//<br>
 			 * // ok, can be added//<br>
 			 * m = this.getMolmFromOWID(owid);//<br>
-			 * if (m != null) m.addOnShape(ssh.getShapeSpecification(),
-			 * owid);//<br>
+			 * if (m != null) m.addOnShape(ssh.getShapeSpecification(), owid);//<br>
 			 * }//<br>
 			 * if (owid instanceof MolmsHolder) //<br>
 			 * ((MolmsHolder) owid).setMolms(molms);//<br>
@@ -364,10 +358,10 @@ public interface AbstractMOLMManager
 		// int widthMicropixel, heightMicropixel, sizeMolms;
 		// AbstractMOLMFactory molmFactory;
 		/**
-		 * don't wants any repetitions of ObjectWithID's memento .. usefull if
-		 * the same ObjectWithID's has been added into different molm
+		 * don't wants any repetitions of ObjectWithID's memento .. usefull if the same
+		 * ObjectWithID's has been added into different molm
 		 */
-		RedBlackTree<Integer, MementoOWID> allMementoOWIDFromMolms;
+		Map<Integer, MementoOWID> allMementoOWIDFromMolms;
 		AbstractMatrixObjectLocationManager.AbstractMementoMOLM[] mementosFromMolms;
 
 		public AbstractMementoMOLMManager_OLD() {
@@ -382,8 +376,7 @@ public interface AbstractMOLMManager
 			// this.sizeMolms = amm.getSizeMolms();
 			/*
 			 * this.molmFactory = (amm.getMolmFactory() !=
-			 * AbstractMOLMFactory.DEFAULT_MOLM_FACTORY) ? amm.getMolmFactory()
-			 * : null;
+			 * AbstractMOLMFactory.DEFAULT_MOLM_FACTORY) ? amm.getMolmFactory() : null;
 			 */
 			amm.fillMementoWithMolmsInfo(this);
 		}

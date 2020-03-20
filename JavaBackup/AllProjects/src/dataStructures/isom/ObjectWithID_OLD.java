@@ -6,7 +6,7 @@ import geometry.ObjectLocated;
 
 /** Deprecated since 19/03/2020 because its a type referred to games. */
 @Deprecated
-public abstract class ObjectWithID<IDType> implements Serializable, ObjectLocated
+public abstract class ObjectWithID_OLD<IDType> implements Serializable, ObjectLocated
 //		, ObjectSerializableDoingNothingAfter, LoggerMessagesHolder, MementoPatternImplementor 
 {
 	private static final long serialVersionUID = -28065206360L;
@@ -18,12 +18,12 @@ public abstract class ObjectWithID<IDType> implements Serializable, ObjectLocate
 	 * di ordine O(log(n)).
 	 */
 	/***/
-	public ObjectWithID() {
+	public ObjectWithID_OLD() {
 		super();
 //		setLog(null);
 	}
 
-	public ObjectWithID(ObjectWithID<IDType> o) {
+	public ObjectWithID_OLD(ObjectWithID<IDType> o) {
 		this();
 		this.isNotSolid = o.isNotSolid;
 		this.ID = o.ID;
@@ -67,7 +67,7 @@ public abstract class ObjectWithID<IDType> implements Serializable, ObjectLocate
 
 	// TODO SETTER
 
-	public ObjectWithID<IDType> setNotSolid(boolean isNotSolid) {
+	public ObjectWithID_OLD<IDType> setNotSolid(boolean isNotSolid) {
 		this.isNotSolid = isNotSolid;
 		return this;
 	}
@@ -82,7 +82,7 @@ public abstract class ObjectWithID<IDType> implements Serializable, ObjectLocate
 
 	// TODO STATIC METHODS
 
-	public ObjectWithID<IDType> setID(IDType iD) {
+	public ObjectWithID_OLD<IDType> setID(IDType iD) {
 		ID = iD;
 		return this;
 	}
@@ -91,7 +91,7 @@ public abstract class ObjectWithID<IDType> implements Serializable, ObjectLocate
 	 * @return <code>true</code> if the given object is <code>null</code>,<br>
 	 *         <code>theGivenParameter.{@link #isNotSolid()}</code> otherwise.
 	 */
-	public static <IDType> boolean extractIsNotSolid(ObjectWithID<IDType> o) {
+	public static <IDType> boolean extractIsNotSolid(ObjectWithID_OLD<IDType> o) {
 		return o == null ? true : o.isNotSolid();
 	}
 

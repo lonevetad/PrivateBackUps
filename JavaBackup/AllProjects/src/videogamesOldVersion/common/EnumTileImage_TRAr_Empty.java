@@ -1,10 +1,9 @@
-package common;
+package videogamesOldVersion.common;
 
-import common.abstractCommon.AbstractEnumElementGOTI;
-import common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
-import common.abstractCommon.AbstractEnumGOTI;
-import common.abstractCommon.MainController;
-import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGOTI;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumGOTI;
+import videogamesOldVersion.common.abstractCommon.MainController;
 
 public class EnumTileImage_TRAr_Empty extends EnumGameObjectTileImage {
 	private static final long serialVersionUID = -633008070441263088L;

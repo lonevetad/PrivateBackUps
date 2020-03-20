@@ -10,7 +10,7 @@ import games.generic.controlModel.eventsGame.ExampleGameEvents;
  * <p>
  * Could help implement the event-oriented programming.
  */
-public abstract class GEvent implements ObjectWIthID {
+public abstract class GEvent implements ObjectWithID {
 	protected final Integer ID;
 
 	public GEvent() {

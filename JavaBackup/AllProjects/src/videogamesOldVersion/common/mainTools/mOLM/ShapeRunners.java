@@ -1,16 +1,16 @@
-package common.mainTools.mOLM;
+package videogamesOldVersion.common.mainTools.mOLM;
 
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Map;
 
-import common.mainTools.Comparators;
-import common.mainTools.MathUtilities;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractShapeRunners;
-import common.mainTools.mOLM.abstractClassesMOLM.DoSomethingWithNode;
 import common.mainTools.mOLM.abstractClassesMOLM.ShapeRunner;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import tools.RedBlackTree;
+import tools.Comparators;
+import tools.MathUtilities;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractShapeRunners;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.DoSomethingWithNode;
 
 /**
  * Implementation of {@link AbstractShapeRunners}, using the Singleton
@@ -23,16 +23,16 @@ public class ShapeRunners implements AbstractShapeRunners {
 	private static final long serialVersionUID = -362996090882828777L;
 
 	/**
-	 * Used to compute a new angle (usually in a static, unchangeable way)
-	 * starting from the given one
+	 * Used to compute a new angle (usually in a static, unchangeable way) starting
+	 * from the given one
 	 * <p>
 	 * p1_______________________p2<br>
 	 * |........................|<br>
 	 * |.........PCenter........|<br>
 	 * |........................|<br>
 	 * p4_______________________p3<br>
-	 * let say "angCenterP1" the angle in degrees between PCenter and firstPoint. The
-	 * angle between pcenter and secondPoint will be (180.0 - angCenterP1). p3 =
+	 * let say "angCenterP1" the angle in degrees between PCenter and firstPoint.
+	 * The angle between pcenter and secondPoint will be (180.0 - angCenterP1). p3 =
 	 * angCenterP1 + 180 , p4 = 360-angCenterP1.
 	 */
 	protected static interface AngleRoteater extends Serializable {
@@ -47,21 +47,19 @@ public class ShapeRunners implements AbstractShapeRunners {
 
 	public static final double[] TRIANGLE_ANGLE_DEG_ADDED__FIND_CORNER = { +90.0, /*-30.0*/+90.0, /*-150.0*/+210 }//
 			, /**
-				 * See
-				 * {@link MatrixObjectMapper#runOnTriangular_Equilatero_Border }
+				 * See {@link MatrixObjectMapper#runOnTriangular_Equilatero_Border }
 				 */
 			TRIANGLE_ANGLE_DEG_ADDED__RUN_BORDER = { 300.0, 240.0, 0.0 },
 			ARROW_ANGLE_DEG_ADDED__FIND_CORNER = { +90.0, /*-30.0*/+330.0, /*-150.0*/+210 }//
 			, /**
-				 * See
-				 * {@link MatrixObjectMapper#runOnTriangular_Equilatero_Border }
+				 * See {@link MatrixObjectMapper#runOnTriangular_Equilatero_Border }
 				 */
 			ARROW_ANGLE_DEG_ADDED__RUN_BORDER = { 300.0, 240.0, 0.0 };
 
 	private static ShapeRunners instanceShapeRunners = null;
 
 	protected ShapeRunners() {
-		allRunners = new RedBlackTree<>(AbstractShapeRunners.COMPARATOR_ShapesImplemented);
+		allRunners = new Map<>(AbstractShapeRunners.COMPARATOR_ShapesImplemented);
 
 		allRunners.add(ShapesImplemented.Rectangle, this::runOnRectangle);
 		allRunners.add(ShapesImplemented.Rectangle_Border, this::runOnRectangleBorder);
@@ -77,22 +75,24 @@ public class ShapeRunners implements AbstractShapeRunners {
 		allRunners.add(ShapesImplemented.EllipseNoRotation_Border, this::runOnEllipseNoRotationBorder);
 	}
 
-	protected RedBlackTree<ShapesImplemented, ShapeRunner> allRunners;
+	protected Map<ShapesImplemented, ShapeRunner> allRunners;
 
 	//
 
 	public static final ShapeRunners getInstance() {
-		if (instanceShapeRunners == null) instanceShapeRunners = new ShapeRunners();
+		if (instanceShapeRunners == null)
+			instanceShapeRunners = new ShapeRunners();
 		return instanceShapeRunners;
 	}
 
-	public RedBlackTree<ShapesImplemented, ShapeRunner> getAllRunners() {
+	public Map<ShapesImplemented, ShapeRunner> getAllRunners() {
 		return allRunners;
 	}
 
 	@Override
 	public ShapeRunner getRunner(ShapesImplemented si) {
-		if (si == null) return null;
+		if (si == null)
+			return null;
 		return getAllRunners().fetch(si);
 	}
 
@@ -181,11 +181,11 @@ public class ShapeRunners implements AbstractShapeRunners {
 		} else {
 
 			r = -1;
-			while (++r < h && doswn.canContinueCycling()) {
+			while(++r < h && doswn.canContinueCycling()) {
 				row = matrix[yy];
 				c = -1;
 				xtraslating = xx;
-				while (++c < w && doswn.canContinueCycling()) {
+				while(++c < w && doswn.canContinueCycling()) {
 					doswn.doOnNode(molm, row[xtraslating], xtraslating++, yy);
 				}
 				yy++;
@@ -219,7 +219,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 
 			// calculate all points
 			i = -1;
-			while (++i < len) {
+			while(++i < len) {
 				radTemp = Math.toRadians(MathUtilities
 						.adjustDegAngle(ROTATERS_FOR_RECTANGLE_ROTATED_ON_CENTER[i].rotate(angCenterP1) + angleDeg));
 
@@ -229,15 +229,15 @@ public class ShapeRunners implements AbstractShapeRunners {
 			/**
 			 * Proprietà :
 			 * <ul>
-			 * <li>il punto più in alto non può essere anche quello più a
-			 * destra o a sinistra</li>
-			 * <li>ne deriva che esso si troverà "in mezzo", nell'asse delle x,
-			 * ad almeno altri due punti</li>
+			 * <li>il punto più in alto non può essere anche quello più a destra o a
+			 * sinistra</li>
+			 * <li>ne deriva che esso si troverà "in mezzo", nell'asse delle x, ad almeno
+			 * altri due punti</li>
 			 * </ul>
-			 * Quindi .. Calcolo i 4 punti , li metto in un array, lo ordino
-			 * secondo l'asse y in senso decrescente (se y uguale, compara
-			 * secondo la x , con x minore -> 1) .. Il punto numero 0 è il più
-			 * alto, il 3 il più basso, gli 1 e 2 bisogna confrontare le x ...
+			 * Quindi .. Calcolo i 4 punti , li metto in un array, lo ordino secondo l'asse
+			 * y in senso decrescente (se y uguale, compara secondo la x , con x minore ->
+			 * 1) .. Il punto numero 0 è il più alto, il 3 il più basso, gli 1 e 2
+			 * bisogna confrontare le x ...
 			 */
 			Arrays.sort(allPoints, Comparators.POINT_COMPARATOR_HIGHEST_LEFTMOST_FIRST);
 			// now we have all points .. get the highest
@@ -286,7 +286,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		yy = yUpper + 1;
 
 		// recycle vars
-		while (doswn.canContinueCycling() && --yy >= yLower) {
+		while(doswn.canContinueCycling() && --yy >= yLower) {
 			if (yy == yUpper) {
 				doswn.doOnNode(molm, matrix[yy][xUpper], xUpper, yy);
 			} else if (yy == yLower) {
@@ -340,12 +340,12 @@ public class ShapeRunners implements AbstractShapeRunners {
 		if (xx + w > xlen) {
 			w = xlen - xx;
 		}
-		while (++r < h && doswn.canContinueCycling()) {
+		while(++r < h && doswn.canContinueCycling()) {
 			if (yy < ylen) {
 				row = matrix[yy];
 				c = -1;
 				xtraslating = xx;
-				while (++c < w && doswn.canContinueCycling()) {
+				while(++c < w && doswn.canContinueCycling()) {
 					// doswn.doOnRow(row, xtraslating++, yy);
 					doswn.doOnNode(molm, row[xtraslating], xtraslating++, yy);
 				}
@@ -376,7 +376,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			allPoints = new Point[len = ROTATERS_FOR_RECTANGLE_ROTATED_ON_CENTER.length];
 			angCenterP1 = MathUtilities.angleDeg(xCenter, yCenter, xx, yy);
 			i = -1;
-			while (++i < len) {
+			while(++i < len) {
 				radTemp = Math.toRadians(MathUtilities
 						.adjustDegAngle(ROTATERS_FOR_RECTANGLE_ROTATED_ON_CENTER[i].rotate(angCenterP1) + angleDeg));
 
@@ -421,14 +421,17 @@ public class ShapeRunners implements AbstractShapeRunners {
 		qUsedOnRight = qUpRight;
 		yy = yUpper + 1;
 
-		if (yy > molm.getHeight()) yy = molm.getHeight();
+		if (yy > molm.getHeight())
+			yy = molm.getHeight();
 		// if (yLower < 0) yLower = 0;
-		while (doswn.canContinueCycling() && --yy >= yLower && yy >= 0) {
+		while(doswn.canContinueCycling() && --yy >= yLower && yy >= 0) {
 
 			if (yy == yUpper) {
-				if (xUpper >= 0 && xUpper < molm.getWidth()) doswn.doOnNode(molm, matrix[yy][xUpper], xUpper, yy);
+				if (xUpper >= 0 && xUpper < molm.getWidth())
+					doswn.doOnNode(molm, matrix[yy][xUpper], xUpper, yy);
 			} else if (yy == yLower) {
-				if (xLower >= 0 && xLower < molm.getWidth()) doswn.doOnNode(molm, matrix[yy][xLower], xLower, yy);
+				if (xLower >= 0 && xLower < molm.getWidth())
+					doswn.doOnNode(molm, matrix[yy][xLower], xLower, yy);
 			} else {
 				xStartNotFound = xEndNotFound = true;
 				if (yy == yLeft) {
@@ -449,9 +452,11 @@ public class ShapeRunners implements AbstractShapeRunners {
 				if (xEndNotFound) {
 					xEnd = (int) Math.round((yy - qUsedOnRight) / acUsedOnRight);
 				}
-				if (xStart < 0) xStart = 0;
+				if (xStart < 0)
+					xStart = 0;
 				if (xStart < molm.getWidth() && xEnd >= 0) {
-					if (xEnd >= molm.getWidth()) xEnd = molm.getWidth() - 1;
+					if (xEnd >= molm.getWidth())
+						xEnd = molm.getWidth() - 1;
 					runHorizontalSpan_Unsafe(molm, xStart, xEnd, yy, doswn);
 				} // else error !
 			}
@@ -478,8 +483,10 @@ public class ShapeRunners implements AbstractShapeRunners {
 		if (doswn == null || molm == null || (matrix = molm.matrix).length == 0 || h < 1 || w < 1) {
 			return false;
 		}
-		if (Math.abs(angleDeg) >= 360.0) angleDeg %= 360.0;
-		if (angleDeg < 0.0) angleDeg += 360.0;
+		if (Math.abs(angleDeg) >= 360.0)
+			angleDeg %= 360.0;
+		if (angleDeg < 0.0)
+			angleDeg += 360.0;
 		xCenter = xx;
 		xx -= (hw = (w >> 1));
 		yCenter = yy;
@@ -527,7 +534,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		c = xx + (w - 1);
 		h -= 2;
 		r = -1;
-		while (++r < h && doswn.canContinueCycling()) {
+		while(++r < h && doswn.canContinueCycling()) {
 			row = matrix[++yy];
 			// doswn.doOnRow(row, xx, yy);
 			// doswn.doOnRow(row, c, yy);
@@ -537,8 +544,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 	}
 
 	/**
-	 * BUG: Did not draw the second "lowest" line (the second one having y
-	 * nearest to zero).
+	 * BUG: Did not draw the second "lowest" line (the second one having y nearest
+	 * to zero).
 	 */
 	// usa l'idea sfruttata per riempire il rettangolo
 	protected static void drawRectangleBorder_Unsafe_NOT_DRAW_SECOND_LINE(MatrixObjectLocationManager molm, int xx,
@@ -564,7 +571,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			allPoints = new Point[len = ROTATERS_FOR_RECTANGLE_ROTATED_ON_CENTER.length];
 			angCenterP1 = MathUtilities.angleDeg(xCenter, yCenter, xx, yy);
 			i = -1;
-			while (++i < len) {
+			while(++i < len) {
 				radTemp = Math.toRadians(MathUtilities
 						.adjustDegAngle(ROTATERS_FOR_RECTANGLE_ROTATED_ON_CENTER[i].rotate(angCenterP1) + angleDeg));
 				allPoints[i] = new Point(xCenter + (int) (hypotenuse * Math.cos(radTemp)),
@@ -607,7 +614,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		qUsedOnRight = qUpRight;
 		yy = yUpper + 1;
 		xStartPrev = xEndPrev = xUpper;
-		while (doswn.canContinueCycling() && --yy >= yLower) {
+		while(doswn.canContinueCycling() && --yy >= yLower) {
 			if (yy == yUpper) {
 				doswn.doOnNode(molm, matrix[yy][xUpper], xUpper, yy);
 			} else if (yy == yLower) {
@@ -646,10 +653,9 @@ public class ShapeRunners implements AbstractShapeRunners {
 
 		angleDeg = MathUtilities.adjustDegAngle(angleDeg);
 		/*
-		 * this method draws the rectangle's borders using the point P(xx,yy)
-		 * (the left-bottom point) as rotation center's point BUT i want to use
-		 * as rotation point the rectangle's CENTER, so (xx,yy) must be
-		 * translated
+		 * this method draws the rectangle's borders using the point P(xx,yy) (the
+		 * left-bottom point) as rotation center's point BUT i want to use as rotation
+		 * point the rectangle's CENTER, so (xx,yy) must be translated
 		 */
 		// recycle vars
 		radAggiunto = Math.hypot(cos = w / 2.0, sin = h / 2.0);
@@ -681,10 +687,9 @@ public class ShapeRunners implements AbstractShapeRunners {
 
 		angleDeg = MathUtilities.adjustDegAngle(angleDeg);
 		/*
-		 * this method draws the rectangle's borders using the point P(xx,yy)
-		 * (the left-bottom point) as rotation center's point BUT i want to use
-		 * as rotation point the rectangle's CENTER, so (xx,yy) must be
-		 * translated
+		 * this method draws the rectangle's borders using the point P(xx,yy) (the
+		 * left-bottom point) as rotation center's point BUT i want to use as rotation
+		 * point the rectangle's CENTER, so (xx,yy) must be translated
 		 */
 		// recycle vars
 		radAggiunto = Math.hypot(cos = w / 2.0, sin = h / 2.0);
@@ -750,17 +755,17 @@ public class ShapeRunners implements AbstractShapeRunners {
 
 			if (xLeftInside == xRightInside) {
 				// both true
-				while (++r < h && doswn.canContinueCycling()) {
+				while(++r < h && doswn.canContinueCycling()) {
 					row = matrix[++increasingy];
 					doswn.doOnNode(molm, row[xx], xx, increasingy);
 					doswn.doOnNode(molm, row[c], c, increasingy);
 				}
 			} else if (xLeftInside)
-				while (++r < h && doswn.canContinueCycling()) {
+				while(++r < h && doswn.canContinueCycling()) {
 					doswn.doOnNode(molm, matrix[++increasingy][xx], xx, increasingy);
 				}
 			else
-				while (++r < h && doswn.canContinueCycling()) {
+				while(++r < h && doswn.canContinueCycling()) {
 					doswn.doOnNode(molm, matrix[++increasingy][c], c, increasingy);
 				}
 		}
@@ -805,7 +810,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 				r = 1;
 				rr = y + 1;
 				l = riga.length;
-				while (ok && r++ < diameter) {
+				while(ok && r++ < diameter) {
 					if (ok = (riga = matrix[rr++]) != null) {
 						ok = lastPoint < (l = (riga.length < l ? riga.length : l));
 					}
@@ -820,8 +825,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 			}
 			ok = true;
 		} /*
-			 * else { System.err .println("first fail : x:" + x + ", y:" + y +
-			 * ", ray:" + ray + ", matrix.length:" + matrix.length); }
+			 * else { System.err .println("first fail : x:" + x + ", y:" + y + ", ray:" +
+			 * ray + ", matrix.length:" + matrix.length); }
 			 */
 		return ok;
 	}
@@ -830,12 +835,11 @@ public class ShapeRunners implements AbstractShapeRunners {
 	 * Draw the border of a circle.<br>
 	 * The painted circle will have <code>(ray*2 +1)</code> diameter, so beware.
 	 * <br>
-	 * The point P(x,y) is the left-bottom vertex of the bounding square, so
-	 * beware and adjust. <br>
-	 * The combination of coordinates and ray is considered SAFE inside the
-	 * code, as like as the matrix isn't null and is rectangular .. so the
-	 * method could throw <code>IndexOutOfBoundsException</code> and
-	 * <code>NullPointerException</code>.
+	 * The point P(x,y) is the left-bottom vertex of the bounding square, so beware
+	 * and adjust. <br>
+	 * The combination of coordinates and ray is considered SAFE inside the code, as
+	 * like as the matrix isn't null and is rectangular .. so the method could throw
+	 * <code>IndexOutOfBoundsException</code> and <code>NullPointerException</code>.
 	 * <p>
 	 * BEWARE : there is any kind of check!<br>
 	 * If checks are neededs, call
@@ -846,20 +850,15 @@ public class ShapeRunners implements AbstractShapeRunners {
 	 * {@link drawCircle_WithoutCkecks};
 	 *
 	 * @throw <code>IndexOutOfBoundsException</code> and
-	 *        <code>NullPointerException</code> because this method do no kind
-	 *        of check.
-	 * @param matrix
-	 *            the matrix where to paint the circle
-	 * @param x
-	 *            the x-coordinate of the left-bottom bunding box's vertex
-	 * @param y
-	 *            the y-coordinate of the left-bottom bunding box's vertex
-	 * @param ray
-	 *            the ray of the circle .. the diameter will be
-	 *            <code>(ray*2 +1)</code>
-	 * @param argb
-	 *            the value (also a color, or whatever you want) to place into
-	 *            the circle's border to draw it
+	 *        <code>NullPointerException</code> because this method do no kind of
+	 *        check.
+	 * @param matrix the matrix where to paint the circle
+	 * @param x      the x-coordinate of the left-bottom bunding box's vertex
+	 * @param y      the y-coordinate of the left-bottom bunding box's vertex
+	 * @param ray    the ray of the circle .. the diameter will be
+	 *               <code>(ray*2 +1)</code>
+	 * @param argb   the value (also a color, or whatever you want) to place into
+	 *               the circle's border to draw it
 	 */
 	protected boolean runOnCircumference_Unsafe(MatrixObjectLocationManager molm, int x, int y, int ray,
 			DoSomethingWithNode doswn) {
@@ -900,7 +899,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 					rigaSup = matrix[r + y];
 					rigaInf = matrix[rInf + y];
 					ray_r = ray - r;
-					while (0 < c && doswn.canContinueCycling() && (Math.hypot(ray - c, ray_r) < rRay)) {
+					while(0 < c && doswn.canContinueCycling() && (Math.hypot(ray - c, ray_r) < rRay)) {
 
 						// doswn.doOnRow(rigaSup, c + x);
 						doswn.doOnNode(molm, rigaSup[tx = x + c], tx, ty = y + r);
@@ -1027,7 +1026,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 						rigaInf = matrix[rInf_y];
 					}
 					ray_r = ray - r;
-					while (0 < c && doswn.canContinueCycling() && (Math.hypot(ray - c, ray_r) < rRay)) {
+					while(0 < c && doswn.canContinueCycling() && (Math.hypot(ray - c, ray_r) < rRay)) {
 
 						c_x = c + x;
 						hc_x = horizontalSymmetricOldC + x;
@@ -1121,8 +1120,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 		// matrix = molm.matrix;
 		diameter = (ray << 1) + 1;
 		/*
-		 * aggiustiamo le coordinate in quanto viente passato il "centro", ma i
-		 * metodi operano sull'angolo in alto a destra
+		 * aggiustiamo le coordinate in quanto viente passato il "centro", ma i metodi
+		 * operano sull'angolo in alto a destra
 		 */
 		x -= ray;
 		y -= ray;
@@ -1135,9 +1134,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 			 * 
 			 * r = 1; rr = y + 1; l = riga.length;
 			 * 
-			 * while (ok && r++ < diameter) { if (ok = (riga = matrix[rr++]) !=
-			 * null) { ok = lastPoint < (l = (riga.length < l ? riga.length :
-			 * l)); } } }
+			 * while (ok && r++ < diameter) { if (ok = (riga = matrix[rr++]) != null) { ok =
+			 * lastPoint < (l = (riga.length < l ? riga.length : l)); } } }
 			 */
 			if (x >= 0 && y >= 0 && ((x + diameter) < molm.getWidth()) && ((y + diameter) < molm.getHeight())) {
 				// fillCircle_Safe_WorksPerfect(molm, x, y, ray, doswn);
@@ -1157,19 +1155,14 @@ public class ShapeRunners implements AbstractShapeRunners {
 	 * N.B.: NO CHECK IS PERFORMED ABOUT {@link NullPointerException} AND
 	 * {@link IndexOutOfBoundsException}.
 	 * 
-	 * @param matrix
-	 *            the integer matrix to write the disc
-	 * @param x
-	 *            the x-component of the bottom-left corner of the bounding box
-	 *            of the disc
-	 * @param y
-	 *            the y-component of the bottom-left corner of the bounding box
-	 *            of the disc
-	 * @param ray
-	 *            the ray of the circle. BEWARE: the diameter will be
-	 *            <code>(2*ray)+1</code>.
-	 * @param argb
-	 *            the value used to write the disc
+	 * @param matrix the integer matrix to write the disc
+	 * @param x      the x-component of the bottom-left corner of the bounding box
+	 *               of the disc
+	 * @param y      the y-component of the bottom-left corner of the bounding box
+	 *               of the disc
+	 * @param ray    the ray of the circle. BEWARE: the diameter will be
+	 *               <code>(2*ray)+1</code>.
+	 * @param argb   the value used to write the disc
 	 */
 	protected static void fillCircle_Safe_WorksPerfect(MatrixObjectLocationManager molm, int x, int y, int ray,
 			DoSomethingWithNode doswn) {
@@ -1247,9 +1240,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 					doswn.doOnNode(molm, matrix[ytemp][xtemp], xtemp, y);
 				}
 				/*
-				 * aggiusto le righe in quanto inizio non dalla riga centrale,
-				 * ma dalla prima e dal centro di essa rigaSup = m[0]; rigaInf =
-				 * m[ray2];
+				 * aggiusto le righe in quanto inizio non dalla riga centrale, ma dalla prima e
+				 * dal centro di essa rigaSup = m[0]; rigaInf = m[ray2];
 				 */
 				horizontalSymmetricC = ray1;
 				rInf = ray2;
@@ -1264,22 +1256,20 @@ public class ShapeRunners implements AbstractShapeRunners {
 					rigaSup = MathUtilities.isAtMostPositive(ytemp = y + r, height) ? matrix[ytemp] : null;
 					rigaInf = MathUtilities.isAtMostPositive(ty = y + rInf, height) ? matrix[ty] : null;
 					/*
-					 * ora sposto il puntatore "c" dal centro verso l'origine,
-					 * fino a quando non supero il cerchio ideale, al che
-					 * rientro .. uso ray1 per questioni di approssimazione
-					 * grafica.. dopodichè traccio la congiungente
+					 * ora sposto il puntatore "c" dal centro verso l'origine, fino a quando non
+					 * supero il cerchio ideale, al che rientro .. uso ray1 per questioni di
+					 * approssimazione grafica.. dopodichè traccio la congiungente
 					 */
 
 					oldc = c;
 					oldHorizC = horizontalSymmetricC;
 
-					while (c > 0 && doswn.canContinueCycling() && (Math.hypot(ray - c, (ray - r)) < rRay)) {
+					while(c > 0 && doswn.canContinueCycling() && (Math.hypot(ray - c, (ray - r)) < rRay)) {
 						/*
-						 * Sapendo che il cerchio l'ho diviso in otto spicchi,
-						 * coloro prima la fetta che dall'(abituale) angolo 90
-						 * va fino al 135, poi tutti i simmetrici .. il primo è
-						 * il più a sinistra di tutti, seguito da quello in
-						 * range (90-45), a quello (270-225), poi (270-315)
+						 * Sapendo che il cerchio l'ho diviso in otto spicchi, coloro prima la fetta che
+						 * dall'(abituale) angolo 90 va fino al 135, poi tutti i simmetrici .. il primo
+						 * è il più a sinistra di tutti, seguito da quello in range (90-45), a quello
+						 * (270-225), poi (270-315)
 						 */
 						if (rigaSup != null) {
 							if (MathUtilities.isAtMostPositive(xtemp = x + c, rigaSup.length)) {
@@ -1302,14 +1292,15 @@ public class ShapeRunners implements AbstractShapeRunners {
 							}
 						}
 						/*
-						 * poi i VERTICALI D: ... prima (180-135) , poi (0-45),
-						 * poi (180-225), poi (0-315)
+						 * poi i VERTICALI D: ... prima (180-135) , poi (0-45), poi (180-225), poi
+						 * (0-315)
 						 */
 						// ottengo i puntatori alle righe per ottimizzare;
 
 						rigaCenterSup = MathUtilities.isAtMostPositive(ytemp = y + c, height) ? matrix[ytemp] : null;
 						rigaCenterInf = MathUtilities.isAtMostPositive(ty = y + horizontalSymmetricC, height)
-								? matrix[ty] : null;
+								? matrix[ty]
+								: null;
 						// coloro
 						if (rigaCenterSup != null) {
 							if (MathUtilities.isAtMostPositive(xtemp = x + r, rigaCenterSup.length)) {
@@ -1419,9 +1410,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 				// doswn.doOnItem(matrix, xtemp, ytemp);
 				doswn.doOnNode(molm, matrix[ytemp = y + ray2][xtemp], xtemp, y);
 				/*
-				 * aggiusto le righe in quanto inizio non dalla riga centrale,
-				 * ma dalla prima e dal centro di essa rigaSup = m[0]; rigaInf =
-				 * m[ray2];
+				 * aggiusto le righe in quanto inizio non dalla riga centrale, ma dalla prima e
+				 * dal centro di essa rigaSup = m[0]; rigaInf = m[ray2];
 				 */
 				horizontalSymmetricC = ray1;
 				rInf = ray2;
@@ -1441,13 +1431,12 @@ public class ShapeRunners implements AbstractShapeRunners {
 					oldc = c;
 					oldHorizC = horizontalSymmetricC;
 
-					while (c > 0 && doswn.canContinueCycling() && (Math.hypot(ray - c, (ray - r)) < rRay)) {
+					while(c > 0 && doswn.canContinueCycling() && (Math.hypot(ray - c, (ray - r)) < rRay)) {
 						/*
-						 * Sapendo che il cerchio l'ho diviso in otto spicchi,
-						 * coloro prima la fetta che dall'(abituale) angolo 90
-						 * va fino al 135, poi tutti i simmetrici .. il primo è
-						 * il più a sinistra di tutti, seguito da quello in
-						 * range (90-45), a quello (270-225), poi (270-315)
+						 * Sapendo che il cerchio l'ho diviso in otto spicchi, coloro prima la fetta che
+						 * dall'(abituale) angolo 90 va fino al 135, poi tutti i simmetrici .. il primo
+						 * è il più a sinistra di tutti, seguito da quello in range (90-45), a quello
+						 * (270-225), poi (270-315)
 						 */
 						// doswn.doOnRow(rigaSup, xtemp);
 						doswn.doOnNode(molm, rigaSup[xtemp = x + c], xtemp, ytemp);
@@ -1458,10 +1447,9 @@ public class ShapeRunners implements AbstractShapeRunners {
 						// doswn.doOnRow(rigaInf, xtemp);
 						doswn.doOnNode(molm, rigaInf[xtemp = x + horizontalSymmetricC], xtemp, ty);
 						/*
-						 * rigaCenterSup = MathUtilities.isAtMostPositive(ytemp
-						 * = y + c, height) ? matrix[ytemp] : null;
-						 * rigaCenterInf = MathUtilities.isAtMostPositive(ty = y
-						 * + horizontalSymmetricC, height) ? matrix[ty] : null;
+						 * rigaCenterSup = MathUtilities.isAtMostPositive(ytemp = y + c, height) ?
+						 * matrix[ytemp] : null; rigaCenterInf = MathUtilities.isAtMostPositive(ty = y +
+						 * horizontalSymmetricC, height) ? matrix[ty] : null;
 						 */
 
 						rigaCenterSup = matrix[ytemp = y + c];
@@ -1497,10 +1485,10 @@ public class ShapeRunners implements AbstractShapeRunners {
 	/**
 	 * ULTIMO FATTO (28/06/2016), BELLISSIMO, MA SBAGLIA i primi 8 raggi.<br>
 	 * Ottimizzato rispetto a
-	 * {@link #fillCircle_Unsafe_WorksPerfect(int[][], int, int, int, int)}
-	 * secondo il seguente test : dopo 500'000 scritture su una matrice, con
-	 * raggio 75, questo metodo impiega circa 33 secondi, l'altro 32. Quindi,
-	 * mediamente, è migliore di un secondo ogni 500'000 operazioni.<br>
+	 * {@link #fillCircle_Unsafe_WorksPerfect(int[][], int, int, int, int)} secondo
+	 * il seguente test : dopo 500'000 scritture su una matrice, con raggio 75,
+	 * questo metodo impiega circa 33 secondi, l'altro 32. Quindi, mediamente, è
+	 * migliore di un secondo ogni 500'000 operazioni.<br>
 	 * Lo scarto di tempo può essere significativo solo con raggi più grandi.
 	 */
 	protected static void fillCircle_Safe_Tuned_OverRay8(MatrixObjectLocationManager molm, int x, int y, int ray,
@@ -1515,20 +1503,17 @@ public class ShapeRunners implements AbstractShapeRunners {
 				fillCircle_Safe_WorksPerfect(molm, x, y, ray, doswn);
 			} else {
 				/**
-				 * Idea : ciclo dalla cima fino a metà raggio, disegnando righe
-				 * orizzontali. La sezione da metà raggio fino al "diametro
-				 * orizzontale", è speculare alla prima, quindi prendo le
-				 * coordinate similari e traccio le linee orizzontali rimanenti.
-				 * Infatti, prima disegno la cima e il fondo del cerchio,
-				 * espandendomi e avvicinandomi al centro, poi per simmetria
-				 * disegno dai punti di estrema sinistra e destra avvicinandomi
-				 * ai poli. <br>
+				 * Idea : ciclo dalla cima fino a metà raggio, disegnando righe orizzontali. La
+				 * sezione da metà raggio fino al "diametro orizzontale", è speculare alla
+				 * prima, quindi prendo le coordinate similari e traccio le linee orizzontali
+				 * rimanenti. Infatti, prima disegno la cima e il fondo del cerchio,
+				 * espandendomi e avvicinandomi al centro, poi per simmetria disegno dai punti
+				 * di estrema sinistra e destra avvicinandomi ai poli. <br>
 				 * Infine, traccio il diametro orizzontale.<br>
-				 * Per ogni riga, tengo traccia del punto (della "x") da cui
-				 * sono partito e mi muovo in moto retrogrado fintanto che
-				 * rimango "entro il cerchio". Nel mentre, disegno. Appena esco,
-				 * traccio la linea orizzontale a partire da quel punto-traccia,
-				 * poi lo aggiorno.
+				 * Per ogni riga, tengo traccia del punto (della "x") da cui sono partito e mi
+				 * muovo in moto retrogrado fintanto che rimango "entro il cerchio". Nel mentre,
+				 * disegno. Appena esco, traccio la linea orizzontale a partire da quel
+				 * punto-traccia, poi lo aggiorno.
 				 */
 				halfray = (ray >> 1) - 1/* + (ray & 0x1) */;
 				r = -1;
@@ -1539,12 +1524,12 @@ public class ShapeRunners implements AbstractShapeRunners {
 				yPlusDiameter = (y + diameter) - 1;
 				height = matrix.length;
 
-				while (++r < halfray && doswn.canContinueCycling()) {
+				while(++r < halfray && doswn.canContinueCycling()) {
 
 					rigaSup = MathUtilities.isAtMostPositive(ytemp = y + r, height) ? matrix[ytemp] : null;
 					rigaInf = MathUtilities.isAtMostPositive(ty = yPlusDiameter - r, height) ? matrix[ty] : null;
 
-					while (0 <= c && doswn.canContinueCycling() && (Math.hypot(ray - c, (ray - r)) < rRay)) {
+					while(0 <= c && doswn.canContinueCycling() && (Math.hypot(ray - c, (ray - r)) < rRay)) {
 
 						if (rigaSup != null) {
 							if (MathUtilities.isAtMostPositive(xtemp = x + c, rigaSup.length)) {
@@ -1568,8 +1553,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 						}
 
 						/*
-						 * ora disegno il corrispettivo simmetrico a partire
-						 * dalle estremità sinistra e destra
+						 * ora disegno il corrispettivo simmetrico a partire dalle estremità sinistra e
+						 * destra
 						 */
 						// temp = m[yOfCenter - c];
 						// temp[x + r] = temp[xPlusDiameter - r] );
@@ -1586,8 +1571,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 					}
 
 					/*
-					 * drawHorizontalSpan_Safe(x + oldc, y + r, ((ray - c) << 1)
-					 * + 1, molm, doswn);
+					 * drawHorizontalSpan_Safe(x + oldc, y + r, ((ray - c) << 1) + 1, molm, doswn);
 					 */
 					l = (oldHorizC - oldc) - 1;
 					runHorizontalSpan_Safe(x + oldc + 1, y + r, l, molm, doswn);
@@ -1623,7 +1607,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 				rRay = ray + 0.5;
 				yPlusDiameter = (y + diameter) - 1;
 
-				while (++r < halfray && doswn.canContinueCycling()) {
+				while(++r < halfray && doswn.canContinueCycling()) {
 
 					// rigaSup = MathUtilities.isAtMostPositive(ytemp = y + r,
 					// height) ? matrix[ytemp] : null;
@@ -1632,7 +1616,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 					rigaSup = matrix[ytemp = y + r];
 					rigaInf = matrix[ty = yPlusDiameter - r];
 
-					while (0 <= c && doswn.canContinueCycling() && (Math.hypot(ray - c, (ray - r)) < rRay)) {
+					while(0 <= c && doswn.canContinueCycling() && (Math.hypot(ray - c, (ray - r)) < rRay)) {
 						// doswn.doOnRow(rigaSup, xtemp);
 						doswn.doOnNode(molm, rigaSup[xtemp = x + c], xtemp, ytemp);
 						doswn.doOnNode(molm, rigaSup[xtemp = x + horizontalSymmetricC], xtemp, ytemp);
@@ -1698,12 +1682,12 @@ public class ShapeRunners implements AbstractShapeRunners {
 			 */
 		} else {
 			/*
-			 * acLeftUp = MathUtilities.angularCoefficient(xLeft, yLeft, xUpper,
-			 * yUpper); qLeftUp = yUpper - acLeftUp * xUpper; acLeftLow =
-			 * MathUtilities.angularCoefficient(xLeft, yLeft, xLower, yLower);
-			 * qLeftLow = yLower - acLeftLow * xLower; acUpRight =
-			 * MathUtilities.angularCoefficient(xUpper, yUpper, xRight, yRight);
-			 * qUpRight = yUpper - acUpRight * xUpper; acLowRight =
+			 * acLeftUp = MathUtilities.angularCoefficient(xLeft, yLeft, xUpper, yUpper);
+			 * qLeftUp = yUpper - acLeftUp * xUpper; acLeftLow =
+			 * MathUtilities.angularCoefficient(xLeft, yLeft, xLower, yLower); qLeftLow =
+			 * yLower - acLeftLow * xLower; acUpRight =
+			 * MathUtilities.angularCoefficient(xUpper, yUpper, xRight, yRight); qUpRight =
+			 * yUpper - acUpRight * xUpper; acLowRight =
 			 * MathUtilities.angularCoefficient(xLower, yLower, xRight, yRight);
 			 */
 		}
@@ -1748,7 +1732,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		distanceCenterCorner = MathUtilities.TRIANGLE_EQUILATERAL_RADIUS_CIRCUMSCRIBED_COEFFICIENT * borderLength;
 
 		i = -1;
-		while (++i <= 2) {
+		while(++i <= 2) {
 			// calcolo le coordinate del corner
 			radAngleTemp = Math
 					.toRadians(MathUtilities.adjustDegAngle(angleDeg + TRIANGLE_ANGLE_DEG_ADDED__FIND_CORNER[i]));
@@ -1792,8 +1776,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 	 * 
 	 * <p>
 	 * NOTE:>ul>
-	 * <li>Keeping in mind the figure above and to the classic axis system (that
-	 * is the one where the origin O(0,0) is located at the left-bottom corner)
+	 * <li>Keeping in mind the figure above and to the classic axis system (that is
+	 * the one where the origin O(0,0) is located at the left-bottom corner)
 	 * differently from the system used to repaint the screen, we have:</li>
 	 * <li>l'angolo tra 1 e 2 è (angleDeg - 60), ergo (angleDeg+300)</li>
 	 * <li>l'angolo tra 1 e 3 è (angleDeg - 120), ergo (angleDeg+240)</li>
@@ -1825,7 +1809,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		previousPositionTracker = new int[3];
 
 		i = -1;
-		while (++i <= 2) {
+		while(++i <= 2) {
 			// calcolo le coordinate del corner
 			// TRIANGLE_ANGLE_DEG_ADDED__FIND_CORNER
 			radAngleTemp = Math
@@ -1835,38 +1819,36 @@ public class ShapeRunners implements AbstractShapeRunners {
 		}
 
 		/**
-		 * Idea : trovo il vertice piu' "in alto", poi quello piu' a "sinistra"
-		 * e in fine quello piu' a "destra".<br>
-		 * Dopodiche', verifico quale tra il sinistro e il destro si trova "a
-		 * meta'", ossia e' il piu' alto (e quindi vicino, a proposito della
-		 * coordinata y, all'angolo in alto).<br>
-		 * Fatto cio', si calcolano gli angoli che collegano il vertice agli
-		 * altri due punti (immaginado di tracciare i segmenti congiungenti), se
-		 * ne calcolano seno e coseno e si inizia un primo ciclo : partendo
-		 * dalla punta in alto, si scende verso il "secondo punto in ordine di
-		 * altezza", trovando per ogni y utile (ossia, per ogni y compresa tra i
-		 * due punti) si calcolano le "x" grazie ai coseni appena calcolati e si
-		 * trovano i punti che stanno sulle congiungenti dopra citate. Ottenute
-		 * tali x, si traccia una linea orizzontale.<br>
-		 * Questo ciclo viene iterato fino al raggiungimento di uno dei due
-		 * punti diversi da quello "pi' in alto".<br>
-		 * Al suo termine, si inizia un secondo, pero' si ricalcola solo
-		 * l'angolo tra il punto "appena raggiungo" e quello rimanente
+		 * Idea : trovo il vertice piu' "in alto", poi quello piu' a "sinistra" e in
+		 * fine quello piu' a "destra".<br>
+		 * Dopodiche', verifico quale tra il sinistro e il destro si trova "a meta'",
+		 * ossia e' il piu' alto (e quindi vicino, a proposito della coordinata y,
+		 * all'angolo in alto).<br>
+		 * Fatto cio', si calcolano gli angoli che collegano il vertice agli altri due
+		 * punti (immaginado di tracciare i segmenti congiungenti), se ne calcolano seno
+		 * e coseno e si inizia un primo ciclo : partendo dalla punta in alto, si scende
+		 * verso il "secondo punto in ordine di altezza", trovando per ogni y utile
+		 * (ossia, per ogni y compresa tra i due punti) si calcolano le "x" grazie ai
+		 * coseni appena calcolati e si trovano i punti che stanno sulle congiungenti
+		 * dopra citate. Ottenute tali x, si traccia una linea orizzontale.<br>
+		 * Questo ciclo viene iterato fino al raggiungimento di uno dei due punti
+		 * diversi da quello "pi' in alto".<br>
+		 * Al suo termine, si inizia un secondo, pero' si ricalcola solo l'angolo tra il
+		 * punto "appena raggiungo" e quello rimanente
 		 */
 		/*
-		 * per convenzione, si ordinano i punti in senso decrescente sulla base
-		 * delle y .. la posizione relativa, focalizzata sull'asse x, tra il
-		 * punto in alto gli altri due e' indifferente
+		 * per convenzione, si ordinano i punti in senso decrescente sulla base delle y
+		 * .. la posizione relativa, focalizzata sull'asse x, tra il punto in alto gli
+		 * altri due e' indifferente
 		 */
 		/**
-		 * Dopo l'ordinamento, nell'array previousPositionTracker, in posizione
-		 * 0 c'e' l'indice in cui si trovava il vertice piu' in alto negli array
-		 * Corners prima del loro ordinamento.<br>
+		 * Dopo l'ordinamento, nell'array previousPositionTracker, in posizione 0 c'e'
+		 * l'indice in cui si trovava il vertice piu' in alto negli array Corners prima
+		 * del loro ordinamento.<br>
 		 * Analogamente per 1 e 2.<br>
 		 * Ricordandosi tali indici, e' possibile recurepare i valori di
-		 * "TRIANGLE_ANGLE_DEG_ADDED__RUN_BORDER" senza dover ricalcolare gli
-		 * angoli con il metodo {@link MatrixObjectMapper#get angle deg 2 points
-		 * }
+		 * "TRIANGLE_ANGLE_DEG_ADDED__RUN_BORDER" senza dover ricalcolare gli angoli con
+		 * il metodo {@link MatrixObjectMapper#get angle deg 2 points }
 		 * <p>
 		 * Cio' puo' essere troppo incasinato, quindi per ora ricalcoliamo tutto
 		 */
@@ -1875,7 +1857,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		// doswn.doOnItem(matrix, x, y);
 		doswn.doOnNode(molm, matrix[y][x], x, y);
 		i = -1;
-		while (++i <= 2) {
+		while(++i <= 2) {
 			// doswn.doOnItem(matrix, xCorners[i], yCorners[i]);
 			tx = xCorners[i];
 			ty = yCorners[i];
@@ -1912,16 +1894,14 @@ public class ShapeRunners implements AbstractShapeRunners {
 			angleAboutMedium =
 					/*
 					 * Math.toRadians(MathUtilities.adjustDegAngle(angleDeg +
-					 * TRIANGLE_ANGLE_DEG_ADDED__RUN_BORDER[
-					 * previousPositionTracker[0]]));
+					 * TRIANGLE_ANGLE_DEG_ADDED__RUN_BORDER[ previousPositionTracker[0]]));
 					 */
 					MathUtilities.angleDeg(xCorners[0], y, xCorners[1], yCorners[1]);
 
 			angleAboutLow =
 					/*
 					 * Math.toRadians(MathUtilities.adjustDegAngle(angleDeg +
-					 * TRIANGLE_ANGLE_DEG_ADDED__RUN_BORDER[
-					 * previousPositionTracker[0]]));
+					 * TRIANGLE_ANGLE_DEG_ADDED__RUN_BORDER[ previousPositionTracker[0]]));
 					 */
 					MathUtilities.angleDeg(xCorners[0], y, xCorners[2], yCorners[2]);
 
@@ -1930,15 +1910,15 @@ public class ShapeRunners implements AbstractShapeRunners {
 
 			i = j = 0;
 
-			while (++i < numberOfRowsToPaint) {
+			while(++i < numberOfRowsToPaint) {
 				xleft = (int) (i * cosBorderLeft);
 				xright = (int) (++j * cosBorderRight);
 				runHorizontalSpan_Unsafe(x + xleft, y + i, xright - xleft, molm, doswn);
 			}
 
 			/*
-			 * angleAboutMedium verra' ricalcolato per connettere il punto medio
-			 * con il punto basso
+			 * angleAboutMedium verra' ricalcolato per connettere il punto medio con il
+			 * punto basso
 			 */
 			angleAboutMedium = MathUtilities.angleDeg(xCorners[1], yCorners[1], xCorners[2], yCorners[2]);
 			cosBorderLeft = Math.cos(Math.toRadians(angleAboutMedium));
@@ -1946,7 +1926,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			y += i - 1;
 			i = -1;
 			numberOfRowsToPaint = yCorners[1] - yCorners[2];
-			while (++i < numberOfRowsToPaint) {
+			while(++i < numberOfRowsToPaint) {
 				xleft = xCorners[1] + (int) (i * cosBorderLeft);
 				xright = x + (int) (++j * cosBorderRight);
 				runHorizontalSpan_Unsafe(xleft, y + i, xright - xleft, molm, doswn);
@@ -1989,7 +1969,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		distanceCenterCorner = MathUtilities.TRIANGLE_EQUILATERAL_RADIUS_CIRCUMSCRIBED_COEFFICIENT * borderLength;
 
 		i = -1;
-		while (++i <= 2) {
+		while(++i <= 2) {
 			// calcolo le coordinate del corner
 			radAngleTemp = Math
 					.toRadians(MathUtilities.adjustDegAngle(angleDeg + ARROW_ANGLE_DEG_ADDED__FIND_CORNER[i]));
@@ -2020,7 +2000,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 		int xEnd, yEnd, /* xHead, yHead, */ halfLength, restLength;
 		double tempAngle, sin, cos, rad_angleHighestBorder;
 
-		if (bodyLength < 1 || borderLength < 1) return false;
+		if (bodyLength < 1 || borderLength < 1)
+			return false;
 		angleDeg = MathUtilities.adjustDegAngle(angleDeg);
 		angleDegBorder = MathUtilities.adjustDegAngle(angleDegBorder);
 
@@ -2093,9 +2074,9 @@ public class ShapeRunners implements AbstractShapeRunners {
 
 	/*
 	 * protected boolean runOn_Cone(MatrixObjectLocationManager molm,
-	 * ShapeSpecification gss, DoSomethingWithNode doswn) { SS_Cone g; g =
-	 * (SS_Cone) gss; if (doswn == null) return false; return runOn_Cone(molm,
-	 * gss.getX(), gss.getY(), g.numberOfSteps, g.baseHeight, g.widthIncrement,
+	 * ShapeSpecification gss, DoSomethingWithNode doswn) { SS_Cone g; g = (SS_Cone)
+	 * gss; if (doswn == null) return false; return runOn_Cone(molm, gss.getX(),
+	 * gss.getY(), g.numberOfSteps, g.baseHeight, g.widthIncrement,
 	 * g.heightIncrement, g.angleDeg, doswn); }
 	 */
 
@@ -2103,7 +2084,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 	public boolean runOnCone(MatrixObjectLocationManager molm, int xStart, int yStart, int numberOfSteps,
 			int baseHeight, int widthIncrement, int heightIncrement, double angleDeg, DoSomethingWithNode doswn) {
 
-		if (baseHeight < 1 || heightIncrement < 1 || widthIncrement == 0 || numberOfSteps < 1) return false;
+		if (baseHeight < 1 || heightIncrement < 1 || widthIncrement == 0 || numberOfSteps < 1)
+			return false;
 		angleDeg = MathUtilities.adjustDegAngle(angleDeg);
 		if (angleDeg == 0.0)
 			return runOn_Cone_Horizontal(molm, xStart, yStart, numberOfSteps, baseHeight, widthIncrement,
@@ -2125,14 +2107,12 @@ public class ShapeRunners implements AbstractShapeRunners {
 	}
 
 	/**
-	 * Il punto (x,y) e' il punto centrale della base, da cui inizia il cono.
-	 * <br>
+	 * Il punto (x,y) e' il punto centrale della base, da cui inizia il cono. <br>
 	 * Considerando che questo metodo tratta uno sviluppo orizzontale, e solo
-	 * quello, i due angoli permessi sono 0° e 180 e con "0°" si intende porre
-	 * la punta [base] per i valori minori di X e lo sviluppo per i valori
-	 * maggiori di X) , quindi widthIncrement puo' essere negativo (per
-	 * rappresentare il caso dell'angolo 180°) cosi' che il cono abbia uno
-	 * sviluppo "retrogrado".
+	 * quello, i due angoli permessi sono 0° e 180 e con "0°" si intende porre la
+	 * punta [base] per i valori minori di X e lo sviluppo per i valori maggiori di
+	 * X) , quindi widthIncrement puo' essere negativo (per rappresentare il caso
+	 * dell'angolo 180°) cosi' che il cono abbia uno sviluppo "retrogrado".
 	 * <p>
 	 * ......widthIncrement<br>
 	 * ......___________<br>
@@ -2181,7 +2161,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			// faccio questa sottrazione solo per ottimizzare dopo nel ciclo
 			ySpecular -= heightIncrement;
 			// un primo run e' stato fatto;
-			while ((totalWidth -= widthIncrement) > 0) {
+			while((totalWidth -= widthIncrement) > 0) {
 				// riduco i futuri rettangoli da disegnare
 				xStart += widthIncrement;
 				yStart -= heightIncrement;
@@ -2202,7 +2182,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			// faccio questa sottrazione solo per ottimizzare dopo nel ciclo
 			ySpecular -= heightIncrement;
 			// un primo run e' stato fatto;
-			while ((totalWidth += widthIncrement) > 0) {
+			while((totalWidth += widthIncrement) > 0) {
 				yStart -= heightIncrement;
 				ySpecular += heightIncrement;
 				fillRectangle_Unsafe(molm, xStart, yStart, totalWidth, heightIncrement, doswn);
@@ -2228,7 +2208,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			// faccio questa sottrazione solo per ottimizzare dopo nel ciclo
 			ySpecular -= heightIncrement;
 			// un primo run e' stato fatto;
-			while ((totalWidth -= widthIncrement) > 0) {
+			while((totalWidth -= widthIncrement) > 0) {
 				// riduco i futuri rettangoli da disegnare
 				xStart += widthIncrement;
 				yStart -= heightIncrement;
@@ -2249,7 +2229,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			// faccio questa sottrazione solo per ottimizzare dopo nel ciclo
 			ySpecular -= heightIncrement;
 			// un primo run e' stato fatto;
-			while ((totalWidth += widthIncrement) > 0) {
+			while((totalWidth += widthIncrement) > 0) {
 				yStart -= heightIncrement;
 				ySpecular += heightIncrement;
 				fillRectangle_Safe(molm, xStart, yStart, totalWidth, heightIncrement, doswn);
@@ -2291,13 +2271,13 @@ public class ShapeRunners implements AbstractShapeRunners {
 		doubleHeightIncr = heightIncrement << 1;
 		/*
 		 * differentemente da quello orizzontale, conviene procedere aggiungendo
-		 * rettangoli non "per lungo, lungo lo sviluppo", ma per "livelli",
-		 * ossia disegno livello per livello, step by step, cosicche' si sfrutta
-		 * meglio l'ottimizzazione sulle righe fornita da "fillRectangle"
+		 * rettangoli non "per lungo, lungo lo sviluppo", ma per "livelli", ossia
+		 * disegno livello per livello, step by step, cosicche' si sfrutta meglio
+		 * l'ottimizzazione sulle righe fornita da "fillRectangle"
 		 */
 		/*
-		 * I nomi delle variabili "progressive" sono dati immaginando il cono
-		 * come orizzontale, anche se qui lo si disegna verticale
+		 * I nomi delle variabili "progressive" sono dati immaginando il cono come
+		 * orizzontale, anche se qui lo si disegna verticale
 		 */
 
 		if (widthIncrement > 0) {
@@ -2305,7 +2285,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			fillRectangle_Unsafe(molm, xStart, yStart, progressiveHeight = baseHeight, widthIncrement, doswn);
 
 			// il resto
-			while (numberOfSteps-- > 0) {
+			while(numberOfSteps-- > 0) {
 				xStart -= heightIncrement;
 				yStart += widthIncrement;
 				progressiveHeight += doubleHeightIncr;
@@ -2320,7 +2300,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			// il resto
 
 			// un primo run e' stato fatto;
-			while (numberOfSteps-- > 0) {
+			while(numberOfSteps-- > 0) {
 				// riduco i futuri rettangoli da disegnare
 				xStart -= heightIncrement;
 				yStart -= widthIncrement;
@@ -2340,13 +2320,13 @@ public class ShapeRunners implements AbstractShapeRunners {
 		doubleHeightIncr = heightIncrement << 1;
 		/*
 		 * differentemente da quello orizzontale, conviene procedere aggiungendo
-		 * rettangoli non "per lungo, lungo lo sviluppo", ma per "livelli",
-		 * ossia disegno livello per livello, step by step, cosicche' si sfrutta
-		 * meglio l'ottimizzazione sulle righe fornita da "fillRectangle"
+		 * rettangoli non "per lungo, lungo lo sviluppo", ma per "livelli", ossia
+		 * disegno livello per livello, step by step, cosicche' si sfrutta meglio
+		 * l'ottimizzazione sulle righe fornita da "fillRectangle"
 		 */
 		/*
-		 * I nomi delle variabili "progressive" sono dati immaginando il cono
-		 * come orizzontale, anche se qui lo si disegna verticale
+		 * I nomi delle variabili "progressive" sono dati immaginando il cono come
+		 * orizzontale, anche se qui lo si disegna verticale
 		 */
 
 		if (widthIncrement > 0) {
@@ -2354,7 +2334,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			fillRectangle_Safe(molm, xStart, yStart, progressiveHeight = baseHeight, widthIncrement, doswn);
 
 			// il resto
-			while (numberOfSteps-- > 0) {
+			while(numberOfSteps-- > 0) {
 				xStart -= heightIncrement;
 				yStart += widthIncrement;
 				progressiveHeight += doubleHeightIncr;
@@ -2369,7 +2349,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			// il resto
 
 			// un primo run e' stato fatto;
-			while (numberOfSteps-- > 0) {
+			while(numberOfSteps-- > 0) {
 				// riduco i futuri rettangoli da disegnare
 				xStart -= heightIncrement;
 				yStart -= widthIncrement;
@@ -2437,11 +2417,12 @@ public class ShapeRunners implements AbstractShapeRunners {
 		double bb;
 		yy = -1;
 		bb = b;
-		while (++yy <= b) {
+		while(++yy <= b) {
 			xx = yy != 0 ? (int) Math.round(Math.cos(Math.asin((yy) / bb)) * a) : a;
 			if (xx > 0) {
 				runHorizontalSpan_Unsafe(tx = x - xx, y + yy, len = (xx << 1) + 1, molm, doswn);
-				if (yy != 0) runHorizontalSpan_Unsafe(tx, y - yy, len, molm, doswn);
+				if (yy != 0)
+					runHorizontalSpan_Unsafe(tx, y - yy, len, molm, doswn);
 			}
 		}
 	}
@@ -2452,11 +2433,12 @@ public class ShapeRunners implements AbstractShapeRunners {
 		double bb;
 		yy = -1;
 		bb = b;
-		while (++yy <= b) {
+		while(++yy <= b) {
 			xx = yy != 0 ? (int) Math.round(Math.cos(Math.asin((yy) / bb)) * a) : a;
 			if (xx > 0) {
 				runHorizontalSpan_Safe(tx = x - xx, y + yy, len = (xx << 1) + 1, molm, doswn);
-				if (yy != 0) runHorizontalSpan_Safe(tx, y - yy, len, molm, doswn);
+				if (yy != 0)
+					runHorizontalSpan_Safe(tx, y - yy, len, molm, doswn);
 			}
 		}
 	}
@@ -2493,7 +2475,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		row = matrix[y];
 		doswn.doOnNode(molm, row[tx = x - a], tx, y);
 		doswn.doOnNode(molm, row[tx = x + a], tx, y);
-		while (--yy >= 0) {
+		while(--yy >= 0) {
 			// if (yy < b) {
 			xx = (int) Math.round(Math.cos(Math.asin((yy) / bb)) * a);
 			if (xx > 0) {
@@ -2522,10 +2504,12 @@ public class ShapeRunners implements AbstractShapeRunners {
 		yy = b;
 		if (y >= 0 && y < molm.getHeight()) {
 			row = matrix[y];
-			if ((tx = x - a) >= 0 && tx < molm.getWidth()) doswn.doOnNode(molm, row[tx], tx, y);
-			if ((tx = x + a) >= 0 && tx < molm.getWidth()) doswn.doOnNode(molm, row[tx], tx, y);
+			if ((tx = x - a) >= 0 && tx < molm.getWidth())
+				doswn.doOnNode(molm, row[tx], tx, y);
+			if ((tx = x + a) >= 0 && tx < molm.getWidth())
+				doswn.doOnNode(molm, row[tx], tx, y);
 		}
-		while (--yy >= 0) {
+		while(--yy >= 0) {
 			// if (yy < b) {
 			xx = (int) Math.round(Math.cos(Math.asin((yy) / bb)) * a);
 			if (xx > 0) {
@@ -2575,7 +2559,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		NodeMatrix[][] m;
 		m = molm.matrix;
 		c = -1;
-		while (++c < w && doswn.canContinueCycling()) {
+		while(++c < w && doswn.canContinueCycling()) {
 			yfloor = yy + (int) Math.round(c * sin);
 			xfloor = xx + (int) Math.round(c * cos);
 
@@ -2602,7 +2586,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		c = -1;
 		xlen = m[0].length;
 		ylen = m.length;
-		while (++c < w && doswn.canContinueCycling()) {
+		while(++c < w && doswn.canContinueCycling()) {
 			yfloor = yy + (int) Math.round(c * sin);
 			xfloor = xx + (int) Math.round(c * cos);
 
@@ -2635,7 +2619,8 @@ public class ShapeRunners implements AbstractShapeRunners {
 
 	protected static void runHorizontalSpan_Unsafe(MatrixObjectLocationManager molm, int xStart, int xDest, int y,
 			DoSomethingWithNode doswn) {
-		if (xDest >= xStart) runHorizontalSpan_Unsafe(xStart, y, (xDest - xStart) + 1, molm, doswn);
+		if (xDest >= xStart)
+			runHorizontalSpan_Unsafe(xStart, y, (xDest - xStart) + 1, molm, doswn);
 	}
 
 	protected static void runHorizontalSpan_Unsafe(int x, int y, int l, MatrixObjectLocationManager molm,
@@ -2645,10 +2630,11 @@ public class ShapeRunners implements AbstractShapeRunners {
 		// NodeMatrix[][] m;
 		// m = molm.matrix;
 		row = molm.matrix[y];
-		if (l <= 0) return;
+		if (l <= 0)
+			return;
 		// throw new IllegalArgumentException("l " + l);
 		// i = -1;
-		while (// ++i < l
+		while(// ++i < l
 		l-- > 0 && doswn.canContinueCycling()) {
 			// doswn.doOnRow(riga, x + i, y);
 			doswn.doOnNode(molm, row[x], x++, y);
@@ -2660,7 +2646,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 			DoSomethingWithNode doswn) {
 		NodeMatrix[][] matrix;
 		matrix = molm.matrix;
-		while (l-- > 0 && doswn.canContinueCycling()) {
+		while(l-- > 0 && doswn.canContinueCycling()) {
 			// doswn.doOnItem(matrix, x, y + i);
 			doswn.doOnNode(molm, matrix[y][x], x, y++);
 		}
@@ -2686,7 +2672,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		if (row == null || l <= 0 || x >= (len = row.length)) {
 			return;
 		}
-		while (l-- > 0 && x < len && doswn.canContinueCycling()) {
+		while(l-- > 0 && x < len && doswn.canContinueCycling()) {
 			// doswn.doOnRow(riga, x++, y);
 			doswn.doOnNode(molm, row[x], x++, y);
 		}
@@ -2708,7 +2694,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 		}
 
 		// i = -1;
-		while (l-- > 0 && y < len && doswn.canContinueCycling()) {
+		while(l-- > 0 && y < len && doswn.canContinueCycling()) {
 			row = matrix[y++];
 			if (row != null && row.length > x) {
 				// doswn.doOnRow(row, x, y - 1);

@@ -15,7 +15,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.subImpl.GameEventManagerSimple.EventNotifier;
 import tools.Comparators;
 
-public class GameEventManagerFineGrained extends GEventManager {
+public class GEventManagerFineGrained extends GEventManager {
 	/** id observer -> observer */
 	public Map<Integer, GEventObserver> genericObservers;
 	/** event id -> queue of observer, ordered by their priorities */
@@ -24,7 +24,7 @@ public class GameEventManagerFineGrained extends GEventManager {
 //	protected EventNotifierPQ notifier;
 	protected EventNotifierE_PQ_ID notifierPQHelper;
 
-	public GameEventManagerFineGrained(GModality gameModality) {
+	public GEventManagerFineGrained(GModality gameModality) {
 		super(gameModality);
 		observersByTypes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				Comparators.STRING_COMPARATOR);
@@ -123,9 +123,9 @@ public class GameEventManagerFineGrained extends GEventManager {
 	protected static class EventNotifierPQ
 			implements BiConsumer<Integer, PriorityQueueKey<GEventObserver, Integer>> {
 		GEvent ge;
-		GameEventManagerFineGrained gem;
+		GEventManagerFineGrained gem;
 
-		public EventNotifierPQ(GameEventManagerFineGrained gem) {
+		public EventNotifierPQ(GEventManagerFineGrained gem) {
 			super();
 			this.gem = gem;
 		}
@@ -141,9 +141,9 @@ public class GameEventManagerFineGrained extends GEventManager {
 
 	protected static class EventNotifierE_PQ_ID implements Consumer<Map.Entry<GEventObserver, Integer>> {
 		GEvent ge;
-		GameEventManagerFineGrained gem;
+		GEventManagerFineGrained gem;
 
-		public EventNotifierE_PQ_ID(GameEventManagerFineGrained gem) {
+		public EventNotifierE_PQ_ID(GEventManagerFineGrained gem) {
 			super();
 			this.gem = gem;
 		}

@@ -58,13 +58,13 @@ public class ManipulatingArrays {
 		index = minIndex;
 		j = maxIndex;
 		pivot_Int = aInt[minIndex + (maxIndex - minIndex) / 2];
-		while (index < j) { // ricerca di un elemento pi� piccolo del pivot_Int
+		while(index < j) { // ricerca di un elemento pi� piccolo del pivot_Int
 			// e di uno pi� grande del pivot_Int da scambiare
 			// vicendevolmente
-			while (aInt[index] < pivot_Int) {
+			while(aInt[index] < pivot_Int) {
 				index++;
 			}
-			while (aInt[j] > pivot_Int) {
+			while(aInt[j] > pivot_Int) {
 				j--;
 			}
 			if (index <= j) // l' "=" � FONDAMENTALE: senza di esso si va in
@@ -105,13 +105,13 @@ public class ManipulatingArrays {
 		index = minIndex;
 		j = maxIndex;
 		pivot_Int = aInt[index + (j - index) / 2];
-		while (index < j) { // ricerca di un elemento pi� piccolo del pivot_Int
+		while(index < j) { // ricerca di un elemento pi� piccolo del pivot_Int
 			// e di uno pi� grande del pivot_Int da scambiare
 			// vicendevolmente
-			while (aInt[index] > pivot_Int) {
+			while(aInt[index] > pivot_Int) {
 				index++;
 			}
-			while (aInt[j] < pivot_Int) {
+			while(aInt[j] < pivot_Int) {
 				j--;
 			}
 			if (index <= j) // l' "=" � FONDAMENTALE: senza di esso si va in
@@ -162,13 +162,13 @@ public class ManipulatingArrays {
 		index = minIndex;
 		j = maxIndex;
 		pivot_Doub = aDoub[minIndex + (maxIndex - minIndex) / 2];
-		while (index < j) { // ricerca di un elemento pi� piccolo del pivot_Doub
+		while(index < j) { // ricerca di un elemento pi� piccolo del pivot_Doub
 			// e di uno pi� grande del pivot_Doub da scambiare
 			// vicendevolmente
-			while (aDoub[index] < pivot_Doub) {
+			while(aDoub[index] < pivot_Doub) {
 				index++;
 			}
-			while (aDoub[j] > pivot_Doub) {
+			while(aDoub[j] > pivot_Doub) {
 				j--;
 			}
 			if (index <= j) // l' "=" � FONDAMENTALE: senza di esso si va in
@@ -209,13 +209,13 @@ public class ManipulatingArrays {
 		index = minIndex;
 		j = maxIndex;
 		pivot_Doub = aDoub[index + (j - index) / 2];
-		while (index < j) { // ricerca di un elemento pi� piccolo del pivot_Doub
+		while(index < j) { // ricerca di un elemento pi� piccolo del pivot_Doub
 			// e di uno pi� grande del pivot_Doub da scambiare
 			// vicendevolmente
-			while (aDoub[index] > pivot_Doub) {
+			while(aDoub[index] > pivot_Doub) {
 				index++;
 			}
-			while (aDoub[j] < pivot_Doub) {
+			while(aDoub[j] < pivot_Doub) {
 				j--;
 			}
 			if (index <= j) // l' "=" � FONDAMENTALE: senza di esso si va in
@@ -260,7 +260,7 @@ public class ManipulatingArrays {
 				}
 				// ordinamento
 				i = 0;
-				while (k < len) {
+				while(k < len) {
 					if (c++ < f[k]) {
 						ret[i++] = k + min;
 					} else {
@@ -307,7 +307,7 @@ public class ManipulatingArrays {
 				}
 				// ordinamento
 				i = ret.length - 1;
-				while (k < len) // in alternativa fare come scritto nei commenti
+				while(k < len) // in alternativa fare come scritto nei commenti
 				// : "k = (len-1)" e fare "while( k >= 0 )"
 				{
 					if (c++ < f[k]) {
@@ -332,21 +332,21 @@ public class ManipulatingArrays {
 				int i = 0;
 				if (trueEqual_FalseNotEqual) {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] >= 0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] <= 0;
 						}
 					}
 				} else {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] > 0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] < 0;
 						}
 					}
@@ -364,21 +364,21 @@ public class ManipulatingArrays {
 				int i = 0;
 				if (trueEqual_FalseNotEqual) {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] >= 0.0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] <= 0.0;
 						}
 					}
 				} else {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] > 0.0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] < 0.0;
 						}
 					}
@@ -396,21 +396,21 @@ public class ManipulatingArrays {
 				int i = 0;
 				if (trueEqual_FalseNotEqual) {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] >= 0.0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] <= 0.0;
 						}
 					}
 				} else {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] > 0.0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] < 0.0;
 						}
 					}
@@ -428,21 +428,21 @@ public class ManipulatingArrays {
 				int i = 0;
 				if (trueEqual_FalseNotEqual) {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] >= 0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] <= 0;
 						}
 					}
 				} else {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] > 0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] < 0;
 						}
 					}
@@ -460,21 +460,21 @@ public class ManipulatingArrays {
 				int i = 0;
 				if (trueEqual_FalseNotEqual) {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] >= 0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] <= 0;
 						}
 					}
 				} else {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] > 0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] < 0;
 						}
 					}
@@ -492,21 +492,21 @@ public class ManipulatingArrays {
 				int i = 0;
 				if (trueEqual_FalseNotEqual) {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] >= 0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] <= 0;
 						}
 					}
 				} else {
 					if (trueMore_FalseLess) {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] > 0;
 						}
 					} else {
-						while (ret && i < a.length) {
+						while(ret && i < a.length) {
 							ret = a[i] < 0;
 						}
 					}
@@ -605,11 +605,11 @@ public class ManipulatingArrays {
 					// tipici del "floating point" a numero di cifre decimli
 					// finite
 					sw = width / ((double) m.getWidth());
-					while (rRet < height) {
+					while(rRet < height) {
 						tempRigaRet = ret[rRet] = new int[width];
 						cRet = 0;
 						cm = 0.0;
-						while ((cRet < ret[rRet].length) && (cm < m.getWidth()) && ((rm) < m.getHeight())) {
+						while((cRet < ret[rRet].length) && (cm < m.getWidth()) && ((rm) < m.getHeight())) {
 							tempRigaRet[cRet] = m.getRGB((int) cm, (int) rm);
 							// cm += 1.0 / sw ;
 							cm = ++cRet / sw;
@@ -647,11 +647,11 @@ public class ManipulatingArrays {
 					int[] tempRigaRet = null; // soluzione per ottimizzare gli
 					// accessi in memoria delle
 					// righe della matrice
-					while (rRet < lennn) {
+					while(rRet < lennn) {
 						tempRigaRet = ret[rRet] = new int[newWidth];
 						cRet = 0;
 						cm = 0.0;
-						while ((cRet < ret[rRet].length) && ((cm) < m.getWidth()) && ((rm) < m.getHeight())) {
+						while((cRet < ret[rRet].length) && ((cm) < m.getWidth()) && ((rm) < m.getHeight())) {
 							tempRigaRet[cRet] = m.getRGB((int) cm, (int) rm);
 							// cm += 1.0 / scaleWidth ;
 							cm = ++cRet / scaleWidth;
@@ -691,13 +691,13 @@ public class ManipulatingArrays {
 					// righe della
 					// matrice
 					// sh = ((double)m.length) / height ; // � pi� utile
-					while (rRet < height) { // System.out.println( "rRet = " +
+					while(rRet < height) { // System.out.println( "rRet = " +
 						// rRet + "\t rm = " + rm);
 						if ((tempRigaM = m[(int) rm]) != null) {
 							tempRigaRet = ret[rRet] = new int[width];
 							cRet = 0;
 							cm = 0.0;
-							while ((cRet < tempRigaRet.length) && (cm < tempRigaM.length)) {
+							while((cRet < tempRigaRet.length) && (cm < tempRigaM.length)) {
 								tempRigaRet[cRet] = tempRigaM[(int) cm];
 								// cm += 1.0 / sw ;
 								cm = ((double) (tempRigaM.length * ++cRet)) / ((double) width);
@@ -728,12 +728,12 @@ public class ManipulatingArrays {
 					// memoria delle
 					// righe della
 					// matrice
-					while (rRet < lennn) {
+					while(rRet < lennn) {
 						if ((tempRigaM = m[(int) rm]) != null) {
 							tempRigaRet = ret[rRet] = new int[(int) (tempRigaM.length * scaleWidth)];
 							cRet = 0;
 							cm = 0.0;
-							while ((cRet < ret[rRet].length) && ((cm) < (tempRigaM.length))) {
+							while((cRet < ret[rRet].length) && ((cm) < (tempRigaM.length))) {
 								tempRigaRet[cRet] = tempRigaM[(int) cm];
 								// cm += 1.0 / scaleWidth ;
 								cm = ++cRet / scaleWidth;
@@ -1024,7 +1024,7 @@ public class ManipulatingArrays {
 				int[] riga = m[0];
 				if (riga != null) {
 					int lengthFirstRow = riga.length, i1 = 0;
-					while (ret && (++i1 < m.length)) {
+					while(ret && (++i1 < m.length)) {
 						riga = m[i1];
 						ret = (riga != null) ? riga.length == lengthFirstRow : false;
 					}
@@ -1047,7 +1047,7 @@ public class ManipulatingArrays {
 					// the (ret == true) could be unecessary, but sometimes the
 					// (flag) gives bugs. The optimization will be made by the
 					// compiler
-					while (ret && (i1 < m.length)) {
+					while(ret && (i1 < m.length)) {
 						riga = m[i1];
 						if (riga != null) {
 							ret = riga.length == l;
@@ -1075,7 +1075,7 @@ public class ManipulatingArrays {
 					// the (ret == true) could be unecessary, but sometimes the
 					// (flag) gives bugs. The optimization will be made by the
 					// compiler
-					while (ret && (i1 < m.length)) {
+					while(ret && (i1 < m.length)) {
 						riga = m[i1];
 						if (riga != null) {
 							ret = riga.length == l;
@@ -1201,7 +1201,7 @@ public class ManipulatingArrays {
 		int lengthCurrentNewArray = 1, len = a.length, e = 0, posiz;
 		int maxx = a[0], min = a[0];
 
-		while (lengthCurrentNewArray < len) {
+		while(lengthCurrentNewArray < len) {
 			if (a[lengthCurrentNewArray] > maxx) {
 				maxx = a[lengthCurrentNewArray];
 			} else if ((a[lengthCurrentNewArray] < min) && (a[lengthCurrentNewArray] != maxx)) {
@@ -1218,7 +1218,7 @@ public class ManipulatingArrays {
 			} else if (maxx != min) {
 				posiz = (int) (((a[lengthCurrentNewArray] - min) / (maxx - min)) * (lengthCurrentNewArray - 1.0));
 				if (a[posiz] > a[lengthCurrentNewArray]) {
-					while ((posiz > 0) && (a[posiz] > a[lengthCurrentNewArray])) {
+					while((posiz > 0) && (a[posiz] > a[lengthCurrentNewArray])) {
 						posiz--;
 					}
 					if (posiz < 0) {
@@ -1235,7 +1235,7 @@ public class ManipulatingArrays {
 					}
 					a[posiz] = tempInt;
 				} else if (a[posiz] < a[lengthCurrentNewArray]) {
-					while ((posiz < lengthCurrentNewArray) && (a[posiz] <= a[lengthCurrentNewArray])) {
+					while((posiz < lengthCurrentNewArray) && (a[posiz] <= a[lengthCurrentNewArray])) {
 						posiz++;
 					}
 					if (posiz < a.length) {
@@ -1274,7 +1274,7 @@ public class ManipulatingArrays {
 		// = 0,
 		int maxx = a[0], min = a[0];
 
-		while (lengthCurrentNewArray < len) {
+		while(lengthCurrentNewArray < len) {
 			if (a[lengthCurrentNewArray] < min) {
 				min = a[lengthCurrentNewArray];
 			} else if ((a[lengthCurrentNewArray] > maxx) && (a[lengthCurrentNewArray] != min)) {
@@ -1292,7 +1292,7 @@ public class ManipulatingArrays {
 				posiz = (int) ((1.0 - ((a[lengthCurrentNewArray] - min) / (maxx - min)))
 						* (lengthCurrentNewArray - 1.0));
 				if (a[posiz] > a[lengthCurrentNewArray]) {
-					while ((posiz < lengthCurrentNewArray) && (a[posiz] > a[lengthCurrentNewArray])) {
+					while((posiz < lengthCurrentNewArray) && (a[posiz] > a[lengthCurrentNewArray])) {
 						posiz++;
 					}
 					if (posiz < a.length) {
@@ -1311,7 +1311,7 @@ public class ManipulatingArrays {
 						a[posiz] = tempInt;
 					}
 				} else if (a[posiz] < a[lengthCurrentNewArray]) {
-					while ((posiz > 0) && (a[posiz] < a[lengthCurrentNewArray])) {
+					while((posiz > 0) && (a[posiz] < a[lengthCurrentNewArray])) {
 						posiz--;
 					}
 					tempInt = a[lengthCurrentNewArray];
@@ -1344,9 +1344,9 @@ public class ManipulatingArrays {
 
 	public static void sort_MyInsection_Linear_Growing(int[] a) {
 		int i1 = 0, max = 1, e = 0; // tempInt = 0,
-		while (max < a.length) {
+		while(max < a.length) {
 			i1 = 0;
-			while (i1 < max) // puntando al nuovo indice, cerco un elemento tra
+			while(i1 < max) // puntando al nuovo indice, cerco un elemento tra
 			// quelli precedenti che sia ...
 			{
 				if (a[i1] >= a[max]) // maggiore di quello "nuovo" (max) .. se �
@@ -1368,9 +1368,9 @@ public class ManipulatingArrays {
 
 	public static void sort_MyInsection_Linear_UnGrowing(int[] a) {
 		int i1 = 0, max = 1, len = a.length, e = 0; // tempInt = 0,
-		while (max < len) {
+		while(max < len) {
 			i1 = 0;
-			while (i1 < max) // puntando al nuovo indice, cerco un elemento tra
+			while(i1 < max) // puntando al nuovo indice, cerco un elemento tra
 			// quelli precedenti che sia ...
 			{
 				if (a[i1] <= a[max]) // maggiore di quello "nuovo" (max) .. se �
@@ -1411,7 +1411,7 @@ public class ManipulatingArrays {
 		int end_lo = (int) mid;
 		int start_hi = (int) (mid + 1);
 
-		while ((lo <= end_lo) && (start_hi <= hi)) {
+		while((lo <= end_lo) && (start_hi <= hi)) {
 			if (a.get((int) lo) < a.get(start_hi)) {
 				lo++;
 			} else {
@@ -1449,7 +1449,7 @@ public class ManipulatingArrays {
 		int end_lo = mid;
 		int start_hi = mid + 1;
 
-		while ((lo <= end_lo) && (start_hi <= hi)) {
+		while((lo <= end_lo) && (start_hi <= hi)) {
 			if (a.get(lo) < a.get(start_hi)) {
 				lo++;
 			} else {
@@ -1485,7 +1485,7 @@ public class ManipulatingArrays {
 		int end_lo = mid;
 		int start_hi = mid + 1;
 
-		while ((lo <= end_lo) && (start_hi <= hi)) {
+		while((lo <= end_lo) && (start_hi <= hi)) {
 			if (a[lo] < a[start_hi]) {
 				lo++;
 			} else {
@@ -1574,8 +1574,8 @@ public class ManipulatingArrays {
 										add = true;
 									} else if (ret.get(e) > lista.get(i1)) {
 										/*
-										 * fintanto che l'elemento da aggiungere non � pi� grande, il ciclo prosegue..
-										 * altrimenti viene aggiunto e il ciclo si interrompe
+										 * fintanto che l'elemento da aggiungere non � pi� grande, il ciclo
+										 * prosegue.. altrimenti viene aggiunto e il ciclo si interrompe
 										 */
 										ret.add((e + 1), lista.get(i1));
 										add = true;
@@ -1742,8 +1742,8 @@ public class ManipulatingArrays {
 										add = true;
 									} else if (ret.get(e) > lista.get(i1)) { // fintanto
 										/*
-										 * che l'elemento da aggiungere non � pi� grande, il ciclo prosegue.. altrimenti
-										 * viene aggiunto e il ciclo si interrompe
+										 * che l'elemento da aggiungere non � pi� grande, il ciclo prosegue..
+										 * altrimenti viene aggiunto e il ciclo si interrompe
 										 */
 										ret.add((e + 1), lista.get(i1));
 										add = true;
@@ -1868,7 +1868,7 @@ public class ManipulatingArrays {
 		if (a != null) {
 			if (a.length > 0) {
 				int i1 = 0, len = a.length;
-				while (i1 < len && ret < 0) {
+				while(i1 < len && ret < 0) {
 					ret = (a[i1] == e) ? i1 : -1;
 					i1++;
 				}
@@ -1888,7 +1888,7 @@ public class ManipulatingArrays {
 		if (a != null) {
 			if (a.length > 0) {
 				int i1 = 0, len = a.length;
-				while (i1 < len && ret < 0) {
+				while(i1 < len && ret < 0) {
 					ret = (a[i1] == e) ? i1 : -1;
 					i1++;
 				}
@@ -1908,7 +1908,7 @@ public class ManipulatingArrays {
 		if (a != null) {
 			if (a.length > 0) {
 				int i1 = 0, len = a.length;
-				while (i1 < len && ret < 0) {
+				while(i1 < len && ret < 0) {
 					ret = (a[i1] == e) ? i1 : -1;
 					i1++;
 				}
@@ -1928,7 +1928,7 @@ public class ManipulatingArrays {
 		if (a != null) {
 			if (a.length > 0) {
 				int i1 = 0, len = a.length;
-				while (i1 < len && ret < 0) {
+				while(i1 < len && ret < 0) {
 					ret = (a[i1] == e) ? i1 : -1;
 					i1++;
 				}
@@ -2049,7 +2049,7 @@ public class ManipulatingArrays {
 				/*
 				 * "+1" perchè il controllo sulla y-esima riga è gia stato fatto
 				 */
-				while (ok && r++ < diameter) {
+				while(ok && r++ < diameter) {
 					ok = (riga = matrix[rr++]) != null;
 					if (ok) {
 						/*
@@ -2096,7 +2096,6 @@ public class ManipulatingArrays {
 	 * @param argb the value (also a color, or whatever you want) to place into the
 	 *             circle's border to draw it
 	 */
-	@SuppressWarnings("null")
 	public static void drawCircle_WithoutCkecks(int[][] m, int x, int y, int ray, int argb) {
 		if (ray > 0) {
 			int[] rigaSup = null, rigaInf = null, rigaCenterSup = null, rigaCenterInf = null;
@@ -2157,7 +2156,7 @@ public class ManipulatingArrays {
 					 * approssimazione grafica.. dopodichè traccio la congiungente
 					 */
 
-					while (0 < c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
+					while(0 < c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
 						/*
 						 * Sapendo che il cerchio l'ho diviso in otto spicchi, coloro prima la fetta che
 						 * dall'(abituale) angolo 90 va fino al 135, poi tutti i simmetrici .. il primo
@@ -2193,7 +2192,6 @@ public class ManipulatingArrays {
 	 * further information
 	 */
 
-	@SuppressWarnings({ "null" })
 	public static void drawCircle_SafeOutOfBounds(int[][] m, int x, int y, int ray, int argb) {
 		if (ray > 0) {
 			int[] rigaSup = null, rigaInf = null, rigaCenterSup = null, rigaCenterInf = null;
@@ -2299,7 +2297,7 @@ public class ManipulatingArrays {
 					// oldc = c--;
 					// horizontalSymmetricOldC = altezza - c;
 
-					while (0 < c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
+					while(0 < c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
 
 						/*
 						 * Sapendo che il cerchio l'ho diviso in otto spicchi, coloro prima la fetta che
@@ -2446,7 +2444,7 @@ public class ManipulatingArrays {
 					oldc = c;
 					oldHorizC = horizontalSymmetricC;
 
-					while (0 < c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
+					while(0 < c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
 						/*
 						 * Sapendo che il cerchio l'ho diviso in otto spicchi, coloro prima la fetta che
 						 * dall'(abituale) angolo 90 va fino al 135, poi tutti i simmetrici .. il primo
@@ -2527,12 +2525,12 @@ public class ManipulatingArrays {
 				rRay = ray + 0.5;
 				yPlusDiameter = (y + diameter) - 1;
 
-				while (++r < halfray) {
+				while(++r < halfray) {
 
 					rigaSup = m[y + r];
 					rigaInf = m[yPlusDiameter - r];
 
-					while (0 <= c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
+					while(0 <= c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
 						rigaSup[x + c] = rigaSup[horizontalSymmetricC] = // argb;
 								rigaInf[x + c] = rigaInf[horizontalSymmetricC] = argb;
 
@@ -2602,7 +2600,7 @@ public class ManipulatingArrays {
 		ray2 = ((ray << 1) + 1);
 		height = (y < 0) ? ray2 + y : ray2;
 		// null check
-		while (++r < height) {
+		while(++r < height) {
 			if (m[c + r] == null) {
 				l++;
 			}
@@ -2667,20 +2665,20 @@ public class ManipulatingArrays {
 				rigaSup = inside(y, height) ? m[y] : null;
 				rigaInf = inside(rInf + y, height) ? m[rInf + y] : null;
 
-				while (r < ray) {
+				while(r < ray) {
 
 					/*
 					 * ora sposto il puntatore "c" dal centro verso l'origine degli assi fino a
 					 * quando non supero il cerchio ideale (in sostancia, sto ricalcando il bordo
 					 * del disco), al che rientro e, successivamente questo ciclo, coloro la parte
 					 * interna del cerchio .. uso ray1 per questioni di approssimazione grafica..
-					 * dopodichè appunto traccio la congiungente tra la parte di bordo che ho appena
-					 * tracciato
+					 * dopodichè appunto traccio la congiungente tra la parte di bordo che ho
+					 * appena tracciato
 					 */
 					// oldc = c--;
 					// horizontalSymmetricOldC = altezza - c;
 
-					while (0 <= c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
+					while(0 <= c && (Math.hypot(ray - c, (ray - r)) < rRay)) {
 
 						/*
 						 * Sapendo che il cerchio l'ho diviso in otto spicchi, coloro prima la fetta che
@@ -2718,7 +2716,7 @@ public class ManipulatingArrays {
 						// e poi disegno li sotto la parte interna del cerchio
 						if (inside(r + y, height)) {
 							rigaSup = m[r + y];
-							while (++oldc < oldHorizC) {
+							while(++oldc < oldHorizC) {
 								if (allInside(m, oldc + x, r + y, height)) {
 									rigaSup[oldc + x] = argb;
 								}
@@ -2728,7 +2726,7 @@ public class ManipulatingArrays {
 						oldHorizC = horizontalSymmetricC;
 						if (inside(--rInf + y, height)) {
 							rigaInf = m[rInf + y];
-							while (++oldc < oldHorizC) {
+							while(++oldc < oldHorizC) {
 								if (allInside(m, oldc + x, rInf + y, height)) {
 									rigaInf[oldc + x] = argb;
 								}
@@ -2743,7 +2741,7 @@ public class ManipulatingArrays {
 				// soprastante
 				if (inside(ray + y, height)) {
 					rigaSup = m[ray + y];
-					while (ray2 >= 0) {
+					while(ray2 >= 0) {
 						if (allInside(m, ray2 + x, ray + y, height)) {
 							rigaSup[ray2 + x] = argb;
 						}
@@ -2762,11 +2760,11 @@ public class ManipulatingArrays {
 	public static void fillRectange(int[][] m, int xx, int yy, int w, int h, int argb) {
 		int r, c, row[], xtraslating;
 		r = -1;
-		while (++r < h) {
+		while(++r < h) {
 			row = m[yy++];
 			c = -1;
 			xtraslating = xx;
-			while (++c < w) {
+			while(++c < w) {
 				row[xtraslating++] = argb;
 			}
 		}
@@ -2811,7 +2809,7 @@ public class ManipulatingArrays {
 		cosTot = Math.cos(radTot);
 
 		r = -1;
-		while (++r < h) {
+		while(++r < h) {
 
 			xfloor = (xx + ((int) Math.round(r * cosTot)));
 			yfloor = (yy + ((int) Math.round(r * sinTot)));
@@ -2827,7 +2825,7 @@ public class ManipulatingArrays {
 	protected static void drawRotatedSpan(int[][] m, int xx, int yy, int w, int argb, double sin, double cos) {
 		int c, row[], xfloor, yfloor;
 		c = -1;
-		while (++c < w) {
+		while(++c < w) {
 			yfloor = yy + (int) Math.round(c * sin);
 			xfloor = xx + (int) Math.round(c * cos);
 
@@ -2856,7 +2854,7 @@ public class ManipulatingArrays {
 
 		riga = m[y];
 		i = -1;
-		while (++i < l) {
+		while(++i < l) {
 			riga[x + i] = argb;
 		}
 	}

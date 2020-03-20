@@ -1,9 +1,9 @@
-package games.theRisingArmy.tiles;
+package videogamesOldVersion.games.theRisingArmy.tiles;
 
-import common.EnumGameObjectTileImage;
-import common.abstractCommon.AbstractEnumElementGOTI;
-import common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
-import common.abstractCommon.AbstractEnumGOTI;
+import videogamesOldVersion.common.EnumGameObjectTileImage;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGOTI;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGameObjectTileImage_Delegating;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumGOTI;
 
 public class EnumGOTI_TRAr_Buildings extends EnumGameObjectTileImage {
 	private static final long serialVersionUID = -63300807044126309L;
@@ -19,8 +19,10 @@ public class EnumGOTI_TRAr_Buildings extends EnumGameObjectTileImage {
 	public static enum Tiles_TRAr_Buildings implements AbstractEnumElementGameObjectTileImage_Delegating {
 
 		StreetRockGray(AbstractEnumGOTI.newDefaultElement().setName("Street Rock Gray").setNotSolid(true))//
-		, StreetRockGrayCornerRightBottom(AbstractEnumGOTI.newDefaultElement().setName("Street Rock Gray Corner Right Bottom").setNotSolid(true))//
-		, StreetRockGraySideRight(AbstractEnumGOTI.newDefaultElement().setName("Street Rock Gray Side Right").setNotSolid(true))//
+		, StreetRockGrayCornerRightBottom(
+				AbstractEnumGOTI.newDefaultElement().setName("Street Rock Gray Corner Right Bottom").setNotSolid(true))//
+		, StreetRockGraySideRight(
+				AbstractEnumGOTI.newDefaultElement().setName("Street Rock Gray Side Right").setNotSolid(true))//
 		, StreetRockMoss1(AbstractEnumGOTI.newDefaultElement().setName("Street Rock Moss 1").setNotSolid(true))//
 		, StreetRockMoss2(AbstractEnumGOTI.newDefaultElement().setName("Street Rock Moss 2").setNotSolid(true))//
 		, StreetRockMoss3(AbstractEnumGOTI.newDefaultElement().setName("Street Rock Moss 3").setNotSolid(true))//

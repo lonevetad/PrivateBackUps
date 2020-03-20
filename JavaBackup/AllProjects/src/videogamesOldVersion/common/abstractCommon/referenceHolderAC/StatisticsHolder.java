@@ -2,12 +2,11 @@ package common.abstractCommon.referenceHolderAC;
 
 import java.util.Map;
 
-import common.abstractCommon.StatisticField;
-import tools.RedBlackTree;
+import videogamesOldVersion.common.abstractCommon.StatisticField;
 
 /**
- * As it superclass {@link StatisticsHolderIntOnly}, but thought to hold a generic
- * {@link Number}s.<br>
+ * As it superclass {@link StatisticsHolderIntOnly}, but thought to hold a
+ * generic {@link Number}s.<br>
  * Should not be used
  */
 public interface StatisticsHolder extends StatisticsHolderIntOnly {
@@ -21,7 +20,7 @@ public interface StatisticsHolder extends StatisticsHolderIntOnly {
 
 	@Override
 	public default StatisticsHolder setStatInt(StatisticField sf, int value) {
-		setStat(sf, new Integer(value));
+		setStat(sf, value);
 		return this;
 	}
 
@@ -38,9 +37,7 @@ public interface StatisticsHolder extends StatisticsHolderIntOnly {
 		m = getStats();
 		// return (m != null) ? m.get(sf.getIdStatAsInteger()) : null;
 		if (m != null) {
-			return (m instanceof RedBlackTree<?, ?>)
-					? ((RedBlackTree<Integer, Number>) m).fetch(sf.getIdStatAsInteger())
-					: m.get(sf.getIdStatAsInteger());
+			return (m instanceof Map<?, ?>) ? m.fetch(sf.getIdStatAsInteger()) : m.get(sf.getIdStatAsInteger());
 		}
 		return null;
 	}
@@ -49,11 +46,11 @@ public interface StatisticsHolder extends StatisticsHolderIntOnly {
 		Map<Integer, Number> m;
 		m = getStats();
 		if (m != null) {
-			if (m instanceof RedBlackTree<?, ?>) {
+			if (m instanceof Map<?, ?>) {
 				if (value != null)
-					((RedBlackTree<Integer, Number>) m).add(sf.getIdStatAsInteger(), value);
+					m.add(sf.getIdStatAsInteger(), value);
 				else
-					((RedBlackTree<Integer, Number>) m).delete(sf.getIdStatAsInteger());
+					m.delete(sf.getIdStatAsInteger());
 			} else {
 				if (value != null)
 					m.put(sf.getIdStatAsInteger(), value);

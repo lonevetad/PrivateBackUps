@@ -1,11 +1,10 @@
-package common;
+package videogamesOldVersion.common;
 
 import java.util.Iterator;
 
-import common.abstractCommon.AbstractEnumElementGOTI;
-import common.abstractCommon.AbstractEnumGOTI;
-import common.mainTools.Comparators;
-import tools.RedBlackTree;
+import tools.Comparators;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGOTI;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumGOTI;
 
 /** Implementation of {@link AbstractEnumGOTI}. */
 public class EnumGameObjectTileImage implements AbstractEnumGOTI {
@@ -18,13 +17,13 @@ public class EnumGameObjectTileImage implements AbstractEnumGOTI {
 
 	public EnumGameObjectTileImage(String nameEnum) {
 		this.nameEnum = nameEnum != null ? nameEnum : this.getClass().getSimpleName();
-		allTileImageByID = new RedBlackTree<>(Comparators.INTEGER_COMPARATOR);
-		allTileImageByImageName = new RedBlackTree<>(Comparators.STRING_COMPARATOR);
+		allTileImageByID = new Map<>(Comparators.INTEGER_COMPARATOR);
+		allTileImageByImageName = new Map<>(Comparators.STRING_COMPARATOR);
 	}
 
 	protected String nameEnum;
-	protected RedBlackTree<Integer, AbstractEnumElementGOTI> allTileImageByID;
-	protected RedBlackTree<String, AbstractEnumElementGOTI> allTileImageByImageName;
+	protected Map<Integer, AbstractEnumElementGOTI> allTileImageByID;
+	protected Map<String, AbstractEnumElementGOTI> allTileImageByImageName;
 
 	//
 
@@ -34,12 +33,12 @@ public class EnumGameObjectTileImage implements AbstractEnumGOTI {
 	}
 
 	@Override
-	public RedBlackTree<Integer, AbstractEnumElementGOTI> getAllElementsByID() {
+	public Map<Integer, AbstractEnumElementGOTI> getAllElementsByID() {
 		return allTileImageByID;
 	}
 
 	@Override
-	public RedBlackTree<String, AbstractEnumElementGOTI> getAllElementsByImageName() {
+	public Map<String, AbstractEnumElementGOTI> getAllElementsByImageName() {
 		return allTileImageByImageName;
 	}
 

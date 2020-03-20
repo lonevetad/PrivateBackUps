@@ -1,16 +1,15 @@
-package common;
+package videogamesOldVersion.common;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.SortedMap;
 import java.util.function.BiConsumer;
 
-import common.abstractCommon.AbstractEnumElementGOTI;
-import common.abstractCommon.AbstractEnumGOTI;
-import common.abstractCommon.MainController;
-import common.gui.TileImage;
-import common.mainTools.Comparators;
-import common.mainTools.dataStruct.MapTreeAVL;
+import dataStructures.MapTreeAVL;
+import tools.Comparators;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumElementGOTI;
+import videogamesOldVersion.common.abstractCommon.AbstractEnumGOTI;
+import videogamesOldVersion.common.abstractCommon.MainController;
+import videogamesOldVersion.common.gui.TileImage;
 
 /**
  * Generic class that collects some instances of
@@ -41,10 +40,10 @@ public class EnumGameObjectTileImageCollection implements Serializable, Iterable
 	private static final long serialVersionUID = 51609090958L;
 
 	public EnumGameObjectTileImageCollection() {
-		allEnumTileImage = new MapTreeAVL<>(Comparators.STRING_COMPARATOR);
+		allEnumTileImage = MapTreeAVL.newMap(Comparators.STRING_COMPARATOR);
 	}
 
-	protected SortedMap<String, AbstractEnumGOTI> allEnumTileImage;
+	protected MapTreeAVL<String, AbstractEnumGOTI> allEnumTileImage;
 
 	//
 
@@ -97,7 +96,7 @@ public class EnumGameObjectTileImageCollection implements Serializable, Iterable
 		eti = null;
 		t = null;
 		iter = iterator();
-		while (iter.hasNext() && t == null) {
+		while(iter.hasNext() && t == null) {
 			eti = iter.next();
 			if (eti != null) {
 				// tmic = isInt ? tse.fetchTileImageElement(i) :
@@ -188,7 +187,7 @@ public class EnumGameObjectTileImageCollection implements Serializable, Iterable
 		eti = null;
 		goim = null;
 		iter = iterator();
-		while (iter.hasNext() && goim == null) {
+		while(iter.hasNext() && goim == null) {
 			eti = iter.next();
 			if (eti != null) {
 				goim = eti.newGameObjectInMap(main, i, s);
@@ -273,7 +272,7 @@ public class EnumGameObjectTileImageCollection implements Serializable, Iterable
 
 		Iterator_ETIC(EnumGameObjectTileImageCollection lh) {
 			this.lh = lh;
-			iter = ((MapTreeAVL<String, AbstractEnumGOTI>) lh.allEnumTileImage).iterator();
+			iter = lh.allEnumTileImage.iteratorKey();
 		}
 
 		@Override

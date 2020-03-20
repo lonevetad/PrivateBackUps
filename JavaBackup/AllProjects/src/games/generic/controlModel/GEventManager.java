@@ -32,7 +32,7 @@ import tools.Comparators;
  */
 public abstract class GEventManager {
 	GModality gameModality; // back reference
-	Map<Integer, List<GEvent>> eventQueued;
+	MapTreeAVL<Integer, List<GEvent>> eventQueued;
 
 	public GEventManager(GModality gameModality) {
 		this.gameModality = gameModality;
