@@ -3,27 +3,34 @@ package games.generic.controlModel;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public interface GObjectsHolder<T extends ObjectWithID> {
-//{
-	public Set<T> getObjects();
+public interface GObjectsHolder {
+//	 OLD
+//<T extends ObjectWithID> {
+//	public Set<T> getObjects();
+//	public boolean add(T o);
+//	public boolean remove(T o);
+//	public boolean contains(T o);
+//	public T get(Integer id);
+//	public void forEach(Consumer<T> action);
 
-	public boolean add(T o);
+	/**
+	 * Returns all {@link ObjectWithID} held by this specific holder.<br>
+	 * BEWARE: In some implementations, other GObjectsHolder instances may held
+	 * sub-GObjectsHolder to perform some fine-grained tasks, differentiations, etc
+	 * or just hold other classes' "Models". In that case DO NOT use this method,
+	 * but accessors like {@link #get(Integer)} or traversal-method like
+	 * {@link #forEach(Consumer)} to assure to process the wanted object or all
+	 * objects.
+	 */
+	public Set<ObjectWithID> getObjects();
 
-	public boolean remove(T o);
+	public boolean add(ObjectWithID o);
 
-	public boolean contains(T o);
+	public boolean remove(ObjectWithID o);
 
-	public void forEach(Consumer<T> action);
+	public boolean contains(ObjectWithID o);
 
-	// OLD
+	public ObjectWithID get(Integer id);
 
-//	public Set<ObjectWithID> getObjects();
-//
-//	public boolean add(ObjectWithID o);
-//
-//	public boolean remove(ObjectWithID o);
-//
-//	public boolean contains(ObjectWithID o);
-//
-//	public void forEach(Consumer<ObjectWithID> action);
+	public void forEach(Consumer<ObjectWithID> action);
 }

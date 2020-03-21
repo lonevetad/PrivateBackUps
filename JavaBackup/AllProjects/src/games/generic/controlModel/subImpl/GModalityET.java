@@ -60,8 +60,8 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	}
 
 	@Override
-	public void progressEnlapsedTIme(long millisecToElapse) {
-		this.getModelTimeBased().getTimedObjects().forEach((to) -> {
+	public void progressEnlapsedTIme(final long millisecToElapse) {
+		this.getModelTimeBased().forEachTimedObject((to) -> {
 			to.act(this, millisecToElapse); // fai progredire QUALSIASI cosa: abilità che si ricaricano col tempo,
 			// rigenerazioni, movimento di proiettili e cose, etc
 		});

@@ -8,10 +8,10 @@ import java.util.function.Consumer;
 import dataStructures.MapTreeAVL;
 import tools.Comparators;
 
-public abstract class GModel implements GObjectsHolder<ObjectWithID> {
+public abstract class GModel implements GObjectsHolder {
 	protected MapTreeAVL<Integer, ObjectWithID> allObjects_BackMap;
 	protected Set<ObjectWithID> allObjects;
-	protected MapTreeAVL<String, GObjectsHolder<ObjectWithID>> objectsHoldersSpecialized;
+	protected MapTreeAVL<String, GObjectsHolder> objectsHoldersSpecialized;
 
 	public GModel() {
 		this.allObjects_BackMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
@@ -28,6 +28,15 @@ public abstract class GModel implements GObjectsHolder<ObjectWithID> {
 
 	public abstract void onCreate();
 
+	/**
+	 * BEWARE: returns just the object NOT held by some {@link GObjectsHolder} added
+	 * via {@link #addObjHolder(String, GObjectsHolder)}.<br>
+	 * To access those {@link ObjectWithID} instances , just use the
+	 * {@link #get(Integer)} or {@link #forEach(Consumer)} as described in super
+	 * documentation, inherited in the following paragraph.
+	 * <p>
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Set<ObjectWithID> getObjects() {
 		return allObjects;
@@ -54,13 +63,13 @@ public abstract class GModel implements GObjectsHolder<ObjectWithID> {
 
 	@Override
 	public boolean remove(ObjectWithID o) {
-		RemoverOn_GObjectsHolder<ObjectWithID> cc;
+		RemoverOn_GObjectsHolder cc;
 		if (o == null)
 			return false;
 		if (this.allObjects_BackMap.containsKey(o.getID()))
 			return true;
 //		if(this.objectsHoldersSpecialized.containsKey(o))
-		cc = new RemoverOn_GObjectsHolder<>(o);
+		cc = new RemoverOn_GObjectsHolder(o);
 		this.objectsHoldersSpecialized.forEach(cc);
 		return cc.removed;
 	}
@@ -72,11 +81,28 @@ public abstract class GModel implements GObjectsHolder<ObjectWithID> {
 		if (this.allObjects_BackMap.containsKey(o.getID()))
 			return true;
 //		if(this.objectsHoldersSpecialized.containsKey(o))
-		for (Entry<String, GObjectsHolder<ObjectWithID>> e : this.objectsHoldersSpecialized) {
+		for (Entry<String, GObjectsHolder> e : this.objectsHoldersSpecialized) {
 			if (e.getValue().contains(o))
 				return true;
 		}
 		return false;
+	}
+
+	@Override
+	public ObjectWithID get(final Integer id) {
+		ObjectWithID o;
+		if (id == null)
+			return null;
+		o = this.allObjects_BackMap.get(id);
+		if (o != null)
+			return o;
+		for (Entry<String, GObjectsHolder> e : this.objectsHoldersSpecialized) {
+			ObjectWithID oo;
+			oo = e.getValue().get(id);
+			if (oo != null)
+				return oo;
+		}
+		return null;
 	}
 
 	@Override
@@ -115,31 +141,50 @@ public abstract class GModel implements GObjectsHolder<ObjectWithID> {
 	 * {@link #remove(ObjectWithID)} overrides. Using those shortcuts may lead to
 	 * bugs, usually hard to be found.
 	 */
-	@SuppressWarnings("unchecked")
-	public <E extends ObjectWithID> boolean addObjHolder(String nameIdentifier, GObjectsHolder<E> goHolder) {
+	public boolean addObjHolder(String nameIdentifier, GObjectsHolder goHolder) {
 		if (!this.objectsHoldersSpecialized.containsKey(nameIdentifier)) {
-			this.objectsHoldersSpecialized.put(nameIdentifier, (GObjectsHolder<ObjectWithID>) goHolder);
+			this.objectsHoldersSpecialized.put(nameIdentifier, goHolder);
+			return true;
 		}
 		return false;
+	}
+
+	public boolean removeObjHolder(String nameIdentifier) {
+		if (!this.objectsHoldersSpecialized.containsKey(nameIdentifier)) {
+			this.objectsHoldersSpecialized.remove(nameIdentifier);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean containsObjHolder(String nameIdentifier) {
+		return this.objectsHoldersSpecialized.containsKey(nameIdentifier);
+	}
+
+	public void forEachObjHolder(BiConsumer<String, GObjectsHolder> action) {
+		this.objectsHoldersSpecialized.forEach(action);
+	}
+
+	public GObjectsHolder getObjHolder(String nameIdentifier) {
+		return this.objectsHoldersSpecialized.get(nameIdentifier);
 	}
 
 	//
 
 	//
 
-	protected static class RemoverOn_GObjectsHolder<E extends ObjectWithID>
-			implements BiConsumer<String, GObjectsHolder<E>> {
+	protected static class RemoverOn_GObjectsHolder implements BiConsumer<String, GObjectsHolder> {
 		boolean removed;
-		E target;
+		ObjectWithID target;
 
-		public RemoverOn_GObjectsHolder(E target) {
+		public RemoverOn_GObjectsHolder(ObjectWithID target) {
 			super();
 			this.target = target;
 			this.removed = false;
 		}
 
 		@Override
-		public void accept(String t, GObjectsHolder<E> goh) {
+		public void accept(String t, GObjectsHolder goh) {
 			removed |= goh.remove(target);
 		}
 	}
