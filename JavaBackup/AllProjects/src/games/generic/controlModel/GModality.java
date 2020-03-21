@@ -1,11 +1,13 @@
 package games.generic.controlModel;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.PlayerInGame_Generic;
 import games.generic.controlModel.player.PlayerOutside_Generic;
+import games.generic.controlModel.subImpl.IGameModalityTimeBased;
 import games.generic.controlModel.utils.CurrencyHolder;
 import tools.Comparators;
 
@@ -34,7 +36,8 @@ public abstract class GModality {
 
 	//
 
-	boolean isRunning;
+	protected boolean isRunning;
+	protected long lastElapsedDeltaTime = 0;
 	protected GController controller;
 	protected GModel model;
 	protected String modalityName;
@@ -47,8 +50,9 @@ public abstract class GModality {
 		this.controller = controller;
 		this.modalityName = modalityName;
 		this.model = newGameModel();
-		threadsSleeping = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR);
+		this.threadsSleeping = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR);
 //				new LinkedList<>();
+		this.lastElapsedDeltaTime = this.getMinimumMillisecondsEachCycle();
 		onCreate();
 	}
 
@@ -91,6 +95,15 @@ public abstract class GModality {
 		return modalityName;
 	}
 
+	/**
+	 * Returns the minimum amount of milliseconds that is forced to be elapsed
+	 * between each cycle.<br>
+	 * Set it as <code>0 (zero)</code> to remove each limit, especially FPS limits.
+	 */
+	public long getMinimumMillisecondsEachCycle() {
+		return MIN_DELTA;
+	}
+
 	//
 
 	public void setModel(GModel model) {
@@ -121,7 +134,27 @@ public abstract class GModality {
 	 */
 	public abstract void startGame();
 
-	/** Designed to be overrided */
+	/**
+	 * Override designed.
+	 * <p>
+	 * Define THE REAL GAME cycle.<br Everything about a cycle-based game is run
+	 * there.<br>
+	 * Even card-games, chess like and other "not-real time" games (i.e.: turn-based
+	 * or other kinds of games that I'm currently not able to list) could use this
+	 * method: just pause the {@link Thread} waiting for the event to be fired. OR
+	 * simply override both this method and {@link #runGameCycle()} to simply
+	 * execute events and not time-based stuffs.
+	 * <p>
+	 * Invoked by {@link #runGameCycle()}.
+	 * 
+	 * <p>
+	 * NOTE:<br>
+	 * (This note should not be wrote, because it requires to know about subclasses
+	 * even if this is a super-class, but it's useful, as You would see.)<br>
+	 * {@link GModality} implementing "real time" games should implement the
+	 * interface {@link IGameModalityTimeBased} and implement this method as a
+	 * simple invocation of {@link IGameModalityTimeBased#progressElapsedTime(long)}
+	 */
 	public abstract void doOnEachCycle(long millisecToElapse);
 
 	//
@@ -131,6 +164,58 @@ public abstract class GModality {
 	//
 
 	// TODO CONCRETE METHODS
+
+	public boolean addGameObject(ObjectWithID o) {
+		GModel gm;
+		if (o == null)
+			return false;
+		gm = this.getModel();
+		if (gm != null) {
+			return gm.add(o);
+		}
+		return false;
+	}
+
+	public boolean removeGameObject(ObjectWithID o) {
+		GModel gm;
+		if (o == null)
+			return false;
+		gm = this.getModel();
+		if (gm != null) {
+			return gm.remove(o);
+		}
+		return false;
+	}
+
+	public boolean removeAllGameObjects() {
+		GModel gm;
+		gm = this.getModel();
+		if (gm != null) {
+			return gm.removeAll();
+		}
+		return false;
+	}
+
+	public boolean containsGameObject(ObjectWithID o) {
+		GModel gm;
+		if (o == null)
+			return false;
+		gm = this.getModel();
+		if (gm != null) {
+			return gm.contains(o);
+		}
+		return false;
+	}
+
+	public void forEachGameObject(Consumer<ObjectWithID> action) {
+		GModel gm;
+		if (action == null)
+			return;
+		gm = this.getModel();
+		if (gm != null) {
+			gm.forEach(action);
+		}
+	}
 
 	/**
 	 * Used by other objects and threads (like GUI, sound, animation, etc) to check
@@ -173,20 +258,35 @@ public abstract class GModality {
 	 * <p>
 	 * No exactly "override designed", redefine {@link #doOnEachCycle(long)}
 	 * instead.
+	 * <p>
+	 * IMPLEMENTATION NOTE:<br>
+	 * Each cycle lasts at least the amount of milliseconds provided by
+	 * {@link #getMinimumMillisecondsEachCycle()} (currently it returns
+	 * {@link #MIN_DELTA}) and a <code>Thread.sleep(..)</code> is invoked if the
+	 * elapsed time during the cycle is lower than this threshold, so the maximum
+	 * FPS count is <code>1000/{@link #getMinimumMillisecondsEachCycle()}</code>.
 	 */
 	public void runGameCycle() {
-		long start, lastDeltaElapsed;
+		long start, timeToSleep, minDelta;
+		minDelta = this.getMinimumMillisecondsEachCycle();
 		if (isAlive()) {
-			lastDeltaElapsed = MIN_DELTA;
 			while(checkIsRunningElseSleep()) {
 				start = System.currentTimeMillis();
-				doOnEachCycle(lastDeltaElapsed);
-				lastDeltaElapsed = Math.min(MIN_DELTA, System.currentTimeMillis() - start);
+				doOnEachCycle(lastElapsedDeltaTime);
+				timeToSleep = minDelta - ((System.currentTimeMillis() - start) + 1);
+				// "+1" as a rounding factor for nanoseconds
+				if (timeToSleep > 0) {
+					try {
+						Thread.sleep(timeToSleep);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		} else {
 			System.out.println("died runGame");
 			try {
-				Thread.sleep(MIN_DELTA);
+				Thread.sleep(Math.min(MIN_DELTA, minDelta));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

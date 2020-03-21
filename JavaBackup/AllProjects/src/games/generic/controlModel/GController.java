@@ -52,7 +52,8 @@ public abstract class GController {
 	//
 
 	public void setCurrentGameModality(GModality currentGameModality) {
-		System.out.println("GController#setCurrentGameModality : " + currentGameModality.getModalityName());
+		if (currentGameModality != null)
+			System.out.println("GController#setCurrentGameModality : " + currentGameModality.getModalityName());
 		this.currentGameModality = currentGameModality;
 	}
 

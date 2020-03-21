@@ -75,6 +75,13 @@ public abstract class GModel implements GObjectsHolder {
 	}
 
 	@Override
+	public boolean removeAll() {
+		this.allObjects_BackMap.clear();
+		this.objectsHoldersSpecialized.forEach((s, goh) -> goh.removeAll());
+		return true;
+	}
+
+	@Override
 	public boolean contains(ObjectWithID o) {
 		if (o == null)
 			return false;

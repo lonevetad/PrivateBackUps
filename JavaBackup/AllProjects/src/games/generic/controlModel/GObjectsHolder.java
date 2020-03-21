@@ -1,5 +1,6 @@
 package games.generic.controlModel;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -27,6 +28,9 @@ public interface GObjectsHolder {
 	public boolean add(ObjectWithID o);
 
 	public boolean remove(ObjectWithID o);
+
+	/** Similar to {@link Collection#clear()}. */
+	public boolean removeAll();
 
 	public boolean contains(ObjectWithID o);
 

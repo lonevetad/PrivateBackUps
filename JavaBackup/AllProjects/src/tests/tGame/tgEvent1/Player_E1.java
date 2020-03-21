@@ -1,7 +1,7 @@
 package tests.tGame.tgEvent1;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.player.PlayerInGameGeneric_ExampleRPG1;
+import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
 import geometry.AbstractShape2D;
 
 public class Player_E1 extends PlayerInGameGeneric_ExampleRPG1 {

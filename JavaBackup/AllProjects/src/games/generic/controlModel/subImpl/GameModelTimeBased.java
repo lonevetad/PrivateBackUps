@@ -59,6 +59,7 @@ public abstract class GameModelTimeBased extends GModel {
 			super();
 			this.timedObjects = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 					Comparators.INTEGER_COMPARATOR);
+			this.timedObjects_Set = this.timedObjects.toSetValue(ObjectWithID.KEY_EXTRACTOR);
 		}
 
 		@Override
@@ -83,6 +84,12 @@ public abstract class GameModelTimeBased extends GModel {
 				return true;
 			}
 			return false;
+		}
+
+		@Override
+		public boolean removeAll() {
+			this.timedObjects.clear();
+			return true;
 		}
 
 		@Override

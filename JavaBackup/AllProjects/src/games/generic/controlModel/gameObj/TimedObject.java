@@ -4,6 +4,10 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.ObjectWithID;
 
 /**
+ * Mark an object as having a "status" (or at least a non empty set of actions)
+ * that depends on the concept of time or, in particular, <i>evolves</i> as the
+ * time goes on.
+ * <p>
  * Used for {@link GModality}es using some concept of "time" (real time or
  * turn-based) to describe objects performing actions over time.
  * <p>
@@ -14,5 +18,11 @@ import games.generic.controlModel.ObjectWithID;
  * "ogniqualvolta entra una creatura in campo, fai XYZ", etc...)
  */
 public interface TimedObject extends ObjectWithID {
+
+	/**
+	 * Evolve the status of this object depending on the elapsed time denoted by the
+	 * second parameter.<br>
+	 * Probably, this method's name is not the best clear and fitting one.
+	 **/
 	public void act(GModality modality, long milliseconds);
 }
