@@ -96,5 +96,10 @@ public class TestGModel {
 		public Set<ObjectWithID> getObjects() {
 			return null;
 		}
+
+		@Override
+		public boolean removeAll() {
+			return false;
+		}
 	}
 }

@@ -31,19 +31,20 @@ public interface WithLifeObject extends DestructibleObject {
 	public void receiveHealing(GModality gm, int healingAmount);
 
 	/**
-	 * Similar to {@link #fireDestruction(GModality)}, upon receiving damage
-	 * (that means: "during the {@link #receiveDamage(GModality, int)} call")
-	 * this event should be fired, in case of complex games, to notify all objects
-	 * that "responds to a damage-received event" that this kind of event has
-	 * occurred
+	 * Similar to {@link #fireDestruction(GModality)}, upon receiving damage (that
+	 * means: "during the {@link #receiveDamage(GModality, int)} call") this event
+	 * should be fired, in case of complex games, to notify all objects that
+	 * "responds to a damage-received event" that this kind of event has
+	 * occurred.<br>
+	 * A reply/reaction to the "raw damage received" could be a damage reduction.
 	 */
-	public void fireDamageReceived(GModality gm, int originalDamage, int actualDamageReceived);
+	public void fireDamageReceived(GModality gm, int originalDamage); // , int actualDamageReceived);
 
 	/**
 	 * Similar to {@link #fireDamageReceived( GModality, int, int)}, but about
 	 * healing.
 	 */
-	public void notifyHealingReceived(GModality gm, int originalHealing, int actualHealingReceived);
+	public void fireHealingReceived(GModality gm, int originalHealing); // , int actualHealingReceived);
 
 	//
 

@@ -13,20 +13,16 @@ public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExper
 
 	int life, lifeMax;
 	CurrencyHolder moneys;
-	GModality gameModalty;
+//	GModality gameModality;
 
 	public PlayerInGameGeneric_ExampleRPG1(GModality gm) {
 		super(gm);
-		this.gameModalty = gm;
+//		this.gameModality = gm;
 		this.life = 1;
 		this.lifeMax = 1;
 	}
 
 	//
-
-	public GModality getGameModalty() {
-		return gameModalty;
-	}
 
 	@Override
 	public int getLife() {
@@ -45,10 +41,6 @@ public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExper
 	//
 
 	//
-
-	public void setGameModalty(GModality gm) {
-		this.gameModalty = gm;
-	}
 
 	@Override
 	public void setLife(int life) {
@@ -78,7 +70,7 @@ public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExper
 	 * When the game actually starts and the player "drops into the game", some
 	 * actions could be performed.
 	 */
-	public abstract void onStaringGame(GModality mg);
+	public abstract void onStartingGame(GModality mg);
 
 	//
 

@@ -6,7 +6,6 @@ public abstract class PlayerIG_WithExperience extends PlayerInGame_Generic {
 
 	public PlayerIG_WithExperience(GModality gameModality) {
 		super(gameModality);
-		// TODO Auto-generated constructor stub
 	}
 
 	protected ExperienceLevelHolder expLevelHolder;
