@@ -75,8 +75,12 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 
 // TODO objects handlers
 
-	/** Proxy-like method */
+	/**
+	 * Proxy-like method.
+	 */
 	public void addTimedObject(TimedObject to) {
 		this.getModelTimeBased().addTimedObject(to);
 	}
+
+//	public void fireEvent(GEvent event) { this.getEventManager(). }
 }

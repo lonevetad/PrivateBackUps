@@ -9,7 +9,9 @@ import games.generic.controlModel.player.PlayerOutside_Generic;
 import games.generic.controlModel.subImpl.GModalityET;
 import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
 import games.generic.controlModel.utils.CurrencyHolder;
-import tests.tGame.tgEvent1.oggettiDesempio.PrinterTO;
+import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
+import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
+import tests.tGame.tgEvent1.oggettiDesempio.ObserverPrinterEvent;
 
 public class GModality_E1 extends GModalityET {
 
@@ -30,17 +32,19 @@ public class GModality_E1 extends GModalityET {
 		// strani che inserisco
 //		GModel_E1 gModelE ;
 //		addTimedObject(new ObjDamageDeliver());
-		this.addGameObject(new PrinterTO(1250, "LongWaiting"));
-		this.addGameObject(new PrinterTO(333, "Short"));
-		this.addGameObject(new PrinterTO(3000, "Very Long"));
-//		this.addGameObject(new PrinterTO(250, "Tiny"));
-
+		this.addGameObject(new ObjPrinterTO(1250, "LongWaiting"));
+		this.addGameObject(new ObjPrinterTO(333, "Short"));
+//		this.addGameObject(new ObjPrinter_EventDeliver(250, "Tiny"));
 		// gModelE.addTimeProgressingObject(odd);
 
-		// TODO aggiungere gli esempi pensati negli Appunti e esempio
+		this.addGameObject(new ObjPrinter_EventDeliver(2000, "HAKINA MATATA"));
+		this.getEventManager().addEventObserver(new ObserverPrinterEvent());
 
+		// TODO aggiungere gli esempi pensati negli Appunti e esempio
 		// first make the player, then the damager, the healer, the fairy, the
 		// money-maker, etc
+
+//		addTimedObject(new ObjDamageDeliver());
 
 		// then ...
 	}
@@ -52,7 +56,10 @@ public class GModality_E1 extends GModalityET {
 
 	@Override
 	public GEventInterface newEventInterface() {
-		return new GEventInterface_E1();
+		GEventInterface_E1 gei;
+		gei = new GEventInterface_E1();
+		gei.setNewGameEventManager(this);
+		return gei;
 	}
 
 	@Override

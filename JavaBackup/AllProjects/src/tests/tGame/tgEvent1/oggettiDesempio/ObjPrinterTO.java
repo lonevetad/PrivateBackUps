@@ -4,12 +4,12 @@ import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.subImpl.TimedObjectSimpleImpl;
 
-public class PrinterTO implements TimedObjectSimpleImpl {
+public class ObjPrinterTO implements TimedObjectSimpleImpl {
 	long timeThreshold, accumulatedTimeElapsed;
 	String text;
 	Integer ID;
 
-	public PrinterTO(long timeThreshold, String text) {
+	public ObjPrinterTO(long timeThreshold, String text) {
 		super();
 		this.ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID();
 		this.timeThreshold = timeThreshold;

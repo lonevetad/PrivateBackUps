@@ -8,6 +8,7 @@ import games.generic.controlModel.eventsGame.EventMoneyChange;
 import games.generic.controlModel.eventsGame.ExampleGameEvents;
 import games.generic.controlModel.player.PlayerInGame_Generic;
 import games.generic.controlModel.subImpl.GEventManagerFineGrained;
+import tests.tGame.tgEvent1.oggettiDesempio.EventPrinter;
 
 public class GEventInterface_E1 implements GEventInterface {
 	GEventManager gem;
@@ -39,4 +40,8 @@ public class GEventInterface_E1 implements GEventInterface {
 				ExampleGameEvents.DamageInflicted.getType(), source, target, damageInflicted));
 	}
 
+	public void firePrinterEvent(String text) {
+		System.out.println("--- firing printer event with: " + text);
+		this.getGameEventManager().addEvent(new EventPrinter(text));
+	}
 }

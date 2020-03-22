@@ -32,7 +32,11 @@ import tools.Comparators;
  * </ul>
  */
 public abstract class GModality {
-	static final long MIN_DELTA = 10L;
+	/**
+	 * Used by {@link #runGameCycle()} and usually returned by
+	 * {@link #getMinimumMillisecondsEachCycle()}.
+	 */
+	public static final long MIN_DELTA = 10L;
 
 	//
 
@@ -69,8 +73,8 @@ public abstract class GModality {
 	}
 
 	/**
-	 * Simply return a flag, to check if the game is running or not (i.e.
-	 * {@link #pause()} has been invoked or not).
+	 * Simply return a flag. Used to check if the game is running or not (i.e.: the
+	 * game is NOT running if {@link #pause()} has been invoked).
 	 * 
 	 * <br>
 	 * Differs from {@link #isAlive()}, see it for differences.
@@ -97,7 +101,8 @@ public abstract class GModality {
 
 	/**
 	 * Returns the minimum amount of milliseconds that is forced to be elapsed
-	 * between each cycle.<br>
+	 * between each cycle. In fact, it's used inside {@link #runGameCycle()}
+	 * original implementation.<br>
 	 * Set it as <code>0 (zero)</code> to remove each limit, especially FPS limits.
 	 */
 	public long getMinimumMillisecondsEachCycle() {
@@ -157,6 +162,12 @@ public abstract class GModality {
 	 */
 	public abstract void doOnEachCycle(long millisecToElapse);
 
+	/**
+	 * Publish and fire the event in some way, if and only if this current Game
+	 * Modality supports events, otherwise leave and empty implementation.
+	 */
+//	public abstract void fireEvent(GEvent event);
+
 	//
 
 	// game object handler
@@ -165,6 +176,7 @@ public abstract class GModality {
 
 	// TODO CONCRETE METHODS
 
+	/** Add a {@link ObjectWithID} to the {@link GModel}. */
 	public boolean addGameObject(ObjectWithID o) {
 		GModel gm;
 		if (o == null)
@@ -218,11 +230,12 @@ public abstract class GModality {
 	}
 
 	/**
-	 * Used by other objects and threads (like GUI, sound, animation, etc) to check
-	 * if the game is running or, if paused, make that thread sleep <br>
+	 * Used by other objects and threads (like GUI, sound, animation, the game's
+	 * ones, etc) to check if the game is running or: If NOT (i.e. the game is
+	 * paused), make that thread sleep <br>
 	 * Differs from {@link #isRunning()}, see it for differences.
 	 */
-	public boolean checkIsRunningElseSleep() {
+	public boolean isRunningOrSleep() {
 		if (!(this.isRunning() && this.isAlive())) {
 			try {
 				synchronized (pauseThreadsLock) {
@@ -252,12 +265,13 @@ public abstract class GModality {
 	}
 
 	/**
+	 * <i/>WARNING</i>: <b>NOT</b> override designed,<br>
+	 * but allowed: just redefine {@link #doOnEachCycle(long)} instead.
+	 * <p>
 	 * Perform a SINGLE game cycle/step.<br>
 	 * Should be called by the game's thread inside a cycle.<br>
-	 * It's designed as a single cycle to allow step-by-step execution.
-	 * <p>
-	 * No exactly "override designed", redefine {@link #doOnEachCycle(long)}
-	 * instead.
+	 * It's designed as a single cycle also to allow an optional step-by-step
+	 * execution (some game engines allow it).
 	 * <p>
 	 * IMPLEMENTATION NOTE:<br>
 	 * Each cycle lasts at least the amount of milliseconds provided by
@@ -270,7 +284,7 @@ public abstract class GModality {
 		long start, timeToSleep, minDelta;
 		minDelta = this.getMinimumMillisecondsEachCycle();
 		if (isAlive()) {
-			while(checkIsRunningElseSleep()) {
+			while(isRunningOrSleep()) {
 				start = System.currentTimeMillis();
 				doOnEachCycle(lastElapsedDeltaTime);
 				timeToSleep = minDelta - ((System.currentTimeMillis() - start) + 1);
