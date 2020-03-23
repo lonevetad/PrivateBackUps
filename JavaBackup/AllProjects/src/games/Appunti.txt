@@ -1,3 +1,23 @@
+22/03/202
+come scrissi, l'equipaggiamento è complesso e diviso in 9 pezzi + 10 anelli + 3 collane
+orecchini	|	testa	|	mantello
+mani		|	busto	|	braccia
+piedi		|	cintura	|	gambe(pantaloni)
+arma primaria	((vuoto))	arma secondaria
+originariamente al posto degli orecchini c'erano le spalle .. le incorporo in "braccia", che prima erano "avambracci"
+poi una colonna per ciascuna mano, le 3 collane in colonna
+aggiungere i braccialetti alle due mani? troppo incasinato, ma ci sta: con le collane si otterrebbe una colonna completa alta 5
+magari al posto di "vuoto" metterci un "famiglio"
+per ogni mano, se il numero di anelli supera il 2 allora si ha un progressivo malus in agilità, forza, destrezza, precisione
+(tienila te una spada facendo presa con migliaia di anelli)
+originariamente ciascun dito poteva tenere 2 anelli (aveva 2 slot) e gli anelli erano divisi in "slot singolo" e "doppio slot"
+(un po' come le armi a due mani) e la regola di cui sopra si applicava per un numero di slot superiore a 3.
+Si potrebbe implementare, con l'accortezza però che gli anelli "singoli" siano più deboli dei "doppi".
+In tal caso, per calcolare il malus sopra, gli anelli doppi contano come 1.5 per tutto il dito
+(mentre due anelli singoli contano come 1 ciascuno, quindi 2), perchè per essere indossati hanno delle prese ergonomiche.
+
+
+
 19/03/2020
 
 La logica ad eventi è avvincente, MA è sconveniente per infliggere danno alle cose che hanno una vita:

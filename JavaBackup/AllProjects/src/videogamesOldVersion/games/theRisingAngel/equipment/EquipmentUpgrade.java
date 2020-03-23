@@ -1,20 +1,33 @@
-package games.theRisingAngel.equipment;
+package videogamesOldVersion.games.theRisingAngel.equipment;
 
 import java.io.Serializable;
+import java.util.Map;
 
-import common.abstractCommon.behaviouralObjectsAC.MyComparator;
-import games.theRisingAngel.main.StatisticheTRAn;
-import games.theRisingAngel.main.StatisticheTRAn.StatsTRAn;
-import tools.RedBlackTree;
+import dataStructures.MapTreeAVL;
+import videogamesOldVersion.common.mainTools.MyComparator;
+import videogamesOldVersion.games.theRisingAngel.main.StatisticheTRAn;
+import videogamesOldVersion.games.theRisingAngel.main.StatisticheTRAn.StatsTRAn;
 
+/**
+ * nota del 22/03/2020
+ * <p>
+ * Set of power ups, of statistics' modifiers (i.e., character's parameters'
+ * modifiers).<br>
+ * Instead of create an array (that mimics the character's statistics) and apply
+ * to that array all modifiers, wasting memory in almost-empty arrays, just
+ * collect all statistic modifications.
+ */
 public class EquipmentUpgrade implements Serializable {
 	private static final long serialVersionUID = -845020L;
 
 	public static final MyComparator<EquipmentUpgrade> COMPARATOR_EquipmentUpgrades = (e1, e2) -> {
 		int o1, o2;
-		if (e1 == e2) return 0;
-		if (e1 == null) return -1;
-		if (e2 == null) return 1;
+		if (e1 == e2)
+			return 0;
+		if (e1 == null)
+			return -1;
+		if (e2 == null)
+			return 1;
 		return
 		// e1.compareTo(e2)
 		((o1 = e1.idUpgrade) == (o2 = e2.idUpgrade)) ? 0 : (o1 > o2 ? 1 : -1);
@@ -94,13 +107,13 @@ public class EquipmentUpgrade implements Serializable {
 	}
 
 	protected EquipmentUpgrade() {
-		mods = new RedBlackTree<>(RedBlackTree.BehaviourOnDuplicate.OVERWRITE, //
+		mods = MapTreeAVL<StatisticheTRAn.StatsTRAn, Integer>. .BehaviourOnDuplicate.OVERWRITE, //
 				// Comparators.INTEGER_COMPARATOR
 				StatisticheTRAn.StatsTRAn.COMPARATOR_STAT_TRAN);
 	}
 
 	Integer idUpgrade;
-	RedBlackTree<StatisticheTRAn.StatsTRAn, Integer> mods;
+	Map<StatisticheTRAn.StatsTRAn, Integer> mods;
 
 	//
 
@@ -110,7 +123,7 @@ public class EquipmentUpgrade implements Serializable {
 		return idUpgrade;
 	}
 
-	public RedBlackTree<StatisticheTRAn.StatsTRAn, Integer> getMods() {
+	public Map<StatisticheTRAn.StatsTRAn, Integer> getMods() {
 		return mods;
 	}
 

@@ -1,11 +1,11 @@
-package games.theRisingAngel.equipment;
+package videogamesOldVersion.games.theRisingAngel.equipment;
 
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 
-import common.mainTools.Comparators;
-import games.theRisingAngel.main.StatisticheTRAn;
+import tools.Comparators;
 import tools.RedBlackTree;
+import videogamesOldVersion.games.theRisingAngel.main.StatisticheTRAn;
 
 public abstract class AbstractEquipment implements Serializable {
 	private static final long serialVersionUID = 89150190541L;
@@ -24,15 +24,16 @@ public abstract class AbstractEquipment implements Serializable {
 
 	//
 	/*
-	 * public AbstractEquipment setUpgrades(RedBlackTree<Integer, EquipmentUpgrades> upgrades) {
-	 * this.upgrades = upgrades; return this; }
+	 * public AbstractEquipment setUpgrades(RedBlackTree<Integer, EquipmentUpgrades>
+	 * upgrades) { this.upgrades = upgrades; return this; }
 	 */
 
 	//
 
 	public AbstractEquipment addUpgrade(EquipmentUpgrade upgrade) {
 		if (upgrade != null) {
-			if (upgrades == null) upgrades = new RedBlackTree<>(Comparators.INTEGER_COMPARATOR);
+			if (upgrades == null)
+				upgrades = new RedBlackTree<>(Comparators.INTEGER_COMPARATOR);
 			upgrades.add(upgrade.getIdUpgrade(), upgrade);
 		}
 		return this;
@@ -45,7 +46,8 @@ public abstract class AbstractEquipment implements Serializable {
 			upgrades.forEach
 			// doForEachEquipUpgrades//
 			((id, e) -> {
-				if (e != null) e.applyEffect(s);
+				if (e != null)
+					e.applyEffect(s);
 			});
 		}
 		return this;
@@ -56,7 +58,8 @@ public abstract class AbstractEquipment implements Serializable {
 			upgrades.forEach
 			// doForEachEquipUpgrades//
 			((id, e) -> {
-				if (e != null) e.removeEffect(s);
+				if (e != null)
+					e.removeEffect(s);
 			});
 		}
 		return this;
