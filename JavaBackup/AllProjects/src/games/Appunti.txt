@@ -1,4 +1,25 @@
-22/03/202
+24/03/2020
+I pezzi di equipaggiamento potrebbero essere contenuti in un JSON bello grosso a mo' di database:
+tipo:
+{
+nome: string,
+type: int, // ordinal di EquipmentTypes
+attributesModifiers: []EquipmentsAttributesModifier // potrebbe essere diviso in due array: uno di indici di attributi, l'altro di "ammontare di modifica"
+upgrades: []int // id (ordinal) di EquipmentUpgrades, interfaccia per una enumerazione da fare che è una lista di EquipmentsAttributesModifier
+specialAbilities: []int // id (ordinal) di un insieme (enum) di EquipAbilities (es: un anello 
+}
+
+EquipmentsAttributesModifier è una coppia <indice, valore>, ossia l'indice del' attributo
+di eroe/creatura/etc da alterare e l'ammontare di tale alterazione.
+(es: se rigenVita avesse indice 7, allora <7, 3> da un bonus di rigenerazione alla vita di 3 al secondo)
+
+interface EquipAbilities .. vedi implementazione
+
+
+
+
+
+22/03/2020
 come scrissi, l'equipaggiamento è complesso e diviso in 9 pezzi + 10 anelli + 3 collane
 orecchini	|	testa	|	mantello
 mani		|	busto	|	braccia

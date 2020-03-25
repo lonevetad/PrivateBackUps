@@ -11,10 +11,16 @@ public abstract class PlayerInGame_Generic extends PlayerGeneric implements Obje
 
 	public PlayerInGame_Generic(GModality gameModality) {
 		super();
+		initializeID();
 		this.gameModality = gameModality;
-		this.ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID();
 // TODO
 	}
+
+	protected void initializeID() {
+		this.ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID();
+	}
+
+	//
 
 	public GModality getGameModality() {
 		return gameModality;

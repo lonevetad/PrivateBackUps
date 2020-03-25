@@ -4,7 +4,7 @@ public abstract class EIRing extends EIJewelry {
 
 	int slotFingerSize;
 
-	public EIRing(EquipmentTypes et) {
+	public EIRing(EquipmentTypesTRAr et) {
 		super(et);
 		this.slotFingerSize = 1;
 	}

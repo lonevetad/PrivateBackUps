@@ -1,7 +1,7 @@
 package tests.tGame.tgEvent1;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.utils.CurrencyHolder;
+import games.generic.controlModel.misc.CurrencyHolder;
 
 public class CurrencyHolder_E1 extends CurrencyHolder {
 

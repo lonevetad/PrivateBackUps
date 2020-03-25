@@ -1,4 +1,4 @@
-package games.generic.controlModel.utils;
+package games.generic.controlModel.misc;
 
 import games.generic.controlModel.GModality;
 

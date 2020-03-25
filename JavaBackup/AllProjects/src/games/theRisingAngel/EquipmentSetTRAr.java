@@ -1,5 +1,9 @@
 package games.theRisingAngel;
 
+import games.generic.controlModel.GModality;
+import games.generic.controlModel.inventory.EquipmentItem;
+import games.generic.controlModel.inventory.EquipmentSet;
+
 /**
  * 
  * Each Equipment should implements the set of "character statistics modifiers"
@@ -11,64 +15,85 @@ package games.theRisingAngel;
  * to that array all modifiers, wasting memory in almost-empty arrays, just
  * collect all statistic modifications.
  */
-public abstract class EquipmentSetTRAr {
+public class EquipmentSetTRAr extends EquipmentSet {
 
 	protected static final int firstIndexRings, firstIndexNecklace, firstIndexBracelets;
 	static {
-		firstIndexNecklace = EquipmentTypes.Necklace.ordinal();
-		firstIndexBracelets = firstIndexNecklace + EquipmentTypes.NECKLACE_AMOUNT;
-		firstIndexRings = firstIndexBracelets + EquipmentTypes.BRACELET_AMOUNT;
+		firstIndexNecklace = EquipmentTypesTRAr.Necklace.ordinal();
+		firstIndexBracelets = firstIndexNecklace + EquipmentTypesTRAr.NECKLACE_AMOUNT;
+		firstIndexRings = firstIndexBracelets + EquipmentTypesTRAr.BRACELET_AMOUNT;
 	}
 
 	protected final EquipmentItem[] equippedItems;
 
 	public EquipmentSetTRAr() {
-		equippedItems = new EquipmentItem[EquipmentTypes.TOTAL_AMOUNT_EQUIPMENTS_WEARABLES];
+		equippedItems = new EquipmentItem[EquipmentTypesTRAr.TOTAL_AMOUNT_EQUIPMENTS_WEARABLES];
 	}
 
-	/**
-	 * Get the set of {@link EquipmentItem}.<br>
-	 * NOTE: unused slots (i.e. "places" where there is no equipped objects for that
-	 * type) are <code>null</code>.
-	 */
+	@Override
 	public EquipmentItem[] getEquippedItems() {
 		return equippedItems;
 	}
 
-	/** NOTE: Should check if is yet equipped an intem in that slot */
-	public void addEquipmentItem(EquipmentItem ei) {
-		EquipmentTypes et;
+	// TODO
+	// TODO
+	// TODO
+	// TODO
+	// TODO
+//	public void addEquipmentItemAt(GModality gm, EquipmentItem ei, int index) {  }
+
+	@Override
+	public void swapEquipmentItem(GModality gm, EquipmentItem newEI, EquipmentItem oldEI) {
+	}
+
+	// TODO
+	// TODO
+	// TODO
+	// TODO
+	// TODO
+
+	@Override
+	public void addEquipmentItem(GModality gm, EquipmentItem ei) {
+		EquipmentTypesTRAr et;
 		if (ei == null)
 			return;
-		et = ei.getEquipmentType();
+		et = (EquipmentTypesTRAr) ei.getEquipmentType();
 		switch (et) {
 //		case Earrings:break; // are put at the beginning
 		case Rings:
-			addRing((EIRing) ei);
+			addRing(gm, (EIRing) ei);
 			break;
 		case Necklace:
-			addNecklaceOrBracelet(ei, firstIndexNecklace, EquipmentTypes.NECKLACE_AMOUNT);
+			addNecklaceOrBracelet(gm, ei, firstIndexNecklace, EquipmentTypesTRAr.NECKLACE_AMOUNT);
 			break;
 		case Bracelet:
-			addNecklaceOrBracelet(ei, firstIndexBracelets, EquipmentTypes.BRACELET_AMOUNT);
+			addNecklaceOrBracelet(gm, ei, firstIndexBracelets, EquipmentTypesTRAr.BRACELET_AMOUNT);
 			break;
 		default:
 			int i;
-			i = ei.getEquipmentType().ordinal();
+			i = ei.getEquipmentType().getIndex(); // id as index
 			// everybody else
 			if (equippedItems[i] == null) {
 				equippedItems[i] = ei;
+				equipAt(gm, ei, i);
 			} else {
-				swapEquipmentItem(ei, equippedItems[i]);
+				swapEquipmentItem(gm, ei, equippedItems[i]);
 			}
 			break;
 		}
 	}
 
-	// TODO
-	public abstract void addEquipmentItemAt(EquipmentItem ei, int index);
+	//
 
-	protected void addNecklaceOrBracelet(EquipmentItem ei, int index, int equipItemSlotToCheck) {
+	//
+
+	protected void equipAt(GModality gm, EquipmentItem ei, int index) {
+		equippedItems[index] = ei;
+		ei.setBelongingEquipmentSet(this);
+		ei.onEquip(gm);
+	}
+
+	protected void addNecklaceOrBracelet(GModality gm, EquipmentItem ei, int index, int equipItemSlotToCheck) {
 		boolean notAdded;
 		int firstIndex;
 		firstIndex = index;
@@ -76,17 +101,18 @@ public abstract class EquipmentSetTRAr {
 		while(notAdded && equipItemSlotToCheck-- >= 0) {
 			if (equippedItems[index] == null) {
 				equippedItems[index] = ei;
+				ei.setBelongingEquipmentSet(this);
 				notAdded = false;
 			}
 			equipItemSlotToCheck++;
 			index++;
 		}
 		if (notAdded) {
-			swapEquipmentItem(ei, equippedItems[firstIndex]);
+			swapEquipmentItem(gm, ei, equippedItems[firstIndex]);
 		}
 	}
 
-	protected void addRing(EIRing ring) {
+	protected void addRing(GModality gm, EIRing ring) {
 		boolean notAdded;
 		int s, i, fingersLeftToCheck, slotIndexMinimum;
 		notAdded = true;
@@ -96,19 +122,19 @@ public abstract class EquipmentSetTRAr {
 			// first check the first slots, then second slot (to distribute)
 			slotIndexMinimum = 0;
 			do {
-				fingersLeftToCheck = EquipmentTypes.TOTAL_FINGERS_AMOUNT;
+				fingersLeftToCheck = EquipmentTypesTRAr.TOTAL_FINGERS_AMOUNT;
 				i = firstIndexRings + slotIndexMinimum;
 //				while(notAdded && i <= lastAvailableIndex) {
 				while(notAdded && fingersLeftToCheck-- >= 0) {
 					if (equippedItems[i] == null) {
-						equippedItems[i] = ring;
+						equipAt(gm, ring, i);
 						notAdded = false;
 					}
-					i += EquipmentTypes.RING_SLOTS_EACH_FINGERS; // jump to the next finger
+					i += EquipmentTypesTRAr.RING_SLOTS_EACH_FINGERS; // jump to the next finger
 				}
-			} while(notAdded && ++slotIndexMinimum < EquipmentTypes.RING_SLOTS_EACH_FINGERS);
+			} while(notAdded && ++slotIndexMinimum < EquipmentTypesTRAr.RING_SLOTS_EACH_FINGERS);
 			if (notAdded) {
-				swapEquipmentItem(ring, equippedItems[firstIndexRings]);
+				swapEquipmentItem(gm, ring, equippedItems[firstIndexRings]);
 			}
 		} else { // >= 2
 			int maxIndexToCheck, k;
@@ -118,9 +144,9 @@ public abstract class EquipmentSetTRAr {
 
 			// looks for the first finger having enough "place"
 			slotIndexMinimum = 0; // used as "starting slot
-			maxIndexToCheck = 1 + (EquipmentTypes.RING_SLOTS_EACH_FINGERS - s);
+			maxIndexToCheck = 1 + (EquipmentTypesTRAr.RING_SLOTS_EACH_FINGERS - s);
 			do {
-				fingersLeftToCheck = EquipmentTypes.TOTAL_FINGERS_AMOUNT;
+				fingersLeftToCheck = EquipmentTypesTRAr.TOTAL_FINGERS_AMOUNT;
 				i = firstIndexRings + slotIndexMinimum;
 //				while(notAdded && i <= lastAvailableIndex) {
 				while(notAdded && fingersLeftToCheck-- >= 0) {
@@ -129,18 +155,35 @@ public abstract class EquipmentSetTRAr {
 					while(equippedItems[i + k] == null && ++k < s)
 						;
 					if (k == maxIndexToCheck) { // found where to place the item
-						while(--k > 0) { // place the ring
+						while(--k > 0) { // place the ring, ignore the 0: it's used in equipAt
 							equippedItems[i + k] = ring;
 						}
+						equipAt(gm, ring, i);
 						notAdded = false;
 					}
-					i += EquipmentTypes.RING_SLOTS_EACH_FINGERS; // jump to the next finger
+					i += EquipmentTypesTRAr.RING_SLOTS_EACH_FINGERS; // jump to the next finger
 				}
 			} while(notAdded && ++slotIndexMinimum < maxIndexToCheck);
 		}
 	}
 
-	/** TODO use player's inventory and ei's location */
-	public abstract void swapEquipmentItem(EquipmentItem newEI, EquipmentItem oldEI);
+	//
 
+	//
+
+	//
+
+	//
+
+	//
+
+	public static void main(String[] args) {
+		BaseNPCCreatureTRAr c;
+		EquipmentSetTRAr est;
+		c = new BaseNPCCreatureTRAr();
+		est = (EquipmentSetTRAr) c.getEquipmentSet();
+		est.setCreatureWearingEquipments(c);
+
+		// TODO aggiungere anelli
+	}
 }

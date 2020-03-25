@@ -3,8 +3,8 @@ package games.generic.controlModel.subImpl;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gameObj.ObjectInSpace;
 import games.generic.controlModel.gameObj.WithLifeObject;
+import games.generic.controlModel.misc.CurrencyHolder;
 import games.generic.controlModel.player.PlayerIG_WithExperience;
-import games.generic.controlModel.utils.CurrencyHolder;
 
 /** Designed for Role Play Game. */
 public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExperience

@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
+import games.generic.controlModel.misc.CurrencyHolder;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.PlayerInGame_Generic;
 import games.generic.controlModel.player.PlayerOutside_Generic;
 import games.generic.controlModel.subImpl.IGameModalityTimeBased;
-import games.generic.controlModel.utils.CurrencyHolder;
 import tools.Comparators;
 
 /**

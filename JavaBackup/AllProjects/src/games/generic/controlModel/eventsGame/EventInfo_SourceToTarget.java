@@ -4,7 +4,7 @@ import games.generic.controlModel.GEvent;
 
 /**
  * Event putting in relations two objects: a "source doing something to a
- * target".
+ * target". It a very general class.
  * <p>
  * In future, the Source and the Target will be replace by a specific class and
  * the damage will be implemented to something more flexible.
