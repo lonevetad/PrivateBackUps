@@ -28,7 +28,7 @@ public abstract class EquipmentItem extends InventoryItem {
 	protected final EquipmentType equipmentType;
 	protected EquipmentSet belongingEquipmentSet;
 	protected Set<EquipItemAbility> abilities;
-	protected List<EquipmentAttributeModifier> attributeModifiers;
+	protected List<AttributeModification> attributeModifiers;
 
 	public EquipmentItem(EquipmentType equipmentType) {
 		super();
@@ -52,7 +52,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		return this.abilities;
 	}
 
-	public List<EquipmentAttributeModifier> getAttributeModifiers() {
+	public List<AttributeModification> getAttributeModifiers() {
 		return attributeModifiers;
 	}
 
@@ -82,7 +82,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		return (es == null) ? null : es.getCreatureWearingEquipments();
 	}
 
-	public EquipmentItem addAttributeModifier(EquipmentAttributeModifier am) {
+	public EquipmentItem addAttributeModifier(AttributeModification am) {
 		if (am != null)
 			this.attributeModifiers.add(am);
 		return this;
@@ -105,7 +105,7 @@ public abstract class EquipmentItem extends InventoryItem {
 	}
 
 	/**
-	 * Should apply ({@link EquipmentAttributeModifier}) and activate this optional
+	 * Should apply ({@link AttributeModification}) and activate this optional
 	 * {@link EquipItemAbility}.
 	 * <p>
 	 * See {@link EquipItemAbility#onEquip(GModality)} for further informations.
@@ -114,7 +114,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		final AttributesHolder ah;
 		final CreatureAttributes ca;
 		Set<EquipItemAbility> abl;
-		List<EquipmentAttributeModifier> attmod;
+		List<AttributeModification> attmod;
 		ah = this.getCreatureWearingEquipments(); // assumed to be true
 		ca = ah.getAttributes();
 		attmod = this.getAttributeModifiers();
@@ -137,7 +137,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		final AttributesHolder ah;
 		final CreatureAttributes ca;
 		Set<EquipItemAbility> abl;
-		List<EquipmentAttributeModifier> attmod;
+		List<AttributeModification> attmod;
 		ah = this.getCreatureWearingEquipments(); // assumed to be true
 		ca = ah.getAttributes();
 		attmod = this.getAttributeModifiers();

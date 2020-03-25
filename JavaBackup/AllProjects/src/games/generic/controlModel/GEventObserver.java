@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.function.Function;
 
 import games.generic.UniqueIDProvider;
+import games.generic.controlModel.subImpl.GEvent;
 import tools.Comparators;
 
 /**
  * Object able to react upon {@link GEvent}s.<br>
- * Some subclasses (and sublasses of {@link GEventManager}) could implement
- * some more fine-grained notification system, refers to
- * {@link GEventManager} for more details, providing a list of specific
- * Events to watch (so, filtering the non required ones).
+ * Some subclasses (and sublasses of {@link GEventManager}) could implement some
+ * more fine-grained notification system, refers to {@link GEventManager} for
+ * more details, providing a list of specific Events to watch (so, filtering the
+ * non required ones).
  */
 public interface GEventObserver {
 	public static final Comparator<GEventObserver> COMPARATOR_GameEventObserver = (o1, o2) -> {
@@ -29,8 +30,8 @@ public interface GEventObserver {
 	//
 
 	/**
-	 * Notify this observer about the happening of an {@link GEvent}, referring
-	 * to the current {@link GModality}.
+	 * Notify this observer about the happening of an {@link GEvent}, referring to
+	 * the current {@link GModality}.
 	 * <p>
 	 * The given {@link GModality} could be usefull, for instance:
 	 * <ul>
@@ -45,7 +46,7 @@ public interface GEventObserver {
 	 * and saving the related character</li>
 	 * </ul>
 	 */
-	public void notifyEvent(GModality modality, GEvent ge);
+	public void notifyEvent(GModality modality, IGEvent ge);
 
 	/**
 	 * Some observers could requires different priorities, as described on
@@ -60,8 +61,8 @@ public interface GEventObserver {
 	/**
 	 * Optional method, it's strongly recommended to return a unique ID and it's
 	 * left unimplemented to be more clear to subclasses, used by
-	 * {@link GEventManager} along with {@link #getEventsWatching()}. See this
-	 * last method for further informations.
+	 * {@link GEventManager} along with {@link #getEventsWatching()}. See this last
+	 * method for further informations.
 	 * <p>
 	 * Use {@link UniqueIDProvider} to help on creating IDs.
 	 */
@@ -75,9 +76,8 @@ public interface GEventObserver {
 	 * and {@link #getObserverID()} could be useful to distinguish from one observer
 	 * to another.
 	 * <p>
-	 * NOTE: this is an optional method, it's not required by
-	 * {@link GEventManager} to implement it (but it's usefull for fine-grained
-	 * systems).
+	 * NOTE: this is an optional method, it's not required by {@link GEventManager}
+	 * to implement it (but it's usefull for fine-grained systems).
 	 */
 	public default List<String> getEventsWatching() {
 		return null;

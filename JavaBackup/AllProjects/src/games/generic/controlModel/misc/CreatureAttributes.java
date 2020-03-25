@@ -3,7 +3,7 @@ package games.generic.controlModel.misc;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gameObj.AttributesHolder;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
-import games.generic.controlModel.inventory.EquipmentAttributeModifier;
+import games.generic.controlModel.inventory.AttributeModification;
 import games.generic.controlModel.inventory.EquipmentItem;
 import games.generic.controlModel.inventory.EquipmentSet;
 
@@ -42,7 +42,7 @@ public abstract class CreatureAttributes {
 	 * consequently {@link CreatureOfRPGs}) and that defines them.
 	 * <p>
 	 * It differs from {@link #getValue(int)} because this methods does not take
-	 * into account {@link EquipmentItem}'s {@link EquipmentAttributeModifier},
+	 * into account {@link EquipmentItem}'s {@link AttributeModification},
 	 * abilities, spells, auras, etc.
 	 */
 	public int getOriginalValue(int index) {
@@ -54,7 +54,7 @@ public abstract class CreatureAttributes {
 	 * <p>
 	 * It differs from {@link #getOriginalValue(int)} because this methods compute
 	 * the sum of the original value and all of alterations provided by equipments
-	 * (i.e.: {@link EquipmentItem} and their {@link EquipmentAttributeModifier}),
+	 * (i.e.: {@link EquipmentItem} and their {@link AttributeModification}),
 	 * effects, auras, magics, abilities, battlefield's influences, etc.
 	 */
 	public int getValue(int index) {
@@ -75,7 +75,7 @@ public abstract class CreatureAttributes {
 //	public abstract void removeAttributeModification(int index, int value);
 
 	/**
-	 * Apply (add) the given {@link EquipmentAttributeModifier} to this set of
+	 * Apply (add) the given {@link AttributeModification} to this set of
 	 * attributes.<br>
 	 * Usually it's provided by {@link EquipmentItem#getAttributeModifiers()} and
 	 * usually this method is invoked during
@@ -87,9 +87,9 @@ public abstract class CreatureAttributes {
 	 * simple and easy to separate original {@link CreatureOfRPGs}'s value and the
 	 * ones provided by abilities and the equipments.
 	 */
-	public abstract void applyAttributeModifier(EquipmentAttributeModifier eam);
+	public abstract void applyAttributeModifier(AttributeModification eam);
 
-	/** Opposite of {@link #applyAttributeModifier(EquipmentAttributeModifier)}. */
-	public abstract void removeAttributeModifier(EquipmentAttributeModifier eam);
+	/** Opposite of {@link #applyAttributeModifier(AttributeModification)}. */
+	public abstract void removeAttributeModifier(AttributeModification eam);
 
 }

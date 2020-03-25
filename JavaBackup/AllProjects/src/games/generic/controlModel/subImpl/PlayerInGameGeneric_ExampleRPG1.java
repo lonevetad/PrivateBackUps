@@ -1,60 +1,71 @@
 package games.generic.controlModel.subImpl;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gameObj.ObjectInSpace;
-import games.generic.controlModel.gameObj.WithLifeObject;
+import games.generic.controlModel.gameObj.CreatureOfRPGs;
+import games.generic.controlModel.inventory.EquipmentSet;
+import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencyHolder;
 import games.generic.controlModel.player.PlayerIG_WithExperience;
+import games.theRisingAngel.AttributesTRAr;
+import games.theRisingAngel.CreatureUIDProvider;
+import games.theRisingAngel.inventory.EquipmentSetTRAr;
 
 /** Designed for Role Play Game. */
-public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExperience
-		implements ObjectInSpace, WithLifeObject {
-	private static final long serialVersionUID = -777564684007L;
+public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExperience implements CreatureOfRPGs {
+//	private static final long serialVersionUID = -777564684007L;
 
-	int life, lifeMax;
-	CurrencyHolder moneys;
 //	GModality gameModality;
+	protected boolean isDestroyed;
+	protected EquipmentSet equipmentSet;
+	protected CreatureAttributes attributes;
+	protected CurrencyHolder moneys;
 
-	public PlayerInGameGeneric_ExampleRPG1(GModality gm) {
-		super(gm);
-//		this.gameModality = gm;
-		this.life = 1;
-		this.lifeMax = 1;
+	public PlayerInGameGeneric_ExampleRPG1(GModality gameModality) {
+		super(gameModality);
+		this.isDestroyed = false;
+//		this.ID = CreatureUIDProvider.newID();
+		this.equipmentSet = new EquipmentSetTRAr();
+		this.attributes = new CreatureAttributesModsCaching(AttributesTRAr.VALUES.length);
+	}
+
+	@Override
+	protected void initializeID() {
+		this.ID = CreatureUIDProvider.newID();
 	}
 
 	//
 
 	@Override
-	public int getLife() {
-		return this.life;
-	}
-
-	@Override
-	public int getLifeMax() {
-		return this.lifeMax;
+	public boolean isDestroyed() {
+		return isDestroyed;
 	}
 
 	public CurrencyHolder getMoneys() {
 		return moneys;
 	}
 
-	//
-
-	//
-
 	@Override
-	public void setLife(int life) {
-		if (life >= 0)
-			this.life = life;
+	public EquipmentSet getEquipmentSet() {
+		return equipmentSet;
 	}
 
 	@Override
-	public void setLifeMax(int lifeMax) {
-		if (lifeMax > 0) {
-			this.lifeMax = lifeMax;
-			if (this.life > lifeMax)
-				this.setLife(lifeMax);
-		}
+	public CreatureAttributes getAttributes() {
+		return attributes;
+	}
+
+	//
+
+	//
+
+	@Override
+	public void setEquipmentSet(EquipmentSet equips) {
+		this.equipmentSet = equips;
+	}
+
+	@Override
+	public void setAttributes(CreatureAttributes attributes) {
+		this.attributes = attributes;
 	}
 
 	public void setMoneys(CurrencyHolder moneys) {

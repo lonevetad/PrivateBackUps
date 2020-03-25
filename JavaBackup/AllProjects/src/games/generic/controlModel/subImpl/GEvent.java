@@ -1,7 +1,8 @@
-package games.generic.controlModel;
+package games.generic.controlModel.subImpl;
 
 import games.generic.UniqueIDProvider;
-import games.generic.controlModel.eventsGame.ExampleGameEvents;
+import games.generic.controlModel.GModality;
+import games.generic.controlModel.IGEvent;
 
 /**
  * Define an event fired during the game.<br>
@@ -10,7 +11,7 @@ import games.generic.controlModel.eventsGame.ExampleGameEvents;
  * <p>
  * Could help implement the event-oriented programming.
  */
-public abstract class GEvent implements ObjectWithID {
+public abstract class GEvent implements IGEvent {
 	protected final Integer ID;
 
 	public GEvent() {
@@ -33,23 +34,9 @@ public abstract class GEvent implements ObjectWithID {
 		return ID;
 	}
 
-	/**
-	 * Identify this event as different to other types, see
-	 * {@link ExampleGameEvents} enumeration for examples.
-	 */
-	public abstract String getType();
-
-	/**
-	 * Could be used to distinguish one type of event from others, especially in
-	 * fine-level differences. But {@link #getType()} is preferred.
-	 */
+	@Override
 	public String getName() {
 		return this.getClass().getSimpleName();
-	}
-
-	/** This event's description, useful for logging. */
-	public String getDescription() {
-		return null;
 	}
 
 	/**

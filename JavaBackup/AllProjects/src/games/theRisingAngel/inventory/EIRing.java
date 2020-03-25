@@ -1,4 +1,4 @@
-package games.theRisingAngel;
+package games.theRisingAngel.inventory;
 
 public abstract class EIRing extends EIJewelry {
 

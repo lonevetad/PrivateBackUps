@@ -3,7 +3,6 @@ package games.generic.controlModel.subImpl;
 import java.util.Map;
 
 import games.generic.controlModel.GController;
-import games.generic.controlModel.GEvent;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GModality;

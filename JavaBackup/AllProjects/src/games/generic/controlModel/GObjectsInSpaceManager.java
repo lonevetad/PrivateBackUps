@@ -2,6 +2,7 @@ package games.generic.controlModel;
 
 import dataStructures.isom.InSpaceObjectsManager;
 import games.generic.controlModel.gameObj.ObjectInSpace;
+import games.generic.controlModel.subImpl.GEvent;
 
 /**
  * Handler for objects in game. <br>

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import games.generic.UniqueIDProvider;
-import games.generic.controlModel.GEvent;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.IGEvent;
 
 public class ObserverPrinterEvent implements GEventObserver {
 	protected Integer ID;
@@ -19,7 +19,7 @@ public class ObserverPrinterEvent implements GEventObserver {
 	}
 
 	@Override
-	public void notifyEvent(GModality modality, GEvent ge) {
+	public void notifyEvent(GModality modality, IGEvent ge) {
 		EventPrinter ep;
 		ep = (EventPrinter) ge;
 		System.out.println("ObsPE receives a message: " + ep.getText());

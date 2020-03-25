@@ -8,8 +8,13 @@ import games.generic.controlModel.ObjectWithID;
  * that depends on the concept of time or, in particular, <i>evolves</i> as the
  * time goes on.
  * <p>
- * Used for {@link GModality}es using some concept of "time" (real time or
- * turn-based) to describe objects performing actions over time.
+ * Used by {@link GModality}es that <re using some concept of "time" (real time
+ * or turn-based) to describe objects performing actions over time.
+ * 
+ * <p>
+ * This interaface could have been a special case of {@link GEventObserverb},
+ * but it would have been heavily inefficient. It's a "hard-code / embedded"
+ * solution for listening the time progression, but it's enought fast.
  * <p>
  * interfaccia per definire un qualcosa che modifica il suo stato nel tempo, che
  * progredisce può definire metodi come "act", "move", etc può far innescare

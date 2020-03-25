@@ -6,14 +6,16 @@ import games.generic.controlModel.misc.CreatureAttributes;
 
 /**
  * Each {@link EquipmentItem} could modify the {@link AttributesHolder}'s
- * attributes (i.e. {@link CreatureAttributes})
+ * attributes (i.e. {@link CreatureAttributes}) through applying this class's
+ * instances by invoking
+ * {@link CreatureAttributes#applyAttributeModifier(EquipmentAttributeModifier)}.
  */
-public class EquipmentAttributeModifier {
-	protected int value;
+public class AttributeModification {
 
+	protected int value;
 	protected AttributeIdentifier attributeModified;
 
-	public EquipmentAttributeModifier(AttributeIdentifier attributeModified, int value) {
+	public AttributeModification(AttributeIdentifier attributeModified, int value) {
 		super();
 		this.attributeModified = attributeModified;
 		this.value = value;

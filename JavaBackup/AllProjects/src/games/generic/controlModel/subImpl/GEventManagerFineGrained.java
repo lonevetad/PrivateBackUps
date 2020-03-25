@@ -9,10 +9,10 @@ import java.util.function.Function;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
-import games.generic.controlModel.GEvent;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.subImpl.GameEventManagerSimple.EventNotifier;
 import tools.Comparators;
 
@@ -121,7 +121,7 @@ public class GEventManagerFineGrained extends GEventManager {
 	}
 
 	@Override
-	public void notifyEventObservers(GEvent ge) {
+	public void notifyEventObservers(IGEvent ge) {
 //		Integer idEvent;
 		PriorityQueueKey<GEventObserver, Integer> pq;
 		pq = observersByTypes.get(ge.getType());
@@ -145,7 +145,7 @@ public class GEventManagerFineGrained extends GEventManager {
 
 	/** Do not iterate over ALL observersByTypes */
 	protected static class EventNotifierPQ implements BiConsumer<Integer, PriorityQueueKey<GEventObserver, Integer>> {
-		GEvent ge;
+		IGEvent ge;
 		GEventManagerFineGrained gem;
 
 		public EventNotifierPQ(GEventManagerFineGrained gem) {
@@ -163,7 +163,7 @@ public class GEventManagerFineGrained extends GEventManager {
 	}
 
 	protected static class EventNotifierE_PQ_ID implements Consumer<Map.Entry<GEventObserver, Integer>> {
-		GEvent ge;
+		IGEvent ge;
 		GEventManagerFineGrained gem;
 
 		public EventNotifierE_PQ_ID(GEventManagerFineGrained gem) {

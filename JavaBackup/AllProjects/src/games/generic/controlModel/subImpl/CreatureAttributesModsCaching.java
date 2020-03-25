@@ -1,11 +1,11 @@
 package games.generic.controlModel.subImpl;
 
-import games.generic.controlModel.inventory.EquipmentAttributeModifier;
+import games.generic.controlModel.inventory.AttributeModification;
 import games.generic.controlModel.misc.CreatureAttributes;
 
 /**
  * Caches all attribute's modifications (as like
- * {@link EquipmentAttributeModifier}) in a separated array: use
+ * {@link AttributeModification}) in a separated array: use
  * {@link #addAttributeModification(int, int)} and
  * {@link #removeAttributeModification(int, int)}.
  */
@@ -23,12 +23,12 @@ public class CreatureAttributesModsCaching extends CreatureAttributes {
 	}
 
 	@Override
-	public void applyAttributeModifier(EquipmentAttributeModifier eam) {
+	public void applyAttributeModifier(AttributeModification eam) {
 		this.computedAttributesModifications[eam.getAttributeModified().getIndex()] += eam.getValue();
 	}
 
 	@Override
-	public void removeAttributeModifier(EquipmentAttributeModifier eam) {
+	public void removeAttributeModifier(AttributeModification eam) {
 		this.computedAttributesModifications[eam.getAttributeModified().getIndex()] -= eam.getValue();
 	}
 

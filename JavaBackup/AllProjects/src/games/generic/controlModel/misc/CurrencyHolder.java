@@ -3,6 +3,7 @@ package games.generic.controlModel.misc;
 import games.generic.controlModel.GModality;
 
 public abstract class CurrencyHolder {
+	public static final int BASE_CURRENCY_INDEX = 0;
 
 	int[] values;
 	GModality gm;

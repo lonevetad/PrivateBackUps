@@ -1,0 +1,45 @@
+package games.theRisingAngel.events;
+
+import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.GEventManager;
+import games.generic.controlModel.GModality;
+import games.generic.controlModel.eventsGame.EventMoneyChange;
+import games.generic.controlModel.gameObj.CreatureOfRPGs;
+import games.generic.controlModel.player.PlayerInGame_Generic;
+import games.generic.controlModel.subImpl.GEventManagerFineGrained;
+
+public class GEventInterfaceTRAr implements GEventInterface {
+
+	GEventManager gem;
+
+	public GEventInterfaceTRAr() {
+		super();
+	}
+
+	@Override
+	public void setNewGameEventManager(GModality gameModality) {
+		this.gem = new GEventManagerFineGrained(gameModality);
+	}
+
+	@Override
+	public GEventManager getGameEventManager() {
+		return gem;
+	}
+
+	@Override
+	public void firePlayerEnteringInMap(GModality gameModality, PlayerInGame_Generic p) {
+		// semplice "creature entering on the field"
+	}
+
+	/***
+	 * @param currencyType the index (or an id) of the currency earned-lost
+	 */
+	public void fireMoneyChangeEvent(GModality gm, int currencyType, int oldValue, int newValue) {
+		this.getGameEventManager().addEvent(new EventMoneyChange(gm.getPlayer(), currencyType, oldValue, newValue));
+	}
+
+	public <Source> void fireDamageDealtEvent(GModality gm, Source source, CreatureOfRPGs target, int damageInflicted) {
+		this.getGameEventManager().addEvent( //
+				new EventDamageTRAr<>(EventsTRAr.DamageInflicted, source, target, damageInflicted));
+	}
+}

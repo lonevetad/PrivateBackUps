@@ -44,6 +44,18 @@ public class GModality_E1 extends GModalityET {
 		// first make the player, then the damager, the healer, the fairy, the
 		// money-maker, etc
 
+		/*
+		 * aggiungere oggetto che da riduzione del danno pari al 10% dei soldi, ma ad
+		 * ogni danno scala il 10% Quindi è TimedObject e EventListener per il danno
+		 * 
+		 * ADamageReductionPhysicalCurrencyBased
+		 */
+		/*
+		 * E collana che da rigenerazione vitale pari al 25% del danno subito, ma ogni
+		 * secondo tale ammontare cala fino a 0 (quindi ad ogni evento del danno,
+		 * incrementa il contatore del totale, poi ogni secondo scala di es 4 e aggiorna
+		 * le statistiche)
+		 */
 //		addTimedObject(new ObjDamageDeliver());
 
 		// then ...

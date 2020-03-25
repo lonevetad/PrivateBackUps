@@ -1,4 +1,4 @@
-package games.theRisingAngel;
+package games.theRisingAngel.creatures;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
@@ -6,6 +6,9 @@ import games.generic.controlModel.inventory.EquipmentSet;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.player.PlayerInGame_Generic;
 import games.generic.controlModel.subImpl.CreatureAttributesModsCaching;
+import games.theRisingAngel.AttributesTRAr;
+import games.theRisingAngel.CreatureUIDProvider;
+import games.theRisingAngel.inventory.EquipmentSetTRAr;
 
 /**
  * This is NOT a {@link PlayerInGame_Generic}, even if it's similar (but there's

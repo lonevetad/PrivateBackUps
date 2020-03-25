@@ -51,6 +51,8 @@ public abstract class PlayerInGame_Generic extends PlayerGeneric implements Obje
 	 */
 	public abstract void onLeavingMap();
 
+	public abstract void onEnteringInGame(GModality gm);
+
 	//
 
 	@Override

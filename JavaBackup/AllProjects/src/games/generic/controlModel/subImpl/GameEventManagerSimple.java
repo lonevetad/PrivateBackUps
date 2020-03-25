@@ -5,10 +5,10 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
-import games.generic.controlModel.GEvent;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.IGEvent;
 import tools.Comparators;
 
 /** Broadcast the event to ALL observers, without any selection. */
@@ -44,7 +44,7 @@ public class GameEventManagerSimple extends GEventManager {
 	}
 
 	@Override
-	public void notifyEventObservers(GEvent ge) {
+	public void notifyEventObservers(IGEvent ge) {
 		notifier.ge = ge;
 		this.observers.forEach(notifier);
 	}
@@ -54,7 +54,7 @@ public class GameEventManagerSimple extends GEventManager {
 	//
 
 	protected static class EventNotifier implements BiConsumer<Integer, GEventObserver> {
-		GEvent ge;
+		IGEvent ge;
 		GEventManager gem;
 
 		public EventNotifier(GEventManager gem) {

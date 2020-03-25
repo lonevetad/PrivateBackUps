@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
+import games.generic.controlModel.subImpl.GEvent;
 import tools.Comparators;
 
 /**
@@ -16,7 +17,7 @@ import tools.Comparators;
  */
 public abstract class GEventManager {
 	GModality gameModality; // back reference
-	MapTreeAVL<Integer, List<GEvent>> eventQueued;
+	MapTreeAVL<Integer, List<IGEvent>> eventQueued;
 
 	public GEventManager(GModality gameModality) {
 		this.gameModality = gameModality;
@@ -34,7 +35,7 @@ public abstract class GEventManager {
 	}
 
 	/** Use with caution. */
-	public Map<Integer, List<GEvent>> getEventQueued() {
+	public Map<Integer, List<IGEvent>> getEventQueued() {
 		return eventQueued;
 	}
 
@@ -52,7 +53,7 @@ public abstract class GEventManager {
 
 	public abstract void removeAllEventObserver();
 
-	public abstract void notifyEventObservers(GEvent ge);
+	public abstract void notifyEventObservers(IGEvent ge);
 
 	public abstract void forEachEventObservers(Consumer<GEventObserver> action);
 
@@ -60,9 +61,9 @@ public abstract class GEventManager {
 
 	// TODO CONCRETE METHODS
 
-	public void addEvent(GEvent ge) {
+	public void addEvent(IGEvent ge) {
 		Integer id;
-		List<GEvent> l; ///
+		List<IGEvent> l; ///
 		if (ge == null)
 			return;
 		id = ge.getID();

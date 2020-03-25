@@ -1,4 +1,4 @@
-package games.theRisingAngel;
+package games.theRisingAngel.inventory;
 
 import games.generic.controlModel.inventory.EquipmentItem;
 

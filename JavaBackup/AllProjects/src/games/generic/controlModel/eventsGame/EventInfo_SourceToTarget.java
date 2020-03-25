@@ -1,6 +1,7 @@
 package games.generic.controlModel.eventsGame;
 
-import games.generic.controlModel.GEvent;
+import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.subImpl.GEvent;
 
 /**
  * Event putting in relations two objects: a "source doing something to a
@@ -9,27 +10,21 @@ import games.generic.controlModel.GEvent;
  * In future, the Source and the Target will be replace by a specific class and
  * the damage will be implemented to something more flexible.
  */
-public class EventInfo_SourceToTarget<Source, Target> extends GEvent {
+public abstract class EventInfo_SourceToTarget<Source, Target> extends GEvent {
 
-	protected int damage;
 	protected Source source;
 	protected Target target;
-	protected final String nameEvent;
+	protected final IGEvent eventIdentifier;
 
-	public EventInfo_SourceToTarget(String name, Source source, Target target, int damage) {
+	public EventInfo_SourceToTarget(IGEvent eventIdentifier, Source source, Target target, int damage) {
 		super();
-		this.nameEvent = name;
-		this.damage = damage;
+		this.eventIdentifier = eventIdentifier;
 		this.source = source;
 		this.target = target;
 	}
 
-	public String getNameEvent() {
-		return nameEvent;
-	}
-
-	public int getDamage() {
-		return damage;
+	public IGEvent getEventIdentifier() {
+		return eventIdentifier;
 	}
 
 	public Source getSource() {
@@ -38,10 +33,6 @@ public class EventInfo_SourceToTarget<Source, Target> extends GEvent {
 
 	public Target getTarget() {
 		return target;
-	}
-
-	public void setDamage(int damage) {
-		this.damage = damage;
 	}
 
 	public void setSource(Source source) {
@@ -54,6 +45,6 @@ public class EventInfo_SourceToTarget<Source, Target> extends GEvent {
 
 	@Override
 	public String getType() {
-		return nameEvent;
+		return eventIdentifier.getType();
 	}
 }

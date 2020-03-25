@@ -1,7 +1,7 @@
 package games.generic.controlModel.eventsGame;
 
-import games.generic.controlModel.GEvent;
 import games.generic.controlModel.player.PlayerInGame_Generic;
+import games.generic.controlModel.subImpl.GEvent;
 
 public class EventMoneyChange extends GEvent {
 
