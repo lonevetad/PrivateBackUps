@@ -4,6 +4,7 @@ import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.subImpl.TimedObjectSimpleImpl;
 
+/*Simply prints some text*/
 public class ObjPrinterTO implements TimedObjectSimpleImpl {
 	long timeThreshold, accumulatedTimeElapsed;
 	String text;

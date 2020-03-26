@@ -1,7 +1,7 @@
 package games.generic.controlModel.gameObj;
 
+import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.ObjectWithID;
 
 /**
  * Mark an object as having a "status" (or at least a non empty set of actions)

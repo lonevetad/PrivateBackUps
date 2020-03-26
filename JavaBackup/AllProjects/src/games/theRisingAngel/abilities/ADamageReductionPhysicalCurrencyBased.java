@@ -1,5 +1,8 @@
 package games.theRisingAngel.abilities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
@@ -13,11 +16,15 @@ import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
 
 public class ADamageReductionPhysicalCurrencyBased extends AbilityModifyingAttributeRealTime implements GEventObserver {
-	protected int perThousandFraction;
 
 	public ADamageReductionPhysicalCurrencyBased() {
 		super(AttributesTRAr.DamageReductionPhysical);
+		this.eventsWatching = new ArrayList<>(2);
+		this.eventsWatching.add(this.getAttributeToModify().getAttributeModified().getName());
 	}
+
+	protected int perThousandFraction;
+	protected List<String> eventsWatching;
 
 	//
 
@@ -74,5 +81,10 @@ public class ADamageReductionPhysicalCurrencyBased extends AbilityModifyingAttri
 					a - ((a * getPerThousandFraction()) / 1000));
 //	super.getAttributeToModify().
 		}
+	}
+
+	@Override
+	public List<String> getEventsWatching() {
+		return eventsWatching;
 	}
 }

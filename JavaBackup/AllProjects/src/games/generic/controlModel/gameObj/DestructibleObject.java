@@ -1,15 +1,18 @@
 package games.generic.controlModel.gameObj;
 
+import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventManager;
+import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.ObjectWithID;
+import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.eventsGame.DestructionObjEvent;
 
 /**
  * Denotes an object that could be destroyed and removed from the game(i.e. has
  * a kind of "state", which one of its value is "destroyed") and could fire
  * events accordingly.
  */
-public interface DestructibleObject extends ObjectWithID {
+public interface DestructibleObject extends ObjectWithID, GModalityHolder, GEventObserver {
 
 	/**
 	 * Flag-like method to check if this has been destroyed (and hopefully removed
@@ -21,12 +24,42 @@ public interface DestructibleObject extends ObjectWithID {
 	 */
 	public boolean isDestroyed();
 
+//	public void setIsDestroyed(boolean isDestroyed);
+
 	/**
 	 * Read-only test, that shouldn't have side effects, to check if this object
 	 * should be destroyed and then removed (or meant to evolve its internal state),
 	 * optionally firing appropriated events accordingly.
 	 */
 	public boolean shouldBeDestroyed(); // semplice flag o cosa computata, per esempio verificando se vita<=0
+
+	/**
+	 * MAKE ME DIE
+	 * <P>
+	 * Apply the destruction (also setting flags so that {@link #isDestroyed()}
+	 * returns <code>true</code>) and performs clean-up operations.
+	 */
+	public boolean destroy();
+
+	//
+
+	@Override
+	public default int getObserverPriority() {
+		return GEventObserver.MIN_PRIORITY;
+	}
+
+	/**
+	 * Simply checks if the given é{@link IGEvent} is a destruction event.<<br>
+	 * Used in {@link #checkAndFireDestruction()}.
+	 */
+	public boolean isDestructionEvent(IGEvent maybeDestructionEvent);
+
+	/**
+	 * Returns a standardized String (one for each game which object(s) could be
+	 * destroyed) to identify the destruction {@link IGEvent}.
+	 */
+	// not necessary since the event cannot be fired there
+//	public String getDestructionEventName();
 
 	/**
 	 * When this object is being destroyed (that means: "during the
@@ -38,11 +71,44 @@ public interface DestructibleObject extends ObjectWithID {
 	 * Note: Originally, the parameter was an instance of {@link GEventManager}, now
 	 * it's generalized to allow simpler event notification systems.
 	 */
-	public void fireDestruction(GModality gm);
+	public void fireDestructionEvent(GModality gm);
 
 	/**
-	 * Apply the destruction, maybe by calling
-	 * {@link #fireDestruction(GEventManager)}
+	 * Check if this instance should be destroyed, fire the destruction's event by
+	 * calling {@link #fireDestructionEvent(GEventManager)} and waits if this object
+	 * could really be destroied .
+	 * <p>
+	 * Algorithm pattern designed.
 	 */
-	public boolean destroy();
+	public default boolean checkAndFireDestruction() {
+		if (isDestroyed())
+			return false;
+		if (shouldBeDestroyed()) {
+			fireDestructionEvent(getGameModality());
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Algorithm pattern designed implementation for detecting destruction events
+	 * (my own, at least)..
+	 */
+	@Override
+	public default void notifyEvent(GModality modality, IGEvent ge) {
+		DestructionObjEvent doe;
+		if (!(this.isDestructionEvent(ge) && (ge instanceof DestructionObjEvent)))
+			return;
+		doe = (DestructionObjEvent) ge;
+		if (this != doe.getDestructibleObject())
+			return; // not me
+		if (doe.isDestructionValid())
+			destroy();
+	}
+
+	// workaround
+	@Override
+	public default Integer getObserverID() {
+		return getID();
+	}
 }

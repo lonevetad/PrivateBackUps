@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import games.generic.ObjectWithID;
+
 public interface GObjectsHolder {
 //	 OLD
 //<T extends ObjectWithID> {

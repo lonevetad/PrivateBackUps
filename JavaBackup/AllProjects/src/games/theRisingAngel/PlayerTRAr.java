@@ -1,15 +1,22 @@
 package games.theRisingAngel;
 
+import java.util.ArrayList;
+
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
-import games.generic.controlModel.subImpl.GEvent;
 import games.generic.controlModel.subImpl.GModalityET;
 import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
+import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.GEventInterfaceTRAr;
 
 public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements CreatureOfRPGs {
 
 	public PlayerTRAr(GModality gameModality) {
 		super(gameModality);
+		this.eventsWatching = new ArrayList<>(2);
+		this.eventsWatching.add(EventsTRAr.Destroyed.getName());
+
 	}
 
 	//
@@ -56,7 +63,6 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements Creat
 	public boolean destroy() {
 		if (!isDestroyed) {
 			isDestroyed = true;
-			fireDestruction(getGameModality());
 			return true;
 		}
 		return false;
@@ -64,10 +70,6 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements Creat
 
 	@Override
 	public void act(GModality modality, long milliseconds) {
-	}
-
-	@Override
-	public void notifyEvent(GModality modality, GEvent ge) {
 	}
 
 	@Override
@@ -99,12 +101,14 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements Creat
 	}
 
 	@Override
-	public void fireDestruction(GModality gm) {
+	public void fireDestructionEvent(GModality gm) {
 		GModalityET gmet;
-		EvenMan
-		if(gm==null || (!(gm instanceof GModalityET)))return;
-gmet = (GModalityET)gm;
-		gmet.getEventManager().f
+		GEventInterfaceTRAr gei;
+		if (gm == null || (!(gm instanceof GModalityET)))
+			return;
+		gmet = (GModalityET) gm;
+		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
+		gei.fireDestructionObjectEvent(gm, this);
 	}
 
 	@Override
@@ -117,5 +121,10 @@ gmet = (GModalityET)gm;
 	public void fireLevelGainedEvent(GModality gm, int newLevel) {
 		if (gm == null || (!(gm instanceof GModalityET)))
 			return;
+	}
+
+	@Override
+	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
+		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
 	}
 }

@@ -23,8 +23,8 @@ public class EventMoneyChange extends GEvent {
 	//
 
 	@Override
-	public String getType() {
-		return ExampleGameEvents.MoneyChanged.getType();
+	public String getName() {
+		return ExampleGameEvents.MoneyChanged.getName();
 	}
 
 	public int getOriginalValue() {

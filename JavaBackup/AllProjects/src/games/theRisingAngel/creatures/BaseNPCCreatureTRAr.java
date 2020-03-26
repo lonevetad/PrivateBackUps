@@ -1,6 +1,9 @@
 package games.theRisingAngel.creatures;
 
+import java.util.List;
+
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
 import games.generic.controlModel.inventory.EquipmentSet;
 import games.generic.controlModel.misc.CreatureAttributes;
@@ -16,9 +19,11 @@ import games.theRisingAngel.inventory.EquipmentSetTRAr;
  */
 public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 	protected boolean isDestroyed;
+	protected Integer ID;
+	protected String name;
+	protected List<String> eventsWatching;
 	protected EquipmentSet equipmentSet;
 	protected CreatureAttributes attributes;
-	protected Integer ID;
 	protected GModality gameModality;
 
 	public BaseNPCCreatureTRAr() {
@@ -36,6 +41,11 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 	@Override
 	public Integer getID() {
 		return ID;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	@Override
@@ -81,6 +91,10 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 		this.attributes = attributes;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public void setLife(int life) {
 
@@ -114,7 +128,7 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 	}
 
 	@Override
-	public void fireDestruction(GModality gm) {
+	public void fireDestructionEvent(GModality gm) {
 
 	}
 
@@ -127,5 +141,16 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 	@Override
 	public void act(GModality modality, long milliseconds) {
 		// TODO make progress ALL abilities .. or maybe not, jus hardcoded abilities
+	}
+
+	@Override
+	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<String> getEventsWatching() {
+		return eventsWatching;
 	}
 }

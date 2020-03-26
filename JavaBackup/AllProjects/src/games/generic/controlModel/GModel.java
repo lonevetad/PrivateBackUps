@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
+import games.generic.ObjectWithID;
 import tools.Comparators;
 
 public abstract class GModel implements GObjectsHolder {

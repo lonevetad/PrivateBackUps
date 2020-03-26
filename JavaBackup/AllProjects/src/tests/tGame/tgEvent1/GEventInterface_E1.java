@@ -7,6 +7,6 @@ public class GEventInterface_E1 extends GEventInterfaceTRAr {
 
 	public void firePrinterEvent(String text) {
 		System.out.println("--- firing printer event with: " + text);
-		this.getGameEventManager().addEvent(new EventPrinter(text));
+		this.getGameEventManager().fireEvent(new EventPrinter(text));
 	}
 }

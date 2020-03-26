@@ -44,7 +44,7 @@ public abstract class EventInfo_SourceToTarget<Source, Target> extends GEvent {
 	}
 
 	@Override
-	public String getType() {
-		return eventIdentifier.getType();
+	public String getName() {
+		return eventIdentifier.getName();
 	}
 }

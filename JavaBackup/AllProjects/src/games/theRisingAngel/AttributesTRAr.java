@@ -23,4 +23,9 @@ public enum AttributesTRAr implements AttributeIdentifier {
 	public String getName() {
 		return name();
 	}
+
+	@Override
+	public Integer getID() {
+		return ordinal();
+	}
 }

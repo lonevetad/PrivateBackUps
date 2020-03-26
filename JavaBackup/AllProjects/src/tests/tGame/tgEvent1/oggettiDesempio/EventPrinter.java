@@ -3,7 +3,7 @@ package tests.tGame.tgEvent1.oggettiDesempio;
 import games.generic.controlModel.subImpl.GEvent;
 
 public class EventPrinter extends GEvent {
-	public static final String PRINTER_EVENT_TYPE = "PRINTER";
+	public static final String PRINTER_EVENT_NAME = "PRINTER";
 	protected String text;
 
 	public EventPrinter(String text) {
@@ -18,12 +18,12 @@ public class EventPrinter extends GEvent {
 	}
 
 	@Override
-	public String getType() {
-		return PRINTER_EVENT_TYPE;
+	public String getName() {
+		return PRINTER_EVENT_NAME;
 	}
 
 	@Override
 	public String toString() {
-		return "EventPrinter [ID=" + ID + ", getType()=" + getType() + ", text=" + text + "]";
+		return "EventPrinter [ID=" + ID + ", getName()=" + getName() + ", text=" + text + "]";
 	}
 }

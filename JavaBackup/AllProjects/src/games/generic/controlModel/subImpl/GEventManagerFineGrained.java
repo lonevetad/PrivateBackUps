@@ -124,15 +124,15 @@ public class GEventManagerFineGrained extends GEventManager {
 	public void notifyEventObservers(IGEvent ge) {
 //		Integer idEvent;
 		PriorityQueueKey<GEventObserver, Integer> pq;
-		pq = observersByTypes.get(ge.getType());
+		pq = observersByTypes.get(ge.getName());
 		System.out.println("........GEventManagerFineGrained notify event: " + ge);
 		if (pq == null) {
 			// no adequate observer is registered for this type: broadcast it to "everybody"
-			System.out.println("\t for generic type observers: " + ge.getType());
+			System.out.println("\t for generic type observers: " + ge.getName());
 			this.notifierGeneric.ge = ge;
 			this.genericObservers.forEach(notifierGeneric);
 		} else {
-			System.out.println("\t for some type(s) observer(s): " + ge.getType());
+			System.out.println("\t for some type(s) observer(s): " + ge.getName());
 //			this.observersByTypes.forEach(notifier);
 			this.notifierPQHelper.ge = ge;
 			pq.forEach(notifierPQHelper);

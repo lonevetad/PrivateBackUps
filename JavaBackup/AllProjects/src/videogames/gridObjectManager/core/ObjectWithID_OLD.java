@@ -5,12 +5,12 @@ import java.util.Comparator;
 
 import tools.Comparators;
 
-public abstract class ObjectWithID implements Serializable
+public abstract class ObjectWithID_OLD implements Serializable
 //		, ObjectSerializableDoingNothingAfter, LoggerMessagesHolder, MementoPatternImplementor 
 {
 	private static final long serialVersionUID = -28065206360L;
 	private static int progressiveID = 0;
-	public static final Comparator<ObjectWithID> COMPARATOR_OWID = (o1, o2) -> {
+	public static final Comparator<ObjectWithID_OLD> COMPARATOR_OWID = (o1, o2) -> {
 		if (o1 == o2)
 			return 0;
 		if (o1 == null)
@@ -27,13 +27,13 @@ public abstract class ObjectWithID implements Serializable
 	 * di ordine O(log(n)).
 	 */
 
-	public ObjectWithID() {
+	public ObjectWithID_OLD() {
 		super();
 		ID = ++progressiveID;
 //		setLog(null);
 	}
 
-	public ObjectWithID(ObjectWithID o) {
+	public ObjectWithID_OLD(ObjectWithID_OLD o) {
 		this();
 		this.isNotSolid = o.isNotSolid;
 //		this.log = o.log;
@@ -76,7 +76,7 @@ public abstract class ObjectWithID implements Serializable
 
 	// TODO SETTER
 
-	public ObjectWithID setNotSolid(boolean isNotSolid) {
+	public ObjectWithID_OLD setNotSolid(boolean isNotSolid) {
 		this.isNotSolid = isNotSolid;
 		return this;
 	}
@@ -99,7 +99,7 @@ public abstract class ObjectWithID implements Serializable
 	 * @return <code>true</code> if the given object is <code>null</code>,<br>
 	 *         <code>theGivenParameter.{@link #isNotSolid()}</code> otherwise.
 	 */
-	public static boolean extractIsNotSolid(ObjectWithID o) {
+	public static boolean extractIsNotSolid(ObjectWithID_OLD o) {
 		return o == null ? true : o.isNotSolid();
 	}
 

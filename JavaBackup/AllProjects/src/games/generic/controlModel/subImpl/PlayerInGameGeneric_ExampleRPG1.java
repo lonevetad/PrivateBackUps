@@ -1,5 +1,7 @@
 package games.generic.controlModel.subImpl;
 
+import java.util.List;
+
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
 import games.generic.controlModel.inventory.EquipmentSet;
@@ -16,6 +18,7 @@ public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExper
 
 //	GModality gameModality;
 	protected boolean isDestroyed;
+	protected List<String> eventsWatching;
 	protected EquipmentSet equipmentSet;
 	protected CreatureAttributes attributes;
 	protected CurrencyHolder moneys;
@@ -52,6 +55,11 @@ public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExper
 	@Override
 	public CreatureAttributes getAttributes() {
 		return attributes;
+	}
+
+	@Override
+	public List<String> getEventsWatching() {
+		return eventsWatching;
 	}
 
 	//

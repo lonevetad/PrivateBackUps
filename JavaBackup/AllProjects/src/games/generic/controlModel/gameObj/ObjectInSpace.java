@@ -1,6 +1,6 @@
 package games.generic.controlModel.gameObj;
 
-import games.generic.controlModel.ObjectWithID;
+import games.generic.ObjectWithID;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
 

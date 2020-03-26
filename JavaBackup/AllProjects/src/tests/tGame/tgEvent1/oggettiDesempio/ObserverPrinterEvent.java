@@ -15,7 +15,7 @@ public class ObserverPrinterEvent implements GEventObserver {
 	public ObserverPrinterEvent() {
 		this.ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID();
 		this.eventsWatching = new ArrayList<>(2);
-		this.eventsWatching.add(EventPrinter.PRINTER_EVENT_TYPE);
+		this.eventsWatching.add(EventPrinter.PRINTER_EVENT_NAME);
 	}
 
 	@Override

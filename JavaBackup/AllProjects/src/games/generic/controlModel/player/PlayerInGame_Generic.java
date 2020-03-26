@@ -3,9 +3,8 @@ package games.generic.controlModel.player;
 import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.ObjectWithID;
 
-public abstract class PlayerInGame_Generic extends PlayerGeneric implements ObjectWithID, GEventObserver {
+public abstract class PlayerInGame_Generic extends PlayerGeneric implements GEventObserver {
 	protected Integer ID;
 	protected GModality gameModality;
 

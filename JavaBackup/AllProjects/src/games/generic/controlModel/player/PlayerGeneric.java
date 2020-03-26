@@ -1,5 +1,7 @@
 package games.generic.controlModel.player;
 
+import games.generic.ObjectNamedID;
+
 /**
  * Holds data of the player.<br>
  * There are two main subclasses, having lots of differences:
@@ -10,7 +12,7 @@ package games.generic.controlModel.player;
  * game" player is the player having life, a deck, a board, an hand, a
  * "graveyard", etc.
  */
-public abstract class PlayerGeneric {
+public abstract class PlayerGeneric implements ObjectNamedID {
 
 	// TODO invent stuffs
 	protected String name;

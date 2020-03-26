@@ -20,8 +20,7 @@ public enum EventsTRAr implements IGEvent {
 		return ordinal();
 	}
 
-	@Override
-	public String getType() {
+	public String getSuperType() {
 		return type;
 	}
 

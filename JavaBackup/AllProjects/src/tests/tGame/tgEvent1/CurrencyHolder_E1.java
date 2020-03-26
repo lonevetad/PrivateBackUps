@@ -12,8 +12,6 @@ public class CurrencyHolder_E1 extends CurrencyHolder {
 
 	@Override
 	public void fireMoneyChangeEvent(GModality gm, int indexType, int oldValue, int newValue) {
-		// TODO Auto-generated method stub
 
 	}
-
 }

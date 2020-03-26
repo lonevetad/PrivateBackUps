@@ -61,7 +61,12 @@ public abstract class GEventManager {
 
 	// TODO CONCRETE METHODS
 
-	public void addEvent(IGEvent ge) {
+	/**
+	 * "Fire", "post", "add", call it as You want but put the given {@link IGEvent}
+	 * in some kind of event queue and (lately? separately?) notify the
+	 * {@link GEventObserver}s that the event has been occurred.
+	 */
+	public void fireEvent(IGEvent ge) {
 		Integer id;
 		List<IGEvent> l; ///
 		if (ge == null)

@@ -16,6 +16,7 @@ import tools.Comparators;
  * non required ones).
  */
 public interface GEventObserver {
+	public static final int MAX_PRIORITY = Integer.MAX_VALUE >> 1, MIN_PRIORITY = Integer.MIN_VALUE >> 1;
 	public static final Comparator<GEventObserver> COMPARATOR_GameEventObserver = (o1, o2) -> {
 		if (o1 == o2)
 			return 0;
@@ -70,7 +71,7 @@ public interface GEventObserver {
 
 	/**
 	 * Returns the list of {@link GEvent} (identified by its
-	 * {@link GEvent#getType()}) to watch, meaning that "everything else" is
+	 * {@link GEvent#getName()}) to watch, meaning that "everything else" is
 	 * ignored.<br>
 	 * If empty or <code>null</code>, it should be intended as "watching everything"
 	 * and {@link #getObserverID()} could be useful to distinguish from one observer
@@ -79,7 +80,5 @@ public interface GEventObserver {
 	 * NOTE: this is an optional method, it's not required by {@link GEventManager}
 	 * to implement it (but it's usefull for fine-grained systems).
 	 */
-	public default List<String> getEventsWatching() {
-		return null;
-	}
+	public List<String> getEventsWatching(); // default { return null; }
 }

@@ -2,9 +2,9 @@ package games.generic.controlModel.inventory;
 
 import java.util.function.Function;
 
+import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.ObjectWithID;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
 import games.generic.controlModel.gameObj.TimedObject;
 
