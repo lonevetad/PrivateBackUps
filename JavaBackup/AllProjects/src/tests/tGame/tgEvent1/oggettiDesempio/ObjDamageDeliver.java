@@ -3,19 +3,23 @@ package tests.tGame.tgEvent1.oggettiDesempio;
 import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
+import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subImpl.TimedObjectSimpleImpl;
+import tests.tGame.tgEvent1.GEventInterface_E1;
+import tests.tGame.tgEvent1.GModality_E1;
 
 // TODO fare con GUI e affini
 public class ObjDamageDeliver implements TimedObjectSimpleImpl {
 	static final int MILLIS_EACH__DAMAGE = 1500;
-	long timeElapsed;
-	int c;
+	long timeElapsed, timeThreshold;
+	int c, damageAmount;
 	Integer ID;
 	CreatureOfRPGs target;
 
-	public ObjDamageDeliver() {
+	public ObjDamageDeliver(long timeThreshold) {
 		ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID();
 		timeElapsed = 0;
+		this.timeThreshold = timeThreshold;
 		c = 0;
 	}
 
@@ -31,14 +35,22 @@ public class ObjDamageDeliver implements TimedObjectSimpleImpl {
 
 	@Override
 	public long getTimeThreshold() {
-		return MILLIS_EACH__DAMAGE;
+		return timeThreshold;
 	}
 
 	public CreatureOfRPGs getTarget() {
 		return target;
 	}
 
+	public int getDamageAmount() {
+		return damageAmount;
+	}
+
 	//
+
+	public void setDamageAmount(int damageAmount) {
+		this.damageAmount = damageAmount;
+	}
 
 	public void setTarget(CreatureOfRPGs target) {
 		this.target = target;
@@ -53,8 +65,15 @@ public class ObjDamageDeliver implements TimedObjectSimpleImpl {
 
 	@Override
 	public void executeAction(GModality modality) {
-		System.out.println("Damage " + c++);
-
+		GModality_E1 gmodtrar;
+		GEventInterface_E1 geie1;
+		DamageGeneric d;
+		d = new DamageGeneric(damageAmount, null);
+		System.out.println("Damage time" + c++);
+		gmodtrar = (GModality_E1) modality;
+		geie1 = (GEventInterface_E1) gmodtrar.getEventInterface();
+		geie1.fireDamageDealtEvent(gmodtrar, this, target, d);
+		this.target.receiveDamage(modality, d, this);
 	}
 
 //	public void act(GModality modality, long milliseconds) {

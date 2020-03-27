@@ -16,7 +16,6 @@ public class ObjPrinterTO implements TimedObjectSimpleImpl {
 		this.timeThreshold = timeThreshold;
 		this.text = text;
 		this.accumulatedTimeElapsed = 0;
-		System.out.println("timeThreshold: " + timeThreshold + " for " + text);
 	}
 
 	@Override

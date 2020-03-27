@@ -71,11 +71,19 @@ public interface EquipItemAbility extends AbilityGeneric {
 	 * {@link EquipmentSet#getCreatureWearingEquipments()} for further
 	 * informations.>
 	 */
-	public void onEquip(GModality gm);
+	public default void onEquip(GModality gm) {
+		if (gm == null)
+			return;
+		gm.addGameObject(this);
+	}
 
 	/**
 	 * The opposite work of {@link #onEquip(GModality)}, stopping every acting work
 	 * AND resetting to the original state
 	 */
-	public void onUnEquipping(GModality gm);
+	public default void onUnEquipping(GModality gm) {
+		if (gm == null)
+			return;
+		gm.removeGameObject(this);
+	}
 }

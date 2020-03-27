@@ -1,21 +1,24 @@
 package games.generic.controlModel;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
+import games.generic.ObjectWithID;
 import games.generic.controlModel.subImpl.GEvent;
 import tools.Comparators;
 
 /**
- * Manager of {@link GEvent}s. <br>
+ * Manager of {@link GEvent}s and their {@link GEventObserver}. In particular,
+ * it's a {@link GObjectsHolder} of {@link GEventObserver}<br>
  * All {@link GEvent}s' effects should be applied "at the same time" because all
  * of them happens in the same "moment" (i.e. in the same cycle, implemented in
  * {@link GModality#doOnEachCycle(long)}) but it's obviously hard to implement.
  */
-public abstract class GEventManager {
+public abstract class GEventManager implements GObjectsHolder {
 	GModality gameModality; // back reference
 	MapTreeAVL<Integer, List<IGEvent>> eventQueued;
 
@@ -39,6 +42,8 @@ public abstract class GEventManager {
 		return eventQueued;
 	}
 
+	//
+
 	public void setGameModality(GModality gameModality) {
 		this.gameModality = gameModality;
 	}
@@ -60,6 +65,34 @@ public abstract class GEventManager {
 	//
 
 	// TODO CONCRETE METHODS
+
+	/** Similar to {@link Collection#clear()}. */
+	@Override
+	public boolean removeAll() {
+		removeAllEventObserver();
+		return true;
+	}
+
+	@Override
+	public void forEach(Consumer<ObjectWithID> action) {
+		forEachEventObservers(geo -> action.accept(geo));
+	}
+
+	@Override
+	public boolean add(ObjectWithID o) {
+		if (o == null || (!(o instanceof GEventObserver)))
+			return false;
+		addEventObserver((GEventObserver) o);
+		return true;
+	}
+
+	@Override
+	public boolean remove(ObjectWithID o) {
+		if (o == null || (!(o instanceof GEventObserver)))
+			return false;
+		removeEventObserver((GEventObserver) o);
+		return true;
+	}
 
 	/**
 	 * "Fire", "post", "add", call it as You want but put the given {@link IGEvent}

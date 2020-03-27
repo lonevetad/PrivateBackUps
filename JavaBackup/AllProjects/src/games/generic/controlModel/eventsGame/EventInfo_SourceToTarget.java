@@ -16,7 +16,7 @@ public abstract class EventInfo_SourceToTarget<Source, Target> extends GEvent {
 	protected Target target;
 	protected final IGEvent eventIdentifier;
 
-	public EventInfo_SourceToTarget(IGEvent eventIdentifier, Source source, Target target, int damage) {
+	public EventInfo_SourceToTarget(IGEvent eventIdentifier, Source source, Target target) {
 		super();
 		this.eventIdentifier = eventIdentifier;
 		this.source = source;

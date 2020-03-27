@@ -40,8 +40,8 @@ public class TestGModel {
 		gmt.add(() -> Integer.valueOf(-55));
 		System.out.println("fine 2, stampa di tutto");
 		gmt.forEach(printer);
-		System.out.println("ora stampa solo i timed by " + GameModelTimeBased.NAME_TIMED_OBJECT_HOLDER);
-		gmt.getObjHolder(GameModelTimeBased.NAME_TIMED_OBJECT_HOLDER).forEach(printer);
+		System.out.println("ora stampa solo i timed by " + GameModelTimeBased.TIMED_OBJECT_HOLDER_NAME);
+		gmt.getObjHolder(GameModelTimeBased.TIMED_OBJECT_HOLDER_NAME).forEach(printer);
 		System.out.println("ora stampa solo i timed by MEMORYLESS");
 		gmt.getObjHolder("MEMORYLESS").forEach(printer);
 		System.out.println("\n\n in the end, print just GModel own owids");

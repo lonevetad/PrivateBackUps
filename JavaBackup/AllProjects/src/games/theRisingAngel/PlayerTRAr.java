@@ -2,13 +2,16 @@ package games.theRisingAngel;
 
 import java.util.ArrayList;
 
+import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subImpl.GModalityET;
 import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
 import games.theRisingAngel.creatures.BaseCreatureTRAr;
 import games.theRisingAngel.events.EventsTRAr;
 import games.theRisingAngel.events.GEventInterfaceTRAr;
+import games.theRisingAngel.inventory.EquipmentSetTRAr;
 import geometry.AbstractShape2D;
 
 public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseCreatureTRAr {
@@ -18,6 +21,7 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseC
 		super(gameModality);
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAr.Destroyed.getName());
+		this.setEquipmentSet(new EquipmentSetTRAr());
 	}
 
 	//
@@ -27,11 +31,10 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseC
 	// TODO other methods
 
 	@Override
-	public void receiveDamage(GModality gm, int damage) {
-	}
-
-	@Override
-	public void receiveLifeHealing(GModality gm, int healingAmount) {
+	public void receiveDamage(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
+		if (originalDamage.getDamageAmount() <= 0)
+			return;
+		BaseCreatureTRAr.super.receiveDamage(gm, originalDamage, source);
 	}
 
 	@Override
@@ -43,12 +46,11 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseC
 		return false;
 	}
 
-	@Override
-	public void act(GModality modality, long milliseconds) {
-	}
+//	public void act(GModality modality, long milliseconds) { super.act(modality, milliseconds); }
 
 	@Override
 	public void onStartingGame(GModality mg) {
+		this.setGameModality(mg);
 	}
 
 	@Override
@@ -57,6 +59,7 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseC
 
 	@Override
 	public void onEnteringInGame(GModality gm) {
+		this.setGameModality(gm);
 	}
 
 	//
@@ -64,15 +67,16 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseC
 	// TODO FIRE EVENTS
 
 	@Override
-	public void fireDamageReceived(GModality gm, int originalDamage) {
-		if (gm == null || (!(gm instanceof GModalityET)))
-			return;
-	}
-
-	@Override
 	public void fireLifeHealingReceived(GModality gm, int originalHealing) {
 		if (gm == null || (!(gm instanceof GModalityET)))
 			return;
+		GModalityET gmet;
+		GEventInterfaceTRAr gei;
+		if (gm == null || (!(gm instanceof GModalityET)))
+			return;
+		gmet = (GModalityET) gm;
+		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
+//		gei.fire .... TODO
 	}
 
 	@Override
@@ -101,24 +105,6 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseC
 	@Override
 	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
 		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
-	}
-
-	@Override
-	public int getHealingsTicksPerSeconds() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public long getAccumulatedTimeLifeRegen() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setAccumulatedTimeLifeRegen(long newAccumulated) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

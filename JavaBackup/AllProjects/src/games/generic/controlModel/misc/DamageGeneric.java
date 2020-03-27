@@ -34,4 +34,9 @@ public class DamageGeneric {
 	public void setDamageType(ObjectNamedID damageType) {
 		this.damageType = damageType;
 	}
+
+	@Override
+	public String toString() {
+		return "DamageGeneric [damageAmount=" + damageAmount + ", damageType=" + damageType + "]";
+	}
 }

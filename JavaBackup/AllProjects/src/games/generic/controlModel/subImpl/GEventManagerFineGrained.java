@@ -3,12 +3,14 @@ package games.generic.controlModel.subImpl;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
+import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
@@ -35,30 +37,37 @@ public class GEventManagerFineGrained extends GEventManager {
 	 */
 	public static final Function<GEventObserver, Integer> KEY_EXTRACTOR_Embedded = geo -> (-geo.getObserverPriority());
 
-	/** id observer -> observer */
-	public Map<Integer, GEventObserver> genericObservers;
-	/** event id -> queue of observer, ordered by their priorities */
-	public Map<String, PriorityQueueKey<GEventObserver, Integer>> observersByTypes;
-	protected EventNotifier notifierGeneric;
-//	protected EventNotifierPQ notifier;
-	protected EventNotifierE_PQ_ID notifierPQHelper;
-
 	public GEventManagerFineGrained(GModality gameModality) {
 		super(gameModality);
-		observersByTypes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
+		this.observersByTypes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				Comparators.STRING_COMPARATOR);
-		genericObservers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
+		this.genericObservers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
+		allObsMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
+		this.observersSet = allObsMap.toSetValue(ObjectWithID.KEY_EXTRACTOR);
 		// used to optimize iterations
 		this.notifierGeneric = new EventNotifier(this);
 //		this.notifier = new EventNotifierPQ(this);
 		this.notifierPQHelper = new EventNotifierE_PQ_ID(this);
 	}
 
+	protected Set<ObjectWithID> observersSet;
+	protected MapTreeAVL<Integer, ObjectWithID> allObsMap;
+	/** id observer -> observer */
+	protected Map<Integer, GEventObserver> genericObservers;
+	/** event id -> queue of observer, ordered by their priorities */
+	protected Map<String, PriorityQueueKey<GEventObserver, Integer>> observersByTypes;
+	protected EventNotifier notifierGeneric;
+//	protected EventNotifierPQ notifier;
+	protected EventNotifierE_PQ_ID notifierPQHelper;
+
+	//
+
 	@Override
 	public void addEventObserver(GEventObserver geo) {
 		Integer idGeo;
 		List<String> l;
 		idGeo = geo.getObserverID();
+		observersSet.add(geo);
 		l = geo.getEventsWatching();
 		if (l == null || l.isEmpty()) {
 			genericObservers.put(idGeo, geo);
@@ -81,6 +90,7 @@ public class GEventManagerFineGrained extends GEventManager {
 		Integer idGeo;
 		List<String> l;
 		idGeo = geo.getObserverID();
+		observersSet.remove(geo);
 		l = geo.getEventsWatching();
 		if (l == null || l.isEmpty()) {
 			genericObservers.remove(idGeo);
@@ -96,28 +106,45 @@ public class GEventManagerFineGrained extends GEventManager {
 	}
 
 	@Override
+	public Set<ObjectWithID> getObjects() {
+		return observersSet;
+	}
+
+	@Override
+	public ObjectWithID get(Integer id) {
+		return this.allObsMap.get(id);
+	}
+
+	@Override
+	public boolean contains(ObjectWithID o) {
+		return observersSet.contains(o);
+	}
+
+	@Override
 	public void removeAllEventObserver() {
 		this.observersByTypes.clear();
 		this.genericObservers.clear();
+		this.allObsMap.clear();
 	}
 
 	@Override
 	public void forEachEventObservers(Consumer<GEventObserver> action) {
-		Map<Integer, GEventObserver> alreadySeenObservers;
-		alreadySeenObservers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
-		this.observersByTypes.forEach((idEvent, pq) -> {
-			pq.forEach(e -> {
-				GEventObserver geo;
-				geo = e.getKey();
-				alreadySeenObservers.put(geo.getObserverID(), geo);
-				action.accept(geo);
-			});
-		});
-		this.genericObservers.forEach((id, obs) -> {
-			if (!alreadySeenObservers.containsKey(id)) {
-				action.accept(obs);
-			}
-		});
+//		Map<Integer, GEventObserver> alreadySeenObservers;
+//		alreadySeenObservers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
+//		this.observersByTypes.forEach((idEvent, pq) -> {
+//			pq.forEach(e -> {
+//				GEventObserver geo;
+//				geo = e.getKey();
+//				alreadySeenObservers.put(geo.getObserverID(), geo);
+//				action.accept(geo);
+//			});
+//		});
+//		this.genericObservers.forEach((id, obs) -> {
+//			if (!alreadySeenObservers.containsKey(id)) {
+//				action.accept(obs);
+//			}
+//		});
+		observersSet.forEach(o -> action.accept((GEventObserver) o));
 	}
 
 	@Override

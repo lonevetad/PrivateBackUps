@@ -10,8 +10,8 @@ public abstract class PlayerInGame_Generic extends PlayerGeneric implements GEve
 
 	public PlayerInGame_Generic(GModality gameModality) {
 		super();
-		initializeID();
 		this.gameModality = gameModality;
+		initializeID();
 // TODO
 	}
 

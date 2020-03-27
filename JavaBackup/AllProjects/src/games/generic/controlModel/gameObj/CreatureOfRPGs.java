@@ -1,6 +1,7 @@
 package games.generic.controlModel.gameObj;
 
-import games.generic.controlModel.GModality;
+import games.generic.controlModel.inventory.EquipmentItem;
+import games.generic.controlModel.inventory.EquipmentSet;
 import games.generic.controlModel.inventory.EquipmentsHolder;
 
 /**
@@ -8,10 +9,11 @@ import games.generic.controlModel.inventory.EquipmentsHolder;
  * optional equipments (that could be dropped).
  */
 public interface CreatureOfRPGs extends EquipmentsHolder, CreatureSimple {
-	@Override
-	public default void act(GModality modality, long milliseconds) {
-		CreatureSimple.super.act(modality, milliseconds);
-		move(milliseconds);
-		// do other stuffs
+	public default void equip(EquipmentItem equipment) {
+		EquipmentSet es;
+		es = this.getEquipmentSet();
+		if (es != null) {
+			es.addEquipmentItem(getGameModality(), equipment);
+		}
 	}
 }

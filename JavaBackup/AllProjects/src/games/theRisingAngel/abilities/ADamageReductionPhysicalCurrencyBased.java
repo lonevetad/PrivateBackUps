@@ -8,10 +8,12 @@ import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
+import games.generic.controlModel.gameObj.CurrencyHolder;
 import games.generic.controlModel.inventory.AbilityModifyingAttributeRealTime;
 import games.generic.controlModel.inventory.EquipmentItem;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.CurrencyHolder;
+import games.generic.controlModel.misc.CurrencySet;
+import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
@@ -21,7 +23,8 @@ public class ADamageReductionPhysicalCurrencyBased extends AbilityModifyingAttri
 	public ADamageReductionPhysicalCurrencyBased() {
 		super(AttributesTRAr.DamageReductionPhysical);
 		this.eventsWatching = new ArrayList<>(2);
-		this.eventsWatching.add(this.getAttributeToModify().getAttributeModified().getName());
+		this.eventsWatching.add(EventsTRAr.DamageReceived.getName());
+		perThousandFraction = 0;
 	}
 
 	protected int perThousandFraction;
@@ -45,11 +48,11 @@ public class ADamageReductionPhysicalCurrencyBased extends AbilityModifyingAttri
 
 	protected int getDefaultCurrencyAmount(CreatureOfRPGs c) {
 		int a;
-		CurrencyHolder ch;
+		CurrencySet ch;
 		if (!(c instanceof CurrencyHolder))
 			return 0;
-		ch = (CurrencyHolder) c;
-		a = ch.getMoneyAmount(CurrencyHolder.BASE_CURRENCY_INDEX);
+		ch = ((CurrencyHolder) c).getCurrencies();
+		a = ch.getMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX);
 		return a > 0 ? a : 0;
 	}
 
@@ -81,6 +84,13 @@ public class ADamageReductionPhysicalCurrencyBased extends AbilityModifyingAttri
 			CreatureAttributes ca) {
 		super.getAttributeToModify().setValue( //
 				(getDefaultCurrencyAmount(ah) * getPerThousandFraction()) / 1000);
+		System.out.println("... attri to mod " + getAttributeToModify().getAttributeModified().getName() + " has value "
+				+ getAttributeToModify().getValue() + ", creature's value : "
+				+ this.getEquipItem().getCreatureWearingEquipments().getAttributes()
+						.getValue(getAttributeToModify().getAttributeModified().getIndex()));
+		System.out.println("MoNeY: " + //
+				((PlayerInGameGeneric_ExampleRPG1) this.getEquipItem().getCreatureWearingEquipments()).getCurrencies()
+						.getMoneyAmount(0));
 	}
 
 	@Override
@@ -88,17 +98,18 @@ public class ADamageReductionPhysicalCurrencyBased extends AbilityModifyingAttri
 		int a;
 		EventDamageTRAr<?> ed;
 		CreatureOfRPGs c;
-		CurrencyHolder ch;
-		if (ge == EventsTRAr.DamageReceived) {
+		CurrencySet ch;
+		if (ge.getName() == EventsTRAr.DamageReceived.getName()) {
 			ed = (EventDamageTRAr<?>) ge;
 //			damage = ed.getDamage();
 			c = ed.getTarget();
 			if (!(c instanceof CurrencyHolder))
 				return;
-			ch = (CurrencyHolder) c;
-			a = ch.getMoneyAmount(CurrencyHolder.BASE_CURRENCY_INDEX);
-			ch.setMoneyAmount(CurrencyHolder.BASE_CURRENCY_INDEX, //
-					a - ((a * getPerThousandFraction()) / 1000));
+			ch = ((CurrencyHolder) c).getCurrencies();
+			a = ch.getMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX);
+			a -= ((a * getPerThousandFraction()) / 1000);
+			ch.setMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX, //
+					a > 0 ? a : 0);
 //	super.getAttributeToModify().
 		}
 	}

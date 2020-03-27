@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import games.generic.ObjectWithID;
-import games.generic.controlModel.misc.CurrencyHolder;
+import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.PlayerInGame_Generic;
 import games.generic.controlModel.player.PlayerOutside_Generic;
@@ -38,7 +38,7 @@ public abstract class GModality {
 	 * Used by {@link #runGameCycle()} and usually returned by
 	 * {@link #getMinimumMillisecondsEachCycle()}.
 	 */
-	public static final long MIN_DELTA = 10L;
+	public static final long MIN_DELTA = 10L, MAX_DELTA = 100L;
 
 	//
 
@@ -113,11 +113,17 @@ public abstract class GModality {
 
 	//
 
+	// setter
+
 	public void setModel(GModel model) {
 		this.model = model;
 	}
 
-	// setter
+	public void setPlayer(PlayerInGame_Generic player) {
+		this.player = player;
+		if (player != null)
+			player.setGameModality(this);
+	}
 
 	//
 
@@ -128,7 +134,7 @@ public abstract class GModality {
 
 	public abstract GModel newGameModel();
 
-	public abstract CurrencyHolder newCurrencyHolder();
+	public abstract CurrencySet newCurrencyHolder();
 
 	/** See {@link PlayerGeneric} to see what is meant. */
 	protected abstract PlayerInGame_Generic newPlayerInGame(PlayerOutside_Generic superPlayer);
@@ -290,8 +296,11 @@ public abstract class GModality {
 				start = System.currentTimeMillis();
 				doOnEachCycle(lastElapsedDeltaTime);
 				timeToSleep = minDelta - ((System.currentTimeMillis() - start) + 1);
+
 				// "+1" as a rounding factor for nanoseconds
 				if (timeToSleep > 0) {
+					if (timeToSleep > MAX_DELTA)
+						timeToSleep = MAX_DELTA; // do not exceed
 					try {
 						Thread.sleep(timeToSleep);
 					} catch (InterruptedException e) {

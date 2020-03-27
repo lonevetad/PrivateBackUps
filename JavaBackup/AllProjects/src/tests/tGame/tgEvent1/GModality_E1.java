@@ -2,16 +2,17 @@ package tests.tGame.tgEvent1;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.GThread;
-import games.generic.controlModel.misc.CurrencyHolder;
+import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerInGame_Generic;
 import games.generic.controlModel.player.PlayerOutside_Generic;
 import games.generic.controlModel.subImpl.GModalityET;
 import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
-import games.theRisingAngel.abilities.ADamageReductionPhysicalCurrencyBased;
+import tests.tGame.tgEvent1.oggettiDesempio.ArmProtectionShieldingDamageByMoney;
+import tests.tGame.tgEvent1.oggettiDesempio.NecklaceOfPainRinvigoring;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliver;
-import tests.tGame.tgEvent1.oggettiDesempio.ObjLifeRegen_PrinterVsTime;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
 import tests.tGame.tgEvent1.oggettiDesempio.ObserverPrinterEvent;
@@ -23,64 +24,92 @@ public class GModality_E1 extends GModalityET {
 	}
 
 	GThread threadGame;
-	PlayerInGameGeneric_ExampleRPG1 playerRPG;
+
+	public PlayerInGameGeneric_ExampleRPG1 getPlayerRPG() {
+		return (PlayerInGameGeneric_ExampleRPG1) player;
+	}
+
+	@Override
+	public void startGame() {
+		checkAndRebuildThreads();
+		this.threadGame.start();
+		getPlayerRPG().onStartingGame(this);
+	}
 
 	@Override
 	public void onCreate() {
+		GModel_E1 gmodel;
 		Player_E1 p;
 		ObjDamageDeliver odd;
-		ObjLifeRegen_PrinterVsTime olr_pvt;
-		ADamageReductionPhysicalCurrencyBased adrpcb;
+		ObserverPrinterEvent ope;
+		NecklaceOfPainRinvigoring necklace_opr;
+		ArmProtectionShieldingDamageByMoney armProtection_sdbm;
 
 		super.onCreate();
-		checkAndRebuildThreads();
 		//
+		gmodel = (GModel_E1) this.getModel();
 
 		// TODO add all stuffs .. qui è il posto in cui dovrebbero stare gli oggetti
 		// strani che inserisco
 //		GModel_E1 gModelE ;
 //		addTimedObject(new ObjDamageDeliver());
-		p = new Player_E1(this);
+		p = (Player_E1) newPlayerInGame(null); // new Player_E1(this);
+		p.setName("Lonevetad");
+		this.setPlayer(p);
+		p.setGameModality(this);
+
+		p.getCurrencies().setMoneyAmount(0, 100);
+
+		this.addGameObject(p);
 		this.addGameObject(new ObjPrinterTO(1250, "LongWaiting"));
-		this.addGameObject(new ObjPrinterTO(333, "Short"));
+		this.addGameObject(new ObjPrinterTO(333, "Short") {
+
+			@Override
+			public void executeAction(GModality modality) {
+				System.out.println("player's life: " + p.getLife() + ", life regen: " + p.getLifeRegenation());
+			}
+		});
 //		this.addGameObject(new ObjPrinter_EventDeliver(250, "Tiny"));
 		// gModelE.addTimeProgressingObject(odd);
 
 		this.addGameObject(new ObjPrinter_EventDeliver(2000, "HAKINA MATATA"));
-		this.getEventManager().addEventObserver(new ObserverPrinterEvent());
+		ope = new ObserverPrinterEvent();
+//		this.addEventObserver(ope);
+		this.addGameObject(ope);
 
-		odd = new ObjDamageDeliver();
-		odd.setTarget(p);
-		olr_pvt = new ObjLifeRegen_PrinterVsTime();
-		olr_pvt.setCreatureReferred(p);
-		this.addGameObject(odd);
-		this.addGameObject(olr_pvt);
-		this.getEventManager().addEventObserver(olr_pvt);
+		necklace_opr = new NecklaceOfPainRinvigoring();
+//		necklace_opr.setCreatureReferred(p);
+		p.equip(necklace_opr);
+//		this.addGameObject(necklace_opr); // yet provided by equipping
+//		this.addEventObserver(necklace_opr); // yet provided by equipping
 
-		// TODO REQUIRES AN EQUIPMENT SSET, SO ADD THIS ABILITY TO AN EQUIPMENT ITEM
-		// adrpcb=new ADamageReductionPhysicalCurrencyBased();
-////		adrpcb.setOwner(owner);
-//		adrpcb.set
+		armProtection_sdbm = new ArmProtectionShieldingDamageByMoney();
+//		adrpcb = new ADamageReductionPhysicalCurrencyBased();
+//		adrpcb.setOwner(p);
+//		adrpcb.setEquipItem(equipmentItem);
+		p.equip(armProtection_sdbm);
 
 		// TODO aggiungere gli esempi pensati negli Appunti e esempio
 		// first make the player, then the damager, the healer, the fairy, the
 		// money-maker, etc
 
-		/*
-		 * aggiungere oggetto che da riduzione del danno pari al 10% dei soldi, ma ad
-		 * ogni danno scala il 10% Quindi è TimedObject e EventListener per il danno
-		 * 
-		 * ADamageReductionPhysicalCurrencyBased
-		 */
-		/*
-		 * E collana che da rigenerazione vitale pari al 25% del danno subito, ma ogni
-		 * secondo tale ammontare cala fino a 0 (quindi ad ogni evento del danno,
-		 * incrementa il contatore del totale, poi ogni secondo scala di es 4 e aggiorna
-		 * le statistiche)
-		 */
-//		addTimedObject(new ObjDamageDeliver());
+		odd = new ObjDamageDeliver(5000);
+		odd.setTarget(p);
+		odd.setDamageAmount(24);
+		this.addGameObject(odd);
 
+		System.out.println("GModalit_E1#onCreate .. quanti oggetti ho?");
+		this.forEachGameObject(o -> System.out.println(o));
+		System.out.println("and timed objects?");
+		gmodel.forEachTimedObject(o -> System.out.println(o));
+		System.out.println("timed objects ended\n\n");
+		gmodel.forEachObjHolder((gohname, goh) -> {
+			System.out.println("GOH " + gohname + " has: ");
+			goh.forEach(o -> System.out.println("\t - " + o));
+		});
+		System.out.println("and then");
 		// then ...
+		checkAndRebuildThreads();
 	}
 
 	@Override
@@ -97,28 +126,22 @@ public class GModality_E1 extends GModalityET {
 	}
 
 	@Override
-	public void startGame() {
-		checkAndRebuildThreads();
-		this.threadGame.start();
+	protected PlayerInGame_Generic newPlayerInGame(PlayerOutside_Generic superPlayer) {
+		Player_E1 p;
+		p = new Player_E1(this);
+		p.setCurrencies(newCurrencyHolder());
+		return p;
+	}
+
+	@Override
+	public CurrencySet newCurrencyHolder() {
+		return new CurrencyHolder_E1(this, 1);
 	}
 
 	@Override
 	public void closeAll() {
 		super.closeAll();
 		this.threadGame = null;
-	}
-
-	@Override
-	protected PlayerInGame_Generic newPlayerInGame(PlayerOutside_Generic superPlayer) {
-		Player_E1 p;
-		p = new Player_E1(this);
-		p.setMoneys(newCurrencyHolder());
-		return p;
-	}
-
-	@Override
-	public CurrencyHolder newCurrencyHolder() {
-		return new CurrencyHolder_E1(this, 1);
 	}
 
 	//
@@ -130,6 +153,7 @@ public class GModality_E1 extends GModalityET {
 
 	//
 
+	// TODO CLASS
 	// previously was ThreadGame_GameRunner_E1
 	protected class RunGameInstance implements GThread.GTRunnable {
 		boolean isWorking = true; // when the

@@ -2,14 +2,14 @@ package games.generic.controlModel.misc;
 
 import games.generic.controlModel.GModality;
 
-public abstract class CurrencyHolder {
+public abstract class CurrencySet {
 	public static final int BASE_CURRENCY_INDEX = 0;
 
 	int[] values;
 	GModality gm;
 
 	/** The "typeAmount" parameter could be an enumeration's size. */
-	public CurrencyHolder(GModality gm, int typesAmount) {
+	public CurrencySet(GModality gm, int typesAmount) {
 		this.gm = gm;
 		if (typesAmount < 1)
 			throw new IllegalArgumentException("Cannot exist no currency types, just don't create me instead!");

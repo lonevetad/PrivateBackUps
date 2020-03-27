@@ -89,15 +89,9 @@ public abstract class AbilityModifyingAttributeRealTime implements AbilityTimedG
 		updateAttributes(modality, ei, ah, ca);
 	}
 
-	@Override
-	public void onEquip(GModality gm) {
-		gm.addGameObject(this);
-	}
-
-	@Override
-	public void onUnEquipping(GModality gm) {
-		gm.removeGameObject(this);
-	}
+	// jet done
+//	public void onEquip(GModality gm) {gm.addGameObject(this); }
+//	public void onUnEquipping(GModality gm) {gm.removeGameObject(this);}
 
 	//
 

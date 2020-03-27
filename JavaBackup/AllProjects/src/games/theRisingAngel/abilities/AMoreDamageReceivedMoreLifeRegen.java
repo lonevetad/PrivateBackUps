@@ -8,7 +8,6 @@ import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
-import games.generic.controlModel.gameObj.CreatureSimple;
 import games.generic.controlModel.inventory.AbilityModifyingAttributeRealTime;
 import games.generic.controlModel.inventory.AttributeModification;
 import games.generic.controlModel.inventory.EquipmentItem;
@@ -18,13 +17,14 @@ import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
 
 /**
- * E collana che da rigenerazione vitale pari al 25% del danno subito, ma ogni
- * secondo tale ammontare cala fino a 0 (quindi ad ogni evento del danno,
- * incrementa il contatore del totale, poi ogni secondo scala di es 4 e aggiorna
- * le statistiche)
+ * Grants a life regeneration equals to the 25% of received damage, accumulated
+ * each time it's received.<br>
+ * At each "tick", equals to
+ * {@link AbilityModifyingAttributeRealTime#MILLISEC_ATTRIBUTE_UPDATE}, it
+ * decrease by {@link #VALUE_DECREMENT_PER_TICK}.
  */
 public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeRealTime implements GEventObserver {
-	public static final int VALUE_DECREMENT_PER_TICK = 2; // it's assumed "2 ticks per second"
+	public static final int VALUE_DECREMENT_PER_TICK = 2;
 
 	public AMoreDamageReceivedMoreLifeRegen() {
 		super(AttributesTRAr.RigenLife);
@@ -32,19 +32,20 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 		this.eventsWatching.add(
 //				this.getAttributeToModify().getAttributeModified().getName()
 				EventsTRAr.DamageReceived.getName());
+		ticks = 0;
+		thresholdTime = 1000;
 	}
 
+	long ticks, thresholdTime;
 	protected List<String> eventsWatching;
-	protected CreatureSimple creatureReferred;
+//	protected CreatureSimple creatureReferred;
 
 	@Override
 	public Integer getObserverID() {
 		return getID();
 	}
 
-	public CreatureSimple getCreatureReferred() {
-		return creatureReferred;
-	}
+//	public CreatureSimple getCreatureReferred() {return creatureReferred;}
 
 	@Override
 	public List<String> getEventsWatching() {
@@ -53,20 +54,24 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 
 	@Override
 	public ObjectWithID getOwner() {
-		return getCreatureReferred();
+		return this.getEquipItem().getCreatureWearingEquipments();
+	}
+
+	@Override
+	public long getTimeThreshold() {
+		return thresholdTime;
 	}
 
 	//
 
 	@Override
 	public void setOwner(ObjectWithID owner) {
-		if (owner instanceof CreatureSimple)
-			setCreatureReferred((CreatureSimple) owner);
+		if (owner instanceof CreatureOfRPGs)
+//			setCreatureReferred
+			this.getEquipItem().getBelongingEquipmentSet().setCreatureWearingEquipments((CreatureOfRPGs) owner);
 	}
 
-	public void setCreatureReferred(CreatureSimple creatureReferred) {
-		this.creatureReferred = creatureReferred;
-	}
+//	public void setCreatureReferred(CreatureSimple creatureReferred) {this.creatureReferred = creatureReferred;}
 
 	//
 
@@ -76,12 +81,23 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 			int d;
 			EventDamageTRAr<?> dEvent;
 			AttributeModification am;
+			CreatureAttributes ca;
 			dEvent = (EventDamageTRAr<?>) ge;
-			if (dEvent.getTarget() == this.creatureReferred // check because it's bounded to the "wearer"
-					&& (d = dEvent.getDamage()) >= 4) {
+			if (dEvent.getTarget() == //
+			this.getEquipItem() //
+					.getCreatureWearingEquipments() // check because it's bounded to the "wearer"
+					&& (d = dEvent.getDamage().getDamageAmount()) >= 4) {
 				// increase of 25% of damage, so minimum is 4
+
 				am = this.getAttributeToModify();
-				am.setValue(am.getValue() + (d >> 2));
+				d = am.getValue() + (d >> 2);
+
+				ca = this.getEquipItem().getCreatureWearingEquipments().getAttributes();
+				// update: remove previous, add new value
+				ca.removeAttributeModifier(am);
+				am.setValue(d > 0 ? d : 0);
+				ca.applyAttributeModifier(am);
+				System.out.println("같같같같같� now regen is: " + am.getValue());
 			}
 		}
 	}
@@ -89,9 +105,16 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 	@Override
 	public void updateAttributeModifiersAmount(GModality gm, EquipmentItem ei, CreatureOfRPGs ah,
 			CreatureAttributes ca) {
+		int v;
 		AttributeModification am;
 		am = this.getAttributeToModify();
-		am.setValue(am.getValue() - VALUE_DECREMENT_PER_TICK);
-		System.out.println("______new life regen value : " + am.getValue() + " .... AMoreDamageMoreRegenBLA");
+		v = am.getValue();
+		if (v > 0) {
+			if (++ticks >= (1000 / AbilityModifyingAttributeRealTime.MILLISEC_ATTRIBUTE_UPDATE))
+				ticks = 0;
+			v -= VALUE_DECREMENT_PER_TICK;
+			am.setValue(v > 0 ? v : 0);
+			System.out.println("______new life regen value : " + am.getValue() + " .... AMoreDamageMoreRegenBLA");
+		}
 	}
 }

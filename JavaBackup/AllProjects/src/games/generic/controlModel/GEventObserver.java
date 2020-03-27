@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
+import games.generic.ObjectWithID;
 import games.generic.UniqueIDProvider;
 import games.generic.controlModel.subImpl.GEvent;
 import tools.Comparators;
@@ -15,7 +16,7 @@ import tools.Comparators;
  * more details, providing a list of specific Events to watch (so, filtering the
  * non required ones).
  */
-public interface GEventObserver {
+public interface GEventObserver extends ObjectWithID {
 	public static final int MAX_PRIORITY = Integer.MAX_VALUE >> 1, MIN_PRIORITY = Integer.MIN_VALUE >> 1;
 	public static final Comparator<GEventObserver> COMPARATOR_GameEventObserver = (o1, o2) -> {
 		if (o1 == o2)
@@ -67,7 +68,9 @@ public interface GEventObserver {
 	 * <p>
 	 * Use {@link UniqueIDProvider} to help on creating IDs.
 	 */
-	public Integer getObserverID();
+	public default Integer getObserverID() {
+		return getID();
+	}
 
 	/**
 	 * Returns the list of {@link GEvent} (identified by its

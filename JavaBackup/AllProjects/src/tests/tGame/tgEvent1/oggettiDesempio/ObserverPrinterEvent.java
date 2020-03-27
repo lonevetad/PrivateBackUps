@@ -26,7 +26,7 @@ public class ObserverPrinterEvent implements GEventObserver {
 	}
 
 	@Override
-	public Integer getObserverID() {
+	public Integer getID() {
 		return ID;
 	}
 

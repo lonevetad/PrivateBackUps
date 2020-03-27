@@ -101,8 +101,9 @@ public class EquipmentSetTRAr extends EquipmentSet {
 		notAdded = true;
 		while(notAdded && equipItemSlotToCheck-- >= 0) {
 			if (equippedItems[index] == null) {
-				equippedItems[index] = ei;
-				ei.setBelongingEquipmentSet(this);
+//				equippedItems[index] = ei;
+//				ei.setBelongingEquipmentSet(this);
+				equipAt(gm, ei, index);
 				notAdded = false;
 			}
 			equipItemSlotToCheck++;

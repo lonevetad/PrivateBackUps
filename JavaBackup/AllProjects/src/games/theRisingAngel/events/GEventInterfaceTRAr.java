@@ -7,6 +7,7 @@ import games.generic.controlModel.eventsGame.DestructionObjEvent;
 import games.generic.controlModel.eventsGame.EventMoneyChange;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
 import games.generic.controlModel.gameObj.DestructibleObject;
+import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.player.PlayerInGame_Generic;
 import games.generic.controlModel.subImpl.GEventManagerFineGrained;
 
@@ -50,8 +51,15 @@ public class GEventInterfaceTRAr implements GEventInterface {
 		this.getGameEventManager().fireEvent(new EventMoneyChange(gm.getPlayer(), currencyType, oldValue, newValue));
 	}
 
-	public <Source> void fireDamageDealtEvent(GModality gm, Source source, CreatureOfRPGs target, int damageInflicted) {
+	public <Source> void fireDamageDealtEvent(GModality gm, Source source, CreatureOfRPGs target,
+			DamageGeneric damageInflicted) {
 		this.getGameEventManager().fireEvent( //
 				new EventDamageTRAr<>(EventsTRAr.DamageInflicted, source, target, damageInflicted));
+	}
+
+	public <Source> void fireDamageReceivedEvent(GModality gm, Source source, CreatureOfRPGs target,
+			DamageGeneric originalDamage) {
+		this.getGameEventManager().fireEvent( //
+				new EventDamageTRAr<>(EventsTRAr.DamageReceived, source, target, originalDamage));
 	}
 }

@@ -49,6 +49,7 @@ public abstract class EquipmentItem extends InventoryItem {
 
 	/** Beware: could return null if this item has no abilities. */
 	public Set<EquipItemAbility> getAbilities() {
+		checkAbilitiesSet();
 		return this.abilities;
 	}
 
@@ -92,6 +93,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		if (am != null) {
 			checkAbilitiesSet();
 			this.abilities.add(am);
+			am.setEquipItem(this);
 		}
 		return this;
 	}
@@ -115,6 +117,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		final CreatureAttributes ca;
 		Set<EquipItemAbility> abl;
 		List<AttributeModification> attmod;
+		gm.addGameObject(this);
 		ah = this.getCreatureWearingEquipments(); // assumed to be true
 		ca = ah.getAttributes();
 		attmod = this.getAttributeModifiers();
@@ -138,6 +141,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		final CreatureAttributes ca;
 		Set<EquipItemAbility> abl;
 		List<AttributeModification> attmod;
+		gm.removeGameObject(this);
 		ah = this.getCreatureWearingEquipments(); // assumed to be true
 		ca = ah.getAttributes();
 		attmod = this.getAttributeModifiers();

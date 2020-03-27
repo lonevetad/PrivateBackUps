@@ -5,7 +5,9 @@ import java.util.Map;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GEventManager;
+import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.GModel;
 import games.generic.controlModel.gameObj.TimedObject;
 
 /**
@@ -16,6 +18,7 @@ import games.generic.controlModel.gameObj.TimedObject;
  * thinner.
  */
 public abstract class GModalityET extends GModality implements IGameModalityTimeBased, IGameModalityEventBased {
+
 	protected GEventInterface eventInterface;
 	protected Map<Integer, TimedObject> timedObjects;
 
@@ -29,14 +32,14 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 		return (GameModelTimeBased) model;
 	}
 
-	//
-
-	//
-
 	/** Access ALL {@link GEvent}-firing methods through this instance. */
 	public GEventInterface getEventInterface() {
 		return eventInterface;
 	}
+
+	//
+
+	//
 
 	/**
 	 * Should not be used, use with caution or use
@@ -46,9 +49,19 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 		return eventInterface.getGameEventManager();
 	}
 
+	public GModelET getGModelEventTimedObjectsHolder() {
+		return (GModelET) this.getModel();
+	}
+
 	@Override
 	public void onCreate() {
 		this.eventInterface = newEventInterface();
+		this.getGModelEventTimedObjectsHolder().setEventManager(getEventManager());
+	}
+
+	@Override
+	public GModel newGameModel() {
+		return new GModelET();
 	}
 
 	//
@@ -79,6 +92,13 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	 */
 	public void addTimedObject(TimedObject to) {
 		this.getModelTimeBased().addTimedObject(to);
+	}
+
+	/**
+	 * Proxy-like method.
+	 */
+	public void addEventObserver(GEventObserver geo) {
+		this.getEventManager().addEventObserver(geo);
 	}
 
 //	public void fireEvent(GEvent event) { this.getEventManager(). }

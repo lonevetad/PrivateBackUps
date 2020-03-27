@@ -1,8 +1,8 @@
 package tests.tGame.tgEvent1;
 
-import games.generic.controlModel.subImpl.GameModelTimeBased;
+import games.generic.controlModel.subImpl.GModelET;
 
-public class GModel_E1 extends GameModelTimeBased {
+public class GModel_E1 extends GModelET {
 
 	public GModel_E1() {
 		super();
@@ -12,5 +12,4 @@ public class GModel_E1 extends GameModelTimeBased {
 	public void onCreate() {
 		// nothing in particular
 	}
-
 }

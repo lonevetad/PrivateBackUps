@@ -48,6 +48,7 @@ public abstract class GModel implements GObjectsHolder {
 		boolean added[];
 		if (o == null)
 			return false;
+		System.out.println("############################################# ADDING OWID to model: " + o);
 		/*
 		 * to bypass the forEach restriction to non-pointers (i.e. non-final variables)
 		 */

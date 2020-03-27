@@ -20,7 +20,8 @@ import geometry.AbstractShape2D;
 public class BaseNPCCreatureTRAr implements BaseCreatureTRAr {
 	private static final long serialVersionUID = 4478514563690L;
 	protected boolean isDestroyed;
-	protected int life;
+	protected int life, ticks;
+	protected long accumulatedTimeLifeRegen;
 	protected Integer ID;
 	protected String name;
 	protected List<String> eventsWatching;
@@ -32,8 +33,11 @@ public class BaseNPCCreatureTRAr implements BaseCreatureTRAr {
 		this.isDestroyed = false;
 		this.ID = CreatureUIDProvider.newID();
 		this.equipmentSet = new EquipmentSetTRAr();
+		this.equipmentSet.setCreatureWearingEquipments(this);
 		this.attributes = new CreatureAttributesModsCaching(AttributesTRAr.VALUES.length);
 		this.life = 1;
+		ticks = 0;
+		accumulatedTimeLifeRegen = 0;
 	}
 
 	@Override
@@ -71,7 +75,32 @@ public class BaseNPCCreatureTRAr implements BaseCreatureTRAr {
 		return gameModality;
 	}
 
+	@Override
+	public List<String> getEventsWatching() {
+		return eventsWatching;
+	}
+
+	@Override
+	public int getTicks() {
+		return ticks;
+	}
+
+	@Override
+	public long getAccumulatedTimeLifeRegen() {
+		return accumulatedTimeLifeRegen;
+	}
+
 	//
+
+	@Override
+	public void setAccumulatedTimeLifeRegen(long newAccumulated) {
+		this.accumulatedTimeLifeRegen = newAccumulated;
+	}
+
+	@Override
+	public void setTicks(int ticks) {
+		this.ticks = ticks;
+	}
 
 	@Override
 	public void setGameModality(GModality gameModality) {
@@ -101,17 +130,7 @@ public class BaseNPCCreatureTRAr implements BaseCreatureTRAr {
 	//
 
 	@Override
-	public void receiveDamage(GModality gm, int damage) {
-
-	}
-
-	@Override
 	public void receiveLifeHealing(GModality gm, int healingAmount) {
-
-	}
-
-	@Override
-	public void fireDamageReceived(GModality gm, int originalDamage) {
 
 	}
 
@@ -140,23 +159,6 @@ public class BaseNPCCreatureTRAr implements BaseCreatureTRAr {
 	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public List<String> getEventsWatching() {
-		return eventsWatching;
-	}
-
-	@Override
-	public long getAccumulatedTimeLifeRegen() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setAccumulatedTimeLifeRegen(long newAccumulated) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
