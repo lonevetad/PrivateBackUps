@@ -3,15 +3,15 @@ package games.generic.controlModel.inventory;
 import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
+import games.generic.controlModel.misc.AbilityTimedGeneric;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.subImpl.TimedObjectSimpleImpl;
 
 /** This class is originally designed as */
-public abstract class AbilityModifyingAttributeRealTime implements TimedObjectSimpleImpl, EquipItemAbility {
+public abstract class AbilityModifyingAttributeRealTime implements AbilityTimedGeneric, EquipItemAbility {
 	public static final long MILLISEC_ATTRIBUTE_UPDATE = 500;
-	protected Integer ID;
 	long accTimeElapsed;
+	protected Integer ID;
 	AttributeModification attributeToModify;
 	EquipmentItem equipItem;
 
@@ -50,6 +50,10 @@ public abstract class AbilityModifyingAttributeRealTime implements TimedObjectSi
 		return MILLISEC_ATTRIBUTE_UPDATE;
 	}
 
+	@Override
+	public String getName() {
+		return attributeToModify.getAttributeModified().getName();
+	}
 	//
 
 	public void setAttributeToModify(AttributeModification attributeToModify) {
@@ -69,7 +73,7 @@ public abstract class AbilityModifyingAttributeRealTime implements TimedObjectSi
 	//
 
 	@Override
-	public void executeAction(GModality modality) {
+	public void performAbility(GModality modality) {
 		EquipmentItem ei;
 		CreatureOfRPGs ah;
 		CreatureAttributes ca;

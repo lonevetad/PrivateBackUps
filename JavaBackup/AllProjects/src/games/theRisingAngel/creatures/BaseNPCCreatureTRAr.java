@@ -4,7 +4,6 @@ import java.util.List;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gameObj.CreatureOfRPGs;
 import games.generic.controlModel.inventory.EquipmentSet;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.player.PlayerInGame_Generic;
@@ -12,13 +11,16 @@ import games.generic.controlModel.subImpl.CreatureAttributesModsCaching;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.CreatureUIDProvider;
 import games.theRisingAngel.inventory.EquipmentSetTRAr;
+import geometry.AbstractShape2D;
 
 /**
  * This is NOT a {@link PlayerInGame_Generic}, even if it's similar (but there's
  * no multiple inheritance, so ... interfaces and redundancy).
  */
-public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
+public class BaseNPCCreatureTRAr implements BaseCreatureTRAr {
+	private static final long serialVersionUID = 4478514563690L;
 	protected boolean isDestroyed;
+	protected int life;
 	protected Integer ID;
 	protected String name;
 	protected List<String> eventsWatching;
@@ -31,6 +33,7 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 		this.ID = CreatureUIDProvider.newID();
 		this.equipmentSet = new EquipmentSetTRAr();
 		this.attributes = new CreatureAttributesModsCaching(AttributesTRAr.VALUES.length);
+		this.life = 1;
 	}
 
 	@Override
@@ -49,14 +52,8 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 	}
 
 	@Override
-	public int getLifeMax() {
-		return 0;
-	}
-
-	@Override
 	public int getLife() {
-
-		return 0;
+		return life;
 	}
 
 	@Override
@@ -82,6 +79,12 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 	}
 
 	@Override
+	public void setLife(int life) {
+		if (life >= 0)
+			this.life = life;
+	}
+
+	@Override
 	public void setEquipmentSet(EquipmentSet equips) {
 		this.equipmentSet = equips;
 	}
@@ -95,16 +98,6 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 		this.name = name;
 	}
 
-	@Override
-	public void setLife(int life) {
-
-	}
-
-	@Override
-	public void setLifeMax(int lifeMax) {
-
-	}
-
 	//
 
 	@Override
@@ -113,7 +106,7 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 	}
 
 	@Override
-	public void receiveHealing(GModality gm, int healingAmount) {
+	public void receiveLifeHealing(GModality gm, int healingAmount) {
 
 	}
 
@@ -123,7 +116,7 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 	}
 
 	@Override
-	public void fireHealingReceived(GModality gm, int originalHealing) {
+	public void fireLifeHealingReceived(GModality gm, int originalHealing) {
 
 	}
 
@@ -153,4 +146,35 @@ public class BaseNPCCreatureTRAr implements CreatureOfRPGs {
 	public List<String> getEventsWatching() {
 		return eventsWatching;
 	}
+
+	@Override
+	public long getAccumulatedTimeLifeRegen() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setAccumulatedTimeLifeRegen(long newAccumulated) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void move(long milliseconds) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public AbstractShape2D getAbstractShape() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setAbstractShape(AbstractShape2D shape) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

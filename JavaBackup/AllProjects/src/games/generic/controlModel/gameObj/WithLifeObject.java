@@ -6,10 +6,18 @@ public interface WithLifeObject extends DestructibleObject {
 
 	public int getLife();
 
-	/** Raw setting, like assigning a variable's value. */
-	public void setLife(int life);
-
 	public int getLifeMax();
+
+	/**
+	 * Shorthand to get the life regeneration.<br>
+	 * Could be intended as "amount per second.
+	 */
+	public int getLifeRegenation();
+
+	/**
+	 * Raw setting, like assigning a variable's value.
+	 */
+	public void setLife(int life);
 
 	/**
 	 * Raw setting, like assigning a variable's value, like {@link #setLife(int).
@@ -17,6 +25,9 @@ public interface WithLifeObject extends DestructibleObject {
 	 * {@link #getLife()} is greater than the given parameter).
 	 */
 	public void setLifeMax(int lifeMax);
+
+	/** See {@link #getLifeRegenation()}. */
+	public void setLifeRegenation(int lifeRegenation);
 
 	/**
 	 * Make this object receiving a non-negative amount of damage, in a context
@@ -28,12 +39,12 @@ public interface WithLifeObject extends DestructibleObject {
 	 * Make this object receiving a non-negative amount of damage, in a context
 	 * expressed by {@link GModality}, which could be used to fire events.
 	 */
-	public void receiveHealing(GModality gm, int healingAmount);
+	public void receiveLifeHealing(GModality gm, int healingAmount);
 
 	/**
-	 * Similar to {@link #fireDestructionEvent(GModality)}, upon receiving damage (that
-	 * means: "during the {@link #receiveDamage(GModality, int)} call") this event
-	 * should be fired, in case of complex games, to notify all objects that
+	 * Similar to {@link #fireDestructionEvent(GModality)}, upon receiving damage
+	 * (that means: "during the {@link #receiveDamage(GModality, int)} call") this
+	 * event should be fired, in case of complex games, to notify all objects that
 	 * "responds to a damage-received event" that this kind of event has
 	 * occurred.<br>
 	 * A reply/reaction to the "raw damage received" could be a damage reduction.
@@ -44,7 +55,7 @@ public interface WithLifeObject extends DestructibleObject {
 	 * Similar to {@link #fireDamageReceived( GModality, int, int)}, but about
 	 * healing.
 	 */
-	public void fireHealingReceived(GModality gm, int originalHealing); // , int actualHealingReceived);
+	public void fireLifeHealingReceived(GModality gm, int originalHealing); // , int actualHealingReceived);
 
 	//
 

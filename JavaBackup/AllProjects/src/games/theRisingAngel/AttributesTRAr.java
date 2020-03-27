@@ -3,7 +3,7 @@ package games.theRisingAngel;
 import games.generic.controlModel.misc.AttributeIdentifier;
 
 public enum AttributesTRAr implements AttributeIdentifier {
-	LifeCurrent, LifeMax, ManaCurrent, ManaMax, RigenLife, RigenMana, //
+	LifeMax, ManaMax, RigenLife, RigenMana, //
 	Luck, Velocity,
 	//
 	DamagePhysicalMin, DamagePhysicalMax, DamageMagic, DamageReductionPhysical, DamageReductionMagical,

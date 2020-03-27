@@ -4,48 +4,23 @@ import java.util.ArrayList;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gameObj.CreatureOfRPGs;
 import games.generic.controlModel.subImpl.GModalityET;
 import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
+import games.theRisingAngel.creatures.BaseCreatureTRAr;
 import games.theRisingAngel.events.EventsTRAr;
 import games.theRisingAngel.events.GEventInterfaceTRAr;
+import geometry.AbstractShape2D;
 
-public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements CreatureOfRPGs {
+public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseCreatureTRAr {
+	private static final long serialVersionUID = -3336623605789L;
 
 	public PlayerTRAr(GModality gameModality) {
 		super(gameModality);
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAr.Destroyed.getName());
-
 	}
 
 	//
-
-	@Override
-	public int getLifeMax() {
-		return this.attributes.getValue(AttributesTRAr.LifeMax.getIndex());
-	}
-
-	@Override
-	public int getLife() {
-		return this.attributes.getValue(AttributesTRAr.LifeCurrent.getIndex());
-	}
-
-	//
-
-	@Override
-	public void setLife(int life) {
-		this.attributes.setOriginalValue(AttributesTRAr.LifeCurrent.getIndex(), life);
-	}
-
-	@Override
-	public void setLifeMax(int lifeMax) {
-		if (lifeMax > 0) {
-			this.attributes.setOriginalValue(AttributesTRAr.LifeMax.getIndex(), lifeMax);
-			if (this.getLife() > lifeMax)
-				this.setLife(lifeMax);
-		}
-	}
 
 	//
 
@@ -56,7 +31,7 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements Creat
 	}
 
 	@Override
-	public void receiveHealing(GModality gm, int healingAmount) {
+	public void receiveLifeHealing(GModality gm, int healingAmount) {
 	}
 
 	@Override
@@ -95,7 +70,7 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements Creat
 	}
 
 	@Override
-	public void fireHealingReceived(GModality gm, int originalHealing) {
+	public void fireLifeHealingReceived(GModality gm, int originalHealing) {
 		if (gm == null || (!(gm instanceof GModalityET)))
 			return;
 	}
@@ -126,5 +101,41 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements Creat
 	@Override
 	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
 		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
+	}
+
+	@Override
+	public int getHealingsTicksPerSeconds() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public long getAccumulatedTimeLifeRegen() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setAccumulatedTimeLifeRegen(long newAccumulated) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void move(long milliseconds) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public AbstractShape2D getAbstractShape() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setAbstractShape(AbstractShape2D shape) {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -3,10 +3,10 @@ package tests.tGame.tgEvent1;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.GObjectsHolder;
-import games.generic.controlModel.ObjectWithID;
 import games.generic.controlModel.gameObj.TimedObject;
 import games.generic.controlModel.subImpl.GameModelTimeBased;
 

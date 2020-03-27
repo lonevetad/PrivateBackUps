@@ -70,7 +70,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		if (this.abilities == null) {
 			MapTreeAVL<Integer, EquipItemAbility> m;
 			m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
-			this.abilities = m.toSetValue(EquipItemAbility.KEY_EXTRACTOR);
+			this.abilities = m.toSetValue(EquipItemAbility.ID_EXTRACTOR);
 		}
 	}
 

@@ -32,4 +32,9 @@ public enum EquipmentTypesTRAr implements EquipmentType {
 	public String getName() {
 		return name();
 	}
+
+	@Override
+	public Integer getID() {
+		return ordinal();
+	}
 }

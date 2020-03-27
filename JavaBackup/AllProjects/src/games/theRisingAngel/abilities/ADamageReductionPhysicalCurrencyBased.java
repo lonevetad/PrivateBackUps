@@ -3,6 +3,7 @@ package games.theRisingAngel.abilities;
 import java.util.ArrayList;
 import java.util.List;
 
+import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
@@ -42,10 +43,6 @@ public class ADamageReductionPhysicalCurrencyBased extends AbilityModifyingAttri
 		return perThousandFraction;
 	}
 
-	public void setPerThousandFraction(int perThousandFraction) {
-		this.perThousandFraction = perThousandFraction;
-	}
-
 	protected int getDefaultCurrencyAmount(CreatureOfRPGs c) {
 		int a;
 		CurrencyHolder ch;
@@ -55,6 +52,29 @@ public class ADamageReductionPhysicalCurrencyBased extends AbilityModifyingAttri
 		a = ch.getMoneyAmount(CurrencyHolder.BASE_CURRENCY_INDEX);
 		return a > 0 ? a : 0;
 	}
+
+	@Override
+	public List<String> getEventsWatching() {
+		return eventsWatching;
+	}
+
+	@Override
+	public ObjectWithID getOwner() {
+		return this.getEquipItem().getCreatureWearingEquipments();
+	}
+
+	//
+
+	@Override
+	public void setOwner(ObjectWithID owner) {
+		throw new UnsupportedOperationException("Too lazy");
+	}
+
+	public void setPerThousandFraction(int perThousandFraction) {
+		this.perThousandFraction = perThousandFraction;
+	}
+
+	//
 
 	@Override
 	public void updateAttributeModifiersAmount(GModality gm, EquipmentItem ei, CreatureOfRPGs ah,
@@ -83,8 +103,4 @@ public class ADamageReductionPhysicalCurrencyBased extends AbilityModifyingAttri
 		}
 	}
 
-	@Override
-	public List<String> getEventsWatching() {
-		return eventsWatching;
-	}
 }

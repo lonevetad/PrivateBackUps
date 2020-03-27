@@ -14,10 +14,11 @@ import games.theRisingAngel.inventory.EquipmentSetTRAr;
 
 /** Designed for Role Play Game. */
 public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExperience implements CreatureOfRPGs {
-//	private static final long serialVersionUID = -777564684007L;
+	private static final long serialVersionUID = -777564684007L;
 
 //	GModality gameModality;
 	protected boolean isDestroyed;
+	protected int life;
 	protected List<String> eventsWatching;
 	protected EquipmentSet equipmentSet;
 	protected CreatureAttributes attributes;
@@ -29,6 +30,7 @@ public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExper
 //		this.ID = CreatureUIDProvider.newID();
 		this.equipmentSet = new EquipmentSetTRAr();
 		this.attributes = new CreatureAttributesModsCaching(AttributesTRAr.VALUES.length);
+		this.life = 1; // just something to start with
 	}
 
 	@Override
@@ -41,6 +43,11 @@ public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExper
 	@Override
 	public boolean isDestroyed() {
 		return isDestroyed;
+	}
+
+	@Override
+	public int getLife() {
+		return life;
 	}
 
 	public CurrencyHolder getMoneys() {
@@ -65,6 +72,11 @@ public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExper
 	//
 
 	//
+
+	@Override
+	public void setLife(int life) {
+		this.life = life;
+	}
 
 	@Override
 	public void setEquipmentSet(EquipmentSet equips) {

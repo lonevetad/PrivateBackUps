@@ -2,9 +2,9 @@ package games.generic.controlModel.inventory;
 
 import java.util.function.Function;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.gameObj.AbilityGeneric;
 import games.generic.controlModel.gameObj.CreatureOfRPGs;
 import games.generic.controlModel.gameObj.TimedObject;
 
@@ -14,9 +14,10 @@ import games.generic.controlModel.gameObj.TimedObject;
  * interface to enhance OOP design and allow abilities reuse (and maybe
  * "extraction in a magic essence to apply in other items")
  */
-public interface EquipItemAbility extends ObjectWithID {
+public interface EquipItemAbility extends AbilityGeneric {
 
-	public static final Function<EquipItemAbility, Integer> KEY_EXTRACTOR = e -> e.getID();
+	public static final Function<EquipItemAbility, Integer> ID_EXTRACTOR = e -> e.getID();
+	public static final Function<EquipItemAbility, String> NAME_EXTRACTOR = e -> e.getName();
 
 	//
 

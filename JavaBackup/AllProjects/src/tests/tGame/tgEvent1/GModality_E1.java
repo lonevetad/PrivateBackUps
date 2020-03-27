@@ -9,6 +9,9 @@ import games.generic.controlModel.player.PlayerInGame_Generic;
 import games.generic.controlModel.player.PlayerOutside_Generic;
 import games.generic.controlModel.subImpl.GModalityET;
 import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
+import games.theRisingAngel.abilities.ADamageReductionPhysicalCurrencyBased;
+import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliver;
+import tests.tGame.tgEvent1.oggettiDesempio.ObjLifeRegen_PrinterVsTime;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
 import tests.tGame.tgEvent1.oggettiDesempio.ObserverPrinterEvent;
@@ -24,6 +27,11 @@ public class GModality_E1 extends GModalityET {
 
 	@Override
 	public void onCreate() {
+		Player_E1 p;
+		ObjDamageDeliver odd;
+		ObjLifeRegen_PrinterVsTime olr_pvt;
+		ADamageReductionPhysicalCurrencyBased adrpcb;
+
 		super.onCreate();
 		checkAndRebuildThreads();
 		//
@@ -32,6 +40,7 @@ public class GModality_E1 extends GModalityET {
 		// strani che inserisco
 //		GModel_E1 gModelE ;
 //		addTimedObject(new ObjDamageDeliver());
+		p = new Player_E1(this);
 		this.addGameObject(new ObjPrinterTO(1250, "LongWaiting"));
 		this.addGameObject(new ObjPrinterTO(333, "Short"));
 //		this.addGameObject(new ObjPrinter_EventDeliver(250, "Tiny"));
@@ -39,6 +48,19 @@ public class GModality_E1 extends GModalityET {
 
 		this.addGameObject(new ObjPrinter_EventDeliver(2000, "HAKINA MATATA"));
 		this.getEventManager().addEventObserver(new ObserverPrinterEvent());
+
+		odd = new ObjDamageDeliver();
+		odd.setTarget(p);
+		olr_pvt = new ObjLifeRegen_PrinterVsTime();
+		olr_pvt.setCreatureReferred(p);
+		this.addGameObject(odd);
+		this.addGameObject(olr_pvt);
+		this.getEventManager().addEventObserver(olr_pvt);
+
+		// TODO REQUIRES AN EQUIPMENT SSET, SO ADD THIS ABILITY TO AN EQUIPMENT ITEM
+		// adrpcb=new ADamageReductionPhysicalCurrencyBased();
+////		adrpcb.setOwner(owner);
+//		adrpcb.set
 
 		// TODO aggiungere gli esempi pensati negli Appunti e esempio
 		// first make the player, then the damager, the healer, the fairy, the
