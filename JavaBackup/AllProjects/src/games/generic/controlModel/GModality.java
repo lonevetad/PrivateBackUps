@@ -7,10 +7,10 @@ import dataStructures.MapTreeAVL;
 import games.generic.ObjectWithID;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
-import games.generic.controlModel.player.PlayerInGame_Generic;
-import games.generic.controlModel.player.PlayerOutside_Generic;
+import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subImpl.GEvent;
 import games.generic.controlModel.subImpl.IGameModalityTimeBased;
+import games.old.PlayerGeneric_OLD;
 import tools.Comparators;
 
 /**
@@ -32,6 +32,11 @@ import tools.Comparators;
  * <li>Examples for RPG and/or RTS: dungeons, open world,
  * YouVsWawesOfEnemies</li>
  * </ul>
+ * <p>
+ * Useful classes/interfaces used here:
+ * <ul>
+ * <li>{@link }></li>
+ * </ul>
  */
 public abstract class GModality {
 	/**
@@ -50,7 +55,7 @@ public abstract class GModality {
 	/** Used to suspend threads */
 	protected final Object pauseThreadsLock = new Object();
 	protected Map<Long, GThread> threadsSleeping; // List<ThreadGame>
-	protected PlayerInGame_Generic player;
+	protected PlayerGeneric player;
 
 	public GModality(GController controller, String modalityName) {
 		this.controller = controller;
@@ -93,7 +98,7 @@ public abstract class GModality {
 		return model;
 	}
 
-	public PlayerInGame_Generic getPlayer() {
+	public PlayerGeneric getPlayer() {
 		return player;
 	}
 
@@ -119,7 +124,7 @@ public abstract class GModality {
 		this.model = model;
 	}
 
-	public void setPlayer(PlayerInGame_Generic player) {
+	public void setPlayer(PlayerGeneric player) {
 		this.player = player;
 		if (player != null)
 			player.setGameModality(this);
@@ -136,8 +141,8 @@ public abstract class GModality {
 
 	public abstract CurrencySet newCurrencyHolder();
 
-	/** See {@link PlayerGeneric} to see what is meant. */
-	protected abstract PlayerInGame_Generic newPlayerInGame(PlayerOutside_Generic superPlayer);
+	/** See {@link PlayerGeneric_OLD} to see what is meant. */
+	protected abstract PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer);
 
 	/**
 	 * Override designed-.<br>

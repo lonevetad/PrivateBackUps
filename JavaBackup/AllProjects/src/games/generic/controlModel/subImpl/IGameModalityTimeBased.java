@@ -1,7 +1,7 @@
 package games.generic.controlModel.subImpl;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gameObj.TimedObject;
+import games.generic.controlModel.gObj.TimedObject;
 
 /**
  * Mark a {@link GModality} as a "time-based" game, maybe "real-time" based

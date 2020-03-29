@@ -1,7 +1,7 @@
 package games.generic.controlModel.subImpl;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gameObj.TimedObject;
+import games.generic.controlModel.gObj.TimedObject;
 
 /**
  * Object performing a defined action as times goes on, at a defined time

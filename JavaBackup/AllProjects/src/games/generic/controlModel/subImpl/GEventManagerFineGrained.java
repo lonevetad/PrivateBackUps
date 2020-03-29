@@ -15,7 +15,7 @@ import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.subImpl.GameEventManagerSimple.EventNotifier;
+import games.generic.controlModel.subImpl.GEventManagerSimple.EventNotifier;
 import tools.Comparators;
 
 /**

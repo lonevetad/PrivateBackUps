@@ -10,7 +10,7 @@ public class PlayerModel {
 	}
 
 	int pointsGained;
-	ExperienceLevelHolder expLevelHolder;
+	ExperienceLevelHolderImpl expLevelHolder;
 	StatisticheTRAn statBaseClassDependentValues, statNow, statMax;
 	AbstractEquipment[] equipments;
 

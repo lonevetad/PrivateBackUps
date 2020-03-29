@@ -1,9 +1,9 @@
 package tests.tGame.tgEvent1;
 
-import games.generic.controlModel.player.PlayerOutside_Generic;
-import games.generic.controlModel.subImpl.GameControllerET;
+import games.generic.controlModel.player.UserAccountGeneric;
+import games.generic.controlModel.subImpl.GControllerET;
 
-public class GC_E1 extends GameControllerET {
+public class GC_E1 extends GControllerET {
 
 	public static final String GM_NAME = "TEST";
 
@@ -32,7 +32,7 @@ public class GC_E1 extends GameControllerET {
 	}
 
 	@Override
-	protected PlayerOutside_Generic newPlayerOutside() {
+	protected UserAccountGeneric newUserAccount() {
 		return null;
 	}
 }

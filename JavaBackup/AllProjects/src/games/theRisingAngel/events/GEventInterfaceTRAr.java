@@ -3,12 +3,12 @@ package games.theRisingAngel.events;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.eventsGame.DestructionObjEvent;
-import games.generic.controlModel.eventsGame.EventMoneyChange;
-import games.generic.controlModel.gameObj.CreatureOfRPGs;
-import games.generic.controlModel.gameObj.DestructibleObject;
+import games.generic.controlModel.gEvents.DestructionObjEvent;
+import games.generic.controlModel.gEvents.EventMoneyChange;
+import games.generic.controlModel.gObj.CreatureOfRPGs;
+import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.player.PlayerInGame_Generic;
+import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subImpl.GEventManagerFineGrained;
 
 public class GEventInterfaceTRAr implements GEventInterface {
@@ -40,7 +40,7 @@ public class GEventInterfaceTRAr implements GEventInterface {
 	}
 
 	@Override
-	public void firePlayerEnteringInMap(GModality gameModality, PlayerInGame_Generic p) {
+	public void firePlayerEnteringInMap(GModality gameModality, PlayerGeneric p) {
 		// semplice "creature entering on the field"
 	}
 

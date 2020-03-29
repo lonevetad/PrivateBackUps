@@ -2,15 +2,16 @@ package games.theRisingAngel;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.GameObjectsManagerProvider;
 import games.generic.controlModel.misc.CurrencySet;
-import games.generic.controlModel.player.PlayerInGame_Generic;
-import games.generic.controlModel.player.PlayerOutside_Generic;
-import games.generic.controlModel.subImpl.GModalityET;
+import games.generic.controlModel.player.PlayerGeneric;
+import games.generic.controlModel.player.UserAccountGeneric;
+import games.generic.controlModel.subImpl.GModalityRPG;
 
-public class GModalityTRAr extends GModalityET {
+public class GModalityTRAr extends GModalityRPG {
 
-	public GModalityTRAr(GController controller, String modalityName) {
-		super(controller, modalityName);
+	public GModalityTRAr(GController controller, String modalityName, GameObjectsManagerProvider gomp) {
+		super(controller, modalityName, gomp);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -27,7 +28,7 @@ public class GModalityTRAr extends GModalityET {
 	}
 
 	@Override
-	protected PlayerInGame_Generic newPlayerInGame(PlayerOutside_Generic superPlayer) {
+	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -37,5 +38,4 @@ public class GModalityTRAr extends GModalityET {
 		// TODO Auto-generated method stub
 
 	}
-
 }

@@ -6,12 +6,12 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.GThread;
 import games.generic.controlModel.misc.CurrencySet;
-import games.generic.controlModel.player.PlayerInGame_Generic;
-import games.generic.controlModel.player.PlayerOutside_Generic;
+import games.generic.controlModel.player.PlayerGeneric;
+import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subImpl.GModalityET;
 import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
-import tests.tGame.tgEvent1.oggettiDesempio.ArmProtectionShieldingDamageByMoney;
-import tests.tGame.tgEvent1.oggettiDesempio.NecklaceOfPainRinvigoring;
+import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
+import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliver;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
@@ -126,7 +126,7 @@ public class GModality_E1 extends GModalityET {
 	}
 
 	@Override
-	protected PlayerInGame_Generic newPlayerInGame(PlayerOutside_Generic superPlayer) {
+	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer) {
 		Player_E1 p;
 		p = new Player_E1(this);
 		p.setCurrencies(newCurrencyHolder());

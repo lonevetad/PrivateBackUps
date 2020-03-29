@@ -6,7 +6,7 @@ public enum AttributesTRAr implements AttributeIdentifier {
 	LifeMax, ManaMax, RigenLife, RigenMana, //
 	Luck, Velocity,
 	//
-	DamagePhysicalMin, DamagePhysicalMax, DamageMagic, DamageReductionPhysical, DamageReductionMagical,
+	DamageBonusPhysical, DamageBonusMagical, DamageReductionPhysical, DamageReductionMagical,
 //
 	Strength, Constitution, Health, //
 	Dexterity, Precision, Defence, //
@@ -27,5 +27,17 @@ public enum AttributesTRAr implements AttributeIdentifier {
 	@Override
 	public Integer getID() {
 		return ordinal();
+	}
+
+	//
+
+	public static AttributesTRAr damageReductionByType(DamageTypesTRAr dt) {
+		return (dt == DamageTypesTRAr.Physical) ? AttributesTRAr.DamageReductionPhysical
+				: AttributesTRAr.DamageReductionMagical;
+	}
+
+	public static AttributesTRAr damageBonusByType(DamageTypesTRAr dt) {
+		return (dt == DamageTypesTRAr.Physical) ? AttributesTRAr.DamageBonusPhysical
+				: AttributesTRAr.DamageBonusMagical;
 	}
 }

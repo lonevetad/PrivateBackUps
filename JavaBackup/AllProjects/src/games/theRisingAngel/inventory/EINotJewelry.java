@@ -1,11 +1,13 @@
 package games.theRisingAngel.inventory;
 
-import games.generic.controlModel.inventory.EquipmentItem;
+import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.subImpl.GModalityRPG;
 
 public abstract class EINotJewelry extends EquipmentItem {
+	private static final long serialVersionUID = 1L;
 
-	public EINotJewelry(EquipmentTypesTRAr et) {
-		super(et);
+	public EINotJewelry(GModalityRPG gmrpg, EquipmentTypesTRAr et, String name) {
+		super(gmrpg, et, name);
 		int ord;
 		if (et == null || //
 				((ord = et.ordinal()) < EquipmentTypesTRAr.Head.ordinal() // i.e. == Earrings

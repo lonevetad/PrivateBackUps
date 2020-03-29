@@ -294,6 +294,13 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 
 	public V delete(K k);
 
+	/**
+	 * Get the pair of key-value having the given index, depending on this
+	 * implementation's ordering.<br>
+	 * On simpler implementations (like {@link Optimizations#Lightweight} it would
+	 * run in <code>O(N*log2(N))</code> while in others could run in
+	 * <code>O(log2(N))</code>
+	 */
 	public Entry<K, V> getAt(int i);
 
 	public default V set(int index, V element) {

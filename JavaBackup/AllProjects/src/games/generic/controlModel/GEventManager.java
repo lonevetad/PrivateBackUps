@@ -19,8 +19,8 @@ import tools.Comparators;
  * {@link GModality#doOnEachCycle(long)}) but it's obviously hard to implement.
  */
 public abstract class GEventManager implements GObjectsHolder {
-	GModality gameModality; // back reference
-	MapTreeAVL<Integer, List<IGEvent>> eventQueued;
+	protected GModality gameModality; // back reference
+	protected MapTreeAVL<Integer, List<IGEvent>> eventQueued;
 
 	public GEventManager(GModality gameModality) {
 		this.gameModality = gameModality;

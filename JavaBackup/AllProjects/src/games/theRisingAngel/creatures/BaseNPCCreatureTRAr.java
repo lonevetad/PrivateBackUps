@@ -4,9 +4,9 @@ import java.util.List;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.inventory.EquipmentSet;
+import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.player.PlayerInGame_Generic;
+import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subImpl.CreatureAttributesModsCaching;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.CreatureUIDProvider;
@@ -14,7 +14,7 @@ import games.theRisingAngel.inventory.EquipmentSetTRAr;
 import geometry.AbstractShape2D;
 
 /**
- * This is NOT a {@link PlayerInGame_Generic}, even if it's similar (but there's
+ * This is NOT a {@link PlayerGeneric}, even if it's similar (but there's
  * no multiple inheritance, so ... interfaces and redundancy).
  */
 public class BaseNPCCreatureTRAr implements BaseCreatureTRAr {
@@ -168,13 +168,13 @@ public class BaseNPCCreatureTRAr implements BaseCreatureTRAr {
 	}
 
 	@Override
-	public AbstractShape2D getAbstractShape() {
+	public AbstractShape2D getShape() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setAbstractShape(AbstractShape2D shape) {
+	public void setShape(AbstractShape2D shape) {
 		// TODO Auto-generated method stub
 
 	}

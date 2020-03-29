@@ -1,8 +1,8 @@
 package games.theRisingAngel.inventory;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.inventory.EquipmentItem;
-import games.generic.controlModel.inventory.EquipmentSet;
+import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.theRisingAngel.creatures.BaseNPCCreatureTRAr;
 
 /**

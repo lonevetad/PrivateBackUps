@@ -4,8 +4,9 @@ import java.util.Comparator;
 import java.util.function.Function;
 
 import tools.Comparators;
+import tools.Stringable;
 
-public interface ObjectWithID {
+public interface ObjectWithID extends Stringable {
 	public static final Comparator<ObjectWithID> COMPARATOR_OWID = (o1, o2) -> {
 		if (o1 == o2)
 			return 0;

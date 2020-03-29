@@ -1,7 +1,7 @@
 package games.generic.controlModel.subImpl;
 
 import games.generic.controlModel.GObjectsHolder;
-import games.generic.controlModel.gameObj.TimedObject;
+import games.generic.controlModel.gObj.TimedObject;
 
 /**
  * Base implementation of {@link GObjectsHolder} handling only

@@ -1,43 +1,60 @@
 package games.generic.controlModel.player;
 
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.gObj.ExperienceLevelHolder;
 
-public abstract class PlayerIG_WithExperience extends PlayerInGame_Generic {
+public interface PlayerIG_WithExperience extends PlayerGeneric, ExperienceLevelHolder {
 
-	public PlayerIG_WithExperience(GModality gameModality) {
-		super(gameModality);
+	public ExperienceLevelHolderImpl getExpLevelHolder();
+
+	public void setExpLevelHolder(ExperienceLevelHolderImpl expLevelHolder);
+
+//	protected ExperienceLevelHolderImpl expLevelHolder;
+
+	@Override
+	public default int acquireExperience(int amount) {
+		return getExpLevelHolder().acquireExperience(amount);
 	}
 
-	protected ExperienceLevelHolder expLevelHolder;
-
-	public ExperienceLevelHolder getExpLevelHolder() {
-		return expLevelHolder;
+	@Override
+	public default int getExpToLevelUp() {
+		return getExpLevelHolder().getExpToLevelUp();
 	}
 
-	public void setExpLevelHolder(ExperienceLevelHolder expLevelHolder) {
-		this.expLevelHolder = expLevelHolder;
+	@Override
+	public default ExperienceLevelHolderImpl setLevel(int level) {
+		return getExpLevelHolder().setLevel(level);
+	}
+
+	@Override
+	public default ExperienceLevelHolderImpl setExperienceNow(int experienceNow) {
+		return getExpLevelHolder().setExperienceNow(experienceNow);
+	}
+
+	@Override
+	public default ExperienceLevelHolderImpl setExpToLevelUp(int experienceRequiredToLevelUp) {
+		return getExpLevelHolder().setExpToLevelUp(experienceRequiredToLevelUp);
 	}
 
 	//
 
-	public int getExp() {
+	public default int getExp() {
 		return this.getExpLevelHolder().getExperienceNow();
 	}
 
-	public int getLevel() {
+	@Override
+	public default int getLevel() {
 		return this.getExpLevelHolder().getLevel();
 	}
 
-	/** See {@link ExperienceLevelHolder#acquireExperience(int)}. */
-	public int gainExp(int exp) {
-		int levelGained, lgT, startingLevel; // , oldExp
-		startingLevel = this.getExpLevelHolder().getLevel();
-//		oldExp = this.getExpLevelHolder().getExperienceNow();
-		levelGained = lgT = this.getExpLevelHolder().acquireExperience(exp);
-		fireExpGainedEvent(gameModality, exp);
-		while(lgT-- >= 0) {
-			fireLevelGainedEvent(gameModality, ++startingLevel);
-		}
+	/** See {@link ExperienceLevelHolderImpl#acquireExperience(int)}. */
+	public default int gainExp(int exp) {
+		int levelGained;
+		GModality gm;
+		gm = this.getGameModality();
+		levelGained = this.getExpLevelHolder().acquireExperience(exp);
+		fireExpGainedEvent(gm, exp);
+		fireLevelGainedEvent(gm, levelGained);
 		return levelGained;
 	}
 
@@ -45,5 +62,5 @@ public abstract class PlayerIG_WithExperience extends PlayerInGame_Generic {
 
 	public abstract void fireExpGainedEvent(GModality gm, int expGained);
 
-	public abstract void fireLevelGainedEvent(GModality gm, int newLevel);
+	public abstract void fireLevelGainedEvent(GModality gm, int levelGained);
 }

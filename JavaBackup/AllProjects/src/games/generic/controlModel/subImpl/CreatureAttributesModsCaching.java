@@ -1,6 +1,6 @@
 package games.generic.controlModel.subImpl;
 
-import games.generic.controlModel.inventory.AttributeModification;
+import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.misc.CreatureAttributes;
 
 /**

@@ -1,14 +1,12 @@
 package games.generic.controlModel.subImpl;
 
-import java.util.Map;
-
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
-import games.generic.controlModel.gameObj.TimedObject;
+import games.generic.controlModel.gObj.TimedObject;
 
 /**
  * Game modality based on real time and events.
@@ -16,11 +14,15 @@ import games.generic.controlModel.gameObj.TimedObject;
  * ALL {@link GEvent}-firing methods are delegated to {@link GEventInterface}
  * (obtained through {@link GModalityET#getEventInterface()}) to make this class
  * thinner.
+ * <p>
+ * Useful classes/interfaces used here:
+ * <ul>
+ * <li>{@link }></li>
+ * </ul>
  */
 public abstract class GModalityET extends GModality implements IGameModalityTimeBased, IGameModalityEventBased {
 
 	protected GEventInterface eventInterface;
-	protected Map<Integer, TimedObject> timedObjects;
 
 	public GModalityET(GController controller, String modalityName) {
 		super(controller, modalityName);
@@ -28,8 +30,8 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 
 	//
 
-	protected GameModelTimeBased getModelTimeBased() {
-		return (GameModelTimeBased) model;
+	protected GModelTimeBased getModelTimeBased() {
+		return (GModelTimeBased) model;
 	}
 
 	/** Access ALL {@link GEvent}-firing methods through this instance. */

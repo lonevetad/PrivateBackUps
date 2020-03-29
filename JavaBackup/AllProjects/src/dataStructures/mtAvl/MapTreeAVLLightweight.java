@@ -643,6 +643,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			nodesCalls.push(n);
 			n = n.left;
 		}
+		// "i" is now treated as "nodes amount to discard"
 		do {
 			// initial case: the root of a sub-tree.
 			/*
@@ -650,17 +651,22 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			 * holds the desired node, so it could be the chosen one.
 			 */
 			n = nodesCalls.pop();
-			if (i-- >= 0) {
-				// the root of the sub-tree is not the chosen one - move to the successor
+			if (i-- > 0) {
+				// the root of the sub-tree is not the chosen one - move to the successor:
+				/*
+				 * Upon pushing the right, push also ALL right's lefts, so the last one will be
+				 * the successor
+				 */
 				if (n.right != NIL) {
 					// start recursion: push the right ..
 					nodesCalls.push(n = n.right);
 					// then the left-most, coming back to the initial case
 					while(n.left != NIL) {
-						nodesCalls.push(n);
-						n = n.left;
+						nodesCalls.push(n = n.left);
 					}
 				}
+			} else {
+				nodesCalls.clear();
 			}
 		} while(!nodesCalls.isEmpty());
 		return n;
@@ -2795,6 +2801,10 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		protected NodeStack top;
 
 		//
+
+		public void clear() {
+			this.top = null;
+		}
 
 		public boolean isEmpty() {
 			return this.top == null;

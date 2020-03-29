@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import games.generic.ObjectWithID;
-import games.generic.controlModel.gameObj.TimedObject;
+import games.generic.controlModel.gObj.TimedObject;
 import tools.Comparators;
 
 public class TimedObjectHolder_Impl1 extends TimedObjectHolder {

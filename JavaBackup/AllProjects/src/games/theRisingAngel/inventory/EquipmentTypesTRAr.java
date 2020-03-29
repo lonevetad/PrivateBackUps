@@ -1,6 +1,6 @@
 package games.theRisingAngel.inventory;
 
-import games.generic.controlModel.inventory.EquipmentType;
+import games.generic.controlModel.inventoryAbil.EquipmentType;
 
 /**
  * Rings can occupy one single slot (a simple ring) or two (very big, bulky and

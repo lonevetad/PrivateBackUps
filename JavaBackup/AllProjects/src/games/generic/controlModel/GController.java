@@ -1,10 +1,13 @@
 package games.generic.controlModel;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import dataStructures.MapTreeAVL;
-import games.generic.controlModel.player.PlayerGeneric;
-import games.generic.controlModel.player.PlayerOutside_Generic;
+import games.generic.controlModel.misc.GModalityFactory;
+import games.generic.controlModel.misc.LoaderGameObjects;
+import games.generic.controlModel.player.UserAccountGeneric;
 import tools.Comparators;
 
 /**
@@ -24,19 +27,26 @@ import tools.Comparators;
  * <li>If available, markets, editors, etc</li>
  * <li>etc</li>
  * </ul>
- * 
+ * <p>
+ * Useful classes/interfaces used here:
+ * <ul>
+ * <li>{@link }></li>
+ * </ul>
  */
 public abstract class GController {
 
 	protected boolean isAlive;
 	protected Map<String, GModalityFactory> gameModalitiesFactories;
 	protected GModality currentGameModality;
-	protected PlayerOutside_Generic player;
+	protected UserAccountGeneric user;
+	protected List<LoaderGameObjects<? extends ObjectNamed>> gameObjectsLoader;
 
 	protected GController() {
 		this.isAlive = false;
 		this.gameModalitiesFactories = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				Comparators.STRING_COMPARATOR);
+		gameObjectsLoader = new LinkedList<>();
+		onCreate();
 	}
 
 	//
@@ -52,8 +62,6 @@ public abstract class GController {
 	//
 
 	public void setCurrentGameModality(GModality currentGameModality) {
-		if (currentGameModality != null)
-			System.out.println("GController#setCurrentGameModality : " + currentGameModality.getModalityName());
 		this.currentGameModality = currentGameModality;
 	}
 
@@ -67,8 +75,18 @@ public abstract class GController {
 	 */
 	protected abstract void defineGameModalitiesFactories();
 
-	/** See {@link PlayerGeneric} to see what is meant. */
-	protected abstract PlayerOutside_Generic newPlayerOutside();
+	/** See {@link UserAccountGeneric} to see what is meant. */
+	protected abstract UserAccountGeneric newUserAccount();
+
+//
+
+	/** Override designed BUT call <code>super.</code>{@link #init()}}. */
+	protected void onCreate() {
+		defineGameModalitiesFactories();
+		user = this.newUserAccount();
+	}
+
+	//
 
 	//
 
@@ -80,11 +98,6 @@ public abstract class GController {
 		GModality gm;
 		gm = this.getCurrentGameModality();
 		return gm != null && gm.isRunning();
-	}
-
-	/** Override designed BUT call <code>super.</code>{@link #init()}}. */
-	public void init() {
-		defineGameModalitiesFactories();
 	}
 
 	/**
@@ -134,5 +147,9 @@ public abstract class GController {
 		GModalityFactory gmf;
 		gmf = this.getGameModalitiesFactories().get(name);
 		return gmf == null ? null : gmf.newGameModality(this, name);
+	}
+
+	public <E extends ObjectNamed> void addGameObjectLoader(LoaderGameObjects<E> ol) {
+		this.gameObjectsLoader.add(ol);
 	}
 }

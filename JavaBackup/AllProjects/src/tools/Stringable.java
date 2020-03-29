@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 public interface Stringable extends Serializable {
 
-	public void toString(StringBuilder sb, int tabLevel);
+	public default void toString(StringBuilder sb, int tabLevel) {
+		addTab(sb, tabLevel);
+		sb.append(this.toString());
+	}
 
 	public default void addTab(StringBuilder sb, int tabLevel) {
 		addTab(sb, tabLevel, true);
@@ -15,7 +18,7 @@ public interface Stringable extends Serializable {
 			if (newLineNeeded)
 				sb.append('\n');
 			sb.ensureCapacity(sb.length() + tabLevel);
-			while (tabLevel-- > 0) {
+			while(tabLevel-- > 0) {
 				sb.append('\t');
 			}
 		}

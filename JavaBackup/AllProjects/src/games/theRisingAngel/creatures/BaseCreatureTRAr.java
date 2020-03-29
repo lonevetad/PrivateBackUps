@@ -2,29 +2,34 @@ package games.theRisingAngel.creatures;
 
 import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gameObj.CreatureOfRPGs;
+import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subImpl.GModalityET;
+import games.generic.controlModel.subImpl.GModalityRPG;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.GModalityTRAr;
 import games.theRisingAngel.events.GEventInterfaceTRAr;
 
-public interface BaseCreatureTRAr extends CreatureOfRPGs {
+public abstract class BaseCreatureTRAr extends BaseCreatureRPG {
+
+	public BaseCreatureTRAr(GModalityRPG gModRPG, String name) {
+		super(gModRPG, name);
+	}
 
 	@Override
-	public default int getLifeMax() {
+	public int getLifeMax() {
 		return this.getAttributes().getValue(AttributesTRAr.LifeMax.getIndex());
 	}
 
 	@Override
-	public default int getLifeRegenation() {
+	public int getLifeRegenation() {
 		return this.getAttributes().getValue(AttributesTRAr.RigenLife.getIndex());
 	}
 
 	//
 
 	@Override
-	public default void setLifeMax(int lifeMax) {
+	public void setLifeMax(int lifeMax) {
 		if (lifeMax > 0) {
 			this.getAttributes().setOriginalValue(AttributesTRAr.LifeMax.getIndex(), lifeMax);
 			if (this.getLife() > lifeMax)
@@ -33,7 +38,7 @@ public interface BaseCreatureTRAr extends CreatureOfRPGs {
 	}
 
 	@Override
-	public default void setLifeRegenation(int lifeRegenation) {
+	public void setLifeRegenation(int lifeRegenation) {
 		if (lifeRegenation > 0) {
 			this.getAttributes().setOriginalValue(AttributesTRAr.RigenLife.getIndex(), lifeRegenation);
 		}
@@ -44,7 +49,7 @@ public interface BaseCreatureTRAr extends CreatureOfRPGs {
 	//
 
 	@Override
-	public default void receiveDamage(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
+	public void receiveDamage(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
 		if (originalDamage.getDamageAmount() <= 0)
 			return;
 		int dr;
@@ -60,7 +65,7 @@ public interface BaseCreatureTRAr extends CreatureOfRPGs {
 	// TODO FIRE EVENTS
 
 	@Override
-	public default void fireDamageReceived(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
+	public void fireDamageReceived(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
 		GModalityTRAr gmodtrar;
 		GEventInterfaceTRAr geie1;
 		if (gm == null || (!(gm instanceof GModalityET)))

@@ -1,7 +1,7 @@
 package games.generic.controlModel;
 
 import dataStructures.isom.InSpaceObjectsManager;
-import games.generic.controlModel.gameObj.ObjectInSpace;
+import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.controlModel.subImpl.GEvent;
 
 /**

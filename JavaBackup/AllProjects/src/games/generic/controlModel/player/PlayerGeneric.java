@@ -1,30 +1,20 @@
 package games.generic.controlModel.player;
 
 import games.generic.ObjectNamedID;
+import games.generic.controlModel.GEventObserver;
+import games.generic.controlModel.GModality;
+import games.generic.controlModel.gObj.GModalityHolder;
 
 /**
- * Holds data of the player.<br>
- * There are two main subclasses, having lots of differences:
- * {@link PlayerInGame_Generic} and {@link PlayerOutside_Generic} /
- * "in-menu".<br>
- * For instance, in a trading card game, the "outside" player could be
- * represented by all card's collection and the set of decks, while the "in
- * game" player is the player having life, a deck, a board, an hand, a
- * "graveyard", etc.
+ * 27/03/2020 transformed into an interface since a "in game player" should
+ * extend some "creature" class
  */
-public abstract class PlayerGeneric implements ObjectNamedID {
+public interface PlayerGeneric extends GEventObserver, ObjectNamedID, GModalityHolder {
+	/**
+	 * Perform a clean-up operation upon changing map, leaving the game, etc
+	 */
+	public abstract void onLeavingMap();
 
-	// TODO invent stuffs
-	protected String name;
+	public abstract void onEnteringInGame(GModality gm);
 
-	public PlayerGeneric() {
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 }

@@ -7,10 +7,11 @@ import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gameObj.CreatureOfRPGs;
-import games.generic.controlModel.inventory.AbilityModifyingAttributeRealTime;
-import games.generic.controlModel.inventory.AttributeModification;
-import games.generic.controlModel.inventory.EquipmentItem;
+import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.gObj.CreatureSimple;
+import games.generic.controlModel.inventoryAbil.AbilityModifyingAttributeRealTime;
+import games.generic.controlModel.inventoryAbil.AttributeModification;
+import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.events.EventDamageTRAr;
@@ -24,10 +25,12 @@ import games.theRisingAngel.events.EventsTRAr;
  * decrease by {@link #VALUE_DECREMENT_PER_TICK}.
  */
 public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeRealTime implements GEventObserver {
+	private static final long serialVersionUID = 5411087000163L;
 	public static final int VALUE_DECREMENT_PER_TICK = 2;
+	public static final String NAME = "Pain Rinvigoring";
 
 	public AMoreDamageReceivedMoreLifeRegen() {
-		super(AttributesTRAr.RigenLife);
+		super(AttributesTRAr.RigenLife, NAME);
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(
 //				this.getAttributeToModify().getAttributeModified().getName()
@@ -36,7 +39,7 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 		thresholdTime = 1000;
 	}
 
-	long ticks, thresholdTime;
+	protected long ticks, thresholdTime;
 	protected List<String> eventsWatching;
 //	protected CreatureSimple creatureReferred;
 
@@ -66,9 +69,9 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 
 	@Override
 	public void setOwner(ObjectWithID owner) {
-		if (owner instanceof CreatureOfRPGs)
+		if (owner instanceof BaseCreatureRPG)
 //			setCreatureReferred
-			this.getEquipItem().getBelongingEquipmentSet().setCreatureWearingEquipments((CreatureOfRPGs) owner);
+			this.getEquipItem().getBelongingEquipmentSet().setCreatureWearingEquipments((BaseCreatureRPG) owner);
 	}
 
 //	public void setCreatureReferred(CreatureSimple creatureReferred) {this.creatureReferred = creatureReferred;}
@@ -103,7 +106,7 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 	}
 
 	@Override
-	public void updateAttributeModifiersAmount(GModality gm, EquipmentItem ei, CreatureOfRPGs ah,
+	public void updateAttributeModifiersAmount(GModality gm, EquipmentItem ei, CreatureSimple ah,
 			CreatureAttributes ca) {
 		int v;
 		AttributeModification am;

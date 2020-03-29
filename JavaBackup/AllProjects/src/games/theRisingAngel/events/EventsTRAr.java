@@ -1,7 +1,7 @@
 package games.theRisingAngel.events;
 
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.eventsGame.ExampleGameEvents;
+import games.generic.controlModel.gEvents.ExampleGameEvents;
 
 /** Taken from {@link ExampleGameEvents}. */
 public enum EventsTRAr implements IGEvent {

@@ -46,7 +46,7 @@ public interface InSpaceObjectsManager extends Serializable {
 
 	// TODO UTILITIES PROVIDERS GETTER
 
-	public PathFindStrategy<Point2D> getPathFinder();
+	public PathFindStrategy<Point2D, Double> getPathFinder();
 
 	public ProviderObjectsInSpace getProviderObjectsInSpace();
 
@@ -64,7 +64,7 @@ public interface InSpaceObjectsManager extends Serializable {
 
 	// TODO UTILITIES PROVIDERS SETTER
 
-	public void setPathFinder(PathFindStrategy<Point2D> pathFinder);
+	public void setPathFinder(PathFindStrategy<Point2D, Double> pathFinder);
 
 	public void setObjectsInSpaceProvider(ProviderObjectsInSpace providerObjectsInSpace);
 

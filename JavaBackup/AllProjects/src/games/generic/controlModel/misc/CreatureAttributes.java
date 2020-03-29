@@ -1,11 +1,10 @@
 package games.generic.controlModel.misc;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gameObj.AttributesHolder;
-import games.generic.controlModel.gameObj.CreatureOfRPGs;
-import games.generic.controlModel.inventory.AttributeModification;
-import games.generic.controlModel.inventory.EquipmentItem;
-import games.generic.controlModel.inventory.EquipmentSet;
+import games.generic.controlModel.gObj.AttributesHolder;
+import games.generic.controlModel.inventoryAbil.AttributeModification;
+import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.inventoryAbil.EquipmentSet;
 
 /**
  * Implements a set of attributes. "Creature" could be "the player's character",

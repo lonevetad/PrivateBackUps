@@ -7,14 +7,14 @@ import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.GObjectsHolder;
-import games.generic.controlModel.gameObj.TimedObject;
-import games.generic.controlModel.subImpl.GameModelTimeBased;
+import games.generic.controlModel.gObj.TimedObject;
+import games.generic.controlModel.subImpl.GModelTimeBased;
 
 public class TestGModel {
 
 	public static void main(String[] args) {
 		GModel gm;
-		GameModelTimeBased gmt;
+		GModelTimeBased gmt;
 		Consumer<ObjectWithID> printer;
 		printer = o -> System.out.println(o.getID());
 		gm = new GModel() {
@@ -25,7 +25,7 @@ public class TestGModel {
 		};
 		System.out.println("helooo " + gm.addObjHolder("TIME", new GOH()));
 		System.out.println("FINE");
-		gmt = new GameModelTimeBased() {
+		gmt = new GModelTimeBased() {
 
 			@Override
 			public void onCreate() {
@@ -40,8 +40,8 @@ public class TestGModel {
 		gmt.add(() -> Integer.valueOf(-55));
 		System.out.println("fine 2, stampa di tutto");
 		gmt.forEach(printer);
-		System.out.println("ora stampa solo i timed by " + GameModelTimeBased.TIMED_OBJECT_HOLDER_NAME);
-		gmt.getObjHolder(GameModelTimeBased.TIMED_OBJECT_HOLDER_NAME).forEach(printer);
+		System.out.println("ora stampa solo i timed by " + GModelTimeBased.TIMED_OBJECT_HOLDER_NAME);
+		gmt.getObjHolder(GModelTimeBased.TIMED_OBJECT_HOLDER_NAME).forEach(printer);
 		System.out.println("ora stampa solo i timed by MEMORYLESS");
 		gmt.getObjHolder("MEMORYLESS").forEach(printer);
 		System.out.println("\n\n in the end, print just GModel own owids");

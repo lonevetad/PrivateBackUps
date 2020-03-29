@@ -13,8 +13,7 @@ import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.CreatureUIDProvider;
 
 /** Designed for Role Play Game. */
-public abstract class PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExperience
-		implements CreatureOfRPGs, CurrencyHolder {
+public interface PlayerInGameGeneric_ExampleRPG1 extends PlayerIG_WithExperience, CreatureOfRPGs, CurrencyHolder {
 	private static final long serialVersionUID = -777564684007L;
 
 //	GModality gameModality;

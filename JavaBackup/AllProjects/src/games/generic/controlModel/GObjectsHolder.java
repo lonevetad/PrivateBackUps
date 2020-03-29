@@ -5,14 +5,14 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import games.generic.ObjectWithID;
-import games.generic.controlModel.subImpl.GameModelTimeBased;
+import games.generic.controlModel.subImpl.GModelTimeBased;
 
 /**
  * Interface for classes that holds and manages in some way (at least in a
  * similar way to {@link Collection}) and provides them.<br>
  * Example of subclasses are:
  * <ul>
- * <li>{@link GameModelTimeBased.TimedObjectHolder}</li>
+ * <li>{@link GModelTimeBased.TimedObjectHolder}</li>
  * <li></li>
  * <li></li>
  * </ul>

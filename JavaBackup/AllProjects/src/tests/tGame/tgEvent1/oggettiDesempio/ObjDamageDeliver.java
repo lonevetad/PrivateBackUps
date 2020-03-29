@@ -2,14 +2,16 @@ package tests.tGame.tgEvent1.oggettiDesempio;
 
 import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gameObj.CreatureOfRPGs;
+import games.generic.controlModel.gObj.CreatureOfRPGs;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subImpl.TimedObjectSimpleImpl;
+import games.theRisingAngel.DamageTypesTRAr;
 import tests.tGame.tgEvent1.GEventInterface_E1;
 import tests.tGame.tgEvent1.GModality_E1;
 
 // TODO fare con GUI e affini
 public class ObjDamageDeliver implements TimedObjectSimpleImpl {
+	private static final long serialVersionUID = 4741714L;
 	static final int MILLIS_EACH__DAMAGE = 1500;
 	long timeElapsed, timeThreshold;
 	int c, damageAmount;
@@ -68,7 +70,7 @@ public class ObjDamageDeliver implements TimedObjectSimpleImpl {
 		GModality_E1 gmodtrar;
 		GEventInterface_E1 geie1;
 		DamageGeneric d;
-		d = new DamageGeneric(damageAmount, null);
+		d = new DamageGeneric(damageAmount, DamageTypesTRAr.Physical);
 		System.out.println("Damage time" + c++);
 		gmodtrar = (GModality_E1) modality;
 		geie1 = (GEventInterface_E1) gmodtrar.getEventInterface();

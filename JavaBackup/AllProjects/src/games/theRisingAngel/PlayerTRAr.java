@@ -12,9 +12,8 @@ import games.theRisingAngel.creatures.BaseCreatureTRAr;
 import games.theRisingAngel.events.EventsTRAr;
 import games.theRisingAngel.events.GEventInterfaceTRAr;
 import games.theRisingAngel.inventory.EquipmentSetTRAr;
-import geometry.AbstractShape2D;
 
-public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseCreatureTRAr {
+public class PlayerTRAr extends BaseCreatureTRAr implements PlayerInGameGeneric_ExampleRPG1 {
 	private static final long serialVersionUID = -3336623605789L;
 
 	public PlayerTRAr(GModality gameModality) {
@@ -51,10 +50,6 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseC
 	@Override
 	public void onStartingGame(GModality mg) {
 		this.setGameModality(mg);
-	}
-
-	@Override
-	public void onLeavingMap() {
 	}
 
 	@Override
@@ -113,15 +108,4 @@ public class PlayerTRAr extends PlayerInGameGeneric_ExampleRPG1 implements BaseC
 
 	}
 
-	@Override
-	public AbstractShape2D getAbstractShape() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setAbstractShape(AbstractShape2D shape) {
-		// TODO Auto-generated method stub
-
-	}
 }
