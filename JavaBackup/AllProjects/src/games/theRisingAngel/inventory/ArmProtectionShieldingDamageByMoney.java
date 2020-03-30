@@ -22,6 +22,7 @@ public class ArmProtectionShieldingDamageByMoney extends EINotJewelry {
 		this.abilityDamageReductionByPaying = (ADamageReductionCurrencyBased) ap.getAbilityByName(null,
 				ADamageReductionCurrencyBased.NAME);
 		this.abilityDamageReductionByPaying.setPerThousandFraction(100);
+		this.abilityDamageReductionByPaying.setOwner(this);
 		super.addAbility(this.abilityDamageReductionByPaying);
 	}
 

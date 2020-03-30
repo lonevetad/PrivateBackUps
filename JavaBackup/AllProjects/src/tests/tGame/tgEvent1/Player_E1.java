@@ -4,13 +4,14 @@ import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subImpl.GModalityET;
+import games.generic.controlModel.subImpl.GModalityRPG;
 import games.theRisingAngel.PlayerTRAr;
 
 public class Player_E1 extends PlayerTRAr {
 	private static final long serialVersionUID = 210054045201L;
 	static final int LIFE_MAX = 100;
 
-	public Player_E1(GModality gm) {
+	public Player_E1(GModalityRPG gm) {
 		super(gm);
 		this.setLifeMax(LIFE_MAX);
 		this.setLife(LIFE_MAX);

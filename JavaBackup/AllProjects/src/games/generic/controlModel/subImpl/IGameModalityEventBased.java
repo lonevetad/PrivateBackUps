@@ -10,4 +10,9 @@ public interface IGameModalityEventBased {
 
 	/** Override designed */
 	public GEventInterface newEventInterface();
+
+	public GEventInterface getEventInterface();
+
+	public void setEventInterface(GEventInterface ei);
+
 }

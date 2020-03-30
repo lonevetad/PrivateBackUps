@@ -37,7 +37,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		this.belongingEquipmentSet = null;
 		this.equipmentType = equipmentType;
 		this.attributeModifiers = new LinkedList<>();
-		enrichWithAbilities(gmrpg.getGameObjectsManagerProvider().getAbilitiesProvider());
+		enrichWithAbilities(gmrpg.getGameObjectsProvider().getAbilitiesProvider());
 	}
 
 	//

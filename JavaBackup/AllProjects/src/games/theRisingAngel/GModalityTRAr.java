@@ -2,7 +2,7 @@ package games.theRisingAngel;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
-import games.generic.controlModel.GameObjectsManagerProvider;
+import games.generic.controlModel.GameObjectsProvider;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
@@ -10,7 +10,7 @@ import games.generic.controlModel.subImpl.GModalityRPG;
 
 public class GModalityTRAr extends GModalityRPG {
 
-	public GModalityTRAr(GController controller, String modalityName, GameObjectsManagerProvider gomp) {
+	public GModalityTRAr(GController controller, String modalityName, GameObjectsProvider gomp) {
 		super(controller, modalityName, gomp);
 		// TODO Auto-generated constructor stub
 	}

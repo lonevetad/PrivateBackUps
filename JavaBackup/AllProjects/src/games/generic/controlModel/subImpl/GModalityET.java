@@ -35,13 +35,10 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	}
 
 	/** Access ALL {@link GEvent}-firing methods through this instance. */
+	@Override
 	public GEventInterface getEventInterface() {
 		return eventInterface;
 	}
-
-	//
-
-	//
 
 	/**
 	 * Should not be used, use with caution or use
@@ -55,7 +52,16 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 		return (GModelET) this.getModel();
 	}
 
+	//
+
 	@Override
+	public void setEventInterface(GEventInterface eventInterface) {
+		this.eventInterface = eventInterface;
+	}
+
+	//
+	@Override
+
 	public void onCreate() {
 		this.eventInterface = newEventInterface();
 		this.getGModelEventTimedObjectsHolder().setEventManager(getEventManager());

@@ -1,17 +1,18 @@
 package games.theRisingAngel.events;
 
-import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
 import games.generic.controlModel.gEvents.EventMoneyChange;
-import games.generic.controlModel.gObj.CreatureOfRPGs;
+import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.player.PlayerGeneric;
+import games.generic.controlModel.subImpl.GEventInterfaceRPG;
 import games.generic.controlModel.subImpl.GEventManagerFineGrained;
+import games.generic.controlModel.subImpl.GModalityET;
 
-public class GEventInterfaceTRAr implements GEventInterface {
+public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 
 	GEventManager gem;
 
@@ -20,7 +21,7 @@ public class GEventInterfaceTRAr implements GEventInterface {
 	}
 
 	@Override
-	public void setNewGameEventManager(GModality gameModality) {
+	public void setNewGameEventManager(GModalityET gameModality) {
 		this.gem = new GEventManagerFineGrained(gameModality);
 	}
 
@@ -33,33 +34,39 @@ public class GEventInterfaceTRAr implements GEventInterface {
 
 	// TODO EVENTS
 
-	public void fireDestructionObjectEvent(GModality gaModality, DestructibleObject desObj) {
+	@Override
+	public void fireDestructionObjectEvent(GModalityET gaModality, DestructibleObject desObj) {
 		DestructionObjEvent doe;
 		doe = new DestructionObjEvent(desObj, EventsTRAr.Destroyed.getName());
 		this.getGameEventManager().fireEvent(doe);
 	}
 
+// TODOOOOOOOOO dc'è da spostare molti eventi in un luogo più idoneo
+
 	@Override
-	public void firePlayerEnteringInMap(GModality gameModality, PlayerGeneric p) {
+	public void firePlayerEnteringInMap(GModality_ER gameModality, PlayerGeneric p) {
 		// semplice "creature entering on the field"
 	}
 
 	/***
 	 * @param currencyType the index (or an id) of the currency earned-lost
 	 */
+	@Override
 	public void fireMoneyChangeEvent(GModality gm, int currencyType, int oldValue, int newValue) {
 		this.getGameEventManager().fireEvent(new EventMoneyChange(gm.getPlayer(), currencyType, oldValue, newValue));
 	}
 
-	public <Source> void fireDamageDealtEvent(GModality gm, Source source, CreatureOfRPGs target,
-			DamageGeneric damageInflicted) {
+	@Override
+	public <SourceDamage> void fireDamageDealtEvent(GModalityET gm, SourceDamage source, CreatureSimple target,
+			DamageGeneric damage) {
 		this.getGameEventManager().fireEvent( //
-				new EventDamageTRAr<>(EventsTRAr.DamageInflicted, source, target, damageInflicted));
+				new EventDamageTRAr<SourceDamage>(EventsTRAr.DamageInflicted, source, target, damage));
 	}
 
-	public <Source> void fireDamageReceivedEvent(GModality gm, Source source, CreatureOfRPGs target,
+	@Override
+	public <SourceDamage> void fireDamageReceivedEvent(GModalityET gm, SourceDamage source, CreatureSimple target,
 			DamageGeneric originalDamage) {
 		this.getGameEventManager().fireEvent( //
-				new EventDamageTRAr<>(EventsTRAr.DamageReceived, source, target, originalDamage));
+				new EventDamageTRAr<SourceDamage>(EventsTRAr.DamageReceived, source, target, originalDamage));
 	}
 }

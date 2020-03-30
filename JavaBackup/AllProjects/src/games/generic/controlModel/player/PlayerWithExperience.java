@@ -1,9 +1,11 @@
 package games.generic.controlModel.player;
 
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.ExperienceLevelHolder;
+import games.generic.controlModel.subImpl.GEventInterfaceRPG;
+import games.generic.controlModel.subImpl.GModalityET;
 
-public interface PlayerIG_WithExperience extends PlayerGeneric, ExperienceLevelHolder {
+/** Delegates to a {@link ExperienceLevelHolderImpl} and add some features. */
+public interface PlayerWithExperience extends PlayerGeneric, ExperienceLevelHolder {
 
 	public ExperienceLevelHolderImpl getExpLevelHolder();
 
@@ -47,20 +49,24 @@ public interface PlayerIG_WithExperience extends PlayerGeneric, ExperienceLevelH
 		return this.getExpLevelHolder().getLevel();
 	}
 
+	@Override
+	public default void recalculateExpToLevelUp() {
+		this.getExpLevelHolder().recalculateExpToLevelUp();
+	}
+
 	/** See {@link ExperienceLevelHolderImpl#acquireExperience(int)}. */
 	public default int gainExp(int exp) {
 		int levelGained;
-		GModality gm;
-		gm = this.getGameModality();
+		GModalityET gm;
+		GEventInterfaceRPG geirpg;
+		gm = (GModalityET) this.getGameModality();
 		levelGained = this.getExpLevelHolder().acquireExperience(exp);
-		fireExpGainedEvent(gm, exp);
-		fireLevelGainedEvent(gm, levelGained);
+		geirpg = (GEventInterfaceRPG) gm.getEventInterface();
+		geirpg.fireExpGainedEvent(gm, exp);
+		geirpg.fireLevelGainedEvent(gm, levelGained);
 		return levelGained;
 	}
 
 	//
 
-	public abstract void fireExpGainedEvent(GModality gm, int expGained);
-
-	public abstract void fireLevelGainedEvent(GModality gm, int levelGained);
 }

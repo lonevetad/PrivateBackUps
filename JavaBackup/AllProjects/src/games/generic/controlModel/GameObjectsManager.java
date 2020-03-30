@@ -3,6 +3,7 @@ package games.generic.controlModel;
 import java.util.Set;
 
 import dataStructures.isom.InSpaceObjectsManager;
+import games.generic.ObjectWithID;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.gObj.LivingObject;
@@ -13,6 +14,8 @@ import games.generic.controlModel.subImpl.GModalityET;
 import geometry.AbstractShape2D;
 
 /**
+ * One of the core classes
+ * <p>
  * Manages all games objects, performing actions based on their types, like:
  * <ul>
  * <li>For space-based object, like {@link ObjectInSpace}, they could be added,
@@ -27,21 +30,23 @@ import geometry.AbstractShape2D;
  * <p>
  * Kind of object handled:
  * <ul>
- * <li>{@link MovingObject}</li>
- * <li>{@link LivingObject}</li>
- * <li>{@link ObjectInSpace}</li>
- * <li>{@link GEventObserver}</li>
+ * <li>{@link MovingObject} (through {@link InSpaceObjectsManager}
+ * instance)</li>
+ * <li>{@link LivingObject} (through methods like
+ * {@link #dealsDamageTo(Object, CreatureSimple, DamageGeneric)}).</li>
+ * <li>{@link ObjectInSpace} (as n°1)</li>
+ * <li>{@link GEventObserver} (through {@link GEventInterface} instance)</li>
  * </ul>
  */
 public interface GameObjectsManager extends GModalityHolder {
 
 	public InSpaceObjectsManager getInSpaceObjectsManager();
 
-	public GEventManager getGEventManager();
+	public GEventInterface getGEventManager();
 
-	public void setGEventManager(InSpaceObjectsManager isom);
+	public void setInSpaceObjectsManager(InSpaceObjectsManager isom);
 
-	public void setInSpaceObjectsManager(GEventManager gem);
+	public void setGEventInterface(GEventInterface gem);
 
 	//
 
@@ -53,10 +58,9 @@ public interface GameObjectsManager extends GModalityHolder {
 
 	//
 
-	public <SourceDamage> void dealsDamageTo(SourceDamage source, CreatureSimple target, DamageGeneric damage);
+	// TODO todo other creature's related methods
 
-	//
-
-	public <SourceDamage> void fireDamageDealtEvent(GModalityET gm, SourceDamage source, CreatureSimple target,
+	public <SourceDamage extends ObjectWithID> void dealsDamageTo(SourceDamage source, CreatureSimple target,
 			DamageGeneric damage);
+
 }

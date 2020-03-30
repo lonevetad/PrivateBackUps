@@ -8,13 +8,13 @@ import games.generic.controlModel.inventoryAbil.EquipItemProvider;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.InventoryItem;
 import games.generic.controlModel.inventoryAbil.InventoryItemNotEquippable;
-import games.old.ObjNamedIDProvider;
+import games.generic.controlModel.misc.ObjGModalityBasedProvider;
 
 /**
- * Huge class collecting a series of useful game objects. In particular, it
- * holds ("provides" through {@link ObjNamedIDProvider}) the list below of
- * superclasses and manages them, like calculating the drops and spawning inside
- * the game.
+ * Huge class acting as a "database for instantiation" collecting a series of useful game objects. In particular, it
+ * holds ("provides" through {@link ObjGModalityBasedProvider}) the list below
+ * of superclasses and manages them, like calculating the drops and spawning
+ * inside the game.
  * <ul>
  * <li>{@link InventoryItem} (More precisely, {@link EquipmentItem} and
  * {@link InventoryItemNotEquippable}).</li>
@@ -34,9 +34,9 @@ import games.old.ObjNamedIDProvider;
  * <li>{@link CreatureProvider}</li>
  * </ul>
  */
-public abstract class GameObjectsManagerProvider {
+public abstract class GameObjectsProvider {
 
-	public GameObjectsManagerProvider() {
+	public GameObjectsProvider() {
 		this.abilitiesProvider = new AbilitiesProvider();
 	}
 

@@ -2,22 +2,23 @@ package games.theRisingAngel;
 
 import java.util.ArrayList;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.misc.DamageGeneric;
+import games.generic.controlModel.misc.CurrencySet;
+import games.generic.controlModel.player.BasePlayerRPG;
+import games.generic.controlModel.player.ExperienceLevelHolderImpl;
 import games.generic.controlModel.subImpl.GModalityET;
-import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
+import games.generic.controlModel.subImpl.GModalityRPG;
 import games.theRisingAngel.creatures.BaseCreatureTRAr;
 import games.theRisingAngel.events.EventsTRAr;
 import games.theRisingAngel.events.GEventInterfaceTRAr;
 import games.theRisingAngel.inventory.EquipmentSetTRAr;
 
-public class PlayerTRAr extends BaseCreatureTRAr implements PlayerInGameGeneric_ExampleRPG1 {
+public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 	private static final long serialVersionUID = -3336623605789L;
 
-	public PlayerTRAr(GModality gameModality) {
-		super(gameModality);
+	public PlayerTRAr(GModalityRPG gameModality) {
+		super(gameModality, "No name currently provided");
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAr.Destroyed.getName());
 		this.setEquipmentSet(new EquipmentSetTRAr());
@@ -30,27 +31,16 @@ public class PlayerTRAr extends BaseCreatureTRAr implements PlayerInGameGeneric_
 	// TODO other methods
 
 	@Override
-	public void receiveDamage(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
-		if (originalDamage.getDamageAmount() <= 0)
-			return;
-		BaseCreatureTRAr.super.receiveDamage(gm, originalDamage, source);
-	}
-
-	@Override
 	public boolean destroy() {
 		if (!isDestroyed) {
 			isDestroyed = true;
+			super.destroy();
 			return true;
 		}
 		return false;
 	}
 
 //	public void act(GModality modality, long milliseconds) { super.act(modality, milliseconds); }
-
-	@Override
-	public void onStartingGame(GModality mg) {
-		this.setGameModality(mg);
-	}
 
 	@Override
 	public void onEnteringInGame(GModality gm) {
@@ -86,24 +76,66 @@ public class PlayerTRAr extends BaseCreatureTRAr implements PlayerInGameGeneric_
 	}
 
 	@Override
-	public void fireExpGainedEvent(GModality gm, int expGained) {
-		if (gm == null || (!(gm instanceof GModalityET)))
-			return;
-	}
-
-	@Override
-	public void fireLevelGainedEvent(GModality gm, int newLevel) {
-		if (gm == null || (!(gm instanceof GModalityET)))
-			return;
-	}
-
-	@Override
 	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
 		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
 	}
 
 	@Override
 	public void move(long milliseconds) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ExperienceLevelHolderImpl getExpLevelHolder() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setExpLevelHolder(ExperienceLevelHolderImpl expLevelHolder) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onLeavingMap() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void notifyEvent(GModality modality, IGEvent ge) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getExperienceNow() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ExperienceLevelHolderImpl reset() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void recalculateExpToLevelUp() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public CurrencySet getCurrencies() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCurrencies(CurrencySet currencies) {
 		// TODO Auto-generated method stub
 
 	}

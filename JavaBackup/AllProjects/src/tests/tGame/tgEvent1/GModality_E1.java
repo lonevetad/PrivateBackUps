@@ -9,7 +9,7 @@ import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subImpl.GModalityET;
-import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
+import games.generic.controlModel.subImpl.PlayerRPG_E1;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliver;
@@ -25,8 +25,8 @@ public class GModality_E1 extends GModalityET {
 
 	GThread threadGame;
 
-	public PlayerInGameGeneric_ExampleRPG1 getPlayerRPG() {
-		return (PlayerInGameGeneric_ExampleRPG1) player;
+	public PlayerRPG_E1 getPlayerRPG() {
+		return (PlayerRPG_E1) player;
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package tests.tGame.tgEvent1.oggettiDesempio;
 
 import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.CreatureOfRPGs;
+import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subImpl.TimedObjectSimpleImpl;
 import games.theRisingAngel.DamageTypesTRAr;
@@ -16,7 +16,7 @@ public class ObjDamageDeliver implements TimedObjectSimpleImpl {
 	long timeElapsed, timeThreshold;
 	int c, damageAmount;
 	Integer ID;
-	CreatureOfRPGs target;
+	BaseCreatureRPG target;
 
 	public ObjDamageDeliver(long timeThreshold) {
 		ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID();
@@ -40,7 +40,7 @@ public class ObjDamageDeliver implements TimedObjectSimpleImpl {
 		return timeThreshold;
 	}
 
-	public CreatureOfRPGs getTarget() {
+	public BaseCreatureRPG getTarget() {
 		return target;
 	}
 
@@ -54,7 +54,7 @@ public class ObjDamageDeliver implements TimedObjectSimpleImpl {
 		this.damageAmount = damageAmount;
 	}
 
-	public void setTarget(CreatureOfRPGs target) {
+	public void setTarget(BaseCreatureRPG target) {
 		this.target = target;
 	}
 

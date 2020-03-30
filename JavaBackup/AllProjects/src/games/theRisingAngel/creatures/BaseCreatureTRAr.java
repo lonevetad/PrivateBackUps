@@ -2,18 +2,27 @@ package games.theRisingAngel.creatures;
 
 import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.DamageGeneric;
+import games.generic.controlModel.subImpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subImpl.GModalityET;
 import games.generic.controlModel.subImpl.GModalityRPG;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.GModalityTRAr;
 import games.theRisingAngel.events.GEventInterfaceTRAr;
 
-public abstract class BaseCreatureTRAr extends BaseCreatureRPG {
+public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
+	private static final long serialVersionUID = -34551879021102L;
 
 	public BaseCreatureTRAr(GModalityRPG gModRPG, String name) {
 		super(gModRPG, name);
+	}
+
+	//
+
+	@Override
+	protected CreatureAttributes newAttributes() {
+		return newAttributes(AttributesTRAr.VALUES.length);
 	}
 
 	@Override
@@ -47,19 +56,8 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPG {
 	//
 
 	//
-
-	@Override
-	public void receiveDamage(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
-		if (originalDamage.getDamageAmount() <= 0)
-			return;
-		int dr;
-		// check the type
-		dr = this.getAttributes().getValue(AttributesTRAr.DamageReductionPhysical.getIndex());
-		if (dr < 0)
-			dr = 0;
-		setLife(getLife() - (originalDamage.getDamageAmount() - dr));
-		fireDamageReceived(gm, originalDamage, source);
-	}
+//	public void receiveDamage....
+//		dr = this.getAttributes().getValue(AttributesTRAr.DamageReductionPhysical.getIndex());
 	//
 
 	// TODO FIRE EVENTS

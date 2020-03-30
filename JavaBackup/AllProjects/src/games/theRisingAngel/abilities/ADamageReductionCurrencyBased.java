@@ -14,7 +14,7 @@ import games.generic.controlModel.inventoryAbil.AbilityModifyingAttributeRealTim
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
-import games.generic.controlModel.subImpl.PlayerInGameGeneric_ExampleRPG1;
+import games.generic.controlModel.subImpl.PlayerRPG_E1;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.events.EventDamageTRAr;
@@ -93,7 +93,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeReal
 				+ this.getEquipItem().getCreatureWearingEquipments().getAttributes()
 						.getValue(getAttributeToModify().getAttributeModified().getIndex()));
 		System.out.println("MoNeY: " + //
-				((PlayerInGameGeneric_ExampleRPG1) this.getEquipItem().getCreatureWearingEquipments()).getCurrencies()
+				((PlayerRPG_E1) this.getEquipItem().getCreatureWearingEquipments()).getCurrencies()
 						.getMoneyAmount(0));
 	}
 
