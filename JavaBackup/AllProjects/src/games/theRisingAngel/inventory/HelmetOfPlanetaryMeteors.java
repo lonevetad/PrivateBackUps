@@ -7,6 +7,7 @@ import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
 
 public class HelmetOfPlanetaryMeteors extends EINotJewelry {
+	private static final long serialVersionUID = 922120283L;
 
 	public static final String NAME = "Helmet Of Planetary Meteors";
 

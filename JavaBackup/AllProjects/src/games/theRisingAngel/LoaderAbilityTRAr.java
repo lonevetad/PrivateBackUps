@@ -8,9 +8,9 @@ import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
 
-public class AbilityLoaderTRAr extends LoaderAbilities {
+public class LoaderAbilityTRAr extends LoaderAbilities {
 
-	public AbilityLoaderTRAr(ObjGModalityBasedProvider<AbilityGeneric> objProvider) {
+	public LoaderAbilityTRAr(ObjGModalityBasedProvider<AbilityGeneric> objProvider) {
 		super(objProvider);
 	}
 

@@ -1,9 +1,9 @@
 package games.generic.controlModel.subImpl;
 
 import games.generic.controlModel.GameObjectsProvider;
-import games.theRisingAngel.AbilityLoaderTRAr;
-import games.theRisingAngel.CreatureLoaderTRAr;
-import games.theRisingAngel.EquipLoaderTRAr;
+import games.theRisingAngel.LoaderAbilityTRAr;
+import games.theRisingAngel.LoaderCreatureTRAr;
+import games.theRisingAngel.LoaderEquipTRAr;
 
 public abstract class GControllerRPG extends GControllerET {
 	// implements IGameWithAbililties {
@@ -30,9 +30,9 @@ public abstract class GControllerRPG extends GControllerET {
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		super.addGameObjectLoader(new AbilityLoaderTRAr(this.gameObjectsProvider.getAbilitiesProvider()));
-		super.addGameObjectLoader(new EquipLoaderTRAr(this.gameObjectsProvider.getEquipmentsProvider()));
-		super.addGameObjectLoader(new CreatureLoaderTRAr(this.gameObjectsProvider.getCreaturesProvider()));
+		super.addGameObjectLoader(new LoaderAbilityTRAr(this.gameObjectsProvider.getAbilitiesProvider()));
+		super.addGameObjectLoader(new LoaderEquipTRAr(this.gameObjectsProvider.getEquipmentsProvider()));
+		super.addGameObjectLoader(new LoaderCreatureTRAr(this.gameObjectsProvider.getCreaturesProvider()));
 	}
 
 }

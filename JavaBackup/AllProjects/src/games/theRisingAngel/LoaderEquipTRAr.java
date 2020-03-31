@@ -9,9 +9,9 @@ import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.HelmetOfPlanetaryMeteors;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 
-public class EquipLoaderTRAr extends LoaderEquipments {
+public class LoaderEquipTRAr extends LoaderEquipments {
 
-	public EquipLoaderTRAr(ObjGModalityBasedProvider<EquipmentItem> objProvider) {
+	public LoaderEquipTRAr(ObjGModalityBasedProvider<EquipmentItem> objProvider) {
 		super(objProvider);
 	}
 

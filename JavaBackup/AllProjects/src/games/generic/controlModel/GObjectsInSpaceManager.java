@@ -5,8 +5,9 @@ import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.controlModel.subImpl.GEvent;
 
 /**
- * Handler for objects in game. <br>
- * Related to {@link InSpaceObjectsManager} to delegates the real object
+ * Handler for objects in game, that can be placed in a kind of "space" concept.
+ * <br>
+ * Related to {@link InSpaceObjectsManager}: delegates the real object
  * management BUT wraps it to let {@link GEvent}s to be fired.
  */
 public interface GObjectsInSpaceManager {
