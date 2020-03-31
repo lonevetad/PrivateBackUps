@@ -10,7 +10,13 @@ import geometry.pointTools.PointConsumer;
 
 public class ShapeRunnerPolygonBorder extends AbstractShapeRunnerImpl {
 	private static final long serialVersionUID = -6501855552021048L;
-	public static final ShapeRunnerPolygonBorder SINGLETON = new ShapeRunnerPolygonBorder();
+	public static ShapeRunnerPolygonBorder SINGLETON;
+
+	public static ShapeRunnerPolygonBorder getInstance() {
+		if (SINGLETON == null)
+			SINGLETON = new ShapeRunnerPolygonBorder();
+		return SINGLETON;
+	}
 
 	private ShapeRunnerPolygonBorder() {
 	}

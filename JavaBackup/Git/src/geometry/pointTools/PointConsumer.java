@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.function.Consumer;
 
 public interface PointConsumer extends Consumer<Point2D>, Serializable {
+	public static boolean FORCE_EARLY_STOPPING = false;
 	public static final PointConsumer POINT_PRINTER = p -> System.out.println(p);
 
 	/**

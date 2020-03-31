@@ -114,7 +114,7 @@ public final class Comparators {
 					return -1;
 				if (p2 == null)
 					return 1;
-				return Double.compare(p2.getY(), p1.getY());
+				return Double.compare(p1.getY(), p2.getY());
 			} //
 			, POINT_2D_COMPARATOR_LEFT_FIRST = (p1, p2) -> {
 				if (p1 == p2)
@@ -123,7 +123,7 @@ public final class Comparators {
 					return -1;
 				if (p2 == null)
 					return 1;
-				return Double.compare(p2.getX(), p1.getX());
+				return Double.compare(p1.getX(), p2.getX());
 			}//
 			, POINT_2D_COMPARATOR_RIGHT_FIRST = (p1, p2) -> {
 				if (p1 == p2)
@@ -135,6 +135,39 @@ public final class Comparators {
 				return Double.compare(p2.getX(), p1.getX());
 			}//
 			, POINT_2D_COMPARATOR_HIGHEST_LEFTMOST_FIRST = (p1, p2) -> {
+				int c;
+				if (p1 == p2)
+					return 0;
+				if (p1 == null)
+					return -1;
+				if (p2 == null)
+					return 1;
+				c = POINT_2D_COMPARATOR_HIGHEST_FIRST.compare(p1, p2);
+				return (c == 0) ? Double.compare(p1.getX(), p2.getX()) : c;
+			}//
+			, POINT_2D_COMPARATOR_LOWEST_LEFTMOST_FIRST = (p1, p2) -> {
+				int c;
+				if (p1 == p2)
+					return 0;
+				if (p1 == null)
+					return -1;
+				if (p2 == null)
+					return 1;
+				c = POINT_2D_COMPARATOR_LOWEST_FIRST.compare(p1, p2);
+				return (c == 0) ? Double.compare(p1.getX(), p2.getX()) : c;
+			}//
+			, POINT_2D_COMPARATOR_HIGHEST_RIGHTMOST_FIRST = (p1, p2) -> {
+				int c;
+				if (p1 == p2)
+					return 0;
+				if (p1 == null)
+					return -1;
+				if (p2 == null)
+					return 1;
+				c = POINT_2D_COMPARATOR_HIGHEST_FIRST.compare(p1, p2);
+				return (c == 0) ? Double.compare(p2.getX(), p1.getX()) : c;
+			}//
+			, POINT_2D_COMPARATOR_LOWEST_RIGHTMOST_FIRST = (p1, p2) -> {
 				int c;
 				if (p1 == p2)
 					return 0;
