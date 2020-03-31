@@ -3,7 +3,7 @@ package gridObjectManager.impl.coreImpl;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import gridObjectManager.core.PathOptimizer;
+import videogames.gridObjectManager.core.PathOptimizer;
 
 public class PathOptimizerImpl implements PathOptimizer {
 	private static final long serialVersionUID = 467840001201380L;
