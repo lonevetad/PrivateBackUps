@@ -1,8 +1,8 @@
 package games.generic.controlModel.gObj;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.DamageGeneric;
+import tools.ObjectWithID;
 
 public interface LivingObject extends DestructibleObject {
 

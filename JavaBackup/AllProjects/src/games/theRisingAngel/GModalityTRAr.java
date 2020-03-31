@@ -2,6 +2,7 @@ package games.theRisingAngel;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.GameObjectsManager;
 import games.generic.controlModel.GameObjectsProvider;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
@@ -37,5 +38,11 @@ public class GModalityTRAr extends GModalityRPG {
 	public void startGame() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected GameObjectsManager newGOMDelegated(GEventInterface gei) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

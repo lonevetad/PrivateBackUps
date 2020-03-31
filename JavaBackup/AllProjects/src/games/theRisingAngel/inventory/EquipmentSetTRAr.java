@@ -3,7 +3,6 @@ package games.theRisingAngel.inventory;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
-import games.theRisingAngel.creatures.BaseNPCCreatureTRAr;
 
 /**
  * 
@@ -167,25 +166,5 @@ public class EquipmentSetTRAr extends EquipmentSet {
 				}
 			} while(notAdded && ++slotIndexMinimum < maxIndexToCheck);
 		}
-	}
-
-	//
-
-	//
-
-	//
-
-	//
-
-	//
-
-	public static void main(String[] args) {
-		BaseNPCCreatureTRAr c;
-		EquipmentSetTRAr est;
-		c = new BaseNPCCreatureTRAr();
-		est = (EquipmentSetTRAr) c.getEquipmentSet();
-		est.setCreatureWearingEquipments(c);
-
-		// TODO aggiungere anelli
 	}
 }

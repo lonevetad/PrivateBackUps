@@ -3,7 +3,6 @@ package games.theRisingAngel.abilities;
 import java.util.ArrayList;
 import java.util.List;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
@@ -14,11 +13,12 @@ import games.generic.controlModel.inventoryAbil.AbilityModifyingAttributeRealTim
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
-import games.generic.controlModel.subImpl.PlayerRPG_E1;
+import games.generic.controlModel.player.BasePlayerRPG;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
+import tools.ObjectWithID;
 
 public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeRealTime implements GEventObserver {
 	private static final long serialVersionUID = -69287821202158L;
@@ -93,8 +93,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeReal
 				+ this.getEquipItem().getCreatureWearingEquipments().getAttributes()
 						.getValue(getAttributeToModify().getAttributeModified().getIndex()));
 		System.out.println("MoNeY: " + //
-				((PlayerRPG_E1) this.getEquipItem().getCreatureWearingEquipments()).getCurrencies()
-						.getMoneyAmount(0));
+				((BasePlayerRPG) this.getEquipItem().getCreatureWearingEquipments()).getCurrencies().getMoneyAmount(0));
 	}
 
 	@Override
@@ -106,7 +105,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeReal
 		if (ge.getName() == EventsTRAr.DamageReceived.getName()) {
 			ed = (EventDamageTRAr<?>) ge;
 //			damage = ed.getDamage();
-			c = ed.getTarget();
+			c = (BaseCreatureRPG) ed.getTarget();
 			if (!(c instanceof CurrencyHolder))
 				return;
 			ch = ((CurrencyHolder) c).getCurrencies();

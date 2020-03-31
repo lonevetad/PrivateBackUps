@@ -5,12 +5,12 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import tools.Comparators;
+import tools.ObjectWithID;
 
 /** Broadcast the event to ALL observers, without any selection. */
 public class GEventManagerSimple extends GEventManager {

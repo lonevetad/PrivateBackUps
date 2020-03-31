@@ -3,7 +3,6 @@ package games.generic.controlModel;
 import java.util.Set;
 
 import dataStructures.isom.InSpaceObjectsManager;
-import games.generic.ObjectWithID;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.gObj.LivingObject;
@@ -12,6 +11,7 @@ import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subImpl.GModalityET;
 import geometry.AbstractShape2D;
+import tools.ObjectWithID;
 
 /**
  * One of the core classes
@@ -40,11 +40,11 @@ import geometry.AbstractShape2D;
  */
 public interface GameObjectsManager extends GModalityHolder {
 
-	public InSpaceObjectsManager getInSpaceObjectsManager();
+	public GObjectsInSpaceManager getInSpaceObjectsManager();
 
 	public GEventInterface getGEventManager();
 
-	public void setInSpaceObjectsManager(InSpaceObjectsManager isom);
+	public void setGObjectsInSpaceManager(GObjectsInSpaceManager isom);
 
 	public void setGEventInterface(GEventInterface gem);
 

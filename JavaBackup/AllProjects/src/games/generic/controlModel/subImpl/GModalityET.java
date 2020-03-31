@@ -75,12 +75,12 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	//
 
 	@Override
-	public void doOnEachCycle(long millisecToElapse) {
+	public void doOnEachCycle(int millisecToElapse) {
 		progressElapsedTime(millisecToElapse);
 	}
 
 	@Override
-	public void progressElapsedTime(final long millisecToElapse) {
+	public void progressElapsedTime(final int millisecToElapse) {
 		GEventManager gem;
 		this.getModelTimeBased().forEachTimedObject((to) -> {
 			to.act(this, millisecToElapse); // fai progredire QUALSIASI cosa: abilità che si ricaricano col tempo,

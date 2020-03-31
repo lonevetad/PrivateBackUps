@@ -10,13 +10,13 @@ import java.util.function.Function;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.subImpl.GEventManagerSimple.EventNotifier;
 import tools.Comparators;
+import tools.ObjectWithID;
 
 /**
  * Explanation of priorities:

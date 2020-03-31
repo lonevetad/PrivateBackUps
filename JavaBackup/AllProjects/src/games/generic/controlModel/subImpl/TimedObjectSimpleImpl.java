@@ -34,7 +34,7 @@ public interface TimedObjectSimpleImpl extends TimedObject {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public default void act(GModality modality, long milliseconds) {
+	public default void act(GModality modality, int milliseconds) {
 		if (milliseconds > 0) {
 			setAccumulatedTimeElapsed(milliseconds + getAccumulatedTimeElapsed());
 			while(getAccumulatedTimeElapsed() > getTimeThreshold()) {

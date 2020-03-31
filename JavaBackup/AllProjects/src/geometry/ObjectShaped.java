@@ -27,4 +27,14 @@ public interface ObjectShaped extends ObjectLocated {
 		s.setCenter(location);
 	}
 
+	/** See {@literal #getLocation()}. */
+	@Override
+	public default void setLocation(int x, int y) {
+		AbstractShape2D s;
+		s = this.getShape();
+		if (s == null)
+			return;
+		s.setCenter(x, y);
+	}
+
 }

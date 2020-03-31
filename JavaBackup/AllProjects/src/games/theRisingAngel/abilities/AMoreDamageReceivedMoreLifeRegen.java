@@ -3,7 +3,6 @@ package games.theRisingAngel.abilities;
 import java.util.ArrayList;
 import java.util.List;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
@@ -16,6 +15,7 @@ import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
+import tools.ObjectWithID;
 
 /**
  * Grants a life regeneration equals to the 25% of received damage, accumulated

@@ -1,6 +1,5 @@
 package games.theRisingAngel.creatures;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.DamageGeneric;
@@ -10,6 +9,7 @@ import games.generic.controlModel.subImpl.GModalityRPG;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.GModalityTRAr;
 import games.theRisingAngel.events.GEventInterfaceTRAr;
+import tools.ObjectWithID;
 
 public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 	private static final long serialVersionUID = -34551879021102L;

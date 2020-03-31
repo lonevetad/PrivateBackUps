@@ -11,7 +11,7 @@ public class AbilitiesProvider extends ObjGModalityBasedProvider<AbilityGeneric>
 
 	/** Should be preferred over {@link #getObjIdentifiedByID(Integer)}. */
 	public AbilityGeneric getAbilityByName(GModality gm, String name) {
-		if (gm == null || name == null)
+		if (name == null)
 			return null;
 		return getObjIdentifiedByName(name).newInstance(gm);
 	}

@@ -1,7 +1,7 @@
 package games.generic.controlModel.gObj;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
+import tools.ObjectWithID;
 
 /**
  * Mark an object as having a "status" (or at least a non empty set of actions)
@@ -29,5 +29,5 @@ public interface TimedObject extends ObjectWithID {
 	 * second parameter.<br>
 	 * Probably, this method's name is not the best clear and fitting one.
 	 **/
-	public void act(GModality modality, long milliseconds);
+	public void act(GModality modality, int milliseconds);
 }

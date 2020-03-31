@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.subImpl.GModelTimeBased;
+import tools.ObjectWithID;
 
 /**
  * Interface for classes that holds and manages in some way (at least in a

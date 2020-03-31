@@ -1,7 +1,6 @@
 package games.theRisingAngel.events;
 
 import games.generic.controlModel.GEventManager;
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
 import games.generic.controlModel.gEvents.EventMoneyChange;
 import games.generic.controlModel.gObj.CreatureSimple;
@@ -44,7 +43,7 @@ public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 // TODOOOOOOOOO dc'è da spostare molti eventi in un luogo più idoneo
 
 	@Override
-	public void firePlayerEnteringInMap(GModality_ER gameModality, PlayerGeneric p) {
+	public void firePlayerEnteringInMap(GModalityET gameModality, PlayerGeneric p) {
 		// semplice "creature entering on the field"
 	}
 
@@ -52,7 +51,7 @@ public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 	 * @param currencyType the index (or an id) of the currency earned-lost
 	 */
 	@Override
-	public void fireMoneyChangeEvent(GModality gm, int currencyType, int oldValue, int newValue) {
+	public void fireMoneyChangeEvent(GModalityET gm, int currencyType, int oldValue, int newValue) {
 		this.getGameEventManager().fireEvent(new EventMoneyChange(gm.getPlayer(), currencyType, oldValue, newValue));
 	}
 
@@ -68,5 +67,17 @@ public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 			DamageGeneric originalDamage) {
 		this.getGameEventManager().fireEvent( //
 				new EventDamageTRAr<SourceDamage>(EventsTRAr.DamageReceived, source, target, originalDamage));
+	}
+
+	@Override
+	public void fireExpGainedEvent(GModalityET gm, int expGained) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fireLevelGainedEvent(GModalityET gm, int levelGained) {
+		// TODO Auto-generated method stub
+
 	}
 }

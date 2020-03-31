@@ -10,7 +10,7 @@ public class NecklaceOfPainRinvigoring extends EIJewelry {
 	public static final String NAME = "Necklace of Pain Rinvigoring";
 	protected AMoreDamageReceivedMoreLifeRegen abilityDamageToLifeRegen;
 
-	public NecklaceOfPainRinvigoring(GModalityRPG gmrpg, EquipmentTypesTRAr et, String name) {
+	public NecklaceOfPainRinvigoring(GModalityRPG gmrpg) {
 		super(gmrpg, EquipmentTypesTRAr.Necklace, NAME);
 	}
 

@@ -40,7 +40,7 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 		return false;
 	}
 
-//	public void act(GModality modality, long milliseconds) { super.act(modality, milliseconds); }
+//	public void act(GModality modality, int milliseconds) { super.act(modality, milliseconds); }
 
 	@Override
 	public void onEnteringInGame(GModality gm) {
@@ -72,7 +72,7 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 			return;
 		gmet = (GModalityET) gm;
 		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
-		gei.fireDestructionObjectEvent(gm, this);
+		gei.fireDestructionObjectEvent((GModalityET) gm, this);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 	}
 
 	@Override
-	public void move(long milliseconds) {
+	public void move(int milliseconds) {
 		// TODO Auto-generated method stub
 
 	}

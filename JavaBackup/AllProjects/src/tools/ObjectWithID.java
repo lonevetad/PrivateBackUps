@@ -1,4 +1,4 @@
-package games.generic;
+package tools;
 
 import java.util.Comparator;
 import java.util.function.Function;

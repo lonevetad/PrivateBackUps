@@ -4,14 +4,13 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
-import games.generic.ObjectWithID;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subImpl.GEvent;
 import games.generic.controlModel.subImpl.IGameModalityTimeBased;
-import games.old.PlayerGeneric_OLD;
 import tools.Comparators;
+import tools.ObjectWithID;
 
 /**
  * One of the Core classes.<br>
@@ -43,12 +42,12 @@ public abstract class GModality {
 	 * Used by {@link #runGameCycle()} and usually returned by
 	 * {@link #getMinimumMillisecondsEachCycle()}.
 	 */
-	public static final long MIN_DELTA = 10L, MAX_DELTA = 100L;
+	public static final int MIN_DELTA = 10, MAX_DELTA = 100;
 
 	//
 
 	protected boolean isRunning;
-	protected long lastElapsedDeltaTime = 0;
+	protected int lastElapsedDeltaTime = 0;
 	protected GController controller;
 	protected GModel model;
 	protected String modalityName;
@@ -112,7 +111,7 @@ public abstract class GModality {
 	 * original implementation.<br>
 	 * Set it as <code>0 (zero)</code> to remove each limit, especially FPS limits.
 	 */
-	public long getMinimumMillisecondsEachCycle() {
+	public int getMinimumMillisecondsEachCycle() {
 		return MIN_DELTA;
 	}
 
@@ -141,7 +140,7 @@ public abstract class GModality {
 
 	public abstract CurrencySet newCurrencyHolder();
 
-	/** See {@link PlayerGeneric_OLD} to see what is meant. */
+	/** See {@link PlayerGeneric} to see what is meant. */
 	protected abstract PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer);
 
 	/**
@@ -171,9 +170,9 @@ public abstract class GModality {
 	 * even if this is a super-class, but it's useful, as You would see.)<br>
 	 * {@link GModality} implementing "real time" games should implement the
 	 * interface {@link IGameModalityTimeBased} and implement this method as a
-	 * simple invocation of {@link IGameModalityTimeBased#progressElapsedTime(long)}
+	 * simple invocation of {@link IGameModalityTimeBased#progressElapsedTime(int)}
 	 */
-	public abstract void doOnEachCycle(long millisecToElapse);
+	public abstract void doOnEachCycle(int millisecToElapse);
 
 	/**
 	 * Publish and fire the event in some way, if and only if this current Game
@@ -279,7 +278,7 @@ public abstract class GModality {
 
 	/**
 	 * <i/>WARNING</i>: <b>NOT</b> override designed,<br>
-	 * but allowed: just redefine {@link #doOnEachCycle(long)} instead.
+	 * but allowed: just redefine {@link #doOnEachCycle(int)} instead.
 	 * <p>
 	 * Perform a SINGLE game cycle/step.<br>
 	 * Should be called by the game's thread inside a cycle.<br>
@@ -294,13 +293,14 @@ public abstract class GModality {
 	 * FPS count is <code>1000/{@link #getMinimumMillisecondsEachCycle()}</code>.
 	 */
 	public void runGameCycle() {
-		long start, timeToSleep, minDelta;
+		long start;
+		int timeToSleep, minDelta;
 		minDelta = this.getMinimumMillisecondsEachCycle();
 		if (isAlive()) {
 			while(isRunningOrSleep()) {
 				start = System.currentTimeMillis();
 				doOnEachCycle(lastElapsedDeltaTime);
-				timeToSleep = minDelta - ((System.currentTimeMillis() - start) + 1);
+				timeToSleep = (minDelta - ((int) (System.currentTimeMillis() - start)) + 1);
 
 				// "+1" as a rounding factor for nanoseconds
 				if (timeToSleep > 0) {

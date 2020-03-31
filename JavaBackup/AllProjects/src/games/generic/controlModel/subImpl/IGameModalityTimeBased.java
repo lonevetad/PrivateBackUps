@@ -6,9 +6,8 @@ import games.generic.controlModel.gObj.TimedObject;
 /**
  * Mark a {@link GModality} as a "time-based" game, maybe "real-time" based
  * game.<br>
- * For this purpose, implements the method {@link GModality#doOnEachCycle(long)}
- * so that it invokes this interface's method
- * {@link #progressElapsedTime(long)}.
+ * For this purpose, implements the method {@link GModality#doOnEachCycle(int)}
+ * so that it invokes this interface's method {@link #progressElapsedTime(int)}.
  */
 public interface IGameModalityTimeBased {
 
@@ -21,7 +20,7 @@ public interface IGameModalityTimeBased {
 	 * method is designed to "progress / evolve" those objects' status depending on
 	 * elapsed time.
 	 * <p>
-	 * Method that should be invoked by {@link GModality#doOnEachCycle(long)}.
+	 * Method that should be invoked by {@link GModality#doOnEachCycle(int)}.
 	 */
-	public void progressElapsedTime(long millisecToElapse);
+	public void progressElapsedTime(int millisecToElapse);
 }

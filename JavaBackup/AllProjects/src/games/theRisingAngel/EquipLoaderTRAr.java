@@ -6,6 +6,8 @@ import games.generic.controlModel.misc.LoaderEquipments;
 import games.generic.controlModel.misc.ObjGModalityBasedProvider;
 import games.generic.controlModel.subImpl.GModalityRPG;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
+import games.theRisingAngel.inventory.HelmetOfPlanetaryMeteors;
+import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 
 public class EquipLoaderTRAr extends LoaderEquipments {
 
@@ -22,6 +24,11 @@ public class EquipLoaderTRAr extends LoaderEquipments {
 //		objProvider.addObj(AMoreDamageReceivedMoreLifeRegen.NAME, gmm -> new AMoreDamageReceivedMoreLifeRegen());
 		objProvider.addObj(ArmProtectionShieldingDamageByMoney.NAME,
 				(gm) -> new ArmProtectionShieldingDamageByMoney((GModalityRPG) gm));
+		objProvider.addObj(NecklaceOfPainRinvigoring.NAME, //
+				(gm) -> new NecklaceOfPainRinvigoring((GModalityRPG) gm));
+		objProvider.addObj(HelmetOfPlanetaryMeteors.NAME, (gm) -> new HelmetOfPlanetaryMeteors((GModalityRPG) gm));
+
+		// TODO
 	}
 
 }

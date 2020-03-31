@@ -6,8 +6,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
-import games.generic.ObjectWithID;
 import tools.Comparators;
+import tools.ObjectWithID;
 
 public abstract class GModel implements GObjectsHolder {
 	protected MapTreeAVL<Integer, ObjectWithID> allObjects_BackMap;

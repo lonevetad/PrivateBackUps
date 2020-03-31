@@ -1,8 +1,8 @@
 package games.generic.controlModel.gObj;
 
-import games.generic.ObjectWithID;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
+import tools.ObjectWithID;
 
 /**
  * Defines an object designed to be put in a "space-based context". Implements:

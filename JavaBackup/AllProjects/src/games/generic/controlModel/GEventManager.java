@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
-import games.generic.ObjectWithID;
 import games.generic.controlModel.subImpl.GEvent;
 import tools.Comparators;
+import tools.ObjectWithID;
 
 /**
  * Manager of {@link GEvent}s and their {@link GEventObserver}. In particular,

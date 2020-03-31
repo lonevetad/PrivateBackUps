@@ -24,10 +24,10 @@ public interface CreatureSimple extends AttributesHolder, LivingObject, MovingOb
 // MovingObject extends TimedObject, ObjectInSpace, so it's comfortable
 
 	public static final int TICKS_PER_SECONDS = 4, LOG_TICKS_PER_SECONDS = 2;
-	public static final long MILLIS_REGEN_LIFE_MANA = 1000 / TICKS_PER_SECONDS;
+	public static final int MILLIS_REGEN_LIFE_MANA = 1000 / TICKS_PER_SECONDS;
 
 	// NOTE: to perform a
-//	public int getLifeRegenationCache	
+//	public int getLifeRegenationCache
 	public int getTicks();
 
 	public void setTicks(int ticks);
@@ -51,13 +51,13 @@ public interface CreatureSimple extends AttributesHolder, LivingObject, MovingOb
 		receiveLifeHealing(gm, temp);
 	}
 
-	public long getAccumulatedTimeLifeRegen();
+	public int getAccumulatedTimeLifeRegen();
 
-	public void setAccumulatedTimeLifeRegen(long newAccumulated);
+	public void setAccumulatedTimeLifeRegen(int newAccumulated);
 
 	@Override
-	public default void act(GModality modality, long milliseconds) {
-		long tfinal;
+	public default void act(GModality modality, int milliseconds) {
+		int tfinal;
 		MovingObject.super.act(modality, milliseconds);
 		tfinal = getAccumulatedTimeLifeRegen() + milliseconds;
 		if (tfinal > MILLIS_REGEN_LIFE_MANA) {

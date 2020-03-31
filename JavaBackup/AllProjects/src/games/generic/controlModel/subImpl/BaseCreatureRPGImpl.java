@@ -2,9 +2,7 @@ package games.generic.controlModel.subImpl;
 
 import java.util.List;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.GameObjectsManager;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
@@ -14,6 +12,7 @@ import games.generic.controlModel.misc.DamageGeneric;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.CreatureUIDProvider;
 import geometry.AbstractShape2D;
+import tools.ObjectWithID;
 
 /**
  * Defines a default (but not mandatory) implementation of a "creature" concept,
@@ -29,11 +28,11 @@ import geometry.AbstractShape2D;
  * </ul>
  */
 public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
-
 	private static final long serialVersionUID = 1L;
+
 	protected boolean isDestroyed;
 	protected int life, ticks;
-	protected long accumulatedTimeLifeRegen;
+	protected int accumulatedTimeLifeRegen;
 	protected Integer ID;
 	protected String name;
 	protected List<String> eventsWatching;
@@ -128,7 +127,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public long getAccumulatedTimeLifeRegen() {
+	public int getAccumulatedTimeLifeRegen() {
 		return accumulatedTimeLifeRegen;
 	}
 
@@ -195,7 +194,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public void setAccumulatedTimeLifeRegen(long accumulatedTimeLifeRegen) {
+	public void setAccumulatedTimeLifeRegen(int accumulatedTimeLifeRegen) {
 		this.accumulatedTimeLifeRegen = accumulatedTimeLifeRegen;
 	}
 
@@ -246,7 +245,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public void move(long milliseconds) {
+	public void move(int milliseconds) {
 		// TODO Auto-generated method stub
 
 	}
@@ -283,12 +282,13 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	public void fireDamageReceived(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
 		GModalityRPG gmodrpg;
 		GEventInterfaceRPG geie1;
-		GameObjectsManager gom;
+//		GameObjectsManager gom;
 		if (gm == null || (!(gm instanceof GModalityRPG)))
 			return;
 		gmodrpg = (GModalityRPG) gm;
-		gom = gmodrpg.getGameObjectsManagerDelegated();
+//		gom = gmodrpg.getGameObjectsManagerDelegated();
 		geie1 = (GEventInterfaceRPG) gmodrpg.getEventInterface();
 		geie1.fireDamageReceivedEvent(gmodrpg, source, this, originalDamage);
+//		gom.dealsDamageTo(source, this, originalDamage);// cannot "deals" damage because it's already dealt
 	}
 }

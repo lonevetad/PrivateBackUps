@@ -1,8 +1,8 @@
 package games.generic.controlModel.inventoryAbil;
 
 import games.generic.ObjectNamedID;
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
+import tools.ObjectWithID;
 
 public interface AbilityGeneric extends ObjectNamedID {
 	public ObjectWithID getOwner();
