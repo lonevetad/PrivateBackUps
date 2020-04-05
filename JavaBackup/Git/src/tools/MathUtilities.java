@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public final class MathUtilities {
 
@@ -200,6 +201,18 @@ public final class MathUtilities {
 		return (yb == ya) ? 0.0 : ((yb - ya) / (xb - xa));
 	}
 
+	public static double angleDegrees(Point2D p1, Point2D p2) {
+		return angleDegrees(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+	}
+
+	public static double angleDegrees(double x1, double y1, double x2, double y2) {
+		if (x1 == x2)
+			return y1 <= y2 ? 90.0 : 270.0; // Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+		if (y1 == y2)
+			return 0.0;
+		return Math.toDegrees(Math.atan((y2 - y1) / (x2 - x1)));
+	}
+
 	/**
 	 * Test if the first point lies in the bounding box denote by the other two
 	 * points.
@@ -214,6 +227,15 @@ public final class MathUtilities {
 	 */
 	public static boolean isBetween(double pxToTest, double pyToTest, double px1, double py1, double px2, double py2) {
 		double w, h;
+		if (px1 == px2) {
+			return pxToTest == px1 && //
+					((py1 <= pyToTest && pyToTest <= py2) || //
+							(py2 <= pyToTest && pyToTest <= py1));
+		} else if (py1 == py2) {
+			return pyToTest == py1 && //
+					((px1 <= pxToTest && pxToTest <= px2) || //
+							(px2 <= pxToTest && pxToTest <= px1));
+		}
 // taking inspiration from Rectangle's class
 		w = px1 - px2;
 		if (w < 0)
@@ -233,7 +255,7 @@ public final class MathUtilities {
 		w += px1;
 		h += py1;
 		// overflow || intersect
-		return ((w < px1 || w > pxToTest) && (h < py1 || h > pyToTest));
+		return ((w <= px1 || w >= pxToTest) && (h <= py1 || h >= pyToTest));
 	}
 
 	//
@@ -242,9 +264,9 @@ public final class MathUtilities {
 		// the class "Point" extends the class "Point2D"
 		double dist;
 		dist = 0.0;
-		if (p1 != null && p2 != null) {
-			dist = distanceTwoPoints(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-		}
+		if (p1 != null && p2 != null)
+//			dist = distanceTwoPoints(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+			dist = Math.hypot(p1.getX() - p2.getX(), p1.getY() - p2.getY());
 		return dist;
 	}
 
@@ -283,10 +305,25 @@ public final class MathUtilities {
 
 	/**
 	 * Returns the angle, expressed in degrees, existing from the line passing
+	 * through <code>p1</code> and <code>p2</code> and the horizontal axes.-<br>
+	 * It's assumed that the origin (0,0) lies on the BOTTOM-left corner.
+	 * 
+	 * @Deprecated hard to use
+	 */
+	@Deprecated
+	public static double angleDeg(Point2D p1, Point2D p2) {
+		return angleDeg(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+	}
+
+	/**
+	 * Returns the angle, expressed in degrees, existing from the line passing
 	 * through <code>(x1,y1)</code> and <code>(x2,y2)</code> and the horizontal
 	 * axes.-<br>
 	 * It's assumed that the origin (0,0) lies on the BOTTOM-left corner.
+	 * 
+	 * @Deprecated hard to use
 	 */
+	@Deprecated
 	public static double angleDeg(double x1, double y1, double x2, double y2) {
 		boolean quadranteUno = ((x1 < x2) && (y1 > y2));
 		boolean quadranteDue = ((x1 > x2) && (y1 > y2));
@@ -690,12 +727,12 @@ public final class MathUtilities {
 		return list;
 	}
 
-	public static List<Point2D> computeIntersectionPoints(Polygon polygon, Polygon otherPolygon) {
+	public static List<Point2D> getPolygonsIntersection(Polygon polygon, Polygon otherPolygon) {
 		int len, otherIndex, thisx, thisy, lastx, lasty;
 		int[] xx, yy;
 		Line2D linePolygon;
 		List<Point2D> list, intersectionsLinePolygon;
-		if (otherPolygon == null || polygon == null)
+		if (otherPolygon == null || polygon == null || polygon == otherPolygon)
 			return null;
 		// perform check on the tinier polygon and put in secondPoint
 		len = polygon.npoints;
@@ -720,6 +757,42 @@ public final class MathUtilities {
 			}
 			lastx = thisx;
 			lasty = thisy;
+		}
+		return list;
+	}
+
+	public static List<Point2D> getCirclePolygonIntersection(Point2D centreCircle, int diameter, Polygon polygon) {
+		int len, otherIndex;
+		int[] xx, yy;
+//		Line2D linePolygon;
+		Point thisPoint, lastPoint;
+		List<Point2D> list, intersectionsLinePolygon;
+		if (centreCircle == null || polygon == null)
+			return null;
+		// perform check on the tinier polygon and put in secondPoint
+		len = polygon.npoints;
+		xx = polygon.xpoints;
+		yy = polygon.ypoints;
+		otherIndex = 0;
+		lastPoint = new Point(xx[otherIndex], yy[otherIndex]);
+		thisPoint = new Point();
+		list = null;
+//		linePolygon = new Line2D.Double(0, 0, lastx, lasty);
+		while (--len >= 0) {
+			thisPoint.x = xx[len];
+			thisPoint.y = yy[len];
+//			linePolygon.setLine(thisx, thisy, lastx, lasty);
+			intersectionsLinePolygon = MathUtilities.getCircleLineIntersections(centreCircle, diameter, lastPoint,
+					thisPoint);
+			if (intersectionsLinePolygon != null && (!intersectionsLinePolygon.isEmpty())) {
+				for (Point2D p : intersectionsLinePolygon) {
+					if (list == null)
+						list = new LinkedList<>();
+					list.add(p);
+				}
+			}
+			lastPoint.x = thisPoint.x;
+			lastPoint.y = thisPoint.y;
 		}
 		return list;
 	}
@@ -788,7 +861,6 @@ public final class MathUtilities {
 			l.add(new Point2D.Double(cx0, cy0));
 			return l;
 		}
-
 		// 1)
 		dx = cx1 - cx0;
 		dy = cy1 - cy0;
@@ -811,6 +883,157 @@ public final class MathUtilities {
 		l.add(new Point2D.Double(//
 				cx2 - dx2, //
 				cy2 + dy2));
+		return l;
+	}
+
+	public static List<Point2D> getCircleLineIntersections(Point2D circleCentre, int diameter, Line2D line) {
+		return getCircleLineIntersections(circleCentre, diameter, line.getP1(), line.getP2());
+	}
+
+	public static List<Point2D> getCircleLineIntersections(Point2D circleCentre, int diameter, Point2D pLine1,
+			Point2D pLine2) {
+		int w, h, lowestx, lowesty;
+		double slope;
+		List<Point2D> l;
+		Point2D p1, p2;
+		if (Objects.equals(pLine1, pLine2))
+			throw new IllegalArgumentException("Coincident two line's point ");
+		slope = slope(pLine1, pLine2);
+
+		l = getCircleLineIntersections(circleCentre, diameter, pLine1, slope, true);
+		if (l == null)
+			return null;
+//		System.out.println("GOT: " + Arrays.toString(l.toArray()));
+		p1 = l.remove(0);
+		p2 = l.remove(0);
+		if (pLine1.getX() < pLine2.getX()) {
+			lowestx = (int) Math.round(pLine1.getX());
+			w = (int) Math.round(pLine2.getX() - pLine1.getX());
+		} else {
+			lowestx = (int) Math.round(pLine2.getX());
+			w = (int) Math.round(pLine1.getX() - pLine2.getX());
+		}
+		if (pLine1.getY() < pLine2.getY()) {
+			lowesty = (int) Math.round(pLine1.getY());
+			h = (int) Math.round(pLine2.getY() - pLine1.getY());
+		} else {
+			lowesty = (int) Math.round(pLine2.getY());
+			h = (int) Math.round(pLine1.getY() - pLine2.getY());
+		}
+		if (isInside((int) Math.round(p1.getX()) - lowestx, (int) Math.round(p1.getY()) - lowesty, w, h))
+			l.add(p1);
+		if (isInside((int) Math.round(p2.getX()) - lowestx, (int) Math.round(p2.getY()) - lowesty, w, h))
+			l.add(p2);
+		return l.isEmpty() ? null : l;
+	}
+
+	/**
+	 * @param circleCentre        the circle's centre, expressed as a
+	 *                            {@link Point2D}.
+	 * @param diameter            the circle's diameter.
+	 * @param pointOfALine        one point belonging to the line-segment, could be
+	 *                            the "centre".
+	 * @param slopeOrAngleDegrees if the last parameter (<code>isSlope</code>) is
+	 *                            true, then this parameter is considered to be the
+	 *                            line's slope. Otherwise, it's the angle, expressed
+	 *                            in degrees, of the line-segment. It's not the
+	 *                            slope: can be computed through
+	 *                            <code>Math.toDegrees(Math.atan(slope))</code>
+	 * @param isSlope             tells if the previous parameter (the
+	 *                            double-precision floating-point
+	 *                            <code>slopeOrAngleDegrees</code>) is a "slope" or
+	 *                            a "angle in degrees"
+	 */
+	public static List<Point2D> getCircleLineIntersections(Point2D circleCentre, int diameter, Point2D pointOfALine,
+			double slopeOrAngleDegrees, boolean isSlope) {
+		double slope;
+		if (isSlope)
+			slope = slopeOrAngleDegrees;
+		else {
+			if (slopeOrAngleDegrees == 0.0 || slopeOrAngleDegrees == 180.0)
+				slope = 0.0;
+			else if (slopeOrAngleDegrees == 90.0 || slopeOrAngleDegrees == 270)
+				slope = Double.POSITIVE_INFINITY;
+			else
+				slope = (Math.tan(Math.toRadians(slopeOrAngleDegrees)));
+		}
+		return getCircleLineIntersections(//
+				(int) Math.round(circleCentre.getX()), //
+				(int) Math.round(circleCentre.getY()), //
+				diameter, slope, //
+				(slope == 0.0 ? pointOfALine.getY() : //
+						((slope == Double.POSITIVE_INFINITY || slope == Double.NEGATIVE_INFINITY) ? pointOfALine.getX()
+								: (pointOfALine.getY() - slope * pointOfALine.getX()))//
+				));
+	}
+
+	/**
+	 * @param xc       the x-coordinate of the circle's centre
+	 * @param yc       the y-coordinate of the circle's centre
+	 * @param diameter the circle's diameter
+	 * @param m        the slope of the line
+	 * @param q        the constant part of the line
+	 */
+	public static List<Point2D> getCircleLineIntersections(int xc, int yc, int diameter, double m, double q) {
+		double r, a, b, c, delta, x;
+		List<Point2D> l;
+		if (m == 0.0) {
+			q -= yc;
+			if (q <= diameter && q >= -diameter) {
+				l = new LinkedList<>();
+				if (q == diameter) {
+					l.add(new Point2D.Double(xc, yc + diameter));
+				} else if (q == -diameter) {
+					l.add(new Point2D.Double(xc, yc + q));
+				} else {
+					x = Math.sqrt((diameter * diameter) / 4.0 - q * q);
+					yc += q;
+					l.add(new Point2D.Double(xc - x, yc));
+					l.add(new Point2D.Double(xc + x, yc));
+				}
+				return l;
+			} else
+				return null;
+		} else if (m == Double.POSITIVE_INFINITY || m == Double.NEGATIVE_INFINITY) {
+			// hope that q holds the value of x (since the equation is x = q)
+			q -= xc;
+			if (q <= diameter && q >= -diameter) {
+				l = new LinkedList<>();
+				if (q == diameter) {
+					l.add(new Point2D.Double(xc + diameter, yc));
+				} else if (q == -diameter) {
+					l.add(new Point2D.Double(xc + q, yc));
+				} else {
+					x = Math.sqrt((diameter * diameter) / 4.0 - q * q);
+					xc += q;
+					l.add(new Point2D.Double(xc, yc - x));
+					l.add(new Point2D.Double(xc, yc + x));
+				}
+				return l;
+			} else
+				return null;
+		}
+		// y = m*x + q
+		// (x-xc)^2 + (y-yc)^2 = r^2
+		// ->
+		// y = m*x + q
+		// 0 = (x^2)*(1+m^2) + x*(2(m(q-yc)-yc)) + ((q-yc)^2 - r^2 - xc^2)
+		r = diameter / 2.0;
+		a = 1 + (m * m);
+		delta = q - yc;
+		b = 2.0 * (m * delta - xc);
+		c = ((xc * xc) + (delta * delta) - (r * r));
+		delta = (b * b) - 4.0 * a * c;
+		if (delta < 0.0)
+			return null;
+		delta = Math.sqrt(delta);
+		b = -b;
+		a = 2.0 * a;
+		l = new LinkedList<>();
+		x = (b + delta) / a;
+		l.add(new Point2D.Double(x, m * x + q));
+		x = (b - delta) / a;
+		l.add(new Point2D.Double(x, m * x + q));
 		return l;
 	}
 

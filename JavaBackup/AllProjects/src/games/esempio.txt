@@ -1,0 +1,9 @@
+test ciclo gioco ed eventi
+
+1) un Active Item crea una GUI bruttamente embedded in cui
+	si imposta il danno in una casella di testo e ogni Tot controlla il numero
+	se è > 0, allora fa infliggere danno a 2) e riporta a 0
+2) oggetto che che simula la "vita" ...e quando riceve danno, genera l'eventa "danno subito" e quando viene curato idem
+3) oggetto che ogni tot cura un po'
+4) oggettto ogni volta che viene curato, genera soldi
+

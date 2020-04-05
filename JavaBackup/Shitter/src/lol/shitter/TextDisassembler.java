@@ -171,11 +171,11 @@ public class TextDisassembler extends FileDisassemblerHandler {
 			byteLeftToJump = 0;
 			while (integerIterator.hasNext()) {
 				randomNumber = integerIterator.next();
-				System.out.println("index: " + randomNumber);
+//				System.out.println("index: " + randomNumber);
 				bis = new BufferedInputStream(new FileInputStream(fileWithSeed = pieces.remove(randomNumber)));
 				counter = Shitter.MAX_SIZE_BYTE;
 				if (randomNumber == 0) {
-					System.out.println("LOL");
+//					System.out.println("LOL");
 					byteLeftToJump = 8;
 				}
 
@@ -198,7 +198,7 @@ public class TextDisassembler extends FileDisassemblerHandler {
 						newBuffer[i] = buffer[i];
 //					buffer = newBuffer;
 //					rebuildingFileStream.
-					System.out.println("LOL con " + randomNumber);
+//					System.out.println("LOL con " + randomNumber);
 					rebuildingFileStream.flush();
 					rebuildingFileStream.write(newBuffer, 0, counter);
 					rebuildingFileStream.flush();
