@@ -1,7 +1,7 @@
 package games.generic.controlModel.gEvents;
 
 import games.generic.controlModel.gObj.DestructibleObject;
-import games.generic.controlModel.subImpl.GEvent;
+import games.generic.controlModel.subimpl.GEvent;
 
 public class DestructionObjEvent extends GEvent {
 

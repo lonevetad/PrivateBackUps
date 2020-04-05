@@ -1,13 +1,13 @@
 package tests.tGame.tgEvent1.oggettiDesempio;
 
-import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.subImpl.TimedObjectSimpleImpl;
+import games.generic.controlModel.subimpl.TimedObjectSimpleImpl;
 import games.theRisingAngel.DamageTypesTRAr;
 import tests.tGame.tgEvent1.GEventInterface_E1;
 import tests.tGame.tgEvent1.GModality_E1;
+import tools.UniqueIDProvider;
 
 // TODO fare con GUI e affini
 public class ObjDamageDeliver implements TimedObjectSimpleImpl {

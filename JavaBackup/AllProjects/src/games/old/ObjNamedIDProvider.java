@@ -5,8 +5,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import dataStructures.MapTreeAVL;
-import games.generic.ObjectNamedID;
 import tools.Comparators;
+import tools.ObjectNamedID;
 
 /**
  * Deprecate since 29/03/2020 because this would require to store instances of

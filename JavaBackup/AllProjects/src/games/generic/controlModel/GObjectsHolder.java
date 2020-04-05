@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import games.generic.controlModel.subImpl.GModelTimeBased;
+import games.generic.controlModel.subimpl.GModelTimeBased;
 import tools.ObjectWithID;
 
 /**

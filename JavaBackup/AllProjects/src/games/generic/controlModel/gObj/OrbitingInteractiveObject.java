@@ -8,7 +8,7 @@ import java.util.Set;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsManager;
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.GModalityTRAr;
 import geometry.AbstractShape2D;
 import geometry.ObjectShaped;

@@ -3,8 +3,8 @@ package tests.tGame.tgEvent1;
 import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.subImpl.GModalityET;
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GModalityET;
+import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.PlayerTRAr;
 
 public class Player_E1 extends PlayerTRAr {

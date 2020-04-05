@@ -9,7 +9,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.AttributesHolder;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GModalityRPG;
 import tools.Comparators;
 
 /**

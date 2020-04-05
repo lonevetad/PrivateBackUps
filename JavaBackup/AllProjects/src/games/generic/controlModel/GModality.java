@@ -7,8 +7,8 @@ import dataStructures.MapTreeAVL;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
-import games.generic.controlModel.subImpl.GEvent;
-import games.generic.controlModel.subImpl.IGameModalityTimeBased;
+import games.generic.controlModel.subimpl.GEvent;
+import games.generic.controlModel.subimpl.IGameModalityTimeBased;
 import tools.Comparators;
 import tools.ObjectWithID;
 

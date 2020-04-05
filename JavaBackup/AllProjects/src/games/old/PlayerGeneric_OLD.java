@@ -1,8 +1,8 @@
 package games.old;
 
-import games.generic.ObjectNamedID;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
+import tools.ObjectNamedID;
 
 /**
  * Holds data of the player.<br>

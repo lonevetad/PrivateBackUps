@@ -1,7 +1,7 @@
 package games.theRisingAngel.inventory;
 
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GModalityRPG;
 
 /**
  * Simple maker abstract class to represents all kinds of jewelry: rings,

@@ -16,7 +16,7 @@ public final class PolygonUtilities {
 		int i, len;
 		len = p.npoints;
 		i = -1;
-		while (++i < len)
+		while(++i < len)
 			action.accept(new Point(p.xpoints[i], p.ypoints[i]));
 	}
 
@@ -24,7 +24,7 @@ public final class PolygonUtilities {
 		int i, len;
 		len = p.npoints;
 		i = -1;
-		while (++i < len)
+		while(++i < len)
 			action.accept(p.xpoints[i], p.ypoints[i]);
 	}
 
@@ -149,7 +149,7 @@ public final class PolygonUtilities {
 	 * 
 	 * @return: wn = the winding number's computation (=0 only when P is outside)
 	 */
-	public static boolean isPointInsidePolygon(Point2D pointToBeTested, Point2D[] polygonAsConsecutivePoints) {
+	public static boolean isInside(Point2D pointToBeTested, Point2D[] polygonAsConsecutivePoints) {
 		int wn = 0, nextIndex, n; // the winding number counter
 		n = polygonAsConsecutivePoints.length;
 		// loop through all edges of the polygon
@@ -187,18 +187,18 @@ public final class PolygonUtilities {
 	 * 
 	 * @return: wn = the winding number's computation (=0 only when P is outside)
 	 */
-	public static boolean isPointInsidePolygon(Point2D pointToBeTested, Polygon polygon) {
+	public static boolean isInside(Point2D pointToBeTested, Polygon polygon) {
 		int n;
 		n = polygon.npoints;
 		if (n < 3 || (!polygon.getBounds().contains(((pointToBeTested instanceof Point) ? ((Point) pointToBeTested)
 				: new Point((int) pointToBeTested.getX(), (int) pointToBeTested.getY()))))//
 		)
 			return false;
-		return isPointInsidePolygon(pointToBeTested.getX(), pointToBeTested.getY(), polygon);
+		return isInside(pointToBeTested.getX(), pointToBeTested.getY(), polygon);
 	}
 
-	/** See {@link #isPointInsidePolygon(Point2D,Polygon)}. */
-	public static boolean isPointInsidePolygon(double px, double py, Polygon polygon) {
+	/** See {@link #isInside(Point2D,Polygon)}. */
+	public static boolean isInside(double px, double py, Polygon polygon) {
 		int wn = 0, n, x, y; // the winding number counter
 		double prevx, prevy;
 		int[] xx, yy;
@@ -254,7 +254,7 @@ public final class PolygonUtilities {
 		orientation = 1.0;
 		i = -1;
 		pointsCalculated = 0;
-		while (++i < n) {
+		while(++i < n) {
 			oldx = newx;
 			oldy = newy;
 			olddir = newdir;
@@ -296,7 +296,7 @@ public final class PolygonUtilities {
 		i = 1;
 		j = 2;
 		k = 0;
-		while (i < n)
+		while(i < n)
 			area += xx[i++] * (yy[j++] - yy[k++]);
 		area += xx[n] * (yy[1] - yy[n - 1]); // wrap-around term
 		return area / 2.0;

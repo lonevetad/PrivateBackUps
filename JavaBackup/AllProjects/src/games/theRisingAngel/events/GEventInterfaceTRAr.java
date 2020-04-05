@@ -7,9 +7,9 @@ import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.player.PlayerGeneric;
-import games.generic.controlModel.subImpl.GEventInterfaceRPG;
-import games.generic.controlModel.subImpl.GEventManagerFineGrained;
-import games.generic.controlModel.subImpl.GModalityET;
+import games.generic.controlModel.subimpl.GEventInterfaceRPG;
+import games.generic.controlModel.subimpl.GEventManagerFineGrained;
+import games.generic.controlModel.subimpl.GModalityET;
 
 public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 

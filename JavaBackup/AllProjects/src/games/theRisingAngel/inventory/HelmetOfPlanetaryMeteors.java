@@ -2,7 +2,7 @@ package games.theRisingAngel.inventory;
 
 import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
 

@@ -26,7 +26,7 @@ import javax.swing.SpinnerNumberModel;
 import dataStructures.MapTreeAVL;
 import geometry.AbstractShape2D;
 import geometry.AbstractShapeRunner;
-import geometry.ProviderAbstractShape2D;
+import geometry.AbstractShape2DFactory;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.ProviderAbstractShape2DImpl;
 import geometry.implementations.ProviderShapeRunnerImpl;
@@ -84,7 +84,7 @@ public class TestShapeRunners extends TestGeneric {
 		final ColorToPaintOnImage ctpoi;
 		ShapeRunnersImplemented[] shapesToTest;
 		ProviderShapeRunnerImpl providerShapeRunner;
-		ProviderAbstractShape2D providerShapes;
+		AbstractShape2DFactory providerShapes;
 		AbstractShapeRunner runner;
 		ShapeRunnersImplemented selectedShape;
 

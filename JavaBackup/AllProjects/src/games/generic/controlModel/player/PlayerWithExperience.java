@@ -1,8 +1,8 @@
 package games.generic.controlModel.player;
 
 import games.generic.controlModel.gObj.ExperienceLevelHolder;
-import games.generic.controlModel.subImpl.GEventInterfaceRPG;
-import games.generic.controlModel.subImpl.GModalityET;
+import games.generic.controlModel.subimpl.GEventInterfaceRPG;
+import games.generic.controlModel.subimpl.GModalityET;
 
 /** Delegates to a {@link ExperienceLevelHolderImpl} and add some features. */
 public interface PlayerWithExperience extends PlayerGeneric, ExperienceLevelHolder {

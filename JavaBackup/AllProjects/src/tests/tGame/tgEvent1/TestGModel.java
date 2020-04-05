@@ -8,7 +8,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.GObjectsHolder;
 import games.generic.controlModel.gObj.TimedObject;
-import games.generic.controlModel.subImpl.GModelTimeBased;
+import games.generic.controlModel.subimpl.GModelTimeBased;
 
 public class TestGModel {
 

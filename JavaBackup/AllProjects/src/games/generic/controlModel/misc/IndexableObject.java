@@ -1,6 +1,6 @@
 package games.generic.controlModel.misc;
 
-import games.generic.ObjectNamedID;
+import tools.ObjectNamedID;
 
 /**
  * Identify an object that is unique through it index (beware: it's NOT an

@@ -1,4 +1,4 @@
-package games.generic.controlModel.subImpl;
+package games.generic.controlModel.subimpl;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.subImpl.GEventManagerSimple.EventNotifier;
+import games.generic.controlModel.subimpl.GEventManagerSimple.EventNotifier;
 import tools.Comparators;
 import tools.ObjectWithID;
 

@@ -1,4 +1,4 @@
-package games.generic.controlModel.subImpl;
+package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.GObjectsHolder;
 import games.generic.controlModel.gObj.TimedObject;

@@ -1,11 +1,11 @@
 package games.generic.controlModel.gObj;
 
-import games.generic.ObjectNamedID;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
+import tools.ObjectNamedID;
 
 /**
  * Denotes an object that could be destroyed and removed from the game(i.e. has

@@ -1,10 +1,12 @@
-package dataStructures.isom;
+package tools.implementations;
 
 import java.util.Comparator;
 
 import tools.Comparators;
+import tools.ObjWithIDGeneric;
 
-public abstract class ObjectIDInteger extends ObjectWithID<Integer> {
+/** Not deprecated but should not be used. */
+public class ObjectIDInteger implements ObjWithIDGeneric<Integer> {
 	private static final long serialVersionUID = -70321584892380L;
 	private static int progressiveID = 0;
 	public static final Comparator<ObjectIDInteger> COMPARATOR_OWID = (o1, o2) -> {
@@ -30,8 +32,10 @@ public abstract class ObjectIDInteger extends ObjectWithID<Integer> {
 		ID = ++progressiveID;
 	}
 
-	public ObjectIDInteger(ObjectIDInteger o) {
-		super(o);
-	}
+	protected Integer ID;
 
+	@Override
+	public Integer getID() {
+		return ID;
+	}
 }

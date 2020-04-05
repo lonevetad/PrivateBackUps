@@ -157,6 +157,11 @@ public class ShapeLine extends AbstractShapeImpl {
 	//
 
 	@Override
+	public AbstractShape2D toBorder() {
+		return this;
+	}
+
+	@Override
 	public boolean contains(int x, int y) {
 		Polygon p;
 		p = toPolygon();

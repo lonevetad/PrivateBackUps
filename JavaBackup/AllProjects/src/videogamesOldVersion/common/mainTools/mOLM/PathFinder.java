@@ -1,16 +1,15 @@
-package common.mainTools.mOLM;
+package videogamesOldVersion.common.mainTools.mOLM;
 
 import java.awt.Point;
 import java.util.LinkedList;
 import java.util.List;
 
-import common.mainTools.LoggerMessages;
-import common.mainTools.MathUtilities;
-import common.mainTools.mOLM.MatrixObjectLocationManager.COLORS_VISIT;
-import common.mainTools.mOLM.MatrixObjectLocationManager.CollectorObstacles;
-import common.mainTools.mOLM.MatrixObjectLocationManager.CoordinatesDeltaForAdjacentNodes;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractPathFinder;
 import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
+import tools.MathUtilities;
+import videogamesOldVersion.common.mainTools.mOLM.MatrixObjectLocationManager.COLORS_VISIT;
+import videogamesOldVersion.common.mainTools.mOLM.MatrixObjectLocationManager.CollectorObstacles;
+import videogamesOldVersion.common.mainTools.mOLM.MatrixObjectLocationManager.CoordinatesDeltaForAdjacentNodes;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractPathFinder;
 
 /**
  * Implementation of {@link AbstractPathFinder}, using the Singleton pattern.
@@ -86,13 +85,13 @@ public class PathFinder implements AbstractPathFinder {
 		pq = new LinkedList<>();
 		pq.addFirst(nodeStart);
 
-		while (!pq.isEmpty()) {
+		while(!pq.isEmpty()) {
 			u = pq.removeFirst();
 			u.color = COLORS_VISIT.BLACK;
 
 			if (nodeDest.getPreviousOnPathfinding() == null || NodeMatrix.compNodeMatrix.compare(u, nodeDest) < 0) {
 				i = -1;
-				while (++i < MatrixObjectLocationManager.LENGTH_valuesCDFAN) {
+				while(++i < MatrixObjectLocationManager.LENGTH_valuesCDFAN) {
 					arc = MatrixObjectLocationManager.valuesCDFAN[i];
 					if (arc != null) {
 

@@ -3,7 +3,7 @@ package geometry.implementations;
 import java.awt.geom.Point2D;
 
 import geometry.AbstractShape2D;
-import geometry.ProviderAbstractShape2D;
+import geometry.AbstractShape2DFactory;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.shapes.ShapeCircle;
 import geometry.implementations.shapes.ShapeLine;
@@ -13,7 +13,7 @@ import geometry.implementations.shapes.ShapePolygonRegular;
 import geometry.implementations.shapes.ShapeRectangle;
 import geometry.implementations.shapes.ShapeTriangle;
 
-public class ProviderAbstractShape2DImpl implements ProviderAbstractShape2D {
+public class ProviderAbstractShape2DImpl implements AbstractShape2DFactory {
 	private static ProviderAbstractShape2DImpl SINGLETON;
 
 	public static ProviderAbstractShape2DImpl getInstance() {

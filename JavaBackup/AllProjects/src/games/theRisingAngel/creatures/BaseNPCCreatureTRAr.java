@@ -1,8 +1,8 @@
 package games.theRisingAngel.creatures;
 
 import games.generic.controlModel.player.PlayerGeneric;
-import games.generic.controlModel.subImpl.CreatureAttributesModsCaching;
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.CreatureAttributesModsCaching;
+import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.CreatureUIDProvider;
 import games.theRisingAngel.inventory.EquipmentSetTRAr;

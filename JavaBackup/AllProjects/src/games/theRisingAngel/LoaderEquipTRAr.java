@@ -4,7 +4,7 @@ import games.generic.controlModel.GController;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.LoaderEquipments;
 import games.generic.controlModel.misc.ObjGModalityBasedProvider;
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.HelmetOfPlanetaryMeteors;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;

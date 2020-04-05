@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
-import games.generic.controlModel.subImpl.GEvent;
+import games.generic.controlModel.subimpl.GEvent;
 import tools.Comparators;
 import tools.ObjectWithID;
 

@@ -5,8 +5,9 @@ import java.util.Comparator;
 
 import dataStructures.graph.PathFindStrategy;
 import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.NodeIsom;
 import geometry.AbstractShape2D;
-import geometry.ProviderObjectsInSpace;
+import geometry.AbstractObjectsInSpaceManager;
 import geometry.ProviderShapesIntersectionDetector;
 import geometry.implementations.ProviderShapeRunnerImpl;
 import tools.LoggerMessages;
@@ -43,7 +44,7 @@ public class MatrixInSpaceObjectsManager<IDowid> implements InSpaceObjectsManage
 	}
 
 	@Override
-	public ProviderObjectsInSpace getProviderObjectsInSpace() {
+	public AbstractObjectsInSpaceManager getProviderObjectsInSpace() {
 		return null;
 	}
 
@@ -76,7 +77,7 @@ public class MatrixInSpaceObjectsManager<IDowid> implements InSpaceObjectsManage
 	// TODO SETTER
 
 	@Override
-	public void setObjectsInSpaceProvider(ProviderObjectsInSpace providerObjectsInSpace) {
+	public void setObjectsInSpaceProvider(AbstractObjectsInSpaceManager abstractObjectsInSpaceManager) {
 		// TODO Auto-generated method stub
 
 	}

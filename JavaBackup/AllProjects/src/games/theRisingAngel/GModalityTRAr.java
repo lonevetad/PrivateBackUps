@@ -7,7 +7,7 @@ import games.generic.controlModel.GameObjectsProvider;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GModalityRPG;
 
 public class GModalityTRAr extends GModalityRPG {
 

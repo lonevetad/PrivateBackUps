@@ -1,8 +1,8 @@
-package games.generic.controlModel.subImpl;
+package games.generic.controlModel.subimpl;
 
-import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import tools.UniqueIDProvider;
 
 /**
  * Define an event fired during the game.<br>

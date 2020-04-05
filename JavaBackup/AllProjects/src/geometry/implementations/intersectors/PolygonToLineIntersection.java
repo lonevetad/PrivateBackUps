@@ -42,9 +42,9 @@ public class PolygonToLineIntersection implements ShapesIntersectionDetector {
 		if (l1 == null || polygon == null)
 			return false;
 
-		if (PolygonUtilities.isPointInsidePolygon(line.getP1(), polygon)
-				|| PolygonUtilities.isPointInsidePolygon(line.getP2(), polygon)
-				|| PolygonUtilities.isPointInsidePolygon(s1.getCenter(), polygon))
+		if (PolygonUtilities.isInside(line.getP1(), polygon)
+				|| PolygonUtilities.isInside(line.getP2(), polygon)
+				|| PolygonUtilities.isInside(s1.getCenter(), polygon))
 			return true;
 		// perform check on the tinier polygon and put in secondPoint
 		len = polygon.npoints;

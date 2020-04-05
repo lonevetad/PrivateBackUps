@@ -54,6 +54,11 @@ public class ShapePoint extends AbstractShapeImpl {
 	}
 
 	@Override
+	public AbstractShape2D toBorder() {
+		return this;
+	}
+
+	@Override
 	public boolean contains(int x, int y) {
 		return this.xCenter == x && this.yCenter == y;
 	}

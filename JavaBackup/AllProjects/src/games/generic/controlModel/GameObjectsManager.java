@@ -1,5 +1,6 @@
 package games.generic.controlModel;
 
+import java.awt.Point;
 import java.util.Set;
 
 import dataStructures.isom.InSpaceObjectsManager;
@@ -9,7 +10,7 @@ import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.gObj.MovingObject;
 import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.subImpl.GModalityET;
+import games.generic.controlModel.subimpl.GModalityET;
 import geometry.AbstractShape2D;
 import tools.ObjectWithID;
 
@@ -40,8 +41,10 @@ import tools.ObjectWithID;
  */
 public interface GameObjectsManager extends GModalityHolder {
 
-	public GObjectsInSpaceManager getInSpaceObjectsManager();
+	/** Returns the delegator who manage who manages the "space" concept. */
+	public GObjectsInSpaceManager getGObjectInSpaceManager();
 
+	/** Returns the delegator who manage the "event handling" concept. */
 	public GEventInterface getGEventManager();
 
 	public void setGObjectsInSpaceManager(GObjectsInSpaceManager isom);
@@ -50,11 +53,30 @@ public interface GameObjectsManager extends GModalityHolder {
 
 	//
 
-	public void addToMap(MovingObject mo);
+	public default void addToSpace(MovingObject mo) {
+		getGObjectInSpaceManager().addObject(mo);
+	}
 
-	public void removeFromMap(MovingObject mo);
+	public void removeFromSpace(MovingObject mo);
 
 	public Set<ObjectInSpace> findInArea(AbstractShape2D shape);
+
+	/**
+	 * Teleport the given object to a new given location.<br>
+	 * Checks about the new location and all kinds of object's tracking and
+	 * memorizing are delegated to {@link GObjectsInSpaceManager} returned by
+	 * {@link #getGObjectInSpaceManager()}.<br>
+	 * On default implementation, it just calls
+	 * {@link #removeFromSpace(MovingObject)} and then
+	 * {@link #addToSpace(MovingObject)}.
+	 */
+	public default void moveTo(MovingObject mo, Point newLocation) {
+		if (mo == null)
+			throw new IllegalArgumentException("The object to move is null");
+		removeFromSpace(mo);
+		mo.setLocation(newLocation);
+		addToSpace(mo);
+	}
 
 	//
 

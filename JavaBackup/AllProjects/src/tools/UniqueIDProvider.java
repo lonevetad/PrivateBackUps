@@ -1,4 +1,4 @@
-package games.generic;
+package tools;
 
 /** Generates new ID */
 public interface UniqueIDProvider {

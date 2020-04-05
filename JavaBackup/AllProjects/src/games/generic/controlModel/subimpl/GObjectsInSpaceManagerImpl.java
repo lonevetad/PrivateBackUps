@@ -1,4 +1,4 @@
-package games.generic.controlModel.subImpl;
+package games.generic.controlModel.subimpl;
 
 import dataStructures.isom.InSpaceObjectsManager;
 import games.generic.controlModel.GObjectsInSpaceManager;

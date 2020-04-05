@@ -1,4 +1,4 @@
-gpackage geometry.implementations.shapeRunners;
+package geometry.implementations.shapeRunners;
 
 import java.awt.Point;
 import java.awt.Polygon;
@@ -192,7 +192,7 @@ public class ShapeRunnerRectangleBorder extends AbstractShapeRunnerImpl {
 //			}
 //		} else {
 
-		while (++y < lasty) {
+		while(++y < lasty) {
 			if (y == y2 && action.canContinue()) {
 				slopeLeft = MathUtilities.slope(p2, p4);
 				ql = p2.getY() - slopeLeft * p2.getX();

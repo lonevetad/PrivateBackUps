@@ -1,6 +1,6 @@
 package games.old;
 
-import games.generic.UniqueIDProvider;
+import tools.UniqueIDProvider;
 
 public class EquipmentUIDProvider implements UniqueIDProvider {
 	private static final UniqueIDProvider singleton = UniqueIDProvider.newBasicIDProvider();

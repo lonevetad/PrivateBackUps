@@ -1,7 +1,7 @@
 package tests.tGame.tgEvent1;
 
 import games.generic.controlModel.player.UserAccountGeneric;
-import games.generic.controlModel.subImpl.GControllerET;
+import games.generic.controlModel.subimpl.GControllerET;
 
 public class GC_E1 extends GControllerET {
 

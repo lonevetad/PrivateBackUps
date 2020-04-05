@@ -1,9 +1,12 @@
 package games.generic.controlModel;
 
+import java.awt.Point;
+
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.player.PlayerGeneric;
-import games.generic.controlModel.subImpl.GModalityET;
+import games.generic.controlModel.subimpl.GModalityET;
+import geometry.ObjectLocated;
 
 /**
  * Holder of ALL event-firing methods and the {@link GEventManager}.<br>
@@ -23,6 +26,16 @@ public interface GEventInterface {
 //	public void setGameEventManager(GameEventManager gem);
 
 	// TODO put here ALL methods
+
+	public void fireGameObjectAdded(GModalityET gameModality, ObjectLocated o);
+
+	public void fireGameObjectRemoved(GModalityET gameModality, ObjectLocated o);
+
+	/**
+	 * Fire an event representing the movement for an object from a point to its
+	 * (new) location.
+	 */
+	public void fireGameObjectMoved(GModalityET gameModality, Point previousLocation, ObjectLocated o);
 
 	/** After loading the map, creating stuffs and enemies, etc, fire this event */
 	public void firePlayerEnteringInMap(GModalityET gameModality, PlayerGeneric p);

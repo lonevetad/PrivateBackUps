@@ -28,12 +28,18 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 	protected final ShapeRunnersImplemented shapeImplementing;
 	protected Polygon polygonCache;
 
+	/**
+	 * Returns a (possibly new) instance of this shape but defined just by its
+	 * border, if possible. Returns <code>this</code> otherwise.
+	 */
+	public abstract AbstractShape2D toBorder();
+
 	//
 
 	public boolean contains(int x, int y) {
 		Polygon p;
 		p = toPolygon();
-		return (p == null) ? false : PolygonUtilities.isPointInsidePolygon(x, y, p);
+		return (p == null) ? false : PolygonUtilities.isInside(x, y, p);
 		// p.contains(x, y);
 	}
 
@@ -212,7 +218,7 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 		greatery = lowery = yp[len];
 		topLeftVirtualCorner = new Point2D.Double(lowerx, lowery);
 		bottomRightVirtualCorner = new Point2D.Double(greaterx, greatery);
-		while (--len >= 0) {
+		while(--len >= 0) {
 			if ((temp = xp[len]) < lowerx)
 				topLeftVirtualCorner.x = lowerx = temp;
 			if (temp > greaterx)

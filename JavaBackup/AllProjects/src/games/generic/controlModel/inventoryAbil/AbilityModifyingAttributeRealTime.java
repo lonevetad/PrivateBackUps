@@ -1,12 +1,12 @@
 package games.generic.controlModel.inventoryAbil;
 
-import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.misc.AbilityTimedGeneric;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
+import tools.UniqueIDProvider;
 
 /** This class is originally designed as */
 public abstract class AbilityModifyingAttributeRealTime implements AbilityTimedGeneric, EquipItemAbility {

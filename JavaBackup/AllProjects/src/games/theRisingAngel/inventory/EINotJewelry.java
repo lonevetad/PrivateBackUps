@@ -1,7 +1,7 @@
 package games.theRisingAngel.inventory;
 
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GModalityRPG;
 
 public abstract class EINotJewelry extends EquipmentItem {
 	private static final long serialVersionUID = 1L;

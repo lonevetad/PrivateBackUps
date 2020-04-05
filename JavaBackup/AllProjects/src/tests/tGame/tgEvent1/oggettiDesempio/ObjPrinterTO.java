@@ -1,8 +1,8 @@
 package tests.tGame.tgEvent1.oggettiDesempio;
 
-import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.subImpl.TimedObjectSimpleImpl;
+import games.generic.controlModel.subimpl.TimedObjectSimpleImpl;
+import tools.UniqueIDProvider;
 
 /*Simply prints some text*/
 public class ObjPrinterTO implements TimedObjectSimpleImpl {

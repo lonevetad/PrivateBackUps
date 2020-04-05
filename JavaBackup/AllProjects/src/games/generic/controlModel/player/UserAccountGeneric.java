@@ -1,7 +1,7 @@
 package games.generic.controlModel.player;
 
-import games.generic.ObjectNamedID;
 import games.generic.controlModel.GModality;
+import tools.ObjectNamedID;
 
 /**
  * Abstraction of a user "outside a specific game modality" (i.e.

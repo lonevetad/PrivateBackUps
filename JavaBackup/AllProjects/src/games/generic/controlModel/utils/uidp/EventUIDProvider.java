@@ -1,6 +1,6 @@
 package games.generic.controlModel.utils.uidp;
 
-import games.generic.UniqueIDProvider;
+import tools.UniqueIDProvider;
 
 public class EventUIDProvider implements UniqueIDProvider {
 	private static final UniqueIDProvider singleton = UniqueIDProvider.newBasicIDProvider();

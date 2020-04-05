@@ -1,6 +1,6 @@
 package games.theRisingAngel;
 
-import games.generic.UniqueIDProvider;
+import tools.UniqueIDProvider;
 
 public class CreatureUIDProvider implements UniqueIDProvider {
 	private static final UniqueIDProvider singleton = UniqueIDProvider.newBasicIDProvider();

@@ -58,6 +58,17 @@ public abstract class GraphSimple<E, Distance> {
 	protected LoggerMessages log;
 	protected PathFindStrategy<E, Distance> pathFinder;
 
+	/**
+	 * Should NOT be used !! Only for reflection and wrappers (which are weird,
+	 * surely).
+	 */
+	protected GraphSimple() {
+		isDirected = false;
+		this.nodes = null;
+		comparatorElements = null;
+		compNodeGraph = null;
+	}
+
 	public GraphSimple(PathFindStrategy<E, Distance> pathFinder, Comparator<E> comparatorElements) {
 		this(false, pathFinder, comparatorElements);
 	}
@@ -373,11 +384,12 @@ public abstract class GraphSimple<E, Distance> {
 //			checkAdj();
 //			return adjacents;
 //		}
-		
+
 		public int adjacentsSize() {
 			checkAdj();
 			return adjacents.size();
 		}
+
 		public void forEachAdjacents(BiConsumer<NodeGraph, Distance> consumer) {
 			checkAdj();
 			if (!adjacents.isEmpty())
@@ -396,10 +408,10 @@ public abstract class GraphSimple<E, Distance> {
 			return adjacents.containsKey(n);
 		}
 
-		public Distance getAdjacentDistance(NodeGraph n) {
-			checkAdj();
-			return adjacents.get(n);
-		}
+//		public Distance getAdjacentDistance(NodeGraph n) {
+//			checkAdj();
+//			return adjacents.get(n);
+//		}
 
 		void checkAdj() {
 			if (adjacents == null)

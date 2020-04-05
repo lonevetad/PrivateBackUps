@@ -1,7 +1,7 @@
 package games.generic.controlModel.inventoryAbil;
 
-import games.generic.ObjectNamedID;
 import games.generic.controlModel.GModality;
+import tools.ObjectNamedID;
 import tools.ObjectWithID;
 
 public interface AbilityGeneric extends ObjectNamedID {

@@ -494,7 +494,7 @@ public class PolygonDrawer {
 				p.y = r;
 				for (int c = 0; c < widthArea; c++) {
 					p.x = c;
-					expected[i++] = PolygonUtilities.isPointInsidePolygon(p, polygon);
+					expected[i++] = PolygonUtilities.isInside(p, polygon);
 				}
 			}
 

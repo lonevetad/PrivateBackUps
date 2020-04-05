@@ -4,10 +4,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
-import games.generic.UniqueIDProvider;
-import games.generic.controlModel.subImpl.GEvent;
+import games.generic.controlModel.subimpl.GEvent;
 import tools.Comparators;
 import tools.ObjectWithID;
+import tools.UniqueIDProvider;
 
 /**
  * Object able to react upon {@link GEvent}s.<br>

@@ -8,6 +8,10 @@ public abstract class ProviderShapeRunner extends AbstractShapeRunnerImpl {
 
 	public abstract AbstractShapeRunner getShapeRunner(ShapeRunnersImplemented sri);
 
+	public AbstractShapeRunner getShapeRunner(AbstractShape2D shape) {
+		return getShapeRunner(shape.getShapeImplementing());
+	}
+
 	@Override
 	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action, boolean shouldPerformEarlyStops) {
 		AbstractShapeRunner r;

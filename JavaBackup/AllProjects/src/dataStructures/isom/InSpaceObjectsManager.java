@@ -1,14 +1,15 @@
 package dataStructures.isom;
 
 import java.awt.geom.Point2D;
-import java.io.Serializable;
+import java.util.List;
 
+import dataStructures.graph.GraphSimple;
 import dataStructures.graph.PathFindStrategy;
+import geometry.AbstractObjectsInSpaceManager;
 import geometry.AbstractShape2D;
-import geometry.AbstractShapeRunner;
-import geometry.ProviderObjectsInSpace;
-import geometry.ProviderShapesIntersectionDetector;
-import geometry.implementations.ProviderShapeRunnerImpl;
+import geometry.ObjectLocated;
+import geometry.ObjectShaped;
+import geometry.PathFinder;
 import tools.LoggerMessages;
 
 /**
@@ -29,53 +30,53 @@ import tools.LoggerMessages;
  * <li></li>
  * </ul>
  */
-public interface InSpaceObjectsManager extends Serializable {
+public abstract class InSpaceObjectsManager<D extends Number> extends dataStructures.graph.GraphSimple<NodeIsom, D>
+		implements AbstractObjectsInSpaceManager {
+
+	public InSpaceObjectsManager() {
+		super();
+	}
+
+	protected LoggerMessages log;
+	protected PathFinderIsomAdapter<NodeIsom, D> pathFinder;
 
 	//
 
 	// TODO GETTER
 
-	public LoggerMessages getLog(LoggerMessages log);
-
 	/**
-	 * Representation of the space managed by this instance.
+	 * Could seems odd, but it's useful for {@link PathFinder}s' implementations.
 	 */
-	public AbstractShape2D getSpaceShape();
-
-	//
-
-	// TODO UTILITIES PROVIDERS GETTER
-
-	public PathFindStrategy<Point2D, Double> getPathFinder();
-
-	public ProviderObjectsInSpace getProviderObjectsInSpace();
-
-	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector();
-
-	public ProviderShapeRunnerImpl getProviderShapeRunner();
+	public abstract NodeIsom getNodeAt(Point2D location);
 
 	//
 
 	// TODO SETTER
 
-	public InSpaceObjectsManager setLog(LoggerMessages log);
+	@Override
+	public PathFinder<NodeIsom, D> getPathFinder() {
+		return pathFinder;
+	}
 
-	//
+	public void setPathFinder(PathFinder<NodeIsom, D> pathFinder) {
+		this.pathFinder = pathFinder;
+	}
 
-	// TODO UTILITIES PROVIDERS SETTER
+	@Override
+	public GraphSimple<NodeIsom, D> setLog(LoggerMessages log) {
+		this.log = log;
+		return this;
+	}
 
-	public void setPathFinder(PathFindStrategy<Point2D, Double> pathFinder);
-
-	public void setObjectsInSpaceProvider(ProviderObjectsInSpace providerObjectsInSpace);
-
-	public void setProviderShapesIntersectionDetector(
-			ProviderShapesIntersectionDetector providerShapesIntersectionDetector);
-
-	public void setProviderShapeRunner(ProviderShapeRunnerImpl providerShapeRunner);
+	@Override
+	public void setPathFinder(PathFindStrategy<NodeIsom, D> pathFinder) {
+		this.pathFinder = pathFinder;
+	}
 
 //
 
 	// TODO OTHER
+	@Override
 	public LoggerMessages getLog();
 
 //	public AbstractShapeRunners/* _WithCoordinates */ getShapeRunners();
@@ -84,31 +85,38 @@ public interface InSpaceObjectsManager extends Serializable {
 
 	//
 
-	public default boolean isInside(Point2D p) {
-		return isInside(p.getX(), p.getY());
-	}
-
-	public default boolean isInside(double x, double y) {
-		AbstractShape2D s;
-		s = getSpaceShape();
-		return s == null ? false : s.contains((int) x, (int) y);
-	}
+//	public default boolean isInside(Point2D p) { return isInside(p.getX(), p.getY());}
+//	public default boolean isInside(double x, double y) {
+//		AbstractShape2D s;
+//		s = getSpaceShape();
+//		return s == null ? false : s.contains((int) x, (int) y);
+//	}
 
 	/**
 	 * As for {@link #runOnShape(AbstractShape2D, IsomConsumer)}, but giving the
 	 * {@link AbstractShape2D} returned by {@link #getSpaceShape()}.
 	 */
 	public default void runOnShape(IsomConsumer action) {
-		runOnShape(getSpaceShape(), action);
+		runOnShape(getBoundingShape(), action);
 	}
 
-	public default void runOnShape(AbstractShape2D shape, IsomConsumer action) {
-		AbstractShapeRunner runner;
-		if (shape == null || action == null)
-			return;
-		runner = this.getProviderShapeRunner().getShapeRunner(shape.getShapeImplementing());
-		if (runner == null)
-			return;
-		runner.runShape(shape, action);
+	// TODO to-do path find
+
+	public List<Point2D> getPath(Point2D start, Point2D destination);
+
+	/**
+	 * Invoking {@link #getPath(Point2D, Point2D)} by giving as first parameter the
+	 * result of {@link ObjectLocated#getLocation()}..
+	 */
+	public default List<Point2D> getPath(ObjectLocated objRequiringToMove, Point2D destination) {
+		return getPath(getPathFinder(), objRequiringToMove.getLocation(), destination);
 	}
+
+	/**
+	 * Like {@link #getPath(PathFindStrategy, ObjectLocated, Point2D)}, but it's
+	 * required to take care of the object's sizze (i.e.: the value returned by
+	 * {@link ObjectShaped#getShape()} provided by the second parameter).
+	 */
+	public List<Point2D> getPath(ObjectShaped objRequiringTo, Point2D destination);
+
 }

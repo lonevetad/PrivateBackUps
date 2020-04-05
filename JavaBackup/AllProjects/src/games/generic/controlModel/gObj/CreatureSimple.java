@@ -1,9 +1,9 @@
 package games.generic.controlModel.gObj;
 
-import games.generic.ObjectNamedID;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.CreatureAttributes;
+import tools.ObjectNamedID;
 
 /**
  * Base interface for a "creature" for almost ALL games (RPG, RTS, etc).

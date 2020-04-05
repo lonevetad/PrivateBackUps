@@ -1,7 +1,7 @@
 package tests.tGame.tgEvent1.oggettiDesempio;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.subImpl.GModalityET;
+import games.generic.controlModel.subimpl.GModalityET;
 import tests.tGame.tgEvent1.GEventInterface_E1;
 
 public class ObjPrinter_EventDeliver extends ObjPrinterTO {

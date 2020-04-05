@@ -2,10 +2,10 @@ package games.old;
 
 import java.util.List;
 
-import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.player.PlayerGeneric;
+import tools.UniqueIDProvider;
 
 /**
  * Should not be used since a "in game player" should extend some "creature"

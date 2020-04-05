@@ -3,10 +3,7 @@ package tools;
 import java.util.Comparator;
 import java.util.function.Function;
 
-import tools.Comparators;
-import tools.Stringable;
-
-public interface ObjectWithID extends Stringable {
+public interface ObjectWithID extends ObjWithIDGeneric<Integer> {
 	public static final Comparator<ObjectWithID> COMPARATOR_OWID = (o1, o2) -> {
 		if (o1 == o2)
 			return 0;
@@ -23,5 +20,6 @@ public interface ObjectWithID extends Stringable {
 	// TODO methods
 
 	/** BEWARE of non uniqueness caused by bad management ! */
+	@Override
 	public Integer getID();
 }

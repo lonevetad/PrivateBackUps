@@ -1,8 +1,8 @@
 package games.generic.controlModel;
 
-import games.generic.ObjectNamedID;
 import games.generic.controlModel.gEvents.ExampleGameEvents;
-import games.generic.controlModel.subImpl.GEventManagerFineGrained;
+import games.generic.controlModel.subimpl.GEventManagerFineGrained;
+import tools.ObjectNamedID;
 
 public interface IGEvent extends ObjectNamedID {
 

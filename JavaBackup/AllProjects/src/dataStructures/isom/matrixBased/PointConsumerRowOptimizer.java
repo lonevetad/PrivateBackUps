@@ -2,6 +2,7 @@ package dataStructures.isom.matrixBased;
 
 import java.awt.geom.Point2D;
 
+import dataStructures.isom.NodeIsom;
 import geometry.pointTools.impl.PointConsumerRestartable;
 
 public abstract class PointConsumerRowOptimizer<IDowid> implements PointConsumerRestartable {

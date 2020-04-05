@@ -3,10 +3,10 @@ package tests.tGame.tgEvent1.oggettiDesempio;
 import java.util.ArrayList;
 import java.util.List;
 
-import games.generic.UniqueIDProvider;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import tools.UniqueIDProvider;
 
 public class ObserverPrinterEvent implements GEventObserver {
 	protected Integer ID;

@@ -2,8 +2,8 @@ package games.generic.controlModel.inventoryAbil;
 
 import java.awt.Point;
 
-import games.generic.ObjectNamedID;
 import games.generic.controlModel.utils.uidp.InventoryItemUIDProvider;
+import tools.ObjectNamedID;
 
 /**
  * Marker interface for elements that can be placed into the inventory. <br>

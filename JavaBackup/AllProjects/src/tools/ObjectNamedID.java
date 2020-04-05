@@ -1,7 +1,6 @@
-package games.generic;
+package tools;
 
 import games.generic.controlModel.ObjectNamed;
-import tools.ObjectWithID;
 
 /**
  * Mark an object as identifiable through both its numerical identifier (i.e.

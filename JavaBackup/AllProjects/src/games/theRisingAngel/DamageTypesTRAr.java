@@ -1,6 +1,6 @@
 package games.theRisingAngel;
 
-import games.generic.ObjectNamedID;
+import tools.ObjectNamedID;
 
 public enum DamageTypesTRAr implements ObjectNamedID {
 	Physical, Magical;

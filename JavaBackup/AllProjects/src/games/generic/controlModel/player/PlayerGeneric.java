@@ -1,9 +1,9 @@
 package games.generic.controlModel.player;
 
-import games.generic.ObjectNamedID;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.GModalityHolder;
+import tools.ObjectNamedID;
 
 /**
  * 27/03/2020 transformed into an interface since a "in game player" should

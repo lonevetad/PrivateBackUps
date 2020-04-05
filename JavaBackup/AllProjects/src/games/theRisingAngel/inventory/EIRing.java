@@ -1,6 +1,6 @@
 package games.theRisingAngel.inventory;
 
-import games.generic.controlModel.subImpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GModalityRPG;
 
 public abstract class EIRing extends EIJewelry {
 	private static final long serialVersionUID = 1L;
