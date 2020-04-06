@@ -1,6 +1,8 @@
 package games.generic.controlModel.subimpl;
 
-import games.generic.controlModel.GameObjectsProvider;
+import games.generic.controlModel.GModality;
+import games.generic.controlModel.GameObjectsProvidersHolder;
+import games.generic.controlModel.GameObjectsProvidersHolderRPG;
 import games.theRisingAngel.LoaderAbilityTRAr;
 import games.theRisingAngel.LoaderCreatureTRAr;
 import games.theRisingAngel.LoaderEquipTRAr;
@@ -10,19 +12,24 @@ public abstract class GControllerRPG extends GControllerET {
 
 	public GControllerRPG() {
 		super();
-		this.gameObjectsProvider = newGameObjectsManagerProvider();
+		this.gameObjectsProvidersHolderRPG = newGameObjectsManagerProvider();
 	}
 
-	protected final GameObjectsProvider gameObjectsProvider;
+	protected final GameObjectsProvidersHolderRPG gameObjectsProvidersHolderRPG;
 
 	//
 
-	protected abstract GameObjectsProvider newGameObjectsManagerProvider();
+	protected abstract GameObjectsProvidersHolderRPG newGameObjectsManagerProvider();
 
 	//
 
-	public GameObjectsProvider getGameObjectsManagerProvider() {
-		return gameObjectsProvider;
+	@Override
+	protected GameObjectsProvidersHolder getGObjProvidersHolderForGModality(GModality gm) {
+		return gameObjectsProvidersHolderRPG; // don't care of "gm", it's always this instance ..
+	}
+
+	public GameObjectsProvidersHolderRPG getGameObjectsManagerProvider() {
+		return gameObjectsProvidersHolderRPG;
 	}
 
 	//
@@ -30,9 +37,9 @@ public abstract class GControllerRPG extends GControllerET {
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		super.addGameObjectLoader(new LoaderAbilityTRAr(this.gameObjectsProvider.getAbilitiesProvider()));
-		super.addGameObjectLoader(new LoaderEquipTRAr(this.gameObjectsProvider.getEquipmentsProvider()));
-		super.addGameObjectLoader(new LoaderCreatureTRAr(this.gameObjectsProvider.getCreaturesProvider()));
+		super.addGameObjectLoader(new LoaderAbilityTRAr(this.gameObjectsProvidersHolderRPG.getAbilitiesProvider()));
+		super.addGameObjectLoader(new LoaderEquipTRAr(this.gameObjectsProvidersHolderRPG.getEquipmentsProvider()));
+		super.addGameObjectLoader(new LoaderCreatureTRAr(this.gameObjectsProvidersHolderRPG.getCreaturesProvider()));
 	}
 
 }

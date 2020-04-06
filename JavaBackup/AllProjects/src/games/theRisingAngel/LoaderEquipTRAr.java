@@ -3,7 +3,7 @@ package games.theRisingAngel;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.LoaderEquipments;
-import games.generic.controlModel.misc.ObjGModalityBasedProvider;
+import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.HelmetOfPlanetaryMeteors;
@@ -11,7 +11,7 @@ import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 
 public class LoaderEquipTRAr extends LoaderEquipments {
 
-	public LoaderEquipTRAr(ObjGModalityBasedProvider<EquipmentItem> objProvider) {
+	public LoaderEquipTRAr(GameObjectsProvider<EquipmentItem> objProvider) {
 		super(objProvider);
 	}
 

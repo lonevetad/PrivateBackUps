@@ -3,6 +3,7 @@ package dataStructures.graph.pathfind;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
@@ -55,6 +56,7 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 		GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized s, d;
 		PriorityQueueKey<GraphSimple<E, Distance>.NodeGraph, Distance> frontier;
 		Comparator<Distance> comp;
+		DistanceKeyAlterator<E, Distance> alterator;
 //				BiConsumer<NodeGraph, Integer> forAdjacents;
 		if (!(ggg instanceof GraphSimpleSynchronized<?, ?>))
 			return null;
@@ -67,6 +69,8 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 			return null;
 		frontier = new PriorityQueueKey<>(graph.getCompNodeGraph(), comp,
 				no -> ((GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) no).getDistFromStart());
+		alterator = new DistanceKeyAlterator<>();
+		//
 		dr = graph.getPathFindRuns();
 		s.checkAndReset(dr);
 		d.checkAndReset(dr);
@@ -76,7 +80,7 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 		frontier.put(s);
 
 //				forAdjacents =
-		while (!frontier.isEmpty()) {
+		while(!frontier.isEmpty()) {
 			final GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized n;
 			n = (GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) frontier.removeMinimum().getKey();
 			/*
@@ -107,10 +111,11 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 							no.setColor(NodePositionInFrontier.InFrontier);
 							no.setDistFromStart(distToNo);
 							frontier.put(no);
-						} else // it's grey, it's actually in the queue
-							frontier.alterKey(no,
-									nodd -> ((GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) nodd)
-											.setDistFromStart(distToNo));
+						} else {
+							// it's grey, it's actually in the queue
+							alterator.distToNo = distToNo;
+							frontier.alterKey(no, alterator);
+						}
 					}
 				});
 			else
@@ -130,7 +135,7 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 		p = new PathGraph<>(distanceManager);
 
 //		distanceTotal = d.getDistFromStart();
-		while (d != s) {
+		while(d != s) {
 			p.addStep(d.getElem(), d.getDistFromFather());
 			d = d.getFather();
 		}
@@ -175,7 +180,7 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 
 		forAdjacents = new UsynchronizedAdjacentForEacherDijkstra<>(nodeInfos, frontier, distanceManager);
 
-		while (!frontier.isEmpty()) {
+		while(!frontier.isEmpty()) {
 			final NodeInfoDikstra<E, Distance> n;
 			n = frontier.removeMinimum().getKey();
 			/*
@@ -202,7 +207,7 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 		nodeInfos.clear();
 		p = new PathGraph<>(distanceManager);
 //		distanceTotal = dd.distFromStart;
-		while (dd != ss) {
+		while(dd != ss) {
 			p.addStep(dd.thisNode.getElem(), dd.distFromFather);
 			dd = dd.father;
 		}
@@ -289,6 +294,16 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 				} else // it's grey, it's actually in the queue
 					frontier.alterKey(noInfo, nodd -> (nodd).distFromStart = distToNo);
 			}
+		}
+	}
+
+	protected static class DistanceKeyAlterator<E, Distance> implements Consumer<GraphSimple<E, Distance>.NodeGraph> {
+		Distance distToNo;
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public void accept(GraphSimple<E, Distance>.NodeGraph nodd) {
+			((GraphSimpleSynchronized<E, Distance>.NodeGraphSimpleSynchronized) nodd).setDistFromStart(distToNo);
 		}
 	}
 }

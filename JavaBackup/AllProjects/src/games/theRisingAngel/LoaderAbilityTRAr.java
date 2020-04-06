@@ -3,14 +3,14 @@ package games.theRisingAngel;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.misc.LoaderAbilities;
-import games.generic.controlModel.misc.ObjGModalityBasedProvider;
+import games.generic.controlModel.misc.GameObjectsProvider;
 import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
 
 public class LoaderAbilityTRAr extends LoaderAbilities {
 
-	public LoaderAbilityTRAr(ObjGModalityBasedProvider<AbilityGeneric> objProvider) {
+	public LoaderAbilityTRAr(GameObjectsProvider<AbilityGeneric> objProvider) {
 		super(objProvider);
 	}
 

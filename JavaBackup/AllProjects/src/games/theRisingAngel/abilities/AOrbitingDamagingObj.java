@@ -37,7 +37,7 @@ public abstract class AOrbitingDamagingObj extends OrbitingSpawningBlobs {
 		GModalityTRAr gmtrar;
 		GameObjectsManager gom;
 		gmtrar = (GModalityTRAr) modality;
-		gom = gmtrar.getGameObjectsManagerDelegated();
+		gom = gmtrar.getGameObjectsManager();
 		gom.dealsDamageTo(os, (CreatureSimple) target, damageToDeal);
 	}
 

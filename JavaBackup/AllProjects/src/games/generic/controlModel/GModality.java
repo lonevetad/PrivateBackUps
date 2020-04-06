@@ -55,6 +55,8 @@ public abstract class GModality {
 	protected final Object pauseThreadsLock = new Object();
 	protected Map<Long, GThread> threadsSleeping; // List<ThreadGame>
 	protected PlayerGeneric player;
+	protected final GameObjectsProvidersHolder gameObjectsProviderHolder;
+	protected final GameObjectsManager gomDelegated;
 
 	public GModality(GController controller, String modalityName) {
 		this.controller = controller;
@@ -63,9 +65,12 @@ public abstract class GModality {
 		this.threadsSleeping = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR);
 //				new LinkedList<>();
 		this.lastElapsedDeltaTime = this.getMinimumMillisecondsEachCycle();
+		this.gameObjectsProviderHolder = controller.getGObjProvidersHolderForGModality(this);
+		this.gomDelegated = newGameObjectsManager();
 		onCreate();
 	}
 
+	//
 	// getter and setter
 
 	// getter
@@ -105,6 +110,14 @@ public abstract class GModality {
 		return modalityName;
 	}
 
+	public GameObjectsProvidersHolder getGameObjectsProvider() {
+		return gameObjectsProviderHolder;
+	}
+
+	public GameObjectsManager getGameObjectsManager() {
+		return gomDelegated;
+	}
+
 	/**
 	 * Returns the minimum amount of milliseconds that is forced to be elapsed
 	 * between each cycle. In fact, it's used inside {@link #runGameCycle()}
@@ -142,6 +155,14 @@ public abstract class GModality {
 
 	/** See {@link PlayerGeneric} to see what is meant. */
 	protected abstract PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer);
+
+	/**
+	 * Defines and returns the instance of {@link GameObjectsManager} that will be
+	 * used in this game modality and supports it in defining the game.<br>
+	 * Requires an {@link GEventInterface} as a parameter but it's optional, if the
+	 * game modality does not use the events system.
+	 */
+	protected abstract GameObjectsManager newGameObjectsManager();
 
 	/**
 	 * Override designed-.<br>

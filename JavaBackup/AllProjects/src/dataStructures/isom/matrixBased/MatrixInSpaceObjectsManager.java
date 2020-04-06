@@ -1,50 +1,36 @@
 package dataStructures.isom.matrixBased;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
 import dataStructures.graph.PathFindStrategy;
 import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.NodeIsom;
 import geometry.AbstractShape2D;
-import geometry.AbstractObjectsInSpaceManager;
+import geometry.ObjectLocated;
 import geometry.ProviderShapesIntersectionDetector;
 import geometry.implementations.ProviderShapeRunnerImpl;
 import tools.LoggerMessages;
 
-public class MatrixInSpaceObjectsManager<IDowid> implements InSpaceObjectsManager {
+public class MatrixInSpaceObjectsManager extends InSpaceObjectsManager<Double> {
 	private static final long serialVersionUID = 6663104159265L;
 
 	public MatrixInSpaceObjectsManager() {
 	}
 
-	protected Comparator<IDowid> IDOwidComparator;
-	NodeIsom<IDowid>[][] matrix;
+//	protected Comparator IDOwidComparator;
+	NodeIsom[][] matrix;
 
 	//
 
 	//
-
-	@Override
-	public LoggerMessages getLog(LoggerMessages log) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public AbstractShape2D getSpaceShape() {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PathFindStrategy<Point2D> getPathFinder() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AbstractObjectsInSpaceManager getProviderObjectsInSpace() {
 		return null;
 	}
 
@@ -59,8 +45,7 @@ public class MatrixInSpaceObjectsManager<IDowid> implements InSpaceObjectsManage
 	}
 
 	@Override
-	public InSpaceObjectsManager setLog(LoggerMessages log) {
-		return null;
+	public void setLog(LoggerMessages log) {
 	}
 
 	@Override
@@ -68,7 +53,7 @@ public class MatrixInSpaceObjectsManager<IDowid> implements InSpaceObjectsManage
 
 	}
 
-	public NodeIsom<IDowid>[] getRow(int y) {
+	public NodeIsom[] getRow(int y) {
 		return matrix[y];
 	}
 
@@ -77,28 +62,24 @@ public class MatrixInSpaceObjectsManager<IDowid> implements InSpaceObjectsManage
 	// TODO SETTER
 
 	@Override
-	public void setObjectsInSpaceProvider(AbstractObjectsInSpaceManager abstractObjectsInSpaceManager) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setProviderShapesIntersectionDetector(
 			ProviderShapesIntersectionDetector providerShapesIntersectionDetector) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void setProviderShapeRunner(ProviderShapeRunnerImpl providerShapeRunner) {
 		// TODO Auto-generated method stub
 
 	}
+	//
 
 	@Override
-	public LoggerMessages getLog() {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter,
+			List<Point> path) {
+		ObjLocatedCollectorMatrix coll;
+		coll = new ObjLocatedCollectorMatrix(this, objectFilter);
+		return this.findInPath(areaToLookInto, coll, path);
 	}
 
 }

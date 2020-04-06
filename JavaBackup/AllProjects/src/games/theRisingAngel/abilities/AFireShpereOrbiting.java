@@ -13,7 +13,7 @@ import geometry.implementations.shapes.ShapeCircle;
 public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipItemAbility {
 	private static final long serialVersionUID = 1L;
 	public static final int BLOB_RADIUS = 3, BLOB_RADIUS_FROM_CENTRE = 7;
-	public static final String NAME = "with Planetary Fire Spheres";
+	public static final String NAME = "Planetary Fire Spheres";
 
 	public AFireShpereOrbiting() {
 		super();
@@ -86,8 +86,7 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 
 		@Override
 		public void setShape(AbstractShape2D shape) {
-			// TODO Auto-generated method stub
-
+			this.shape = (ShapeCircle) shape;
 		}
 
 	}

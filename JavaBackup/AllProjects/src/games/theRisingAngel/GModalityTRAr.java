@@ -3,21 +3,27 @@ package games.theRisingAngel;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GameObjectsManager;
-import games.generic.controlModel.GameObjectsProvider;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GModalityRPG;
 
+// TODO todo tons of stuffs
 public class GModalityTRAr extends GModalityRPG {
 
-	public GModalityTRAr(GController controller, String modalityName, GameObjectsProvider gomp) {
-		super(controller, modalityName, gomp);
+	public GModalityTRAr(GController controller, String modalityName) {
+		super(controller, modalityName);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public GEventInterface newEventInterface() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected GameObjectsManager newGameObjectsManager(GEventInterface gei) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -40,9 +46,4 @@ public class GModalityTRAr extends GModalityRPG {
 
 	}
 
-	@Override
-	protected GameObjectsManager newGOMDelegated(GEventInterface gei) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

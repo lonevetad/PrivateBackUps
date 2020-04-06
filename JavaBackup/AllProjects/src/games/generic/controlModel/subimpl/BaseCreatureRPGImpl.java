@@ -266,7 +266,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 			return;
 		gmrpg = (GModalityRPG) gm;
 		// check the type
-		gmrpg.getGameObjectsManagerDelegated().dealsDamageTo(source, this, originalDamage);
+		gmrpg.getGameObjectsManager().dealsDamageTo(source, this, originalDamage);
 		dr = this.getAttributes().getValue(AttributesTRAr.DamageReductionPhysical.getIndex());
 		if (dr < 0)
 			dr = 0;

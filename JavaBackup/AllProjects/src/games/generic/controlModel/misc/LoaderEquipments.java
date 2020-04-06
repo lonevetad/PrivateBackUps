@@ -4,7 +4,7 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 
 public abstract class LoaderEquipments extends LoaderGameObjects<EquipmentItem> {
 
-	public LoaderEquipments(ObjGModalityBasedProvider<EquipmentItem> objProvider) {
+	public LoaderEquipments(GameObjectsProvider<EquipmentItem> objProvider) {
 		super(objProvider);
 	}
 }

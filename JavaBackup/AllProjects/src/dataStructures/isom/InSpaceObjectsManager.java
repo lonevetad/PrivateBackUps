@@ -1,15 +1,20 @@
 package dataStructures.isom;
 
+import java.awt.Point;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
-import dataStructures.graph.GraphSimple;
 import dataStructures.graph.PathFindStrategy;
 import geometry.AbstractObjectsInSpaceManager;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
 import geometry.PathFinder;
+import geometry.implementations.shapes.ShapeLine;
 import tools.LoggerMessages;
 
 /**
@@ -30,15 +35,18 @@ import tools.LoggerMessages;
  * <li></li>
  * </ul>
  */
-public abstract class InSpaceObjectsManager<D extends Number> extends dataStructures.graph.GraphSimple<NodeIsom, D>
+public abstract class InSpaceObjectsManager<D extends Number>
+//extends dataStructures.graph.GraphSimple<NodeIsom, D>
 		implements AbstractObjectsInSpaceManager {
+	private static final long serialVersionUID = 1L;
 
 	public InSpaceObjectsManager() {
 		super();
 	}
 
 	protected LoggerMessages log;
-	protected PathFinderIsomAdapter<NodeIsom, D> pathFinder;
+//	protected PathFinderIsomAdapter<NodeIsom, D> pathFinder;
+	protected PathFinder<NodeIsom, D> pathFinder;
 
 	//
 
@@ -53,7 +61,6 @@ public abstract class InSpaceObjectsManager<D extends Number> extends dataStruct
 
 	// TODO SETTER
 
-	@Override
 	public PathFinder<NodeIsom, D> getPathFinder() {
 		return pathFinder;
 	}
@@ -62,22 +69,21 @@ public abstract class InSpaceObjectsManager<D extends Number> extends dataStruct
 		this.pathFinder = pathFinder;
 	}
 
-	@Override
-	public GraphSimple<NodeIsom, D> setLog(LoggerMessages log) {
+	public void setLog(LoggerMessages log) {
 		this.log = log;
-		return this;
 	}
 
-	@Override
-	public void setPathFinder(PathFindStrategy<NodeIsom, D> pathFinder) {
-		this.pathFinder = pathFinder;
-	}
+//	@Override
+//	public GraphSimple<NodeIsom, D> setPathFinder(PathFindStrategy<NodeIsom, D> pathFinder) {
+//		this.pathFinder = pathFinder;
+//		return this;
+//	}
 
 //
 
 	// TODO OTHER
-	@Override
-	public LoggerMessages getLog();
+
+	public abstract LoggerMessages getLog();
 
 //	public AbstractShapeRunners/* _WithCoordinates */ getShapeRunners();
 
@@ -96,19 +102,19 @@ public abstract class InSpaceObjectsManager<D extends Number> extends dataStruct
 	 * As for {@link #runOnShape(AbstractShape2D, IsomConsumer)}, but giving the
 	 * {@link AbstractShape2D} returned by {@link #getSpaceShape()}.
 	 */
-	public default void runOnShape(IsomConsumer action) {
+	public void runOnShape(IsomConsumer action) {
 		runOnShape(getBoundingShape(), action);
 	}
 
 	// TODO to-do path find
 
-	public List<Point2D> getPath(Point2D start, Point2D destination);
+	public abstract List<Point2D> getPath(Point2D start, Point2D destination);
 
 	/**
 	 * Invoking {@link #getPath(Point2D, Point2D)} by giving as first parameter the
 	 * result of {@link ObjectLocated#getLocation()}..
 	 */
-	public default List<Point2D> getPath(ObjectLocated objRequiringToMove, Point2D destination) {
+	public List<Point2D> getPath(ObjectLocated objRequiringToMove, Point2D destination) {
 		return getPath(getPathFinder(), objRequiringToMove.getLocation(), destination);
 	}
 
@@ -117,6 +123,42 @@ public abstract class InSpaceObjectsManager<D extends Number> extends dataStruct
 	 * required to take care of the object's sizze (i.e.: the value returned by
 	 * {@link ObjectShaped#getShape()} provided by the second parameter).
 	 */
-	public List<Point2D> getPath(ObjectShaped objRequiringTo, Point2D destination);
+	public abstract List<Point2D> getPath(ObjectShaped objRequiringTo, Point2D destination);
 
+	/**
+	 * Refers to
+	 * {@link InSpaceObjectsManager#findInPath(AbstractShape2D, dataStructures.isom.ObjLocatedCollector, List)},
+	 * <br>
+	 * Sub-implementations of this class must provide a way to define
+	 * {@link ObjLocatedCollector}.
+	 */
+	public abstract Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter,
+			List<Point> path);
+
+	/**
+	 * Queries all objects located in the given area, if any, moving that area along
+	 * a specific path, that requires at least two point (the starting point must be
+	 * provided, the last point is the end).
+	 */
+	@Override
+	public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, ObjLocatedCollector collector,
+			List<Point> path) {
+		Iterator<Point> iter;
+		ShapeLine subpath;
+		Line2D line;
+		Point2D pstart, pend;
+		if (path == null || path.size() < 2)
+			return null;
+		line = new Line2D.Double();
+		iter = path.iterator();
+		pstart = iter.next();
+		while(iter.hasNext()) {
+			pend = iter.next();
+			line.setLine(pstart, pend);
+			subpath = new ShapeLine(line);
+			this.runOnShape(subpath, collector);
+			pstart = pend;
+		}
+		return collector.getCollectedObjects();
+	}
 }

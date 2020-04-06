@@ -10,7 +10,7 @@ import tests.tGame.tgEvent1.GModality_E1;
 import tools.UniqueIDProvider;
 
 // TODO fare con GUI e affini
-public class ObjDamageDeliver implements TimedObjectSimpleImpl {
+public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl {
 	private static final long serialVersionUID = 4741714L;
 	static final int MILLIS_EACH__DAMAGE = 1500;
 	long timeElapsed, timeThreshold;
@@ -18,7 +18,7 @@ public class ObjDamageDeliver implements TimedObjectSimpleImpl {
 	Integer ID;
 	BaseCreatureRPG target;
 
-	public ObjDamageDeliver(long timeThreshold) {
+	public ObjDamageDeliverE1(long timeThreshold) {
 		ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID();
 		timeElapsed = 0;
 		this.timeThreshold = timeThreshold;

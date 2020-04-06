@@ -12,7 +12,7 @@ import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.PlayerRPG_E1;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
-import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliver;
+import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
 import tests.tGame.tgEvent1.oggettiDesempio.ObserverPrinterEvent;
@@ -40,7 +40,7 @@ public class GModality_E1 extends GModalityET {
 	public void onCreate() {
 		GModel_E1 gmodel;
 		Player_E1 p;
-		ObjDamageDeliver odd;
+		ObjDamageDeliverE1 odd;
 		ObserverPrinterEvent ope;
 		NecklaceOfPainRinvigoring necklace_opr;
 		ArmProtectionShieldingDamageByMoney armProtection_sdbm;
@@ -93,7 +93,7 @@ public class GModality_E1 extends GModalityET {
 		// first make the player, then the damager, the healer, the fairy, the
 		// money-maker, etc
 
-		odd = new ObjDamageDeliver(5000);
+		odd = new ObjDamageDeliverE1(5000);
 		odd.setTarget(p);
 		odd.setDamageAmount(24);
 		this.addGameObject(odd);

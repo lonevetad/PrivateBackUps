@@ -1,16 +1,19 @@
 package games.theRisingAngel.abilities;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjMovement;
+import games.generic.controlModel.gObj.MovingObject;
 import games.generic.controlModel.gObj.MovingObjectDelegatingMovement;
 import games.generic.controlModel.gObj.OrbitingInteractiveObject;
 import games.generic.controlModel.gObj.TimedObject;
-import games.generic.controlModel.inventoryAbil.AbilityGeneric;
+import games.generic.controlModel.inventoryAbil.AbilityTargetingGObjInMap;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subimpl.movements.GObjLinearMovement;
 import geometry.AbstractShape2D;
@@ -23,7 +26,7 @@ import tools.ObjectWithID;
 import tools.UniqueIDProvider;
 
 // emula il "Storm Burst" di "path of Exile"
-public abstract class ARandomScatteringOrbs implements AbilityGeneric, TimedObject {
+public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap, TimedObject {
 	public static final String NAME = "Scattering Bombs";
 	protected static final boolean STATUS_TRAVELLING = true, STATUS_STATIONARY_FOR_EXPLOSION = !STATUS_TRAVELLING;
 	protected static final int MILLIS_STATIONARY_BEFORE_EXPLOSION = 500, MILLIS_TRAVELLING = 1000;
@@ -94,13 +97,14 @@ public abstract class ARandomScatteringOrbs implements AbilityGeneric, TimedObje
 
 	//
 
-	protected abstract class ScatteringOrb implements TimedObject, ObjectShaped, MovingObjectDelegatingMovement {
+	protected abstract class ScatteringOrb implements MovingObject, ObjectShaped, MovingObjectDelegatingMovement {
 		protected transient boolean status; // if false, then it's stationary
 		protected transient int tempTime;
 		protected transient Integer id;
 		protected GObjLinearMovement movementLinear;
 		protected AbstractShape2D shape;
 		protected transient Set<ObjectLocated> targetsDamagedOnTravel;
+		protected List<Point> path;
 
 		protected ScatteringOrb() {
 			Point p;
@@ -115,6 +119,7 @@ public abstract class ARandomScatteringOrbs implements AbilityGeneric, TimedObje
 			status = STATUS_STATIONARY_FOR_EXPLOSION;
 			backmap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
 			targetsDamagedOnTravel = backmap.toSetValue(ObjectLocated.KEY_EXTRACTOR);
+			path = new ArrayList<>(2);
 		}
 
 		@Override
@@ -145,11 +150,14 @@ public abstract class ARandomScatteringOrbs implements AbilityGeneric, TimedObje
 		/** Perform blast explosion */
 		public abstract void explode(GModality modality);
 
+		/** SHOULD call GModality methods for handling damages */
+		public abstract void damageOnTraveling(GModality modality, ObjectLocated target);
+
 		@Override
 		public void act(GModality modality, int timeUnits) {
 			if (status) {
 				// traveling
-				this.movementLinear.act(modality, timeUnits);
+				move(modality, timeUnits);
 				if ((tempTime += timeUnits) > MILLIS_TRAVELLING) {
 					tempTime = 0;
 					status = STATUS_STATIONARY_FOR_EXPLOSION;
@@ -158,9 +166,10 @@ public abstract class ARandomScatteringOrbs implements AbilityGeneric, TimedObje
 				int radius;
 				double ang;
 				Point dest, centre;
-				explode(modality);
 				tempTime = 0;
 				status = STATUS_TRAVELLING;
+				targetsDamagedOnTravel.clear();
+				explode(modality);
 				// set next destination
 				ang = random.nextDouble() * OrbitingInteractiveObject.RHO;
 				radius = random.nextInt(getRadiusScattering());
@@ -174,7 +183,29 @@ public abstract class ARandomScatteringOrbs implements AbilityGeneric, TimedObje
 				movementLinear
 						.setVelocity((int) (MathUtilities.distance(dest, getLocation()) / getTimeUnitSuperscale()));
 				movementLinear.setDestination(dest);
+				path.clear();
+				path.add(shape.getCenter());
+				path.add(dest);// just fill the hole
 			}
+		}
+
+		@Override
+		public void move(GModality modality, int timeUnits) {
+			Point start;
+			Set<ObjectLocated> collected;
+			start = new Point(this.shape.getCenter());
+			this.movementLinear.act(modality, timeUnits);
+			path.set(0, start);
+			path.set(1, this.shape.getCenter());
+			collected = modality.getGameObjectsManager().getGObjectInSpaceManager().findInPath(shape,
+					getTargetsFilter(), path);
+			// damages everyone
+			collected.forEach(ol -> {
+				if (targetsDamagedOnTravel.contains(ol))
+					return;
+				damageOnTraveling(modality, ol);
+				targetsDamagedOnTravel.add(ol);
+			});
 		}
 	}
 }

@@ -3,29 +3,32 @@ package games.generic.controlModel.subimpl;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GameObjectsManager;
-import games.generic.controlModel.GameObjectsProvider;
+import games.generic.controlModel.GameObjectsProvidersHolderRPG;
 
 public abstract class GModalityRPG extends GModalityET {
 
-	public GModalityRPG(GController controller, String modalityName, GameObjectsProvider gomp) {
+	public GModalityRPG(GController controller, String modalityName) {
 		super(controller, modalityName);
-		this.gameObjectsProvider = gomp;
-		this.gomDelegated = newGOMDelegated(super.getEventInterface());
+//		this.gameObjectsProviderHolderRPG = gomp;
 	}
 
-	/** Inherited from {@link GControllerRPG}. */
-	protected final GameObjectsProvider gameObjectsProvider;
-	protected final GameObjectsManager gomDelegated;
+//	protected final GameObjectsProviderHolderRPG gameObjectsProviderHolderRPG;
 
-	protected abstract GameObjectsManager newGOMDelegated(GEventInterface gei);
+	protected abstract GameObjectsManager newGameObjectsManager(GEventInterface gei);
+
+	@Override
+	protected GameObjectsManager newGameObjectsManager() {
+		return newGameObjectsManager(getEventInterface());
+	}
 
 	//
 
-	public GameObjectsProvider getGameObjectsProvider() {
-		return gameObjectsProvider;
+	public GameObjectsProvidersHolderRPG getGameObjectsProviderHolderRPG() {
+		return (GameObjectsProvidersHolderRPG) gameObjectsProviderHolder;
 	}
 
-	public GameObjectsManager getGameObjectsManagerDelegated() {
+	@Override
+	public GameObjectsManager getGameObjectsManager() {
 		return gomDelegated;
 	}
 

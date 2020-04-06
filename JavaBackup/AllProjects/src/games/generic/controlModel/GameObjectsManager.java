@@ -24,7 +24,7 @@ import tools.ObjectWithID;
  * <li>For life-based object, like {@link LivingObject}, then they could inflict
  * and receive damage, heal, destroy/kill, spawn, revive, transform</li>
  * <li>For event-based object, like {@link GEventObserver}, then refers to the
- * instance of {@link GEventManager} provided by {@link #getGEventManager()}
+ * instance of {@link GEventManager} provided by {@link #getGEventInterface()}
  * (which is taken from {@link GModalityET#getEventManager()}).</li>
  * </ul>
  * Usually this class is used inside RPG or RTS games, but it's not mandatory.
@@ -45,7 +45,7 @@ public interface GameObjectsManager extends GModalityHolder {
 	public GObjectsInSpaceManager getGObjectInSpaceManager();
 
 	/** Returns the delegator who manage the "event handling" concept. */
-	public GEventInterface getGEventManager();
+	public GEventInterface getGEventInterface();
 
 	public void setGObjectsInSpaceManager(GObjectsInSpaceManager isom);
 

@@ -55,12 +55,13 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 	public void fireLifeHealingReceived(GModality gm, int originalHealing) {
 		if (gm == null || (!(gm instanceof GModalityET)))
 			return;
-		GModalityET gmet;
+//		GModalityET gmet;
 		GEventInterfaceTRAr gei;
 		if (gm == null || (!(gm instanceof GModalityET)))
 			return;
-		gmet = (GModalityET) gm;
-		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
+//		gmet = (GModalityET) gm;
+//		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
+		gei = (GEventInterfaceTRAr) gm.getGameObjectsManager().getGEventInterface();
 //		gei.fire .... TODO
 	}
 

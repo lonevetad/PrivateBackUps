@@ -13,11 +13,11 @@ import games.generic.controlModel.subimpl.GModalityET;
 
 public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 
-	GEventManager gem;
-
 	public GEventInterfaceTRAr() {
 		super();
 	}
+
+	protected GEventManager gem;
 
 	@Override
 	public void setNewGameEventManager(GModalityET gameModality) {
@@ -75,9 +75,4 @@ public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 
 	}
 
-	@Override
-	public void fireLevelGainedEvent(GModalityET gm, int levelGained) {
-		// TODO Auto-generated method stub
-
-	}
 }

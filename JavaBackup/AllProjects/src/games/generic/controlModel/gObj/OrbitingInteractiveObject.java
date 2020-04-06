@@ -165,7 +165,7 @@ public abstract class OrbitingInteractiveObject implements TimedObject, MovingOb
 		GameObjectsManager gom;
 		Set<ObjectInSpace> foundObjs;
 		gmrpg = (GModalityTRAr) modality;
-		gom = gmrpg.getGameObjectsManagerDelegated();
+		gom = gmrpg.getGameObjectsManager();
 		foundObjs = gom.findInArea(os.getShape());
 		foundObjs.forEach(ois -> {
 			if (isValidTarget(ois))

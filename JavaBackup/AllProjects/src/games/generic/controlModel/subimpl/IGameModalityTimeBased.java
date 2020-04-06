@@ -23,4 +23,10 @@ public interface IGameModalityTimeBased {
 	 * Method that should be invoked by {@link GModality#doOnEachCycle(int)}.
 	 */
 	public void progressElapsedTime(int millisecToElapse);
+
+	/**
+	 * Return an instance of {@link GModelTimeBased}, so that this modality is
+	 * forced to define it (as this interface's name suggests).
+	 */
+	public GModelTimeBased getModelTimeBased();
 }

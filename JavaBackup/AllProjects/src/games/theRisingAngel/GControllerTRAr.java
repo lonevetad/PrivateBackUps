@@ -1,6 +1,6 @@
 package games.theRisingAngel;
 
-import games.generic.controlModel.GameObjectsProvider;
+import games.generic.controlModel.GameObjectsProvidersHolderRPG;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GControllerRPG;
 
@@ -11,9 +11,8 @@ public class GControllerTRAr extends GControllerRPG {
 	}
 
 	@Override
-	protected GameObjectsProvider newGameObjectsManagerProvider() {
-		// TODO Auto-generated method stub
-		return null;
+	protected GameObjectsProvidersHolderRPG newGameObjectsManagerProvider() {
+		return new GameObjectsProvidersHolderTRAr();
 	}
 
 	@Override

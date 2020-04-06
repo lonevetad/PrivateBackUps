@@ -127,7 +127,7 @@ public class GObjLinearMovement extends GObjMovement {
 		distFromLastVelcityChange = ((this.tempTimeUnit += timeUnits) * velocity) / getTimeUnitSuperscale();
 		totalDistTraveled = distanceTraveled + distFromLastVelcityChange;
 		if (totalDistTraveled >= distanceToDestination) {
-			// ARRIVD
+			// ARRIVED
 			this.objectToMove.setLocation(destination);
 			this.distanceTraveled = 0;
 			this.velocity = 0;

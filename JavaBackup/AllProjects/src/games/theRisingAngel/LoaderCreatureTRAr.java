@@ -2,12 +2,12 @@ package games.theRisingAngel;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.misc.LoaderGameObjects;
-import games.generic.controlModel.misc.ObjGModalityBasedProvider;
 
 public class LoaderCreatureTRAr extends LoaderGameObjects<BaseCreatureRPG> {
 
-	public LoaderCreatureTRAr(ObjGModalityBasedProvider<BaseCreatureRPG> objProvider) {
+	public LoaderCreatureTRAr(GameObjectsProvider<BaseCreatureRPG> objProvider) {
 		super(objProvider);
 	}
 

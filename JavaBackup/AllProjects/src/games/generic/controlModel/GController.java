@@ -41,12 +41,14 @@ public abstract class GController {
 	protected UserAccountGeneric user;
 	protected List<LoaderGameObjects<? extends ObjectNamed>> gameObjectsLoader;
 
+	/** Create everything and loads everything as well. */
 	protected GController() {
 		this.isAlive = false;
 		this.gameModalitiesFactories = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				Comparators.STRING_COMPARATOR);
 		gameObjectsLoader = new LinkedList<>();
 		onCreate();
+		loadAll();
 	}
 
 	//
@@ -78,12 +80,40 @@ public abstract class GController {
 	/** See {@link UserAccountGeneric} to see what is meant. */
 	protected abstract UserAccountGeneric newUserAccount();
 
+	/**
+	 * Defines and return a specific instance of {@link GameObjectsProvidersHolder}
+	 * for a particular subclass of {@link GModality}: some games could define
+	 * different sets of game objects, based on the modality they are destined to be
+	 * used.<br>
+	 * Usually, this method just return the value of a single variable.
+	 * <p>
+	 * For instance, the game "The Rising Army" will differs two game modalities:
+	 * one having some degree of randomness, the other one that is totally
+	 * deterministic and aspects like damage ranges or "something that scatters
+	 * randomly, like grape bombs" are fixed (for instance, grapes of grape bombs
+	 * expands in a symmetric and radial way). So, there would exists abilities
+	 * designed in a parallel way so that they could have random intervals or fixed
+	 * values. (In that case, it's advised to define once the ability and only one
+	 * {@link GameObjectsProvidersHolder}, just passing to that ability's
+	 * constructor the flag about if the game modality allows randomness or not).
+	 */
+	protected abstract GameObjectsProvidersHolder getGObjProvidersHolderForGModality(GModality gm);
+
 //
 
 	/** Override designed BUT call <code>super.</code>{@link #init()}}. */
 	protected void onCreate() {
 		defineGameModalitiesFactories();
 		user = this.newUserAccount();
+	}
+
+	protected <E extends ObjectNamed> void addGameObjectLoader(LoaderGameObjects<E> ol) {
+		this.gameObjectsLoader.add(ol);
+	}
+
+	/** Load everything that needs to be loaded */
+	protected void loadAll() {
+		this.gameObjectsLoader.forEach(l -> l.loadInto(this));
 	}
 
 	//
@@ -101,9 +131,21 @@ public abstract class GController {
 	}
 
 	/**
-	 * Override designed. BUT call <code>super.</code>{@link #init()}}.
+	 * The name must be selected from the keys used during the call
+	 * {@link #defineGameModalitiesFactories()} or, at least, contained by
+	 * {@link #getGameModalitiesFactories()}.
+	 */
+	public GModality newModalityByName(String name) {
+		GModalityFactory gmf;
+		gmf = this.getGameModalitiesFactories().get(name);
+		return gmf == null ? null : gmf.newGameModality(this, name);
+	}
+
+	/**
+	 * Override designed. BUT call <code>super.</code>{@link #startGame()}}.<br>
+	 * Starts the current {@link GModality}.
 	 * <p>
-	 * Call {@link #setCurrentGameModality(GModality)}} before invoking me.
+	 * Call {@link #setCurrentGameModality(GModality)}} before invoking it.
 	 */
 	public void startGame() {
 		this.getCurrentGameModality().startGame();
@@ -138,18 +180,4 @@ public abstract class GController {
 
 	//
 
-	/**
-	 * The name must be selected from the keys used during the call
-	 * {@link #defineGameModalitiesFactories()} or, at least, contained by
-	 * {@link #getGameModalitiesFactories()}.
-	 */
-	public GModality newModalityByName(String name) {
-		GModalityFactory gmf;
-		gmf = this.getGameModalitiesFactories().get(name);
-		return gmf == null ? null : gmf.newGameModality(this, name);
-	}
-
-	public <E extends ObjectNamed> void addGameObjectLoader(LoaderGameObjects<E> ol) {
-		this.gameObjectsLoader.add(ol);
-	}
 }

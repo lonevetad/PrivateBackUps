@@ -1,28 +1,29 @@
 package dataStructures.isom.matrixBased;
 
 import dataStructures.isom.NodeIsom;
-import tools.ObjectWithID;
+import geometry.ObjectLocated;
 
 public abstract class NodeIsomSingleObj extends NodeIsom {
 	private static final long serialVersionUID = 4052487990441744L;
 
-	protected ObjectWithID objectLying;
+	protected ObjectLocated objectLying;
 
 //
 
 //
 
-	public tools.ObjectWithID getObjectLying() {
+	public ObjectLocated getObjectLying() {
 		return objectLying;
 	}
 
-	public void setObjectLying(tools.ObjectWithID objectLying) {
+	public void setObjectLying(ObjectLocated objectLying) {
 		this.objectLying = objectLying;
 	}
 
 	@Override
-	public boolean addObject(ObjectWithID o) {
-		setObjectLying(o);
+	public boolean addObject(ObjectLocated o) {
+//		setObjectLying(o);
+		this.objectLying = o;
 		return true;
 	}
 }

@@ -30,7 +30,8 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 
 	//
 
-	protected GModelTimeBased getModelTimeBased() {
+	@Override
+	public GModelTimeBased getModelTimeBased() {
 		return (GModelTimeBased) model;
 	}
 

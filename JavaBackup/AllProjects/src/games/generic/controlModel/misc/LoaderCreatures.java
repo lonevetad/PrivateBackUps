@@ -4,7 +4,7 @@ import games.generic.controlModel.gObj.CreatureSimple;
 
 public abstract class LoaderCreatures extends LoaderGameObjects<CreatureSimple> {
 
-	public LoaderCreatures(ObjGModalityBasedProvider<CreatureSimple> objProvider) {
+	public LoaderCreatures(GameObjectsProvider<CreatureSimple> objProvider) {
 		super(objProvider);
 	}
 }

@@ -1,5 +1,6 @@
 package geometry;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -9,7 +10,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 import dataStructures.graph.PathFindStrategy;
-import dataStructures.isom.IsomConsumer;
+import dataStructures.isom.ObjLocatedCollector;
+import geometry.pointTools.PointConsumer;
 
 /**
  * Abstract definition of a handler and manager for objects related to a "space"
@@ -88,11 +90,28 @@ public interface AbstractObjectsInSpaceManager extends Iterator<ObjectLocated>, 
 		return this.fetch(areaToLookInto, null);
 	}
 
+	/**
+	 * Queris all objects located in the given area, if any, moving that area along
+	 * a specific path, that requires at least two point (the starting point must be
+	 * provided, the last point is the end.
+	 */
+	public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, ObjLocatedCollector collector,
+			List<Point> path);
+
+	/**
+	 * Queris all objects located in the given area, if any, moving that area along
+	 * a specific path, that requires at least two point (the starting point must be
+	 * provided, the last point is the end.
+	 */
+	public default Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, List<Point> path) {
+		return this.findInPath(areaToLookInto, null, path);
+	}
+
 	//
 
 	public void forEach(ObjectsInSpaceConsumer consumer);
 
-	public default void runOnShape(AbstractShape2D shape, IsomConsumer action) {
+	public default void runOnShape(AbstractShape2D shape, PointConsumer action) {
 		AbstractShapeRunner runner;
 		if (shape == null || action == null)
 			return;
