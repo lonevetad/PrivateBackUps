@@ -1,10 +1,12 @@
 package geometry;
 
 import java.awt.Point;
+import java.util.function.Function;
 
 import tools.ObjectWithID;
 
 public interface ObjectLocated extends ObjectWithID {
+	public static final Function<ObjectLocated, Integer> KEY_EXTRACTOR = o -> o.getID();
 
 	public default int getx() {
 		return getLocation().x;

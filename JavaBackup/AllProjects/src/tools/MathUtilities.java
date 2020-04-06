@@ -16,7 +16,8 @@ public final class MathUtilities {
 	}
 
 	public static final double justOne = 1.0, sqrtTwo = Math.sqrt(2.0)//
-	// triangle
+			, RHO = 2.0 * Math.PI, HALF_PI = Math.PI / 2.0, PI_3_4 = Math.PI * 1.5
+			// triangle
 			, TRIANGLE_HEIGHT_COEFFICIENT = Math.sqrt(3.0) / 2.0 //
 			, TRIANGLE_INNER_RADIUS_COEFFICIENT = Math.sqrt(3.0) / 6.0//
 			,
@@ -236,6 +237,38 @@ public final class MathUtilities {
 		return d;
 	}
 
+	public static double angleRadiants(double x1, double y1, double x2, double y2) {
+		double d, dx, dy;
+		dx = x1 - x2;
+		dy = y1 - y2;
+		if (dx == 0.0)
+			return dy <= 0.0 ? HALF_PI : PI_3_4;
+		if (dy == 0.0)
+			return dx <= 0.0 ? 0.0 : Math.PI;
+		d = Math.toDegrees(Math.atan(dy / dx)); // from the slope
+		if (d < 0.0)
+			d += RHO;
+		if (dy > 0) {
+			d -= Math.PI; // (second or) third quadrant
+		}
+		return d;
+	}
+
+	public static double angleRadiants(double dx, double dy) {
+		double d;
+		if (dx == 0.0)
+			return dy <= 0.0 ? HALF_PI : PI_3_4;
+		if (dy == 0.0)
+			return dx <= 0.0 ? 0.0 : Math.PI;
+		d = Math.toDegrees(Math.atan(dy / dx)); // from the slope
+		if (d < 0.0)
+			d += RHO;
+		if (dy > 0) {
+			d -= Math.PI; // (second or) third quadrant
+		}
+		return d;
+	}
+
 	/***
 	 * Returns <code>null</code> if the given segment is degenerated. Otherwise
 	 * returns an array <code>weights</code> describing the line of the form
@@ -370,7 +403,7 @@ public final class MathUtilities {
 			b = a;
 			a = t;
 		}
-		while (b != 0) {
+		while(b != 0) {
 			t = b;
 			b = a % b;
 			a = t;
@@ -773,7 +806,7 @@ public final class MathUtilities {
 		lasty = yy[otherIndex];
 		list = null;
 		linePolygon = new Line2D.Double(0, 0, lastx, lasty);
-		while (--len >= 0) {
+		while(--len >= 0) {
 			pointIntersection = null;
 			thisx = xx[len];
 			thisy = yy[len];
@@ -806,7 +839,7 @@ public final class MathUtilities {
 		lasty = yy[otherIndex];
 		list = null;
 		linePolygon = new Line2D.Double(0, 0, lastx, lasty);
-		while (--len >= 0) {
+		while(--len >= 0) {
 			thisx = xx[len];
 			thisy = yy[len];
 			linePolygon.setLine(thisx, thisy, lastx, lasty);
@@ -841,7 +874,7 @@ public final class MathUtilities {
 		thisPoint = new Point();
 		list = null;
 //		linePolygon = new Line2D.Double(0, 0, lastx, lasty);
-		while (--len >= 0) {
+		while(--len >= 0) {
 			thisPoint.x = xx[len];
 			thisPoint.y = yy[len];
 //			linePolygon.setLine(thisx, thisy, lastx, lasty);

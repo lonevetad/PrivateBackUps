@@ -16,7 +16,7 @@ public interface UniqueIDProvider {
 //
 
 	public static class BaseUniqueIDProvider implements UniqueIDProvider {
-		protected static int idProgressive;
+		protected int idProgressive = 0;
 
 		@Override
 		public Integer getNewID() {

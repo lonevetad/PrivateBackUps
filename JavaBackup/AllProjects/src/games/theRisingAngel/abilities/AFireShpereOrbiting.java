@@ -9,6 +9,7 @@ import geometry.AbstractShape2D;
 import geometry.ObjectShaped;
 import geometry.implementations.shapes.ShapeCircle;
 
+// TODO to be completed
 public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipItemAbility {
 	private static final long serialVersionUID = 1L;
 	public static final int BLOB_RADIUS = 3, BLOB_RADIUS_FROM_CENTRE = 7;
@@ -21,7 +22,7 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 	protected EquipmentItem eqipItem; // related to this ability
 
 	@Override
-	public void move(int milliseconds) {
+	public void move(GModality gm, int milliseconds) {
 		// TODO Auto-generated method stub
 
 	}
@@ -45,7 +46,7 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 	@Override
 	public ObjectShaped newOrbitingObj() {
 		// TODO Auto-generated method stub
-		return null;
+		return new FlamingOrb();
 	}
 
 	@Override
@@ -58,6 +59,10 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 	public int getOrbitingObjectRadius(int index, ObjectShaped os) {
 		return orbitingObjectRadius;
 	}
+
+	//
+
+	//
 
 	class FlamingOrb implements ObjectShaped {
 		private static final long serialVersionUID = 1L;
@@ -76,8 +81,7 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 
 		@Override
 		public AbstractShape2D getShape() {
-			// TODO Auto-generated method stub
-			return null;
+			return shape;
 		}
 
 		@Override

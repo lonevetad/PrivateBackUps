@@ -42,7 +42,7 @@ public abstract class OrbitingSpawningBlobs extends OrbitingInteractiveObject im
 	 */
 	@Override
 	public void performAbility(GModality gm) {
-		super.updateAndActOrbitingObjects(gm);
+		super.updateAndActOrbitingObjects(gm, 0);
 	}
 
 	//

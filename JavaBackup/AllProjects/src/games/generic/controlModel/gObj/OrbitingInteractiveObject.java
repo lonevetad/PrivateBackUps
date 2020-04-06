@@ -108,12 +108,15 @@ public abstract class OrbitingInteractiveObject implements TimedObject, MovingOb
 		}
 		angRad = (RHO * millisRotation) / getRotationTimeMillis();
 		updateCenterPosition(modality);
-		move(milliseconds);
-		updateAndActOrbitingObjects(modality);
+		move(modality, milliseconds);
+		updateAndActOrbitingObjects(modality, milliseconds);
 	}
 
-	/** Override design */
-	protected void updateAndActOrbitingObjects(GModality modality) {
+	/**
+	 * Override designed.<br>
+	 * Could be implemented to spawn those orbiting objects
+	 */
+	protected void updateAndActOrbitingObjects(GModality modality, int milliseconds) {
 		int i, s;
 		Iterator<ObjectShaped> iter;
 		if (orbitingObjects == null)

@@ -43,12 +43,14 @@ public class PolarPoint extends Point2D implements Serializable {
 	//
 
 	protected void recalculateCache() {
-		double r, t;
+		double r;
 		if (!cacheNotAvailable)
 			return;
 		if ((r = radius) != 0.0) {
-			xCache = r * (sinCache = Math.sin(t = theta));
-			yCache = r * (cosCache = Math.cos(t));
+			xCache = r * (sinCache = Math.sin(theta));
+//			xCache = r * (sinCache = Math.sin(t = theta));
+//			yCache = r * (cosCache = Math.cos(t));
+			yCache = r * (cosCache = (1 - sinCache * sinCache));
 //			super.setLocation(p);
 			cacheNotAvailable = false;
 		} else {
