@@ -27,6 +27,7 @@ import tools.UniqueIDProvider;
 
 // emula il "Storm Burst" di "path of Exile"
 public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap, TimedObject {
+	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Scattering Bombs";
 	protected static final boolean STATUS_TRAVELLING = true, STATUS_STATIONARY_FOR_EXPLOSION = !STATUS_TRAVELLING;
 	protected static final int MILLIS_STATIONARY_BEFORE_EXPLOSION = 500, MILLIS_TRAVELLING = 1000;
@@ -34,11 +35,15 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 	public ARandomScatteringOrbs() {
 		orbsIDProvider = UniqueIDProvider.newBasicIDProvider();
 		random = new Random();
+		timeSpawningOrbs = tempSpawning = 0;
 	}
 
+	protected transient int tempSpawning;
+	protected int timeSpawningOrbs;
 	protected transient UniqueIDProvider orbsIDProvider;
 	protected Integer ID;
 	protected transient Random random;
+	protected transient ObjectWithID owner;
 
 	@Override
 	public Integer getID() {
@@ -52,14 +57,12 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 
 	@Override
 	public ObjectWithID getOwner() {
-		// TODO Auto-generated method stub
-		return null;
+		return owner;
 	}
 
 	@Override
 	public void setOwner(ObjectWithID owner) {
-		// TODO Auto-generated method stub
-
+		this.owner = owner;
 	}
 
 	/** Get the radius of each single orb */
@@ -98,6 +101,7 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 	//
 
 	protected abstract class ScatteringOrb implements MovingObject, ObjectShaped, MovingObjectDelegatingMovement {
+		private static final long serialVersionUID = 1L;
 		protected transient boolean status; // if false, then it's stationary
 		protected transient int tempTime;
 		protected transient Integer id;
