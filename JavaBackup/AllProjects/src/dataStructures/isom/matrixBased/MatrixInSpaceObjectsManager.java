@@ -1,7 +1,6 @@
 package dataStructures.isom.matrixBased;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -10,15 +9,15 @@ import java.util.function.Predicate;
 
 import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.NodeIsom;
+import dataStructures.isom.ObjLocatedCollector;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
-import geometry.PathFinderIsom;
 import geometry.ProviderShapeRunner;
 import geometry.ProviderShapesIntersectionDetector;
 import geometry.implementations.ProviderShapeRunnerImpl;
+import geometry.implementations.shapes.ShapeRectangle;
 import tools.LoggerMessages;
 import tools.NumberManager;
-import tools.ObjectWithID;
 
 /** Rectangular matrix-based implementation */
 public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpaceObjectsManager<Distance> {
@@ -44,11 +43,21 @@ public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpac
 
 	public MatrixInSpaceObjectsManager(int width, int height, NumberManager<Distance> weightManager) {
 		this.weightManager = weightManager;
+		this.matrix = new NodeIsom[this.height = height][this.width = width];
+		this.shape = new ShapeRectangle(0, width >> 1, height >> 1, true, width, height);
+
+		// TODO create intersectors and runners
+//		ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
+//		ProviderShapeRunner shapeRunnerProvider = new ProviderShapeRunnerImpl() ???? e quello che fa cache dei cerchi?
 	}
 
 //	protected Comparator IDOwidComparator;
+	protected int width, height;
 	protected NodeIsom[][] matrix;
 	protected final NumberManager<Distance> weightManager;
+	protected AbstractShape2D shape;
+	protected ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
+	protected ProviderShapeRunner shapeRunnerProvider;
 
 	//
 
@@ -56,18 +65,17 @@ public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpac
 
 	@Override
 	public AbstractShape2D getBoundingShape() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape;
 	}
 
 	@Override
 	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector() {
-		return null;
+		return shapeIntersectionDetectorProvider;
 	}
 
 	@Override
-	public ProviderShapeRunnerImpl getProviderShapeRunner() {
-		return null;
+	public ProviderShapeRunner getProviderShapeRunner() {
+		return shapeRunnerProvider;
 	}
 
 	public NodeIsom[] getRow(int y) {
@@ -81,29 +89,28 @@ public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpac
 	@Override
 	public void setProviderShapesIntersectionDetector(
 			ProviderShapesIntersectionDetector providerShapesIntersectionDetector) {
-		// TODO Auto-generated method stub
-
+		this.shapeIntersectionDetectorProvider = providerShapesIntersectionDetector;
 	}
 
 	public void setProviderShapeRunner(ProviderShapeRunnerImpl providerShapeRunner) {
-		// TODO Auto-generated method stub
-
+		this.shapeRunnerProvider = providerShapeRunner;
 	}
 
 	@Override
 	public void setLog(LoggerMessages log) {
-	}
-
-	@Override
-	public void setPathFinder(PathFinderIsom<NodeIsom, ObjectWithID, Distance> pathFinder) {
-		this.pathFinder = pathFinder;
+		this.log = LoggerMessages.loggerOrDefault(log);
 	}
 
 	//
 
 	@Override
-	public NodeIsom getNodeAt(Point2D p) {
+	public NodeIsom getNodeAt(Point p) {
 		return matrix[(int) p.getY()][(int) p.getX()];
+	}
+
+	@Override
+	public ObjLocatedCollector newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) {
+		return new ObjLocatedCollectorMatrix<>(this, objectFilter);
 	}
 
 	@Override
@@ -167,13 +174,6 @@ public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpac
 	public boolean remove(ObjectLocated o) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public <E extends ObjectLocated> Set<ObjectLocated> fetch(AbstractShape2D areaToLookInto,
-			Predicate<E> objectFilter) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

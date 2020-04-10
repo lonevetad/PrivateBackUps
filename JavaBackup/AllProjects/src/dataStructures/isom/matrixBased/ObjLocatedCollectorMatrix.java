@@ -1,6 +1,6 @@
 package dataStructures.isom.matrixBased;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -37,12 +37,12 @@ public class ObjLocatedCollectorMatrix<Distance extends Number> extends PointCon
 	}
 
 	@Override
-	public NodeIsom getNodeAt(Point2D location) {
+	public NodeIsom getNodeAt(Point location) {
 		return this.rowCache[(int) location.getX()];
 	}
 
 	@Override
-	public void acceptImpl(Point2D location) {
+	public void acceptImpl(Point location) {
 		/*
 		 * NodeIsom n; n = this.rowCache[(int) t.getX()];
 		 * n.forEachAcceptableObject(targetFilter, o -> { if (o == null) return;

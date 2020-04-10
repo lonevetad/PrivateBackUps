@@ -1,7 +1,6 @@
 package geometry;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -10,8 +9,8 @@ import java.util.function.Predicate;
 import dataStructures.isom.IsomConsumer;
 import dataStructures.isom.ObjLocatedCollector;
 import geometry.pointTools.PointConsumer;
+import tools.NumberManager;
 import tools.PathFinder;
-import videogamesOldVersion.common.mainTools.mOLM.PathFinderOLD;
 
 /**
  * Abstract definition of a handler and manager for objects related to a "space"
@@ -45,7 +44,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 	 * <br>
 	 * Note: Should check if the given {@link ObjectLocated} lies inside the
 	 * {@link AbstractShape2D} (provided by {@link #getBoundingShape()}) through its
-	 * method {@link AbstractShape2D#contains(Point2D)}.
+	 * method {@link AbstractShape2D#contains(Point)}.
 	 */
 	public boolean add(ObjectLocated o);
 
@@ -57,7 +56,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 		return remove(areaToClear, null);
 	}
 
-	public default <E extends ObjectLocated> boolean remove(AbstractShape2D areaToClear, Predicate<E> objectFilter) {
+	public default boolean remove(AbstractShape2D areaToClear, Predicate<ObjectLocated> objectFilter) {
 		Set<ObjectLocated> objToRemove;
 		boolean[] removed = { true };
 		objToRemove = fetch(areaToClear, objectFilter);
@@ -74,18 +73,24 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 
 //	public Set<ObjectLocated> fetch(double x, double y, Predicate<ObjectLocated> objectFilter);
 //	public default Set<ObjectLocated> fetch(double x, double y) {return fetch(x, y, null);}
-//	public default Set<ObjectLocated> fetch(Point2D whereToLookFor, Predicate<ObjectLocated> objectFilter) {
+//	public default Set<ObjectLocated> fetch(Point whereToLookFor, Predicate<ObjectLocated> objectFilter) {
 //		return this.fetch(whereToLookFor.getX(), whereToLookFor.getY(), objectFilter);}
-//	public default Set<ObjectLocated> fetch(Point2D whereToLookFor) {
+//	public default Set<ObjectLocated> fetch(Point whereToLookFor) {
 //		return this.fetch(whereToLookFor.getX(), whereToLookFor.getY());}
+
+	public ObjLocatedCollector newObjLocatedCollector(Predicate<ObjectLocated> objectFilter);
 
 	/**
 	 * Like {@link #fetch(AbstractShape2D)}, but providing a filtering over the
 	 * found objects. A <code>null</code> filter should suggests "retrieve all
 	 * objects found".
 	 */
-	public <E extends ObjectLocated> Set<ObjectLocated> fetch(AbstractShape2D areaToLookInto,
-			Predicate<E> objectFilter);
+	public default Set<ObjectLocated> fetch(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter) {
+		ObjLocatedCollector c;
+		c = newObjLocatedCollector(objectFilter);
+		this.runOnShape(areaToLookInto, c);
+		return c.getCollectedObjects();
+	}
 
 	/** Queris all objects located in the given area, if any. */
 	public default Set<ObjectLocated> fetch(AbstractShape2D areaToLookInto) {
@@ -117,7 +122,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 	public default void runOnBoundingShape(PointConsumer action) {
 		runOnShape(getBoundingShape(), action);
 	}
- 
+
 	public default void runOnShape(AbstractShape2D shape, PointConsumer action) {
 		AbstractShapeRunner runner;
 		if (shape == null || action == null)
@@ -129,29 +134,42 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 	}
 
 	/**
-	 * Find a path from the starting point (second parameter) to the end (third
-	 * parameter).
+	 * Find a path from the starting point (first parameter) to the end (second
+	 * parameter).<br>
+	 * See {@link PathFinder#getPath(Object, Object, NumberManager, Predicate)}.
 	 */
-	public <NodeType, NodeContent, D extends Number> List<NodeContent> getPath(
-			PathFinder<NodeType, NodeContent, D> pathFinderStrategy, Point2D start, Point2D destination);
-
-	/**
-	 * Invoking {@link #getPath(PathFinderOLD, Point2D, Point2D)} by giving as
-	 * second parameter the result of {@link ObjectLocated#getLocation()}..
-	 */
-	public default <NodeType, NodeContent, D extends Number> List<NodeContent> getPath(
-			PathFinder<NodeType, NodeContent, D> pathFinderStrategy, ObjectLocated objRequiringToMove,
-			Point2D destination) {
-		return getPath(pathFinderStrategy, objRequiringToMove.getLocation(), destination);
+	public default <NodeType extends Point, NodeContent, D extends Number> List<NodeContent> getPath(NodeType start,
+			NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder, NumberManager<D> numManager,
+			Predicate<NodeContent> isWalkableTester) {
+		return pathFinder.getPath(start, destination, numManager, isWalkableTester);
 	}
 
 	/**
-	 * Like {@link #getPath(PathFinderOLD, ObjectLocated, Point2D)}, but it's
-	 * required to take care of the object's sizze (i.e.: the value returned by
-	 * {@link ObjectShaped#getShape()} provided by the second parameter).
+	 * See {@link #getPath(Point, Point, PathFinder, NumberManager, Predicate)}.
 	 */
-	public <NodeType, NodeContent, D extends Number> List<NodeContent> getPathForShapedObject(
-			PathFinder<NodeType, NodeContent, D> pathFinderStrategy, ObjectShaped objRequiringTo, Point2D destination);
+	public default <NodeType extends Point, NodeContent, D extends Number> List<NodeContent> getPath(NodeType start,
+			NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder, NumberManager<D> numManager) {
+		return this.getPath(start, destination, pathFinder, numManager, null);
+	}
+
+	/**
+	 * See
+	 * {@link PathFinder#getPath(ObjectShaped, Object, NumberManager, Predicate)}.
+	 */
+	public default <NodeType extends Point, NodeContent, D extends Number> List<NodeContent> getPath(
+			ObjectShaped objRequiringToMove, NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder,
+			NumberManager<D> numManager, Predicate<NodeContent> isWalkableTester) {
+		return pathFinder.getPath(objRequiringToMove, destination, numManager, isWalkableTester);
+	}
+
+	/**
+	 * See {@link PathFinder#getPath(ObjectShaped, Object, NumberManager)}.
+	 */
+	public default <NodeType extends Point, NodeContent, D extends Number> List<NodeContent> getPath(
+			ObjectShaped objRequiringToMove, NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder,
+			NumberManager<D> numManager) {
+		return this.getPath(objRequiringToMove, destination, pathFinder, numManager, null);
+	}
 
 	//
 

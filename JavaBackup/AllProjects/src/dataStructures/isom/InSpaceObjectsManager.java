@@ -2,7 +2,6 @@ package dataStructures.isom;
 
 import java.awt.Point;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,16 +10,15 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 import dataStructures.ListMapped;
-import dataStructures.graph.PathFindStrategy;
 import geometry.AbstractObjectsInSpaceManager;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
 import geometry.PathFinderIsom;
+import geometry.PathOptimizer;
 import geometry.implementations.shapes.ShapeLine;
 import tools.LoggerMessages;
 import tools.NumberManager;
-import tools.ObjectWithID;
 import tools.PathFinder;
 
 /**
@@ -52,8 +50,9 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 
 	protected LoggerMessages log;
 //	protected PathFinderIsomAdapter<NodeIsom, D> pathFinder;
-	protected PathFinderIsom<NodeIsom, ObjectWithID, Distance> pathFinder;
+	protected PathFinderIsom<NodeIsom, ObjectLocated, Distance> pathFinder;
 	protected NumberManager<Distance> numberManager;
+	protected PathOptimizer<Point> pathOptimizer;
 
 	//
 
@@ -71,21 +70,29 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 	 * Could seems odd, but it's useful for {@link PathFinderIsom}s'
 	 * implementations.
 	 */
-	public abstract NodeIsom getNodeAt(Point2D location);
+	public abstract NodeIsom getNodeAt(Point location);
+
+	public PathOptimizer<Point> getPathOptimizer() {
+		return pathOptimizer;
+	}
 
 	//
 
 	// TODO SETTER
 
+	public void setPathOptimizer(PathOptimizer<Point> pathOptimizer) {
+		this.pathOptimizer = pathOptimizer;
+	}
+
 	public void setLog(LoggerMessages log) {
 		this.log = log;
 	}
 
-	public PathFinder<NodeIsom, ObjectWithID, Distance> getPathFinder() {
+	public PathFinder<NodeIsom, ObjectLocated, Distance> getPathFinder() {
 		return pathFinder;
 	}
 
-	public void setPathFinder(PathFinderIsom<NodeIsom, ObjectWithID, Distance> pathFinder) {
+	public void setPathFinder(PathFinderIsom<NodeIsom, ObjectLocated, Distance> pathFinder) {
 		this.pathFinder = pathFinder;
 	}
 
@@ -108,7 +115,7 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 
 	//
 
-//	public default boolean isInside(Point2D p) { return isInside(p.getX(), p.getY());}
+//	public default boolean isInside(Point p) { return isInside(p.getX(), p.getY());}
 //	public default boolean isInside(double x, double y) {
 //		AbstractShape2D s;
 //		s = getSpaceShape();
@@ -117,39 +124,57 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 
 	// TODO to-do path find
 
-	public static List<Point2D> listNodeToPoint(List<NodeIsom> lni) {
-		ListMapped<NodeIsom, Point2D> lmapping;
-		List<Point2D> ret;
+	/** Convert the given list of internal node points to a list of points. */
+	public static <OL extends ObjectLocated> List<Point> listNodeToPoint(List<OL> lni) {
+		ListMapped<OL, Point> lmapping;
+		List<Point> ret;
 		lmapping = new ListMapped<>(lni, ni -> ni.getLocation()); // map them
 		ret = new LinkedList<>();
-		for (Point2D p : lmapping) {
+		for (Point p : lmapping) {
 			ret.add(p);
 		}
 		return ret;
 	}
 
-	public List<Point2D> getPath(Point2D start, Point2D destination) {
-		List<NodeIsom> lni;
-		lni = this.getPathFinder().getPath(getNodeAt(start), getNodeAt(destination), numberManager);
-		return listNodeToPoint(lni);
+	/**
+	 * See
+	 * {@link PathFinder#getPath(ObjectShaped, Object, NumberManager, Predicate)}.
+	 */
+	public List<Point> getPath(Point start, Point destination, Predicate<ObjectLocated> isWalkableTester) {
+//		List<NodeIsom> lni;
+//		lni = this.getPathFinder().getPath(getNodeAt(start), getNodeAt(destination), numberManager);
+//		return listNodeToPoint(lni);
+		List<ObjectLocated> path;
+		path = this.getPath(getNodeAt(start), getNodeAt(destination), pathFinder, numberManager, isWalkableTester);
+		return this.pathOptimizer.optimizePath(new ListMapped<>(path, ni -> ni.getLocation()));
 	}
 
 	/**
-	 * Invoking {@link #getPath(Point2D, Point2D)} by giving as first parameter the
-	 * result of {@link ObjectLocated#getLocation()}..
+	 * See {@link #getPath(ObjectShaped, Point, Predicate)}.
 	 */
-//	@Deprecated /*because it could confuse the dynamic invocation*/
-//	public abstract List<Point2D> getPath(ObjectLocated objRequiringToMove, Point2D destination);
+	public List<Point> getPath(Point start, Point destination) {
+		return this.getPath(start, destination, null);
+	}
 
 	/**
-	 * Like {@link #getPath(PathFindStrategy, ObjectLocated, Point2D)}, but it's
-	 * required to take care of the object's sizze (i.e.: the value returned by
-	 * {@link ObjectShaped#getShape()} provided by the second parameter).
+	 * See
+	 * {@link PathFinder#getPath(ObjectShaped, Object, NumberManager, Predicate)}.
 	 */
-	public List<Point2D> getPath(ObjectShaped objRequiringTo, Point2D destination) {
-		List<NodeIsom> lni;
-		lni = this.getPathFinder().getPath(objRequiringTo, getNodeAt(destination), numberManager);
-		return listNodeToPoint(lni);
+	public List<Point> getPath(ObjectShaped objRequiringTo, Point destination,
+			Predicate<ObjectLocated> isWalkableTester) {
+//		List<NodeIsom> lni;
+//		lni = this.getPathFinder().getPath(objRequiringTo, getNodeAt(destination), numberManager);
+//		return listNodeToPoint(lni);
+		List<ObjectLocated> path;
+		path = this.getPath(objRequiringTo, getNodeAt(destination), pathFinder, numberManager, isWalkableTester);
+		return this.pathOptimizer.optimizePath(new ListMapped<>(path, ni -> ni.getLocation()));
+	}
+
+	/**
+	 * See {@link #getPath(ObjectShaped, Point, Predicate)}.
+	 */
+	public List<Point> getPath(ObjectShaped objRequiringTo, Point destination) {
+		return this.getPath(objRequiringTo, destination, null);
 	}
 
 	// TODO todo add getPath with predicate filter
@@ -175,7 +200,7 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 		Iterator<Point> iter;
 		ShapeLine subpath;
 		Line2D line;
-		Point2D pstart, pend;
+		Point pstart, pend;
 		if (path == null || path.size() < 2)
 			return null;
 		line = new Line2D.Double();
@@ -189,19 +214,5 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 			pstart = pend;
 		}
 		return collector.getCollectedObjects();
-	}
-
-	@Override
-	public <NodeType, NodeContent, D extends Number> List<NodeContent> getPath(
-			PathFinder<NodeType, NodeContent, D> pathFinderStrategy, Point2D start, Point2D destination) {
-		// TODO to do the adapter
-		return null;
-	}
-
-	@Override
-	public <NodeType, NodeContent, D extends Number> List<NodeContent> getPathForShapedObject(
-			PathFinder<NodeType, NodeContent, D> pathFinderStrategy, ObjectShaped objRequiringTo, Point2D destination) {
-		// TODO to do the adapter
-		return null;
 	}
 }

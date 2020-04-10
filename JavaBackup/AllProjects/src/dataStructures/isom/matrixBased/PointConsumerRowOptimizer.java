@@ -1,6 +1,6 @@
 package dataStructures.isom.matrixBased;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 
 import dataStructures.isom.NodeIsom;
 import geometry.pointTools.impl.PointConsumerRestartable;
@@ -43,10 +43,10 @@ public abstract class PointConsumerRowOptimizer<Distance extends Number> impleme
 
 	//
 
-	public abstract void acceptImpl(Point2D t);
+	public abstract void acceptImpl(Point t);
 
 	@Override
-	public final void accept(Point2D p) {
+	public final void accept(Point p) {
 		int yy;
 		if (p == null)
 			return;

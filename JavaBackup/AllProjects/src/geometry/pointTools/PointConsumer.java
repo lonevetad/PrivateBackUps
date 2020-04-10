@@ -1,10 +1,10 @@
 package geometry.pointTools;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 import java.io.Serializable;
 import java.util.function.Consumer;
 
-public interface PointConsumer extends Consumer<Point2D>, Serializable {
+public interface PointConsumer extends Consumer<Point>, Serializable {
 	public static final PointConsumer POINT_PRINTER = p -> System.out.println(p);
 
 	/**

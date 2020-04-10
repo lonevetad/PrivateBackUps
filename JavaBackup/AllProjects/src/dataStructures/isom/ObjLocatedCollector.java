@@ -1,6 +1,6 @@
 package dataStructures.isom;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -11,7 +11,7 @@ public interface ObjLocatedCollector extends PointConsumerRestartable {
 
 	public Predicate<ObjectLocated> getTargetsFilter();
 
-	public NodeIsom getNodeAt(Point2D location);
+	public NodeIsom getNodeAt(Point location);
 
 	public Set<ObjectLocated> getCollectedObjects();
 
@@ -21,7 +21,7 @@ public interface ObjLocatedCollector extends PointConsumerRestartable {
 	}
 
 	@Override
-	public default void accept(Point2D location) {
+	public default void accept(Point location) {
 		NodeIsom n;
 		n = this.getNodeAt(location);
 		n.forEachAcceptableObject(getTargetsFilter(), o -> {

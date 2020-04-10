@@ -22,6 +22,11 @@ public class ListMapped<OriginalType, T> implements List<T> {
 	}
 
 	@Override
+	public void clear() {
+		backList.clear();
+	}
+
+	@Override
 	public boolean isEmpty() {
 		return backList.isEmpty();
 	}
@@ -29,6 +34,11 @@ public class ListMapped<OriginalType, T> implements List<T> {
 	@Override
 	public boolean contains(Object o) {
 		return backList.contains(o);
+	}
+
+	@Override
+	public T get(int index) {
+		return newTypeExtractor.apply(backList.get(index));
 	}
 
 	@Override
@@ -84,16 +94,6 @@ public class ListMapped<OriginalType, T> implements List<T> {
 	@Override
 	public boolean retainAll(Collection<?> c) {
 		throw new UnsupportedOperationException("Cannot modify the original list");
-	}
-
-	@Override
-	public void clear() {
-		backList.clear();
-	}
-
-	@Override
-	public T get(int index) {
-		return newTypeExtractor.apply(backList.get(index));
 	}
 
 	@Override
