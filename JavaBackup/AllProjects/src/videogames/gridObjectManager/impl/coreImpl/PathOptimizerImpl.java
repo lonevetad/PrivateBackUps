@@ -1,11 +1,9 @@
-package gridObjectManager.impl.coreImpl;
+package videogames.gridObjectManager.impl.coreImpl;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import gridObjectManager.core.PathOptimizer;
-
-public class PathOptimizerImpl implements PathOptimizer {
+public class PathOptimizerImpl implements PathOptimizerOLD {
 	private static final long serialVersionUID = 467840001201380L;
 
 	public PathOptimizerImpl() {
@@ -47,7 +45,7 @@ public class PathOptimizerImpl implements PathOptimizer {
 				pfirst = psecond;
 				psecond = pnext;
 			}
-		} while (iter.hasNext());
+		} while(iter.hasNext());
 		// the end
 		lr.add(pnext);
 		return lr;

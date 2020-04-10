@@ -1,24 +1,29 @@
-package common.mainTools.mOLM;
+package videogamesOldVersion.common.mainTools.mOLM;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
-import common.abstractCommon.behaviouralObjectsAC.MyComparator;
-import common.mainTools.mOLM.MatrixObjectLocationManager.COLORS_VISIT;
-import common.mainTools.mOLM.MatrixObjectLocationManager.CoordinatesDeltaForAdjacentNodes;
-import common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID;
+import tools.ObjectWithID;
+import videogamesOldVersion.common.mainTools.mOLM.MatrixObjectLocationManager.COLORS_VISIT;
 
 public class NodeMatrix implements Serializable {
 
 	private static final long serialVersionUID = 56108790463603L;
 	protected static int progressiveID = 0;
 
-	protected static final MyComparator<NodeMatrix> compNodeMatrix = (NodeMatrix d1, NodeMatrix d2) -> {
-		if (d1 == d2) return 0;
-		if (d1 == null) return 1;
-		if (null == d2) return -1;
-		if (d1.getPreviousOnPathfinding() == d2.getPreviousOnPathfinding()) return 0;
-		if (d1.getPreviousOnPathfinding() == null) return 1;
-		if (d2.getPreviousOnPathfinding() == null) return -1;
+	protected static final Comparator<NodeMatrix> compNodeMatrix = (NodeMatrix d1, NodeMatrix d2) -> {
+		if (d1 == d2)
+			return 0;
+		if (d1 == null)
+			return 1;
+		if (null == d2)
+			return -1;
+		if (d1.getPreviousOnPathfinding() == d2.getPreviousOnPathfinding())
+			return 0;
+		if (d1.getPreviousOnPathfinding() == null)
+			return 1;
+		if (d2.getPreviousOnPathfinding() == null)
+			return -1;
 		return Double.compare(d1.getFullPathLength(), d2.getFullPathLength());
 	};
 
@@ -36,7 +41,8 @@ public class NodeMatrix implements Serializable {
 
 	// fields of this class
 	int x, y, serialNodeID;
-	// using this coordinates, i can compute the adjacents for dijikstra path-find algorithm
+	// using this coordinates, i can compute the adjacents for dijikstra path-find
+	// algorithm
 	ObjectWithID item;
 
 	// fields for pathfind
@@ -126,7 +132,8 @@ public class NodeMatrix implements Serializable {
 	}
 
 	public void addArcWeight(NodeMatrix from, CoordinatesDeltaForAdjacentNodes arc) {
-		if (arc != null) fullPathLength = from.fullPathLength + arc.weight;
+		if (arc != null)
+			fullPathLength = from.fullPathLength + arc.weight;
 	}
 
 	@Override

@@ -1,10 +1,10 @@
-package common.mainTools.mOLM.abstractClassesMOLM;
+package videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM;
 
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-import common.mainTools.mOLM.NodeMatrix;
+import videogamesOldVersion.common.mainTools.mOLM.NodeMatrix;
 
 public interface AbstractPathOptimizer extends Serializable {
 

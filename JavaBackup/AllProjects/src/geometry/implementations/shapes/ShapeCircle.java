@@ -6,9 +6,9 @@ import java.awt.geom.Point2D;
 
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
-import geometry.implementations.shapes.subHierarchy.AbstractShapeFillableImpl;
+import geometry.implementations.shapes.subHierarchy.ShapeFillableImpl;
 
-public class ShapeCircle extends AbstractShapeFillableImpl {
+public class ShapeCircle extends ShapeFillableImpl {
 	private static final long serialVersionUID = -53268436103028L;
 	public static final int DIAMETER_DIVIDER_LOG_FACTOR = 3, MIN_AMOUNT_SIDES_POLYGON_APPROXIMATOR = 8,
 			MAX_AMOUNT_SIDES_POLYGON_APPROXIMATOR = 360;
@@ -142,12 +142,4 @@ public class ShapeCircle extends AbstractShapeFillableImpl {
 	public AbstractShape2D clone() {
 		return new ShapeCircle(this);
 	}
-
-	//
-
-	@Override
-	protected boolean shouldMove() {
-		return false;
-	}
-
 }

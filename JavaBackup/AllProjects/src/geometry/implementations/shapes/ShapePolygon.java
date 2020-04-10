@@ -5,9 +5,9 @@ import java.awt.geom.Point2D;
 
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
-import geometry.implementations.shapes.subHierarchy.AbstractShapeFillableImpl;
+import geometry.implementations.shapes.subHierarchy.ShapeFillableImpl;
 
-public class ShapePolygon extends AbstractShapeFillableImpl {
+public class ShapePolygon extends ShapeFillableImpl {
 	private static final long serialVersionUID = 326178704L;
 
 	public ShapePolygon(ShapePolygon s) {

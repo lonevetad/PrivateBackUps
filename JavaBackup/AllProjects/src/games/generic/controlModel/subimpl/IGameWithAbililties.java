@@ -1,4 +1,4 @@
-package games.generic.controlModel;
+package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 

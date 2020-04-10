@@ -31,9 +31,9 @@ public class TestDijkstraPriorityQueue {
 		int i, k;
 		int[][] links;
 		LoggerMessages log;
-		GraphSimple<Integer> g;
-		PathFindStrategy<Integer> pathFinder;
-		PathGraph<Integer> p;
+		GraphSimple<Integer, Integer> g;
+		PathFindStrategy<Integer, Integer> pathFinder;
+		PathGraph<Integer, Integer> p;
 		Integer dest, distance;
 		Scanner scan;
 //		try {
@@ -61,7 +61,7 @@ public class TestDijkstraPriorityQueue {
 				: new GraphSimpleAsynchronized<>(pathFinder, GraphSimple.INT_COMPARATOR);
 		g.setLog(log);
 		i = -1;
-		while (++i < numberNodeGraphs) {
+		while(++i < numberNodeGraphs) {
 			g.addNode(i);
 		}
 
@@ -100,7 +100,7 @@ public class TestDijkstraPriorityQueue {
 		for (int[] link : links) {
 			if (link != null) {
 				k = 0;
-				while (k < link.length) {
+				while(k < link.length) {
 					// pairs of destination-distance
 					dest = Integer.valueOf(link[k++]);
 					distance = Integer.valueOf(link[k++]);

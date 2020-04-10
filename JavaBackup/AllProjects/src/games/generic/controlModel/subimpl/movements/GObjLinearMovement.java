@@ -3,8 +3,8 @@ package games.generic.controlModel.subimpl.movements;
 import java.awt.Point;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.GObjMovement;
 import games.generic.controlModel.gObj.MovingObject;
+import games.generic.controlModel.misc.GObjMovement;
 import tools.MathUtilities;
 
 public class GObjLinearMovement extends GObjMovement {

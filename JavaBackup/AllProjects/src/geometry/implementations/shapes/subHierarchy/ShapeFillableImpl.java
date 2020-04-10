@@ -3,20 +3,20 @@ package geometry.implementations.shapes.subHierarchy;
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
 
-public abstract class AbstractShapeFillableImpl extends AbstractShapeImpl implements AbstractFillable {
+public abstract class ShapeFillableImpl extends AbstractShapeImpl implements ShapeFillable {
 	private static final long serialVersionUID = 794613059417L;
 
-	public AbstractShapeFillableImpl(ShapeRunnersImplemented shapeImplementing) {
+	public ShapeFillableImpl(ShapeRunnersImplemented shapeImplementing) {
 		super(shapeImplementing);
 		this.isFilled = false;
 	}
 
-	public AbstractShapeFillableImpl(AbstractShapeFillableImpl s) {
+	public ShapeFillableImpl(ShapeFillableImpl s) {
 		super(s);
 		this.isFilled = s.isFilled;
 	}
 
-	public AbstractShapeFillableImpl(ShapeRunnersImplemented shapeImplementing, double angleRotation, int xCenter,
+	public ShapeFillableImpl(ShapeRunnersImplemented shapeImplementing, double angleRotation, int xCenter,
 			int yCenter, boolean isFilled) {
 		super(shapeImplementing, angleRotation, xCenter, yCenter);
 		this.isFilled = isFilled;
@@ -30,7 +30,7 @@ public abstract class AbstractShapeFillableImpl extends AbstractShapeImpl implem
 	}
 
 	@Override
-	public AbstractShapeFillableImpl setFilled(boolean isFilled) {
+	public ShapeFillableImpl setFilled(boolean isFilled) {
 		this.isFilled = isFilled;
 		return this;
 	}

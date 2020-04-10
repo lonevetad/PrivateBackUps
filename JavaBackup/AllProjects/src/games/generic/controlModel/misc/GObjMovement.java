@@ -1,4 +1,4 @@
-package games.generic.controlModel;
+package games.generic.controlModel.misc;
 
 import games.generic.controlModel.gObj.MovingObject;
 import games.generic.controlModel.gObj.TimedObject;

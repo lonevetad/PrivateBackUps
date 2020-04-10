@@ -1,9 +1,12 @@
 package dataStructures.isom.matrixBased;
 
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 import dataStructures.isom.NodeIsom;
 import geometry.ObjectLocated;
 
-public abstract class NodeIsomSingleObj extends NodeIsom {
+public class NodeIsomSingleObj extends NodeIsom {
 	private static final long serialVersionUID = 4052487990441744L;
 
 	protected ObjectLocated objectLying;
@@ -25,5 +28,15 @@ public abstract class NodeIsomSingleObj extends NodeIsom {
 //		setObjectLying(o);
 		this.objectLying = o;
 		return true;
+	}
+
+	@Override
+	public boolean isWalkable(Predicate<ObjectLocated> isWalkableTester) {
+		return isWalkableTester == null || isWalkableTester.test(objectLying);
+	}
+
+	@Override
+	public void forEachHeldObject(Consumer<ObjectLocated> action) {
+		action.accept(objectLying);
 	}
 }

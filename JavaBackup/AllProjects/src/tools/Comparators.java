@@ -17,8 +17,9 @@ public final class Comparators {
 	public static final MyComparator<String> STRING_COMPARATOR = new GenericComparator<String>()//
 			, STRING_COMPARATOR_2 = //
 					(s1, s2) -> ((s1 == null) ? (s2 == null ? 0 : -1) : (s2 == null ? 1 : s1.compareTo(s2)));
-	public static final MyComparator<Long> LONG_COMPARATOR = new GenericComparator<Long>();
 	public static final MyComparator<Integer> INTEGER_COMPARATOR = new GenericComparator<Integer>();
+	public static final MyComparator<Long> LONG_COMPARATOR = new GenericComparator<Long>();
+	public static final MyComparator<Double> DOUBLE_COMPARATOR = new GenericComparator<Double>();
 	public static final MyComparator<File> FILE_COMPARATOR = new GenericComparator<File>();
 	public static final MyComparator<Color> COLOR_COMPARATOR = (e1, e2) -> {
 		if (e1 == e2)
@@ -192,7 +193,7 @@ public final class Comparators {
 		l2 = a2.length;
 		len = Math.min(l1, l2);
 		i = -1;
-		while (++i < len) {
+		while(++i < len) {
 			o1 = a1[i];
 			o2 = a2[i];
 			c = compareComparableObjects(o1, o2);
@@ -222,7 +223,7 @@ public final class Comparators {
 		if (len == 1)
 			return 0;
 		v = array[i = index = 0];
-		while (++i < len) {
+		while(++i < len) {
 			if (((vtemp = array[i]) != null) && (comp.compare(vtemp, v) > 0)) {
 				v = vtemp;
 				index = i;
@@ -239,7 +240,7 @@ public final class Comparators {
 		if (len == 1)
 			return 0;
 		v = array[i = index = 0];
-		while (++i < len) {
+		while(++i < len) {
 			if (((vtemp = array[i]) != null) && (comp.compare(vtemp, v) < 0)) {
 				v = vtemp;
 				index = i;

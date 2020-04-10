@@ -9,6 +9,7 @@ import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import tools.Comparators;
+import tools.minorTools.RandomWeightedIndexes;
 
 /**
  * Defines a "database-like" holder of a specific hierarchy of game objects (all
@@ -29,6 +30,7 @@ import tools.Comparators;
  * <li>Tiles for maps</li>
  * <li>Maps</li>
  * </ul>
+ * Randomness can be manipulated through {@link RandomWeightedIndexes}.
  */
 public class GameObjectsProvider<E extends ObjectNamed> {
 	protected MapTreeAVL<String, FactoryObjGModalityBased<E>> objsByName;

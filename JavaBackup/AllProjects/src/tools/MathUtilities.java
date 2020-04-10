@@ -148,6 +148,14 @@ public final class MathUtilities {
 		return areCollinear(pfirst.x, pfirst.y, psecond.x, psecond.y, pthird.x, pthird.y);
 	}
 
+	/** See {@link #areCollinear(Point, Point, Point)}. */
+	public static boolean areCollinear(Point2D pfirst, Point2D psecond, Point2D pthird) {
+		if (pfirst == null || psecond == null || pthird == null) {
+			return false;
+		}
+		return areCollinear(pfirst.getX(), pfirst.getY(), psecond.getX(), psecond.getY(), pthird.getX(), pthird.getY());
+	}
+
 	/** Returns the area of a triangle identified by those three points. */
 	public static double areaTriangle(Point2D firstPoint, Point2D secondPoint, Point2D pointToBeTested) {
 		return areaTriangle(firstPoint.getX(), firstPoint.getY(), secondPoint.getX(), secondPoint.getY(),

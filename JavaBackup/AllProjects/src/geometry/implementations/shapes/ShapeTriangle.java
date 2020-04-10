@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
-import geometry.implementations.shapes.subHierarchy.AbstractShapeFillableImpl;
+import geometry.implementations.shapes.subHierarchy.ShapeFillableImpl;
 import tools.MathUtilities;
 
-public class ShapeTriangle extends AbstractShapeFillableImpl {
+public class ShapeTriangle extends ShapeFillableImpl {
 	private static final long serialVersionUID = 1L;
 
 	public ShapeTriangle(ShapeTriangle s) {

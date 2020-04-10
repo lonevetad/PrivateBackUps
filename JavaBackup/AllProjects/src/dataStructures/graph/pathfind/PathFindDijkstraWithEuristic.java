@@ -146,7 +146,7 @@ public class PathFindDijkstraWithEuristic<E, Distance> implements PathFindStrate
 		private final Map<E, NodeInfoAStar<E, Distance>> nodeInfos;
 		private final PriorityQueueKey<NodeInfoAStar<E, Distance>, Distance> frontier;
 		private final BiFunction<E, E, Distance> heuristic;
-		private final NodeDistanceManager<Distance> distanceManager;
+		private final NumberManager<Distance> distanceManager;
 
 		UsynchronizedAdjacentForEacherAStar(Map<E, NodeInfoAStar<E, Distance>> nodeInfos,
 				PriorityQueueKey<NodeInfoAStar<E, Distance>, Distance> frontier, BiFunction<E, E, Distance> heuristic,

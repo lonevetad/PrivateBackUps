@@ -2,7 +2,7 @@ package dataStructures.isom;
 
 import geometry.pointTools.PointConsumer;
 
-public interface IsomConsumer extends PointConsumer {
+public interface IsomConsumer<Distance extends Number> extends PointConsumer {
 	/**
 	 * perform an action to the given {@link InSpaceObjectsManager}, referring to a
 	 * given coordinates of the type (row, column) and the object hold by related
@@ -10,7 +10,7 @@ public interface IsomConsumer extends PointConsumer {
 	 */
 //	public void accept(GridObjectManager gom, ObjectWithID node, int row, int column);
 
-	public InSpaceObjectsManager getInSpaceObjectsManager();
+	public InSpaceObjectsManager<Distance> getInSpaceObjectsManager();
 
-	public void setInSpaceObjectsManager(InSpaceObjectsManager isom);
+	public void setInSpaceObjectsManager(InSpaceObjectsManager<Distance> isom);
 }

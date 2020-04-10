@@ -60,7 +60,7 @@ public class MOLM_TrackinOWIDs extends MatrixObjectLocationManager {
 	}
 
 	public static MOLM_TrackinOWIDs newDefaultInstance(int w, int h) {
-		return (MOLM_TrackinOWIDs) MOLM_TrackinOWIDs.newInstance(w, h).setPathFinder(PathFinder.getInstance())
+		return (MOLM_TrackinOWIDs) MOLM_TrackinOWIDs.newInstance(w, h).setPathFinder(PathFinderOLD.getInstance())
 				.setShapeRunners(ShapeRunners.getInstance());
 	}
 

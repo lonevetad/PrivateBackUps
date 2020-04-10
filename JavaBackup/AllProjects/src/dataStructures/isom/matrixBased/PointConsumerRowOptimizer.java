@@ -5,10 +5,10 @@ import java.awt.geom.Point2D;
 import dataStructures.isom.NodeIsom;
 import geometry.pointTools.impl.PointConsumerRestartable;
 
-public abstract class PointConsumerRowOptimizer implements PointConsumerRestartable {
+public abstract class PointConsumerRowOptimizer<Distance extends Number> implements PointConsumerRestartable {
 	private static final long serialVersionUID = 1L;
 
-	public PointConsumerRowOptimizer(MatrixInSpaceObjectsManager misom) {
+	public PointConsumerRowOptimizer(MatrixInSpaceObjectsManager<Distance> misom) {
 		this.misom = misom;
 		y = 0;
 		rowCache = null;
@@ -16,7 +16,7 @@ public abstract class PointConsumerRowOptimizer implements PointConsumerRestarta
 
 	protected int y;
 	protected NodeIsom[] rowCache;
-	protected MatrixInSpaceObjectsManager misom;
+	protected MatrixInSpaceObjectsManager<Distance> misom;
 
 //
 
@@ -30,13 +30,13 @@ public abstract class PointConsumerRowOptimizer implements PointConsumerRestarta
 		return rowCache;
 	}
 
-	public MatrixInSpaceObjectsManager getMisom() {
+	public MatrixInSpaceObjectsManager<Distance> getMisom() {
 		return misom;
 	}
 
 	//
 
-	public PointConsumerRowOptimizer setMisom(MatrixInSpaceObjectsManager misom) {
+	public PointConsumerRowOptimizer<Distance> setMisom(MatrixInSpaceObjectsManager<Distance> misom) {
 		this.misom = misom;
 		return this;
 	}

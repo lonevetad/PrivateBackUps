@@ -1,14 +1,14 @@
-package common.mainTools.mOLM;
+package videogamesOldVersion.common.mainTools.mOLM;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractPathOptimizer;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractPathOptimizer;
 
-public class PathOptimizer implements AbstractPathOptimizer {
+public class PathOptimizerOLD implements AbstractPathOptimizer {
 	private static final long serialVersionUID = 467840001201380L;
 
-	public PathOptimizer() {
+	public PathOptimizerOLD() {
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class PathOptimizer implements AbstractPathOptimizer {
 				pfirst = psecond;
 				psecond = pnext;
 			}
-		} while (iter.hasNext());
+		} while(iter.hasNext());
 		// the end
 		lr.add(pnext);
 		return lr;

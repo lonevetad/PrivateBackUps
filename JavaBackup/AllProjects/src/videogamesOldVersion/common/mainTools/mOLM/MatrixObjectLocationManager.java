@@ -6,17 +6,16 @@ import java.awt.Polygon;
 import java.io.Serializable;
 import java.util.List;
 
+import tools.ObjectWithID;
 import videogamesOldVersion.common.FullReloadEnvironment;
 import videogamesOldVersion.common.PainterMolm;
 import videogamesOldVersion.common.abstractCommon.Memento;
 import videogamesOldVersion.common.abstractCommon.referenceHolderAC.ShapeSpecificationHolder;
 import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
-import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager.AbstractMementoMOLM;
-import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager.CollectedObject;
 import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractPathFinder;
 import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractShapeRunners;
 import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.DoSomethingWithNode;
-import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.LoggerMessages;
 import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.PainterMOLMNullItem;
 import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
 
@@ -42,8 +41,8 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 	};
 
 	/**
-	 * Il senso delle coordinate è orario MA l'o rigine degli assi cartesiani è*"in
-	 * alto a sinistra","top-left".
+	 * Il senso delle coordinate è orario MA l'o rigine degli assi cartesiani
+	 * è*"in alto a sinistra","top-left".
 	 */
 	public static enum CoordinatesDeltaForAdjacentNodes {
 		// TOP(0, -1), RIGHT(+1, 0), BOTTOM(0, 1), LEFT(-1, 0);
@@ -120,7 +119,7 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 	@Override
 	public void resetDefaultInstances() {
 		this.shapeRunners = ShapeRunners.getInstance();
-		this.pathFinder = PathFinder.getInstance();
+		this.pathFinder = PathFinderOLD.getInstance();
 		this.log = LoggerMessages.LOGGER_DEFAULT;
 	}
 
@@ -215,10 +214,10 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 		w = width;
 		m = matrix;
 		r = -1;
-		while (++r < h && dswn.canContinueCycling()) {
+		while(++r < h && dswn.canContinueCycling()) {
 			c = -1;
 			row = m[r];
-			while (++c < w && dswn.canContinueCycling()) {
+			while(++c < w && dswn.canContinueCycling()) {
 				dswn.doOnNode(this, row[c], c, r);
 			}
 		}
@@ -443,10 +442,10 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 		w = width;
 		m = matrix;
 		r = -1;
-		while (++r < h) {
+		while(++r < h) {
 			c = -1;
 			row = m[r];
-			while (++c < w) {
+			while(++c < w) {
 				row[c].item = null;
 			}
 		}
@@ -489,11 +488,11 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 			rows = Math.min(oldh, height);
 			columns = Math.min(oldw, width);
 			r = -1;
-			while (++r < rows) {
+			while(++r < rows) {
 				c = -1;
 				rowNew = mNew[r];
 				rowOLD = mOLD[r];
-				while (++c < columns) {
+				while(++c < columns) {
 					// rowNew[c] = this.getNewNodeMatrix(c, r);
 					rowNew[c] = rowOLD[c];
 				}
@@ -502,10 +501,10 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 			if (hGrown) {
 				r--;
 				columns = width;
-				while (++r < height) {
+				while(++r < height) {
 					c = -1;
 					rowNew = mNew[r];
-					while (++c < columns) {
+					while(++c < columns) {
 						rowNew[c] = this.getNewNodeMatrix(c, r);
 					}
 				}
@@ -517,10 +516,10 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 				 * nell'if precedente
 				 */
 				r = -1;
-				while (++r < rows) {
+				while(++r < rows) {
 					c = columns - 1;
 					rowNew = mNew[r];
-					while (++c < width) {
+					while(++c < width) {
 						rowNew[c] = this.getNewNodeMatrix(c, r);
 					}
 				}
@@ -550,7 +549,7 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 	}
 
 	public static MatrixObjectLocationManager newDefaultInstance(int w, int h) {
-		return MatrixObjectLocationManager.newInstance(w, h).setPathFinder(PathFinder.getInstance())
+		return MatrixObjectLocationManager.newInstance(w, h).setPathFinder(PathFinderOLD.getInstance())
 				.setShapeRunners(ShapeRunners.getInstance());
 	}
 
@@ -568,10 +567,10 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 			throw new IllegalArgumentException("Incorrect MOLM new size: width: " + width + ", height: " + height);
 		matrix = m = new NodeMatrix[this.height = height][this.width = width];
 		r = -1;
-		while (++r < height) {
+		while(++r < height) {
 			c = -1;
 			row = m[r];
-			while (++c < width) {
+			while(++c < width) {
 				row[c] = this.getNewNodeMatrix(c, r);
 			}
 		}
@@ -687,6 +686,13 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 				node.item = null;
 			return null;
 		}
+
+		@Override
+		public Object doOnItem(AbstractMatrixObjectLocationManager molm,
+				videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID item, int x, int y) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 
 	protected static class Remover extends DSWN_Generic {
@@ -711,6 +717,13 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 			if (shouldReplaceAll || node.item == itemToBeRemoved) {
 				node.item = itemToBeAdded;
 			}
+			return null;
+		}
+
+		@Override
+		public Object doOnItem(AbstractMatrixObjectLocationManager molm,
+				videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID item, int x, int y) {
+			// TODO Auto-generated method stub
 			return null;
 		}
 	}
@@ -784,6 +797,13 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 				node.item = itemToBeAdded;
 			}
 			// return o;
+			return null;
+		}
+
+		@Override
+		public Object doOnItem(AbstractMatrixObjectLocationManager molm,
+				videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID item, int x, int y) {
+			// TODO Auto-generated method stub
 			return null;
 		}
 
@@ -908,5 +928,39 @@ public class MatrixObjectLocationManager implements AbstractMatrixObjectLocation
 		public MatrixObjectLocationManager reinstanceFromMe(FullReloadEnvironment fre) {
 			return new MatrixObjectLocationManager(this, fre);
 		}
+	}
+
+	@Override
+	public videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.Memento createMemento() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean reloadState(videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.Memento m) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public LoggerMessages getLog() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CollectedObject collectOnShapeReferringTo(ShapeSpecification ss,
+			videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID whoMustNotBeCollected) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String replaceOnShape(ShapeSpecification ss,
+			videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID toBeAdded,
+			videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID toBeRemoved,
+			boolean removePrevIfShapeSpecHolder) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

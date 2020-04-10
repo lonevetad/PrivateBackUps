@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
+import tools.LoggerMessages;
 import tools.MathUtilities;
 import videogamesOldVersion.common.mainTools.mOLM.MatrixObjectLocationManager.COLORS_VISIT;
 import videogamesOldVersion.common.mainTools.mOLM.MatrixObjectLocationManager.CollectorObstacles;
@@ -14,16 +15,16 @@ import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractPa
 /**
  * Implementation of {@link AbstractPathFinder}, using the Singleton pattern.
  */
-public class PathFinder implements AbstractPathFinder {
+public class PathFinderOLD implements AbstractPathFinder {
 	private static final long serialVersionUID = -965107860L;
-	private static PathFinder instancePathFinder;
+	private static PathFinderOLD instancePathFinder;
 
-	private PathFinder() {
+	private PathFinderOLD() {
 	}
 
-	public static PathFinder getInstance() {
+	public static PathFinderOLD getInstance() {
 		if (instancePathFinder == null)
-			instancePathFinder = new PathFinder();
+			instancePathFinder = new PathFinderOLD();
 		return instancePathFinder;
 	}
 

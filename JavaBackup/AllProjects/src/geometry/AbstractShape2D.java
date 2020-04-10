@@ -7,9 +7,10 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
+import geometry.implementations.ShapeUIDProvider;
 import geometry.pointTools.PolygonUtilities;
 
-public abstract class AbstractShape2D implements Serializable, Cloneable {
+public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cloneable {
 	public static final int MINIMUM_CORNERS_AMOUNT = 2; // a triangle
 	/** Use negative values to move clockwise */
 	protected static final double MINUS_360 = -360.0;
@@ -23,8 +24,10 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 		if (shapeImplementing == null)
 			throw new IllegalArgumentException("The shapeImplementing cannot be null");
 		this.shapeImplementing = shapeImplementing;
+		this.ID = ShapeUIDProvider.SHAPE_UNIQUE_ID_PROVIDER.getNewID();
 	}
 
+	protected Integer ID;
 	protected final ShapeRunnersImplemented shapeImplementing;
 	protected Polygon polygonCache;
 
@@ -45,6 +48,11 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 
 	public final boolean contains(Point2D p) {
 		return contains((int) p.getX(), (int) p.getY());
+	}
+
+	@Override
+	public Integer getID() {
+		return ID;
 	}
 
 	/** The x-component of {@link #getCenter()}. */
@@ -136,6 +144,16 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 		return this;
 	}
 
+	@Override
+	public void setLocation(Point location) {
+		setCenter(location);
+	}
+
+	@Override
+	public void setLocation(int x, int y) {
+		setCenter(x, y);
+	}
+
 	/**
 	 * Override-designed, but remember to call <code>super.setCenterImpl()</code> at
 	 * the end.
@@ -175,6 +193,7 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 	 * NOTE: this {@link Rectangle}'s centre is probably NOT the one returned by
 	 * {@link #getCenter()}.
 	 */
+	@Deprecated
 	public Rectangle getBoundingBox_OLD() {
 		Point2D ltc, corners[];
 		Dimension dim;

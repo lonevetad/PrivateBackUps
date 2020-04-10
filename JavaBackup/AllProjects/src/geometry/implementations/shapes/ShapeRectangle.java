@@ -6,12 +6,12 @@ import java.awt.geom.Point2D;
 
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
-import geometry.implementations.shapes.subHierarchy.AbstractShapeFillableImpl;
+import geometry.implementations.shapes.subHierarchy.ShapeFillableImpl;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeRotated;
 import geometry.pointTools.PolygonUtilities;
 import tools.MathUtilities;
 
-public class ShapeRectangle extends AbstractShapeFillableImpl {
+public class ShapeRectangle extends ShapeFillableImpl {
 	private static final long serialVersionUID = 716984256106843689L;
 
 	public ShapeRectangle() {

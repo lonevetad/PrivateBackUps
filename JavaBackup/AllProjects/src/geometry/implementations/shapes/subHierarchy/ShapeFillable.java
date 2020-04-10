@@ -2,7 +2,7 @@ package geometry.implementations.shapes.subHierarchy;
 
 import java.io.Serializable;
 
-public interface AbstractFillable extends Serializable { // AbstractShapeImpl {
+public interface ShapeFillable extends Serializable { // AbstractShapeImpl {
 //	private static final long serialVersionUID = 305619647438L;
 
 //	public AbstractFillable(AbstractFillable s) {
@@ -20,5 +20,5 @@ public interface AbstractFillable extends Serializable { // AbstractShapeImpl {
 
 	public boolean isFilled();
 
-	public AbstractFillable setFilled(boolean isFilled);
+	public ShapeFillable setFilled(boolean isFilled);
 }

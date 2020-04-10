@@ -68,7 +68,7 @@ public interface AbstractPathFinder_OLD extends Serializable {
 	//
 
 	public static AbstractPathFinder_OLD getOrDefault(AbstractPathFinder_OLD apf) {
-		return apf != null ? apf : PathFinder.getInstance();
+		return apf != null ? apf : PathFinderIsom.getInstance();
 	}
 
 	//

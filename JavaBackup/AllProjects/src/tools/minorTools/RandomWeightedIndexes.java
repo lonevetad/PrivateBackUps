@@ -96,7 +96,7 @@ public class RandomWeightedIndexes {
 			else if (v < 0)
 				v = (v % sumValues) + sumValues;
 		}
-		System.out.print(" (v:" + v + ") ");
+//		System.out.print(" (v:" + v + ") ");
 //		System.out.println("\t\t(v:" + v + ") ");
 		j = (vals = this.summedValues).length - 1;
 		i = 0;
@@ -128,21 +128,30 @@ public class RandomWeightedIndexes {
 
 	public static void main(String[] args) {
 		int i;
-		int[] vals, indexes;
+		int[] indexes;
+		int[][] testValyes;
 		RandomWeightedIndexes rw;
-		vals = new int[] { 12, 7, 20, 4, 8, 32, 3 };
-		rw = new RandomWeightedIndexes(vals);
-		indexes = new int[vals.length];
-		System.out.println(Arrays.toString(vals));
-		for (i = 0; i < vals.length; i++)
-			indexes[i] = 0;
-		for (int r = 1000; r > 0; r--) {
-			System.out.print(r + " -> ");
-			i = rw.next();
-			System.out.println("\t" + i);
-			indexes[i]++;
+		testValyes = new int[][] { //
+				new int[] { 12, 7, 20 }, // , 4, 8, 32, 3
+				new int[] { 12, 7, 20, 4, 8, 32, 3 }, //
+				new int[] { 224, 112, 56, 28, 14, 7 }//
+		};
+
+		for (int[] vals : testValyes) {
+			rw = new RandomWeightedIndexes(vals);
+			indexes = new int[vals.length];
+			System.out.println(Arrays.toString(vals));
+			for (i = 0; i < vals.length; i++)
+				indexes[i] = 0;
+			for (int r = 1000; r > 0; r--) {
+//			System.out.print(r + " -> ");
+				i = rw.next();
+//			System.out.println("\t" + i);
+				indexes[i]++;
+			}
+			System.out.println(Arrays.toString(rw.summedValues));
+			System.out.println(Arrays.toString(indexes));
+			System.out.println("\n\n");
 		}
-		System.out.println(Arrays.toString(rw.summedValues));
-		System.out.println(Arrays.toString(indexes));
 	}
 }

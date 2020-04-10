@@ -1,15 +1,17 @@
-package common.mainTools.mOLM.abstractClassesMOLM;
+package videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM;
 
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import common.mainTools.mOLM.MatrixObjectLocationManager;
-import common.mainTools.mOLM.NodeMatrix;
-import common.mainTools.mOLM.PathFinder;
+import geometry.PathFinderIsom;
+import videogamesOldVersion.common.mainTools.mOLM.MatrixObjectLocationManager;
+import videogamesOldVersion.common.mainTools.mOLM.NodeMatrix;
 
-/* 15-8-2019: those compilations errors are left because it's nonsense to made a refactoring when a refactoring operation will be performed for the Git migration*/
+/* 15-8-2019: those compilations errors are left because
+it's nonsense to made a refactoring when a refactoring operation
+ will be performed for the Git migration*/
 public interface AbstractPathFinder extends Serializable {
 
 	//
@@ -68,7 +70,7 @@ public interface AbstractPathFinder extends Serializable {
 	//
 
 	public static AbstractPathFinder getOrDefault(AbstractPathFinder apf) {
-		return apf != null ? apf : PathFinder.getInstance();
+		return apf != null ? apf : PathFinderIsom.getInstance();
 	}
 
 	//
@@ -124,7 +126,7 @@ public interface AbstractPathFinder extends Serializable {
 			}
 
 			l.add(dest);
-			while (((dest = dest.getPreviousOnPathfinding()) != null) && (dest != start)) {
+			while(((dest = dest.getPreviousOnPathfinding()) != null) && (dest != start)) {
 				l.addFirst(dest);
 			}
 			if (start == dest) {
@@ -171,7 +173,7 @@ public interface AbstractPathFinder extends Serializable {
 				dest = dest.getPreviousOnPathfinding();
 				do {
 					l.addFirst(new Point(dest.getX(), dest.getY()));
-				} while (((dest = dest.getPreviousOnPathfinding()) != null) && (dest != start));
+				} while(((dest = dest.getPreviousOnPathfinding()) != null) && (dest != start));
 				if (start == dest) {
 					l.addFirst(new Point(dest.getX(), dest.getY()));
 				}

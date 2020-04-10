@@ -4,18 +4,24 @@ import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
+import dataStructures.ListMapped;
 import dataStructures.graph.PathFindStrategy;
 import geometry.AbstractObjectsInSpaceManager;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
-import geometry.PathFinder;
+import geometry.PathFinderIsom;
 import geometry.implementations.shapes.ShapeLine;
 import tools.LoggerMessages;
+import tools.NumberManager;
+import tools.ObjectWithID;
+import tools.PathFinder;
 
 /**
  * This interface denotes a huge object managing a set of object placed in space
@@ -32,10 +38,10 @@ import tools.LoggerMessages;
  * <p>
  * Provided utilities:
  * <ul>
- * <li></li>
+ * <li>{@link PathFinderIsom}</li>
  * </ul>
  */
-public abstract class InSpaceObjectsManager<D extends Number>
+public abstract class InSpaceObjectsManager<Distance extends Number>
 //extends dataStructures.graph.GraphSimple<NodeIsom, D>
 		implements AbstractObjectsInSpaceManager {
 	private static final long serialVersionUID = 1L;
@@ -46,14 +52,24 @@ public abstract class InSpaceObjectsManager<D extends Number>
 
 	protected LoggerMessages log;
 //	protected PathFinderIsomAdapter<NodeIsom, D> pathFinder;
-	protected PathFinder<NodeIsom, D> pathFinder;
+	protected PathFinderIsom<NodeIsom, ObjectWithID, Distance> pathFinder;
+	protected NumberManager<Distance> numberManager;
 
 	//
 
 	// TODO GETTER
 
+	public LoggerMessages getLog() {
+		return log;
+	}
+
+	public NumberManager<Distance> getNumberManager() {
+		return numberManager;
+	}
+
 	/**
-	 * Could seems odd, but it's useful for {@link PathFinder}s' implementations.
+	 * Could seems odd, but it's useful for {@link PathFinderIsom}s'
+	 * implementations.
 	 */
 	public abstract NodeIsom getNodeAt(Point2D location);
 
@@ -61,29 +77,30 @@ public abstract class InSpaceObjectsManager<D extends Number>
 
 	// TODO SETTER
 
-	public PathFinder<NodeIsom, D> getPathFinder() {
-		return pathFinder;
-	}
-
-	public void setPathFinder(PathFinder<NodeIsom, D> pathFinder) {
-		this.pathFinder = pathFinder;
-	}
-
 	public void setLog(LoggerMessages log) {
 		this.log = log;
 	}
 
-//	@Override
-//	public GraphSimple<NodeIsom, D> setPathFinder(PathFindStrategy<NodeIsom, D> pathFinder) {
-//		this.pathFinder = pathFinder;
-//		return this;
-//	}
+	public PathFinder<NodeIsom, ObjectWithID, Distance> getPathFinder() {
+		return pathFinder;
+	}
 
-//
+	public void setPathFinder(PathFinderIsom<NodeIsom, ObjectWithID, Distance> pathFinder) {
+		this.pathFinder = pathFinder;
+	}
+
+	public void setNumberManager(NumberManager<Distance> numberManager) {
+		this.numberManager = numberManager;
+	}
 
 	// TODO OTHER
 
-	public abstract LoggerMessages getLog();
+	/**
+	 * Perform an action to each adjacent of a given node. That action should take
+	 * into account not only the adjacent node, but also the distance from the given
+	 * node and the specific adjacent.
+	 */
+	public abstract void forEachAdjacents(NodeIsom node, BiConsumer<NodeIsom, Distance> adjacentDistanceConsumer);
 
 //	public AbstractShapeRunners/* _WithCoordinates */ getShapeRunners();
 
@@ -98,32 +115,44 @@ public abstract class InSpaceObjectsManager<D extends Number>
 //		return s == null ? false : s.contains((int) x, (int) y);
 //	}
 
-	/**
-	 * As for {@link #runOnShape(AbstractShape2D, IsomConsumer)}, but giving the
-	 * {@link AbstractShape2D} returned by {@link #getSpaceShape()}.
-	 */
-	public void runOnShape(IsomConsumer action) {
-		runOnShape(getBoundingShape(), action);
-	}
-
 	// TODO to-do path find
 
-	public abstract List<Point2D> getPath(Point2D start, Point2D destination);
+	public static List<Point2D> listNodeToPoint(List<NodeIsom> lni) {
+		ListMapped<NodeIsom, Point2D> lmapping;
+		List<Point2D> ret;
+		lmapping = new ListMapped<>(lni, ni -> ni.getLocation()); // map them
+		ret = new LinkedList<>();
+		for (Point2D p : lmapping) {
+			ret.add(p);
+		}
+		return ret;
+	}
+
+	public List<Point2D> getPath(Point2D start, Point2D destination) {
+		List<NodeIsom> lni;
+		lni = this.getPathFinder().getPath(getNodeAt(start), getNodeAt(destination), numberManager);
+		return listNodeToPoint(lni);
+	}
 
 	/**
 	 * Invoking {@link #getPath(Point2D, Point2D)} by giving as first parameter the
 	 * result of {@link ObjectLocated#getLocation()}..
 	 */
-	public List<Point2D> getPath(ObjectLocated objRequiringToMove, Point2D destination) {
-		return getPath(getPathFinder(), objRequiringToMove.getLocation(), destination);
-	}
+//	@Deprecated /*because it could confuse the dynamic invocation*/
+//	public abstract List<Point2D> getPath(ObjectLocated objRequiringToMove, Point2D destination);
 
 	/**
 	 * Like {@link #getPath(PathFindStrategy, ObjectLocated, Point2D)}, but it's
 	 * required to take care of the object's sizze (i.e.: the value returned by
 	 * {@link ObjectShaped#getShape()} provided by the second parameter).
 	 */
-	public abstract List<Point2D> getPath(ObjectShaped objRequiringTo, Point2D destination);
+	public List<Point2D> getPath(ObjectShaped objRequiringTo, Point2D destination) {
+		List<NodeIsom> lni;
+		lni = this.getPathFinder().getPath(objRequiringTo, getNodeAt(destination), numberManager);
+		return listNodeToPoint(lni);
+	}
+
+	// TODO todo add getPath with predicate filter
 
 	/**
 	 * Refers to
@@ -160,5 +189,19 @@ public abstract class InSpaceObjectsManager<D extends Number>
 			pstart = pend;
 		}
 		return collector.getCollectedObjects();
+	}
+
+	@Override
+	public <NodeType, NodeContent, D extends Number> List<NodeContent> getPath(
+			PathFinder<NodeType, NodeContent, D> pathFinderStrategy, Point2D start, Point2D destination) {
+		// TODO to do the adapter
+		return null;
+	}
+
+	@Override
+	public <NodeType, NodeContent, D extends Number> List<NodeContent> getPathForShapedObject(
+			PathFinder<NodeType, NodeContent, D> pathFinderStrategy, ObjectShaped objRequiringTo, Point2D destination) {
+		// TODO to do the adapter
+		return null;
 	}
 }

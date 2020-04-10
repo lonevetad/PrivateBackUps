@@ -11,9 +11,9 @@ import dataStructures.graph.GraphSimple;
 import dataStructures.graph.GraphSimple.NodePositionInFrontier;
 import dataStructures.graph.GraphSimpleAsynchronized;
 import dataStructures.graph.GraphSimpleSynchronized;
-import dataStructures.graph.NodeDistanceManager;
 import dataStructures.graph.PathFindStrategy;
 import dataStructures.graph.PathGraph;
+import tools.NumberManager;
 
 /**
  * Changes from DijkstraColor to NodePositionInFrontier:<ul>
@@ -23,7 +23,7 @@ import dataStructures.graph.PathGraph;
  * </ul>
  * */
 /***/
-public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Distance> {
+public class PathFinderDijkstra<E, Distance extends Number> implements PathFindStrategy<E, Distance> {
 	private static final long serialVersionUID = -26510959489410020L;
 
 	public PathFinderDijkstra() {
@@ -33,14 +33,14 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 
 	@Override
 	public PathGraph<E, Distance> getPath(GraphSimple<E, Distance> graph, E start, E dest,
-			NodeDistanceManager<Distance> distanceManager) {
+			NumberManager<Distance> distanceManager) {
 		if (graph == null)
 			return null;
 		return getPath(graph.isSynchronized(), graph, start, dest, distanceManager);
 	}
 
 	public PathGraph<E, Distance> getPath(boolean isSynchronized, GraphSimple<E, Distance> graph, E start, E dest,
-			NodeDistanceManager<Distance> distanceManager) {
+			NumberManager<Distance> distanceManager) {
 		if (graph == null)
 			return null;
 		return isSynchronized ? getPathSynchronized(graph, start, dest, distanceManager)
@@ -49,7 +49,7 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 
 	@SuppressWarnings("unchecked")
 	public PathGraph<E, Distance> getPathSynchronized(GraphSimple<E, Distance> ggg, E start, E dest,
-			NodeDistanceManager<Distance> distanceManager) {
+			NumberManager<Distance> distanceManager) {
 		final int dr;
 		PathGraph<E, Distance> p;
 		GraphSimpleSynchronized<E, Distance> graph;
@@ -148,7 +148,7 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 
 	@SuppressWarnings("unchecked")
 	public PathGraph<E, Distance> getPathASynchronized(GraphSimple<E, Distance> ggg, E start, E dest,
-			NodeDistanceManager<Distance> distanceManager) {
+			NumberManager<Distance> distanceManager) {
 //		final double distanceTotal;
 		NodeInfoDikstra<E, Distance> ss, dd;
 		final Map<E, NodeInfoDikstra<E, Distance>> nodeInfos;
@@ -226,10 +226,10 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 		protected GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized thisNode;
 		protected NodeInfoDikstra<E, Distance> father;
 		//
-		protected NodeDistanceManager<Distance> distanceManager;
+		protected NumberManager<Distance> distanceManager;
 
 		protected NodeInfoDikstra(GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized thisNode,
-				NodeDistanceManager<Distance> distanceManager) {
+				NumberManager<Distance> distanceManager) {
 			this.distanceManager = distanceManager;
 			this.thisNode = thisNode;
 			color = NodePositionInFrontier.NeverAdded;
@@ -245,11 +245,11 @@ public class PathFinderDijkstra<E, Distance> implements PathFindStrategy<E, Dist
 		private final Map<E, NodeInfoDikstra<E, Distance>> nodeInfos;
 		private final PriorityQueueKey<NodeInfoDikstra<E, Distance>, Distance> frontier;
 		//
-		protected NodeDistanceManager<Distance> distanceManager;
+		protected NumberManager<Distance> distanceManager;
 
 		UsynchronizedAdjacentForEacherDijkstra(Map<E, NodeInfoDikstra<E, Distance>> nodeInfos,
 				PriorityQueueKey<NodeInfoDikstra<E, Distance>, Distance> frontier,
-				NodeDistanceManager<Distance> distanceManager) {
+				NumberManager<Distance> distanceManager) {
 			this.nodeInfos = nodeInfos;
 			this.frontier = frontier;
 			this.distanceManager = distanceManager;

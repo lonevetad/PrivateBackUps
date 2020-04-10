@@ -18,7 +18,7 @@ public class TestPathOptimizer {
 		LinkedList<Point> res, original;
 		AbstractPathOptimizer po;
 
-		po = new PathOptimizer();
+		po = new PathOptimizerOLD();
 
 		allXs = new int[][] { //
 				new int[] { 4, 5 }, // y = x

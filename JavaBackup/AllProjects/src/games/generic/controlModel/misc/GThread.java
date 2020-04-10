@@ -1,4 +1,6 @@
-package games.generic.controlModel;
+package games.generic.controlModel.misc;
+
+import games.generic.controlModel.GModality;
 
 /**
  * When the game ({@link GModality}, to be precise) shuts down ALL threads

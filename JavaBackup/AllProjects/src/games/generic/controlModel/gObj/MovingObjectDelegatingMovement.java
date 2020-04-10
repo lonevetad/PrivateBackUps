@@ -1,7 +1,7 @@
 package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.GObjMovement;
+import games.generic.controlModel.misc.GObjMovement;
 
 /**
  * Defines an object that moves BUT its movement-over-time is defined as using

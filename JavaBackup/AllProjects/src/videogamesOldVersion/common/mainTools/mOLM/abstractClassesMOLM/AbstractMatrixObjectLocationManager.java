@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.function.BiConsumer;
 
+import dataStructures.MapTreeAVL;
+import dataStructures.MyLinkedList;
 import tools.Comparators;
-import tools.dataStructures.MapTreeAVL;
-import tools.dataStructures.MyLinkedList;
+import tools.ObjectWithID;
 import videogamesOldVersion.common.FullReloadEnvironment;
 import videogamesOldVersion.common.abstractCommon.Memento;
 import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.MementoPatternImplementor;
@@ -18,8 +19,8 @@ import videogamesOldVersion.common.abstractCommon.referenceHolderAC.ShapeSpecifi
 import videogamesOldVersion.common.abstractCommon.shapedObject.AbstractObjectRectangleBoxed;
 import videogamesOldVersion.common.mainTools.mOLM.ItemCollector;
 import videogamesOldVersion.common.mainTools.mOLM.NodeMatrix;
-import videogamesOldVersion.common.mainTools.mOLM.PathFinder;
-import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID.MementoOWID;
+import videogamesOldVersion.common.mainTools.mOLM.PathFinderOLD;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID_OLD_MOLM.MementoOWID;
 
 /**
  * NOTE BEFORE ALL :<br>
@@ -49,7 +50,7 @@ import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWith
  * <p>
  * GOF Patterns: This class uses some patterns:
  * <ul>
- * <li>Strategy: {@link PathFinder} and {@link AbstractShapeRunners}</li>
+ * <li>Strategy: {@link PathFinderOLD} and {@link AbstractShapeRunners}</li>
  * <li>Singleton : {@link AbstractPathFinder}'s and
  * {@link AbstractShapeRunners}'s instances</li>
  * <li>Decorator: a similar</li>

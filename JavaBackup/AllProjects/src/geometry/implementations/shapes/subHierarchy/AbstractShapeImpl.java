@@ -1,5 +1,7 @@
 package geometry.implementations.shapes.subHierarchy;
 
+import java.awt.Point;
+
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
 
@@ -37,6 +39,11 @@ public abstract class AbstractShapeImpl extends AbstractShapeRotated {
 	@Override
 	public int getYCenter() {
 		return yCenter;
+	}
+
+	@Override
+	public Point getLocation() {
+		return new Point(xCenter, yCenter);
 	}
 
 	//
