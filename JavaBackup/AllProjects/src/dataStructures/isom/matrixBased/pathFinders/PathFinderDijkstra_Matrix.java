@@ -2,10 +2,8 @@ package dataStructures.isom.matrixBased.pathFinders;
 
 import java.awt.Point;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -34,32 +32,32 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 	};
 
 	@Override
-	protected BiConsumer<NodeIsom, Distance> newAdjacentConsumer(Predicate<ObjectLocated> isWalkableTester,
+	protected AbstractAdjacentForEacher newAdjacentConsumer(Predicate<ObjectLocated> isWalkableTester,
 			NumberManager<Distance> distanceManager) {
 		return new UsynchronizedAdjacentForEacherDijkstra(isWalkableTester, distanceManager);
 	}
 
 	@Override
-	protected BiConsumer<NodeIsom, Distance> newAdjacentConsumerForObjectShaped(AbstractShape2D shape,
+	protected AbstractAdjacentForEacher newAdjacentConsumerForObjectShaped(AbstractShape2D shape,
 			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
 		return new ShapedAdjacentForEacherDijkstra(shape, isWalkableTester, distanceManager);
 	}
 
 	// TODO
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected List<Point> getPathGeneralized(NodeIsom start, NodeIsom dest, NumberManager<Distance> distanceManager,
-			Predicate<ObjectLocated> isWalkableTester, BiConsumer<NodeIsom, Distance> fa) {
-		List<Point> l;
+			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher fa) {
 		final MatrixInSpaceObjectsManager<Distance> m;
 		NodeInfoDijkstra ss, dd;
 		final Map<NodeIsom, NodeInfoDijkstra> nodeInfos;
 		final PriorityQueueKey<NodeInfoDijkstra, Distance> frontier;
 		final Comparator<Distance> comp;
-		AbstractAdjacentForeaherDijkstra forAdjacents;
+		AbstractAdjacentForEacherDijkstra forAdjacents;
 		m = matrix;
 		comp = distanceManager.getComparator();
-		forAdjacents = (AbstractAdjacentForeaherDijkstra) fa;
+		forAdjacents = (AbstractAdjacentForEacherDijkstra) fa;
 		//
 		nodeInfos = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, NodeIsom.COMPARATOR_NODE_ISOM_POINT);
@@ -99,31 +97,17 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 				frontier.clear();
 			n.color = NodePositionInFrontier.Closed;
 		}
-		if (dd.father == null)
-			return null;
-		//
 		nodeInfos.clear();
-		l = new LinkedList<>();
-		while(dd != ss) {
-			l.add(dd.thisNode.getLocation());
-			dd = dd.father;
-		}
-		((LinkedList<Point>) l).addFirst(start.getLocation());
-		return l;
+		return extractPath(ss, dd);
 	}
 
 	//
 
 	// subclasses
-	public static enum NodePositionInFrontier {
-		NeverAdded, InFrontier, Closed;
-	}
 
-	protected class NodeInfoDijkstra {
-		protected NodePositionInFrontier color;
+	protected class NodeInfoDijkstra extends NodeInfo {
 		protected Distance distFromStart, distFromFather;
-		protected NodeIsom thisNode;
-		protected NodeInfoDijkstra father;
+//		protected NodeInfoDijkstra father;
 //		public static final Comparator<NodeIsom> COMPARATOR_NINFO = NodeIsom.COMPARATOR_NODE_ISOM_POINT::compare;
 
 		//
@@ -131,37 +115,24 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 
 		protected NodeInfoDijkstra(NodeIsom thisNode) {
 //			this.distanceManager = distanceManager;
-			this.thisNode = thisNode;
-			color = NodePositionInFrontier.NeverAdded;
+			super(thisNode);
 			distFromStart = distFromFather = null;
-			father = null;
 		}
 	}
 
-	protected abstract class AbstractAdjacentForeaherDijkstra implements BiConsumer<NodeIsom, Distance> {
+	protected abstract class AbstractAdjacentForEacherDijkstra extends AbstractAdjacentForEacher {
 
-		protected NodeInfoDijkstra currentNode;
 		protected Map<NodeIsom, NodeInfoDijkstra> nodeInfos;
 		protected PriorityQueueKey<NodeInfoDijkstra, Distance> frontier;
-		protected final Predicate<ObjectLocated> isWalkableTester;
 		protected final DistanceKeyAlterator alterator;
-		//
-		protected final NumberManager<Distance> distanceManager;
 
-		public AbstractAdjacentForeaherDijkstra(Predicate<ObjectLocated> isWalkableTester,
+		public AbstractAdjacentForEacherDijkstra(Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
-			super();
-			this.isWalkableTester = isWalkableTester;
-			this.distanceManager = distanceManager;
+			super(isWalkableTester, distanceManager);
 			this.alterator = new DistanceKeyAlterator();
 		}
 
-		public void setCurrentNode(NodeInfoDijkstra n) {
-			this.currentNode = n;
-		}
-
-		public abstract boolean isAdjacentNodeWalkable(NodeIsom adjacentNode);
-
+		@SuppressWarnings("unchecked")
 		@Override
 		public void accept(NodeIsom nnn, Distance distToAdj) {
 			Distance distToNo;
@@ -176,7 +147,7 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 			if (noInfo.color == NodePositionInFrontier.Closed)
 				return;
 			distToNo = // distToAdj + currentNode.distFromStart;
-					this.distanceManager.getAdder().apply(distToAdj, currentNode.distFromStart);
+					this.distanceManager.getAdder().apply(distToAdj, ((NodeInfoDijkstra) currentNode).distFromStart);
 			if (noInfo.father == null ||
 			// distToNo < noInfo.distFromStart
 					distanceManager.getComparator().compare(distToNo, noInfo.distFromStart) < 0) {
@@ -198,7 +169,7 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 		}
 	}
 
-	protected class UsynchronizedAdjacentForEacherDijkstra extends AbstractAdjacentForeaherDijkstra {
+	protected class UsynchronizedAdjacentForEacherDijkstra extends AbstractAdjacentForEacherDijkstra {
 
 		protected UsynchronizedAdjacentForEacherDijkstra(//
 				Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
@@ -214,7 +185,7 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 
 	}
 
-	protected class ShapedAdjacentForEacherDijkstra extends AbstractAdjacentForeaherDijkstra {
+	protected class ShapedAdjacentForEacherDijkstra extends AbstractAdjacentForEacherDijkstra {
 
 		public ShapedAdjacentForEacherDijkstra(AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {

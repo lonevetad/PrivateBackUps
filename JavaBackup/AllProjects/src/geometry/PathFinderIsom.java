@@ -1,6 +1,6 @@
 package geometry;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 import java.util.function.Predicate;
 
 import dataStructures.isom.InSpaceObjectsManager;
@@ -59,7 +59,7 @@ public interface PathFinderIsom<NodeType, NodeContent, Distance extends Number>
 		}
 
 		@Override
-		public void accept(Point2D t) {
+		public void accept(Point t) {
 			this.isWalkable &= this.isom.getNodeAt(t).isWalkable(isWalkableTester);
 		}
 

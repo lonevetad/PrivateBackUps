@@ -12,12 +12,11 @@ import java.util.function.Consumer;
 import dataStructures.MapTreeAVL;
 import dataStructures.graph.EdgesIntersectionDetector.IntersectionInstantiator;
 import tools.LoggerMessages;
+import tools.NumberManager;
 
-public abstract class GraphSimple<E, Distance> {
+public abstract class GraphSimple<E, Distance extends Number> {
 
-	public static enum NodePositionInFrontier {
-		NeverAdded, InFrontier, Closed;
-	}
+//	public static enum NodePositionInFrontier {NeverAdded, InFrontier, Closed;}
 
 	/**
 	 * public static final Comparator<Integer> INT_COMPARATOR = // Integer::compare;
@@ -262,7 +261,7 @@ public abstract class GraphSimple<E, Distance> {
 		return true;
 	}
 
-	public PathGraph<E, Distance> getPath(E start, E dest, NodeDistanceManager<Distance> distanceManager) {
+	public PathGraph<E, Distance> getPath(E start, E dest, NumberManager<Distance> distanceManager) {
 		return this.pathFinder == null ? null : this.pathFinder.getPath(this, start, dest, distanceManager);
 	}
 

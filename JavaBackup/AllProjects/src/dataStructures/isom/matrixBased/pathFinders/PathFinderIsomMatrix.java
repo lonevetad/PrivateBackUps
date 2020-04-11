@@ -1,6 +1,7 @@
 package dataStructures.isom.matrixBased.pathFinders;
 
 import java.awt.Point;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
@@ -44,7 +45,7 @@ public abstract class PathFinderIsomMatrix<Distance extends Number>
 		NodeIsom start, dest;
 		AbstractShape2D shape, sOnlyBorder;
 		Point originalLocation;
-		BiConsumer<NodeIsom, Distance> forAdjacents;
+		AbstractAdjacentForEacher forAdjacents;
 		List<Point> l;
 		shape = objPlanningToMove.getShape();
 		originalLocation = new Point(objPlanningToMove.getLocation());
@@ -73,7 +74,7 @@ public abstract class PathFinderIsomMatrix<Distance extends Number>
 			Predicate<ObjectLocated> isWalkableTester) {
 		final MatrixInSpaceObjectsManager<Distance> m;
 		NodeIsom start, dest;
-		BiConsumer<NodeIsom, Distance> forAdjacents;
+		AbstractAdjacentForEacher forAdjacents;
 		m = matrix;
 		start = m.getNodeAt(startingPoint);
 		dest = m.getNodeAt(destination);
@@ -83,17 +84,81 @@ public abstract class PathFinderIsomMatrix<Distance extends Number>
 		return getPathGeneralized(start, dest, distanceManager, isWalkableTester, forAdjacents);
 	}
 
+	protected List<Point> extractPath(NodeInfo start, NodeInfo end) {
+		List<Point> l;
+		if (end.father == null)
+			return null;
+		//
+		l = new LinkedList<>();
+		while(end != start) {
+			l.add(end.thisNode.getLocation());
+			end = end.father;
+		}
+		((LinkedList<Point>) l).addFirst(start.thisNode.getLocation());
+		return l;
+	}
+
 // 
 
 	protected abstract List<Point> getPathGeneralized(NodeIsom start, NodeIsom dest,
 			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
-			BiConsumer<NodeIsom, Distance> forAdjacents);
+			AbstractAdjacentForEacher forAdjacents);
 
 //
 
-	protected abstract BiConsumer<NodeIsom, Distance> newAdjacentConsumer(Predicate<ObjectLocated> isWalkableTester,
+	protected abstract AbstractAdjacentForEacher newAdjacentConsumer(Predicate<ObjectLocated> isWalkableTester,
 			NumberManager<Distance> distanceManager);
 
-	protected abstract BiConsumer<NodeIsom, Distance> newAdjacentConsumerForObjectShaped(AbstractShape2D shape,
+	protected abstract AbstractAdjacentForEacher newAdjacentConsumerForObjectShaped(AbstractShape2D shape,
 			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager);
+
+//
+
+	protected class NodeInfo {
+		protected NodePositionInFrontier color;
+//		protected Distance distFromStart, distFromFather;
+		protected NodeIsom thisNode;
+		protected NodeInfo father;
+
+		protected NodeInfo(NodeIsom thisNode) {
+			this.thisNode = thisNode;
+			color = NodePositionInFrontier.NeverAdded;
+			father = null;
+		}
+	}
+
+	public abstract class AbstractAdjacentForEacher implements BiConsumer<NodeIsom, Distance> {
+		protected final Predicate<ObjectLocated> isWalkableTester;
+		protected final NumberManager<Distance> distanceManager;
+		protected NodeInfo currentNode;
+
+		public AbstractAdjacentForEacher(Predicate<ObjectLocated> isWalkableTester,
+				NumberManager<Distance> distanceManager) {
+			super();
+			this.isWalkableTester = isWalkableTester;
+			this.distanceManager = distanceManager;
+		}
+
+		public Predicate<ObjectLocated> getIsWalkableTester() {
+			return isWalkableTester;
+		}
+
+		public NumberManager<Distance> getDistanceManager() {
+			return distanceManager;
+		}
+
+		public NodeInfo getCurrentNode() {
+			return currentNode;
+		}
+
+		public void setCurrentNode(NodeInfo currentNode) {
+			this.currentNode = currentNode;
+		}
+
+		//
+
+		public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) {
+			return adjacentNode.isWalkable(isWalkableTester);
+		}
+	}
 }

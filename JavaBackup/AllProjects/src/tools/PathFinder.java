@@ -22,6 +22,10 @@ import geometry.ObjectShaped;
  */
 public interface PathFinder<NodeType, NodeContent, Distance extends Number> { // NodeContent extends Point2D not needed
 
+	public static enum NodePositionInFrontier {
+		NeverAdded, InFrontier, Closed;
+	}
+
 	/**
 	 * Get the shortest path from one source to a destination (First two
 	 * parameters), managing distances types through the third parameter and
@@ -31,14 +35,14 @@ public interface PathFinder<NodeType, NodeContent, Distance extends Number> { //
 	 * @param isWalkableTester predicate that tests the current node and returns
 	 *                         <code>true</code> if it could be walked.
 	 */
-	public List<NodeContent> getPath(NodeType start, NodeType dest, NumberManager<Distance> distanceManager,
+	public List<NodeType> getPath(NodeType start, NodeType dest, NumberManager<Distance> distanceManager,
 			Predicate<NodeContent> isWalkableTester);
 
 	/**
 	 * Calls {@link #getPath(Object, Object, NumberManager, Predicate)} passing
 	 * <code>null</code> to {@link Predicate}.
 	 */
-	public default List<NodeContent> getPath(NodeType start, NodeType dest, NumberManager<Distance> distanceManager) {
+	public default List<NodeType> getPath(NodeType start, NodeType dest, NumberManager<Distance> distanceManager) {
 		return getPath(start, dest, distanceManager, null);
 	}
 
@@ -51,14 +55,14 @@ public interface PathFinder<NodeType, NodeContent, Distance extends Number> { //
 	 * @param isWalkableTester predicate that tests the current node and returns
 	 *                         <code>true</code> if it could be walked.
 	 */
-	public List<NodeContent> getPath(ObjectShaped objPlanningToMove, NodeType dest,
+	public List<NodeType> getPath(ObjectShaped objPlanningToMove, NodeType dest,
 			NumberManager<Distance> distanceManager, Predicate<NodeContent> isWalkableTester);
 
 	/**
 	 * Calls {@link #getPath(ObjectShaped, Object, NumberManager, Predicate)}
 	 * passing <code>null</code> to {@link Predicate}.
 	 */
-	public default List<NodeContent> getPath(ObjectShaped objPlanningToMove, NodeType dest,
+	public default List<NodeType> getPath(ObjectShaped objPlanningToMove, NodeType dest,
 			NumberManager<Distance> distanceManager) {
 		return getPath(objPlanningToMove, dest, distanceManager, null);
 	}
