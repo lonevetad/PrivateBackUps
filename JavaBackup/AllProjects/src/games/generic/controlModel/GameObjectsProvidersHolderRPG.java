@@ -16,6 +16,8 @@ import games.generic.controlModel.misc.GameObjectsProvider;
 import tools.Comparators;
 
 /**
+ * One of the core classes.
+ * <p>
  * Huge class acting as a "database for instantiation" collecting a series of
  * useful game objects. In particular, it holds ("provides" through
  * {@link GameObjectsProvidersHolderRPG}) the list below of superclasses and

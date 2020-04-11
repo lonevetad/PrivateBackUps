@@ -2,7 +2,9 @@ package games.generic.controlModel;
 
 import java.awt.Point;
 import java.util.Set;
+import java.util.function.Predicate;
 
+import dataStructures.SetMapped;
 import dataStructures.isom.InSpaceObjectsManager;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.GModalityHolder;
@@ -12,10 +14,11 @@ import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subimpl.GModalityET;
 import geometry.AbstractShape2D;
+import geometry.ObjectLocated;
 import tools.ObjectWithID;
 
 /**
- * One of the core classes
+ * One of the core classes.
  * <p>
  * Manages all games objects, performing actions based on their types, like:
  * <ul>
@@ -57,9 +60,35 @@ public interface GameObjectsManager extends GModalityHolder {
 		getGObjectInSpaceManager().addObject(mo);
 	}
 
-	public void removeFromSpace(MovingObject mo);
+	public default void removeFromSpace(MovingObject mo) {
+		getGObjectInSpaceManager().removeObject(mo);
+	}
 
-	public Set<ObjectInSpace> findInArea(AbstractShape2D shape);
+	/** See {@link #findInArea(AbstractShape2D, Predicate)}. */
+	public default Set<ObjectInSpace> findInArea(AbstractShape2D shape) {
+		return this.findInArea(shape, null);
+	}
+
+	/** DO NOT ADD ITEMS TO THE RETURNED SET. */
+	public default Set<ObjectInSpace> findInArea(AbstractShape2D shape, Predicate<ObjectInSpace> objectFilter) {
+		Set<ObjectLocated> r;
+		Set<ObjectInSpace> s;
+		Predicate<ObjectLocated> pOL;
+		s = null;
+		pOL = null;
+		if (objectFilter != null) {
+			pOL = ol -> {
+//				if (ol instanceof ObjectInSpace) // null can always be casted to some class
+				return objectFilter.test((ObjectInSpace) ol);
+//				return false;
+			};
+		}
+		r = getGObjectInSpaceManager().findAll(shape, pOL);
+		if (r == null)
+			return null;
+		s = new SetMapped<>(r, ol -> (ObjectInSpace) ol);
+		return s;
+	}
 
 	/**
 	 * Teleport the given object to a new given location.<br>
@@ -82,6 +111,14 @@ public interface GameObjectsManager extends GModalityHolder {
 
 	// TODO todo other creature's related methods
 
+	/**
+	 * One of the core functionality.
+	 * <p>
+	 * Manage EVERYTHING about the "dealing damage" concept, calculating the damage,
+	 * reductions, critical strikes, multipliers, firing events, calling
+	 * {@link LivingObject#receiveDamage(GModality, DamageGeneric, ObjectWithID)}
+	 * and so on.
+	 */
 	public <SourceDamage extends ObjectWithID> void dealsDamageTo(SourceDamage source, CreatureSimple target,
 			DamageGeneric damage);
 

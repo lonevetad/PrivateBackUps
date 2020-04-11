@@ -1,6 +1,6 @@
 package geometry.implementations;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 
 import geometry.AbstractShape2D;
 import geometry.pointTools.PointConsumer;
@@ -31,10 +31,10 @@ public abstract class AbstractPointConsumerInShape implements PointConsumer {
 	}
 
 	@Override
-	public final void accept(Point2D p) {
+	public final void accept(Point p) {
 		if (shape == null || shape.contains(p))
 			acceptImpl(p);
 	}
 
-	public abstract void acceptImpl(Point2D ps);
+	public abstract void acceptImpl(Point ps);
 }

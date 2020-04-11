@@ -17,6 +17,7 @@ import geometry.ObjectShaped;
 import geometry.PathFinderIsom;
 import geometry.PathOptimizer;
 import geometry.implementations.shapes.ShapeLine;
+import geometry.pointTools.impl.ObjCollector;
 import tools.LoggerMessages;
 import tools.NumberManager;
 import tools.PathFinder;
@@ -144,7 +145,7 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 //		List<NodeIsom> lni;
 //		lni = this.getPathFinder().getPath(getNodeAt(start), getNodeAt(destination), numberManager);
 //		return listNodeToPoint(lni);
-		List<ObjectLocated> path;
+		List<NodeIsom> path;
 		path = this.getPath(getNodeAt(start), getNodeAt(destination), pathFinder, numberManager, isWalkableTester);
 		return this.pathOptimizer.optimizePath(new ListMapped<>(path, ni -> ni.getLocation()));
 	}
@@ -165,7 +166,7 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 //		List<NodeIsom> lni;
 //		lni = this.getPathFinder().getPath(objRequiringTo, getNodeAt(destination), numberManager);
 //		return listNodeToPoint(lni);
-		List<ObjectLocated> path;
+		List<NodeIsom> path;
 		path = this.getPath(objRequiringTo, getNodeAt(destination), pathFinder, numberManager, isWalkableTester);
 		return this.pathOptimizer.optimizePath(new ListMapped<>(path, ni -> ni.getLocation()));
 	}
@@ -181,10 +182,10 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 
 	/**
 	 * Refers to
-	 * {@link InSpaceObjectsManager#findInPath(AbstractShape2D, dataStructures.isom.ObjLocatedCollector, List)},
-	 * <br>
+	 * {@link InSpaceObjectsManager#findInPath(AbstractShape2D, dataStructures.isom.ObjLocatedCollectorIsom, List)}
+	 * . <br>
 	 * Sub-implementations of this class must provide a way to define
-	 * {@link ObjLocatedCollector}.
+	 * {@link ObjCollector}.
 	 */
 	public abstract Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter,
 			List<Point> path);
@@ -195,14 +196,15 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 	 * provided, the last point is the end).
 	 */
 	@Override
-	public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, ObjLocatedCollector collector,
+	public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, ObjCollector<ObjectLocated> collector,
 			List<Point> path) {
 		Iterator<Point> iter;
 		ShapeLine subpath;
 		Line2D line;
 		Point pstart, pend;
-		if (path == null || path.size() < 2)
+		if (collector == null || path == null || path.size() < 2)
 			return null;
+		collector.restart();
 		line = new Line2D.Double();
 		iter = path.iterator();
 		pstart = iter.next();

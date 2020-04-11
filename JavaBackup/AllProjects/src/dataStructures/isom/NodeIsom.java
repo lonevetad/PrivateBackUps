@@ -1,6 +1,5 @@
 package dataStructures.isom;
 
-import java.awt.Point;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Set;
@@ -11,7 +10,7 @@ import geometry.ObjectLocated;
 import geometry.ObjectLocated.PointWrapper;
 import tools.Comparators;
 
-public abstract class NodeIsom extends PointWrapper implements Serializable {
+public abstract class NodeIsom extends PointWrapper implements Iterable<ObjectLocated>, Serializable {
 	private static final long serialVersionUID = 4052487990441743L;
 	public static final Comparator<NodeIsom> COMPARATOR_NODE_ISOM_ID = (n1, n2) -> {
 		if (n1 == n2)
@@ -25,7 +24,12 @@ public abstract class NodeIsom extends PointWrapper implements Serializable {
 			COMPARATOR_NODE_ISOM_POINT = Comparators.POINT_2D_COMPARATOR_LOWEST_LEFTMOST_FIRST::compare;
 
 	public NodeIsom() {
-		x = y = 0;
+		this(0, 0);
+	}
+
+	public NodeIsom(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	/**
@@ -33,6 +37,16 @@ public abstract class NodeIsom extends PointWrapper implements Serializable {
 	 * or a {@link Set }, it depends on implementation.
 	 */
 	public abstract boolean addObject(ObjectLocated o);
+
+	public abstract int countObjectAdded();
+
+	public abstract ObjectLocated getObject(int i);
+
+	public abstract ObjectLocated getObject(Integer ID);
+
+	public abstract boolean removeObject(Integer ID);
+
+	public abstract boolean removeObject(ObjectLocated o);
 
 	/**
 	 * Optionally considering the zero or more {@link ObjectLocated} stored in this
@@ -43,11 +57,6 @@ public abstract class NodeIsom extends PointWrapper implements Serializable {
 	 * walkable.
 	 */
 	public abstract boolean isWalkable(Predicate<ObjectLocated> isWalkableTester);
-
-	@Override
-	public Point getLocation() {
-		return new Point(x, y);
-	}
 
 	public abstract void forEachHeldObject(Consumer<ObjectLocated> action);
 

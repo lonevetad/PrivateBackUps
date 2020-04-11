@@ -15,8 +15,9 @@ import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 
 /**
- * Handler for objects in game, that can be placed in a kind of "space" concept.
- * <br>
+ * One of the core classes.
+ * <p>
+ * "Space"-focused handler for objects in game.<br>
  * Wraps a {@link InSpaceObjectsManager} instance, delegating to it the real
  * object management, to let {@link GEvent}s to be fired through subclasses of
  * {@link GModality} returned by {@link #getGameModality()}.
@@ -86,8 +87,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder {
 		return removed;
 	}
 
-	public default <E extends ObjectLocated> Set<ObjectLocated> findAll(AbstractShape2D areaToLookInto,
-			Predicate<E> objectFilter) {
+	public default Set<ObjectLocated> findAll(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter) {
 		return getOIMManager().fetch(areaToLookInto, objectFilter);
 	}
 

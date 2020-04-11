@@ -6,12 +6,12 @@ import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.isom.NodeIsom;
-import dataStructures.isom.ObjLocatedCollector;
+import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.ObjectLocated;
 import tools.Comparators;
 
 public class ObjLocatedCollectorMatrix<Distance extends Number> extends PointConsumerRowOptimizer<Distance>
-		implements ObjLocatedCollector {
+		implements ObjLocatedCollectorIsom {
 	private static final long serialVersionUID = 1L;
 
 	public ObjLocatedCollectorMatrix(MatrixInSpaceObjectsManager<Distance> misom,
@@ -48,7 +48,7 @@ public class ObjLocatedCollectorMatrix<Distance extends Number> extends PointCon
 		 * n.forEachAcceptableObject(targetFilter, o -> { if (o == null) return;
 		 * objFound.put(o.getID(), o); });
 		 */
-		ObjLocatedCollector.super.accept(location);
+		ObjLocatedCollectorIsom.super.accept(location);
 	}
 
 }

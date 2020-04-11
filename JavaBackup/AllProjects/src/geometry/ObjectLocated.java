@@ -16,7 +16,11 @@ public interface ObjectLocated extends ObjectWithID {
 		return getLocation().y;
 	}
 
-	/** The location is referred to be the center of this object */
+	/**
+	 * The location is referred to be the center of this object.
+	 * <p>
+	 * {@inheritDoc}
+	 */
 	public Point getLocation();
 //	public Point2D.Double getLocation();
 

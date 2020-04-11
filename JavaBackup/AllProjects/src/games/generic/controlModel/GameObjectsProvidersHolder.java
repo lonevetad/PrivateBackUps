@@ -5,6 +5,8 @@ import java.util.Map;
 import games.generic.controlModel.misc.GameObjectsProvider;
 
 /**
+ * One of the core classes.
+ * <p>
  * Holds and provides a set of {@link GameObjectsProvider}, each identified by a
  * name (usually, the instance class name, but it's not mandatory).
  */

@@ -14,7 +14,8 @@ import tools.Comparators;
 import tools.ObjectWithID;
 
 /**
- * One of the Core classes.<br>
+ * One of the core classes.
+ * <p>
  * See differences with {@link GController}.<br>
  * Represents the real "game", how it works, its type, its modality. Implements
  * every dynamics, rules, win conditions, interactions, etc. Obviously, those
@@ -115,6 +116,7 @@ public abstract class GModality {
 		return gameObjectsProviderHolder;
 	}
 
+	/** Get the HUGE delegate of almost everything. */
 	public GameObjectsManager getGameObjectsManager() {
 		return gomDelegated;
 	}

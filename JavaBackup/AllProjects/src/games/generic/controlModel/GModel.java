@@ -9,6 +9,10 @@ import dataStructures.MapTreeAVL;
 import tools.Comparators;
 import tools.ObjectWithID;
 
+/**
+ * One of the core classes.
+ * <p>
+ */
 public abstract class GModel implements GObjectsHolder {
 	protected MapTreeAVL<Integer, ObjectWithID> allObjects_BackMap;
 	protected Set<ObjectWithID> allObjects;

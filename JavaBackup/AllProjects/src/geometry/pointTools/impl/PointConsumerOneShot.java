@@ -1,6 +1,6 @@
 package geometry.pointTools.impl;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 
 public abstract class PointConsumerOneShot implements PointConsumerRestartable {
 	private static final long serialVersionUID = -7885623078512L;
@@ -8,7 +8,7 @@ public abstract class PointConsumerOneShot implements PointConsumerRestartable {
 		private static final long serialVersionUID = 1354992122480L;
 
 		@Override
-		public void acceptImpl(Point2D p) {
+		public void acceptImpl(Point p) {
 			System.out.println(p);
 		}
 	};
@@ -34,12 +34,12 @@ public abstract class PointConsumerOneShot implements PointConsumerRestartable {
 	}
 
 	@Override
-	public final void accept(Point2D p) {
+	public final void accept(Point p) {
 		if (neverStarted) {
 			this.neverStarted = false;
 			acceptImpl(p);
 		}
 	}
 
-	public abstract void acceptImpl(Point2D p);
+	public abstract void acceptImpl(Point p);
 }

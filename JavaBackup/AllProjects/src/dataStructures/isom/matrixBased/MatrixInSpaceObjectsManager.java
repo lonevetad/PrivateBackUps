@@ -9,18 +9,18 @@ import java.util.function.Predicate;
 
 import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.NodeIsom;
-import dataStructures.isom.ObjLocatedCollector;
+import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ProviderShapeRunner;
 import geometry.ProviderShapesIntersectionDetector;
-import geometry.implementations.ProviderShapeRunnerImpl;
 import geometry.implementations.shapes.ShapeRectangle;
+import geometry.pointTools.PointConsumer;
 import tools.LoggerMessages;
 import tools.NumberManager;
 
 /** Rectangular matrix-based implementation */
-public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpaceObjectsManager<Distance> {
+public abstract class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpaceObjectsManager<Distance> {
 	private static final long serialVersionUID = 6663104159265L;
 	protected static final Double justOne = 1.0, sqrtTwo = /* Math.max(justOne + 0.5, */Math.sqrt(2);
 //	public static enum OperationOnShape {Add, Remove, Replace, Collect;}
@@ -41,10 +41,14 @@ public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpac
 		}
 	}
 
-	public MatrixInSpaceObjectsManager(int width, int height, NumberManager<Distance> weightManager) {
+	public MatrixInSpaceObjectsManager(boolean isLazyNodeInstancing, int width, int height,
+			NumberManager<Distance> weightManager) {
+		this.isLazyNodeInstancing = isLazyNodeInstancing;
+		this.height = height;
+		this.width = width;
 		this.weightManager = weightManager;
-		this.matrix = new NodeIsom[this.height = height][this.width = width];
 		this.shape = new ShapeRectangle(0, width >> 1, height >> 1, true, width, height);
+		reinstanceMatrix();
 
 		// TODO create intersectors and runners
 //		ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
@@ -52,6 +56,7 @@ public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpac
 	}
 
 //	protected Comparator IDOwidComparator;
+	protected final boolean isLazyNodeInstancing;
 	protected int width, height;
 	protected NodeIsom[][] matrix;
 	protected final NumberManager<Distance> weightManager;
@@ -92,24 +97,77 @@ public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpac
 		this.shapeIntersectionDetectorProvider = providerShapesIntersectionDetector;
 	}
 
-	public void setProviderShapeRunner(ProviderShapeRunnerImpl providerShapeRunner) {
-		this.shapeRunnerProvider = providerShapeRunner;
-	}
-
 	@Override
 	public void setLog(LoggerMessages log) {
 		this.log = LoggerMessages.loggerOrDefault(log);
 	}
 
+	@Override
+	public void setProviderShapeRunner(ProviderShapeRunner providerShapeRunner) {
+		this.shapeRunnerProvider = providerShapeRunner;
+	}
+
 	//
 
-	@Override
-	public NodeIsom getNodeAt(Point p) {
-		return matrix[(int) p.getY()][(int) p.getX()];
+	//
+
+	public abstract NodeIsom newNodeMatrix(int x, int y);
+
+	public void reinstanceMatrix() {
+		int r, c, w, h;
+		NodeIsom[] row, m[];
+		m = this.matrix = new NodeIsom[h = this.height][w = this.width];
+		if (isLazyNodeInstancing)
+			return;
+		r = -1;
+		while(++r < h) {
+			row = m[r];
+			c = -1;
+			while(++c < w) {
+				row[c] = newNodeMatrix(c, r);
+			}
+		}
 	}
 
 	@Override
-	public ObjLocatedCollector newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) {
+	public boolean add(ObjectLocated o) {
+		return false;
+	}
+
+	@Override
+	public boolean contains(ObjectLocated o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean remove(ObjectLocated o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public NodeIsom getNodeAt(Point p) {
+		int x, y;
+		NodeIsom n;
+		n = matrix[y = (int) p.getY()][x = (int) p.getX()];
+		if (isLazyNodeInstancing && n == null) {
+			n = matrix[y][x] = newNodeMatrix(x, y);
+		}
+		return n;
+	}
+
+	public NodeIsom getNodeAt(int x, int y) {
+		NodeIsom n;
+		n = matrix[y][x];
+		if (isLazyNodeInstancing && n == null) {
+			n = matrix[y][x] = newNodeMatrix(x, y);
+		}
+		return n;
+	}
+
+	@Override
+	public ObjLocatedCollectorIsom newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) {
 		return new ObjLocatedCollectorMatrix<>(this, objectFilter);
 	}
 
@@ -153,33 +211,93 @@ public class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpac
 	}
 
 	@Override
-	public void setProviderShapeRunner(ProviderShapeRunner providerShapeRunner) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean add(ObjectLocated o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean contains(ObjectLocated o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean remove(ObjectLocated o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Iterator<ObjectLocated> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new IteratorNodeIsom();
+	}
+
+	//
+
+	// classes
+
+	protected abstract class ActionOnPointWithObj implements PointConsumer {
+		private static final long serialVersionUID = 1L;
+		ObjectLocated oToManipulate;
+
+		public ActionOnPointWithObj(ObjectLocated oToManipulate) {
+			super();
+			this.oToManipulate = oToManipulate;
+		}
+	}
+
+	protected class AdderObjLocated extends ActionOnPointWithObj {
+		public AdderObjLocated(ObjectLocated oToManipulate) {
+			super(oToManipulate);
+		}
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void accept(Point p) {
+			getNodeAt(p).addObject(oToManipulate);
+		}
+	}
+
+	protected class RemoverObjLocated extends ActionOnPointWithObj {
+		public RemoverObjLocated(ObjectLocated oToManipulate) {
+			super(oToManipulate);
+		}
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void accept(Point p) {
+			getNodeAt(p).removeObject(oToManipulate);
+		}
+	}
+
+	protected class IteratorNodeIsom implements Iterator<ObjectLocated> {
+		int r, c, w, h;
+		Iterator<ObjectLocated> nodeIteratingIterator;
+		NodeIsom nodeIterating;
+
+		protected IteratorNodeIsom() {
+			r = c = 0;
+			h = height;
+			w = width;
+			nodeIteratingIterator = null;
+			nodeIterating = null;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return r < h;
+		}
+
+		@Override
+		public ObjectLocated next() {
+			NodeIsom n;
+			n = null;
+			// find the first available
+			if (nodeIteratingIterator == null || (!nodeIteratingIterator.hasNext())) {
+				while(hasNext() && ((n = getNodeAt(c, r)) == null || n.countObjectAdded() == 0)) {
+					toNext();
+				}
+			}
+			if (n == null || (!hasNext()))
+				return null; // nothing more to check
+			if (nodeIterating != n) {// is the first NodeIsom one discovered or a new one, not jet iterated?
+				nodeIteratingIterator = n.iterator();
+				nodeIterating = n;
+			}
+			return nodeIteratingIterator.next();
+		}
+
+		protected void toNext() {
+			if (r < h && ++c >= w) {
+				c = 0;
+				r++;
+			}
+		}
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.GameObjectsManager;
 import games.generic.controlModel.gObj.MovingObject;
 import games.generic.controlModel.gObj.MovingObjectDelegatingMovement;
 import games.generic.controlModel.gObj.OrbitingInteractiveObject;
@@ -44,6 +45,7 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 	protected Integer ID;
 	protected transient Random random;
 	protected transient ObjectWithID owner;
+	protected Set<ScatteringOrb> orbs;
 
 	@Override
 	public Integer getID() {
@@ -60,13 +62,43 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 		return owner;
 	}
 
+	public int getTimeSpawningOrbs() {
+		return timeSpawningOrbs;
+	}
+
+	public Random getRandom() {
+		return random;
+	}
+
+	public Set<ScatteringOrb> getOrbs() {
+		return orbs;
+	}
+
+	//
+
+	public void setTimeSpawningOrbs(int timeSpawningOrbs) {
+		this.timeSpawningOrbs = timeSpawningOrbs;
+	}
+
+	public void setRandom(Random random) {
+		this.random = random;
+	}
+
 	@Override
 	public void setOwner(ObjectWithID owner) {
 		this.owner = owner;
 	}
 
+	//
+
 	/** Get the radius of each single orb */
 	public abstract int getRadiusOrbs();
+
+	/**
+	 * Returns an upper bound of amount of scattering orbs. A negative or zero
+	 * number is considered as no upper bound.
+	 */
+	public abstract int getMaxAmountScatteringOrbs();
 
 	public abstract DamageGeneric getDamageOrbs();
 
@@ -92,8 +124,17 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 
 	@Override
 	public void act(GModality modality, int timeUnits) {
-		// TODO Auto-generated method stub
-
+		int tso;
+		tso = getTimeSpawningOrbs();
+		if (this.orbs.size() < getMaxAmountScatteringOrbs()) {
+			if ((this.tempSpawning += timeUnits) >= tso) {
+				do {
+					tempSpawning -= tso;
+					this.orbs.add(newOrb()); // spawn
+				} while(tempSpawning >= tso && this.orbs.size() < getMaxAmountScatteringOrbs());
+			}
+		}
+		orbs.forEach(so -> so.act(modality, timeUnits));
 	}
 
 	//
@@ -108,7 +149,7 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 		protected GObjLinearMovement movementLinear;
 		protected AbstractShape2D shape;
 		protected transient Set<ObjectLocated> targetsDamagedOnTravel;
-		protected List<Point> path;
+		protected transient List<Point> path;
 
 		protected ScatteringOrb() {
 			Point p;
@@ -154,7 +195,11 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 		/** Perform blast explosion */
 		public abstract void explode(GModality modality);
 
-		/** SHOULD call GModality methods for handling damages */
+		/**
+		 * SHOULD call GModality methods for handling damages, i.e.
+		 * {@link GModality#getGameObjectsManager()} and then
+		 * {@link GameObjectsManager#dealsDamageTo}
+		 */
 		public abstract void damageOnTraveling(GModality modality, ObjectLocated target);
 
 		@Override
@@ -162,11 +207,11 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 			if (status) {
 				// traveling
 				move(modality, timeUnits);
-				if ((tempTime += timeUnits) > MILLIS_TRAVELLING) {
+				if ((tempTime += timeUnits) >= MILLIS_TRAVELLING) {
 					tempTime = 0;
 					status = STATUS_STATIONARY_FOR_EXPLOSION;
 				}
-			} else if ((tempTime += timeUnits) > MILLIS_TRAVELLING) {
+			} else if ((tempTime += timeUnits) >= MILLIS_TRAVELLING) {
 				int radius;
 				double ang;
 				Point dest, centre;
@@ -181,7 +226,7 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 				dest = new Point(0, 0);
 				ang = Math.cos(ang);// recycle it
 				dest.x = centre.x * ((int) ang * radius);
-				ang = 1.0 - ang * ang;// sin
+				ang = 1.0 - ang * ang;// == sin
 				dest.y = centre.y * ((int) ang * radius);
 				// must cover the whole distance within time
 				movementLinear
