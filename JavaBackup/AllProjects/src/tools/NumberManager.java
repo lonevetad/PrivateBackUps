@@ -19,7 +19,7 @@ public interface NumberManager<T> extends Serializable {
 	 * representation. In fact, it's a mapping.
 	 */
 	public default Double toDouble(T value) {
-		return DoubleDistanceManager.ZERO;
+		return DoubleManager.ZERO;
 	}
 
 	public default T fromDouble(Double value) {
@@ -28,23 +28,23 @@ public interface NumberManager<T> extends Serializable {
 
 	//
 
-	public static NumberManager<Integer> integerManager() {
-		if (IntegerDistanceManager.singleton == null)
-			IntegerDistanceManager.singleton = new IntegerDistanceManager();
-		return IntegerDistanceManager.singleton;
+	public static NumberManager<Integer> getIntegerManager() {
+		if (IntegerManager.singleton == null)
+			IntegerManager.singleton = new IntegerManager();
+		return IntegerManager.singleton;
 	}
 
-	public static NumberManager<Double> doubleManager() {
-		if (DoubleDistanceManager.singleton == null)
-			DoubleDistanceManager.singleton = new DoubleDistanceManager();
-		return DoubleDistanceManager.singleton;
+	public static NumberManager<Double> getDoubleManager() {
+		if (DoubleManager.singleton == null)
+			DoubleManager.singleton = new DoubleManager();
+		return DoubleManager.singleton;
 	}
 
-	public static final class IntegerDistanceManager implements NumberManager<Integer> {
+	public static final class IntegerManager implements NumberManager<Integer> {
 		private static final long serialVersionUID = 1L;
 		static final Integer ZERO = 0;
 		static final BiFunction<Integer, Integer, Integer> ADDER = (a, b) -> a + b;
-		private static IntegerDistanceManager singleton = null;
+		private static IntegerManager singleton = null;
 
 		@Override
 		public Comparator<Integer> getComparator() {
@@ -72,11 +72,11 @@ public interface NumberManager<T> extends Serializable {
 		}
 	}
 
-	public static final class DoubleDistanceManager implements NumberManager<Double> {
+	public static final class DoubleManager implements NumberManager<Double> {
 		private static final long serialVersionUID = 777L;
 		static final Double ZERO = 0.0;
 		static final BiFunction<Double, Double, Double> ADDER = (a, b) -> a + b;
-		private static DoubleDistanceManager singleton = null;
+		private static DoubleManager singleton = null;
 
 		@Override
 		public Comparator<Double> getComparator() {

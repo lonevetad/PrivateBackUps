@@ -130,6 +130,31 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
+	public void runOnWholeMap(PointConsumer action) {
+		Point p;
+		p = new Point();
+		int r, c, w, h;
+		NodeIsom[] row, m[];
+//		NodeIsom node;
+		m = this.matrix;
+		h = this.height;
+		w = this.width;
+		r = -1;
+		while(++r < h) {
+			row = m[r];
+			c = -1;
+			p.y = r;
+			while(++c < w) {
+				if (row[c] != null) {
+//				if ((node = row[c]) != null) {
+					p.x = c;
+					action.accept(p);
+				}
+			}
+		}
+	}
+
+	@Override
 	public boolean add(ObjectLocated o) {
 		return false;
 	}

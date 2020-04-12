@@ -4,6 +4,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.GameObjectsProvider;
 
 public class AbilitiesProvider extends GameObjectsProvider<AbilityGeneric> {
+	public static final String NAME = "AbilP";
 
 	/** Should be preferred over {@link #getObjIdentifiedByID(Integer)}. */
 	public AbilityGeneric getAbilityByName(GModality gm, String name) {

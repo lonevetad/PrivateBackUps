@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.Point;
 import java.awt.TextField;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
@@ -21,6 +21,7 @@ import geometry.implementations.shapes.ShapeCircle;
 import geometry.pointTools.PointConsumer;
 import tools.GraphicTools;
 
+@Deprecated
 public class TestRunnerCircle extends TestGeneric {
 	static final int PIXEL_SQUARE_POINT = 5, MAX_SQUARE_PIXEL = 700; //
 
@@ -84,7 +85,7 @@ public class TestRunnerCircle extends TestGeneric {
 		ColorToPaintOnImage ctpoi;
 
 		@Override
-		public void accept(Point2D p) {
+		public void accept(Point p) {
 			BufferedImage bi;
 			int x, col, px, py;
 			bi = this.ctpoi.bi;

@@ -1,4 +1,4 @@
-package common.gui;
+package videogamesOldVersion.common.gui;
 
 import java.util.LinkedList;
 
@@ -8,8 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import common.abstractCommon.behaviouralObjectsAC.MyComparator;
-import common.mainTools.Comparators;
+import tools.Comparators;
 
 public class GUI_Cache {
 
@@ -24,36 +23,44 @@ public class GUI_Cache {
 
 	@SuppressWarnings("unchecked")
 	public <T> T getCached(Class<T> c) {
-		if (JLabel.class.isAssignableFrom(c) && (!jlCacheList.isEmpty())) return (T) jlCacheList.removeFirst();
-		if (JTextField.class.isAssignableFrom(c) && (!jtfCacheList.isEmpty())) return (T) jtfCacheList.removeFirst();
+		if (JLabel.class.isAssignableFrom(c) && (!jlCacheList.isEmpty()))
+			return (T) jlCacheList.removeFirst();
+		if (JTextField.class.isAssignableFrom(c) && (!jtfCacheList.isEmpty()))
+			return (T) jtfCacheList.removeFirst();
 		if (JCheckBox.class.isAssignableFrom(c) && (!jcheckbCacheList.isEmpty()))
 			return (T) jcheckbCacheList.removeFirst();
-		if (ListBoxView.class.isAssignableFrom(c) && (!jtfCacheList.isEmpty())) return (T) jtfCacheList.removeFirst();
+		if (ListBoxView.class.isAssignableFrom(c) && (!jtfCacheList.isEmpty()))
+			return (T) jtfCacheList.removeFirst();
 		return null;
 	}
 
 	public JLabel getJLabel() {
-		if (jlCacheList == null) jlCacheList = new LinkedList<>();
+		if (jlCacheList == null)
+			jlCacheList = new LinkedList<>();
 		return (!jlCacheList.isEmpty()) ? jlCacheList.removeFirst() : new JLabel();
 	}
 
 	public JTextField getJTextField() {
-		if (jtfCacheList == null) jtfCacheList = new LinkedList<>();
+		if (jtfCacheList == null)
+			jtfCacheList = new LinkedList<>();
 		return (!jtfCacheList.isEmpty()) ? jtfCacheList.removeFirst() : new JTextField();
 	}
 
 	public JCheckBox getJCheckBox() {
-		if (jcheckbCacheList == null) jcheckbCacheList = new LinkedList<>();
+		if (jcheckbCacheList == null)
+			jcheckbCacheList = new LinkedList<>();
 		return (!jcheckbCacheList.isEmpty()) ? jcheckbCacheList.removeFirst() : new JCheckBox();
 	}
 
 	public <E extends Object> JComboBox<? extends Object> getComboBox(E[] a) {
-		if (jcomboboxCacheList == null) jcomboboxCacheList = new LinkedList<>();
+		if (jcomboboxCacheList == null)
+			jcomboboxCacheList = new LinkedList<>();
 		return (!jcomboboxCacheList.isEmpty()) ? jcomboboxCacheList.removeFirst() : new JComboBox<>(a);
 	}
 
 	public ListBoxView<? extends Object> getListBoxView() {
-		if (lbvCacheList == null) lbvCacheList = new LinkedList<>();
+		if (lbvCacheList == null)
+			lbvCacheList = new LinkedList<>();
 		return (!lbvCacheList.isEmpty()) ? lbvCacheList.removeFirst()
 				: ListBoxView.getDefaultImplementation(Comparators.OBJECT_COMPARATOR);
 	}
@@ -62,8 +69,10 @@ public class GUI_Cache {
 	public <I> ListBoxView<I> getListBoxView(MyComparator<I> comp) {
 		Class<?> c;
 		ListBoxView<I> lbv;
-		if (comp == null) return null;
-		if (lbvCacheList.isEmpty()) return ListBoxView.getDefaultImplementation(comp);
+		if (comp == null)
+			return null;
+		if (lbvCacheList.isEmpty())
+			return ListBoxView.getDefaultImplementation(comp);
 		c = comp.getClass();
 		for (ListBoxView</* String */? extends Object> l : lbvCacheList) {
 			if (l.comparator().getClass().isAssignableFrom(c)) {
@@ -81,28 +90,38 @@ public class GUI_Cache {
 	}
 
 	public void store(JLabel jl) {
-		if (jlCacheList == null) jlCacheList = new LinkedList<>();
-		if (jl != null && (!jlCacheList.contains(jl))) jlCacheList.add(jl);
+		if (jlCacheList == null)
+			jlCacheList = new LinkedList<>();
+		if (jl != null && (!jlCacheList.contains(jl)))
+			jlCacheList.add(jl);
 	}
 
 	public void store(JTextField jtf) {
-		if (jtfCacheList == null) jtfCacheList = new LinkedList<>();
-		if (jtf != null && (!jtfCacheList.contains(jtf))) jtfCacheList.add(jtf);
+		if (jtfCacheList == null)
+			jtfCacheList = new LinkedList<>();
+		if (jtf != null && (!jtfCacheList.contains(jtf)))
+			jtfCacheList.add(jtf);
 	}
 
 	public void store(JCheckBox jcb) {
-		if (jcheckbCacheList == null) jcheckbCacheList = new LinkedList<>();
-		if (jcb != null && (!jcheckbCacheList.contains(jcb))) jcheckbCacheList.add(jcb);
+		if (jcheckbCacheList == null)
+			jcheckbCacheList = new LinkedList<>();
+		if (jcb != null && (!jcheckbCacheList.contains(jcb)))
+			jcheckbCacheList.add(jcb);
 	}
 
 	public void store(ListBoxView<? extends Object> lbv) {
-		if (lbvCacheList == null) lbvCacheList = new LinkedList<>();
-		if (lbv != null && (!lbvCacheList.contains(lbv))) lbvCacheList.add(lbv);
+		if (lbvCacheList == null)
+			lbvCacheList = new LinkedList<>();
+		if (lbv != null && (!lbvCacheList.contains(lbv)))
+			lbvCacheList.add(lbv);
 	}
 
 	public void store(JComboBox<? extends Object> lbv) {
-		if (jcomboboxCacheList == null) jcomboboxCacheList = new LinkedList<>();
-		if (lbv != null && (!jcomboboxCacheList.contains(lbv))) jcomboboxCacheList.add(lbv);
+		if (jcomboboxCacheList == null)
+			jcomboboxCacheList = new LinkedList<>();
+		if (lbv != null && (!jcomboboxCacheList.contains(lbv)))
+			jcomboboxCacheList.add(lbv);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -118,7 +137,8 @@ public class GUI_Cache {
 				store((JCheckBox) comp);
 			else if (JComboBox.class.isAssignableFrom(c))
 				store((JComboBox<?>) comp);
-			else if (ListBoxView.class.isAssignableFrom(c)) store((ListBoxView<? extends Object>) comp);
+			else if (ListBoxView.class.isAssignableFrom(c))
+				store((ListBoxView<? extends Object>) comp);
 		}
 	}
 }

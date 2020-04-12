@@ -120,7 +120,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 	 * As for {@link #runOnShape(AbstractShape2D, IsomConsumer)}, but giving the
 	 * {@link AbstractShape2D} returned by {@link #getSpaceShape()}.
 	 */
-	public default void runOnBoundingShape(PointConsumer action) {
+	public default void runOnWholeMap(PointConsumer action) {
 		runOnShape(getBoundingShape(), action);
 	}
 

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.GameObjectsProvidersHolderRPG;
 import games.generic.controlModel.gObj.AttributesHolder;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.CreatureAttributes;
@@ -37,7 +38,7 @@ public abstract class EquipmentItem extends InventoryItem {
 		this.belongingEquipmentSet = null;
 		this.equipmentType = equipmentType;
 		this.attributeModifiers = new LinkedList<>();
-		enrichWithAbilities(gmrpg.getGameObjectsProvider().getAbilitiesProvider());
+		enrichWithAbilities(((GameObjectsProvidersHolderRPG) gmrpg.getGameObjectsProvider()).getAbilitiesProvider());
 	}
 
 	//

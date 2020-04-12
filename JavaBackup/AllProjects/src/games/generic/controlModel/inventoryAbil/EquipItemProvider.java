@@ -4,6 +4,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.GameObjectsProvider;
 
 public class EquipItemProvider extends GameObjectsProvider<EquipmentItem> {
+	public static final String NAME = "EquipP";
 
 	public EquipItemProvider() {
 	}

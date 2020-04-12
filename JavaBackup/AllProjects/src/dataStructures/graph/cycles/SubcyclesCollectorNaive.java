@@ -11,7 +11,6 @@ import dataStructures.MapTreeAVL;
 import dataStructures.graph.GraphSimple;
 import dataStructures.graph.GraphSimpleGenerator;
 import dataStructures.graph.PathFindStrategy;
-import dataStructures.graph.SubcyclesCollector;
 
 public class SubcyclesCollectorNaive<E, Distance> implements SubcyclesCollector<E, Distance> {
 	private static final long serialVersionUID = 541052402540L;

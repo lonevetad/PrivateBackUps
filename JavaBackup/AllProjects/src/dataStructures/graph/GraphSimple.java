@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.graph.EdgesIntersectionDetector.IntersectionInstantiator;
+import dataStructures.graph.cycles.SubcyclesCollector;
 import tools.LoggerMessages;
 import tools.NumberManager;
 

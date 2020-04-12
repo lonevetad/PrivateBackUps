@@ -244,12 +244,6 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	}
 
-	@Override
-	public void move(int milliseconds) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void equip(EquipmentItem equipment) {
 		EquipmentSet es;
 		es = this.getEquipmentSet();

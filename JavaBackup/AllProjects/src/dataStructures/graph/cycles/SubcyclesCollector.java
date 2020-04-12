@@ -1,4 +1,4 @@
-package dataStructures.graph;
+package dataStructures.graph.cycles;
 
 import java.io.Serializable;
 import java.util.List;

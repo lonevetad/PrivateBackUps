@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Point;
 import java.awt.TextField;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -25,8 +26,8 @@ import javax.swing.SpinnerNumberModel;
 
 import dataStructures.MapTreeAVL;
 import geometry.AbstractShape2D;
-import geometry.AbstractShapeRunner;
 import geometry.AbstractShape2DFactory;
+import geometry.AbstractShapeRunner;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.ProviderAbstractShape2DImpl;
 import geometry.implementations.ProviderShapeRunnerImpl;
@@ -210,7 +211,7 @@ public class TestShapeRunners extends TestGeneric {
 		ColorToPaintOnImage ctpoi;
 
 		@Override
-		public void accept(Point2D p) {
+		public void accept(Point p) {
 			BufferedImage bi;
 			int x, col, px, py;
 			bi = this.ctpoi.bi;
@@ -262,8 +263,8 @@ public class TestShapeRunners extends TestGeneric {
 		protected ShapeFieldsManager(ShapeRunnersModel m) {
 			this.m = m;
 			jpShapeFieldContainer = new JPanel();
-//			jpShapeFieldContainer.setSize(200, 100);
 			jpShapeFieldContainer.setLayout(new GridBagLayout());
+//			jpShapeFieldContainer.setSize(200, 100);
 //			jpShapeFieldContainer.setPreferredSize(jpShapeFieldContainer.getSize());
 			jpShapeFieldContainer.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
 		}
@@ -387,6 +388,7 @@ public class TestShapeRunners extends TestGeneric {
 
 				@Override
 				protected void paintComponent(Graphics g) {
+					super.paintComponent(g);
 					if (squarePainter.ctpoi != null)
 						g.drawImage(squarePainter.ctpoi.bi, 0, 0, null);
 					g.setColor(Color.GREEN);

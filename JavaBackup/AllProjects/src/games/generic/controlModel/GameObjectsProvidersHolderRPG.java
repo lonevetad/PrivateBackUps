@@ -48,9 +48,9 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 		this.abilitiesProvider = newAbilitiesProvider();
 		this.equipmentsProvider = newEquipItemProvider();
 		this.creaturesProvider = newCreatureProvider();
-		this.providers.put(abilitiesProvider.getClass().getSimpleName(), abilitiesProvider);
-		this.providers.put(equipmentsProvider.getClass().getSimpleName(), equipmentsProvider);
-		this.providers.put(creaturesProvider.getClass().getSimpleName(), creaturesProvider);
+		this.providers.put(AbilitiesProvider.NAME, abilitiesProvider);
+		this.providers.put(EquipItemProvider.NAME, equipmentsProvider);
+		this.providers.put(CreaturesProvider.NAME, creaturesProvider);
 	}
 
 	protected Map<String, GameObjectsProvider<? extends ObjectNamed>> providers;

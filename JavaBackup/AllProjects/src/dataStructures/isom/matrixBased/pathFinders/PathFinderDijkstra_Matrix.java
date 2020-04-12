@@ -65,7 +65,7 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 				(NodeInfoDijkstra no) -> no.distFromStart);
 		ss = new NodeInfoDijkstra(start);
 		ss.father = ss;
-		ss.distFromFather = ss.distFromStart = null; // Double.valueOf(0);
+		ss.distFromFather = ss.distFromStart = null;
 		frontier.put(ss);
 		nodeInfos.put(start, ss);
 		dd = new NodeInfoDijkstra(dest);
@@ -107,12 +107,10 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 
 	protected class NodeInfoDijkstra extends NodeInfo {
 		protected Distance distFromStart, distFromFather;
+
 //		protected NodeInfoDijkstra father;
 //		public static final Comparator<NodeIsom> COMPARATOR_NINFO = NodeIsom.COMPARATOR_NODE_ISOM_POINT::compare;
-
-		//
 //		protected NumberManager<Distance> distanceManager;
-
 		protected NodeInfoDijkstra(NodeIsom thisNode) {
 //			this.distanceManager = distanceManager;
 			super(thisNode);

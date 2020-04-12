@@ -6,7 +6,7 @@ import java.util.List;
 import dataStructures.graph.GraphSimple;
 import dataStructures.graph.GraphSimpleAsynchronized;
 import dataStructures.graph.GraphSimpleGenerator;
-import dataStructures.graph.SubcyclesCollector;
+import dataStructures.graph.cycles.SubcyclesCollector;
 import dataStructures.graph.cycles.SubcyclesCollectorNaive;
 import dataStructures.graph.pathfind.PathFinderDijkstra;
 import tools.Comparators;

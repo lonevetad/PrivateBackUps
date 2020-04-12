@@ -8,11 +8,11 @@ import java.util.function.BiFunction;
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
 import dataStructures.graph.GraphSimple;
-import dataStructures.graph.GraphSimple.NodePositionInFrontier;
 import dataStructures.graph.GraphSimpleAsynchronized;
 import dataStructures.graph.NodeDistanceManager;
 import dataStructures.graph.PathFindStrategy;
 import dataStructures.graph.PathGraph;
+import tools.NumberManager;
 
 public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance> {
 	private static final long serialVersionUID = 56409561023300330L;
@@ -76,15 +76,14 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 		dd = new NodeInfoAStar<E, Distance>(d, distanceManager);
 		nodeInfos.put(dest, dd);
 
-		while ((!frontier.isEmpty()) && ((dd.father == null) ||
+		while((!frontier.isEmpty()) && ((dd.father == null)
 		/*
 		 * continue if there's a path to reach the destination shorter to the already
 		 * found one. This condition will force to exit from the cycle if the "minimum"
 		 * node is already the destination because of the lack of equality check
 		 */
-				( // frontier.peekMinimum().getKey().fScore < dd.fScore)
-				comp.compare(frontier.peekMinimum().getKey().fScore, dd.fScore) < 0))//
-		) {
+//				|| (comp.compare(frontier.peekMinimum().getKey().fScore, dd.fScore) < 0)//
+		)) {
 			final NodeInfoAStar<E, Distance> n;
 			n = frontier.removeMinimum().getKey();
 			n.color = NodePositionInFrontier.InFrontier;
@@ -111,7 +110,7 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 		nodeInfos.clear();
 		p = new PathGraph<E, Distance>(distanceManager);
 //		distanceTotal = dd.distFromStart;
-		while (dd != ss) {
+		while(dd != ss) {
 			p.addStep(dd.thisNode.getElem(), dd.distFromFather);
 			dd = dd.father;
 		}
@@ -168,7 +167,7 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 		@SuppressWarnings("unchecked")
 		@Override
 		public void accept(GraphSimple<E, Distance>.NodeGraph nnn, Distance distToAdj) {
-			Distance distToNo, distToAdjDouble;
+			Distance distToNo;
 			E e;
 			GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized no;
 			NodeInfoAStar<E, Distance> neighbourInfo;
@@ -181,10 +180,9 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 
 //			if (neighbourInfo.color == NodePositionInFrontier.Closed) // equivalent of being in closed set
 //				return;
-			distToAdjDouble = distToAdj;
 			distToNo =
 					// distToAdjDouble + currentNode.distFromStart
-					distanceManager.getAdder().apply(distToAdjDouble, currentNode.distFromStart);
+					distanceManager.getAdder().apply(distToAdj, currentNode.distFromStart);
 			// create the new node or try to re-opening it
 			if (neighbourInfo.father == null ||
 			// distToNo < neighbourInfo.distFromStart
@@ -194,7 +192,7 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 				// update
 //				newDistanceFromStart = Double.valueOf(distToNo);
 				neighbourInfo.father = currentNode;
-				neighbourInfo.distFromFather = distToAdjDouble;
+				neighbourInfo.distFromFather = distToAdj;
 				neighbourInfo.distFromStart = distToNo; // newDistanceFromStart;
 				fScore = // newDistanceFromStart +
 						distanceManager.getAdder().apply(distToNo,
