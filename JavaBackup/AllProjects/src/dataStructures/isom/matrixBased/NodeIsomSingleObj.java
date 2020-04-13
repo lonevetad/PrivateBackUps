@@ -73,6 +73,12 @@ public class NodeIsomSingleObj extends NodeIsom {
 	}
 
 	@Override
+	public boolean removeAllObjects() {
+		this.objectLying = null;
+		return true;
+	}
+
+	@Override
 	public boolean isWalkable(Predicate<ObjectLocated> isWalkableTester) {
 		return isWalkableTester == null || isWalkableTester.test(objectLying);
 	}

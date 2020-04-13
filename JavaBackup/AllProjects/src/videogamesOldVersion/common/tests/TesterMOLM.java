@@ -1,4 +1,4 @@
-package common.tests;
+package videogamesOldVersion.common.tests;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,6 +10,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.Comparator;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -23,29 +24,28 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import common.PainterMolm;
-import common.abstractCommon.MainController;
-import common.abstractCommon.behaviouralObjectsAC.AbstractPainter;
-import common.abstractCommon.behaviouralObjectsAC.MyComparator;
-import common.abstractCommon.referenceHolderAC.MainHolder;
-import common.gui.ListBoxView;
-import common.gui.LoggerMessagesJTextArea;
-import common.gui.MolmVisualizer;
-import common.gui.MouseClickListenerAdapter;
-import common.mainTools.Comparators;
-import common.mainTools.FileUtilities;
-import common.mainTools.GraphicTools;
-import common.mainTools.dataStruct.MyLinkedList;
-import common.mainTools.mOLM.MatrixObjectLocationManager;
-import common.mainTools.mOLM.NodeMatrix;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractShapeRunners;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractShapeRunners.ShapesImplemented;
-import common.removed.objectHierarchyFromMOLM.ObjectTiled;
-import common.mainTools.mOLM.abstractClassesMOLM.DoNothingWithItem;
-import common.mainTools.mOLM.abstractClassesMOLM.DoSomethingWithNode;
-import common.mainTools.mOLM.abstractClassesMOLM.PainterMOLMNullItem;
 import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
+import common.removed.objectHierarchyFromMOLM.ObjectTiled;
+import dataStructures.MyLinkedList;
+import tools.Comparators;
+import tools.FileUtilities;
+import tools.GraphicTools;
+import videogamesOldVersion.common.PainterMolm;
+import videogamesOldVersion.common.abstractCommon.MainController;
+import videogamesOldVersion.common.abstractCommon.behaviouralObjectsAC.AbstractPainter;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.MainHolder;
+import videogamesOldVersion.common.gui.ListBoxView;
+import videogamesOldVersion.common.gui.LoggerMessagesJTextArea;
+import videogamesOldVersion.common.gui.MolmVisualizer;
+import videogamesOldVersion.common.gui.MouseClickListenerAdapter;
+import videogamesOldVersion.common.mainTools.mOLM.MatrixObjectLocationManager;
+import videogamesOldVersion.common.mainTools.mOLM.NodeMatrix;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractShapeRunners;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.DoNothingWithItem;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.DoSomethingWithNode;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID_OLD_MOLM.MementoOWID;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.PainterMOLMNullItem;
 
 public class TesterMOLM {
 	public static final String WHERE_TO_SAVE_TRIALS, MAP_EXTENSION = ".ottyarray";
@@ -54,9 +54,9 @@ public class TesterMOLM {
 			MOLM_PIXEL_HEIGHT = MOLM_HEIGHT * PIXEL_EACH_MICROPIXEL;
 	// public static final Color[] COLORS_ACCEPTED = {Color.blue};
 
-	public static enum ColorsAccepted implements MyComparator<ColorsAccepted> {
-		BLUE(Color.BLUE), RED(Color.RED, false), GRAY(Color.GRAY, false), PINK(Color.PINK,
-				false), GREEN(Color.GREEN), ORANGE(Color.ORANGE);
+	public static enum ColorsAccepted implements Comparator<ColorsAccepted> {
+		BLUE(Color.BLUE), RED(Color.RED, false), GRAY(Color.GRAY, false), PINK(Color.PINK, false), GREEN(Color.GREEN),
+		ORANGE(Color.ORANGE);
 
 		final boolean isNotSolid;
 		final ColorObject color;
@@ -194,8 +194,7 @@ public class TesterMOLM {
 		// jpMolmRepainter = new JPanelMolmRepainter(this);
 		molmVisualizer = new MolmVisualizer(false);
 		/*
-		 * new JScrollPane(jpMolmRepainter,
-		 * JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		 * new JScrollPane(jpMolmRepainter, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 		 * JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		 * jspMolmRepainter.setViewportView(jpMolmRepainter);
 		 */
@@ -487,16 +486,15 @@ public class TesterMOLM {
 					// else
 					// textError = molm.removeOnShape(ss, co);
 					if (textError != null)
-						logError("onClick_OnMOLMRepainter",
-								"operation failed with:"//
-										// + "\n\t\t xx: " + xx//
-										// + "\n\t\t yy: " + yy//
-										// + "\n\t\t w: " + w//
-										// + "\n\t\t h: " + h//
-										// + "\n\t\t ang: " + ang//
-										+ "\n\t\t ss: " + ss.toString()//
-										+ "\n\t\t color: " + ca.name()//
-										+ "\n\\t\t error from molm:\n\t\t\t" + textError);
+						logError("onClick_OnMOLMRepainter", "operation failed with:"//
+								// + "\n\t\t xx: " + xx//
+								// + "\n\t\t yy: " + yy//
+								// + "\n\t\t w: " + w//
+								// + "\n\t\t h: " + h//
+								// + "\n\t\t ang: " + ang//
+								+ "\n\t\t ss: " + ss.toString()//
+								+ "\n\t\t color: " + ca.name()//
+								+ "\n\\t\t error from molm:\n\t\t\t" + textError);
 					else
 						fin.repaint();
 					// logError("SUCCESS");
@@ -504,8 +502,10 @@ public class TesterMOLM {
 				default:
 				}
 			} else {
-				if (si == null) logError("onClick_OnMOLMRepainter", "cannot run a null shape.");
-				if (ca == null) logError("onClick_OnMOLMRepainter", "cannot color a shape with null color.");
+				if (si == null)
+					logError("onClick_OnMOLMRepainter", "cannot run a null shape.");
+				if (ca == null)
+					logError("onClick_OnMOLMRepainter", "cannot color a shape with null color.");
 			}
 		}
 	}
@@ -552,7 +552,7 @@ public class TesterMOLM {
 								p = n.getItem();
 								newXP[++i] = p.x * PIXEL_EACH_MICROPIXEL;
 								newYP[i] = p.y * PIXEL_EACH_MICROPIXEL;
-							} while ((n = n.getNext()) != null);
+							} while((n = n.getNext()) != null);
 						}
 						xPath = newXP;
 						yPath = newYP;
@@ -593,9 +593,9 @@ public class TesterMOLM {
 		/*
 		 * r = 3; i = s.length(); while (r > 0 && s != null) {
 		 * 
-		 * i=s.lastIndexOf(File.separatorChar); /* while (--i >= 0 &&
-		 * s.charAt(i) != File.separatorChar) ; if (i < 0) { s = null; } else {
-		 * r--; }// if(i>0)r--; } if (s != null) { s = s.substring(0, i + 1); }
+		 * i=s.lastIndexOf(File.separatorChar); /* while (--i >= 0 && s.charAt(i) !=
+		 * File.separatorChar) ; if (i < 0) { s = null; } else { r--; }// if(i>0)r--; }
+		 * if (s != null) { s = s.substring(0, i + 1); }
 		 */
 		System.out.println(s);
 		return s;
@@ -639,10 +639,10 @@ public class TesterMOLM {
 		public static final PainterMOLMNullItem PAINTER_NULLS = PainterMOLMNullItem.newInstance_MicropixelPurpose()
 				.setWidth(PIXEL_EACH_MICROPIXEL);
 		/*
-		 * public void paintOn(Graphics g, int x, int y, int width, int height)
-		 * { Color pc; pc = g.getColor(); g.setColor(Color.BLACK); g.fillRect(x
-		 * * PIXEL_EACH_MICROPIXEL, y * PIXEL_EACH_MICROPIXEL,
-		 * PIXEL_EACH_MICROPIXEL, PIXEL_EACH_MICROPIXEL); g.setColor(pc); }
+		 * public void paintOn(Graphics g, int x, int y, int width, int height) { Color
+		 * pc; pc = g.getColor(); g.setColor(Color.BLACK); g.fillRect(x *
+		 * PIXEL_EACH_MICROPIXEL, y * PIXEL_EACH_MICROPIXEL, PIXEL_EACH_MICROPIXEL,
+		 * PIXEL_EACH_MICROPIXEL); g.setColor(pc); }
 		 */
 
 		public JPanelMolmRepainter(TesterMOLM t) {

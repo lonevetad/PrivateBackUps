@@ -70,6 +70,10 @@ public abstract class GModality {
 		this.gameObjectsProviderHolder = controller.getGObjProvidersHolderForGModality(this);
 		this.gomDelegated = newGameObjectsManager();
 		onCreate();
+		// il game model deve avere anche l'holder dovuto dal "Misom"
+		assert this.getModel()
+				.containsObjHolder(this.getGameObjectsManager().getGObjectInSpaceManager().getNameGObjHolder()) : //
+		"The model does not have a \"GObjHolder\" instance for ObjectLocated (which is an instance of GObjectInSpaceManager)";
 	}
 
 	//
@@ -150,7 +154,16 @@ public abstract class GModality {
 	// TODO ABSTRACT
 
 	/** Override designed BUT call <code>super.</code>{@link #onCreate()}}. */
-	public abstract void onCreate();
+	public void onCreate() {
+		GObjectsInSpaceManager goism;
+		/*
+		 * Upon setting everything, "gom" and its "GOISM" included, add the goism to the
+		 * model as an "objects holder" because that's what it is: an holder of
+		 * ObkectLocated
+		 */
+		goism = this.getGameObjectsManager().getGObjectInSpaceManager();
+		this.getModel().addObjHolder(goism.getNameGObjHolder(), goism);
+	}
 
 	public abstract GModel newGameModel();
 

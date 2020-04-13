@@ -56,15 +56,13 @@ public class PathFinderBFS_Matrix<Distance extends Number> extends PathFinderIso
 	@Override
 	protected AbstractAdjacentForEacher newAdjacentConsumer(Predicate<ObjectLocated> isWalkableTester,
 			NumberManager<Distance> distanceManager) {
-		// TODO Auto-generated method stub
-		return null;
+		return new AAFE_BFS(isWalkableTester, distanceManager);
 	}
 
 	@Override
 	protected AbstractAdjacentForEacher newAdjacentConsumerForObjectShaped(AbstractShape2D shape,
 			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Shaped_AAFE_BFS(isWalkableTester, distanceManager, shape);
 	}
 
 	//
@@ -88,6 +86,8 @@ public class PathFinderBFS_Matrix<Distance extends Number> extends PathFinderIso
 		public void accept(NodeIsom adjacent, Distance u) {
 			NodeInfo niAdj;
 			Integer adjID;
+			if (!isAdjacentNodeWalkable(adjacent))
+				return;
 			adjID = adjacent.getID();
 			niAdj = null;
 			if (nodes.containsKey(adjID) && (niAdj = nodes.get(adjID)).color != NodePositionInFrontier.NeverAdded)
@@ -96,6 +96,7 @@ public class PathFinderBFS_Matrix<Distance extends Number> extends PathFinderIso
 				// not contained
 				niAdj = new NodeInfo(adjacent);
 				niAdj.color = NodePositionInFrontier.InFrontier;
+				niAdj.father = currentNode;
 				nodes.put(adjID, niAdj);
 				queue.add(niAdj);
 			} // else: discard it
@@ -105,13 +106,21 @@ public class PathFinderBFS_Matrix<Distance extends Number> extends PathFinderIso
 	protected class Shaped_AAFE_BFS extends AAFE_BFS {
 
 		public Shaped_AAFE_BFS(Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager,
-				AbstractShape2D shape, WholeShapeWalkableChecker<Distance> shapeWalkableChecker) {
+				AbstractShape2D shape) {
 			super(isWalkableTester, distanceManager);
 			this.shape = shape;
-			this.shapeWalkableChecker = shapeWalkableChecker;
+			this.shapeWalkableChecker = new WholeShapeWalkableChecker<>(matrix, isWalkableTester);
 		}
 
 		protected final AbstractShape2D shape;
 		protected final WholeShapeWalkableChecker<Distance> shapeWalkableChecker;
+
+		@Override
+		public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) {
+			shapeWalkableChecker.restart();
+			shape.setCenter(adjacentNode.x, adjacentNode.y);
+			matrix.runOnShape(shape, shapeWalkableChecker);
+			return shapeWalkableChecker.isWalkable();
+		}
 	}
 }

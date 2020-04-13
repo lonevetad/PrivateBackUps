@@ -95,9 +95,9 @@ public abstract class GEventManager implements GObjectsHolder {
 	}
 
 	/**
-	 * "Fire", "post", "add", call it as You want but put the given {@link IGEvent}
-	 * in some kind of event queue and (lately? separately?) notify the
-	 * {@link GEventObserver}s that the event has been occurred.
+	 * "Fire", "post", "add", call it as You want, but put the given {@link IGEvent}
+	 * in some kind of event queue and (lately? separately? in a parallel way?)
+	 * notify the {@link GEventObserver}s that the event has been occurred.
 	 */
 	public void fireEvent(IGEvent ge) {
 		Integer id;
@@ -110,7 +110,7 @@ public abstract class GEventManager implements GObjectsHolder {
 			l = new LinkedList<>();
 			this.eventQueued.put(id, l);
 		}
-		System.out.println("--- GEventManager adding printer event : " + ge);
+		System.out.println("--- GEventManager adding event : " + ge);
 		l.add(ge);
 	}
 

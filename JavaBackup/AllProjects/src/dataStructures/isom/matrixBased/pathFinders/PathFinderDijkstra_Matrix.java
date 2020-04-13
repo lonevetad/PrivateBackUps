@@ -132,15 +132,15 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void accept(NodeIsom nnn, Distance distToAdj) {
+		public void accept(NodeIsom adjacent, Distance distToAdj) {
 			Distance distToNo;
 			NodeInfoDijkstra noInfo;
-			if (!isAdjacentNodeWalkable(nnn))
+			if (!isAdjacentNodeWalkable(adjacent))
 				return;
-			if (nodeInfos.containsKey(nnn))
-				noInfo = nodeInfos.get(nnn);
+			if (nodeInfos.containsKey(adjacent))
+				noInfo = nodeInfos.get(adjacent);
 			else
-				nodeInfos.put(nnn, noInfo = new NodeInfoDijkstra(nnn));
+				nodeInfos.put(adjacent, noInfo = new NodeInfoDijkstra(adjacent));
 
 			if (noInfo.color == NodePositionInFrontier.Closed)
 				return;

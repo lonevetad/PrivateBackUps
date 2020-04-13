@@ -1,5 +1,7 @@
 package games.theRisingAngel.events;
 
+import java.awt.Point;
+
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
 import games.generic.controlModel.gEvents.EventMoneyChange;
@@ -10,6 +12,7 @@ import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GEventManagerFineGrained;
 import games.generic.controlModel.subimpl.GModalityET;
+import geometry.ObjectLocated;
 
 public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 
@@ -71,6 +74,30 @@ public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 
 	@Override
 	public void fireExpGainedEvent(GModalityET gm, int expGained) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fireGameObjectAdded(GModalityET gameModality, ObjectLocated o) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fireGameObjectRemoved(GModalityET gameModality, ObjectLocated o) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fireGameObjectMoved(GModalityET gameModality, Point previousLocation, ObjectLocated o) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fireLevelGainedEvent(GModalityET gm, int levelGained) {
 		// TODO Auto-generated method stub
 
 	}

@@ -9,6 +9,7 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.DamageGeneric;
+import games.generic.controlModel.misc.GObjMovement;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.CreatureUIDProvider;
 import geometry.AbstractShape2D;
@@ -39,6 +40,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	protected EquipmentSet equipmentSet;
 	protected CreatureAttributes attributes;
 	protected AbstractShape2D shape;
+	protected GObjMovement movementImplementation;
 
 	protected GModalityRPG gModalityRPG;
 
@@ -121,6 +123,10 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		return this.getAttributes().getValue(AttributesTRAr.RigenLife.getIndex());
 	}
 
+	public GObjMovement getMovementImplementation() {
+		return movementImplementation;
+	}
+
 	@Override
 	public int getTicks() {
 		return ticks;
@@ -188,6 +194,10 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		}
 	}
 
+	public void setMovementImplementation(GObjMovement movementImplementation) {
+		this.movementImplementation = movementImplementation;
+	}
+
 	@Override
 	public void setTicks(int ticks) {
 		this.ticks = ticks;
@@ -219,6 +229,11 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	//
 
 	//
+
+	@Override
+	public void move(GModality modality, int timeUnits) {
+		movementImplementation.act(modality, timeUnits);
+	}
 
 	@Override
 	public void fireLifeHealingReceived(GModality gm, int originalHealing) {

@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
@@ -34,6 +35,8 @@ import tools.Comparators;
 import tools.GraphicTools;
 
 public class TestIsom extends TestIsomGeneric {
+	public static final String[] MOUSE_CLICK_ACTIONS = { "Add Object", "Remove Obj", "Set Start (path)",
+			"Set Destination (path)" };
 
 	public TestIsom() {
 		super();
@@ -122,15 +125,18 @@ public class TestIsom extends TestIsomGeneric {
 		GUI_TestIsom() {
 			super();
 			molmPainter = new MolmPainter();
+			this.mouseClickAction = 0;
 		}
 
+		int mouseClickAction;
 		protected TextField tfWidth, tfHeight;
 		protected MolmPainter molmPainter;
 //		protected Component componentWindow;
-		protected JLabel jlCursorLocation;
+		protected JLabel jlCursorLocation, jlMouseAction;
 		protected JPanel jpWindow, jpShapeSettings, jpShapeSelectionAndSettings, jpMISOMVisualizer, jpOptions; // jpWindow
 		protected JScrollPane jspMISOM;
 		protected JButton jbReshape;
+		JSlider jslClickMode;
 		JComboBox<String> jcbFactions;
 		JComboBox<ShapeRunnersImplemented> jcbShapes;
 		Map<String, ShapeFieldsManager<?>> shapeFieldManagers;
@@ -304,6 +310,23 @@ public class TestIsom extends TestIsomGeneric {
 			c.gridy = c.gridheight << 1;
 			c.gridwidth = 4;
 			jpOptions.add(jbReshape, c);
+
+			c.gridy += c.gridheight << 1;
+			jlMouseAction = new JLabel("Action on click: " + MOUSE_CLICK_ACTIONS[0]);
+			jpOptions.add(jlMouseAction, c);
+
+			c.gridy += c.gridheight;
+			jslClickMode = new JSlider(JSlider.HORIZONTAL, 0, MOUSE_CLICK_ACTIONS.length - 1, 0);
+//			jslClickMode.setModel(new BoundedRangeModel);
+			jslClickMode.addChangeListener(e -> {
+				JSlider source = (JSlider) e.getSource();
+				if (!source.getValueIsAdjusting()) {
+					mouseClickAction = source.getValue();
+					jlMouseAction.setText("Action on click: " + MOUSE_CLICK_ACTIONS[mouseClickAction]);
+				}
+			});
+
+			jpOptions.add(jslClickMode, c);
 
 			//
 

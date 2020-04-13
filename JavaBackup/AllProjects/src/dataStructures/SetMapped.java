@@ -14,6 +14,24 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 
 	protected final Set<OriginalType> backSet;
 	protected final Function<OriginalType, T> newTypeExtractor;
+	protected Function<T, OriginalType> reverseMapper;
+
+	public Set<OriginalType> getBackSet() {
+		return backSet;
+	}
+
+	public Function<OriginalType, T> getNewTypeExtractor() {
+		return newTypeExtractor;
+	}
+
+	public Function<T, OriginalType> getReverseMapper() {
+		return reverseMapper;
+	}
+
+	public SetMapped<OriginalType, T> setReverseMapper(Function<T, OriginalType> reverseMapper) {
+		this.reverseMapper = reverseMapper;
+		return this;
+	}
 
 	@Override
 	public int size() {
@@ -57,12 +75,17 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 
 	@Override
 	public boolean add(T e) {
-		throw new UnsupportedOperationException("Cannot modify the original list");
+		if (reverseMapper == null)
+			throw new UnsupportedOperationException("Cannot modify the original set without a reverse-mapper");
+		return backSet.add(reverseMapper.apply(e));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object o) {
-		throw new UnsupportedOperationException("Cannot modify the original list");
+		if (reverseMapper == null)
+			throw new UnsupportedOperationException("Cannot modify the original set without a reverse-mapper");
+		return backSet.remove(reverseMapper.apply((T) o));
 	}
 
 	@Override
@@ -72,17 +95,17 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
-		throw new UnsupportedOperationException("Cannot modify the original list");
+		throw new UnsupportedOperationException("Cannot modify the original set");
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		throw new UnsupportedOperationException("Cannot modify the original list");
+		throw new UnsupportedOperationException("Cannot modify the original set");
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		throw new UnsupportedOperationException("Cannot modify the original list");
+		throw new UnsupportedOperationException("Cannot modify the original set");
 	}
 
 	//

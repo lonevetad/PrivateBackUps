@@ -48,6 +48,8 @@ public abstract class NodeIsom extends PointWrapper implements Iterable<ObjectLo
 
 	public abstract boolean removeObject(ObjectLocated o);
 
+	public abstract boolean removeAllObjects();
+
 	/**
 	 * Optionally considering the zero or more {@link ObjectLocated} stored in this
 	 * node, check if this node could be considered as a "walkable node" or just a

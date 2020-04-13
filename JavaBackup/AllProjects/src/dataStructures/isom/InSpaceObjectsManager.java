@@ -51,7 +51,7 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 
 	protected LoggerMessages log;
 //	protected PathFinderIsomAdapter<NodeIsom, D> pathFinder;
-	protected PathFinderIsom<NodeIsom, ObjectLocated, Distance> pathFinder;
+	protected PathFinderIsom<Point, ObjectLocated, Distance> pathFinder;
 	protected NumberManager<Distance> numberManager;
 	protected PathOptimizer<Point> pathOptimizer;
 
@@ -77,6 +77,8 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 		return pathOptimizer;
 	}
 
+	public abstract Set<ObjectLocated> getAllObjectLocated();
+
 	//
 
 	// TODO SETTER
@@ -89,11 +91,11 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 		this.log = log;
 	}
 
-	public PathFinder<NodeIsom, ObjectLocated, Distance> getPathFinder() {
+	public PathFinder<Point, ObjectLocated, Distance> getPathFinder() {
 		return pathFinder;
 	}
 
-	public void setPathFinder(PathFinderIsom<NodeIsom, ObjectLocated, Distance> pathFinder) {
+	public void setPathFinder(PathFinderIsom<Point, ObjectLocated, Distance> pathFinder) {
 		this.pathFinder = pathFinder;
 	}
 
@@ -101,7 +103,13 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 		this.numberManager = numberManager;
 	}
 
+	//
+
 	// TODO OTHER
+
+	public abstract ObjectLocated getObjectLocated(Integer ID);
+
+	public abstract boolean removeAllObjects();
 
 	/**
 	 * Perform an action to each adjacent of a given node. That action should take
@@ -145,9 +153,9 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 //		List<NodeIsom> lni;
 //		lni = this.getPathFinder().getPath(getNodeAt(start), getNodeAt(destination), numberManager);
 //		return listNodeToPoint(lni);
-		List<NodeIsom> path;
+		List<Point> path;
 		path = this.getPath(getNodeAt(start), getNodeAt(destination), pathFinder, numberManager, isWalkableTester);
-		return this.pathOptimizer.optimizePath(new ListMapped<>(path, ni -> ni.getLocation()));
+		return this.pathOptimizer.optimizePath(path);// new ListMapped<>(path, ni -> ni.getLocation()));
 	}
 
 	/**
@@ -166,9 +174,9 @@ public abstract class InSpaceObjectsManager<Distance extends Number>
 //		List<NodeIsom> lni;
 //		lni = this.getPathFinder().getPath(objRequiringTo, getNodeAt(destination), numberManager);
 //		return listNodeToPoint(lni);
-		List<NodeIsom> path;
+		List<Point> path;
 		path = this.getPath(objRequiringTo, getNodeAt(destination), pathFinder, numberManager, isWalkableTester);
-		return this.pathOptimizer.optimizePath(new ListMapped<>(path, ni -> ni.getLocation()));
+		return this.pathOptimizer.optimizePath(path);// new ListMapped<>(path, ni -> ni.getLocation()));
 	}
 
 	/**

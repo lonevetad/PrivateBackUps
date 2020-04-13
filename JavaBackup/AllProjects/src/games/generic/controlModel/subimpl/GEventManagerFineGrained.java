@@ -70,8 +70,10 @@ public class GEventManagerFineGrained extends GEventManager {
 		observersSet.add(geo);
 		l = geo.getEventsWatching();
 		if (l == null || l.isEmpty()) {
+			// no specialization found, just add it to the "generic bin"
 			genericObservers.put(idGeo, geo);
 		} else {
+			// some specialization found: add the observer to all queues
 			l.forEach(idEvent -> {
 				PriorityQueueKey<GEventObserver, Integer> pq;
 				pq = observersByTypes.get(idEvent);
