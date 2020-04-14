@@ -1,6 +1,6 @@
-package games.theRisingAngel.main;
+package videogamesOldVersion.games.theRisingAngel.main;
 
-import common.abstractCommon.LoaderGeneric;
+import videogamesOldVersion.common.abstractCommon.LoaderGeneric;
 
 public class Loader_TRAn extends LoaderGeneric {
 	private static final long serialVersionUID = 858044051L;
@@ -15,7 +15,8 @@ public class Loader_TRAn extends LoaderGeneric {
 	private static Loader_TRAn instance;
 
 	public static Loader_TRAn getInstance() {
-		if (instance == null) instance = new Loader_TRAn();
+		if (instance == null)
+			instance = new Loader_TRAn();
 		return instance;
 	}
 

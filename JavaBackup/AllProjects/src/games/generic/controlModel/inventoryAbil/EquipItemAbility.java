@@ -85,4 +85,5 @@ public interface EquipItemAbility extends AbilityGeneric {
 			return;
 		gm.removeGameObject(this);
 	}
+
 }

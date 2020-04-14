@@ -138,6 +138,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		this.shapeRunnerProvider = shapeRunnerProvider;
 	}
 
+	/** Sets the map holding all objects in this space. */
 	public void setObjectsAdded(Map<Integer, ObjectLocated> objectsAdded) {
 		this.objectsAdded = objectsAdded;
 		if (objectsAdded == null)

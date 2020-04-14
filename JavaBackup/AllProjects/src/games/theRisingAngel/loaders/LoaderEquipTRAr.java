@@ -1,9 +1,9 @@
-package games.theRisingAngel;
+package games.theRisingAngel.loaders;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import games.generic.controlModel.misc.LoaderEquipments;
 import games.generic.controlModel.misc.GameObjectsProvider;
+import games.generic.controlModel.misc.LoaderEquipments;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.HelmetOfPlanetaryMeteors;
@@ -30,5 +30,4 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 
 		// TODO
 	}
-
 }

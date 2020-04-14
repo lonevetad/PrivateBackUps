@@ -1,4 +1,4 @@
-package common.abstractCommon;
+package videogamesOldVersion.common.abstractCommon;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -9,18 +9,18 @@ import java.nio.file.Files;
 
 import javax.swing.ImageIcon;
 
-import common.EnumGameObjectTileImageCollection;
-import common.FullReloadEnvironment;
-import common.abstractCommon.AbstractMapGame.AbstractMementoMapGame;
-import common.abstractCommon.referenceHolderAC.ImageAnimationHolder;
-import common.abstractCommon.referenceHolderAC.LoggerMessagesHolder;
-import common.mainTools.AnimatedImage;
-import common.mainTools.FileUtilities;
-import common.mainTools.LoggerMessages;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
-import common.mainTools.mOLM.abstractClassesMOLM.DoSomethingWithNode;
-import common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID;
-import common.utilities.CastingClass;
+import tools.CastingClass;
+import tools.FileUtilities;
+import tools.LoggerMessages;
+import tools.ObjectWithID;
+import videogamesOldVersion.common.EnumGameObjectTileImageCollection;
+import videogamesOldVersion.common.FullReloadEnvironment;
+import videogamesOldVersion.common.abstractCommon.AbstractMapGame.AbstractMementoMapGame;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.ImageAnimationHolder;
+import videogamesOldVersion.common.abstractCommon.referenceHolderAC.LoggerMessagesHolder;
+import videogamesOldVersion.common.mainTools.AnimatedImage;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.DoSomethingWithNode;
 
 public abstract class LoaderGeneric implements LoggerMessagesHolder {
 	private static final long serialVersionUID = -8541015888090L;
@@ -194,7 +194,8 @@ public abstract class LoaderGeneric implements LoggerMessagesHolder {
 						molms = map.getMolms();
 						if (molms != null && molms.length > 0) {
 							instanceOWIDFinisher = (m, owid, x, y) -> {
-								if (owid != null) finishReloadingOWIDAfterDeserialization(owid, fre);
+								if (owid != null)
+									finishReloadingOWIDAfterDeserialization(owid, fre);
 								return null;
 							};
 							for (AbstractMatrixObjectLocationManager molm : molms) {
@@ -247,7 +248,8 @@ public abstract class LoaderGeneric implements LoggerMessagesHolder {
 		// map.doAfterDeserialization(main.mainSetter);
 		// }
 
-		if (error != null) main.log(error);
+		if (error != null)
+			main.log(error);
 		return map;
 	}
 
@@ -282,7 +284,8 @@ public abstract class LoaderGeneric implements LoggerMessagesHolder {
 							+ o.getClass().getName());
 			}
 		}
-		if (iah != null) iah.setImageName(filename);
+		if (iah != null)
+			iah.setImageName(filename);
 		return iah;
 	}
 
@@ -291,8 +294,7 @@ public abstract class LoaderGeneric implements LoggerMessagesHolder {
 	// TODO STATIC
 
 	/**
-	 * Returns null in case of error, the file describing the given folder
-	 * otherwise
+	 * Returns null in case of error, the file describing the given folder otherwise
 	 */
 	public static File checkAndCreateFolder(String path) {
 		File f;

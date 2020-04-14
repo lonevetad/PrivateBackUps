@@ -4,8 +4,8 @@ import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subimpl.CreatureAttributesModsCaching;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.AttributesTRAr;
-import games.theRisingAngel.CreatureUIDProvider;
 import games.theRisingAngel.inventory.EquipmentSetTRAr;
+import games.theRisingAngel.misc.CreatureUIDProvider;
 
 /**
  * This is NOT a {@link PlayerGeneric}, even if it's similar (but there's no

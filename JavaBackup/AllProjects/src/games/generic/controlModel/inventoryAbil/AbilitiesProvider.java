@@ -1,9 +1,9 @@
 package games.generic.controlModel.inventoryAbil;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.misc.GameObjectsProvider;
+import games.generic.controlModel.misc.GObjProviderRarityPartitioning;
 
-public class AbilitiesProvider extends GameObjectsProvider<AbilityGeneric> {
+public class AbilitiesProvider extends GObjProviderRarityPartitioning<AbilityGeneric> {
 	public static final String NAME = "AbilP";
 
 	/** Should be preferred over {@link #getObjIdentifiedByID(Integer)}. */

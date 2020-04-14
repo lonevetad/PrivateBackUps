@@ -1,4 +1,4 @@
-package games.generic.controlModel.utils.uidp;
+package games.generic.controlModel.misc.uidp;
 
 import tools.UniqueIDProvider;
 

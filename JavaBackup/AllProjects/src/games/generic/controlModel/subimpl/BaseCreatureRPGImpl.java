@@ -11,7 +11,7 @@ import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.GObjMovement;
 import games.theRisingAngel.AttributesTRAr;
-import games.theRisingAngel.CreatureUIDProvider;
+import games.theRisingAngel.misc.CreatureUIDProvider;
 import geometry.AbstractShape2D;
 import tools.ObjectWithID;
 

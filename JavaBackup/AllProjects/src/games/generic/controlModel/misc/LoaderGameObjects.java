@@ -1,6 +1,5 @@
 package games.generic.controlModel.misc;
 
-import games.generic.controlModel.GController;
 import games.generic.controlModel.ObjectNamed;
 
 /**
@@ -12,7 +11,7 @@ import games.generic.controlModel.ObjectNamed;
  * are created directly by the code, or could rely to informations stored
  * somewhere. like a text file, a database, etc.
  */
-public abstract class LoaderGameObjects<E extends ObjectNamed> {
+public abstract class LoaderGameObjects<E extends ObjectNamed> implements LoaderGeneric {
 	protected GameObjectsProvider<E> objProvider;
 
 	public LoaderGameObjects(GameObjectsProvider<E> objProvider) {
@@ -27,5 +26,4 @@ public abstract class LoaderGameObjects<E extends ObjectNamed> {
 		this.objProvider = ombp;
 	}
 
-	public abstract void loadInto(GController gm);
 }

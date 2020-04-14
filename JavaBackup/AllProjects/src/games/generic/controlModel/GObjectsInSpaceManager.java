@@ -57,6 +57,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 		if (o == null)
 			return false;
 		if (!this.containsObject(o)) {
+			o.setLocation(to);
 			this.addObject(true, o);
 		} else if (to == null) {
 			this.removeObject(true, o);
@@ -65,6 +66,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 			Point prevLocation;
 			prevLocation = new Point(o.getLocation());
 			this.removeObject(false, o);
+			o.setLocation(to);
 			this.addObject(false, o);
 			gm = this.getGameModality();
 			if (gm instanceof IGameModalityEventBased) {

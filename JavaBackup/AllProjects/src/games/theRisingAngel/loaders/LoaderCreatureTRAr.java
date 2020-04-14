@@ -1,4 +1,4 @@
-package games.theRisingAngel;
+package games.theRisingAngel.loaders;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.gObj.BaseCreatureRPG;

@@ -3,6 +3,9 @@ aggiunto nel 03/04/2020
 aggiungere "edit distance" in Comparators come STRING_COMPARATOR_EDIT_DISTANCE
 
 
+e .. le statistiche delle creature variano di qualche decina:
+ad ogni livello si guadagnano 10 punti, gli equipaggiamenti dovrebbero fornire vantaggi pari a guadagni di circa almeno 3-5 livelli
+
 
 
 

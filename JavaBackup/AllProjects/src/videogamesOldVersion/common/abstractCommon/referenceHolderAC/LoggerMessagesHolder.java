@@ -1,8 +1,8 @@
-package common.abstractCommon.referenceHolderAC;
+package videogamesOldVersion.common.abstractCommon.referenceHolderAC;
 
 import java.io.Serializable;
 
-import common.mainTools.LoggerMessages;
+import tools.LoggerMessages;
 
 public interface LoggerMessagesHolder extends Serializable {
 

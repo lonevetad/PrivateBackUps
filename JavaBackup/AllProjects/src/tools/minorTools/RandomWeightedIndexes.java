@@ -25,7 +25,7 @@ public class RandomWeightedIndexes {
 	}
 
 	protected long sumValues;
-	protected int[] values;
+	protected int[] weights;
 	protected long[] summedValues;
 	protected transient Random rng;
 
@@ -46,14 +46,24 @@ public class RandomWeightedIndexes {
 			s += val;
 			sv[i] = s;
 		}
-		this.values = new int[n];
-		System.arraycopy(v, 0, this.values, 0, n);
+		this.weights = new int[n];
+		System.arraycopy(v, 0, this.weights, 0, n);
 		this.sumValues = s;
 		this.summedValues = sv;
 	}
 
 	public int getWeight(int index) {
-		return this.values[index];
+		return this.weights[index];
+	}
+
+	/** Returns the amount of indexes managed by this instance. */
+	public int getIndexesAmount() {
+		return this.weights.length;
+	}
+
+	/** Returns <code>{@link #getIndexesAmount()} - 1</code>. */
+	public int getMaxIndex() {
+		return this.weights.length - 1;
 	}
 
 	/**
@@ -67,7 +77,7 @@ public class RandomWeightedIndexes {
 		long[] sv;
 		if (weight <= 0)
 			throw new IllegalArgumentException("Values must be strictly positive: " + weight);
-		vals = this.values; // cache
+		vals = this.weights; // cache
 		oldval = vals[index];
 		this.sumValues -= oldval;
 		vals[index] = weight;
@@ -81,6 +91,15 @@ public class RandomWeightedIndexes {
 //		this.sumValues = --sv[n - 1]; // the max cap is excluded
 	}
 
+	/** Alias for the less clear {@link #next()}. */
+	public int nextIndex() {
+		return next();
+	}
+
+	/**
+	 * Returns a random index, which probability depends on the already given
+	 * weights.
+	 */
 	public int next() {
 		boolean isLess;
 		int i, j, mid;
@@ -124,6 +143,11 @@ public class RandomWeightedIndexes {
 
 		}
 		return i;
+	}
+
+	@Override
+	public String toString() {
+		return "RandomWeightedIndexes [weights=" + Arrays.toString(weights) + "]";
 	}
 
 	public static void main(String[] args) {
