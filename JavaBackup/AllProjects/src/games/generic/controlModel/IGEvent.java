@@ -13,6 +13,8 @@ public interface IGEvent extends ObjectNamedID {
 	 * {@link GEventObserver} interested in this event AND this method's value
 	 * should the one included in {@link GEventObserver#getEventsWatching()}'s
 	 * returned value.
+	 * <p>
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getName();

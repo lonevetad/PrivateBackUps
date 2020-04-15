@@ -1,17 +1,15 @@
 package games.generic.controlModel;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.Queue;
 import java.util.function.Consumer;
 
-import dataStructures.MapTreeAVL;
 import games.generic.controlModel.subimpl.GEvent;
-import tools.Comparators;
 import tools.ObjectWithID;
 
 /**
+ * One of the core classes.
+ * <p>
  * Manager of {@link GEvent}s and their {@link GEventObserver}. In particular,
  * it's a {@link GObjectsHolder} of {@link GEventObserver}<br>
  * All {@link GEvent}s' effects should be applied "at the same time" because all
@@ -20,13 +18,16 @@ import tools.ObjectWithID;
  */
 public abstract class GEventManager implements GObjectsHolder {
 	protected GModality gameModality; // back reference
-	protected MapTreeAVL<Integer, List<IGEvent>> eventQueued;
+//	protected MapTreeAVL<Integer, Queue<IGEvent>> eventsQueued;
+	protected Queue<IGEvent> eventsQueued;
 
 	public GEventManager(GModality gameModality) {
 		this.gameModality = gameModality;
-		this.eventQueued = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
-				Comparators.INTEGER_COMPARATOR);
-		// <Integer, List<GameEvent>>
+		/*
+		 * this.eventsQueued =
+		 * MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
+		 * Comparators.INTEGER_COMPARATOR);
+		 */
 	}
 
 	//
@@ -37,13 +38,18 @@ public abstract class GEventManager implements GObjectsHolder {
 		return gameModality;
 	}
 
-	/** Use with caution. */
-	public Map<Integer, List<IGEvent>> getEventQueued() {
-		return eventQueued;
-	}
+	/**
+	 * Use with caution.
+	 * <p>
+	 * 15/04/2020:<br>
+	 * I honestly forgot why the events was grouped by their ID (and not their
+	 * name?) while a simple queue would have been much simpler.
+	 */
+//	public Map<Integer, Queue<IGEvent>> getEventQueued() { return eventsQueued;}
 
 	//
 
+	/***/
 	public void setGameModality(GModality gameModality) {
 		this.gameModality = gameModality;
 	}
@@ -100,18 +106,18 @@ public abstract class GEventManager implements GObjectsHolder {
 	 * notify the {@link GEventObserver}s that the event has been occurred.
 	 */
 	public void fireEvent(IGEvent ge) {
-		Integer id;
-		List<IGEvent> l; ///
-		if (ge == null)
-			return;
-		id = ge.getID();
-		l = this.eventQueued.get(id);
-		if (l == null) {
-			l = new LinkedList<>();
-			this.eventQueued.put(id, l);
-		}
+		/**
+		 * Integer id; Queue<IGEvent> l; // <br>
+		 * if (ge == null) return; // <br>
+		 * id = ge.getID(); // <br>
+		 * l = this.eventsQueued.get(id); // <br>
+		 * if (l == null) { // <br>
+		 * l = new LinkedList<>(); // <br>
+		 * this.eventsQueued.put(id, l); // <br>
+		 * }
+		 */
 		System.out.println("--- GEventManager adding event : " + ge);
-		l.add(ge);
+		eventsQueued.add(ge); // like offer
 	}
 
 	/**
@@ -121,24 +127,26 @@ public abstract class GEventManager implements GObjectsHolder {
 	 */
 	public void performAllEvents() {
 		final GModality gm;
+		Queue<IGEvent> q;
 		gm = this.gameModality;
-		this.eventQueued.forEach((id, l) -> {
-			while(!l.isEmpty()) {
+		q = this.eventsQueued;
+//		this.eventsQueued.forEach((id, q) -> {
+		while(!q.isEmpty()) {
 
-				// make me sleep and waiting the game to be resumed
-				/**
-				 * This pausing-on-fail-check has been added because the game thread should be
-				 * paused as soon as possible if the user requested to pause the game, so the
-				 * highest-grained checks should be performed.<br>
-				 * If the {@link GModality} splits the "real game" and the "event management" in
-				 * two different threads, then this check is way more required, to synchronize
-				 * both threads upon sleeping and awakening.
-				 */
-				while((!l.isEmpty()) && gm.isRunningOrSleep()) {
+			// make me sleep and waiting the game to be resumed
+			/**
+			 * This pausing-on-fail-check has been added because the game thread should be
+			 * paused as soon as possible if the user requested to pause the game, so the
+			 * highest-grained checks should be performed.<br>
+			 * If the {@link GModality} splits the "real game" and the "event management" in
+			 * two different threads, then this check is way more required, to synchronize
+			 * both threads upon sleeping and awakening.
+			 */
+			while((!q.isEmpty()) && gm.isRunningOrSleep()) {
 //					l.remove(0).performEvent(gm);
-					notifyEventObservers(l.remove(0));
-				}
+				notifyEventObservers(q.poll()); // remove the first event
 			}
-		});
+		}
+//		});
 	}
 }

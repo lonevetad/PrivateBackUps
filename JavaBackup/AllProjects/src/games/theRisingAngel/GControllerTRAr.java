@@ -1,6 +1,7 @@
 package games.theRisingAngel;
 
 import games.generic.controlModel.GameObjectsProvidersHolderRPG;
+import games.generic.controlModel.misc.LoaderGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GControllerRPG;
 
@@ -25,6 +26,11 @@ public class GControllerTRAr extends GControllerRPG {
 	protected UserAccountGeneric newUserAccount() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected LoaderGeneric newLoaderConfigurations(GControllerRPG cgRPG) {
+		return new LoaderConfigurations();
 	}
 
 }
