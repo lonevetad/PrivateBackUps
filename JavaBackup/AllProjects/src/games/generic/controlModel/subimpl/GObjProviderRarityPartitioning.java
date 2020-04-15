@@ -1,10 +1,13 @@
-package games.generic.controlModel.misc;
+package games.generic.controlModel.subimpl;
 
 import java.util.Random;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.ObjectNamed;
+import games.generic.controlModel.misc.FactoryObjGModalityBased;
+import games.generic.controlModel.misc.GameObjectsProvider;
+import games.generic.controlModel.misc.RarityHolder;
 import tools.Comparators;
 import tools.minorTools.RandomWeightedIndexes;
 

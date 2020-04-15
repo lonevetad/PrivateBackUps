@@ -1,0 +1,13 @@
+[
+	{
+		"name": "Cloth Trousers",
+		"type": "Legs",
+		"attributeModifications": [
+			{ "attribute": "LifeMax", "value": 50},
+			{ "attribute": "Defense", "value": 15},
+			{ "attribute": "Constitution", "value": 5},
+			{ "attribute": "DamageReductionPhysical", "value": 4},
+			{ "attribute": "DamageReductionMagical", "value": 2}
+		],
+	}
+]

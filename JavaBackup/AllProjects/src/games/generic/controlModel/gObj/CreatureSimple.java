@@ -2,6 +2,7 @@ package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.misc.AttributesHolder;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.RarityHolder;
 import tools.ObjectNamedID;

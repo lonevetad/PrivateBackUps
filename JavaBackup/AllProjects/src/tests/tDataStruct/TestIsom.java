@@ -12,6 +12,7 @@ import java.awt.TextField;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -26,6 +27,7 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import dataStructures.ListMapped;
 import dataStructures.MapTreeAVL;
 import dataStructures.isom.NodeIsom;
 import geometry.ShapeRunnersImplemented;
@@ -68,11 +70,14 @@ public class TestIsom extends TestIsomGeneric {
 		protected ShapeRunnersImplemented[] shapesToTest;
 		protected ShapeRunnersImplemented selectedShapeRunner; // the shape to create new nodes to add, remove,
 																// pathfind, etc
+		Point starPath, endPath;
+		List<Point> path;
 
 		ControllerTestIsom() {
 			super();
 			factionNewNode = 0;
 			selectedShapeRunner = null;
+			starPath = endPath = null;
 		}
 
 		public int getFactionNewNode() {
@@ -81,6 +86,10 @@ public class TestIsom extends TestIsomGeneric {
 
 		public ShapeRunnersImplemented getSelectedShapeRunner() {
 			return selectedShapeRunner;
+		}
+
+		public List<Point> getPath() {
+			return path;
 		}
 
 		public void setFactionNewNode(int factionNewNode) {
@@ -104,6 +113,12 @@ public class TestIsom extends TestIsomGeneric {
 		@Override
 		protected void addNewShapedObjectToMap() {
 			// TODO Auto-generated method stub
+		}
+
+		public void recalculatePath() {
+			List<Point> pathOriginal;
+			pathOriginal = this.misom.getPath(starPath, endPath);
+			this.path = pathOriginal;
 		}
 	}
 
@@ -140,6 +155,7 @@ public class TestIsom extends TestIsomGeneric {
 		JComboBox<String> jcbFactions;
 		JComboBox<ShapeRunnersImplemented> jcbShapes;
 		Map<String, ShapeFieldsManager<?>> shapeFieldManagers;
+		List<Point> pathEnlargetByPixelSize; // TODO paint me
 
 		protected String getCurrentShapeSettingsName() {
 			ShapeRunnersImplemented se;
@@ -182,6 +198,13 @@ public class TestIsom extends TestIsomGeneric {
 //TODO metterci rova
 			cti.setFactionNewNode(indexFaction);
 			System.out.println("Selecting " + colorFaction + " as faction");
+		}
+
+		void recalculatePath() {
+			this.cti.recalculatePath();
+			pathEnlargetByPixelSize = new ListMapped<>(cti.getPath(), p -> {
+				return new Point((p.x * PIXEL_SIZE + (PIXEL_SIZE >> 1)), (p.y * PIXEL_SIZE + (PIXEL_SIZE >> 1)));
+			});
 		}
 
 		@Override

@@ -36,7 +36,7 @@ tipo:
 {
 nome: string,
 type: int, // ordinal di EquipmentTypes
-attributesModifiers: []EquipmentsAttributesModifier // potrebbe essere diviso in due array: uno di indici di attributi, l'altro di "ammontare di modifica"
+attributeModifications: []AttributeModification // potrebbe essere diviso in due array: uno di indici di attributi, l'altro di "ammontare di modifica"
 upgrades: []int // id (ordinal) di EquipmentUpgrades, interfaccia per una enumerazione da fare che è una lista di EquipmentsAttributesModifier
 specialAbilities: []int // id (ordinal) di un insieme (enum) di EquipAbilities (es: un anello 
 }

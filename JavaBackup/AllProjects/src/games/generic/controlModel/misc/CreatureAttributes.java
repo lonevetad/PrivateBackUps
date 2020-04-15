@@ -1,7 +1,6 @@
 package games.generic.controlModel.misc;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.AttributesHolder;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
@@ -14,21 +13,22 @@ import games.generic.controlModel.inventoryAbil.EquipmentSet;
  * equipments, buffs, auras, etc".
  */
 public abstract class CreatureAttributes {
-	protected int attributesCount;
-	protected int[] originalValues;
+	protected final int attributesCount;
+	protected final int[] originalValues;
+	protected CreatureAttributesBonusesCalculator bonusCalculator;
 
 	public CreatureAttributes(int attributesCount) {
 		if (attributesCount < 1) {
 			throw new IllegalArgumentException("Cannot have less than 1 attributes: " + attributesCount);
 		}
-		this.originalValues = new int[attributesCount];
+		this.originalValues = new int[this.attributesCount = attributesCount];
 	}
 
 	//
 
-	public int[] getOriginalValues() {
-		return originalValues;
-	}
+//	public int[] getOriginalValues() {
+//		return originalValues;
+//	}
 
 	public int getAttributesCount() {
 		return attributesCount;
@@ -49,7 +49,11 @@ public abstract class CreatureAttributes {
 	}
 
 	/**
-	 * Get the value of a specific attribute, identified by its index.
+	 * Get the value of a specific attribute, identified by its index.<br>
+	 * The index is usually provided through {@link AttributeIdentifier#getIndex()}.
+	 * <br>
+	 * Could be the result of some calculation, maybe based on
+	 * {@link #getOriginalValue(int)} and something else.
 	 * <p>
 	 * It differs from {@link #getOriginalValue(int)} because this methods compute
 	 * the sum of the original value and all of alterations provided by equipments
@@ -58,6 +62,25 @@ public abstract class CreatureAttributes {
 	 */
 	public int getValue(int index) {
 		return this.originalValues[index];
+	}
+
+	/**
+	 * Calls {@link #getValue(int)} passing, as parameter, the value returned by the
+	 * invocation of {@link AttributeIdentifier#getIndex()} over the first
+	 * parameter.
+	 */
+	public int getValue(AttributeIdentifier identifier) {
+		return getValue(identifier.getIndex());
+	}
+
+	public CreatureAttributesBonusesCalculator getBonusCalculator() {
+		return bonusCalculator;
+	}
+
+	//
+
+	public void setBonusCalculator(CreatureAttributesBonusesCalculator bonusCalculator) {
+		this.bonusCalculator = bonusCalculator;
 	}
 
 	/**

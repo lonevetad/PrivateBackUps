@@ -1,7 +1,7 @@
 package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.misc.GObjProviderRarityPartitioning;
+import games.generic.controlModel.subimpl.GObjProviderRarityPartitioning;
 
 public class CreaturesProvider<C extends CreatureSimple> extends GObjProviderRarityPartitioning<C> {
 	public static final String NAME = "CreatP";

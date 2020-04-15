@@ -1,6 +1,10 @@
 package games.theRisingAngel.inventory;
 
+import java.util.Map;
+
+import dataStructures.MapTreeAVL;
 import games.generic.controlModel.inventoryAbil.EquipmentType;
+import tools.Comparators;
 
 /**
  * Rings can occupy one single slot (a simple ring) or two (very big, bulky and
@@ -36,5 +40,33 @@ public enum EquipmentTypesTRAr implements EquipmentType {
 	@Override
 	public Integer getID() {
 		return ordinal();
+	}
+
+	//
+
+	// copied from AttributesTRAr
+
+	public static final EquipmentTypesTRAr[] VALUES = EquipmentTypesTRAr.values();
+	private static Map<String, EquipmentTypesTRAr> attTRArByName = null;
+
+	public static EquipmentTypesTRAr getEquipTypeTRArByName(String name) {
+		EquipmentTypesTRAr e;
+		Map<String, EquipmentTypesTRAr> m;
+		if (name == null)
+			throw new IllegalArgumentException("Name cannot be null");
+		if (attTRArByName == null) {
+			m = attTRArByName = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
+			for (EquipmentTypesTRAr eq : VALUES) {
+				m.put(eq.name(), eq); // using name() instead of getName() just to be faster
+			}
+		}
+		e = attTRArByName.get(name);
+		if (e == null)
+			throw new IllegalArgumentException("Invalid name for AttributesTRAr: " + name);
+		return e;
+	}
+
+	public static EquipmentTypesTRAr getEquipTypeTRArByIndex(int index) {
+		return VALUES[index];
 	}
 }

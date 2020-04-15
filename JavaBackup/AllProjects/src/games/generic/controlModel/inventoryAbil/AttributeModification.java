@@ -1,7 +1,7 @@
 package games.generic.controlModel.inventoryAbil;
 
-import games.generic.controlModel.gObj.AttributesHolder;
 import games.generic.controlModel.misc.AttributeIdentifier;
+import games.generic.controlModel.misc.AttributesHolder;
 import games.generic.controlModel.misc.CreatureAttributes;
 
 /**

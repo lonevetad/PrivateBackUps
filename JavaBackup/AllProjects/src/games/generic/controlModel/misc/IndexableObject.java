@@ -7,5 +7,6 @@ import tools.ObjectNamedID;
  * "ID"!) and its name.
  */
 public interface IndexableObject extends ObjectNamedID {
+	/** It differs substantially by {@link #getID()}. */
 	public int getIndex();
 }

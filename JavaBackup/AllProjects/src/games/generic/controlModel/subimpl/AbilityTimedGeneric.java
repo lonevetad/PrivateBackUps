@@ -1,8 +1,7 @@
-package games.generic.controlModel.misc;
+package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
-import games.generic.controlModel.subimpl.TimedObjectSimpleImpl;
 
 public interface AbilityTimedGeneric extends AbilityGeneric, TimedObjectSimpleImpl {
 

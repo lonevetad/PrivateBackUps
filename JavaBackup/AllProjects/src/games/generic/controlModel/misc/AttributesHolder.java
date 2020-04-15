@@ -1,6 +1,4 @@
-package games.generic.controlModel.gObj;
-
-import games.generic.controlModel.misc.CreatureAttributes;
+package games.generic.controlModel.misc;
 
 /**
  * Marks a creature (i.e., a Game Object) as having a set of attributes (or

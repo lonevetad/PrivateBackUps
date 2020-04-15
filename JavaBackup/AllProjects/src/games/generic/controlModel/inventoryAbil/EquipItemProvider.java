@@ -1,7 +1,7 @@
 package games.generic.controlModel.inventoryAbil;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.misc.GObjProviderRarityPartitioning;
+import games.generic.controlModel.subimpl.GObjProviderRarityPartitioning;
 
 public class EquipItemProvider extends GObjProviderRarityPartitioning<EquipmentItem> {
 	public static final String NAME = "EquipP";

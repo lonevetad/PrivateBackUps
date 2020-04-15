@@ -11,7 +11,7 @@ import games.generic.controlModel.ObjectNamed;
  * are created directly by the code, or could rely to informations stored
  * somewhere. like a text file, a database, etc.
  */
-public abstract class LoaderGameObjects<E extends ObjectNamed> implements LoaderGeneric {
+public abstract class LoaderGameObjects<E extends ObjectNamed> extends LoaderGeneric {
 	protected GameObjectsProvider<E> objProvider;
 
 	public LoaderGameObjects(GameObjectsProvider<E> objProvider) {

@@ -57,7 +57,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	protected CreatureAttributes newAttributes(int attributesAmount) {
-		return new CreatureAttributesModsCaching(attributesAmount);
+		return new CreatureAttributesCaching(attributesAmount);
 	}
 
 	protected abstract CreatureAttributes newAttributes();

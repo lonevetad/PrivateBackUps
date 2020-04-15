@@ -3,8 +3,8 @@ package games.theRisingAngel.loaders;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.GameObjectsProvider;
-import games.generic.controlModel.misc.LoaderEquipments;
 import games.generic.controlModel.subimpl.GModalityRPG;
+import games.generic.controlModel.subimpl.LoaderEquipments;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.HelmetOfPlanetaryMeteors;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
@@ -29,5 +29,17 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 		objProvider.addObj(HelmetOfPlanetaryMeteors.NAME, (gm) -> new HelmetOfPlanetaryMeteors((GModalityRPG) gm));
 
 		// TODO
+	}
+
+	protected class LoaderEquipFromFile extends JSONFileConsumer {
+
+		protected LoaderEquipFromFile(String subPath, String filename) {
+			super(subPath, filename);
+		}
+
+		@Override
+		protected void readAllFileImpl(String line) {
+			// TODO
+		}
 	}
 }
