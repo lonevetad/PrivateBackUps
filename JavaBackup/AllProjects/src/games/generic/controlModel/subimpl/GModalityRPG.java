@@ -3,7 +3,6 @@ package games.generic.controlModel.subimpl;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GameObjectsManager;
-import games.generic.controlModel.GameObjectsProvidersHolderRPG;
 
 public abstract class GModalityRPG extends GModalityET {
 

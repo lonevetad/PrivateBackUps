@@ -45,7 +45,6 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 
 	@Override
 	public ObjectShaped newOrbitingObj() {
-		// TODO Auto-generated method stub
 		return new FlamingOrb();
 	}
 

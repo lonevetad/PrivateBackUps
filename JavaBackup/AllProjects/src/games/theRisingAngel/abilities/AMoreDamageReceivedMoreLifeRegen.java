@@ -79,6 +79,13 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 	//
 
 	@Override
+	public void resetAbility() {
+		super.resetAbility();
+		ticks = 0;
+		thresholdTime = 1000;
+	}
+
+	@Override
 	public void notifyEvent(GModality modality, IGEvent ge) {
 		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
 			int d;
@@ -120,4 +127,5 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 			System.out.println("______new life regen value : " + am.getValue() + " .... AMoreDamageMoreRegenBLA");
 		}
 	}
+
 }

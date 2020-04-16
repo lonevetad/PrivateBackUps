@@ -2,10 +2,11 @@ package games.theRisingAngel;
 
 import java.util.Random;
 
-import games.generic.controlModel.GameObjectsProvidersHolderRPG;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreaturesProvider;
 import games.generic.controlModel.inventoryAbil.EquipItemProvider;
+import games.generic.controlModel.inventoryAbil.EquipmentUpgradesProvider;
+import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 import tools.minorTools.RandomWeightedIndexes;
 
 // todoooo
@@ -36,6 +37,11 @@ public class GameObjectsProvidersHolderTRAr extends GameObjectsProvidersHolderRP
 	@Override
 	public EquipItemProvider newEquipItemProvider() {
 		return new EquipItemProvider();
+	}
+
+	@Override
+	public EquipmentUpgradesProvider newEquipUpgradesProvider() {
+		return new EquipmentUpgradesProvider();
 	}
 
 	@Override

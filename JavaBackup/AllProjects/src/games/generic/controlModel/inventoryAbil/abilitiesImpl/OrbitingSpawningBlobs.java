@@ -10,6 +10,7 @@ public abstract class OrbitingSpawningBlobs extends OrbitingInteractiveObject im
 
 	public OrbitingSpawningBlobs() {
 		super();
+		tempSpawnBlob = 0;
 	}
 
 	protected int rotationTimeMillis, orbitingObjectRadius, tempSpawnBlob, spawiningBlobTIme;
@@ -22,6 +23,11 @@ public abstract class OrbitingSpawningBlobs extends OrbitingInteractiveObject im
 	@Override
 	public int getOrbitingObjectRadius(int index, ObjectShaped os) {
 		return orbitingObjectRadius;
+	}
+
+	@Override
+	public void resetAbility() {
+		tempSpawnBlob = 0;
 	}
 
 	@Override

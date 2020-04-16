@@ -33,7 +33,7 @@ public abstract class LoaderGeneric {
 	//
 
 	/** Just read lines by lines */
-	protected static class JSONLineReader implements Iterator<String> {
+	public static class JSONLineReader implements Iterator<String> {
 		String path, filename, line;
 		BufferedReader reader;
 
@@ -77,7 +77,7 @@ public abstract class LoaderGeneric {
 			}
 		}
 
-		protected void readAllFile() {
+		public void readAllFile() {
 			String line;// , splitted[];
 			while(lr.hasNext()) {
 				line = lr.next();
@@ -86,5 +86,57 @@ public abstract class LoaderGeneric {
 		}
 
 		protected abstract void readAllFileImpl(String line);
+	}
+
+	//
+
+	//
+
+	// TODO MINOR UTILITIES
+
+	public static String[] trimAll(String[] a) {
+		int i;
+		i = a.length;
+		while(--i >= 0)
+			a[i] = a[i].trim();
+		return a;
+	}
+
+	public static String removeQuotes(String s) {
+		int i;
+		i = s.indexOf('\"');
+		if (i < 0)
+			return s;
+		return s.substring(i + 1, s.lastIndexOf('\"'));
+	}
+
+	public static int extractIntValue(String s) {
+		boolean isNeg;
+		int i, pow, res, len;
+		char c;
+		len = s.length();
+		pow = 1;
+		res = 0;
+		isNeg = (c = s.charAt(0)) == '-';
+		if (isNeg || c == '+') {
+			i = 0;
+			while(++i < len && ((c = s.charAt(i)) >= '0') && c <= '9')
+				;
+			while(--i >= 1) {
+				res += (s.charAt(i) - '0') * pow;
+				pow *= 10;
+			}
+			if (isNeg)
+				res = -res;
+		} else {
+			i = -1;
+			while(++i < len && ((c = s.charAt(i)) >= '0') && c <= '9')
+				;
+			while(--i >= 0) {
+				res += (s.charAt(i) - '0') * pow;
+				pow *= 10;
+			}
+		}
+		return res;
 	}
 }

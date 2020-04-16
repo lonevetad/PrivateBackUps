@@ -3,10 +3,11 @@ package games.generic.controlModel.inventoryAbil;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.GameObjectsProvidersHolderRPG;
+import games.generic.controlModel.GameObjectsProvidersHolder;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.AttributesHolder;
 import games.generic.controlModel.misc.CreatureAttributes;
@@ -17,28 +18,30 @@ import tools.Comparators;
  * Top class for equippable object.<br>
  * It's a base class.
  * <p>
- * Each Equipment should implements the set of "character statistics modifiers"
- * as follows (maybe through a class")
+ * Each Equipment should implements the set of "character attribute/statistics
+ * modifiers" (i.e.: {@link AttributeModification}) as it's suggested by
+ * {@link #getBaseAttributeModifiers()} and {@link #getUpgrades()}.
  * <p>
- * Set of power ups, of statistics' modifiers (i.e., character's parameters'
- * modifiers).<br>
- * Instead of create an array (that mimics the character's statistics) and apply
- * to that array all modifiers, wasting memory in almost-empty arrays, just
- * collect all statistic modifications.
+ * Note: Instead of creating an array of attributes (that mimics the character's
+ * attributes) and apply to that array all modifiers, wasting memory in
+ * almost-empty arrays, just collect all those {@link AttributeModification}
+ * (into {@link #getBaseAttributeModifiers()} and {@link #getUpgrades()} that
+ * provides a set of {@link AttributeModification}) and apply them one by one.
  */
 public abstract class EquipmentItem extends InventoryItem {
 	private static final long serialVersionUID = -55232021L;
 	protected final EquipmentType equipmentType;
 	protected EquipmentSet belongingEquipmentSet;
 	protected Set<EquipItemAbility> abilities;
-	protected List<AttributeModification> attributeModifiers;
+	protected final List<AttributeModification> baseAttributeModifiers;
+	protected Set<EquipmentUpgrade> upgrades;
 
 	public EquipmentItem(GModalityRPG gmrpg, EquipmentType equipmentType, String name) {
 		super(name);
 		this.belongingEquipmentSet = null;
 		this.equipmentType = equipmentType;
-		this.attributeModifiers = new LinkedList<>();
-		enrichWithAbilities(((GameObjectsProvidersHolderRPG) gmrpg.getGameObjectsProvider()).getAbilitiesProvider());
+		this.baseAttributeModifiers = new LinkedList<>();
+		onCreate(gmrpg);
 	}
 
 	//
@@ -57,8 +60,12 @@ public abstract class EquipmentItem extends InventoryItem {
 		return this.abilities;
 	}
 
-	public List<AttributeModification> getAttributeModifiers() {
-		return attributeModifiers;
+	public List<AttributeModification> getBaseAttributeModifiers() {
+		return baseAttributeModifiers;
+	}
+
+	public Set<EquipmentUpgrade> getUpgrades() {
+		return upgrades;
 	}
 
 	//
@@ -71,13 +78,25 @@ public abstract class EquipmentItem extends InventoryItem {
 
 	//
 
-	protected abstract void enrichWithAbilities(AbilitiesProvider ap);
+	protected abstract void enrichWithAbilities(GModality gm, GameObjectsProvidersHolder providersHolder);
+
+	protected void onCreate(GModality gm) {
+		enrichWithAbilities(gm, gm.getGameObjectsProvider());
+	}
 
 	protected void checkAbilitiesSet() {
 		if (this.abilities == null) {
 			MapTreeAVL<Integer, EquipItemAbility> m;
 			m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
 			this.abilities = m.toSetValue(EquipItemAbility.ID_EXTRACTOR);
+		}
+	}
+
+	protected void checkUpgradeSet() {
+		if (this.upgrades == null) {
+			MapTreeAVL<String, EquipmentUpgrade> mapEquipUpgrades;
+			mapEquipUpgrades = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
+			this.upgrades = mapEquipUpgrades.toSetValue(EquipmentUpgrade.KEY_EXTRACTOR);
 		}
 	}
 
@@ -91,7 +110,7 @@ public abstract class EquipmentItem extends InventoryItem {
 
 	public EquipmentItem addAttributeModifier(AttributeModification am) {
 		if (am != null)
-			this.attributeModifiers.add(am);
+			this.baseAttributeModifiers.add(am);
 		return this;
 	}
 
@@ -107,7 +126,26 @@ public abstract class EquipmentItem extends InventoryItem {
 	public EquipmentItem removeAbility(EquipItemAbility am) {
 		if (am != null) {
 			checkAbilitiesSet();
-			this.abilities.remove(am);
+			if (this.abilities.remove(am))
+				am.setEquipItem(null);
+		}
+		return this;
+	}
+
+	public EquipmentItem addUpgrade(EquipmentUpgrade am) {
+		if (am != null) {
+			checkUpgradeSet();
+			this.upgrades.add(am);
+			am.setEquipmentAssigned(this);
+		}
+		return this;
+	}
+
+	public EquipmentItem removeUpgrade(EquipmentUpgrade eu) {
+		if (eu != null) {
+			checkUpgradeSet();
+			if (this.upgrades.remove(eu))
+				eu.setEquipmentAssigned(null);
 		}
 		return this;
 	}
@@ -123,12 +161,22 @@ public abstract class EquipmentItem extends InventoryItem {
 		final CreatureAttributes ca;
 		Set<EquipItemAbility> abl;
 		List<AttributeModification> attmod;
-		gm.addGameObject(this);
+		Set<EquipmentUpgrade> upg;
+		Consumer<AttributeModification> modifierApplier;
+		gm.addGameObject(this); // add me to the game, especially if i'm a event-listener, a timed-object, etc
 		ah = this.getCreatureWearingEquipments(); // assumed to be true
 		ca = ah.getAttributes();
-		attmod = this.getAttributeModifiers();
+		modifierApplier = eam -> ca.applyAttributeModifier(eam);
+		attmod = this.getBaseAttributeModifiers();
 		if (attmod != null) {
-			attmod.forEach(eam -> ca.applyAttributeModifier(eam));
+			attmod.forEach(modifierApplier);
+		}
+		upg = this.getUpgrades();
+		if (upg != null) {
+			upg.forEach(up -> {
+				// apply all upgrade's modifiers
+				up.getAttributeModifiers().forEach(modifierApplier);
+			});
 		}
 		abl = this.getAbilities();
 		if (abl != null) {
@@ -147,12 +195,23 @@ public abstract class EquipmentItem extends InventoryItem {
 		final CreatureAttributes ca;
 		Set<EquipItemAbility> abl;
 		List<AttributeModification> attmod;
+		Set<EquipmentUpgrade> upg;
+		Consumer<AttributeModification> modifierRemover;
 		gm.removeGameObject(this);
 		ah = this.getCreatureWearingEquipments(); // assumed to be true
 		ca = ah.getAttributes();
-		attmod = this.getAttributeModifiers();
+		attmod = this.getBaseAttributeModifiers();
+		modifierRemover = eam -> ca.removeAttributeModifier(eam);
+		attmod = this.getBaseAttributeModifiers();
 		if (attmod != null) {
-			attmod.forEach(eam -> ca.removeAttributeModifier(eam));
+			attmod.forEach(modifierRemover);
+		}
+		upg = this.getUpgrades();
+		if (upg != null) {
+			upg.forEach(up -> {
+				// remove all upgrade's modifiers
+				up.getAttributeModifiers().forEach(modifierRemover);
+			});
 		}
 		abl = this.getAbilities();
 		if (abl != null) {

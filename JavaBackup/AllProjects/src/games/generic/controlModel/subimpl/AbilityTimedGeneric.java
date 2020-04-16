@@ -9,4 +9,9 @@ public interface AbilityTimedGeneric extends AbilityGeneric, TimedObjectSimpleIm
 	public default void executeAction(GModality gmodality) {
 		performAbility(gmodality);
 	}
+
+	@Override
+	public default void resetAbility() {
+		setAccumulatedTimeElapsed(0);
+	}
 }

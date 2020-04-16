@@ -1,8 +1,10 @@
-package games.generic.controlModel;
+package games.generic.controlModel.subimpl;
 
 import java.util.Map;
 
 import dataStructures.MapTreeAVL;
+import games.generic.controlModel.GameObjectsProvidersHolder;
+import games.generic.controlModel.ObjectNamed;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.CreaturesProvider;
@@ -10,6 +12,7 @@ import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipItemProvider;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.inventoryAbil.EquipmentUpgradesProvider;
 import games.generic.controlModel.inventoryAbil.InventoryItem;
 import games.generic.controlModel.inventoryAbil.InventoryItemNotEquippable;
 import games.generic.controlModel.misc.GameObjectsProvider;
@@ -39,6 +42,7 @@ import tools.Comparators;
  * <li>{@link AbilitiesProvider}</li>
  * <li>{@link CreatureSimple}</li>
  * <li>{@link CreaturesProvider}</li>
+ * <li>{@link EquipmentUpgrade}</li>
  * </ul>
  */
 public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvidersHolder {
@@ -48,14 +52,17 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 		this.abilitiesProvider = newAbilitiesProvider();
 		this.equipmentsProvider = newEquipItemProvider();
 		this.creaturesProvider = newCreatureProvider();
+		this.equipUpgradesProvider = newEquipUpgradesProvider();
 		this.providers.put(AbilitiesProvider.NAME, abilitiesProvider);
 		this.providers.put(EquipItemProvider.NAME, equipmentsProvider);
+		this.providers.put(EquipmentUpgradesProvider.NAME, equipUpgradesProvider);
 		this.providers.put(CreaturesProvider.NAME, creaturesProvider);
 	}
 
 	protected Map<String, GameObjectsProvider<? extends ObjectNamed>> providers;
 	protected AbilitiesProvider abilitiesProvider;
 	protected EquipItemProvider equipmentsProvider;
+	protected EquipmentUpgradesProvider equipUpgradesProvider;
 	protected CreaturesProvider<BaseCreatureRPG> creaturesProvider;
 
 	//
@@ -72,6 +79,10 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 		return equipmentsProvider;
 	}
 
+	public EquipmentUpgradesProvider getEquipUpgradesProvider() {
+		return equipUpgradesProvider;
+	}
+
 	public CreaturesProvider<BaseCreatureRPG> getCreaturesProvider() {
 		return creaturesProvider;
 	}
@@ -86,6 +97,10 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 		this.equipmentsProvider = equipmentsProvider;
 	}
 
+	public void setEquipUpgradesProvider(EquipmentUpgradesProvider equipUpgradesProvider) {
+		this.equipUpgradesProvider = equipUpgradesProvider;
+	}
+
 	public void setCreaturesProvider(CreaturesProvider<BaseCreatureRPG> creaturesProvider) {
 		this.creaturesProvider = creaturesProvider;
 	}
@@ -97,6 +112,8 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 	}
 
 	public abstract EquipItemProvider newEquipItemProvider();
+
+	public abstract EquipmentUpgradesProvider newEquipUpgradesProvider();
 
 	/**
 	 * Should return something based on {@link BaseCreatureRPG}.

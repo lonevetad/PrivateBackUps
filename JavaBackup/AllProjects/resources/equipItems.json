@@ -2,12 +2,40 @@
 	{
 		"name": "Cloth Trousers",
 		"type": "Legs",
-		"attributeModifications": [
-			{ "attribute": "LifeMax", "value": 50},
-			{ "attribute": "Defense", "value": 15},
-			{ "attribute": "Constitution", "value": 5},
-			{ "attribute": "DamageReductionPhysical", "value": 4},
-			{ "attribute": "DamageReductionMagical", "value": 2}
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 45},
+			{"attribute": "Defense", "value": 13},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Velocity", "value": +3},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": 2}
 		],
+		"abilities": []
+	}, {
+		"name": "Cloth Shirt",
+		"type": "Chest",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 50},
+			{"attribute": "Defense", "value": 15},
+			{"attribute": "Constitution", "value": 7},
+			{"attribute": "DamageReductionPhysical", "value": 5},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Shoes",
+		"type": "Feet",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 8},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Dexterity", "value": 10},
+			{"attribute": "Velocity", "value": +5},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
 	}
 ]

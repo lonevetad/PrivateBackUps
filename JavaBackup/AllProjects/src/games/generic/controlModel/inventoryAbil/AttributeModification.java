@@ -1,5 +1,7 @@
 package games.generic.controlModel.inventoryAbil;
 
+import java.util.function.Function;
+
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.AttributesHolder;
 import games.generic.controlModel.misc.CreatureAttributes;
@@ -11,6 +13,7 @@ import games.generic.controlModel.misc.CreatureAttributes;
  * {@link CreatureAttributes#applyAttributeModifier(EquipmentAttributeModifier)}.
  */
 public class AttributeModification {
+	public static final Function<AttributeModification, String> KEY_EXTRACTOR = eu -> eu.attributeModified.getName();
 
 	protected int value;
 	protected AttributeIdentifier attributeModified;
@@ -35,5 +38,10 @@ public class AttributeModification {
 
 	public void setValue(int value) {
 		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return "AttributeModification [attr=" + attributeModified + " : v=" + value + "]";
 	}
 }

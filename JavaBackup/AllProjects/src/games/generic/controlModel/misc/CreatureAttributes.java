@@ -99,7 +99,7 @@ public abstract class CreatureAttributes {
 	/**
 	 * Apply (add) the given {@link AttributeModification} to this set of
 	 * attributes.<br>
-	 * Usually it's provided by {@link EquipmentItem#getAttributeModifiers()} and
+	 * Usually it's provided by {@link EquipmentItem#getBaseAttributeModifiers()} and
 	 * usually this method is invoked during
 	 * {@link EquipmentItem#onEquip(GModality)}, that is invoked by
 	 * {@link EquipmentSet#addEquipmentItem(GModality, EquipmentItem)}.

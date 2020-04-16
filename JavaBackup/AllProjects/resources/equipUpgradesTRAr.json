@@ -1,0 +1,16 @@
+[
+	{
+		"name": "Benedicted",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Faith", "value": 15}
+		]
+	}, {
+		"name": "Consacrated",
+		"rarity": 3,
+		"modifiers": [
+			{"attribute": "Faith", "value": 23},
+			{"attribute": "Wisdom", "value": 12}
+		]
+	}
+]

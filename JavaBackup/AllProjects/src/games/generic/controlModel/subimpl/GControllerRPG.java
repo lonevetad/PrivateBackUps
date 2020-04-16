@@ -2,11 +2,7 @@ package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsProvidersHolder;
-import games.generic.controlModel.GameObjectsProvidersHolderRPG;
 import games.generic.controlModel.misc.LoaderGeneric;
-import games.theRisingAngel.loaders.LoaderAbilityTRAr;
-import games.theRisingAngel.loaders.LoaderCreatureTRAr;
-import games.theRisingAngel.loaders.LoaderEquipTRAr;
 
 public abstract class GControllerRPG extends GControllerET {
 	// implements IGameWithAbililties {
@@ -43,9 +39,6 @@ public abstract class GControllerRPG extends GControllerET {
 	protected void onCreate() {
 		super.onCreate();
 		this.loaderConfigurations.loadInto(this);
-		super.addGameObjectLoader(new LoaderAbilityTRAr(this.gameObjectsProvidersHolderRPG.getAbilitiesProvider()));
-		super.addGameObjectLoader(new LoaderEquipTRAr(this.gameObjectsProvidersHolderRPG.getEquipmentsProvider()));
-		super.addGameObjectLoader(new LoaderCreatureTRAr(this.gameObjectsProvidersHolderRPG.getCreaturesProvider()));
 	}
 
 }
