@@ -66,7 +66,7 @@ public interface CreatureSimple
 			temp = getLifeRegenation() >> LOG_TICKS_PER_SECONDS;
 		}
 		System.out.println("HEALIIIIIING of " + temp);
-		receiveLifeHealing(gm, temp);
+		receiveLifeHealing(gm, temp, this);
 	}
 
 	@Override

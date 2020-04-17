@@ -18,6 +18,7 @@ public abstract class GModalityRPG extends GModalityET {
 	@Override
 	protected GameObjectsManager newGameObjectsManager() {
 		return newGameObjectsManager(getEventInterface());
+//		return newGameObjectsManager(newEventInterface());
 	}
 
 	//

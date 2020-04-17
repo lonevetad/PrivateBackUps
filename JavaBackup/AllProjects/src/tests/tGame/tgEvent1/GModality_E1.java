@@ -4,12 +4,13 @@ import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
+import games.generic.controlModel.GameObjectsManager;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
-import games.generic.controlModel.subimpl.GModalityET;
-import games.generic.controlModel.subimpl.PlayerRPG_E1;
+import games.theRisingAngel.GModalityTRAr;
+import games.theRisingAngel.GameObjectsProvidersHolderTRAr;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
@@ -17,7 +18,7 @@ import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
 import tests.tGame.tgEvent1.oggettiDesempio.ObserverPrinterEvent;
 
-public class GModality_E1 extends GModalityET {
+public class GModality_E1 extends GModalityTRAr {
 
 	public GModality_E1(GController controller, String modalityName) {
 		super(controller, modalityName);
@@ -25,15 +26,15 @@ public class GModality_E1 extends GModalityET {
 
 	GThread threadGame;
 
-	public PlayerRPG_E1 getPlayerRPG() {
-		return (PlayerRPG_E1) player;
+	public Player_E1 getPlayerRPG() {
+		return (Player_E1) player;
 	}
 
 	@Override
 	public void startGame() {
 		checkAndRebuildThreads();
 		this.threadGame.start();
-		getPlayerRPG().onStartingGame(this);
+		getPlayerRPG().onEnteringInGame(this);
 	}
 
 	@Override
@@ -44,10 +45,14 @@ public class GModality_E1 extends GModalityET {
 		ObserverPrinterEvent ope;
 		NecklaceOfPainRinvigoring necklace_opr;
 		ArmProtectionShieldingDamageByMoney armProtection_sdbm;
+		GC_E1 contr;
+		GameObjectsProvidersHolderTRAr goph;
 
 		super.onCreate();
 		//
+		contr = (GC_E1) controller;
 		gmodel = (GModel_E1) this.getModel();
+		goph = (GameObjectsProvidersHolderTRAr) this.getGameObjectsProvider();
 
 		// TODO add all stuffs .. qui è il posto in cui dovrebbero stare gli oggetti
 		// strani che inserisco
@@ -77,13 +82,15 @@ public class GModality_E1 extends GModalityET {
 //		this.addEventObserver(ope);
 		this.addGameObject(ope);
 
-		necklace_opr = new NecklaceOfPainRinvigoring();
+		necklace_opr = (NecklaceOfPainRinvigoring) goph.getEquipmentsProvider().getNewObjByName(this,
+				NecklaceOfPainRinvigoring.NAME);
 //		necklace_opr.setCreatureReferred(p);
 		p.equip(necklace_opr);
 //		this.addGameObject(necklace_opr); // yet provided by equipping
 //		this.addEventObserver(necklace_opr); // yet provided by equipping
 
-		armProtection_sdbm = new ArmProtectionShieldingDamageByMoney();
+		armProtection_sdbm = (ArmProtectionShieldingDamageByMoney) goph.getEquipmentsProvider().getNewObjByName(this,
+				ArmProtectionShieldingDamageByMoney.NAME);
 //		adrpcb = new ADamageReductionPhysicalCurrencyBased();
 //		adrpcb.setOwner(p);
 //		adrpcb.setEquipItem(equipmentItem);
@@ -169,5 +176,11 @@ public class GModality_E1 extends GModalityET {
 		public void stopAndDie() {
 			this.isWorking = false;
 		}
+	}
+
+	@Override
+	protected GameObjectsManager newGameObjectsManager() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

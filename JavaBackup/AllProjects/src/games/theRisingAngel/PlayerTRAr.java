@@ -47,44 +47,9 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 		this.setGameModality(gm);
 	}
 
-	//
-
-	// TODO FIRE EVENTS
-
-	@Override
-	public void fireLifeHealingReceived(GModality gm, int originalHealing) {
-		if (gm == null || (!(gm instanceof GModalityET)))
-			return;
-//		GModalityET gmet;
-		GEventInterfaceTRAr gei;
-		if (gm == null || (!(gm instanceof GModalityET)))
-			return;
-//		gmet = (GModalityET) gm;
-//		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
-		gei = (GEventInterfaceTRAr) gm.getGameObjectsManager().getGEventInterface();
-//		gei.fire .... TODO
-	}
-
-	@Override
-	public void fireDestructionEvent(GModality gm) {
-		GModalityET gmet;
-		GEventInterfaceTRAr gei;
-		if (gm == null || (!(gm instanceof GModalityET)))
-			return;
-		gmet = (GModalityET) gm;
-		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
-		gei.fireDestructionObjectEvent((GModalityET) gm, this);
-	}
-
 	@Override
 	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
 		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
-	}
-
-	@Override
-	public void move(int milliseconds) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -140,5 +105,35 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 		// TODO Auto-generated method stub
 
 	}
+
+	//
+	//
+
+	// TODO FIRE EVENTS
+
+	@Override
+	public void fireDestructionEvent(GModality gm) {
+		GModalityET gmet;
+		GEventInterfaceTRAr gei;
+		if (gm == null || (!(gm instanceof GModalityET)))
+			return;
+		gmet = (GModalityET) gm;
+		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
+		gei.fireDestructionObjectEvent((GModalityET) gm, this);
+	}
+
+//	public <SourceHealing> void fireLifeHealingReceived(GModality gm, int originalHealing, SourceHealing source) {
+//		if (gm == null || (!(gm instanceof GModalityET)))
+//			return;
+////		GModalityET gmet;
+//		GEventInterfaceTRAr gei;
+//		if (gm == null || (!(gm instanceof GModalityET)))
+//			return;
+////		gmet = (GModalityET) gm;
+////		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
+//		gei = (GEventInterfaceTRAr) gm.getGameObjectsManager().getGEventInterface();
+//		gei.fireHealReceivedEvent((GModalityET) gm, source, this,
+//				new HealGeneric(originalHealing, HealingTypeExample.Life));
+//	}
 
 }

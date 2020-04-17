@@ -8,35 +8,33 @@ import tools.ObjectNamedID;
  * (lighter in terms of memory but a bit heavier in terms of execution time).
  * Use {@link #getDamageType()} to distinguish the type.
  */
-public class DamageGeneric {
-
-	protected int damageAmount;
-	protected ObjectNamedID damageType;
+public class DamageGeneric extends AmountNamed {
+	private static final long serialVersionUID = 894363018L;
 
 	public DamageGeneric(int damageAmount, ObjectNamedID damageType) {
-		super();
-		this.damageAmount = damageAmount;
-		this.damageType = damageType;
+		super(damageType, damageAmount);
 	}
 
 	public int getDamageAmount() {
-		return damageAmount;
+		return super.value; // super.getValue();
 	}
 
 	public ObjectNamedID getDamageType() {
-		return damageType;
+		return super.type;// super.getType();
 	}
 
 	public void setDamageAmount(int damageAmount) {
-		this.damageAmount = damageAmount;
+//		super.setValue(damageAmount);
+		super.value = damageAmount;
 	}
 
 	public void setDamageType(ObjectNamedID damageType) {
-		this.damageType = damageType;
+//		super.setType(damageType);
+		super.type = damageType;
 	}
 
 	@Override
 	public String toString() {
-		return "DamageGeneric [damageAmount=" + damageAmount + ", damageType=" + damageType + "]";
+		return "DamageGeneric [damageAmount=" + getDamageAmount() + ", damageType=" + getDamageType() + "]";
 	}
 }

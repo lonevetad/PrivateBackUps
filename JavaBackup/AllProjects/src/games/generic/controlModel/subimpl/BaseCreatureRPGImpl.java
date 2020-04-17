@@ -10,6 +10,8 @@ import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.GObjMovement;
+import games.generic.controlModel.misc.HealGeneric;
+import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.misc.CreatureUIDProvider;
 import geometry.AbstractShape2D;
@@ -236,12 +238,6 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public void fireLifeHealingReceived(GModality gm, int originalHealing) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean destroy() {
 		// TODO Auto-generated method stub
 		return false;
@@ -268,7 +264,8 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public void receiveDamage(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
+	public <SourceDamage extends ObjectWithID> void receiveDamage(GModality gm, DamageGeneric originalDamage,
+			SourceDamage source) {
 		int dr;
 		GModalityRPG gmrpg;
 		if (originalDamage.getDamageAmount() <= 0)
@@ -283,12 +280,18 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		fireDamageReceived(gm, originalDamage, source);
 	}
 
+	@Override
+	public HealGeneric newHealLifeInstance(int healAmount) {
+		return new HealGeneric(HealingTypeExample.Life, healAmount);
+	}
+
 	//
 
 	// TODO FIRE EVENTS
 
 	@Override
-	public void fireDamageReceived(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
+	public <SourceDamage extends ObjectWithID> void fireDamageReceived(GModality gm, DamageGeneric originalDamage,
+			SourceDamage source) {
 		GModalityRPG gmodrpg;
 		GEventInterfaceRPG geie1;
 //		GameObjectsManager gom;

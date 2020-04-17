@@ -68,8 +68,8 @@ public abstract class GModality {
 //				new LinkedList<>();
 		this.lastElapsedDeltaTime = this.getMinimumMillisecondsEachCycle();
 		this.gameObjectsProviderHolder = controller.getGObjProvidersHolderForGModality(this);
-		this.gomDelegated = newGameObjectsManager();
 		onCreate();
+		this.gomDelegated = newGameObjectsManager();
 		// il game model deve avere anche l'holder dovuto dal "Misom"
 		assert this.getModel()
 				.containsObjHolder(this.getGameObjectsManager().getGObjectInSpaceManager().getNameGObjHolder()) : //

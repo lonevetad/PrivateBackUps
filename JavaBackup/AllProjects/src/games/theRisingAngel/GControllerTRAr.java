@@ -1,5 +1,7 @@
 package games.theRisingAngel;
 
+import games.generic.controlModel.GModality;
+import games.generic.controlModel.GameObjectsProvidersHolder;
 import games.generic.controlModel.misc.LoaderGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GControllerRPG;
@@ -10,6 +12,7 @@ import games.theRisingAngel.loaders.LoaderEquipTRAr;
 import games.theRisingAngel.loaders.LoaderEquipUpgradesTRAr;
 
 public class GControllerTRAr extends GControllerRPG {
+	public static final String GM_NAME_TRAR_BASE = "gc_trar_base";
 
 	public GControllerTRAr() {
 		super();
@@ -22,8 +25,14 @@ public class GControllerTRAr extends GControllerRPG {
 
 	@Override
 	protected void defineGameModalitiesFactories() {
-		// TODO Auto-generated method stub
+		this.getGameModalitiesFactories().put(GM_NAME_TRAR_BASE, (name, gc) -> {
+			return new GModalityTRAr(name, gc);
+		});
+	}
 
+	@Override
+	protected GameObjectsProvidersHolder getGObjProvidersHolderForGModality(GModality gm) {
+		return new GameObjectsProvidersHolderTRAr();
 	}
 
 	@Override

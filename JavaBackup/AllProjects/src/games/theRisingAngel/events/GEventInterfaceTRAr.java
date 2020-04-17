@@ -5,14 +5,16 @@ import java.awt.Point;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
 import games.generic.controlModel.gEvents.EventMoneyChange;
-import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.DestructibleObject;
+import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.misc.DamageGeneric;
+import games.generic.controlModel.misc.HealGeneric;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GEventManagerFineGrained;
 import games.generic.controlModel.subimpl.GModalityET;
 import geometry.ObjectLocated;
+import tools.ObjectWithID;
 
 public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 
@@ -59,17 +61,29 @@ public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 	}
 
 	@Override
-	public <SourceDamage> void fireDamageDealtEvent(GModalityET gm, SourceDamage source, CreatureSimple target,
-			DamageGeneric damage) {
+	public <SourceDamage extends ObjectWithID> void fireDamageDealtEvent(GModalityET gm, SourceDamage source,
+			LivingObject target, DamageGeneric damage) {
 		this.getGameEventManager().fireEvent( //
 				new EventDamageTRAr<SourceDamage>(EventsTRAr.DamageInflicted, source, target, damage));
 	}
 
 	@Override
-	public <SourceDamage> void fireDamageReceivedEvent(GModalityET gm, SourceDamage source, CreatureSimple target,
-			DamageGeneric originalDamage) {
+	public <SourceDamage extends ObjectWithID> void fireDamageReceivedEvent(GModalityET gm, SourceDamage source,
+			LivingObject target, DamageGeneric originalDamage) {
 		this.getGameEventManager().fireEvent( //
 				new EventDamageTRAr<SourceDamage>(EventsTRAr.DamageReceived, source, target, originalDamage));
+	}
+
+	@Override
+	public <SourceHealing extends ObjectWithID> void fireHealGivenEvent(GModalityET gaModality, LivingObject receiver,
+			HealGeneric heal, SourceHealing source) {
+		this.getGameEventManager().fireEvent(new EventHealTRAr<>(EventsTRAr.HealGiven, source, receiver, heal));
+	}
+
+	@Override
+	public <SourceHealing extends ObjectWithID> void fireHealReceivedEvent(GModalityET gaModality, SourceHealing source,
+			LivingObject receiver, HealGeneric heal) {
+		this.getGameEventManager().fireEvent(new EventHealTRAr<>(EventsTRAr.HealReceived, source, receiver, heal));
 	}
 
 	@Override
@@ -101,5 +115,4 @@ public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 		// TODO Auto-generated method stub
 
 	}
-
 }

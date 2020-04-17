@@ -2,11 +2,12 @@ package games.generic.controlModel;
 
 import java.awt.Point;
 
-import games.generic.controlModel.gObj.CreatureSimple;
+import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subimpl.GModalityET;
 import geometry.ObjectLocated;
+import tools.ObjectWithID;
 
 /**
  * Holder of ALL event-firing methods and the {@link GEventManager}.<br>
@@ -45,6 +46,6 @@ public interface GEventInterface {
 	 * left empty if not needed. <br>
 	 * TODO docs
 	 */
-	public <SourceDamage> void fireDamageDealtEvent(GModalityET gm, SourceDamage source, CreatureSimple target,
-			DamageGeneric damage);
+	public <SourceDamage extends ObjectWithID> void fireDamageDealtEvent(GModalityET gm, SourceDamage source,
+			LivingObject target, DamageGeneric damage);
 }

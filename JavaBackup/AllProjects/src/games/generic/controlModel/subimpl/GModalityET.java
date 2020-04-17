@@ -58,6 +58,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	@Override
 	public void setEventInterface(GEventInterface eventInterface) {
 		this.eventInterface = eventInterface;
+		this.getGModelEventTimedObjectsHolder().setEventManager(eventInterface.getGameEventManager());
 	}
 
 	//
@@ -65,6 +66,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 
 	public void onCreate() {
 		this.eventInterface = newEventInterface();
+		super.onCreate();
 		this.getGModelEventTimedObjectsHolder().setEventManager(getEventManager());
 	}
 

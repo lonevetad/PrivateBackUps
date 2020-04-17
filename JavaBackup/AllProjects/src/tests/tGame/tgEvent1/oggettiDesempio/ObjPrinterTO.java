@@ -6,6 +6,7 @@ import tools.UniqueIDProvider;
 
 /*Simply prints some text*/
 public class ObjPrinterTO implements TimedObjectSimpleImpl {
+	private static final long serialVersionUID = 1L;
 	long timeThreshold, accumulatedTimeElapsed;
 	String text;
 	Integer ID;

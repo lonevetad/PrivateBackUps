@@ -2,6 +2,10 @@ package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.DamageGeneric;
+import games.generic.controlModel.misc.HealGeneric;
+import games.generic.controlModel.subimpl.GEventInterfaceRPG;
+import games.generic.controlModel.subimpl.GModalityET;
+import games.generic.controlModel.subimpl.GModalityRPG;
 import tools.ObjectWithID;
 
 public interface LivingObject extends DestructibleObject {
@@ -35,16 +39,18 @@ public interface LivingObject extends DestructibleObject {
 	 * Make this object receiving a non-negative amount of damage, in a context
 	 * expressed by {@link GModality}, which could be used to fire events.
 	 */
-	public void receiveDamage(GModality gm, DamageGeneric damage, ObjectWithID source);
+	public <SourceDamage extends ObjectWithID> void receiveDamage(GModality gm, DamageGeneric damage,
+			SourceDamage source);
 
 	/**
 	 * Make this object receiving a non-negative amount of damage, in a context
 	 * expressed by {@link GModality}, which could be used to fire events.
 	 */
-	public default void receiveLifeHealing(GModality gm, int healingAmount) {
+	public default <SourceHealing extends ObjectWithID> void receiveLifeHealing(GModality gm, int healingAmount,
+			SourceHealing source) {
 		if (healingAmount > 0) {
 			setLife(getLife() + healingAmount);
-			fireLifeHealingReceived(gm, healingAmount);
+			fireLifeHealingReceived(gm, healingAmount, source);
 		}
 	}
 
@@ -56,14 +62,35 @@ public interface LivingObject extends DestructibleObject {
 	 * occurred.<br>
 	 * A reply/reaction to the "raw damage received" could be a damage reduction.
 	 */
-	public void fireDamageReceived(GModality gm, DamageGeneric originalDamage, ObjectWithID source); // , int
-	// actualDamageReceived);
+	public default <SourceDamage extends ObjectWithID> void fireDamageReceived(GModality gm,
+			DamageGeneric originalDamage, SourceDamage source) {
+		GModalityRPG gmodrpg;
+		GEventInterfaceRPG geie1;
+//		GameObjectsManager gom;
+		if (gm == null || (!(gm instanceof GModalityRPG)))
+			return;
+		gmodrpg = (GModalityRPG) gm;
+//		gom = gmodrpg.getGameObjectsManagerDelegated(); 
+		geie1 = (GEventInterfaceRPG) gmodrpg.getEventInterface();
+		geie1.fireDamageReceivedEvent(gmodrpg, source, this, originalDamage);
+//		gom.dealsDamageTo(source, this, originalDamage);// cannot "deals" damage because it's already dealt
+	}
+	// , int actualDamageReceived);
+
+	public HealGeneric newHealLifeInstance(int healAmount);
 
 	/**
 	 * Similar to {@link #fireDamageReceived( GModality, int, int)}, but about
 	 * healing.
 	 */
-	public void fireLifeHealingReceived(GModality gm, int originalHealing); // , int actualHealingReceived);
+	public default <SourceHealing extends ObjectWithID> void fireLifeHealingReceived(GModality gm, int originalHealing,
+			SourceHealing source) {
+		GEventInterfaceRPG geiRpg;
+		geiRpg = (GEventInterfaceRPG) this.getGameModality().getGameObjectsManager().getGEventInterface();
+		geiRpg.fireHealReceivedEvent((GModalityET) gm, source, (CreatureSimple) this,
+				newHealLifeInstance(originalHealing));
+	}
+	// , int actualHealingReceived);
 
 	//
 

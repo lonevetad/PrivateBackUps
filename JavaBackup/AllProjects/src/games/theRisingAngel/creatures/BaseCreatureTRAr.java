@@ -1,15 +1,9 @@
 package games.theRisingAngel.creatures;
 
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
-import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.AttributesTRAr;
-import games.theRisingAngel.GModalityTRAr;
-import games.theRisingAngel.events.GEventInterfaceTRAr;
-import tools.ObjectWithID;
 
 public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 	private static final long serialVersionUID = -34551879021102L;
@@ -62,14 +56,4 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 
 	// TODO FIRE EVENTS
 
-	@Override
-	public void fireDamageReceived(GModality gm, DamageGeneric originalDamage, ObjectWithID source) {
-		GModalityTRAr gmodtrar;
-		GEventInterfaceTRAr geie1;
-		if (gm == null || (!(gm instanceof GModalityET)))
-			return;
-		gmodtrar = (GModalityTRAr) gm;
-		geie1 = (GEventInterfaceTRAr) gmodtrar.getEventInterface();
-		geie1.fireDamageReceivedEvent(gmodtrar, source, this, originalDamage);
-	}
 }

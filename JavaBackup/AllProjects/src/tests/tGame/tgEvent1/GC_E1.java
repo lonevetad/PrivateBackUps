@@ -1,10 +1,8 @@
 package tests.tGame.tgEvent1;
 
-import games.generic.controlModel.player.UserAccountGeneric;
-import games.generic.controlModel.subimpl.GControllerET;
+import games.theRisingAngel.GControllerTRAr;
 
-public class GC_E1 extends GControllerET {
-
+public class GC_E1 extends GControllerTRAr {
 	public static final String GM_NAME = "TEST";
 
 	public GC_E1() {
@@ -13,6 +11,7 @@ public class GC_E1 extends GControllerET {
 
 	@Override
 	protected void defineGameModalitiesFactories() {
+		super.defineGameModalitiesFactories();
 		this.getGameModalitiesFactories().put(GM_NAME, (name, gc) -> {
 			return new GModality_E1(name, gc);
 		});
@@ -31,8 +30,4 @@ public class GC_E1 extends GControllerET {
 //		this.getCurrentGameModality().closeAll(); // yet done in super
 	}
 
-	@Override
-	protected UserAccountGeneric newUserAccount() {
-		return null;
-	}
 }

@@ -1,6 +1,7 @@
 package games.generic.controlModel.subimpl;
 
 import java.util.Map;
+import java.util.Random;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GameObjectsProvidersHolder;
@@ -17,6 +18,7 @@ import games.generic.controlModel.inventoryAbil.InventoryItem;
 import games.generic.controlModel.inventoryAbil.InventoryItemNotEquippable;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import tools.Comparators;
+import tools.minorTools.RandomWeightedIndexes;
 
 /**
  * One of the core classes.
@@ -57,6 +59,7 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 		this.providers.put(EquipItemProvider.NAME, equipmentsProvider);
 		this.providers.put(EquipmentUpgradesProvider.NAME, equipUpgradesProvider);
 		this.providers.put(CreaturesProvider.NAME, creaturesProvider);
+		this.random = new Random();
 	}
 
 	protected Map<String, GameObjectsProvider<? extends ObjectNamed>> providers;
@@ -64,6 +67,9 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 	protected EquipItemProvider equipmentsProvider;
 	protected EquipmentUpgradesProvider equipUpgradesProvider;
 	protected CreaturesProvider<BaseCreatureRPG> creaturesProvider;
+	// for random stuffs
+	protected RandomWeightedIndexes equipItemsWeights;
+	protected Random random;
 
 	//
 	@Override
@@ -87,6 +93,14 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 		return creaturesProvider;
 	}
 
+	public RandomWeightedIndexes getEquipItemsWeights() {
+		return equipItemsWeights;
+	}
+
+	public Random getRandom() {
+		return random;
+	}
+
 //
 
 	public void setAbilitiesProvider(AbilitiesProvider ap) {
@@ -103,6 +117,10 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 
 	public void setCreaturesProvider(CreaturesProvider<BaseCreatureRPG> creaturesProvider) {
 		this.creaturesProvider = creaturesProvider;
+	}
+
+	public void setEquipItemsWeights(RandomWeightedIndexes equipItemsWeights) {
+		this.equipItemsWeights = equipItemsWeights;
 	}
 
 	//

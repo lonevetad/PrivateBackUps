@@ -3,7 +3,11 @@ package games.generic.controlModel.subimpl;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.DestructibleObject;
+import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.misc.DamageGeneric;
+import games.generic.controlModel.misc.HealGeneric;
+import tools.ObjectNamedID;
+import tools.ObjectWithID;
 
 public interface GEventInterfaceRPG extends GEventInterface {
 
@@ -11,8 +15,25 @@ public interface GEventInterfaceRPG extends GEventInterface {
 
 	public void fireDestructionObjectEvent(GModalityET gaModality, DestructibleObject desObj);
 
-	public <SourceDamage> void fireDamageReceivedEvent(GModalityET gm, SourceDamage source, CreatureSimple target,
-			DamageGeneric originalDamage);
+	public <SourceDamage extends ObjectWithID> void fireDamageReceivedEvent(GModalityET gm, SourceDamage source,
+			LivingObject target, DamageGeneric originalDamage);
+
+	/**
+	 * After someone is being healed, fire this event.<br>
+	 */
+	public <SourceHealing extends ObjectWithID> void fireHealReceivedEvent(GModalityET gaModality, SourceHealing source,
+			LivingObject receiver, HealGeneric heal);
+
+	/**
+	 * Similar to
+	 * {@link #fireHealReceivedEvent(GModalityET, CreatureSimple, ObjectNamedID)},
+	 * but this event is fired upon healing someone else (the source of the healing
+	 * is the fourth parameter while the second parameter is the target; the target
+	 * is the same of
+	 * {@link #fireHealReceivedEvent(GModalityET, CreatureSimple, ObjectNamedID)}).
+	 */
+	public <SourceHealing extends ObjectWithID> void fireHealGivenEvent(GModalityET gaModality, LivingObject receiver,
+			HealGeneric heal, SourceHealing source);
 
 	//
 

@@ -3,12 +3,12 @@ package tests.tGame.tgEvent1;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import games.generic.ObjectWithID;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.GObjectsHolder;
 import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.subimpl.GModelTimeBased;
+import tools.ObjectWithID;
 
 public class TestGModel {
 
@@ -49,6 +49,7 @@ public class TestGModel {
 	}
 
 	static class TO implements TimedObject {
+		private static final long serialVersionUID = 1L;
 		Integer id;
 
 		public TO(Integer id) {
@@ -61,8 +62,8 @@ public class TestGModel {
 		}
 
 		@Override
-		public void act(GModality modality, long milliseconds) {
-			System.out.println("time " + milliseconds);
+		public void act(GModality modality, int timeUnits) {
+			System.out.println("time " + timeUnits);
 		}
 	}
 
