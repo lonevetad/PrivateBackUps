@@ -38,7 +38,7 @@
 		]
 	}, {
 		"name": "Moon runed",
-		"rarity": 4,
+		"rarity": 3,
 		"modifiers": [
 			{"attribute": "ManaMax", "value": 15},
 			{"attribute": "RigenMana", "value": 8},
@@ -50,7 +50,7 @@
 		]
 	}, {
 		"name": "Sun runed",
-		"rarity": 4,
+		"rarity": 3,
 		"modifiers": [
 			{"attribute": "LifeMax", "value": 15},
 			{"attribute": "RigenLife", "value": 8},
@@ -59,6 +59,28 @@
 			{"attribute": "Health", "value": 10},
 			{"attribute": "DamageBonusPhysical", "value": 5},
 			{"attribute": "DamageReductionPhysical", "value": 5}
+		]
+	}, {
+		"name": "of Dwarf",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Strength", "value": 12},
+			{"attribute": "Constitution", "value": 5}
+		]
+	}, {
+		"name": "of Elf",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "Dexterity", "value": 12},
+			{"attribute": "Velocity", "value": 5}
+		]
+	}, {
+		"name": "Good",
+		"rarity": 1,
+		"modifiers": [
+			{"attribute": "Defense", "value": 3}
 		]
 	}
 ]

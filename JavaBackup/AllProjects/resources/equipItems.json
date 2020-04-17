@@ -37,5 +37,260 @@
 			{"attribute": "DamageReductionMagical", "value": 1}
 		],
 		"abilities": []
+	}, {
+		"name": "Ruby Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Strength", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Oxided Iron Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 30}
+		],
+		"abilities": []
+	}, {
+		"name": "Lapis Lazuli Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "ManaMax", "value": 20}
+		],
+		"abilities": []
+	}, {
+		"name": "Amber Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Precision", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Emerald Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Sapphire Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Intelligence", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Tiger Eye Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Opal Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenMana", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Aquamarine Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Wisdom", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "?? Ring", //TODOOO
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 1},
+			{"attribute": "RigenMana", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Rhyolite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 1},
+			{"attribute": "LifeMax", "value": 20}
+		],
+		"abilities": []
+	}, {
+		"name": "Spectrolite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "ManaMax", "value": 15},
+			{"attribute": "RigenMana", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Serpentine Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Spinel Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Health", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Diamond Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "Luck", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Andesine Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Constitution", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Amazonite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Faith", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Calcite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Velocity", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Rhodonite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageBonusMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Malachite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Moldavite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageBonusPhysical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Morganite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageReductionPhysical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Sphene Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "CriticalProbability", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Sugilite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "CriticalMultiplier", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Topaz Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageBonusMagical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Triphane Ring",
+		"type": "Ring",
+		"rarity": s,
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Verdite Ring",
+		"type": "Ring",
+		"rarity": s,
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Zoisite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "DamageBonusPhysical", "value": 1},
+			{"attribute": "DamageReductionPhysical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Sunstone Ring",
+		"type": "Ring",
+		"rarity": 3,
+		"attributeMods": [
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Defense", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Moonstone Ring",
+		"type": "Ring",
+		"rarity": 3,
+		"attributeMods": [
+			{"attribute": "Intelligence", "value": 2},
+			{"attribute": "Wisdom", "value": 2},
+			{"attribute": "Faith", "value": 2},
+			{"attribute": "Luck", "value": 1}
+		],
+		"abilities": []
 	}
 ]
