@@ -9,9 +9,9 @@ import javax.swing.JPanel;
 import games.generic.controlModel.GController;
 import games.generic.view.GameView;
 
-public class GV_E1 extends GameView {
+public class GView_E1 extends GameView {
 
-	public GV_E1(GController gc) {
+	public GView_E1(GController gc) {
 		super(gc);
 	}
 
@@ -67,8 +67,8 @@ public class GV_E1 extends GameView {
 	}
 
 	public static void main(String[] args) {
-		GV_E1 view;
-		view = new GV_E1(null);
+		GView_E1 view;
+		view = new GView_E1(null);
 		view.initAndShow();
 	}
 }

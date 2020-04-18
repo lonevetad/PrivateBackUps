@@ -17,7 +17,8 @@ import games.generic.controlModel.gObj.TimedObject;
  * <p>
  * Useful classes/interfaces used here:
  * <ul>
- * <li>{@link }></li>
+ * <li>{@link GEventInterface} to manage events (usually</li>
+ * <li>{@link GameThreadsManager}</li>
  * </ul>
  */
 public abstract class GModalityET extends GModality implements IGameModalityTimeBased, IGameModalityEventBased {
@@ -78,15 +79,15 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	//
 
 	@Override
-	public void doOnEachCycle(int millisecToElapse) {
-		progressElapsedTime(millisecToElapse);
+	public void doOnEachCycle(int timeUnit) {
+		progressElapsedTime(timeUnit);
 	}
 
 	@Override
-	public void progressElapsedTime(final int millisecToElapse) {
+	public void progressElapsedTime(final int timeUnit) {
 		GEventManager gem;
 		this.getModelTimeBased().forEachTimedObject((to) -> {
-			to.act(this, millisecToElapse); // fai progredire QUALSIASI cosa: abilità che si ricaricano col tempo,
+			to.act(this, timeUnit); // fai progredire QUALSIASI cosa: abilità che si ricaricano col tempo,
 			// rigenerazioni, movimento di proiettili e cose, etc
 		});
 		gem = this.eventInterface.getGameEventManager();
@@ -113,4 +114,12 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	}
 
 //	public void fireEvent(GEvent event) { this.getEventManager(). }
+
+//	protected void checkAndRebuildThreads() {
+//		if (this.threadGame == null)
+//			this.threadGame = new GThread(new RunGameInstance());
+//	}
+
+	//
+
 }

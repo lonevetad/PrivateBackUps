@@ -5,7 +5,6 @@ import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.misc.CurrencySet;
-import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.theRisingAngel.GModalityTRAr;
@@ -23,16 +22,13 @@ public class GModality_E1 extends GModalityTRAr {
 		super(controller, modalityName);
 	}
 
-	GThread threadGame;
-
 	public Player_E1 getPlayerRPG() {
 		return (Player_E1) player;
 	}
 
 	@Override
 	public void startGame() {
-		checkAndRebuildThreads();
-		this.threadGame.start();
+		super.startGame();
 		getPlayerRPG().onEnteringInGame(this);
 	}
 
@@ -118,7 +114,7 @@ public class GModality_E1 extends GModalityTRAr {
 		});
 		System.out.println("and then");
 		// then ...
-		checkAndRebuildThreads();
+//		checkAndRebuildThreads();
 	}
 
 	@Override
@@ -145,38 +141,5 @@ public class GModality_E1 extends GModalityTRAr {
 	@Override
 	public CurrencySet newCurrencyHolder() {
 		return new CurrencyHolder_E1(this, 1);
-	}
-
-	@Override
-	public void closeAll() {
-		super.closeAll();
-		this.threadGame = null;
-	}
-
-	//
-
-	protected void checkAndRebuildThreads() {
-		if (this.threadGame == null)
-			this.threadGame = new GThread(new RunGameInstance());
-	}
-
-	//
-
-	// TODO CLASS
-	// previously was ThreadGame_GameRunner_E1
-	protected class RunGameInstance implements GThread.GTRunnable {
-		boolean isWorking = true; // when the
-
-		@Override
-		public void run() {
-			while(isWorking) {
-				runGameCycle();
-			}
-		}
-
-		@Override
-		public void stopAndDie() {
-			this.isWorking = false;
-		}
 	}
 }

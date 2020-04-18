@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 public class PrologMazeGenerator {
 	public static final Color COL = Color.BLUE;
-	public static final int MAZE_SQUARE_SIZE = 25;
+	public static final int MAZE_SQUARE_SIZE = 15;
 
 	static interface MazeConsumer {
 		void doOnPixel(boolean[][] maze, int x, int y);
@@ -27,6 +27,7 @@ public class PrologMazeGenerator {
 
 	// view
 	JFrame jf;
+	JLabel jlMousePosition;
 	TextArea taProlog;
 	JTextField jtfNumCol, jtfNumRow;
 	JButton jbSetSize, jbBuild, jbClear;
@@ -89,26 +90,60 @@ public class PrologMazeGenerator {
 		jspMaze = new JScrollPane(jpMaze);
 		jspMaze.setViewportView(jpMaze);
 		jpFin.add(jspMaze, BorderLayout.CENTER);
-		jspMaze.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		jspMaze.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		jpMaze.addMouseListener(new MouseAdapter() {
+		jlMousePosition = new JLabel("Mouse position: ");
+		jspMaze.setColumnHeaderView(jlMousePosition);
+		jspMaze.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		jspMaze.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		jspMaze.setSize(500, 500);
+		jspMaze.setPreferredSize(jspMaze.getSize());
+		MouseAdapter ma;
+		ma = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					boolean b;
 					int y, x;
+					if (maze == null)
+						return;
 					y = e.getY() / MAZE_SQUARE_SIZE;
 					x = e.getX() / MAZE_SQUARE_SIZE;
-					if (y > maze.length || x >= maze[0].length)
+					if (y >= maze.length || x >= maze[0].length)
 						return;
-					b = maze[y][x];
-					maze[y][x] = !b;
+					showMousePosition(x, y);
+					setAt(x, y, e.getButton() == MouseEvent.BUTTON1);
 					jpMaze.repaint();
 				} catch (Exception exc) {
 					exc.printStackTrace();
 				}
 			}
-		});
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				int y, x;
+				if (maze == null)
+					return;
+				y = e.getY() / MAZE_SQUARE_SIZE;
+				x = e.getX() / MAZE_SQUARE_SIZE;
+				if (y >= maze.length || x >= maze[0].length)
+					return;
+				showMousePosition(x, y);
+				setAt(x, y, !(e.isShiftDown() || e.isControlDown() || e.isAltDown()));
+				jpMaze.repaint();
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				int y, x;
+				if (maze == null)
+					return;
+				y = e.getY() / MAZE_SQUARE_SIZE;
+				x = e.getX() / MAZE_SQUARE_SIZE;
+				if (y >= maze.length || x >= maze[0].length)
+					return;
+				showMousePosition(x, y);
+			}
+		};
+		jpMaze.addMouseListener(ma);
+		jpMaze.addMouseMotionListener(ma);
 
 		//
 
@@ -127,6 +162,14 @@ public class PrologMazeGenerator {
 	}
 
 	//
+
+	void showMousePosition(int x, int y) {
+		jlMousePosition.setText("Mouse position: (x" + x + ", y:" + y + ") -> ROW:" + y + " / COL:" + x);
+	}
+
+	void setAt(int x, int y, boolean value) {
+		maze[y][x] = value;
+	}
 
 	void paintMaze(Graphics g) {
 		int w, h;
@@ -156,7 +199,8 @@ public class PrologMazeGenerator {
 		h = Integer.parseInt(this.jtfNumRow.getText());
 		w = Integer.parseInt(this.jtfNumCol.getText());
 		this.maze = new boolean[h][w];
-		this.jpNorth.setSize(h * MAZE_SQUARE_SIZE, w * MAZE_SQUARE_SIZE);
+		this.jpMaze.setSize(h * MAZE_SQUARE_SIZE, w * MAZE_SQUARE_SIZE);
+		this.jpMaze.setPreferredSize(this.jpMaze.getSize());
 		jpFin.repaint();
 	}
 

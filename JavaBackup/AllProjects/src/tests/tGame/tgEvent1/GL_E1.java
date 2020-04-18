@@ -13,6 +13,6 @@ public class GL_E1 extends GameLauncher {
 
 	@Override
 	public GameView newView(GController gc) {
-		return new GV_E1(gc);
+		return new GView_E1(gc);
 	}
 }

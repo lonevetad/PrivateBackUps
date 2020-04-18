@@ -1,16 +1,14 @@
 package games.generic.controlModel;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
-import dataStructures.MapTreeAVL;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GEvent;
+import games.generic.controlModel.subimpl.GameThreadsManager;
 import games.generic.controlModel.subimpl.IGameModalityTimeBased;
-import tools.Comparators;
 import tools.ObjectWithID;
 
 /**
@@ -36,7 +34,11 @@ import tools.ObjectWithID;
  * <p>
  * Useful classes/interfaces used here:
  * <ul>
- * <li>{@link }></li>
+ * <li>{@link GameObjectsManager}</li>
+ * <li>{@link GameObjectsProvidersHolder}</li>
+ * <li>{@link GThread}</li>
+ * <li>{@link GameObjectsManager}</li>
+ * <li>{@link GameObjectsManager}</li>
  * </ul>
  */
 public abstract class GModality {
@@ -54,21 +56,19 @@ public abstract class GModality {
 	protected GModel model;
 	protected String modalityName;
 	/** Used to suspend threads */
-	protected final Object pauseThreadsLock = new Object();
-	protected Map<Long, GThread> threadsSleeping; // List<ThreadGame>
 	protected PlayerGeneric player;
 	protected final GameObjectsProvidersHolder gameObjectsProviderHolder;
 	protected final GameObjectsManager gomDelegated;
+	protected final GameThreadsManager gameThreadsManager;
 
 	public GModality(GController controller, String modalityName) {
 		this.controller = controller;
 		this.modalityName = modalityName;
 		this.model = newGameModel();
-		this.threadsSleeping = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR);
-//				new LinkedList<>();
 		this.lastElapsedDeltaTime = this.getMinimumMillisecondsEachCycle();
 		this.gameObjectsProviderHolder = controller.getGObjProvidersHolderForGModality(this);
 		this.gomDelegated = newGameObjectsManager(); // ((GControllerRPG) controller).get; //
+		this.gameThreadsManager = newGameThreadsManager();
 		onCreate();
 		// il game model deve avere anche l'holder dovuto dal "Misom"
 		assert this.getModel()
@@ -181,14 +181,6 @@ public abstract class GModality {
 	protected abstract GameObjectsManager newGameObjectsManager();
 
 	/**
-	 * Override designed-.<br>
-	 * Differs from {@link #resume()} because resume just change the state of the
-	 * current match from stopped to running, in some way, while "start" create all
-	 * instances, maps, handlers, threads, sockets, etc etc.
-	 */
-	public abstract void startGame();
-
-	/**
 	 * Override designed.
 	 * <p>
 	 * Define THE REAL GAME cycle.<br Everything about a cycle-based game is run
@@ -278,27 +270,54 @@ public abstract class GModality {
 		}
 	}
 
+	//
+
+	// TODO threads
+
+	//
+
+	/**
+	 * Override designed, by default simply calls
+	 * {@link GameThreadsManager#instantiateAllThreads()}.
+	 */
+	protected void checkAndRebuildThreads() {
+		this.gameThreadsManager.instantiateAllThreads();
+	}
+
+	/**
+	 * Start all kinds of threads
+	 */
+	protected void startAllThreads() {
+		this.gameThreadsManager.startGThreads();
+	}
+
+	/**
+	 * Override designed - call this at the end on overrides.<br>
+	 * Differs from {@link #resume()} because resume just change the state of the
+	 * current match from stopped to running, in some way, while "start" create all
+	 * instances, maps, handlers, threads, sockets, etc etc.
+	 */
+	public void startGame() {
+		checkAndRebuildThreads();
+		System.out.println("\n\n STARTING THREADS, SOON \n\n\n");
+		startAllThreads();
+	}
+
+	public GameThreadsManager newGameThreadsManager() {
+		return new GameThreadsManagerBase(this);
+	}
+
 	/**
 	 * Used by other objects and threads (like GUI, sound, animation, the game's
 	 * ones, etc) to check if the game is running or: If NOT (i.e. the game is
 	 * paused), make that thread sleep <br>
 	 * Differs from {@link #isRunning()}, see it for differences.
+	 * <p>
+	 * Delegate the implementation to
+	 * {@link GameThreadsManager#isGModalityRunningOrSleep()}.
 	 */
 	public boolean isRunningOrSleep() {
-		if (!(this.isRunning() && this.isAlive())) {
-			try {
-				synchronized (pauseThreadsLock) {
-					GThread t;
-					t = (GThread) Thread.currentThread();
-					threadsSleeping.put(t.getId(), t);
-//					threadsSleeping.add(t);
-					this.pauseThreadsLock.wait();
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} // make me sleep
-		}
-		return true;
+		return this.gameThreadsManager.isGModalityRunningOrSleep();
 	}
 
 	public void pause() {
@@ -307,15 +326,13 @@ public abstract class GModality {
 
 	public void resume() {
 		this.isRunning = true;
-		synchronized (pauseThreadsLock) {
-			threadsSleeping.clear();
-			this.pauseThreadsLock.notifyAll();
-		}
+		this.gameThreadsManager.resumeThreads();
 	}
 
 	/**
 	 * <i/>WARNING</i>: <b>NOT</b> override designed,<br>
-	 * but allowed: just redefine {@link #doOnEachCycle(int)} instead.
+	 * but allowed (in case of tuning or enhancement): just redefine
+	 * {@link #doOnEachCycle(int)} instead.
 	 * <p>
 	 * Perform a SINGLE game cycle/step.<br>
 	 * Should be called by the game's thread inside a cycle.<br>
@@ -363,15 +380,48 @@ public abstract class GModality {
 	/** Override AND call the super implementation. */
 	public void closeAll() {
 		this.pause();
-		synchronized (pauseThreadsLock) {
-			this.pauseThreadsLock.notifyAll();
-			threadsSleeping.forEach(//
-					(id, t) -> { // t
-						/*
-						 * try { t.interrupt(); } catch (SecurityException e) { e.printStackTrace(); }
-						 */
-						t.stopAndDie();
-					});
+		this.gameThreadsManager.stopThreads();
+	}
+
+	//
+
+	//
+
+	// TODO class
+
+	//
+
+	public static class GameThreadsManagerBase extends GameThreadsManager {
+		public GameThreadsManagerBase(GModality gmodality) {
+			super(gmodality);
+		}
+
+		@Override
+		public void instantiateAllThreads() {
+			this.addGThread(new GThread(new RunGameInstance(gmodality)));
+		}
+	}
+
+	// previously was ThreadGame_GameRunner_E1
+	protected static class RunGameInstance implements GThread.GTRunnable {
+		protected boolean isWorking = true; // when the
+		protected GModality gmodality;
+
+		public RunGameInstance(GModality gmodality) {
+			super();
+			this.gmodality = gmodality;
+		}
+
+		@Override
+		public void run() {
+			while(isWorking) {
+				this.gmodality.runGameCycle();
+			}
+		}
+
+		@Override
+		public void stopAndDie() {
+			this.isWorking = false;
 		}
 	}
 }

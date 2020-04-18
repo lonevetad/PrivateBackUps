@@ -21,8 +21,11 @@ public interface IGameModalityTimeBased {
 	 * elapsed time.
 	 * <p>
 	 * Method that should be invoked by {@link GModality#doOnEachCycle(int)}.
+	 * <p>
+	 * The parameter is just a "time unit", that could be "milliseconds" or "a
+	 * single turn".
 	 */
-	public void progressElapsedTime(int millisecToElapse);
+	public void progressElapsedTime(int timeUnit);
 
 	/**
 	 * Return an instance of {@link GModelTimeBased}, so that this modality is

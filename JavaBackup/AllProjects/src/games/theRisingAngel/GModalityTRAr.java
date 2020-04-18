@@ -39,7 +39,7 @@ public class GModalityTRAr extends GModalityRPG {
 
 	@Override
 	public void startGame() {
-		// TODO Auto-generated method stub
-
+		super.startGame();
+		// and then? TODO
 	}
 }

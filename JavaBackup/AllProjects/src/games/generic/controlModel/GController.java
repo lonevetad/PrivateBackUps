@@ -156,8 +156,8 @@ public abstract class GController {
 	 * Call {@link #setCurrentGameModality(GModality)}} before invoking it.
 	 */
 	public void startGame() {
-		this.getCurrentGameModality().startGame();
 		this.isAlive = true;
+		this.getCurrentGameModality().startGame();
 		this.resumeGame(); // make it run, added on 19/03/2020
 	}
 
