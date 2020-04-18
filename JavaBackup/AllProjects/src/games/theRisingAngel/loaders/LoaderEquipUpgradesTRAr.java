@@ -28,8 +28,9 @@ public class LoaderEquipUpgradesTRAr extends LoaderEquipUpgrades {
 		// e poi
 		leuff = new LoaderEquipUpgradeFromFile("", "equipUpgradesTRAr.json");
 		leuff.readAllFile();
+		System.out.println("total equip-upgrades loaded: " + leuff.factories.size());
 		for (FactoryEquipUpgrade fe : leuff.factories) {
-			objProvider.addObj(fe.name, fe);
+			objProvider.addObj(fe.name, fe.rarity, fe);
 		}
 	}
 
@@ -104,6 +105,6 @@ public class LoaderEquipUpgradesTRAr extends LoaderEquipUpgrades {
 			System.out.println();
 			System.out.println(feu);
 		}
-
+		System.out.println("total: " + leuff.factories.size());
 	}
 }

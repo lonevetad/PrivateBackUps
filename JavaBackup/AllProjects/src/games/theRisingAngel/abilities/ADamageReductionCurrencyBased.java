@@ -72,11 +72,6 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeReal
 
 	//
 
-	@Override
-	public void setOwner(ObjectWithID owner) {
-		throw new UnsupportedOperationException("Too lazy");
-	}
-
 	public void setPerThousandFraction(int perThousandFraction) {
 		this.perThousandFraction = perThousandFraction;
 	}

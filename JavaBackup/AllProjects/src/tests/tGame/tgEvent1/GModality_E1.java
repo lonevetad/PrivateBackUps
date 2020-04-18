@@ -4,7 +4,6 @@ import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
-import games.generic.controlModel.GameObjectsManager;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.player.PlayerGeneric;
@@ -49,6 +48,9 @@ public class GModality_E1 extends GModalityTRAr {
 		GameObjectsProvidersHolderTRAr goph;
 
 		super.onCreate();
+
+		System.out.println("\n\n\n MY NAME: " + getModalityName() + "\n\n");
+
 		//
 		contr = (GC_E1) controller;
 		gmodel = (GModel_E1) this.getModel();
@@ -62,7 +64,7 @@ public class GModality_E1 extends GModalityTRAr {
 		p.setName("Lonevetad");
 		this.setPlayer(p);
 		p.setGameModality(this);
-
+		p.setCurrencies(newCurrencyHolder());
 		p.getCurrencies().setMoneyAmount(0, 100);
 
 		this.addGameObject(p);
@@ -82,8 +84,8 @@ public class GModality_E1 extends GModalityTRAr {
 //		this.addEventObserver(ope);
 		this.addGameObject(ope);
 
-		necklace_opr = (NecklaceOfPainRinvigoring) goph.getEquipmentsProvider().getNewObjByName(this,
-				NecklaceOfPainRinvigoring.NAME);
+		necklace_opr = (NecklaceOfPainRinvigoring) goph.getEquipmentsProvider()//
+				.getNewObjByName(this, NecklaceOfPainRinvigoring.NAME);
 //		necklace_opr.setCreatureReferred(p);
 		p.equip(necklace_opr);
 //		this.addGameObject(necklace_opr); // yet provided by equipping
@@ -176,11 +178,5 @@ public class GModality_E1 extends GModalityTRAr {
 		public void stopAndDie() {
 			this.isWorking = false;
 		}
-	}
-
-	@Override
-	protected GameObjectsManager newGameObjectsManager() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

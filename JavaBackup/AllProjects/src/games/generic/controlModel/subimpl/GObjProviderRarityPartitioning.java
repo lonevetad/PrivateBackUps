@@ -41,9 +41,11 @@ public abstract class GObjProviderRarityPartitioning<E extends RarityHolder & Ob
 		this.addObj(name, 0, gm);
 	}
 
+	@Override
 	public void addObj(String name, int rarityIndex, FactoryObjGModalityBased<E> gm) {
 		MapTreeAVL<String, FactoryObjGModalityBased<E>> rarityCluster;
 		Integer ri;
+		super.addObj(name, gm);
 		ri = rarityIndex;
 		rarityCluster = getRarityCluster(ri);
 		if (rarityCluster == null) {

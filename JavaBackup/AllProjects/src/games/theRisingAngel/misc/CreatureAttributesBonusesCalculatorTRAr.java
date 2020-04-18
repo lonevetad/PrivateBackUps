@@ -11,9 +11,9 @@ import tools.minorTools.RandomWeightedIndexes;
  * <li>Every increments and reductions are integers. Fractions (call those
  * <li>CriticalProbability: it's meant as a "n/10 %" (i.e.: it's not a
  * "percentile" but "per thousand")</li>
- * <li>CriticalMultiplier: it should be divided by 10.0 at least</li> values
- * "f") are to be meant: "add one point of the original value for each 1/f
- * points of this".</li>
+ * <li>CriticalMultiplier: it should be divided by 10.0, at least (or 100)</li>
+ * values "f") are to be meant: "add one point of the original value for each
+ * 1/f points of this".</li>
  * <li>Strength: each point gives +1 LifeMax, +0.25 DamageReductionPhysical,
  * +0.5 DamageBonusPhysical, +0.2 CriticalMultiplier</li>
  * <li>Constitution: +2 LifeMax, +0.5 DamageReductionPhysical, +0.25 RegenLife,
@@ -108,10 +108,10 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 			break;
 		case DamageReductionMagical:
 			v = (c.getValue(AttributesTRAr.Dexterity.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAr.Intelligence.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 2)
+					+ (c.getValue(AttributesTRAr.Intelligence.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 1)
 					+ (c.getValue(AttributesTRAr.Defense.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 3);
+					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 2);
 			break;
 		case CriticalMultiplier:
 			v = (c.getValue(AttributesTRAr.Strength.getIndex()) / 5)

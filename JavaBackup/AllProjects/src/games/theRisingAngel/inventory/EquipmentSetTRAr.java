@@ -60,7 +60,7 @@ public class EquipmentSetTRAr extends EquipmentSet {
 		et = (EquipmentTypesTRAr) ei.getEquipmentType();
 		switch (et) {
 //		case Earrings:break; // are put at the beginning
-		case Rings:
+		case Ring:
 			addRing(gm, (EIRing) ei);
 			break;
 		case Necklace:

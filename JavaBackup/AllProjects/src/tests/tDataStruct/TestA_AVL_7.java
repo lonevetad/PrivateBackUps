@@ -10,7 +10,7 @@ public class TestA_AVL_7 {
 		int[] vals;
 		MapTreeAVL<Integer, Integer> t;
 		Integer x;
-		t = MapTreeAVL.newMap(Comparators.INTEGER_COMPARATOR);
+		t = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration, Comparators.INTEGER_COMPARATOR);
 		vals = new int[] { 70, 10, 100, 5, 21, 3, 155 };
 		System.out.println("start");
 		for (int v : vals) {
@@ -71,7 +71,7 @@ public class TestA_AVL_7 {
 				}
 			}
 			compactOnlyAtEnd = !compactOnlyAtEnd;
-		} while (compactOnlyAtEnd);
+		} while(compactOnlyAtEnd);
 		System.out.println("before compact:");
 		System.out.println(t);
 		t.compact();
@@ -99,7 +99,7 @@ public class TestA_AVL_7 {
 	static void buildAndPrint(MapTreeAVL<Integer, Integer> t, IntSequence is, boolean shouldPrint) {
 		Integer x;
 		t.clear();
-		while (is.hasNext()) {
+		while(is.hasNext()) {
 			x = is.next();
 			t.put(x, x);
 		}

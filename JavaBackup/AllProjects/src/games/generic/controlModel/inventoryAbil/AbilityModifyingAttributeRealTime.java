@@ -6,6 +6,7 @@ import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.subimpl.AbilityTimedGeneric;
+import tools.ObjectWithID;
 import tools.UniqueIDProvider;
 
 /** This class is originally designed as */
@@ -30,6 +31,7 @@ public abstract class AbilityModifyingAttributeRealTime implements AbilityTimedG
 	protected String name;
 	protected AttributeModification attributeToModify;
 	protected EquipmentItem equipItem;
+	protected ObjectWithID owner;
 
 	public AttributeModification getAttributeToModify() {
 		return attributeToModify;
@@ -60,7 +62,17 @@ public abstract class AbilityModifyingAttributeRealTime implements AbilityTimedG
 		return MILLISEC_ATTRIBUTE_UPDATE;
 	}
 
+	@Override
+	public ObjectWithID getOwner() {
+		return owner;
+	}
+
 	//
+
+	@Override
+	public void setOwner(ObjectWithID owner) {
+		this.owner = owner;
+	}
 
 	public void setAttributeToModify(AttributeModification attributeToModify) {
 		this.attributeToModify = attributeToModify;

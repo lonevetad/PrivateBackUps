@@ -27,10 +27,5 @@ public abstract class GModalityRPG extends GModalityET {
 		return (GameObjectsProvidersHolderRPG) gameObjectsProviderHolder;
 	}
 
-	@Override
-	public GameObjectsManager getGameObjectsManager() {
-		return gomDelegated;
-	}
-
 	//
 }

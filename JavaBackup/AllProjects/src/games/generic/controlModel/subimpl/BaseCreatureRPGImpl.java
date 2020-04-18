@@ -234,7 +234,8 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	@Override
 	public void move(GModality modality, int timeUnits) {
-		movementImplementation.act(modality, timeUnits);
+		if (movementImplementation != null)
+			movementImplementation.act(modality, timeUnits);
 	}
 
 	@Override

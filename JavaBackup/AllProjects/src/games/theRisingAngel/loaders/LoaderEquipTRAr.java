@@ -36,12 +36,14 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 				(gm) -> new ArmProtectionShieldingDamageByMoney((GModalityRPG) gm));
 		objProvider.addObj(NecklaceOfPainRinvigoring.NAME, //
 				(gm) -> new NecklaceOfPainRinvigoring((GModalityRPG) gm));
+
 		objProvider.addObj(HelmetOfPlanetaryMeteors.NAME, (gm) -> new HelmetOfPlanetaryMeteors((GModalityRPG) gm));
 
 		leff = new LoaderEquipFromFile("", "equipItems.json");
 		leff.readAllFile();
+		System.out.println("total equip loaded: " + leff.factories.size());
 		for (FactoryEquip fe : leff.factories) {
-			objProvider.addObj(fe.name, fe);
+			objProvider.addObj(fe.name, fe.rarity, fe);
 		}
 	}
 
@@ -127,6 +129,6 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 			System.out.println();
 			System.out.println(fe);
 		}
-
+		System.out.println("total: " + leff.factories.size());
 	}
 }

@@ -9,6 +9,7 @@ import games.generic.controlModel.inventoryAbil.AttributesUpgrade;
 import games.generic.controlModel.misc.LoaderGeneric;
 import games.theRisingAngel.AttributesTRAr;
 
+/** Set of utilities for loading stuffs on TRAr. */
 public class LoaderFunctionsTRAr {
 
 	public static List<String> extractAbilitiesName(String temp) {

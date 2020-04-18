@@ -7,12 +7,13 @@ public class EquipItemProvider extends GObjProviderRarityPartitioning<EquipmentI
 	public static final String NAME = "EquipP";
 
 	public EquipItemProvider() {
+		super();
 	}
 
 	public EquipmentItem getEquipByName(GModality gm, String name) {
 		if (gm == null || name == null)
 			return null;
 //		return getObjByName(name).newInstance(gm);
-		return getNewObjByName(gm, name);
+		return super.getNewObjByName(gm, name);
 	}
 }

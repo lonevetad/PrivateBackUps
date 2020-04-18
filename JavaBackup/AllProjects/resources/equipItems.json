@@ -5,11 +5,11 @@
 		"rarity": 1,
 		"attributeMods": [
 			{"attribute": "LifeMax", "value": 45},
-			{"attribute": "Defense", "value": 13},
-			{"attribute": "Constitution", "value": 5},
-			{"attribute": "Velocity", "value": +3},
+			{"attribute": "Defense", "value": 16},
+			{"attribute": "Constitution", "value": 13},
+			{"attribute": "Velocity", "value": +5},
 			{"attribute": "DamageReductionPhysical", "value": 4},
-			{"attribute": "DamageReductionMagical", "value": 2}
+			{"attribute": "DamageReductionMagical", "value": 3}
 		],
 		"abilities": []
 	}, {
@@ -17,11 +17,11 @@
 		"type": "Chest",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": 50},
-			{"attribute": "Defense", "value": 15},
-			{"attribute": "Constitution", "value": 7},
+			{"attribute": "LifeMax", "value": 52},
+			{"attribute": "Defense", "value": 20},
+			{"attribute": "Constitution", "value": 10},
 			{"attribute": "DamageReductionPhysical", "value": 5},
-			{"attribute": "DamageReductionMagical", "value": 1}
+			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -29,12 +29,12 @@
 		"type": "Feet",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Defense", "value": 8},
-			{"attribute": "Constitution", "value": 3},
-			{"attribute": "Dexterity", "value": 10},
-			{"attribute": "Velocity", "value": +5},
-			{"attribute": "DamageReductionPhysical", "value": 1},
-			{"attribute": "DamageReductionMagical", "value": 1}
+			{"attribute": "Defense", "value": 12},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Dexterity", "value": 15},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 3}
 		],
 		"abilities": []
 	}, {
@@ -42,7 +42,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Strength", "value": 5}
+			{"attribute": "Strength", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -50,7 +50,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": 30}
+			{"attribute": "LifeMax", "value": 60}
 		],
 		"abilities": []
 	}, {
@@ -58,7 +58,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "ManaMax", "value": 20}
+			{"attribute": "ManaMax", "value": 45}
 		],
 		"abilities": []
 	}, {
@@ -66,7 +66,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Precision", "value": 5}
+			{"attribute": "Precision", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -74,7 +74,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 5}
+			{"attribute": "Dexterity", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -82,7 +82,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Intelligence", "value": 5}
+			{"attribute": "Intelligence", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -90,7 +90,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": 2}
+			{"attribute": "RigenLife", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -98,7 +98,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "RigenMana", "value": 2}
+			{"attribute": "RigenMana", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -106,16 +106,16 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Wisdom", "value": 5}
+			{"attribute": "Wisdom", "value": 10}
 		],
 		"abilities": []
 	}, {
-		"name": "?? Ring", //TODOOO
+		"name": "Quartz Ring",
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": 1},
-			{"attribute": "RigenMana", "value": 1}
+			{"attribute": "RigenLife", "value": 2},
+			{"attribute": "RigenMana", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -123,8 +123,8 @@
 		"type": "Ring",
 		"rarity": 2,
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": 1},
-			{"attribute": "LifeMax", "value": 20}
+			{"attribute": "RigenLife", "value": 2},
+			{"attribute": "LifeMax", "value": 40}
 		],
 		"abilities": []
 	}, {
@@ -132,8 +132,8 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "ManaMax", "value": 15},
-			{"attribute": "RigenMana", "value": 1}
+			{"attribute": "ManaMax", "value": 35},
+			{"attribute": "RigenMana", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -141,9 +141,9 @@
 		"type": "Ring",
 		"rarity": 2,
 		"attributeMods": [
-			{"attribute": "Defense", "value": 2},
-			{"attribute": "Dexterity", "value": 2},
-			{"attribute": "Precision", "value": 2}
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -151,7 +151,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Health", "value": 5}
+			{"attribute": "Health", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -159,7 +159,7 @@
 		"type": "Ring",
 		"rarity": 2,
 		"attributeMods": [
-			{"attribute": "Luck", "value": 3}
+			{"attribute": "Luck", "value": 5}
 		],
 		"abilities": []
 	}, {
@@ -167,7 +167,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Constitution", "value": 5}
+			{"attribute": "Constitution", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -175,7 +175,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Faith", "value": 5}
+			{"attribute": "Faith", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -183,7 +183,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "Velocity", "value": 10}
+			{"attribute": "Velocity", "value": 15}
 		],
 		"abilities": []
 	}, {
@@ -191,7 +191,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "DamageBonusMagical", "value": 2}
+			{"attribute": "DamageBonusMagical", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -199,7 +199,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "DamageReductionMagical", "value": 2}
+			{"attribute": "DamageReductionMagical", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -207,7 +207,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "DamageBonusPhysical", "value": 2}
+			{"attribute": "DamageBonusPhysical", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -215,7 +215,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "DamageReductionPhysical", "value": 2}
+			{"attribute": "DamageReductionPhysical", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -223,7 +223,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "CriticalProbability", "value": 5}
+			{"attribute": "CriticalProbability", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -231,7 +231,7 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "CriticalMultiplier", "value": 5}
+			{"attribute": "CriticalMultiplier", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -239,8 +239,8 @@
 		"type": "Ring",
 		"rarity": 1,
 		"attributeMods": [
-			{"attribute": "DamageBonusMagical", "value": 1},
-			{"attribute": "DamageReductionMagical", "value": 1}
+			{"attribute": "DamageBonusMagical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -248,8 +248,8 @@
 		"type": "Ring",
 		"rarity": s,
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 3},
-			{"attribute": "Precision", "value": 2}
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Precision", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -257,8 +257,8 @@
 		"type": "Ring",
 		"rarity": s,
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 2},
-			{"attribute": "Precision", "value": 3}
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 6}
 		],
 		"abilities": []
 	}, {
@@ -266,8 +266,8 @@
 		"type": "Ring",
 		"rarity": 2,
 		"attributeMods": [
-			{"attribute": "DamageBonusPhysical", "value": 1},
-			{"attribute": "DamageReductionPhysical", "value": 1}
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -275,10 +275,10 @@
 		"type": "Ring",
 		"rarity": 3,
 		"attributeMods": [
-			{"attribute": "Strength", "value": 2},
-			{"attribute": "Constitution", "value": 2},
-			{"attribute": "Health", "value": 2},
-			{"attribute": "Defense", "value": 2}
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Health", "value": 4},
+			{"attribute": "Defense", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -286,10 +286,28 @@
 		"type": "Ring",
 		"rarity": 3,
 		"attributeMods": [
-			{"attribute": "Intelligence", "value": 2},
-			{"attribute": "Wisdom", "value": 2},
-			{"attribute": "Faith", "value": 2},
+			{"attribute": "Intelligence", "value": 4},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 4},
 			{"attribute": "Luck", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Pyrite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageBonusMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Prehnite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
 	}

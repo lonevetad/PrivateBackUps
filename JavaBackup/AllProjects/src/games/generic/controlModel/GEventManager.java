@@ -1,6 +1,7 @@
 package games.generic.controlModel;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
 
@@ -28,6 +29,7 @@ public abstract class GEventManager implements GObjectsHolder {
 		 * MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 		 * Comparators.INTEGER_COMPARATOR);
 		 */
+		eventsQueued = new LinkedList<>();
 	}
 
 	//

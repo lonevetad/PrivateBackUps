@@ -24,6 +24,8 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 		this.setEquipmentSet(new EquipmentSetTRAr());
 	}
 
+	protected CurrencySet currencies;
+
 	//
 
 	//
@@ -96,14 +98,12 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 
 	@Override
 	public CurrencySet getCurrencies() {
-		// TODO Auto-generated method stub
-		return null;
+		return currencies;
 	}
 
 	@Override
 	public void setCurrencies(CurrencySet currencies) {
-		// TODO Auto-generated method stub
-
+		this.currencies = currencies;
 	}
 
 	//

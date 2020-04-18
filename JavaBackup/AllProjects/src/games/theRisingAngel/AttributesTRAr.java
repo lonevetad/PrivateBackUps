@@ -19,7 +19,7 @@ public enum AttributesTRAr implements AttributeIdentifier {
 	Strength, Constitution, Health, //
 	Defense, Dexterity, Precision, //
 	Intelligence, Wisdom, Faith,
-//
+	//
 	ProbabilityHit, ProbabilityAvoid,
 	//
 	DamageBonusPhysical, DamageBonusMagical, DamageReductionPhysical, DamageReductionMagical, //

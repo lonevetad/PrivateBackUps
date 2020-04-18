@@ -50,7 +50,7 @@ public abstract class GModality {
 
 	protected boolean isRunning;
 	protected int lastElapsedDeltaTime = 0;
-	protected GController controller;
+	protected final GController controller;
 	protected GModel model;
 	protected String modalityName;
 	/** Used to suspend threads */
@@ -68,8 +68,8 @@ public abstract class GModality {
 //				new LinkedList<>();
 		this.lastElapsedDeltaTime = this.getMinimumMillisecondsEachCycle();
 		this.gameObjectsProviderHolder = controller.getGObjProvidersHolderForGModality(this);
+		this.gomDelegated = newGameObjectsManager(); // ((GControllerRPG) controller).get; //
 		onCreate();
-		this.gomDelegated = newGameObjectsManager();
 		// il game model deve avere anche l'holder dovuto dal "Misom"
 		assert this.getModel()
 				.containsObjHolder(this.getGameObjectsManager().getGObjectInSpaceManager().getNameGObjHolder()) : //

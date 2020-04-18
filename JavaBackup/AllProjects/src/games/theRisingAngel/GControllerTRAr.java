@@ -1,8 +1,5 @@
 package games.theRisingAngel;
 
-import games.generic.controlModel.GModality;
-import games.generic.controlModel.GameObjectsProvidersHolder;
-import games.generic.controlModel.misc.LoaderGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GControllerRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
@@ -19,7 +16,7 @@ public class GControllerTRAr extends GControllerRPG {
 	}
 
 	@Override
-	protected GameObjectsProvidersHolderRPG newGameObjectsManagerProvider() {
+	protected GameObjectsProvidersHolderRPG newGameObjectsProvider() {
 		return new GameObjectsProvidersHolderTRAr();
 	}
 
@@ -31,30 +28,24 @@ public class GControllerTRAr extends GControllerRPG {
 	}
 
 	@Override
-	protected GameObjectsProvidersHolder getGObjProvidersHolderForGModality(GModality gm) {
-		return new GameObjectsProvidersHolderTRAr();
-	}
-
-	@Override
 	protected UserAccountGeneric newUserAccount() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected LoaderGeneric newLoaderConfigurations(GControllerRPG cgRPG) {
-		return new LoaderConfigurations();
-	}
-
-	@Override
-	protected void onCreate() {
-		super.onCreate();
+	protected void initNonFinalStuffs() {
 		super.addGameObjectLoader(new LoaderAbilityTRAr(this.gameObjectsProvidersHolderRPG.getAbilitiesProvider()));
 		super.addGameObjectLoader(
 				new LoaderEquipUpgradesTRAr(this.gameObjectsProvidersHolderRPG.getEquipUpgradesProvider()));
 		super.addGameObjectLoader(new LoaderEquipTRAr(this.gameObjectsProvidersHolderRPG.getEquipmentsProvider()));
 		super.addGameObjectLoader(new LoaderCreatureTRAr(this.gameObjectsProvidersHolderRPG.getCreaturesProvider()));
 
+		super.initNonFinalStuffs();
+		System.out.println("GControllerTRAr init non final stuff done\n\n");
+//		this.gameObjectsProvidersHolderRPG.getEquipmentsProvider().getObjectsIdentified().forEach((n, f) -> {
+//			System.out.println("daffaking equip name: " + n);
+//		});
 	}
 
 }

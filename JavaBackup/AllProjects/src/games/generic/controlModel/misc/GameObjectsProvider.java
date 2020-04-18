@@ -33,7 +33,7 @@ import tools.minorTools.RandomWeightedIndexes;
  * Randomness can be manipulated through {@link RandomWeightedIndexes}.
  */
 public class GameObjectsProvider<E extends ObjectNamed> {
-	protected MapTreeAVL<String, FactoryObjGModalityBased<E>> objsByName;
+	protected final MapTreeAVL<String, FactoryObjGModalityBased<E>> objsByName;
 
 	public GameObjectsProvider() {
 		this.objsByName = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
@@ -41,7 +41,22 @@ public class GameObjectsProvider<E extends ObjectNamed> {
 	}
 
 	public void addObj(String name, FactoryObjGModalityBased<E> gm) {
+//		System.out.println("\n\n------------original name: " + name + " in class: " + this.getClass().getSimpleName());
 		this.objsByName.put(name, gm);
+		/*
+		 * if (objsByName.get(name) == null) {
+		 * System.err.println("WTF not present after putting?"); System.exit(1); } else
+		 * { System.out.println("sucessfully added for ++" + name + "--: " +
+		 * objsByName.get(name)); }
+		 */
+	}
+
+	/**
+	 * Added as a workaround, it just calls
+	 * {@link #addObj(String, FactoryObjGModalityBased)}.
+	 */
+	public void addObj(String name, int rarityIndex, FactoryObjGModalityBased<E> gm) {
+		this.addObj(name, gm);
 	}
 
 	public FactoryObjGModalityBased<E> getObjByName(String name) {
@@ -49,6 +64,10 @@ public class GameObjectsProvider<E extends ObjectNamed> {
 	}
 
 	public E getNewObjByName(GModality gm, String name) {
+		System.out.println("on " + this.getClass().getSimpleName() + " is retrieving: " + name);
+		FactoryObjGModalityBased<E> e;
+		e = this.objsByName.get(name);
+		System.out.println("e: " + e);
 		return this.objsByName.get(name).newInstance(gm);
 	}
 
@@ -64,7 +83,7 @@ public class GameObjectsProvider<E extends ObjectNamed> {
 		return this.objsByName.size();
 	}
 
-	public void removeALl() {
+	public void removeAll() {
 		this.objsByName.clear();
 	}
 }

@@ -13,7 +13,7 @@ public abstract class EIJewelry extends EquipmentItem {
 	public EIJewelry(GModalityRPG gmrpg, EquipmentTypesTRAr et, String name) {
 		super(gmrpg, et, name);
 		if (et == null || (et != EquipmentTypesTRAr.Earrings && et != EquipmentTypesTRAr.Necklace
-				&& et != EquipmentTypesTRAr.Rings)) {
+				&& et != EquipmentTypesTRAr.Ring)) {
 			throw new IllegalArgumentException("Not a really jewelry");
 		}
 	}

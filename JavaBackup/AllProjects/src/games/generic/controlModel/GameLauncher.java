@@ -26,7 +26,7 @@ public abstract class GameLauncher {
 		GameView gv;
 		gc = gl.newController();
 		gl.controller = gc;
-//		gc.init();
+		gc.initNonFinalStuffs();
 		gv = gl.newView(gc);
 		gl.view = gv;
 		gv.initAndShow();

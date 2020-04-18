@@ -15,7 +15,7 @@ public enum EquipmentTypesTRAr implements EquipmentType {
 	Hands, Chest, Arms, //
 	Feet, Belt, Legs, //
 	MainWeapon, Special, SecodaryWeapon, //
-	Necklace, Bracelet, Rings//
+	Necklace, Bracelet, Ring//
 	;
 	public static final int HANDS_AMOUNT = 2, FINGERS_EACH_HAND = 5, RING_SLOTS_EACH_FINGERS = 2, //
 			TOTAL_RINGS_SLOTS_AMOUNT, TOTAL_FINGERS_AMOUNT = (HANDS_AMOUNT * FINGERS_EACH_HAND), //

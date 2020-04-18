@@ -7,7 +7,9 @@ import java.util.Map;
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.misc.GModalityFactory;
 import games.generic.controlModel.misc.LoaderGameObjects;
+import games.generic.controlModel.misc.LoaderGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
+import games.theRisingAngel.LoaderConfigurations;
 import tools.Comparators;
 
 /**
@@ -39,16 +41,16 @@ public abstract class GController {
 	protected Map<String, GModalityFactory> gameModalitiesFactories;
 	protected GModality currentGameModality;
 	protected UserAccountGeneric user;
-	protected List<LoaderGameObjects<? extends ObjectNamed>> gameObjectsLoader;
+	protected final List<LoaderGameObjects<? extends ObjectNamed>> gameObjectsLoader;
+	protected final LoaderGeneric loaderConfigurations;
 
 	/** Create everything and loads everything as well. */
 	protected GController() {
 		this.isAlive = false;
 		this.gameModalitiesFactories = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				Comparators.STRING_COMPARATOR);
-		gameObjectsLoader = new LinkedList<>();
-		onCreate();
-		loadAll();
+		this.gameObjectsLoader = new LinkedList<>();
+		this.loaderConfigurations = newLoaderConfigurations(this);
 	}
 
 	//
@@ -102,9 +104,11 @@ public abstract class GController {
 //
 
 	/** Override designed BUT call <code>super.</code>{@link #init()}}. */
-	protected void onCreate() {
+	protected void initNonFinalStuffs() {
 		defineGameModalitiesFactories();
 		user = this.newUserAccount();
+		this.loaderConfigurations.loadInto(this);
+		loadAll();
 	}
 
 	protected <E extends ObjectNamed> void addGameObjectLoader(LoaderGameObjects<E> ol) {
@@ -114,6 +118,10 @@ public abstract class GController {
 	/** Load everything that needs to be loaded */
 	protected void loadAll() {
 		this.gameObjectsLoader.forEach(l -> l.loadInto(this));
+	}
+
+	protected LoaderGeneric newLoaderConfigurations(GController cgRPG) {
+		return new LoaderConfigurations();
 	}
 
 	//
