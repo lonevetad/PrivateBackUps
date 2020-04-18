@@ -7,7 +7,6 @@ import java.util.function.Consumer;
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import tools.Comparators;
 import tools.ObjectWithID;
@@ -19,7 +18,7 @@ public class GEventManagerSimple extends GEventManager {
 	public MapTreeAVL<Integer, ObjectWithID> observers; // previously GEventObserver
 	protected EventNotifier notifier;
 
-	public GEventManagerSimple(GModality gameModality) {
+	public GEventManagerSimple(GModalityET gameModality) {
 		super(gameModality);
 		this.observers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				Comparators.INTEGER_COMPARATOR);

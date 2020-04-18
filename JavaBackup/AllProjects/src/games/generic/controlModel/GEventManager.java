@@ -6,6 +6,7 @@ import java.util.Queue;
 import java.util.function.Consumer;
 
 import games.generic.controlModel.subimpl.GEvent;
+import games.generic.controlModel.subimpl.GModalityET;
 import tools.ObjectWithID;
 
 /**
@@ -18,11 +19,11 @@ import tools.ObjectWithID;
  * {@link GModality#doOnEachCycle(long)}) but it's obviously hard to implement.
  */
 public abstract class GEventManager implements GObjectsHolder {
-	protected GModality gameModality; // back reference
+	protected GModalityET gameModality; // back reference
 //	protected MapTreeAVL<Integer, Queue<IGEvent>> eventsQueued;
 	protected Queue<IGEvent> eventsQueued;
 
-	public GEventManager(GModality gameModality) {
+	public GEventManager(GModalityET gameModality) {
 		this.gameModality = gameModality;
 		/*
 		 * this.eventsQueued =
@@ -52,7 +53,7 @@ public abstract class GEventManager implements GObjectsHolder {
 	//
 
 	/***/
-	public void setGameModality(GModality gameModality) {
+	public void setGameModality(GModalityET gameModality) {
 		this.gameModality = gameModality;
 	}
 
@@ -128,7 +129,7 @@ public abstract class GEventManager implements GObjectsHolder {
 	 * cycle, i.e. each {@link GModality#doOnEachCycle(long)})
 	 */
 	public void performAllEvents() {
-		final GModality gm;
+		final GModalityET gm;
 		Queue<IGEvent> q;
 		gm = this.gameModality;
 		q = this.eventsQueued;

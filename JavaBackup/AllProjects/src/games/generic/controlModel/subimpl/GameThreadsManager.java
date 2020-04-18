@@ -3,14 +3,13 @@ package games.generic.controlModel.subimpl;
 import java.util.Map;
 
 import dataStructures.MapTreeAVL;
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.GThread;
 import tools.Comparators;
 
 /** Manager for game threads */
 public abstract class GameThreadsManager {
 
-	public GameThreadsManager(GModality gmodality) {
+	public GameThreadsManager(GModalityET gmodality) {
 		this.gmodality = gmodality;
 		this.pauseThreadsLock = new Object();
 		this.threadsSleeping = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR);
@@ -19,7 +18,7 @@ public abstract class GameThreadsManager {
 //		new LinkedList<>();
 	}
 
-	protected final GModality gmodality;
+	protected final GModalityET gmodality;
 	protected final Object pauseThreadsLock;
 	protected final Map<Long, GThread> threadsSleeping, allThreads; // List<ThreadGame>
 

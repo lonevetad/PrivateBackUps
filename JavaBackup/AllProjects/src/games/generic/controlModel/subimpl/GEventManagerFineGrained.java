@@ -12,7 +12,6 @@ import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.subimpl.GEventManagerSimple.EventNotifier;
 import tools.Comparators;
@@ -37,7 +36,7 @@ public class GEventManagerFineGrained extends GEventManager {
 	 */
 	public static final Function<GEventObserver, Integer> KEY_EXTRACTOR_Embedded = geo -> (-geo.getObserverPriority());
 
-	public GEventManagerFineGrained(GModality gameModality) {
+	public GEventManagerFineGrained(GModalityET gameModality) {
 		super(gameModality);
 		this.observersByTypes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				Comparators.STRING_COMPARATOR);
