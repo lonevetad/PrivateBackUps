@@ -4,8 +4,8 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subimpl.TimedObjectSimpleImpl;
-import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.GameObjectsManagerTRAr;
+import games.theRisingAngel.misc.DamageTypesTRAr;
 import tests.tGame.tgEvent1.GModality_E1;
 import tools.UniqueIDProvider;
 

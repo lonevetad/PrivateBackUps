@@ -12,9 +12,9 @@ import games.generic.controlModel.inventoryAbil.AbilityModifyingAttributeRealTim
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.misc.AttributesTRAr;
 import tools.ObjectWithID;
 
 /**

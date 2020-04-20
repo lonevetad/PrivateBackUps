@@ -7,7 +7,7 @@ import java.util.List;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.AttributesUpgrade;
 import games.generic.controlModel.misc.LoaderGeneric;
-import games.theRisingAngel.AttributesTRAr;
+import games.theRisingAngel.misc.AttributesTRAr;
 
 /** Set of utilities for loading stuffs on TRAr. */
 public class LoaderFunctionsTRAr {

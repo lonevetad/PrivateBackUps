@@ -1,7 +1,26 @@
 TODO:
+aggiunto nel 20/04/2020
+
+Le spell devono essere un po' personalizzabili ed un po' specifiche:
+-) Tutti i personaggi possono fare tutto, ma inizialmente ogni personaggio ha un insieme di spell tipiche.
+-) Infatti ogni Player ha tre insiemi:
+- - quelle di default, fornite dalla propria classe di appartenenza (uno skill-tree, magari)
+- - - es: gli elfi spareranno molte frecce, i maghi palle di fuoco, gli ogre dei buff agli attributi d'attacco, gli umani evocano altri umani, ec
+- - quello di skill apprese (tramite libri e non solo), che possono essere TUTTE le magie esistenti, inizialmente quelle di cui sopra E sbloccate
+- - quello di skill attualmente equipaggiae ed utilizzabili in battaglia
+
+Il GameController dovrà poi definire i metodi di "caricamento dei salvataggi" (oltre a quello delle mappe)
+tra cui caricare un Player, col suo livello, inventario, etc. Saranno necessari dei loader apposa
+
+Definire poi gli altri CharacterType
+
+
+
+
+
+TODO:
 aggiunto nel 03/04/2020
 aggiungere "edit distance" in Comparators come STRING_COMPARATOR_EDIT_DISTANCE
-
 
 e .. le statistiche delle creature variano di qualche decina:
 ad ogni livello si guadagnano 10 punti, gli equipaggiamenti dovrebbero fornire vantaggi pari a guadagni di circa almeno 3-5 livelli

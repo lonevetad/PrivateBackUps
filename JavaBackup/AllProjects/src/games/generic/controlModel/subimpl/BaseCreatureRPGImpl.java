@@ -12,9 +12,9 @@ import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.GObjMovement;
 import games.generic.controlModel.misc.HealGeneric;
 import games.generic.controlModel.misc.HealingTypeExample;
-import games.theRisingAngel.AttributesTRAr;
-import games.theRisingAngel.DamageTypesTRAr;
+import games.theRisingAngel.misc.AttributesTRAr;
 import games.theRisingAngel.misc.CreatureUIDProvider;
+import games.theRisingAngel.misc.DamageTypesTRAr;
 import geometry.AbstractShape2D;
 import tools.ObjectNamedID;
 import tools.ObjectWithID;
@@ -60,10 +60,14 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		this.ID = CreatureUIDProvider.newID();
 	}
 
+	/**
+	 * Creates a new {@link CreatureAttributes} with a fixed amounts of attribues.
+	 */
 	protected CreatureAttributes newAttributes(int attributesAmount) {
 		return new CreatureAttributesCaching(attributesAmount);
 	}
 
+	/** Must call {@link #newAttributes(int)}. */
 	protected abstract CreatureAttributes newAttributes();
 
 	//

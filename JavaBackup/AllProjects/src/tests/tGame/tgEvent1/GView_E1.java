@@ -1,10 +1,13 @@
 package tests.tGame.tgEvent1;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.TextArea;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import games.generic.controlModel.GController;
 import games.generic.view.GameView;
@@ -17,24 +20,32 @@ public class GView_E1 extends GameView {
 
 	JFrame fin;
 	JButton jbCloseAll, jbStartPause;
+	JPanel jpBigContainer;
+	JPanel jpStartStop, jpPlayerStats;
+	JProgressBar jpbPlayerLife;
+	TextArea taPlayerStats;
 
 	@Override
 	public void initAndShow() {
-		JPanel jp;
 //		Container panel;
+		JPanel jpNorth;
 		GController c;
 		c = super.gc;
 
 		fin = new JFrame("Test Event loop 1");
 		fin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		panel = fin.getContentPane();
-		jp = new JPanel();
-		jp.setLayout(new FlowLayout());
-		fin.add(jp);
+		jpBigContainer = new JPanel();
+		jpBigContainer.setLayout(new BorderLayout());
+		fin.add(jpBigContainer);
+
+		//
+		jpNorth = new JPanel();
+		jpBigContainer.add(jpNorth, BorderLayout.NORTH);
 		jbStartPause = new JButton("Start");
-		jp.add(jbStartPause);
+		jpNorth.add(jbStartPause);
 		jbCloseAll = new JButton("CLOSE ALL");
-		jp.add(jbCloseAll);
+		jpNorth.add(jbCloseAll);
 
 		jbStartPause.addActionListener(l -> {
 			if (gc == null) {
@@ -60,8 +71,17 @@ public class GView_E1 extends GameView {
 			c.closeAll();
 			jbStartPause.setText("START");
 		});
+
+		//
+
+		jpPlayerStats = new JPanel(new FlowLayout());
+		/*
+		 * TODO add progress bar and textarea, then create a gui-thread to update player
+		 * stats
+		 */
+
 		fin.setSize(500, 500);
-		jp.setSize(fin.getSize());
+		jpBigContainer.setSize(fin.getSize());
 		fin.setVisible(true);
 //		fin.pack();
 	}

@@ -1,5 +1,7 @@
 package games.generic.controlModel.player;
 
+import java.util.List;
+
 import games.generic.controlModel.GModality;
 import tools.ObjectNamedID;
 
@@ -16,7 +18,8 @@ public abstract class UserAccountGeneric implements ObjectNamedID {
 	}
 
 	protected Integer ID;
-	String name;
+	protected String name;
+	protected List<Object> allCharacters; // all characters played, all saves
 
 	@Override
 	public Integer getID() {

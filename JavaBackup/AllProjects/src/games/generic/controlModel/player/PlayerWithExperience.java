@@ -3,6 +3,7 @@ package games.generic.controlModel.player;
 import games.generic.controlModel.gObj.ExperienceLevelHolder;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
+import games.generic.controlModel.subimpl.GModalityRPG;
 
 /** Delegates to a {@link ExperienceLevelHolderImpl} and add some features. */
 public interface PlayerWithExperience extends PlayerGeneric, ExperienceLevelHolder {
@@ -54,16 +55,26 @@ public interface PlayerWithExperience extends PlayerGeneric, ExperienceLevelHold
 		this.getExpLevelHolder().recalculateExpToLevelUp();
 	}
 
-	/** See {@link ExperienceLevelHolder#acquireExperience(int)}. */
+	/**
+	 * See {@link ExperienceLevelHolder#acquireExperience(int)} AND earn attributes
+	 * points.
+	 */
 	public default int gainExp(int exp) {
 		int levelGained;
 		GModalityET gm;
 		GEventInterfaceRPG geirpg;
 		gm = (GModalityET) this.getGameModality();
-		levelGained = this.getExpLevelHolder().acquireExperience(exp);
+		levelGained = this.acquireExperience(exp);
 		geirpg = (GEventInterfaceRPG) gm.getEventInterface();
 		geirpg.fireExpGainedEvent(gm, exp);
 		geirpg.fireLevelGainedEvent(gm, levelGained);
+		if (levelGained > 0 && gm instanceof GModalityRPG) {
+			GModalityRPG gmrpg;
+			int attributesPointGained;
+			gmrpg = (GModalityRPG) gm;
+			attributesPointGained = levelGained * gmrpg.getAttributesPointGainedOnLevelingUp((BasePlayerRPG) this);
+			((BasePlayerRPG) this).increasettributePointsLeftBy(attributesPointGained);
+		}
 		return levelGained;
 	}
 

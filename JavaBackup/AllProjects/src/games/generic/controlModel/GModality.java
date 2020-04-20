@@ -7,6 +7,7 @@ import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GEvent;
+import tools.ObjectNamedID;
 import tools.ObjectWithID;
 
 /**
@@ -40,16 +41,10 @@ import tools.ObjectWithID;
  * </ul>
  */
 public abstract class GModality {
-	/**
-	 * Used by {@link #runGameCycle()} and usually returned by
-	 * {@link #getMinimumMillisecondsEachCycle()}.
-	 */
-	public static final int MIN_DELTA = 10, MAX_DELTA = 100;
 
 	//
 
 	protected boolean isRunning;
-	protected int lastElapsedDeltaTime = 0;
 	protected final GController controller;
 	protected GModel model;
 	protected String modalityName;
@@ -62,7 +57,6 @@ public abstract class GModality {
 		this.controller = controller;
 		this.modalityName = modalityName;
 		this.model = newGameModel();
-		this.lastElapsedDeltaTime = this.getMinimumMillisecondsEachCycle();
 		this.gameObjectsProviderHolder = controller.getGObjProvidersHolderForGModality(this);
 		this.gomDelegated = newGameObjectsManager(); // ((GControllerRPG) controller).get; //
 		onCreate();
@@ -121,16 +115,6 @@ public abstract class GModality {
 		return gomDelegated;
 	}
 
-	/**
-	 * Returns the minimum amount of milliseconds that is forced to be elapsed
-	 * between each cycle. In fact, it's used inside {@link #runGameCycle()}
-	 * original implementation.<br>
-	 * Set it as <code>0 (zero)</code> to remove each limit, especially FPS limits.
-	 */
-	public int getMinimumMillisecondsEachCycle() {
-		return MIN_DELTA;
-	}
-
 	//
 
 	// setter
@@ -165,8 +149,16 @@ public abstract class GModality {
 
 	public abstract CurrencySet newCurrencyHolder();
 
-	/** See {@link PlayerGeneric} to see what is meant. */
-	protected abstract PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer);
+	/** See {@link #newPlayerInGame(UserAccountGeneric, ObjectNamedID)}. */
+	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer) {
+		return newPlayerInGame(superPlayer, null);
+	}
+
+	/**
+	 * See {@link PlayerGeneric} to see what is meant, providing also a characer
+	 * type.
+	 */
+	protected abstract PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer, ObjectNamedID characterType);
 
 	/**
 	 * Defines and returns the instance of {@link GameObjectsManager} that will be

@@ -1,12 +1,15 @@
 package games.theRisingAngel.creatures;
 
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.AttributesTRAr;
+import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAr;
 
 public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 	private static final long serialVersionUID = -34551879021102L;
@@ -19,7 +22,10 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 
 	@Override
 	protected CreatureAttributes newAttributes() {
-		return newAttributes(AttributesTRAr.VALUES.length);
+		CreatureAttributes ca;
+		ca = newAttributes(AttributesTRAr.VALUES.length);
+		ca.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAr());
+		return ca;
 	}
 
 	@Override
@@ -53,11 +59,16 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 	//
 
 	//
-//	public void receiveDamage....
-//		dr = this.getAttributes().getValue(AttributesTRAr.DamageReductionPhysical.getIndex());
+
 	//
 
+	@Override
+	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
+		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
+	}
+
 	// TODO FIRE EVENTS
+
 	@Override
 	public void fireDestructionEvent(GModality gm) {
 		GModalityET gmet;

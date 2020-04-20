@@ -24,6 +24,7 @@ public abstract class CreatureAttributes {
 			throw new IllegalArgumentException("Cannot have less than 1 attributes: " + attributesCount);
 		}
 		this.originalValues = new int[this.attributesCount = attributesCount];
+		this.bonusCalculator = null;
 	}
 
 	//
@@ -83,6 +84,9 @@ public abstract class CreatureAttributes {
 
 	public void setBonusCalculator(CreatureAttributesBonusesCalculator bonusCalculator) {
 		this.bonusCalculator = bonusCalculator;
+		if (bonusCalculator != null) {
+			bonusCalculator.setCreatureAttributesSet(this);
+		}
 	}
 
 	/**

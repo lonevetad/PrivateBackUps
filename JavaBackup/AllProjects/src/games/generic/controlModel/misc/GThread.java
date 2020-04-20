@@ -31,7 +31,7 @@ public class GThread extends Thread {
 	public static interface GTRunnable extends Runnable {
 
 		/**
-		 * Execute the game, usually by invoking {@link GModality#runGameCycle()}.<br>
+		 * Execute the game, usually by invoking {@link GModality#runSingleGameCycle()}.<br>
 		 * Implementation example:<br>
 		 * 
 		 * <pre>

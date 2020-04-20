@@ -1,4 +1,4 @@
-package games.theRisingAngel;
+package games.theRisingAngel.misc;
 
 import tools.ObjectNamedID;
 

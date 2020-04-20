@@ -4,17 +4,26 @@ import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GameObjectsManager;
 import games.generic.controlModel.misc.CurrencySet;
+import games.generic.controlModel.player.BasePlayerRPG;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.events.GEventInterfaceTRAr;
 import games.theRisingAngel.misc.CurrencySetTRAr;
+import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
+import tools.ObjectNamedID;
 
 // TODO todo tons of stuffs
 public class GModalityTRAr extends GModalityRPG {
+	public static final int ATTRIBUTES_POINTS_GAINED_ON_LEVELING = 10;
 
 	public GModalityTRAr(GController controller, String modalityName) {
 		super(controller, modalityName);
+	}
+
+	@Override
+	public int getAttributesPointGainedOnLevelingUp(BasePlayerRPG p) {
+		return ATTRIBUTES_POINTS_GAINED_ON_LEVELING;
 	}
 
 	@Override
@@ -33,8 +42,15 @@ public class GModalityTRAr extends GModalityRPG {
 	}
 
 	@Override
-	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer) {
-		return new PlayerTRAr(this);
+	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer, ObjectNamedID characterType) {
+		PlayerTRAr p;
+		p = new PlayerTRAr(this, (PlayerCharacterTypes) characterType);
+		setStartingBaseAttributes(p);
+		return p;
+	}
+
+	public void setStartingBaseAttributes(PlayerTRAr player) {
+		player.getCharacterType().applyStartingAttributes(player);
 	}
 
 	@Override

@@ -6,8 +6,8 @@ import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
-import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
+import games.theRisingAngel.misc.DamageTypesTRAr;
 
 public class HelmetOfPlanetaryMeteors extends EINotJewelry {
 	private static final long serialVersionUID = 922120283L;

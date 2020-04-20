@@ -2,7 +2,6 @@ package games.theRisingAngel.misc;
 
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
-import games.theRisingAngel.AttributesTRAr;
 import tools.minorTools.RandomWeightedIndexes;
 
 /**
@@ -53,6 +52,8 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 	@Override
 	public void setCreatureAttributesSet(CreatureAttributes creatureAttributesSet) {
 		this.creatureAttributesSet = creatureAttributesSet;
+		if (creatureAttributesSet == null)
+			throw new IllegalArgumentException("Creaure Attribute Set is null");
 	}
 
 	@Override
@@ -60,7 +61,9 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 		int v;
 		AttributesTRAr a;
 		CreatureAttributes c;
-		c = creatureAttributesSet;
+		c = getCreatureAttributesSet();
+		if (c == null)
+			throw new IllegalStateException("Creaure Attribute Set is null");
 		a = AttributesTRAr.VALUES[index];
 //		v = super.getValue(index);
 		v = 0;
@@ -76,6 +79,7 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 					+ (c.getValue(AttributesTRAr.Strength.getIndex()) >> 3)
 					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 3)
 					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 3);
+			v >>= 1; // to high
 			break;
 		case DamageReductionPhysical:
 			v = (c.getValue(AttributesTRAr.Strength.getIndex()) >> 2)
@@ -95,6 +99,7 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 			v = c.getValue(AttributesTRAr.Intelligence.getIndex())//
 					+ (wis = c.getValue(AttributesTRAr.Wisdom.getIndex())) + (wis << 1) // == *3
 					+ (c.getValue(AttributesTRAr.Faith.getIndex()) << 2);
+			v >>= 1; // too high, make it half
 			break;
 		case RigenMana:
 			v = (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 2)
@@ -114,7 +119,8 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 2);
 			break;
 		case CriticalMultiplier:
-			v = (c.getValue(AttributesTRAr.Strength.getIndex()) / 5)
+			v = (c//
+					.getValue(AttributesTRAr.Strength.getIndex()) / 5)
 					+ (c.getValue(AttributesTRAr.Intelligence.getIndex()) / 10)
 					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) / 10);
 //			v /= 10;

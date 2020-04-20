@@ -28,15 +28,19 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 		int v, i;
 		if (isCacheAvailable)
 			return this.cacheValues[index];
+		isCacheAvailable = true;
 		i = attributesCount;
 		while(--i >= 0) {// update the values
 			v = super.originalValues[i] + this.attributesModificationsApplied[i];
-			if (this.bonusCalculator != null) {
-				v += this.bonusCalculator.getBonusForValue(i);
-			}
 			this.cacheValues[i] = v;
 		}
-		isCacheAvailable = true;
+		if (this.bonusCalculator != null) {
+			i = attributesCount;
+			v = 0;
+			while(--i >= 0) {// update the values
+				this.cacheValues[i] += this.bonusCalculator.getBonusForValue(i);
+			}
+		}
 		return this.cacheValues[index];
 	}
 
@@ -46,7 +50,7 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 	@Override
 	public void setBonusCalculator(CreatureAttributesBonusesCalculator bonusCalculator) {
 		this.isCacheAvailable = false;
-		this.bonusCalculator = bonusCalculator;
+		super.setBonusCalculator(bonusCalculator);
 	}
 
 	/**

@@ -3,8 +3,8 @@ package games.theRisingAngel.creatures;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subimpl.CreatureAttributesCaching;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.AttributesTRAr;
 import games.theRisingAngel.inventory.EquipmentSetTRAr;
+import games.theRisingAngel.misc.AttributesTRAr;
 import games.theRisingAngel.misc.CreatureUIDProvider;
 
 /**

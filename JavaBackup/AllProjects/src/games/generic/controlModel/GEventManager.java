@@ -120,7 +120,11 @@ public abstract class GEventManager implements GObjectsHolder {
 		 * }
 		 */
 		System.out.println("--- GEventManager adding event : " + ge);
-		eventsQueued.add(ge); // like offer
+		if (ge.isRequirigImmediateProcessing()) {
+			this.notifyEventObservers(ge);
+		} else {
+			eventsQueued.add(ge); // like offer
+		}
 	}
 
 	/**

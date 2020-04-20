@@ -12,20 +12,33 @@ import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.creatures.BaseCreatureTRAr;
 import games.theRisingAngel.events.EventsTRAr;
 import games.theRisingAngel.inventory.EquipmentSetTRAr;
+import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 
 public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 	private static final long serialVersionUID = -3336623605789L;
 
-	public PlayerTRAr(GModalityRPG gameModality) {
+	public PlayerTRAr(GModalityRPG gameModality, PlayerCharacterTypes characterType) {
 		super(gameModality, "No name currently provided");
+		this.characterType = characterType;
+		this.attributePointsLeftToApply = 0;
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAr.Destroyed.getName());
 		this.experienceLevelHolder = new ExperienceLevelHolderImpl();
 		this.setEquipmentSet(new EquipmentSetTRAr());
 	}
 
+	protected int attributePointsLeftToApply;
+	protected final PlayerCharacterTypes characterType;
 	protected CurrencySet currencies;
 	protected ExperienceLevelHolder experienceLevelHolder;
+
+	public PlayerCharacterTypes getCharacterType() {
+		return characterType;
+	}
+
+	public ExperienceLevelHolder getExperienceLevelHolder() {
+		return experienceLevelHolder;
+	}
 
 	@Override
 	public ExperienceLevelHolder getExpLevelHolder() {
@@ -42,6 +55,11 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 		return currencies;
 	}
 
+	@Override
+	public int getAttributePointsLeftToApply() {
+		return attributePointsLeftToApply;
+	}
+
 	//
 
 	@Override
@@ -52,6 +70,11 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 	@Override
 	public void setExpLevelHolder(ExperienceLevelHolder expLevelHolder) {
 		this.experienceLevelHolder = expLevelHolder;
+	}
+
+	@Override
+	public void setAttributePointsLeftToApply(int attributePointsLeftToApply) {
+		this.attributePointsLeftToApply = attributePointsLeftToApply;
 	}
 
 	//
@@ -82,11 +105,6 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 	public void onLeavingMap() {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
-		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
 	}
 
 	@Override

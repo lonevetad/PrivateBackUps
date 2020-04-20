@@ -5,8 +5,8 @@ import games.generic.controlModel.GameObjectsProvidersHolder;
 import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
-import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
+import games.theRisingAngel.misc.DamageTypesTRAr;
 
 /**
  * See {@link ADamageReductionCurrencyBased} , grants 10% of money as damage

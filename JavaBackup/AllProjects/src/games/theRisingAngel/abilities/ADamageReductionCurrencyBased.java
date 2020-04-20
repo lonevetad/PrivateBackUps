@@ -14,10 +14,10 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.BasePlayerRPG;
-import games.theRisingAngel.AttributesTRAr;
-import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.DamageTypesTRAr;
 import tools.ObjectWithID;
 
 public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeRealTime implements GEventObserver {

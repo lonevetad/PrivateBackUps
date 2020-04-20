@@ -1,4 +1,4 @@
-package games.theRisingAngel;
+package games.theRisingAngel.misc;
 
 import java.util.Map;
 
@@ -43,6 +43,7 @@ public enum AttributesTRAr implements AttributeIdentifier {
 
 	//
 
+	public static final int ATTRIBUTES_UPGRADABLE_COUNT = 9, FIRST_INDEX_ATTRIBUTE_UPGRADABLE = Strength.getIndex();
 	public static final AttributesTRAr[] VALUES = AttributesTRAr.values();
 	private static Map<String, AttributesTRAr> attTRArByName = null;
 

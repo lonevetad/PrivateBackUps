@@ -23,16 +23,33 @@ import games.generic.controlModel.misc.GThread;
  * </ul>
  */
 public abstract class GModalityET extends GModality implements IGameModalityTimeBased, IGameModalityEventBased {
+	/**
+	 * Used by {@link #runSingleGameCycle()} and usually returned by
+	 * {@link #getMinimumMillisecondsEachCycle()}.
+	 */
+	public static final int MIN_DELTA = 10, MAX_DELTA = 100, MAX_ELAPSED_TIME = 100;
 
+	protected int lastElapsedDeltaTime = 0;
 	protected GEventInterface eventInterface;
 	protected final GameThreadsManager gameThreadsManager;
 
 	public GModalityET(GController controller, String modalityName) {
 		super(controller, modalityName);
+		this.lastElapsedDeltaTime = this.getMinimumMillisecondsEachCycle();
 		this.gameThreadsManager = newGameThreadsManager();
 	}
 
 	//
+
+	/**
+	 * Returns the minimum amount of milliseconds that is forced to be elapsed
+	 * between each cycle. In fact, it's used inside {@link #runSingleGameCycle()}
+	 * original implementation.<br>
+	 * Set it as <code>0 (zero)</code> to remove each limit, especially FPS limits.
+	 */
+	public int getMinimumMillisecondsEachCycle() {
+		return MIN_DELTA;
+	}
 
 	@Override
 	public GModelTimeBased getModelTimeBased() {
@@ -143,10 +160,10 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	 * Even card-games, chess like and other "not-real time" games (i.e.: turn-based
 	 * or other kinds of games that I'm currently not able to list) could use this
 	 * method: just pause the {@link Thread} waiting for the event to be fired. OR
-	 * simply override both this method and {@link #runGameCycle()} to simply
+	 * simply override both this method and {@link #runSingleGameCycle()} to simply
 	 * execute events and not time-based stuffs.
 	 * <p>
-	 * Invoked by {@link #runGameCycle()}.
+	 * Invoked by {@link #runSingleGameCycle()}.
 	 * <p>
 	 * NOTE:<br>
 	 * {@link GModality} implementing "real time" games should implement the
@@ -187,7 +204,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	 * elapsed time during the cycle is lower than this threshold, so the maximum
 	 * FPS count is <code>1000/{@link #getMinimumMillisecondsEachCycle()}</code>.
 	 */
-	public void runGameCycle() {
+	public void runSingleGameCycle() {
 		long start;
 		int timeToSleep, minDelta;
 		minDelta = this.getMinimumMillisecondsEachCycle();
@@ -195,12 +212,17 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 			while(isRunningOrSleep()) {
 				start = System.currentTimeMillis();
 				doOnEachCycle(lastElapsedDeltaTime);
-				timeToSleep = (minDelta - ((int) (System.currentTimeMillis() - start)) + 1);
+				timeToSleep = ((int) (System.currentTimeMillis() - start)); // used as temp
+				if (timeToSleep > MAX_ELAPSED_TIME)
+					timeToSleep = MAX_ELAPSED_TIME;
+				lastElapsedDeltaTime = timeToSleep;
+				timeToSleep = (minDelta - timeToSleep + 1);
 
 				// "+1" as a rounding factor for nanoseconds
 				if (timeToSleep > 0) {
 					if (timeToSleep > MAX_DELTA)
 						timeToSleep = MAX_DELTA; // do not exceed
+					lastElapsedDeltaTime = minDelta; // because the total ime elapsed in this cycle is this amount
 					try {
 						Thread.sleep(timeToSleep);
 					} catch (InterruptedException e) {
@@ -275,7 +297,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 		@Override
 		public void run() {
 			while(isWorking) {
-				this.gmodality.runGameCycle();
+				this.gmodality.runSingleGameCycle();
 			}
 		}
 

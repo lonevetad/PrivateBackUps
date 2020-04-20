@@ -12,12 +12,15 @@ import games.theRisingAngel.GModalityTRAr;
 import games.theRisingAngel.GameObjectsProvidersHolderTRAr;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
+import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
 import tests.tGame.tgEvent1.oggettiDesempio.ObserverPrinterEvent;
+import tools.ObjectNamedID;
 
 public class GModality_E1 extends GModalityTRAr {
+	static final int STARTING_PLAYER_LIFE_MAX = 100;
 
 	public GModality_E1(GController controller, String modalityName) {
 		super(controller, modalityName);
@@ -41,7 +44,7 @@ public class GModality_E1 extends GModalityTRAr {
 		ObserverPrinterEvent ope;
 		NecklaceOfPainRinvigoring necklace_opr;
 		ArmProtectionShieldingDamageByMoney armProtection_sdbm;
-		GC_E1 contr;
+//		GC_E1 contr;
 		GameObjectsProvidersHolderTRAr goph;
 
 		super.onCreate();
@@ -49,19 +52,22 @@ public class GModality_E1 extends GModalityTRAr {
 		System.out.println("\n\n\n MY NAME: " + getModalityName() + "\n\n");
 
 		//
-		contr = (GC_E1) controller;
+//		contr = (GC_E1) controller;
 		gmodel = (GModel_E1) this.getModel();
 		goph = (GameObjectsProvidersHolderTRAr) this.getGameObjectsProvider();
 
 		// TODO add all stuffs .. qui è il posto in cui dovrebbero stare gli oggetti
 		// strani che inserisco
-//		GModel_E1 gModelE ;
-//		addTimedObject(new ObjDamageDeliver());
-		p = (Player_E1) newPlayerInGame(null); // new Player_E1(this);
+		p = (Player_E1) newPlayerInGame(null, PlayerCharacterTypes.Human); // new Player_E1(this);
 		p.setName("Lonevetad");
+
+		if (p.getAttributes().getBonusCalculator() == null)
+			throw new IllegalStateException("WTF WHY IS NULL?");
+		if (p.getAttributes().getBonusCalculator().getCreatureAttributesSet() == null)
+			throw new IllegalStateException("WTF WHY IS NULL?");
+
 		this.setPlayer(p);
 		p.setGameModality(this);
-		p.setCurrencies(newCurrencyHolder());
 		p.getCurrencies().setMoneyAmount(0, 100);
 
 		this.addGameObject(p);
@@ -115,7 +121,7 @@ public class GModality_E1 extends GModalityTRAr {
 
 		odd = new ObjDamageDeliverE1(5000);
 		odd.setTarget(p);
-		odd.setDamageAmount(24);
+		odd.setDamageAmount(50);
 		this.addGameObject(odd);
 
 		System.out.println("GModalit_E1#onCreate .. quanti oggetti ho?");
@@ -146,9 +152,24 @@ public class GModality_E1 extends GModalityTRAr {
 	}
 
 	@Override
-	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer) {
+	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer, ObjectNamedID playerType) {
 		Player_E1 p;
-		p = new Player_E1(this);
+		p = new Player_E1(this, (PlayerCharacterTypes) playerType);
+
+		if (p.getAttributes().getBonusCalculator() == null)
+			throw new IllegalStateException("WTF WHY IS NULL?");
+		if (p.getAttributes().getBonusCalculator().getCreatureAttributesSet() == null)
+			throw new IllegalStateException("WTF WHY IS NULL?");
+
+		setStartingBaseAttributes(p);
+
+		if (p.getAttributes().getBonusCalculator() == null)
+			throw new IllegalStateException("WTF WHY IS NULL?");
+		if (p.getAttributes().getBonusCalculator().getCreatureAttributesSet() == null)
+			throw new IllegalStateException("WTF WHY IS NULL?");
+
+		p.setLifeMax(STARTING_PLAYER_LIFE_MAX);
+		p.setLife(STARTING_PLAYER_LIFE_MAX);
 		p.setCurrencies(newCurrencyHolder());
 		return p;
 	}
