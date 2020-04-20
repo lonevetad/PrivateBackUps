@@ -1,6 +1,7 @@
 package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.gObj.LivingObject;
@@ -15,8 +16,13 @@ public interface GEventInterfaceRPG extends GEventInterface {
 
 	public void fireDestructionObjectEvent(GModalityET gaModality, DestructibleObject desObj);
 
-	public <SourceDamage extends ObjectWithID> void fireDamageReceivedEvent(GModalityET gm, SourceDamage source,
-			LivingObject target, DamageGeneric originalDamage);
+	/**
+	 * Fire a damage event and returns it, so informations like reductions and malus
+	 * can be applied by listeners and processed by the injured living object
+	 * (usually, a creature).
+	 */
+	public <SourceDamage extends ObjectWithID> EventDamage<SourceDamage> fireDamageReceivedEvent(GModalityET gm,
+			SourceDamage source, LivingObject target, DamageGeneric originalDamage, int riductionByTarget);
 
 	/**
 	 * After someone is being healed, fire this event.<br>

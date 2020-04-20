@@ -3,7 +3,7 @@ package games.generic.controlModel.subimpl;
 import java.util.List;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
@@ -13,8 +13,10 @@ import games.generic.controlModel.misc.GObjMovement;
 import games.generic.controlModel.misc.HealGeneric;
 import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.AttributesTRAr;
+import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.misc.CreatureUIDProvider;
 import geometry.AbstractShape2D;
+import tools.ObjectNamedID;
 import tools.ObjectWithID;
 
 /**
@@ -240,20 +242,8 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	@Override
 	public boolean destroy() {
-		// TODO Auto-generated method stub
+		this.gModalityRPG.removeGameObject(this);
 		return false;
-	}
-
-	@Override
-	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void fireDestructionEvent(GModality gm) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void equip(EquipmentItem equipment) {
@@ -264,21 +254,35 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		}
 	}
 
+	protected int getDamageReductionForType(ObjectNamedID damageType) {
+		// damageType == DamageTypesTRAr.Physical
+		return this.getAttributes()
+				.getValue(AttributesTRAr.damageReductionByType((DamageTypesTRAr) damageType).getIndex());
+	}
+
+	// TODO fire damage
 	@Override
 	public <SourceDamage extends ObjectWithID> void receiveDamage(GModality gm, DamageGeneric originalDamage,
 			SourceDamage source) {
-		int dr;
-		GModalityRPG gmrpg;
+		int dr, damageReallyReceived; // originalDamageAmount
+//		GModalityRPG gmrpg;
+		EventDamage<SourceDamage> eventDamageProcessed;
 		if (originalDamage.getDamageAmount() <= 0)
 			return;
-		gmrpg = (GModalityRPG) gm;
-		// check the type
-		gmrpg.getGameObjectsManager().dealsDamageTo(source, this, originalDamage);
-		dr = this.getAttributes().getValue(AttributesTRAr.DamageReductionPhysical.getIndex());
-		if (dr < 0)
-			dr = 0;
-		setLife(getLife() - (originalDamage.getDamageAmount() - dr));
-		fireDamageReceived(gm, originalDamage, source);
+//		gmrpg = (GModalityRPG) gm;
+//		// check the type
+//		gmrpg.getGameObjectsManager().dealsDamageTo(source, this, originalDamage);
+		dr = getDamageReductionForType(originalDamage.getType());
+		// no negativity check: could there be a malus
+		eventDamageProcessed = fireDamageReceived(gm, originalDamage, source, originalDamage.getDamageAmount() - dr);
+		// after notifying everyone, the damage could have changed: check it again
+		damageReallyReceived = (eventDamageProcessed == null ? (originalDamage.getDamageAmount() - dr)//
+				: eventDamageProcessed.getDamageAmountToBeApplied());
+		if (damageReallyReceived > 0) {
+			System.out.println("-_-''-BaseCreatureRPGImpl then the damage received is: " + damageReallyReceived);
+			// then execute the damage, after ALL reductions and malus by listeners
+			setLife(getLife() - damageReallyReceived);
+		}
 	}
 
 	@Override
@@ -290,18 +294,4 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	// TODO FIRE EVENTS
 
-	@Override
-	public <SourceDamage extends ObjectWithID> void fireDamageReceived(GModality gm, DamageGeneric originalDamage,
-			SourceDamage source) {
-		GModalityRPG gmodrpg;
-		GEventInterfaceRPG geie1;
-//		GameObjectsManager gom;
-		if (gm == null || (!(gm instanceof GModalityRPG)))
-			return;
-		gmodrpg = (GModalityRPG) gm;
-//		gom = gmodrpg.getGameObjectsManagerDelegated();
-		geie1 = (GEventInterfaceRPG) gmodrpg.getEventInterface();
-		geie1.fireDamageReceivedEvent(gmodrpg, source, this, originalDamage);
-//		gom.dealsDamageTo(source, this, originalDamage);// cannot "deals" damage because it's already dealt
-	}
 }

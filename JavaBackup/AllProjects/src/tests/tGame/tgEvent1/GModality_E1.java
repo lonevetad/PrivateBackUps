@@ -4,6 +4,7 @@ import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
+import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
@@ -75,7 +76,21 @@ public class GModality_E1 extends GModalityTRAr {
 //		this.addGameObject(new ObjPrinter_EventDeliver(250, "Tiny"));
 		// gModelE.addTimeProgressingObject(odd);
 
-		this.addGameObject(new ObjPrinter_EventDeliver(2000, "HAKINA MATATA"));
+		this.addGameObject(new ObjPrinter_EventDeliver(2000, "HAKINA MATATA") {
+
+			@Override
+			public String getText() {
+//				return p.getAttributes().toString();
+				StringBuilder sb;
+				CreatureAttributes ca;
+				sb = new StringBuilder(127);
+				ca = p.getAttributes();
+				sb.append("Player life ").append(p.getLife()).append(", current values: ");
+				for (int i = 0; i < ca.getAttributesCount(); i++)
+					sb.append(ca.getValue(i)).append(", ");
+				return sb.toString();
+			}
+		});
 		ope = new ObserverPrinterEvent();
 //		this.addEventObserver(ope);
 		this.addGameObject(ope);

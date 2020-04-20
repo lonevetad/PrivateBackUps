@@ -100,7 +100,7 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 				// increase of 25% of damage, so minimum is 4
 
 				am = this.getAttributeToModify();
-				d = am.getValue() + (d >> 2);
+				d = am.getValue() + (d >> 2);// ">>2" because 25% == /4.0
 
 				ca = this.getEquipItem().getCreatureWearingEquipments().getAttributes();
 				// update: remove previous, add new value

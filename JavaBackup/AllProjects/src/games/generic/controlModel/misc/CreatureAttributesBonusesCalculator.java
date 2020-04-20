@@ -9,6 +9,7 @@ public interface CreatureAttributesBonusesCalculator {
 
 	public void setCreatureAttributesSet(CreatureAttributes creatureAttributesSet);
 
+	/** Calculate the bonus for a given index's value */
 	public default int getBonusForValue(int index) {
 		return 0;
 	}

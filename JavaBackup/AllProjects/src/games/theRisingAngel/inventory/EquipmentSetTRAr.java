@@ -89,6 +89,7 @@ public class EquipmentSetTRAr extends EquipmentSet {
 
 	protected void equipAt(GModality gm, EquipmentItem ei, int index) {
 		equippedItems[index] = ei;
+		System.out.println("E_Set_TRAr at index " + index + " EQUIPPING " + ei.getName());
 		ei.setBelongingEquipmentSet(this);
 		ei.onEquip(gm);
 	}

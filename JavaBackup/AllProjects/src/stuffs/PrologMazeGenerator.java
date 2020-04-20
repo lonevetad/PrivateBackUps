@@ -179,8 +179,8 @@ public class PrologMazeGenerator {
 			g.setColor(m[y][x] ? COL : Color.LIGHT_GRAY);
 			g.fillRect(x * MAZE_SQUARE_SIZE, y * MAZE_SQUARE_SIZE, MAZE_SQUARE_SIZE, MAZE_SQUARE_SIZE);
 		});
-		w = maze.length;
-		h = maze[0].length;
+		h = maze.length;
+		w = maze[0].length;
 		g.setColor(Color.BLACK);
 		paintGrid(g, 0, 0, w * MAZE_SQUARE_SIZE, h * MAZE_SQUARE_SIZE, MAZE_SQUARE_SIZE, false);
 	}
@@ -199,7 +199,7 @@ public class PrologMazeGenerator {
 		h = Integer.parseInt(this.jtfNumRow.getText());
 		w = Integer.parseInt(this.jtfNumCol.getText());
 		this.maze = new boolean[h][w];
-		this.jpMaze.setSize(h * MAZE_SQUARE_SIZE, w * MAZE_SQUARE_SIZE);
+		this.jpMaze.setSize(w * MAZE_SQUARE_SIZE, h * MAZE_SQUARE_SIZE);
 		this.jpMaze.setPreferredSize(this.jpMaze.getSize());
 		jpFin.repaint();
 	}

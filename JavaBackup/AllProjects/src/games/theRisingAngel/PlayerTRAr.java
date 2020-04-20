@@ -4,14 +4,13 @@ import java.util.ArrayList;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.gObj.ExperienceLevelHolder;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.BasePlayerRPG;
 import games.generic.controlModel.player.ExperienceLevelHolderImpl;
-import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.creatures.BaseCreatureTRAr;
 import games.theRisingAngel.events.EventsTRAr;
-import games.theRisingAngel.events.GEventInterfaceTRAr;
 import games.theRisingAngel.inventory.EquipmentSetTRAr;
 
 public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
@@ -21,16 +20,80 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 		super(gameModality, "No name currently provided");
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAr.Destroyed.getName());
+		this.experienceLevelHolder = new ExperienceLevelHolderImpl();
 		this.setEquipmentSet(new EquipmentSetTRAr());
 	}
 
 	protected CurrencySet currencies;
+	protected ExperienceLevelHolder experienceLevelHolder;
+
+	@Override
+	public ExperienceLevelHolder getExpLevelHolder() {
+		return experienceLevelHolder;
+	}
+
+	@Override
+	public int getExperienceNow() {
+		return experienceLevelHolder.getExperienceNow();
+	}
+
+	@Override
+	public CurrencySet getCurrencies() {
+		return currencies;
+	}
+
+	//
+
+	@Override
+	public void setCurrencies(CurrencySet currencies) {
+		this.currencies = currencies;
+	}
+
+	@Override
+	public void setExpLevelHolder(ExperienceLevelHolder expLevelHolder) {
+		this.experienceLevelHolder = expLevelHolder;
+	}
 
 	//
 
 	//
 
 	// TODO other methods
+
+	@Override
+	public ExperienceLevelHolder reset() {
+		experienceLevelHolder.reset();
+		return this;
+	}
+
+	@Override
+	public void recalculateExpToLevelUp() {
+		this.experienceLevelHolder.recalculateExpToLevelUp();
+	}
+
+//	public void act(GModality modality, int milliseconds) { super.act(modality, milliseconds); }
+
+	@Override
+	public void onEnteringInGame(GModality gm) {
+		this.setGameModality(gm);
+	}
+
+	@Override
+	public void onLeavingMap() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
+		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
+	}
+
+	@Override
+	public void notifyEvent(GModality modality, IGEvent ge) {
+		super.notifyEvent(modality, ge); // destructible-object
+// TODO altro?
+	}
 
 	@Override
 	public boolean destroy() {
@@ -42,85 +105,10 @@ public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
 		return false;
 	}
 
-//	public void act(GModality modality, int milliseconds) { super.act(modality, milliseconds); }
-
-	@Override
-	public void onEnteringInGame(GModality gm) {
-		this.setGameModality(gm);
-	}
-
-	@Override
-	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
-		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
-	}
-
-	@Override
-	public ExperienceLevelHolderImpl getExpLevelHolder() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setExpLevelHolder(ExperienceLevelHolderImpl expLevelHolder) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onLeavingMap() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void notifyEvent(GModality modality, IGEvent ge) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int getExperienceNow() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public ExperienceLevelHolderImpl reset() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void recalculateExpToLevelUp() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public CurrencySet getCurrencies() {
-		return currencies;
-	}
-
-	@Override
-	public void setCurrencies(CurrencySet currencies) {
-		this.currencies = currencies;
-	}
-
 	//
 	//
 
 	// TODO FIRE EVENTS
-
-	@Override
-	public void fireDestructionEvent(GModality gm) {
-		GModalityET gmet;
-		GEventInterfaceTRAr gei;
-		if (gm == null || (!(gm instanceof GModalityET)))
-			return;
-		gmet = (GModalityET) gm;
-		gei = (GEventInterfaceTRAr) gmet.getEventInterface();
-		gei.fireDestructionObjectEvent((GModalityET) gm, this);
-	}
 
 //	public <SourceHealing> void fireLifeHealingReceived(GModality gm, int originalHealing, SourceHealing source) {
 //		if (gm == null || (!(gm instanceof GModalityET)))

@@ -83,10 +83,11 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeReal
 			CreatureAttributes ca) {
 		super.getAttributeToModify().setValue( //
 				(getDefaultCurrencyAmount(ah) * getPerThousandFraction()) / 1000);
-		System.out.println("... attri to mod " + getAttributeToModify().getAttributeModified().getName() + " has value "
-				+ getAttributeToModify().getValue() + ", creature's value : "
-				+ this.getEquipItem().getCreatureWearingEquipments().getAttributes()
-						.getValue(getAttributeToModify().getAttributeModified().getIndex()));
+		System.out
+				.println(";;ADamagRedCurrBas... attri to mod " + getAttributeToModify().getAttributeModified().getName()
+						+ " has value " + getAttributeToModify().getValue() + ", creature's value : "
+						+ this.getEquipItem().getCreatureWearingEquipments().getAttributes()
+								.getValue(getAttributeToModify().getAttributeModified().getIndex()));
 		System.out.println("MoNeY: " + //
 				((BasePlayerRPG) this.getEquipItem().getCreatureWearingEquipments()).getCurrencies().getMoneyAmount(0));
 	}

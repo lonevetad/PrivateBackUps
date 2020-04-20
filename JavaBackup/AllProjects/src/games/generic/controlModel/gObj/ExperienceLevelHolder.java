@@ -1,7 +1,6 @@
 package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.player.ExperienceLevelHolderImpl;
 import tools.Stringable;
 
 public interface ExperienceLevelHolder extends Stringable {
@@ -14,15 +13,16 @@ public interface ExperienceLevelHolder extends Stringable {
 
 	//
 
-	public ExperienceLevelHolderImpl setLevel(int level);
+	public ExperienceLevelHolder setLevel(int level);
 
-	public ExperienceLevelHolderImpl setExperienceNow(int experienceNow);
+	public ExperienceLevelHolder setExperienceNow(int experienceNow);
 
-	public ExperienceLevelHolderImpl setExpToLevelUp(int experienceRequiredToLevelUp);
+	public ExperienceLevelHolder setExpToLevelUp(int experienceRequiredToLevelUp);
 
 	//
 
-	public ExperienceLevelHolderImpl reset();
+	/** Resets to the first level with no experience at all */
+	public ExperienceLevelHolder reset();
 
 	/**
 	 * Acquire the given experience and level up if able. <br>

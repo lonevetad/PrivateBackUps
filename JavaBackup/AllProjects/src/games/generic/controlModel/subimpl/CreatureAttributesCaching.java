@@ -13,7 +13,7 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 
 	public CreatureAttributesCaching(int attributesCount) {
 		super(attributesCount);
-		this.attributesModifications = new int[attributesCount];
+		this.attributesModificationsApplied = new int[attributesCount];
 		this.cacheValues = new int[attributesCount];
 		this.isCacheAvailable = false;
 	}
@@ -21,7 +21,7 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 	protected transient boolean isCacheAvailable = false;
 //	protected transient int attributesCountLeftToUpdate;
 //	protected final boolean[] attributesUpdated;
-	protected final int[] attributesModifications, cacheValues;
+	protected final int[] attributesModificationsApplied, cacheValues;
 
 	@Override
 	public int getValue(int index) {
@@ -30,7 +30,7 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 			return this.cacheValues[index];
 		i = attributesCount;
 		while(--i >= 0) {// update the values
-			v = super.originalValues[i] + this.attributesModifications[i];
+			v = super.originalValues[i] + this.attributesModificationsApplied[i];
 			if (this.bonusCalculator != null) {
 				v += this.bonusCalculator.getBonusForValue(i);
 			}
@@ -62,13 +62,13 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 	@Override
 	public void applyAttributeModifier(AttributeModification eam) {
 		this.isCacheAvailable = false;
-		this.attributesModifications[eam.getAttributeModified().getIndex()] += eam.getValue();
+		this.attributesModificationsApplied[eam.getAttributeModified().getIndex()] += eam.getValue();
 	}
 
 	@Override
 	public void removeAttributeModifier(AttributeModification eam) {
 		this.isCacheAvailable = false;
-		this.attributesModifications[eam.getAttributeModified().getIndex()] -= eam.getValue();
+		this.attributesModificationsApplied[eam.getAttributeModified().getIndex()] -= eam.getValue();
 	}
 
 //	public void addAttributeModification(int index, int value) { this.computedAttributesModifications[index] += value; }

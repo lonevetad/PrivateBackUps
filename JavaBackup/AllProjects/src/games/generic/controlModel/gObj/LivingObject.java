@@ -1,6 +1,7 @@
 package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.HealGeneric;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
@@ -62,17 +63,17 @@ public interface LivingObject extends DestructibleObject {
 	 * occurred.<br>
 	 * A reply/reaction to the "raw damage received" could be a damage reduction.
 	 */
-	public default <SourceDamage extends ObjectWithID> void fireDamageReceived(GModality gm,
-			DamageGeneric originalDamage, SourceDamage source) {
+	public default <SourceDamage extends ObjectWithID> EventDamage<SourceDamage> fireDamageReceived(GModality gm,
+			DamageGeneric originalDamage, SourceDamage source, int damageAmountToBeApplied) {
 		GModalityRPG gmodrpg;
 		GEventInterfaceRPG geie1;
 //		GameObjectsManager gom;
 		if (gm == null || (!(gm instanceof GModalityRPG)))
-			return;
+			return null;
 		gmodrpg = (GModalityRPG) gm;
 //		gom = gmodrpg.getGameObjectsManagerDelegated(); 
-		geie1 = (GEventInterfaceRPG) gmodrpg.getEventInterface();
-		geie1.fireDamageReceivedEvent(gmodrpg, source, this, originalDamage);
+		geie1 = (GEventInterfaceRPG) gmodrpg.getGameObjectsManager().getGEventInterface();
+		return geie1.fireDamageReceivedEvent(gmodrpg, source, this, originalDamage, damageAmountToBeApplied);
 //		gom.dealsDamageTo(source, this, originalDamage);// cannot "deals" damage because it's already dealt
 	}
 	// , int actualDamageReceived);

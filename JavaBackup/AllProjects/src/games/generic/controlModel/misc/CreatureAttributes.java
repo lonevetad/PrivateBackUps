@@ -1,5 +1,7 @@
 package games.generic.controlModel.misc;
 
+import java.util.Arrays;
+
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
@@ -99,8 +101,8 @@ public abstract class CreatureAttributes {
 	/**
 	 * Apply (add) the given {@link AttributeModification} to this set of
 	 * attributes.<br>
-	 * Usually it's provided by {@link EquipmentItem#getBaseAttributeModifiers()} and
-	 * usually this method is invoked during
+	 * Usually it's provided by {@link EquipmentItem#getBaseAttributeModifiers()}
+	 * and usually this method is invoked during
 	 * {@link EquipmentItem#onEquip(GModality)}, that is invoked by
 	 * {@link EquipmentSet#addEquipmentItem(GModality, EquipmentItem)}.
 	 * <p>
@@ -114,4 +116,8 @@ public abstract class CreatureAttributes {
 	/** Opposite of {@link #applyAttributeModifier(AttributeModification)}. */
 	public abstract void removeAttributeModifier(AttributeModification eam);
 
+	@Override
+	public String toString() {
+		return "CreatureAttributes [originalValues=" + Arrays.toString(originalValues) + "]";
+	}
 }

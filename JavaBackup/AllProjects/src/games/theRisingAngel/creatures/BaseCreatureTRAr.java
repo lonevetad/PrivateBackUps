@@ -1,7 +1,10 @@
 package games.theRisingAngel.creatures;
 
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
+import games.generic.controlModel.subimpl.GEventInterfaceRPG;
+import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.AttributesTRAr;
 
@@ -42,7 +45,7 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 
 	@Override
 	public void setLifeRegenation(int lifeRegenation) {
-		if (lifeRegenation > 0) {
+		if (lifeRegenation >= 0) {
 			this.getAttributes().setOriginalValue(AttributesTRAr.RigenLife.getIndex(), lifeRegenation);
 		}
 	}
@@ -55,5 +58,15 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 	//
 
 	// TODO FIRE EVENTS
+	@Override
+	public void fireDestructionEvent(GModality gm) {
+		GModalityET gmet;
+		GEventInterfaceRPG gei;
+		if (gm == null || (!(gm instanceof GModalityET)))
+			return;
+		gmet = (GModalityET) gm;
+		gei = (GEventInterfaceRPG) gmet.getEventInterface();
+		gei.fireDestructionObjectEvent((GModalityET) gm, this);
+	}
 
 }

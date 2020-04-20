@@ -24,6 +24,14 @@ public class ObjPrinterTO implements TimedObjectSimpleImpl {
 		return ID;
 	}
 
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	@Override
 	public long getAccumulatedTimeElapsed() {
 		return accumulatedTimeElapsed;

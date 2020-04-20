@@ -1,7 +1,7 @@
 package videogamesOldVersion.common.abstractCommon;
 
 import tools.Stringable;
-import videogamesOldVersion.common.ExperienceLevelHolder;
+import videogamesOldVersion.common.ExperienceLevelHolderOLD;
 
 /**
  * This class hold all players's data.<br>
@@ -18,7 +18,7 @@ public abstract class AbstractPlayer implements Stringable {
 	}
 
 	String name;
-	ExperienceLevelHolder experienceLevelHolder;
+	ExperienceLevelHolderOLD experienceLevelHolderOLD;
 
 	//
 
@@ -28,8 +28,8 @@ public abstract class AbstractPlayer implements Stringable {
 		return name;
 	}
 
-	public ExperienceLevelHolder getExperienceLevelHolder() {
-		return experienceLevelHolder;
+	public ExperienceLevelHolderOLD getExperienceLevelHolder() {
+		return experienceLevelHolderOLD;
 	}
 	//
 
@@ -40,8 +40,8 @@ public abstract class AbstractPlayer implements Stringable {
 		return this;
 	}
 
-	public AbstractPlayer setExperienceLevelHolder(ExperienceLevelHolder experienceLevelHolder) {
-		this.experienceLevelHolder = experienceLevelHolder;
+	public AbstractPlayer setExperienceLevelHolder(ExperienceLevelHolderOLD experienceLevelHolderOLD) {
+		this.experienceLevelHolderOLD = experienceLevelHolderOLD;
 		return this;
 	}
 
@@ -53,11 +53,11 @@ public abstract class AbstractPlayer implements Stringable {
 			addTab(sb, tabLevel);
 			sb.append("name: ").append(name);
 			addTab(sb, tabLevel);
-			if (experienceLevelHolder == null)
+			if (experienceLevelHolderOLD == null)
 				sb.append("experienceLevelHolder null");
 			else {
 				sb.append("experienceLevelHolder: ");
-				experienceLevelHolder.toString(sb, tabLevel + 1);
+				experienceLevelHolderOLD.toString(sb, tabLevel + 1);
 			}
 		}
 	}

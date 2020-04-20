@@ -17,9 +17,9 @@ public class LoaderAbilityTRAr extends LoaderAbilities {
 
 	@Override
 	public void loadInto(GController gcontroller) {
-		objProvider.addObj(ADamageReductionCurrencyBased.NAME,
+		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAr.Physical.getName(),
 				gc -> new ADamageReductionCurrencyBased(DamageTypesTRAr.Physical));
-		objProvider.addObj(ADamageReductionCurrencyBased.NAME,
+		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAr.Magical.getName(),
 				gc -> new ADamageReductionCurrencyBased(DamageTypesTRAr.Magical));
 		objProvider.addObj(AMoreDamageReceivedMoreLifeRegen.NAME, gc -> new AMoreDamageReceivedMoreLifeRegen());
 		objProvider.addObj(AFireShpereOrbiting.NAME, gc -> new AFireShpereOrbiting());

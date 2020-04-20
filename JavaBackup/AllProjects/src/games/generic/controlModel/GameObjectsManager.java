@@ -122,6 +122,7 @@ public interface GameObjectsManager extends GModalityHolder {
 	public default <SourceDamage extends ObjectWithID> void dealsDamageTo(SourceDamage source, CreatureSimple target,
 			DamageGeneric damage) {
 		this.getGEventInterface().fireDamageDealtEvent((GModalityET) getGameModality(), source, target, damage);
+		target.receiveDamage(getGameModality(), damage, source);
 	}
 
 }

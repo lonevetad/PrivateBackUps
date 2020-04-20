@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
+import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gEvents.EventMoneyChange;
 import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.gObj.LivingObject;
@@ -68,10 +69,13 @@ public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 	}
 
 	@Override
-	public <SourceDamage extends ObjectWithID> void fireDamageReceivedEvent(GModalityET gm, SourceDamage source,
-			LivingObject target, DamageGeneric originalDamage) {
-		this.getGameEventManager().fireEvent( //
-				new EventDamageTRAr<SourceDamage>(EventsTRAr.DamageReceived, source, target, originalDamage));
+	public <SourceDamage extends ObjectWithID> EventDamage<SourceDamage> fireDamageReceivedEvent(GModalityET gm,
+			SourceDamage source, LivingObject target, DamageGeneric originalDamage, int damageAmountToBeApplied) {
+		EventDamageTRAr<SourceDamage> ed;
+		ed = new EventDamageTRAr<SourceDamage>(EventsTRAr.DamageReceived, source, target, originalDamage,
+				damageAmountToBeApplied);
+		this.getGameEventManager().fireEvent(ed);
+		return ed;
 	}
 
 	@Override

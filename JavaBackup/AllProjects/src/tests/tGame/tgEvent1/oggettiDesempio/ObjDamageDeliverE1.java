@@ -5,7 +5,7 @@ import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subimpl.TimedObjectSimpleImpl;
 import games.theRisingAngel.DamageTypesTRAr;
-import tests.tGame.tgEvent1.GEventInterface_E1;
+import games.theRisingAngel.GameObjectsManagerTRAr;
 import tests.tGame.tgEvent1.GModality_E1;
 import tools.UniqueIDProvider;
 
@@ -68,14 +68,13 @@ public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl {
 	@Override
 	public void executeAction(GModality modality) {
 		GModality_E1 gmodtrar;
-		GEventInterface_E1 geie1;
+		GameObjectsManagerTRAr gomTrar;
 		DamageGeneric d;
 		d = new DamageGeneric(damageAmount, DamageTypesTRAr.Physical);
 		System.out.println("Damage time" + c++);
 		gmodtrar = (GModality_E1) modality;
-		geie1 = (GEventInterface_E1) gmodtrar.getEventInterface();
-		geie1.fireDamageDealtEvent(gmodtrar, this, target, d);
-		this.target.receiveDamage(modality, d, this);
+		gomTrar = (GameObjectsManagerTRAr) gmodtrar.getGameObjectsManager();
+		gomTrar.dealsDamageTo(this, target, d);
 	}
 
 //	public void act(GModality modality, long milliseconds) {

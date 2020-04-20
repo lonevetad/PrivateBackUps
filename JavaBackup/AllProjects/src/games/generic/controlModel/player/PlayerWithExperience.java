@@ -7,9 +7,9 @@ import games.generic.controlModel.subimpl.GModalityET;
 /** Delegates to a {@link ExperienceLevelHolderImpl} and add some features. */
 public interface PlayerWithExperience extends PlayerGeneric, ExperienceLevelHolder {
 
-	public ExperienceLevelHolderImpl getExpLevelHolder();
+	public ExperienceLevelHolder getExpLevelHolder();
 
-	public void setExpLevelHolder(ExperienceLevelHolderImpl expLevelHolder);
+	public void setExpLevelHolder(ExperienceLevelHolder expLevelHolder);
 
 //	protected ExperienceLevelHolderImpl expLevelHolder;
 
@@ -24,17 +24,17 @@ public interface PlayerWithExperience extends PlayerGeneric, ExperienceLevelHold
 	}
 
 	@Override
-	public default ExperienceLevelHolderImpl setLevel(int level) {
+	public default ExperienceLevelHolder setLevel(int level) {
 		return getExpLevelHolder().setLevel(level);
 	}
 
 	@Override
-	public default ExperienceLevelHolderImpl setExperienceNow(int experienceNow) {
+	public default ExperienceLevelHolder setExperienceNow(int experienceNow) {
 		return getExpLevelHolder().setExperienceNow(experienceNow);
 	}
 
 	@Override
-	public default ExperienceLevelHolderImpl setExpToLevelUp(int experienceRequiredToLevelUp) {
+	public default ExperienceLevelHolder setExpToLevelUp(int experienceRequiredToLevelUp) {
 		return getExpLevelHolder().setExpToLevelUp(experienceRequiredToLevelUp);
 	}
 
@@ -54,7 +54,7 @@ public interface PlayerWithExperience extends PlayerGeneric, ExperienceLevelHold
 		this.getExpLevelHolder().recalculateExpToLevelUp();
 	}
 
-	/** See {@link ExperienceLevelHolderImpl#acquireExperience(int)}. */
+	/** See {@link ExperienceLevelHolder#acquireExperience(int)}. */
 	public default int gainExp(int exp) {
 		int levelGained;
 		GModalityET gm;

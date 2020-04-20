@@ -4,27 +4,27 @@ import java.util.Arrays;
 
 import tools.Stringable;
 
-public class ExperienceLevelHolder implements Stringable {
+public class ExperienceLevelHolderOLD implements Stringable {
 
 	private static final long serialVersionUID = 114809520088009227L;
 	public static final int DEFAULT_BASE_LINEAR_EXP_REQUIRED = 100;
-	private static ExperienceLevelHolder DEFAULT_INSTANCE = null;
+	private static ExperienceLevelHolderOLD DEFAULT_INSTANCE = null;
 
-	public static ExperienceLevelHolder getDefaultInstance() {
+	public static ExperienceLevelHolderOLD getDefaultInstance() {
 		if (DEFAULT_INSTANCE == null) {
-			DEFAULT_INSTANCE = new ExperienceLevelHolder();
+			DEFAULT_INSTANCE = new ExperienceLevelHolderOLD();
 		}
 		return DEFAULT_INSTANCE;
 	}
 
 	//
 
-	public ExperienceLevelHolder() {
+	public ExperienceLevelHolderOLD() {
 		reset();
 	}
 
 	/** Copy constructor */
-	public ExperienceLevelHolder(ExperienceLevelHolder e) {
+	public ExperienceLevelHolderOLD(ExperienceLevelHolderOLD e) {
 		this.level = e.level;
 		this.experienceNow = e.experienceNow;
 		this.expToLevelUp = e.expToLevelUp;
@@ -52,19 +52,19 @@ public class ExperienceLevelHolder implements Stringable {
 
 	// TODO SETTER
 
-	public ExperienceLevelHolder setLevel(int level) {
+	public ExperienceLevelHolderOLD setLevel(int level) {
 		if (level >= 0)
 			this.level = level;
 		return this;
 	}
 
-	public ExperienceLevelHolder setExperienceNow(int experienceNow) {
+	public ExperienceLevelHolderOLD setExperienceNow(int experienceNow) {
 		if (experienceNow >= 0)
 			this.experienceNow = experienceNow;
 		return this;
 	}
 
-	public ExperienceLevelHolder setExpToLevelUp(int experienceRequiredToLevelUp) {
+	public ExperienceLevelHolderOLD setExpToLevelUp(int experienceRequiredToLevelUp) {
 		if (experienceRequiredToLevelUp > 0)
 			this.expToLevelUp = experienceRequiredToLevelUp;
 		return this;
@@ -74,12 +74,12 @@ public class ExperienceLevelHolder implements Stringable {
 
 	// TODO OTHER
 
-	public static ExperienceLevelHolder newDefaultInstance() {
+	public static ExperienceLevelHolderOLD newDefaultInstance() {
 		return (DEFAULT_INSTANCE != null) ? DEFAULT_INSTANCE.clone().reset()
-				: (DEFAULT_INSTANCE = new ExperienceLevelHolder());
+				: (DEFAULT_INSTANCE = new ExperienceLevelHolderOLD());
 	}
 
-	public ExperienceLevelHolder reset() {
+	public ExperienceLevelHolderOLD reset() {
 		level = 0;
 		experienceNow = 0;
 		recalculateExpToLevelUp();
@@ -140,8 +140,8 @@ public class ExperienceLevelHolder implements Stringable {
 	}
 
 	@Override
-	public ExperienceLevelHolder clone() {
-		return new ExperienceLevelHolder(this);
+	public ExperienceLevelHolderOLD clone() {
+		return new ExperienceLevelHolderOLD(this);
 	}
 
 	@Override
@@ -162,9 +162,9 @@ public class ExperienceLevelHolder implements Stringable {
 
 	public static void main(String[] args) {
 		int[] exps;
-		ExperienceLevelHolder elh;
+		ExperienceLevelHolderOLD elh;
 
-		elh = ExperienceLevelHolder.DEFAULT_INSTANCE;
+		elh = ExperienceLevelHolderOLD.DEFAULT_INSTANCE;
 
 		exps = new int[] { 1250, 700, 10, 50, 500, 666, 10000, 424 };
 		System.out.println(Arrays.toString(exps));

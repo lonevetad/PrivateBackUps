@@ -11,4 +11,9 @@ public class EventDamageTRAr<Source> extends EventDamage<Source> {
 	public EventDamageTRAr(IGEvent eventIdentifier, Source source, LivingObject target, DamageGeneric damage) {
 		super(eventIdentifier, source, target, damage);
 	}
+
+	public EventDamageTRAr(IGEvent eventIdentifier, Source source, LivingObject target, DamageGeneric damage,
+			int damageAmountToBeApplied) {
+		super(eventIdentifier, source, target, damage, damageAmountToBeApplied);
+	}
 }

@@ -13,9 +13,11 @@ public class ObjPrinter_EventDeliver extends ObjPrinterTO {
 	@Override
 	public void executeAction(GModality modality) {
 		GEventInterface_E1 ei;
-		System.out.println("sending event with tect: " + this.text);
+		String t;
+		t = this.getText();
+		System.out.println("sending event with tect: " + t);
 		ei = (GEventInterface_E1) ((GModalityET) modality).getEventInterface();
-		ei.firePrinterEvent(this.text);
+		ei.firePrinterEvent(t);
 //		modality.fireEvent(new EventPrinter(this.text));
 	}
 }

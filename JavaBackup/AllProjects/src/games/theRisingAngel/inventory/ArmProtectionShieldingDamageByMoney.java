@@ -5,6 +5,7 @@ import games.generic.controlModel.GameObjectsProvidersHolder;
 import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
+import games.theRisingAngel.DamageTypesTRAr;
 import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
 
 /**
@@ -24,8 +25,8 @@ public class ArmProtectionShieldingDamageByMoney extends EINotJewelry {
 	protected void enrichWithAbilities(GModality gm, GameObjectsProvidersHolder providersHolder) {
 		AbilitiesProvider ap;
 		ap = ((GameObjectsProvidersHolderRPG) providersHolder).getAbilitiesProvider();
-		this.abilityDamageReductionByPaying = (ADamageReductionCurrencyBased) ap.getAbilityByName(null,
-				ADamageReductionCurrencyBased.NAME);
+		this.abilityDamageReductionByPaying = (ADamageReductionCurrencyBased) ap.getAbilityByName(gm,
+				ADamageReductionCurrencyBased.NAME + DamageTypesTRAr.Physical.getName());
 		this.abilityDamageReductionByPaying.setPerThousandFraction(100);
 		this.abilityDamageReductionByPaying.setOwner(this);
 		super.addAbility(this.abilityDamageReductionByPaying);
