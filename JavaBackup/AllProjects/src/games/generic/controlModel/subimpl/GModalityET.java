@@ -116,6 +116,11 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 		this.gameThreadsManager.startGThreads();
 	}
 
+	@Override
+	public void addGameThread(GThread t) {
+		this.gameThreadsManager.addGThread(t);
+	}
+
 	/**
 	 * Used by other objects and threads (like GUI, sound, animation, the game's
 	 * ones, etc) to check if the game is running or: If NOT (i.e. the game is

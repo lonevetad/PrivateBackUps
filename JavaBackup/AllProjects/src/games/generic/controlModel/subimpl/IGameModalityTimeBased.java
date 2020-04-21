@@ -2,6 +2,7 @@ package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.TimedObject;
+import games.generic.controlModel.misc.GThread;
 
 /**
  * Mark a {@link GModality} as a "time-based" game, maybe "real-time" based
@@ -32,4 +33,7 @@ public interface IGameModalityTimeBased {
 	 * forced to define it (as this interface's name suggests).
 	 */
 	public GModelTimeBased getModelTimeBased();
+
+	public void addGameThread(GThread t);
+
 }

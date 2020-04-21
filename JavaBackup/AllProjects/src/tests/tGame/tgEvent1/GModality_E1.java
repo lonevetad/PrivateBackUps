@@ -121,7 +121,8 @@ public class GModality_E1 extends GModalityTRAr {
 
 		odd = new ObjDamageDeliverE1(5000);
 		odd.setTarget(p);
-		odd.setDamageAmount(50);
+		odd.setDamageAmount(75);
+		odd.setAccumulatedTimeElapsed(3000);
 		this.addGameObject(odd);
 
 		System.out.println("GModalit_E1#onCreate .. quanti oggetti ho?");

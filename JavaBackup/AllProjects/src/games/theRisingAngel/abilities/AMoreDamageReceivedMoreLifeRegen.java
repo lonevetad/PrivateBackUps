@@ -18,15 +18,16 @@ import games.theRisingAngel.misc.AttributesTRAr;
 import tools.ObjectWithID;
 
 /**
- * Grants a life regeneration equals to the 25% of received damage, accumulated
- * each time it's received.<br>
+ * Grants a life regeneration equals to the 12.5% of received damage,
+ * accumulated each time it's received.<br>
  * At each "tick", equals to
  * {@link AbilityModifyingAttributeRealTime#MILLISEC_ATTRIBUTE_UPDATE}, it
- * decrease by {@link #VALUE_DECREMENT_PER_TICK}.
+ * decrease by the maximum between {@link #VALUE_DECREMENT_PER_TICK} and the
+ * 12.5%.
  */
 public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeRealTime implements GEventObserver {
 	private static final long serialVersionUID = 5411087000163L;
-	public static final int VALUE_DECREMENT_PER_TICK = 2;
+	public static final int VALUE_DECREMENT_PER_TICK = 4;
 	public static final String NAME = "Pain Rinvigoring";
 
 	public AMoreDamageReceivedMoreLifeRegen() {
@@ -97,10 +98,10 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 			this.getEquipItem() //
 					.getCreatureWearingEquipments() // check because it's bounded to the "wearer"
 					&& (d = dEvent.getDamage().getDamageAmount()) >= 4) {
-				// increase of 25% of damage, so minimum is 4
+				// increase of 12.5% of damage, so minimum is 4
 
 				am = this.getAttributeToModify();
-				d = am.getValue() + (d >> 2);// ">>2" because 25% == /4.0
+				d = am.getValue() + (d >> 3);// ">>2" because 25% == /4.0
 
 				ca = this.getEquipItem().getCreatureWearingEquipments().getAttributes();
 				// update: remove previous, add new value
@@ -115,14 +116,15 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingAttributeR
 	@Override
 	public void updateAttributeModifiersAmount(GModality gm, EquipmentItem ei, CreatureSimple ah,
 			CreatureAttributes ca) {
-		int v;
+		int v, t;
 		AttributeModification am;
 		am = this.getAttributeToModify();
 		v = am.getValue();
 		if (v > 0) {
 			if (++ticks >= (1000 / AbilityModifyingAttributeRealTime.MILLISEC_ATTRIBUTE_UPDATE))
 				ticks = 0;
-			v -= VALUE_DECREMENT_PER_TICK;
+			t = v >> 3;// 12.5%
+			v -= VALUE_DECREMENT_PER_TICK > t ? VALUE_DECREMENT_PER_TICK : t;
 			am.setValue(v > 0 ? v : 0);
 			System.out.println("______new life regen value : " + am.getValue() + " .... AMoreDamageMoreRegenBLA");
 		}
