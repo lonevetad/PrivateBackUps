@@ -42,8 +42,7 @@ public class PolygonToLineIntersection implements ShapesIntersectionDetector {
 		if (l1 == null || polygon == null)
 			return false;
 
-		if (PolygonUtilities.isInside(line.getP1(), polygon)
-				|| PolygonUtilities.isInside(line.getP2(), polygon)
+		if (PolygonUtilities.isInside(line.getP1(), polygon) || PolygonUtilities.isInside(line.getP2(), polygon)
 				|| PolygonUtilities.isInside(s1.getCenter(), polygon))
 			return true;
 		// perform check on the tinier polygon and put in secondPoint
@@ -53,7 +52,7 @@ public class PolygonToLineIntersection implements ShapesIntersectionDetector {
 		otherIndex = 0;
 		lastx = xx[otherIndex];
 		lasty = yy[otherIndex];
-		while (--len >= 0) {
+		while(--len >= 0) {
 			thisx = xx[len];
 			thisy = yy[len];
 			linePolygon = new Line2D.Double(thisx, thisy, lastx, lasty);
@@ -87,7 +86,7 @@ public class PolygonToLineIntersection implements ShapesIntersectionDetector {
 		lastx = xx[otherIndex];
 		lasty = yy[otherIndex];
 		list = new LinkedList<>();
-		while (--len >= 0) {
+		while(--len >= 0) {
 			pointIntersection = null;
 			thisx = xx[len];
 			thisy = yy[len];

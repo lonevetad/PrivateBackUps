@@ -1,6 +1,7 @@
 package dataStructures.graph;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -53,6 +54,14 @@ public class PathGraph<E, Distance> implements List<PathStep<E, Distance>>, Seri
 
 	public NumberManager<Distance> getDistanceManager() {
 		return distanceManager;
+	}
+
+	public List<E> toListNodes() {
+		List<E> l;
+		l = new ArrayList<>(path.size());
+		for (PathStep<E, Distance> p : path)
+			l.add(p.elem);
+		return l;
 	}
 
 	//

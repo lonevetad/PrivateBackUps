@@ -7,7 +7,11 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/geometry/AbstractShape2D.java
 import geometry.pointTools.PolygonUtilities;
+=======
+import geometry.pointTools.impl.PolygonUtilities;
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/geometry/AbstractShape2D.java
 
 public abstract class AbstractShape2D implements Serializable, Cloneable {
 	public static final int MINIMUM_CORNERS_AMOUNT = 2; // a triangle
@@ -33,7 +37,11 @@ public abstract class AbstractShape2D implements Serializable, Cloneable {
 	public boolean contains(int x, int y) {
 		Polygon p;
 		p = toPolygon();
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/geometry/AbstractShape2D.java
 		return (p == null) ? false : PolygonUtilities.isPointInsidePolygon(x, y, p);
+=======
+		return (p == null) ? false : PolygonUtilities.isPointInsideThePolygon(x, y, p);
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/geometry/AbstractShape2D.java
 		// p.contains(x, y);
 	}
 

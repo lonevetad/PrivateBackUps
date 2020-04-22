@@ -205,6 +205,7 @@ public final class MathUtilities {
 		return (yb == ya) ? 0.0 : ((yb - ya) / (xb - xa));
 	}
 
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/tools/MathUtilities.java
 	public static double getPerpendicularSlope(double originalSlope) {
 		if (originalSlope == 0.0)
 			return Double.POSITIVE_INFINITY;
@@ -215,6 +216,8 @@ public final class MathUtilities {
 		return (-1.0) / originalSlope;
 	}
 
+=======
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/tools/MathUtilities.java
 	public static double angleDegrees(Point2D p1, Point2D p2) {
 		return angleDegrees(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 	}
@@ -236,6 +239,7 @@ public final class MathUtilities {
 		return d;
 	}
 
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/tools/MathUtilities.java
 	/***
 	 * Returns <code>null</code> if the given segment is degenerated. Otherwise
 	 * returns an array <code>weights</code> describing the line of the form
@@ -259,6 +263,8 @@ public final class MathUtilities {
 		return new double[] { thisx - m * thisy, -m, 1 };
 	}
 
+=======
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/tools/MathUtilities.java
 	/**
 	 * Test if the first point lies in the bounding box denote by the other two
 	 * points.
@@ -361,6 +367,7 @@ public final class MathUtilities {
 		return angleDeg(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 	}
 
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/tools/MathUtilities.java
 	public static int mcd(int a, int b) {
 		int t;
 		if (a <= 0 || b <= 0)
@@ -378,6 +385,8 @@ public final class MathUtilities {
 		return a;
 	}
 
+=======
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/tools/MathUtilities.java
 	/**
 	 * Returns the angle, expressed in degrees, existing from the line passing
 	 * through <code>(x1,y1)</code> and <code>(x2,y2)</code> and the horizontal
@@ -1100,6 +1109,7 @@ public final class MathUtilities {
 		return l;
 	}
 
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/tools/MathUtilities.java
 	public static boolean isInside(Rectangle r, Point p) {
 		return isInside(r, p.x, p.y);
 	}
@@ -1121,6 +1131,8 @@ public final class MathUtilities {
 		return (x <= rx || rx <= (x + w)) && (y <= ry || ry <= (y + h));
 	}
 
+=======
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/tools/MathUtilities.java
 	//
 
 	// TODO END INTERSECTORS, start silly stuffs

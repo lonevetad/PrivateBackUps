@@ -9,7 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import geometry.implementations.shapes.ShapePolygonRegular;
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/tests/tGeom/TestShapePolygonEquilater.java
 import geometry.pointTools.PolygonUtilities;
+=======
+import geometry.pointTools.impl.PolygonUtilities;
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/tests/tGeom/TestShapePolygonEquilater.java
 
 public class TestShapePolygonEquilater {
 	static final double degreesPerClick = 5;

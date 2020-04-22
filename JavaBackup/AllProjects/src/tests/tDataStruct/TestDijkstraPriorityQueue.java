@@ -56,10 +56,11 @@ public class TestDijkstraPriorityQueue {
 		scan.close();
 		scan = null;
 
-		pathFinder = isDijkstra ? new PathFinderDijkstra<>() : new PathFindAStar<>(new AStarHeuristic());
+		pathFinder = isDijkstra ? new PathFinderDijkstra<>() : new PathFindAStar<Integer, Integer>(new AStarHeuristic()));
 		g = isSynch ? new GraphSimpleSynchronized<>(pathFinder, GraphSimple.INT_COMPARATOR)
 				: new GraphSimpleAsynchronized<>(pathFinder, GraphSimple.INT_COMPARATOR);
 		g.setLog(log);
+		((PathFindAStar<Integer, Integer>) pathFinder).setGraph(g);
 		i = -1;
 		while(++i < numberNodeGraphs) {
 			g.addNode(i);

@@ -8,7 +8,11 @@ import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeFillableImpl;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeRotated;
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/geometry/implementations/shapes/ShapeRectangle.java
 import geometry.pointTools.PolygonUtilities;
+=======
+import geometry.pointTools.impl.PolygonUtilities;
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/geometry/implementations/shapes/ShapeRectangle.java
 import tools.MathUtilities;
 
 public class ShapeRectangle extends AbstractShapeFillableImpl {
@@ -248,7 +252,24 @@ public class ShapeRectangle extends AbstractShapeFillableImpl {
 		double tempx, tempy, rad, halfWidth, halfHeight, radius, angRotation;
 		int[] xx, yy;
 		Polygon p;
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/geometry/implementations/shapes/ShapeRectangle.java
 
+=======
+		r = new ShapeRectangle(30, 100, 100, false, 50, 80);
+		p = r.toPolygon();
+		System.out.println(PolygonUtilities.polygonToString(p));
+	}
+
+	//
+
+	@Deprecated
+	public Polygon toPolygon_BROKEN() {
+		boolean addingx, addingy;
+		int counter;
+		double tempx, tempy, rad, halfWidth, halfHeight, radius, angRotation;
+		int[] xx, yy;
+		Polygon p;
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/geometry/implementations/shapes/ShapeRectangle.java
 		if (polygonCache != null)
 			return polygonCache;
 

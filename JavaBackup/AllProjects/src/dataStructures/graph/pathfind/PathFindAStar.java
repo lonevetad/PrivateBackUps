@@ -1,20 +1,22 @@
 package dataStructures.graph.pathfind;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
 import dataStructures.graph.GraphSimple;
 import dataStructures.graph.GraphSimpleAsynchronized;
-import dataStructures.graph.NodeDistanceManager;
 import dataStructures.graph.PathFindStrategy;
 import dataStructures.graph.PathGraph;
+import geometry.ObjectShaped;
 import tools.NumberManager;
 
-public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance> {
+public class PathFindAStar<E, Distance extends Number> implements PathFindStrategy<E, Distance> {
 	private static final long serialVersionUID = 56409561023300330L;
 
 	public PathFindAStar(BiFunction<E, E, Distance> heuristic) {
@@ -23,9 +25,18 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 	}
 
 	protected BiFunction<E, E, Distance> heuristic;
+	protected GraphSimple<E, Distance> graph;
 
 	public BiFunction<E, E, Distance> getHeuristic() {
 		return heuristic;
+	}
+
+	public GraphSimple<E, Distance> getGraph() {
+		return graph;
+	}
+
+	public void setGraph(GraphSimple<E, Distance> graph) {
+		this.graph = graph;
 	}
 
 	public PathFindAStar<E, Distance> setHeuristic(BiFunction<E, E, Distance> heuristic) {
@@ -35,10 +46,22 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 
 	//
 
+	@Override
+	public List<E> getPath(E start, E dest, NumberManager<Distance> distanceManager, Predicate<E> isWalkableTester) {
+		return getPath(graph, start, dest, distanceManager, isWalkableTester).toListNodes();
+	}
+
+	@Override
+	public List<E> getPath(ObjectShaped objPlanningToMove, E dest, NumberManager<Distance> distanceManager,
+			Predicate<E> isWalkableTester) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Too lazy to implement");
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public PathGraph<E, Distance> getPath(GraphSimple<E, Distance> graph, E start, E dest,
-			NodeDistanceManager<Distance> distanceManager) {
+			NumberManager<Distance> distanceManager, Predicate<E> isWalkableTester) {
 //		final double distanceTotal;
 		PathGraph<E, Distance> p;
 		GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized s, d;
@@ -125,14 +148,13 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 
 	// subclasses
 
-	protected static class NodeInfoAStar<E, Distance> {
+	protected static class NodeInfoAStar<E, D extends Number> {
 		protected NodePositionInFrontier color;
-		protected Distance distFromStart, distFromFather, fScore;
-		protected GraphSimple<E, Distance>.NodeGraph thisNode;
-		protected NodeInfoAStar<E, Distance> father;
+		protected D distFromStart, distFromFather, fScore;
+		protected GraphSimple<E, D>.NodeGraph thisNode;
+		protected NodeInfoAStar<E, D> father;
 
-		protected NodeInfoAStar(GraphSimple<E, Distance>.NodeGraph thisNode,
-				NodeDistanceManager<Distance> distanceManager) {
+		protected NodeInfoAStar(GraphSimple<E, D>.NodeGraph thisNode, NumberManager<D> distanceManager) {
 			this.thisNode = thisNode;
 			color = NodePositionInFrontier.NeverAdded;
 			distFromStart = distFromFather = distanceManager.getZeroValue();
@@ -141,42 +163,42 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 		}
 	}
 
-	private static class UsynchronizedAdjacentForEacherAStar<E, Distance>
-			implements BiConsumer<GraphSimple<E, Distance>.NodeGraph, Distance> {
+	private static class UsynchronizedAdjacentForEacherAStar<E, D extends Number>
+			implements BiConsumer<GraphSimple<E, D>.NodeGraph, D> {
 
-		private NodeInfoAStar<E, Distance> currentNode;
-		private final Map<E, NodeInfoAStar<E, Distance>> nodeInfos;
-		private final PriorityQueueKey<NodeInfoAStar<E, Distance>, Distance> frontier;
-		private final BiFunction<E, E, Distance> heuristic;
-		private final NumberManager<Distance> distanceManager;
+		private NodeInfoAStar<E, D> currentNode;
+		private final Map<E, NodeInfoAStar<E, D>> nodeInfos;
+		private final PriorityQueueKey<NodeInfoAStar<E, D>, D> frontier;
+		private final BiFunction<E, E, D> heuristic;
+		private final NumberManager<D> distanceManager;
 
-		UsynchronizedAdjacentForEacherAStar(Map<E, NodeInfoAStar<E, Distance>> nodeInfos,
-				PriorityQueueKey<NodeInfoAStar<E, Distance>, Distance> frontier, BiFunction<E, E, Distance> heuristic,
-				NodeDistanceManager<Distance> distanceManager) {
+		UsynchronizedAdjacentForEacherAStar(Map<E, NodeInfoAStar<E, D>> nodeInfos,
+				PriorityQueueKey<NodeInfoAStar<E, D>, D> frontier, BiFunction<E, E, D> heuristic,
+				NumberManager<D> distanceManager) {
 			this.nodeInfos = nodeInfos;
 			this.frontier = frontier;
 			this.heuristic = heuristic;
 			this.distanceManager = distanceManager;
 		}
 
-		public void setCurrentNode(NodeInfoAStar<E, Distance> n) {
+		public void setCurrentNode(NodeInfoAStar<E, D> n) {
 			this.currentNode = n;
 		}
 
-//		public void accept(GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized nod, Integer distToAdj) {
+//		public void accept(GraphSimpleAsynchronized<E, D>.NodeGraphSimpleAsynchronized nod, Integer distToAdj) {
 		@SuppressWarnings("unchecked")
 		@Override
-		public void accept(GraphSimple<E, Distance>.NodeGraph nnn, Distance distToAdj) {
-			Distance distToNo;
+		public void accept(GraphSimple<E, D>.NodeGraph nnn, D distToAdj) {
+			D distToNo;
 			E e;
-			GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized no;
-			NodeInfoAStar<E, Distance> neighbourInfo;
-			no = (GraphSimpleAsynchronized<E, Distance>.NodeGraphSimpleAsynchronized) nnn;
+			GraphSimpleAsynchronized<E, D>.NodeGraphSimpleAsynchronized no;
+			NodeInfoAStar<E, D> neighbourInfo;
+			no = (GraphSimpleAsynchronized<E, D>.NodeGraphSimpleAsynchronized) nnn;
 			e = no.getElem();
 			if (nodeInfos.containsKey(e))
 				neighbourInfo = nodeInfos.get(e);
 			else
-				nodeInfos.put(e, neighbourInfo = new NodeInfoAStar<E, Distance>(no, distanceManager));
+				nodeInfos.put(e, neighbourInfo = new NodeInfoAStar<E, D>(no, distanceManager));
 
 //			if (neighbourInfo.color == NodePositionInFrontier.Closed) // equivalent of being in closed set
 //				return;
@@ -188,7 +210,7 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 			// distToNo < neighbourInfo.distFromStart
 					distanceManager.getComparator().compare(distToNo, neighbourInfo.distFromStart) < 0) {
 //				final Double newDistanceFromStart,
-				Distance fScore;
+				D fScore;
 				// update
 //				newDistanceFromStart = Double.valueOf(distToNo);
 				neighbourInfo.father = currentNode;
@@ -208,4 +230,5 @@ public class PathFindAStar<E, Distance> implements PathFindStrategy<E, Distance>
 			}
 		}
 	}
+
 }

@@ -4,7 +4,11 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/tests/tGeom/TestStressPolygonIsInside.java
 import geometry.pointTools.PolygonUtilities;
+=======
+import geometry.pointTools.impl.PolygonUtilities;
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/tests/tGeom/TestStressPolygonIsInside.java
 
 public class TestStressPolygonIsInside {
 
@@ -49,6 +53,7 @@ public class TestStressPolygonIsInside {
 
 			System.out.println("---\nstart mine.. inside");
 			start = System.currentTimeMillis();
+<<<<<<< HEAD:JavaBackup/AllConnectedProjects - before 05-03-2020/src/tests/tGeom/TestStressPolygonIsInside.java
 			for (int i = 0; i < repetitions; i++){
 				PolygonUtilities.isPointInsidePolygon(pointInside, p);
 			}
@@ -58,6 +63,15 @@ public class TestStressPolygonIsInside {
 			for (int i = 0; i < repetitions; i++){
 				PolygonUtilities.isPointInsidePolygon(pointOutside, p);
 			}
+=======
+			for (int i = 0; i < repetitions; i++)
+				PolygonUtilities.isPointInsideThePolygon(pointInside, p);
+			delta = System.currentTimeMillis() - start;
+			System.out.print("\tdelta: " + delta + "\noutside:\n\t");
+			start = System.currentTimeMillis();
+			for (int i = 0; i < repetitions; i++)
+				PolygonUtilities.isPointInsideThePolygon(pointOutside, p);
+>>>>>>> master:JavaBackup/AllConnectedProjects/src/tests/tGeom/TestStressPolygonIsInside.java
 			delta = System.currentTimeMillis() - start;
 			System.out.println(delta);
 
