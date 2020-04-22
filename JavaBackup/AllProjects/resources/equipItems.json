@@ -119,6 +119,24 @@
 		],
 		"abilities": []
 	}, {
+		"name": "Body Quartz Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 6},
+			{"attribute": "RigenMana", "value": -2}
+		],
+		"abilities": []
+	}, {
+		"name": "Mind Quartz Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": -2},
+			{"attribute": "RigenMana", "value": 6}
+		],
+		"abilities": []
+	}, {
 		"name": "Rhyolite Ring",
 		"type": "Ring",
 		"rarity": 2,
