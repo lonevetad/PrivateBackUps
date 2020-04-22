@@ -2,7 +2,6 @@ package tests.tGame.tgEvent1;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.CreatureAttributes;
@@ -65,28 +64,23 @@ public class GModality_E1 extends GModalityTRAr {
 		p = (Player_E1) newPlayerInGame(null, PlayerCharacterTypes.Human); // new Player_E1(this);
 		p.setName("Lonevetad");
 
-		if (p.getAttributes().getBonusCalculator() == null)
-			throw new IllegalStateException("WTF WHY IS NULL?");
-		if (p.getAttributes().getBonusCalculator().getCreatureAttributesSet() == null)
-			throw new IllegalStateException("WTF WHY IS NULL?");
-
 		this.setPlayer(p);
 		p.setGameModality(this);
 		p.getCurrencies().setMoneyAmount(0, 100);
 
 		this.addGameObject(p);
 		this.addGameObject(new ObjPrinterTO(1250, "LongWaiting"));
-		this.addGameObject(new ObjPrinterTO(333, "Short") {
-
-			@Override
-			public void executeAction(GModality modality) {
-				System.out.println("player's life: " + p.getLife() + ", life regen: " + p.getLifeRegenation());
-			}
-		});
+//		this.addGameObject(new ObjPrinterTO(333, "Short") {
+//
+//			@Override
+//			public void executeAction(GModality modality) {
+//				System.out.println("player's life: " + p.getLife() + ", life regen: " + p.getLifeRegenation());
+//			}
+//		});
 //		this.addGameObject(new ObjPrinter_EventDeliver(250, "Tiny"));
 		// gModelE.addTimeProgressingObject(odd);
-
-		this.addGameObject(printerPlayer = new ObjPrinter_EventDeliver(2000, "HAKINA MATATA") {
+		printerPlayer = new ObjPrinter_EventDeliver(2000, "HAKUNA MATATA") {
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public String getText() {
@@ -100,7 +94,8 @@ public class GModality_E1 extends GModalityTRAr {
 					sb.append(ca.getValue(i)).append(", ");
 				return sb.toString();
 			}
-		});
+		};
+//		this.addGameObject(printerPlayer);
 		ope = new ObserverPrinterEvent();
 //		this.addEventObserver(ope);
 		this.addGameObject(ope);
@@ -147,6 +142,10 @@ public class GModality_E1 extends GModalityTRAr {
 		System.out.println("\n\n equipping: " + equipmentName);
 		System.out.println(equip.toString());
 		System.out.println("\n\n");
+		p.equip(equip);
+
+		equipmentName = "Cloth Hat";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
 		p.equip(equip);
 
 		System.out.println("GModalit_E1#onCreate .. quanti oggetti ho?");
