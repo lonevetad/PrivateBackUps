@@ -1,10 +1,15 @@
 package lol.shitter;
 
 import java.io.File;
+import java.io.OutputStream;
 
 public class Shitter {
 	public static final int MAX_SIZE_BYTE = 64;
 
+	/**
+	 * Could generalise the output defining a factory for the instance of
+	 * {@link OutputStream}.
+	 */
 	public static abstract class FileDisassemblerHandler {
 		public static final String SEPARATOR_NAME_INDEX = " - ";
 

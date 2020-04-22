@@ -1,0 +1,353 @@
+[
+	{
+		"name": "Cloth Trousers",
+		"type": "Legs",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 45},
+			{"attribute": "Defense", "value": 16},
+			{"attribute": "Constitution", "value": 13},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Shirt",
+		"type": "Chest",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 52},
+			{"attribute": "Defense", "value": 20},
+			{"attribute": "Constitution", "value": 10},
+			{"attribute": "DamageReductionPhysical", "value": 5},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Shoes",
+		"type": "Feet",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 12},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Dexterity", "value": 15},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Ruby Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Strength", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Oxided Iron Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 60}
+		],
+		"abilities": []
+	}, {
+		"name": "Lapis Lazuli Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "ManaMax", "value": 45}
+		],
+		"abilities": []
+	}, {
+		"name": "Amber Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Precision", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Emerald Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Sapphire Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Intelligence", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Tiger Eye Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Opal Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenMana", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Aquamarine Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Wisdom", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Quartz Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 2},
+			{"attribute": "RigenMana", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Body Quartz Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 6},
+			{"attribute": "RigenMana", "value": -2}
+		],
+		"abilities": []
+	}, {
+		"name": "Mind Quartz Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": -2},
+			{"attribute": "RigenMana", "value": 6}
+		],
+		"abilities": []
+	}, {
+		"name": "Rhyolite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 2},
+			{"attribute": "LifeMax", "value": 40}
+		],
+		"abilities": []
+	}, {
+		"name": "Spectrolite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "ManaMax", "value": 35},
+			{"attribute": "RigenMana", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Serpentine Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Spinel Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Health", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Diamond Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "Luck", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Andesine Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Constitution", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Amazonite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Faith", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Calcite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Velocity", "value": 15}
+		],
+		"abilities": []
+	}, {
+		"name": "Rhodonite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageBonusMagical", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Malachite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageReductionMagical", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Moldavite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageBonusPhysical", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Morganite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageReductionPhysical", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Sphene Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "CriticalProbability", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Sugilite Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "CriticalMultiplier", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Topaz Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "DamageBonusMagical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Triphane Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Precision", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Verdite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 6}
+		],
+		"abilities": []
+	}, {
+		"name": "Zoisite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Sunstone Ring",
+		"type": "Ring",
+		"rarity": 3,
+		"attributeMods": [
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Health", "value": 4},
+			{"attribute": "Defense", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Moonstone Ring",
+		"type": "Ring",
+		"rarity": 3,
+		"attributeMods": [
+			{"attribute": "Intelligence", "value": 4},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "Luck", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Pyrite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageBonusMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Prehnite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"attributeMods": [
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Plated Armor of Stonefying Skin",
+		"type": "Chest",
+		"rarity": 3,
+		"attributeMods": [
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Health", "value": -15},
+			{"attribute": "Defense", "value": 17},
+			{"attribute": "Dexterity", "value": -8},
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": ["Stonefying Skin"]
+	}, {
+		"name": "Belt with Limph-made Walled",
+		"type": "Belt",
+		"rarity": 3,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 2}
+		],
+		"abilities": ["Healthy wallet in healthy body"]
+	}
+]

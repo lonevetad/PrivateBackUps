@@ -1,0 +1,86 @@
+[
+	{
+		"name": "Benedicted",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Faith", "value": 15}
+		]
+	}, {
+		"name": "Consacrated",
+		"rarity": 3,
+		"modifiers": [
+			{"attribute": "Faith", "value": 23},
+			{"attribute": "Wisdom", "value": 12}
+		]
+	} ,{
+		"name": "Thick",
+		"rarity": 1,
+		"modifiers": [
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Constitution", "value": 2}
+		]
+	}, {
+		"name": "Tempered",
+		"rarity": 3,
+		"modifiers": [
+			{"attribute": "Defense", "value": 10},
+			{"attribute": "Constitution", "value": 5}
+		]
+	}, {
+		"name": "with Art Decorations",
+		"rarity": 3,
+		"modifiers": [
+			{"attribute": "Wisdom", "value": 8},
+			{"attribute": "Health", "value": 5},
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "DamageBonusMagical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		]
+	}, {
+		"name": "Moon runed",
+		"rarity": 3,
+		"modifiers": [
+			{"attribute": "ManaMax", "value": 15},
+			{"attribute": "RigenMana", "value": 8},
+			{"attribute": "Wisdom", "value": 8},
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Faith", "value": 10},
+			{"attribute": "DamageBonusMagical", "value": 5},
+			{"attribute": "DamageReductionMagical", "value": 5}
+		]
+	}, {
+		"name": "Sun runed",
+		"rarity": 3,
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 15},
+			{"attribute": "RigenLife", "value": 8},
+			{"attribute": "Constitution", "value": 8},
+			{"attribute": "Strength", "value": 5},
+			{"attribute": "Health", "value": 10},
+			{"attribute": "DamageBonusPhysical", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 5}
+		]
+	}, {
+		"name": "of Dwarf",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Strength", "value": 12},
+			{"attribute": "Constitution", "value": 5}
+		]
+	}, {
+		"name": "of Elf",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "Dexterity", "value": 12},
+			{"attribute": "Velocity", "value": 5}
+		]
+	}, {
+		"name": "Good",
+		"rarity": 1,
+		"modifiers": [
+			{"attribute": "Defense", "value": 3}
+		]
+	}
+]
