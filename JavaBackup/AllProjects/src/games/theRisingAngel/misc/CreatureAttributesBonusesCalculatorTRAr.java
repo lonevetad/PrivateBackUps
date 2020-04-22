@@ -69,16 +69,16 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 		v = 0;
 		switch (a) {
 		case LifeMax:
-			v = c.getValue(AttributesTRAr.Strength.getIndex())
-					+ (c.getValue(AttributesTRAr.Constitution.getIndex()) << 1)
-					+ (c.getValue(AttributesTRAr.Health.getIndex()) << 2);
+			v = c.getValue(AttributesTRAr.Constitution.getIndex())
+					+ (c.getValue(AttributesTRAr.Strength.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAr.Health.getIndex()) << 1);
 			break;
 		case RigenLife:
-			v = (c.getValue(AttributesTRAr.Constitution.getIndex()) >> 2)
-					+ ((c.getValue(AttributesTRAr.Health.getIndex())) / 3)
-					+ (c.getValue(AttributesTRAr.Strength.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 3);
+			v = (c.getValue(AttributesTRAr.Constitution.getIndex()) >> 3)
+					+ ((c.getValue(AttributesTRAr.Health.getIndex())) >> 2)
+					+ (c.getValue(AttributesTRAr.Strength.getIndex()) >> 4)
+					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 5)
+					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 5);
 			v >>= 1; // to high
 			break;
 		case DamageReductionPhysical:
@@ -95,15 +95,14 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 4);
 			break;
 		case ManaMax:
-			int wis;
-			v = c.getValue(AttributesTRAr.Intelligence.getIndex())//
-					+ (wis = c.getValue(AttributesTRAr.Wisdom.getIndex())) + (wis << 1) // == *3
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) << 2);
+			v = (c.getValue(AttributesTRAr.Intelligence.getIndex()) >> 1) //
+					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()))
+					+ (c.getValue(AttributesTRAr.Faith.getIndex()) << 1);
 			v >>= 1; // too high, make it half
 			break;
 		case RigenMana:
-			v = (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 1);
+			v = (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 3)
+					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 2);
 			break;
 		case DamageBonusMagical:
 			v = (c.getValue(AttributesTRAr.Precision.getIndex()) / 10)

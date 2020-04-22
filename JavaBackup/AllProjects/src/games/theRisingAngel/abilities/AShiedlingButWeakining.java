@@ -117,8 +117,6 @@ public class AShiedlingButWeakining extends AbilityModifyingAttributesRealTime i
 				}
 				this.setAccumulatedTimeElapsed(0);
 				this.isAbilityActive = true;
-				System.out.println("çççççççç a shielding weaking" + getID() + ", now regen: "
-						+ this.attributesToModify[0].getValue());
 			}
 		}
 	}

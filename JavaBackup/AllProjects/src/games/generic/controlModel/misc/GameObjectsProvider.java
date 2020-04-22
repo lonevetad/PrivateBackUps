@@ -64,10 +64,8 @@ public class GameObjectsProvider<E extends ObjectNamed> {
 	}
 
 	public E getNewObjByName(GModality gm, String name) {
-		System.out.println("on " + this.getClass().getSimpleName() + " is retrieving: " + name);
 		FactoryObjGModalityBased<E> e;
 		e = this.objsByName.get(name);
-		System.out.println("e: " + e);
 		return this.objsByName.get(name).newInstance(gm);
 	}
 

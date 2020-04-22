@@ -112,9 +112,7 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingSingleAttr
 //				ca.removeAttributeModifier(am);
 //				am.setValue(d > 0 ? d : 0);
 //				ca.applyAttributeModifier(am);
-//				System.out.println("같같같같같� now regen is: " + am.getValue());
 				d >>= 3;
-				System.out.println(":::: accumulating regen: " + d);
 				if (d > 0)
 					accumulatedLifeRegen += d;
 			}
@@ -136,8 +134,6 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingSingleAttr
 				t = 1;
 			v += accumulatedLifeRegen - t; // (t >= VALUE_DECREMENT_PER_TICK ? t : VALUE_DECREMENT_PER_TICK);
 			am.setValue(v > 0 ? v : 0); // limit is 0
-			System.out.println("______new life regen value : " + am.getValue()
-					+ " .... AMoreDamageMoreRegenBLA, with accumulated: " + accumulatedLifeRegen);
 		} else {
 			if (accumulatedLifeRegen > 0)
 				am.setValue(accumulatedLifeRegen);

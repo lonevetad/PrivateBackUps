@@ -8,9 +8,11 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gEvents.EventHealing;
 import games.generic.controlModel.gObj.CurrencyHolder;
+import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.EquipmentAbilityBaseImpl;
 import games.generic.controlModel.misc.CurrencySet;
 import games.theRisingAngel.events.EventsTRAr;
+import tools.ObjectWithID;
 
 /**
  * Upon receiving healing, make the owner earn N percentage of the base
@@ -55,27 +57,31 @@ public class AHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl impl
 			EventHealing<?> eventHealing;
 			CurrencyHolder ch;
 			CurrencySet cs;
+			LivingObject ol;
+			ObjectWithID owid;
 			eventHealing = (EventHealing<?>) ge;
 			amoutHealed = eventHealing.getHeal().getHealAmount();
-			if (eventHealing.getTarget() == getOwner() //
+			owid = getOwner();
+			if (eventHealing.getTarget() == owid //
 //					&&(amoutHealed > 1
 //							|| (hasReceivedOddReneration && amoutHealed > 0))//
-					&& (getOwner() instanceof CurrencyHolder)) {
-				System.out.println("#### " + this.getClass().getSimpleName() + " received " + amoutHealed
-						+ " of healing, earning half currency");
+					&& (owid instanceof CurrencyHolder)) {
+				ol = (LivingObject) owid;
 				if ((amoutHealed & 0x1) == 1) {
 					if (hasReceivedOddReneration) {
 						amoutHealed++;
 						hasReceivedOddReneration = false;
-						System.out.println("#@#@ increased by one");
 					} else {
 						hasReceivedOddReneration = true;
 					}
 				}
-				ch = (CurrencyHolder) getOwner();
-				cs = ch.getCurrencies();
-				cs.setMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX,
-						cs.getMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX) + (amoutHealed >> 1));
+				if (ol.getLife() < ol.getLifeMax()) {
+					// apply only if the regeneration has really happened
+					ch = (CurrencyHolder) owid;
+					cs = ch.getCurrencies();
+					cs.setMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX,
+							cs.getMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX) + (amoutHealed >> 1));
+				}
 			}
 		}
 	}

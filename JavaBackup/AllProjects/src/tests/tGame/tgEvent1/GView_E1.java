@@ -6,11 +6,9 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.misc.CreatureAttributes;
@@ -18,6 +16,7 @@ import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.misc.GThread.GTRunnable;
 import games.generic.view.GameView;
 import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.CurrencySetTRAr;
 
 public class GView_E1 extends GameView {
 
@@ -30,12 +29,15 @@ public class GView_E1 extends GameView {
 	JPanel jpBigContainer;
 	JPanel jpStartStop, jpPlayerStats;
 	JProgressBar jpbPlayerLife;
-	JTextArea jtaPlayerStats;
-	JScrollPane jspPlayerAttributes;
+//	JTextArea jtaPlayerStats;
+//	JScrollPane jspPlayerAttributes;
+	JLabel jlMoneyText, jlMoneyValue;
+	JLabel[] jlPlayerStatText, jlPlayerStatValue;
 
 	@Override
 	public void initAndShow() {
 //		Container panel;
+		int n;
 		JPanel jpNorth;
 		GController c;
 		c = super.gc;
@@ -93,20 +95,40 @@ public class GView_E1 extends GameView {
 //		jpbPlayerLife.setMaximum(100);
 		constr.gridx = 0;
 		constr.gridy = 0;
-		constr.gridwidth = 1;
+		constr.gridwidth = 2;
 		constr.gridheight = 1;
 		constr.weightx = constr.weighty = 1;
 		jpPlayerStats.add(jpbPlayerLife, constr);
-		jtaPlayerStats = new JTextArea();
-		jspPlayerAttributes = new JScrollPane(jtaPlayerStats);
-		jspPlayerAttributes.setViewportView(jtaPlayerStats);
-		jspPlayerAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		constr.gridheight = 9;
 		constr.gridy = 1;
-		constr.weighty = 9;
 		constr.gridwidth = 1;
-		jpPlayerStats.add(jspPlayerAttributes, constr);
-		jtaPlayerStats.setLineWrap(false);
+//		constr.gridheight = 9;
+//		constr.weighty = 9;
+//		jtaPlayerStats = new JTextArea();
+//		jspPlayerAttributes = new JScrollPane(jtaPlayerStats);
+//		jspPlayerAttributes.setViewportView(jtaPlayerStats);
+//		jspPlayerAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+//		jpPlayerStats.add(jspPlayerAttributes, constr);
+//		jtaPlayerStats.setLineWrap(false);
+		constr.gridwidth = 1;
+		constr.gridy = 1;
+		jlMoneyText = new JLabel("Currency: ");
+		jpPlayerStats.add(jlMoneyText, constr);
+		constr.gridx = 1;
+		jlMoneyValue = new JLabel("0");
+		jpPlayerStats.add(jlMoneyValue, constr);
+		jlPlayerStatText = new JLabel[AttributesTRAr.VALUES.length];
+		jlPlayerStatValue = new JLabel[AttributesTRAr.VALUES.length];
+		n = AttributesTRAr.VALUES.length;
+		while (--n >= 0) {
+			constr.gridy = 2 + n;
+			constr.gridx = 0;
+			jlPlayerStatText[n] = new JLabel(AttributesTRAr.VALUES[n].name());
+			jpPlayerStats.add(jlPlayerStatText[n], constr);
+			constr.gridx = 1;
+			jlPlayerStatValue[n] = new JLabel("0");
+			jpPlayerStats.add(jlPlayerStatValue[n], constr);
+		}
+
 //		taPlayerStats.setPreferredSize(new Dimension(100, 500));
 		/*
 		 * TODO add progress bar and textarea, then create a gui-thread to update player
@@ -120,11 +142,11 @@ public class GView_E1 extends GameView {
 	}
 
 	void repaintPlayerInfo() {
-		int max, v;
+		int max, v, n;
 		Player_E1 p;
 		GModality_E1 gmodalitye1;
 		String textDisplayed;
-		StringBuilder sb;
+//		StringBuilder sb;
 		CreatureAttributes ca;
 		gmodalitye1 = (GModality_E1) super.gc.getCurrentGameModality();
 		if (gmodalitye1 == null)
@@ -136,12 +158,18 @@ public class GView_E1 extends GameView {
 		textDisplayed = "Life: " + v + " / " + max;
 		jpbPlayerLife.setToolTipText(textDisplayed);
 		jpbPlayerLife.setString(textDisplayed);
-		sb = new StringBuilder(128);
 		ca = p.getAttributes();
-		for (int i = 0, n = ca.getAttributesCount(); i < n; i++) {
-			sb.append(AttributesTRAr.VALUES[i].name()).append("\t: ").append(ca.getValue(i)).append('\n');
+//		sb = new StringBuilder(128);
+//		for (int i = 0, n = ca.getAttributesCount(); i < n; i++) {
+//			sb.append(AttributesTRAr.VALUES[i].name()).append("\t: ").append(ca.getValue(i)).append('\n');
+//		}
+//		jtaPlayerStats.setText(sb.toString());
+		jlMoneyValue.setText(Integer.toString(p.getCurrencies().getMoneyAmount(CurrencySetTRAr.BASE_CURRENCY_INDEX)));
+		n = AttributesTRAr.VALUES.length;
+		while (--n >= 0) {
+			jlPlayerStatValue[n].setText(Integer.toString(ca.getValue(n)));
 		}
-		jtaPlayerStats.setText(sb.toString());
+		jpPlayerStats.repaint();
 		// TODO
 	}
 
@@ -164,8 +192,8 @@ public class GView_E1 extends GameView {
 
 		@Override
 		public void run() {
-			while(gmodalitye1.isAlive()) {
-				while(gmodalitye1.isRunningOrSleep()) {
+			while (gmodalitye1.isAlive()) {
+				while (gmodalitye1.isRunningOrSleep()) {
 					repaintPlayerInfo();
 					try {
 						Thread.sleep(100);

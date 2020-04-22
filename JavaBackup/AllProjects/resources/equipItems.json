@@ -1,43 +1,5 @@
 [
 	{
-		"name": "Cloth Trousers",
-		"type": "Legs",
-		"rarity": 1,
-		"attributeMods": [
-			{"attribute": "LifeMax", "value": 45},
-			{"attribute": "Defense", "value": 16},
-			{"attribute": "Constitution", "value": 13},
-			{"attribute": "Velocity", "value": 5},
-			{"attribute": "DamageReductionPhysical", "value": 4},
-			{"attribute": "DamageReductionMagical", "value": 3}
-		],
-		"abilities": []
-	}, {
-		"name": "Cloth Shirt",
-		"type": "Chest",
-		"rarity": 1,
-		"attributeMods": [
-			{"attribute": "LifeMax", "value": 52},
-			{"attribute": "Defense", "value": 20},
-			{"attribute": "Constitution", "value": 10},
-			{"attribute": "DamageReductionPhysical", "value": 5},
-			{"attribute": "DamageReductionMagical", "value": 2}
-		],
-		"abilities": []
-	}, {
-		"name": "Cloth Shoes",
-		"type": "Feet",
-		"rarity": 1,
-		"attributeMods": [
-			{"attribute": "Defense", "value": 12},
-			{"attribute": "Constitution", "value": 5},
-			{"attribute": "Dexterity", "value": 15},
-			{"attribute": "Velocity", "value": 5},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 3}
-		],
-		"abilities": []
-	}, {
 		"name": "Ruby Ring",
 		"type": "Ring",
 		"rarity": 1,
@@ -349,5 +311,175 @@
 			{"attribute": "RigenLife", "value": 2}
 		],
 		"abilities": ["Healthy wallet in healthy body"]
+	}, {
+		"name": "Cloth Trousers",
+		"type": "Legs",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 20},
+			{"attribute": "Defense", "value": 8},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Shirt",
+		"type": "Chest",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 27},
+			{"attribute": "Defense", "value": 11},
+			{"attribute": "Constitution", "value": 7},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Shoes",
+		"type": "Feet",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Dexterity", "value": 10},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Hat",
+		"type": "Head",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Gloves",
+		"type": "Hands",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Hat",
+		"type": "Head",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Constitution", "value": 6},
+			{"attribute": "Health", "value": 3},
+			{"attribute": "Defense", "value": 8},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Gloves",
+		"type": "Hands",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Defense", "value": 6},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Trousers",
+		"type": "Legs",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 10},
+			{"attribute": "Defense", "value": 13},
+			{"attribute": "Health", "value": 4},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Velocity", "value": -3},
+			{"attribute": "DamageReductionPhysical", "value": 5},
+			{"attribute": "DamageReductionMagical", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Shirt",
+		"type": "Chest",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 15},
+			{"attribute": "Defense", "value": 13},
+			{"attribute": "Constitution", "value": 7},
+			{"attribute": "Health", "value": 3},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -5},
+			{"attribute": "DamageReductionPhysical", "value": 6},
+			{"attribute": "DamageReductionMagical", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Shoes",
+		"type": "Feet",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Velocity", "value": 7},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Cloak",
+		"type": "Cloak",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 13},
+			{"attribute": "Constitution", "value": 12},
+			{"attribute": "Health", "value": 5},
+			{"attribute": "Dexterity", "value": -7},
+			{"attribute": "Precision", "value": -5},
+			{"attribute": "Velocity", "value": -4},
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 6}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Cloak",
+		"type": "Cloak",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Defense", "value": 11},
+			{"attribute": "Constitution", "value": 9},
+			{"attribute": "Health", "value": 3},
+			{"attribute": "Dexterity", "value": -5},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Faith", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 4}
+		],
+		"abilities": []
 	}
 ]
