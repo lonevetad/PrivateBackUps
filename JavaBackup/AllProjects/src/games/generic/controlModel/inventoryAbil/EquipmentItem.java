@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
+import dataStructures.mtAvl.MapTreeAVLLightweight.TreeAVLDelegator;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsProvidersHolder;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
@@ -78,17 +79,22 @@ public abstract class EquipmentItem extends InventoryItem {
 
 	//
 
-	protected abstract void enrichWithAbilities(GModality gm, GameObjectsProvidersHolder providersHolder);
+	/**
+	 * Function called on creation time to fill fields like particular abilities (if
+	 * no already done in loading time)
+	 */
+	protected abstract void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder);
 
 	protected void onCreate(GModality gm) {
-		enrichWithAbilities(gm, gm.getGameObjectsProvider());
+		enrichEquipment(gm, gm.getGameObjectsProvider());
 	}
 
 	protected void checkAbilitiesSet() {
 		if (this.abilities == null) {
-			MapTreeAVL<Integer, EquipItemAbility> m;
-			m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
-			this.abilities = m.toSetValue(EquipItemAbility.ID_EXTRACTOR);
+			MapTreeAVL<String, EquipItemAbility> m;
+			m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, MapTreeAVL.BehaviourOnKeyCollision.Replace,
+					Comparators.STRING_COMPARATOR);
+			this.abilities = m.toSetValue(EquipItemAbility.NAME_EXTRACTOR);
 		}
 	}
 
@@ -132,6 +138,24 @@ public abstract class EquipmentItem extends InventoryItem {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
+	public EquipmentItem removeAbilityByName(String name) {
+		if (name != null) {
+			TreeAVLDelegator<String, EquipItemAbility> backMapDeleg;
+			MapTreeAVL<String, EquipItemAbility> backMap;
+			EquipItemAbility am;
+			checkAbilitiesSet();
+			backMapDeleg = (TreeAVLDelegator<String, EquipItemAbility>) this.abilities;
+			backMap = backMapDeleg.getBackTree();
+			am = backMap.get(name);
+			if (am != null) {
+				backMap.remove(name);
+				am.setEquipItem(null);
+			}
+		}
+		return this;
+	}
+
 	public EquipmentItem addUpgrade(EquipmentUpgrade am) {
 		if (am != null) {
 			checkUpgradeSet();
@@ -146,6 +170,24 @@ public abstract class EquipmentItem extends InventoryItem {
 			checkUpgradeSet();
 			if (this.upgrades.remove(eu))
 				eu.setEquipmentAssigned(null);
+		}
+		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public EquipmentItem removeUpgradeByName(String name) {
+		if (name != null) {
+			TreeAVLDelegator<String, EquipmentUpgrade> backMapDeleg;
+			MapTreeAVL<String, EquipmentUpgrade> backMap;
+			EquipmentUpgrade eu;
+			checkAbilitiesSet();
+			backMapDeleg = (TreeAVLDelegator<String, EquipmentUpgrade>) this.upgrades;
+			backMap = backMapDeleg.getBackTree();
+			eu = backMap.get(name);
+			if (eu != null) {
+				backMap.remove(name);
+				eu.setEquipmentAssigned(null);
+			}
 		}
 		return this;
 	}
@@ -217,5 +259,22 @@ public abstract class EquipmentItem extends InventoryItem {
 		if (abl != null) {
 			abl.forEach(ea -> ea.onUnEquipping(gm));
 		}
+	}
+
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + " [name=" + name + ", ID=" + getID() + ",\n\t rarityIndex, ="
+				+ rarityIndex + ", equipmentType=" + equipmentType + ",\n\tbaseAttributeModifiers="
+				+ baseAttributeModifiers + ",\n\t upgrades=" + upgrades + ",\n\t abilities=" + //
+				abilitiesToString() + "]";
+	}
+
+	protected String abilitiesToString() {
+		StringBuilder sb;
+		if (abilities == null)
+			return "null";
+		sb = new StringBuilder(16);
+		abilities.forEach(ea -> sb.append(ea));
+		return sb.toString();
 	}
 }

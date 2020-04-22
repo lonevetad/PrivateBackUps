@@ -22,7 +22,7 @@ public class HelmetOfPlanetaryMeteors extends EINotJewelry {
 	protected AFireShpereOrbiting abilitySphereOrbiting;
 
 	@Override
-	protected void enrichWithAbilities(GModality gm, GameObjectsProvidersHolder providersHolder) {
+	protected void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder) {
 		AbilitiesProvider ap;
 		ap = ((GameObjectsProvidersHolderRPG) providersHolder).getAbilitiesProvider();
 		// TODO Auto-generated method stub

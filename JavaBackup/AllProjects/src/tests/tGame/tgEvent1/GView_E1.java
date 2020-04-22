@@ -3,17 +3,21 @@ package tests.tGame.tgEvent1;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.TextArea;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 import games.generic.controlModel.GController;
+import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.misc.GThread.GTRunnable;
 import games.generic.view.GameView;
+import games.theRisingAngel.misc.AttributesTRAr;
 
 public class GView_E1 extends GameView {
 
@@ -26,7 +30,8 @@ public class GView_E1 extends GameView {
 	JPanel jpBigContainer;
 	JPanel jpStartStop, jpPlayerStats;
 	JProgressBar jpbPlayerLife;
-	TextArea taPlayerStats;
+	JTextArea jtaPlayerStats;
+	JScrollPane jspPlayerAttributes;
 
 	@Override
 	public void initAndShow() {
@@ -84,6 +89,7 @@ public class GView_E1 extends GameView {
 		jpPlayerStats = new JPanel(new GridBagLayout());
 		jpBigContainer.add(jpPlayerStats, BorderLayout.EAST);
 		jpbPlayerLife = new JProgressBar(0, 100);
+		jpbPlayerLife.setStringPainted(true);
 //		jpbPlayerLife.setMaximum(100);
 		constr.gridx = 0;
 		constr.gridy = 0;
@@ -91,6 +97,17 @@ public class GView_E1 extends GameView {
 		constr.gridheight = 1;
 		constr.weightx = constr.weighty = 1;
 		jpPlayerStats.add(jpbPlayerLife, constr);
+		jtaPlayerStats = new JTextArea();
+		jspPlayerAttributes = new JScrollPane(jtaPlayerStats);
+		jspPlayerAttributes.setViewportView(jtaPlayerStats);
+		jspPlayerAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		constr.gridheight = 9;
+		constr.gridy = 1;
+		constr.weighty = 9;
+		constr.gridwidth = 1;
+		jpPlayerStats.add(jspPlayerAttributes, constr);
+		jtaPlayerStats.setLineWrap(false);
+//		taPlayerStats.setPreferredSize(new Dimension(100, 500));
 		/*
 		 * TODO add progress bar and textarea, then create a gui-thread to update player
 		 * stats
@@ -103,15 +120,28 @@ public class GView_E1 extends GameView {
 	}
 
 	void repaintPlayerInfo() {
+		int max, v;
 		Player_E1 p;
 		GModality_E1 gmodalitye1;
+		String textDisplayed;
+		StringBuilder sb;
+		CreatureAttributes ca;
 		gmodalitye1 = (GModality_E1) super.gc.getCurrentGameModality();
 		if (gmodalitye1 == null)
 			return;
 		p = gmodalitye1.getPlayerRPG();
-		jpbPlayerLife.setMaximum(p.getLifeMax());
-		jpbPlayerLife.setValue(p.getLife());
+		jpbPlayerLife.setMaximum(max = p.getLifeMax());
+		jpbPlayerLife.setValue(v = p.getLife());
 		jpbPlayerLife.repaint();
+		textDisplayed = "Life: " + v + " / " + max;
+		jpbPlayerLife.setToolTipText(textDisplayed);
+		jpbPlayerLife.setString(textDisplayed);
+		sb = new StringBuilder(128);
+		ca = p.getAttributes();
+		for (int i = 0, n = ca.getAttributesCount(); i < n; i++) {
+			sb.append(AttributesTRAr.VALUES[i].name()).append("\t: ").append(ca.getValue(i)).append('\n');
+		}
+		jtaPlayerStats.setText(sb.toString());
 		// TODO
 	}
 

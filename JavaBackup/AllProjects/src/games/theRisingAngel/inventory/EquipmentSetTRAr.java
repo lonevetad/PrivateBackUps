@@ -168,4 +168,14 @@ public class EquipmentSetTRAr extends EquipmentSet {
 			} while(notAdded && ++slotIndexMinimum < maxIndexToCheck);
 		}
 	}
+
+	@Override
+	public void forEachEquipment(ConsumerEquipmentIndex consumer) {
+		int i, n;
+		n = equippedItems.length;
+		i = -1;
+		while(++i < n) {
+			consumer.apply(equippedItems[i], i);
+		}
+	}
 }

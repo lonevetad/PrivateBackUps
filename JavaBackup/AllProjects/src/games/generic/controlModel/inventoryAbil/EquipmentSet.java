@@ -10,6 +10,10 @@ import games.generic.controlModel.player.PlayerGeneric;
  */
 public abstract class EquipmentSet {
 
+	public static interface ConsumerEquipmentIndex {
+		public void apply(EquipmentItem equipment, int index);
+	}
+
 	public EquipmentSet() {
 	}
 
@@ -48,4 +52,6 @@ public abstract class EquipmentSet {
 	 * not <code>null</code>).
 	 */
 	public abstract void swapEquipmentItem(GModality gm, EquipmentItem newEI, EquipmentItem oldEI);
+
+	public abstract void forEachEquipment(ConsumerEquipmentIndex consumer);
 }

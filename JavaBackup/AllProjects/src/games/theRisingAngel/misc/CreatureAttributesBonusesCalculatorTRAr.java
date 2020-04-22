@@ -75,7 +75,7 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 			break;
 		case RigenLife:
 			v = (c.getValue(AttributesTRAr.Constitution.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAr.Health.getIndex()) >> 1)
+					+ ((c.getValue(AttributesTRAr.Health.getIndex())) / 3)
 					+ (c.getValue(AttributesTRAr.Strength.getIndex()) >> 3)
 					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 3)
 					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 3);

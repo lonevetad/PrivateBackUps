@@ -4,6 +4,7 @@ import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
+import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
@@ -44,8 +45,11 @@ public class GModality_E1 extends GModalityTRAr {
 		ObserverPrinterEvent ope;
 		NecklaceOfPainRinvigoring necklace_opr;
 		ArmProtectionShieldingDamageByMoney armProtection_sdbm;
+		EquipmentItem equip;
 //		GC_E1 contr;
 		GameObjectsProvidersHolderTRAr goph;
+		ObjPrinter_EventDeliver printerPlayer;
+		String equipmentName;
 
 		super.onCreate();
 
@@ -82,7 +86,7 @@ public class GModality_E1 extends GModalityTRAr {
 //		this.addGameObject(new ObjPrinter_EventDeliver(250, "Tiny"));
 		// gModelE.addTimeProgressingObject(odd);
 
-		this.addGameObject(new ObjPrinter_EventDeliver(2000, "HAKINA MATATA") {
+		this.addGameObject(printerPlayer = new ObjPrinter_EventDeliver(2000, "HAKINA MATATA") {
 
 			@Override
 			public String getText() {
@@ -125,6 +129,26 @@ public class GModality_E1 extends GModalityTRAr {
 		odd.setAccumulatedTimeElapsed(3000);
 		this.addGameObject(odd);
 
+//		odd = new ObjDamageDeliverE1(1750);
+//		odd.setTarget(p);
+//		odd.setDamageAmount(50);
+//		odd.setAccumulatedTimeElapsed(1500);
+//		this.addGameObject(odd);
+		equipmentName = "Plated Armor of Stonefying Skin";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		System.out.println("\n\n equipping: " + equipmentName);
+		System.out.println(equip.toString());
+		System.out.println("\n\n");
+		p.equip(equip);
+		System.out.println("Plated Armor of Stonefying Skin has " + equip.getAbilities().size() + " abilities !!!");
+
+		equipmentName = "Belt with Limph-made Walled";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		System.out.println("\n\n equipping: " + equipmentName);
+		System.out.println(equip.toString());
+		System.out.println("\n\n");
+		p.equip(equip);
+
 		System.out.println("GModalit_E1#onCreate .. quanti oggetti ho?");
 		this.forEachGameObject(o -> System.out.println(o));
 		System.out.println("and timed objects?");
@@ -134,7 +158,13 @@ public class GModality_E1 extends GModalityTRAr {
 			System.out.println("GOH " + gohname + " has: ");
 			goh.forEach(o -> System.out.println("\t - " + o));
 		});
-		System.out.println("and then");
+		System.out.println("and then\n\n\n equipment set:");
+		p.getEquipmentSet().forEachEquipment((e, i) -> {
+			if (e != null)
+				System.out.println(e);
+		});
+		System.out.println("\n\n at the end, the player looks like:");
+		System.out.println(printerPlayer.getText());
 		// then ...
 //		checkAndRebuildThreads();
 	}

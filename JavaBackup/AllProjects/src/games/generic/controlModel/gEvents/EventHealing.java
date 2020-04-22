@@ -21,4 +21,9 @@ public class EventHealing<Source> extends EventInfo_SourceToTarget<Source, Livin
 	public void setHeal(HealGeneric heal) {
 		this.heal = heal;
 	}
+
+	@Override
+	public boolean isRequirigImmediateProcessing() {
+		return true;
+	}
 }

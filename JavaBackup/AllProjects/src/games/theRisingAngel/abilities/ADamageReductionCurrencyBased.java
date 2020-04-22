@@ -9,8 +9,9 @@ import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.CurrencyHolder;
-import games.generic.controlModel.inventoryAbil.AbilityModifyingAttributeRealTime;
+import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingSingleAttributeRealTime;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.BasePlayerRPG;
@@ -20,7 +21,7 @@ import games.theRisingAngel.misc.AttributesTRAr;
 import games.theRisingAngel.misc.DamageTypesTRAr;
 import tools.ObjectWithID;
 
-public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeRealTime implements GEventObserver {
+public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttributeRealTime implements GEventObserver {
 	private static final long serialVersionUID = -69287821202158L;
 	public static final String NAME = "Buying Reducion ";
 
@@ -29,9 +30,10 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeReal
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAr.DamageReceived.getName());
 		perThousandFraction = 0;
+		maximumReduction = 0;
 	}
 
-	protected int perThousandFraction;
+	protected int perThousandFraction, maximumReduction;
 	protected List<String> eventsWatching;
 
 	//
@@ -48,6 +50,14 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeReal
 	 */
 	public int getPerThousandFraction() {
 		return perThousandFraction;
+	}
+
+	public int getMaximumReduction() {
+		return maximumReduction;
+	}
+
+	public void setMaximumReduction(int maximumReduction) {
+		this.maximumReduction = maximumReduction;
 	}
 
 	protected int getDefaultCurrencyAmount(CreatureSimple c) {
@@ -79,15 +89,19 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributeReal
 	//
 
 	@Override
-	public void updateAttributeModifiersAmount(GModality gm, EquipmentItem ei, CreatureSimple ah,
+	public void updateAttributesModifiersValues(GModality gm, EquipmentItem ei, CreatureSimple ah,
 			CreatureAttributes ca) {
-		super.getAttributeToModify().setValue( //
-				(getDefaultCurrencyAmount(ah) * getPerThousandFraction()) / 1000);
-		System.out
-				.println(";;ADamagRedCurrBas... attri to mod " + getAttributeToModify().getAttributeModified().getName()
-						+ " has value " + getAttributeToModify().getValue() + ", creature's value : "
-						+ this.getEquipItem().getCreatureWearingEquipments().getAttributes()
-								.getValue(getAttributeToModify().getAttributeModified().getIndex()));
+		int reduct;
+		AttributeModification am;
+		am = super.getAttributesToModify()[0];
+		reduct = (getDefaultCurrencyAmount(ah) * getPerThousandFraction()) / 1000;
+		if (maximumReduction > 0 && reduct > maximumReduction) {
+			reduct = maximumReduction;
+		}
+		am.setValue(reduct);
+		System.out.println(";;ADamagRedCurrBas... attri to mod " + am.getAttributeModified().getName() + " has value "
+				+ am.getValue() + ", creature's value : " + this.getEquipItem().getCreatureWearingEquipments()
+						.getAttributes().getValue(am.getAttributeModified().getIndex()));
 		System.out.println("MoNeY: " + //
 				((BasePlayerRPG) this.getEquipItem().getCreatureWearingEquipments()).getCurrencies().getMoneyAmount(0));
 	}

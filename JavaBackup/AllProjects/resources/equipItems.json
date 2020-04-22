@@ -7,7 +7,7 @@
 			{"attribute": "LifeMax", "value": 45},
 			{"attribute": "Defense", "value": 16},
 			{"attribute": "Constitution", "value": 13},
-			{"attribute": "Velocity", "value": +5},
+			{"attribute": "Velocity", "value": 5},
 			{"attribute": "DamageReductionPhysical", "value": 4},
 			{"attribute": "DamageReductionMagical", "value": 3}
 		],
@@ -246,7 +246,7 @@
 	}, {
 		"name": "Triphane Ring",
 		"type": "Ring",
-		"rarity": s,
+		"rarity": 2,
 		"attributeMods": [
 			{"attribute": "Dexterity", "value": 6},
 			{"attribute": "Precision", "value": 4}
@@ -255,7 +255,7 @@
 	}, {
 		"name": "Verdite Ring",
 		"type": "Ring",
-		"rarity": s,
+		"rarity": 2,
 		"attributeMods": [
 			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "Precision", "value": 6}
@@ -310,5 +310,26 @@
 			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
+	}, {
+		"name": "Plated Armor of Stonefying Skin",
+		"type": "Chest",
+		"rarity": 3,
+		"attributeMods": [
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Health", "value": -15},
+			{"attribute": "Defense", "value": 17},
+			{"attribute": "Dexterity", "value": -8},
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": ["Stonefying Skin"]
+	}, {
+		"name": "Belt with Limph-made Walled",
+		"type": "Belt",
+		"rarity": 3,
+		"attributeMods": [
+			{"attribute": "RigenLife", "value": 2}
+		],
+		"abilities": ["Healthy wallet in healthy body"]
 	}
 ]

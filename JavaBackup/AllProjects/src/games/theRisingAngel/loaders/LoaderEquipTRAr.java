@@ -5,13 +5,16 @@ import java.util.List;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
+import games.generic.controlModel.inventoryAbil.EquipItemAbility;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentItemImpl;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.misc.LoaderGeneric;
 import games.generic.controlModel.subimpl.GModalityRPG;
+import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 import games.generic.controlModel.subimpl.LoaderEquipments;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.EquipmentTypesTRAr;
@@ -95,6 +98,7 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 
 	}
 
+	/** Instantiator of the loaded equipment */
 	protected static class FactoryEquip implements FactoryObjGModalityBased<EquipmentItem> {
 		int rarity;
 		String name;
@@ -105,10 +109,19 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 		@Override
 		public EquipmentItem newInstance(GModality gm) {
 			EquipmentItem ei;
-			ei = new EquipmentItemImpl((GModalityRPG) gm, type, name, abilities);
+			ei = new EquipmentItemImpl((GModalityRPG) gm, type, name);
 			if (attrMods != null) {
 				for (AttributeModification am : attrMods)
 					ei.addAttributeModifier(am);
+			}
+			if (abilities != null) {
+				GameObjectsProvidersHolderRPG gophRpg;
+				AbilitiesProvider ap;
+				gophRpg = (GameObjectsProvidersHolderRPG) gm.getGameObjectsProvider();
+				ap = gophRpg.getAbilitiesProvider();
+				for (String an : abilities) {
+					ei.addAbility((EquipItemAbility) ap.getAbilityByName(gm, an));
+				}
 			}
 			return ei;
 		}

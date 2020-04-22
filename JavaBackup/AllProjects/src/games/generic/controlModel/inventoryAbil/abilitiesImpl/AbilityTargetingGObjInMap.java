@@ -1,9 +1,10 @@
-package games.generic.controlModel.inventoryAbil;
+package games.generic.controlModel.inventoryAbil.abilitiesImpl;
 
 import java.util.function.Predicate;
 
 import dataStructures.isom.InSpaceObjectsManager;
 import games.generic.controlModel.GObjectsInSpaceManager;
+import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import geometry.ObjectLocated;
 
 public interface AbilityTargetingGObjInMap extends AbilityGeneric {

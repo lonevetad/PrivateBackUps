@@ -37,4 +37,8 @@ public class EventDamage<Source> extends EventInfo_SourceToTarget<Source, Living
 		this.damageAmountToBeApplied = riductionByTarget;
 	}
 
+	@Override
+	public boolean isRequirigImmediateProcessing() {
+		return true;
+	}
 }

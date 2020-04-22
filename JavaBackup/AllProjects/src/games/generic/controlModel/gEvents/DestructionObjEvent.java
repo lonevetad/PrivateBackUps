@@ -4,6 +4,7 @@ import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.subimpl.GEvent;
 
 public class DestructionObjEvent extends GEvent {
+	private static final long serialVersionUID = 50320237291343862L;
 
 	public DestructionObjEvent(DestructibleObject desObj, String name) {
 		super();
@@ -37,5 +38,10 @@ public class DestructionObjEvent extends GEvent {
 
 	public void setDestructibleObject(DestructibleObject destructibleObject) {
 		this.destructibleObject = destructibleObject;
+	}
+
+	@Override
+	public boolean isRequirigImmediateProcessing() {
+		return true;
 	}
 }
