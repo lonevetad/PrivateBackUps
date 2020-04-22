@@ -481,5 +481,26 @@
 			{"attribute": "DamageReductionMagical", "value": 4}
 		],
 		"abilities": []
+	}, {
+		"name": "Bracelet of a child",
+		"type": "Bracelet",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Health", "value": 3},
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "Luck", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Belt",
+		"type": "Belt",
+		"rarity": 1,
+		"attributeMods": [
+			{"attribute": "Strength", "value": 8},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Defense", "value": 2}
+		],
+		"abilities": []
 	}
 ]
