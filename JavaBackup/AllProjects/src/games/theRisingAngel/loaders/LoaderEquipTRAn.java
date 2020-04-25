@@ -22,9 +22,9 @@ import games.theRisingAngel.inventory.HelmetOfPlanetaryMeteors;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.loaders.LoaderItemsTRAn.FactoryItems;
 
-public class LoaderEquipTRAr extends LoaderEquipments {
+public class LoaderEquipTRAn extends LoaderEquipments {
 
-	public LoaderEquipTRAr(GameObjectsProvider<EquipmentItem> objProvider) {
+	public LoaderEquipTRAn(GameObjectsProvider<EquipmentItem> objProvider) {
 		super(objProvider);
 	}
 
@@ -60,6 +60,7 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 
 		@Override
 		protected void readAllFileImpl(String line) {
+//			int indexComma;
 			String temp;
 			String[] splitted;
 			FactoryEquip fe;
@@ -68,7 +69,9 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 				fe = new FactoryEquip();
 				do {
 					line = lr.next().trim();
-					splitted = line.split(":");
+//					indexComma = line.indexOf(':');
+					splitted = line.split(":"); //
+//					splitted = new String[] { line.substring(0, indexComma), line.substring(indexComma + 1) };
 					trimAll(splitted);
 					line = LoaderGeneric.removeQuotes(splitted[0]).trim();// as cache
 					switch (line) {
@@ -88,9 +91,9 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 					case "rarity":
 						fe.fi.rarity = LoaderGeneric.extractIntValue(splitted[1]);
 						break;
-					case "dimension":
-						// TODO
-						fe.fi.dimensionInInventory = null; // TODO da fare
+					case "dimensInvent":
+						fe.fi.dimensionInInventory = LoaderFunctionsTRAn.extractDimensionInInventory(lr.next().trim());
+						lr.next();
 						break;
 					case "sellPrice":
 						temp = splitted[1].trim();
@@ -145,8 +148,8 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 		@Override
 		public String toString() {
 			return "FactoryEquip [\n name=" + fi.name + ", type=" + type + ",\n rarity=" + fi.rarity + ", sell price: "
-					+ Arrays.toString(fi.price) + ",\n dimensions: " + fi.dimensionInInventory + ",\n abilities=\n\t"
-					+ abilities + ",\n attrMods=\n\t" + attrMods + "]";
+					+ Arrays.toString(fi.price) + ",\n dimensions in inventory: " + fi.dimensionInInventory
+					+ ",\n abilities=\n\t" + abilities + ",\n attrMods=\n\t" + attrMods + "]";
 		}
 	}
 

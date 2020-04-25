@@ -5,9 +5,9 @@ import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.misc.LoaderGameObjects;
 
-public class LoaderCreatureTRAr extends LoaderGameObjects<BaseCreatureRPG> {
+public class LoaderCreatureTRAn extends LoaderGameObjects<BaseCreatureRPG> {
 
-	public LoaderCreatureTRAr(GameObjectsProvider<BaseCreatureRPG> objProvider) {
+	public LoaderCreatureTRAn(GameObjectsProvider<BaseCreatureRPG> objProvider) {
 		super(objProvider);
 	}
 

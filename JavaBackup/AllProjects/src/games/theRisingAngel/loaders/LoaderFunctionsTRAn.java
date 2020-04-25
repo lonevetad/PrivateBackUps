@@ -1,5 +1,6 @@
 package games.theRisingAngel.loaders;
 
+import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,12 +50,28 @@ public class LoaderFunctionsTRAn {
 		return l;
 	}
 
+	public static Dimension extractDimensionInInventory(String temp) {
+		Dimension d;
+		String[] splitted;
+		d = new Dimension();
+		splitted = temp.split(",");
+		for (int i = splitted.length - 1; i >= 0; i--) {
+			temp = splitted[i];
+			if (temp.contains("width")) {
+				d.width = LoaderGeneric.extractIntValue(temp.split(":")[1].trim());
+			} else if (temp.contains("height")) {
+				d.height = LoaderGeneric.extractIntValue(temp.split(":")[1].trim());
+			}
+		}
+		return d;
+	}
+
 	/**
 	 * This function was extracted and generalized because the "equipment system"
 	 * could provide a set of {@link AttributesUpgrade} (that is a parallel of
 	 * {@link AttributeModification} because it's a named collection of them) AND
 	 * the set of those "equip-mods/upgrades" could be saved in a JSON format,
-	 * similar to the one used in {@link LoaderEquipTRAr}
+	 * similar to the one used in {@link LoaderEquipTRAn}
 	 */
 	public static List<AttributeModification> extractAttributeModifications(LoaderGeneric.JSONLineReader lr) {
 		int v;

@@ -11,9 +11,9 @@ import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
 import games.theRisingAngel.abilities.AShiedlingButWeakining;
 import games.theRisingAngel.misc.DamageTypesTRAr;
 
-public class LoaderAbilityTRAr extends LoaderAbilities {
+public class LoaderAbilityTRAn extends LoaderAbilities {
 
-	public LoaderAbilityTRAr(GameObjectsProvider<AbilityGeneric> objProvider) {
+	public LoaderAbilityTRAn(GameObjectsProvider<AbilityGeneric> objProvider) {
 		super(objProvider);
 	}
 

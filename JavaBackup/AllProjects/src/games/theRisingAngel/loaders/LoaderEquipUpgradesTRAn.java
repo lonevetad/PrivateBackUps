@@ -13,9 +13,9 @@ import games.generic.controlModel.misc.LoaderGeneric;
 import games.generic.controlModel.subimpl.EquipmentUpgradeImpl;
 import games.generic.controlModel.subimpl.LoaderEquipUpgrades;
 
-public class LoaderEquipUpgradesTRAr extends LoaderEquipUpgrades {
+public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 
-	public LoaderEquipUpgradesTRAr(GameObjectsProvider<EquipmentUpgrade> objProvider) {
+	public LoaderEquipUpgradesTRAn(GameObjectsProvider<EquipmentUpgrade> objProvider) {
 		super(objProvider);
 		// TODO Auto-generated constructor stub
 	}
@@ -64,6 +64,9 @@ public class LoaderEquipUpgradesTRAr extends LoaderEquipUpgrades {
 					case "rarity":
 						fe.rarity = LoaderGeneric.extractIntValue(splitted[1]);
 						break;
+					case "bonusPrice":
+						fe.bonusPriceSell = LoaderFunctionsTRAn.extractSellPrices(splitted[1].trim());
+						break;
 					default:
 						break;
 					}
@@ -75,6 +78,7 @@ public class LoaderEquipUpgradesTRAr extends LoaderEquipUpgrades {
 
 	protected static class FactoryEquipUpgrade implements FactoryObjGModalityBased<EquipmentUpgrade> {
 		int rarity;
+		int[] bonusPriceSell;
 		String name;
 		List<AttributeModification> attrMods = null;
 
