@@ -1,5 +1,6 @@
 package games.theRisingAngel.loaders;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipItemAbility;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import games.generic.controlModel.inventoryAbil.EquipmentItemImpl;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.misc.LoaderGeneric;
@@ -17,9 +17,10 @@ import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 import games.generic.controlModel.subimpl.LoaderEquipments;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
-import games.theRisingAngel.inventory.EquipmentTypesTRAr;
+import games.theRisingAngel.inventory.EquipmentTypesTRAn;
 import games.theRisingAngel.inventory.HelmetOfPlanetaryMeteors;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
+import games.theRisingAngel.loaders.LoaderItemsTRAn.FactoryItems;
 
 public class LoaderEquipTRAr extends LoaderEquipments {
 
@@ -46,7 +47,7 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 		leff.readAllFile();
 		System.out.println("total equip loaded: " + leff.factories.size());
 		for (FactoryEquip fe : leff.factories) {
-			objProvider.addObj(fe.name, fe.rarity, fe);
+			objProvider.addObj(fe.fi.name, fe.fi.rarity, fe);
 		}
 	}
 
@@ -72,20 +73,28 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 					line = LoaderGeneric.removeQuotes(splitted[0]).trim();// as cache
 					switch (line) {
 					case "name":
-						fe.name = LoaderGeneric.removeQuotes(splitted[1]);
+						fe.fi.name = LoaderGeneric.removeQuotes(splitted[1]);
 						break;
 					case "type":
-						fe.type = EquipmentTypesTRAr.getEquipTypeTRArByName(LoaderGeneric.removeQuotes(splitted[1]));
+						fe.type = EquipmentTypesTRAn.getEquipTypeTRArByName(LoaderGeneric.removeQuotes(splitted[1]));
 						break;
 					case "attributeMods":
-						fe.attrMods = LoaderFunctionsTRAr.extractAttributeModifications(lr);
+						fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(lr);
 						break;
 					case "abilities":
 						temp = splitted[1].trim();
-						fe.abilities = LoaderFunctionsTRAr.extractAbilitiesName(temp);
+						fe.abilities = LoaderFunctionsTRAn.extractAbilitiesName(temp);
 						break;
 					case "rarity":
-						fe.rarity = LoaderGeneric.extractIntValue(splitted[1]);
+						fe.fi.rarity = LoaderGeneric.extractIntValue(splitted[1]);
+						break;
+					case "dimension":
+						// TODO
+						fe.fi.dimensionInInventory = null; // TODO da fare
+						break;
+					case "sellPrice":
+						temp = splitted[1].trim();
+						fe.fi.price = LoaderFunctionsTRAn.extractSellPrices(temp);
 						break;
 					default:
 						break;
@@ -100,16 +109,24 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 
 	/** Instantiator of the loaded equipment */
 	protected static class FactoryEquip implements FactoryObjGModalityBased<EquipmentItem> {
-		int rarity;
-		String name;
-		EquipmentTypesTRAr type;
+		FactoryItems fi = new FactoryItems();
+		EquipmentTypesTRAn type;
 		List<String> abilities = null;
 		List<AttributeModification> attrMods = null;
 
 		@Override
 		public EquipmentItem newInstance(GModality gm) {
 			EquipmentItem ei;
-			ei = new EquipmentItemImpl((GModalityRPG) gm, type, name);
+//			ei = new EquipmentItemImpl((GModalityRPG) gm, type, name);
+			ei = type.factory.newEquipItem((GModalityRPG) gm, type, fi.name);
+			setValues(gm, ei);
+			return ei;
+		}
+
+		protected void setValues(GModality gm, EquipmentItem ei) {
+//			EquipmentItem ei;
+//			ei = (EquipmentItem) ii;
+			fi.setValues(gm, ei);
 			if (attrMods != null) {
 				for (AttributeModification am : attrMods)
 					ei.addAttributeModifier(am);
@@ -123,12 +140,12 @@ public class LoaderEquipTRAr extends LoaderEquipments {
 					ei.addAbility((EquipItemAbility) ap.getAbilityByName(gm, an));
 				}
 			}
-			return ei;
 		}
 
 		@Override
 		public String toString() {
-			return "FactoryEquip [\n name=" + name + ",\n type=" + type + ",\n rarity=" + rarity + ",\n abilities=\n\t"
+			return "FactoryEquip [\n name=" + fi.name + ", type=" + type + ",\n rarity=" + fi.rarity + ", sell price: "
+					+ Arrays.toString(fi.price) + ",\n dimensions: " + fi.dimensionInInventory + ",\n abilities=\n\t"
 					+ abilities + ",\n attrMods=\n\t" + attrMods + "]";
 		}
 	}

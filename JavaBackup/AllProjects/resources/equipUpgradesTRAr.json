@@ -82,5 +82,59 @@
 		"modifiers": [
 			{"attribute": "Defense", "value": 3}
 		]
+	}, {
+		"name": "Granata colored",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Strength", "value": 5}
+		]
+	}, {
+		"name": "Magenta colored",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Constitution", "value": 5}
+		]
+	}, {
+		"name": "Red colored",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Health", "value": 5}
+		]
+	}, {
+		"name": "Brown colored",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Defense", "value": 5}
+		]
+	}, {
+		"name": "Green colored",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Dexterity", "value": 5}
+		]
+	}, {
+		"name": "Yellow colored",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Precision", "value": 5}
+		]
+	}, {
+		"name": "Blue colored",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 5}
+		]
+	}, {
+		"name": "Opaline colored",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Wisdom", "value": 5}
+		]
+	}, {
+		"name": "Pearl colored",
+		"rarity": 2,
+		"modifiers": [
+			{"attribute": "Faith", "value": 5}
+		]
 	}
 ]

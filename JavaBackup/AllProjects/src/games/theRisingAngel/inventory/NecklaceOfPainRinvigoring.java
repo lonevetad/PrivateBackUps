@@ -14,7 +14,7 @@ public class NecklaceOfPainRinvigoring extends EIJewelry {
 	protected AMoreDamageReceivedMoreLifeRegen abilityDamageToLifeRegen;
 
 	public NecklaceOfPainRinvigoring(GModalityRPG gmrpg) {
-		super(gmrpg, EquipmentTypesTRAr.Necklace, NAME);
+		super(gmrpg, EquipmentTypesTRAn.Necklace, NAME);
 	}
 
 	@Override

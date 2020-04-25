@@ -59,7 +59,7 @@ public class LoaderEquipUpgradesTRAr extends LoaderEquipUpgrades {
 						fe.name = LoaderGeneric.removeQuotes(splitted[1]);
 						break;
 					case "modifiers":
-						fe.attrMods = LoaderFunctionsTRAr.extractAttributeModifications(lr);
+						fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(lr);
 						break;
 					case "rarity":
 						fe.rarity = LoaderGeneric.extractIntValue(splitted[1]);

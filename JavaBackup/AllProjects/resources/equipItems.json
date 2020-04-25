@@ -329,6 +329,7 @@
 		"name": "Cloth Shirt",
 		"type": "Chest",
 		"rarity": 1,
+		"sellPrice": [50],
 		"attributeMods": [
 			{"attribute": "LifeMax", "value": 27},
 			{"attribute": "Defense", "value": 11},
@@ -425,6 +426,7 @@
 		"name": "Wool Shirt",
 		"type": "Chest",
 		"rarity": 1,
+		"sellPrice": [50],
 		"attributeMods": [
 			{"attribute": "LifeMax", "value": 15},
 			{"attribute": "Defense", "value": 13},

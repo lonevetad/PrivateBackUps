@@ -8,7 +8,7 @@ import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.events.EventsTRAr;
-import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAr;
 
 public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
@@ -23,19 +23,19 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 	@Override
 	protected CreatureAttributes newAttributes() {
 		CreatureAttributes ca;
-		ca = newAttributes(AttributesTRAr.VALUES.length);
+		ca = newAttributes(AttributesTRAn.VALUES.length);
 		ca.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAr());
 		return ca;
 	}
 
 	@Override
 	public int getLifeMax() {
-		return this.getAttributes().getValue(AttributesTRAr.LifeMax.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.LifeMax.getIndex());
 	}
 
 	@Override
 	public int getLifeRegenation() {
-		return this.getAttributes().getValue(AttributesTRAr.RigenLife.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.RigenLife.getIndex());
 	}
 
 	//
@@ -43,7 +43,7 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 	@Override
 	public void setLifeMax(int lifeMax) {
 		if (lifeMax > 0) {
-			this.getAttributes().setOriginalValue(AttributesTRAr.LifeMax.getIndex(), lifeMax);
+			this.getAttributes().setOriginalValue(AttributesTRAn.LifeMax.getIndex(), lifeMax);
 			if (this.getLife() > lifeMax)
 				this.setLife(lifeMax);
 		}
@@ -52,7 +52,7 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 	@Override
 	public void setLifeRegenation(int lifeRegenation) {
 		if (lifeRegenation >= 0) {
-			this.getAttributes().setOriginalValue(AttributesTRAr.RigenLife.getIndex(), lifeRegenation);
+			this.getAttributes().setOriginalValue(AttributesTRAn.RigenLife.getIndex(), lifeRegenation);
 		}
 	}
 

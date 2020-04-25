@@ -2,20 +2,20 @@ package games.theRisingAngel.inventory;
 
 import games.generic.controlModel.subimpl.GModalityRPG;
 
-public abstract class EIRing extends EIJewelry {
+public class EIRing extends EIJewelry {
 	private static final long serialVersionUID = 1L;
-	int slotFingerSize;
 
-	public EIRing(GModalityRPG gmrpg, EquipmentTypesTRAr et, String name) {
-		super(gmrpg, et, name);
-		this.slotFingerSize = 1;
+	public EIRing(GModalityRPG gmrpg, String name) {
+		super(gmrpg, EquipmentTypesTRAn.Ring, name);
+//		this.slotFingerSize = 1;
 	}
 
 	public int getSlotFingerSize() {
-		return slotFingerSize;
+		return dimensionInInventory.width;
 	}
 
 	public void setSlotFingerSize(int slotFingerSize) {
-		this.slotFingerSize = slotFingerSize;
+		if (slotFingerSize > 0)
+			dimensionInInventory.width = slotFingerSize;
 	}
 }

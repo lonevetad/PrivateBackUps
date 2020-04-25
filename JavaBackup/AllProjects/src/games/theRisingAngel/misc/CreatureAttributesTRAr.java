@@ -5,7 +5,7 @@ import games.generic.controlModel.subimpl.CreatureAttributesCaching;
 public class CreatureAttributesTRAr extends CreatureAttributesCaching {
 
 	public CreatureAttributesTRAr() {
-		super(AttributesTRAr.VALUES.length);
+		super(AttributesTRAn.VALUES.length);
 		super.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAr());
 	}
 

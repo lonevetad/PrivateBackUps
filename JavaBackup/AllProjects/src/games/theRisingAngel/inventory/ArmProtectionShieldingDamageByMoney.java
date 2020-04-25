@@ -18,7 +18,7 @@ public class ArmProtectionShieldingDamageByMoney extends EINotJewelry {
 	protected ADamageReductionCurrencyBased abilityDamageReductionByPaying;
 
 	public ArmProtectionShieldingDamageByMoney(GModalityRPG gmrpg) {
-		super(gmrpg, EquipmentTypesTRAr.Arms, NAME);
+		super(gmrpg, EquipmentTypesTRAn.Arms, NAME);
 	}
 
 	@Override
