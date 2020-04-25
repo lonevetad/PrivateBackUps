@@ -8,21 +8,21 @@ import tools.ObjectNamedID;
 
 public class PlayerCharacterTypesHolder {
 	public static final int TOTAL_STARTING_ATTRIBUTES = 200, //
-			HUMAN_MEAN_ATTRIBUTES = TOTAL_STARTING_ATTRIBUTES / AttributesTRAr.ATTRIBUTES_UPGRADABLE_COUNT, //
+			HUMAN_MEAN_ATTRIBUTES = TOTAL_STARTING_ATTRIBUTES / AttributesTRAn.ATTRIBUTES_UPGRADABLE_COUNT, //
 			HUMAN_MEAN_EXCESS_TOTAL = TOTAL_STARTING_ATTRIBUTES
-					- (HUMAN_MEAN_ATTRIBUTES * AttributesTRAr.ATTRIBUTES_UPGRADABLE_COUNT);
-	public static final AttributesTRAr[] ATTRIBUTES_HUMAN_RECEIVING_MEAN_EXCESS = { AttributesTRAr.Strength,
-			AttributesTRAr.Intelligence, AttributesTRAr.Wisdom, AttributesTRAr.Defense, AttributesTRAr.Constitution,
-			AttributesTRAr.Dexterity, AttributesTRAr.Health, AttributesTRAr.Precision, AttributesTRAr.Wisdom };
+					- (HUMAN_MEAN_ATTRIBUTES * AttributesTRAn.ATTRIBUTES_UPGRADABLE_COUNT);
+	public static final AttributesTRAn[] ATTRIBUTES_HUMAN_RECEIVING_MEAN_EXCESS = { AttributesTRAn.Strength,
+			AttributesTRAn.Intelligence, AttributesTRAn.Wisdom, AttributesTRAn.Defense, AttributesTRAn.Constitution,
+			AttributesTRAn.Dexterity, AttributesTRAn.Health, AttributesTRAn.Precision, AttributesTRAn.Wisdom };
 
 	private static final int[] HUMAN_STARTING_ATTRIBUTES;
 	static {
 		int[] attrMean;
-		attrMean = new int[AttributesTRAr.ATTRIBUTES_UPGRADABLE_COUNT];
+		attrMean = new int[AttributesTRAn.ATTRIBUTES_UPGRADABLE_COUNT];
 		Arrays.fill(attrMean, HUMAN_MEAN_ATTRIBUTES);
 		for (int i = 0, n = HUMAN_MEAN_EXCESS_TOTAL; i < n; i++) {
 			attrMean[ATTRIBUTES_HUMAN_RECEIVING_MEAN_EXCESS[i].getIndex()
-					- AttributesTRAr.FIRST_INDEX_ATTRIBUTE_UPGRADABLE]++;
+					- AttributesTRAn.FIRST_INDEX_ATTRIBUTE_UPGRADABLE]++;
 		}
 		HUMAN_STARTING_ATTRIBUTES = attrMean;
 	}
@@ -52,7 +52,7 @@ public class PlayerCharacterTypesHolder {
 			CreatureAttributes ca;
 			ca = player.getAttributes();
 			for (int i = 0, n = startingAttribues.length; i < n; i++) {
-				ca.setOriginalValue(AttributesTRAr.FIRST_INDEX_ATTRIBUTE_UPGRADABLE + i, startingAttribues[i]);
+				ca.setOriginalValue(AttributesTRAn.FIRST_INDEX_ATTRIBUTE_UPGRADABLE + i, startingAttribues[i]);
 			}
 		}
 

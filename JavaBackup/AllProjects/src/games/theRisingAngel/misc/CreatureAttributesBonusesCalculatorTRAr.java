@@ -59,98 +59,99 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 	@Override
 	public int getBonusForValue(int index) {
 		int v;
-		AttributesTRAr a;
+		AttributesTRAn a;
 		CreatureAttributes c;
 		c = getCreatureAttributesSet();
 		if (c == null)
 			throw new IllegalStateException("Creaure Attribute Set is null");
-		a = AttributesTRAr.VALUES[index];
+		a = AttributesTRAn.VALUES[index];
 //		v = super.getValue(index);
 		v = 0;
 		switch (a) {
 		case LifeMax:
-			v = c.getValue(AttributesTRAr.Constitution.getIndex())
-					+ (c.getValue(AttributesTRAr.Strength.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAr.Health.getIndex()) << 1);
+
+			v = c.getValue(AttributesTRAn.Constitution.getIndex())
+					+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAn.Health.getIndex()) << 1);
 			break;
 		case RigenLife:
-			v = (c.getValue(AttributesTRAr.Constitution.getIndex()) >> 3)
-					+ ((c.getValue(AttributesTRAr.Health.getIndex())) >> 2)
-					+ (c.getValue(AttributesTRAr.Strength.getIndex()) >> 4)
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 5)
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 5);
+			v = (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 3)
+					+ ((c.getValue(AttributesTRAn.Health.getIndex())) >> 2)
+					+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 4)
+					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 5)
+					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 5);
 			v >>= 1; // to high
 			break;
 		case DamageReductionPhysical:
-			v = (c.getValue(AttributesTRAr.Strength.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAr.Constitution.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAr.Defense.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAr.Dexterity.getIndex()) / 10);
+			v = (c.getValue(AttributesTRAn.Strength.getIndex()) >> 2)
+					+ (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAn.Defense.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10);
 			break;
 		case DamageBonusPhysical:
-			v = (c.getValue(AttributesTRAr.Strength.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAr.Constitution.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAr.Precision.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAr.Intelligence.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 4);
+			v = (c.getValue(AttributesTRAn.Strength.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 2)
+					+ (c.getValue(AttributesTRAn.Precision.getIndex()) / 10)
+					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) / 10)
+					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 4);
 			break;
 		case ManaMax:
-			v = (c.getValue(AttributesTRAr.Intelligence.getIndex()) >> 1) //
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()))
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) << 1);
+			v = (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1) //
+					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()))
+					+ (c.getValue(AttributesTRAn.Faith.getIndex()) << 1);
 			v >>= 1; // too high, make it half
 			break;
 		case RigenMana:
-			v = (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 2);
+			v = (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
+					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2);
 			break;
 		case DamageBonusMagical:
-			v = (c.getValue(AttributesTRAr.Precision.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAr.Intelligence.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 3);
+			v = (c.getValue(AttributesTRAn.Precision.getIndex()) / 10)
+					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 2)
+					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 3);
 			break;
 		case DamageReductionMagical:
-			v = (c.getValue(AttributesTRAr.Dexterity.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAr.Intelligence.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAr.Defense.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 2);
+			v = (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10)
+					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAn.Defense.getIndex()) >> 2)
+					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2);
 			break;
 		case CriticalMultiplier:
 			v = (c//
-					.getValue(AttributesTRAr.Strength.getIndex()) / 5)
-					+ (c.getValue(AttributesTRAr.Intelligence.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) / 10);
+					.getValue(AttributesTRAn.Strength.getIndex()) / 5)
+					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) / 10)
+					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) / 10);
 //			v /= 10;
 			break;
 		case CriticalProbability:
-			v = (c.getValue(AttributesTRAr.Precision.getIndex()) / 5)
-					+ (c.getValue(AttributesTRAr.Dexterity.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAr.Intelligence.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) / 5);
+			v = (c.getValue(AttributesTRAn.Precision.getIndex()) / 5)
+					+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10)
+					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) / 10)
+					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) / 10)
+					+ (c.getValue(AttributesTRAn.Faith.getIndex()) / 5);
 //			v /= 10;
 			break;
 		case ProbabilityHit:
-			v = (c.getValue(AttributesTRAr.Precision.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAr.Dexterity.getIndex()) >> 2);
+			v = (c.getValue(AttributesTRAn.Precision.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 2);
 			break;
 		case ProbabilityAvoid:
-			v = (c.getValue(AttributesTRAr.Dexterity.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAr.Precision.getIndex()) >> 2);
+			v = (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 1)
+					+ (c.getValue(AttributesTRAn.Precision.getIndex()) >> 2);
 			break;
 		case Velocity:
-			v = c.getValue(AttributesTRAr.Strength.getIndex())
-					+ (c.getValue(AttributesTRAr.Constitution.getIndex()) << 1)
-					+ (c.getValue(AttributesTRAr.Health.getIndex()) << 2);
+			v = c.getValue(AttributesTRAn.Strength.getIndex())
+					+ (c.getValue(AttributesTRAn.Constitution.getIndex()) << 1)
+					+ (c.getValue(AttributesTRAn.Health.getIndex()) << 2);
 			break;
 		case Luck:// TODO to be continued
-			v = +(c.getValue(AttributesTRAr.Health.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAr.Wisdom.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAr.Faith.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAr.Intelligence.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAr.Dexterity.getIndex()) >> 3);
+			v = +(c.getValue(AttributesTRAn.Health.getIndex()) >> 3)
+					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
+					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 3)
+					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3)
+					+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 3);
 			break;
 		default:
 			v = 0;

@@ -12,7 +12,7 @@ import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.GObjMovement;
 import games.generic.controlModel.misc.HealGeneric;
 import games.generic.controlModel.misc.HealingTypeExample;
-import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureUIDProvider;
 import games.theRisingAngel.misc.DamageTypesTRAr;
 import geometry.AbstractShape2D;
@@ -123,12 +123,12 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	@Override
 	public int getLifeMax() {
-		return this.getAttributes().getValue(AttributesTRAr.LifeMax.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.LifeMax.getIndex());
 	}
 
 	@Override
 	public int getLifeRegenation() {
-		return this.getAttributes().getValue(AttributesTRAr.RigenLife.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.RigenLife.getIndex());
 	}
 
 	public GObjMovement getMovementImplementation() {
@@ -261,7 +261,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	protected int getDamageReductionForType(ObjectNamedID damageType) {
 		// damageType == DamageTypesTRAr.Physical
 		return this.getAttributes()
-				.getValue(AttributesTRAr.damageReductionByType((DamageTypesTRAr) damageType).getIndex());
+				.getValue(AttributesTRAn.damageReductionByType((DamageTypesTRAr) damageType).getIndex());
 	}
 
 	// TODO fire damage

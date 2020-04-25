@@ -17,7 +17,7 @@ import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.BasePlayerRPG;
 import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
-import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAr;
 import tools.ObjectWithID;
 
@@ -26,7 +26,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 	public static final String NAME = "Buying Reducion ";
 
 	public ADamageReductionCurrencyBased(DamageTypesTRAr dt) {
-		super(AttributesTRAr.damageReductionByType(dt), NAME + dt.getName());
+		super(AttributesTRAn.damageReductionByType(dt), NAME + dt.getName());
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAr.DamageReceived.getName());
 		perThousandFraction = 0;
@@ -46,7 +46,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 	/**
 	 * Get the "percentage" (but it's over a thousand, 1000, not the classical
 	 * hundred of "%") of the currency held to be converted to
-	 * {@link AttributesTRAr.DamageReductionPhysical}.
+	 * {@link AttributesTRAn.DamageReductionPhysical}.
 	 */
 	public int getPerThousandFraction() {
 		return perThousandFraction;
