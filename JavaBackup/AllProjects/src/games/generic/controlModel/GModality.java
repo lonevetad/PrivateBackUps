@@ -42,8 +42,6 @@ import tools.ObjectWithID;
  */
 public abstract class GModality {
 
-	//
-
 	protected boolean isRunning;
 	protected final GController controller;
 	protected GModel model;
@@ -52,6 +50,7 @@ public abstract class GModality {
 	protected PlayerGeneric player;
 	protected final GameObjectsProvidersHolder gameObjectsProviderHolder;
 	protected final GameObjectsManager gomDelegated;
+	protected GMap mapCurrent;
 
 	public GModality(GController controller, String modalityName) {
 		this.controller = controller;
@@ -90,6 +89,14 @@ public abstract class GModality {
 		return this.isRunning;
 	}
 
+	public PlayerGeneric getPlayer() {
+		return player;
+	}
+
+	public String getModalityName() {
+		return modalityName;
+	}
+
 	public GController getController() {
 		return controller;
 	}
@@ -98,12 +105,8 @@ public abstract class GModality {
 		return model;
 	}
 
-	public PlayerGeneric getPlayer() {
-		return player;
-	}
-
-	public String getModalityName() {
-		return modalityName;
+	public GMap getMapCurrent() {
+		return mapCurrent;
 	}
 
 	public GameObjectsProvidersHolder getGameObjectsProvider() {
@@ -113,6 +116,16 @@ public abstract class GModality {
 	/** Get the HUGE delegate of almost everything. */
 	public GameObjectsManager getGameObjectsManager() {
 		return gomDelegated;
+	}
+
+	/**
+	 * Delegates the results to {@link GameObjectsManager} returned by
+	 * {@link #getGameObjectsManager()}.
+	 */
+	public GObjectsInSpaceManager getGObjectInSpaceManager() {
+		GameObjectsManager gom;
+		gom = this.getGameObjectsManager();
+		return gom == null ? null : gom.getGObjectInSpaceManager();
 	}
 
 	//
@@ -127,6 +140,10 @@ public abstract class GModality {
 		this.player = player;
 		if (player != null)
 			player.setGameModality(this);
+	}
+
+	public void setMapCurrent(GMap mapCurrent) {
+		this.mapCurrent = mapCurrent;
 	}
 
 	//
@@ -167,6 +184,11 @@ public abstract class GModality {
 	 * game modality does not use the events system.
 	 */
 	protected abstract GameObjectsManager newGameObjectsManager();
+
+	/**
+	 * Create a new {@link GMap}, depending on its name.
+	 */
+	protected abstract GMap newGameMap(String mapName);
 
 	/**
 	 * Publish and fire the event in some way, if and only if this current Game

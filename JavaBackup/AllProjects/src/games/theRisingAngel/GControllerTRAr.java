@@ -3,10 +3,10 @@ package games.theRisingAngel;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GControllerRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
-import games.theRisingAngel.loaders.LoaderAbilityTRAr;
-import games.theRisingAngel.loaders.LoaderCreatureTRAr;
-import games.theRisingAngel.loaders.LoaderEquipTRAr;
-import games.theRisingAngel.loaders.LoaderEquipUpgradesTRAr;
+import games.theRisingAngel.loaders.LoaderAbilityTRAn;
+import games.theRisingAngel.loaders.LoaderCreatureTRAn;
+import games.theRisingAngel.loaders.LoaderEquipTRAn;
+import games.theRisingAngel.loaders.LoaderEquipUpgradesTRAn;
 
 public class GControllerTRAr extends GControllerRPG {
 	public static final String GM_NAME_TRAR_BASE = "gc_trar_base";
@@ -35,11 +35,11 @@ public class GControllerTRAr extends GControllerRPG {
 
 	@Override
 	protected void initNonFinalStuffs() {
-		super.addGameObjectLoader(new LoaderAbilityTRAr(this.gameObjectsProvidersHolderRPG.getAbilitiesProvider()));
+		super.addGameObjectLoader(new LoaderAbilityTRAn(this.gameObjectsProvidersHolderRPG.getAbilitiesProvider()));
 		super.addGameObjectLoader(
-				new LoaderEquipUpgradesTRAr(this.gameObjectsProvidersHolderRPG.getEquipUpgradesProvider()));
-		super.addGameObjectLoader(new LoaderEquipTRAr(this.gameObjectsProvidersHolderRPG.getEquipmentsProvider()));
-		super.addGameObjectLoader(new LoaderCreatureTRAr(this.gameObjectsProvidersHolderRPG.getCreaturesProvider()));
+				new LoaderEquipUpgradesTRAn(this.gameObjectsProvidersHolderRPG.getEquipUpgradesProvider()));
+		super.addGameObjectLoader(new LoaderEquipTRAn(this.gameObjectsProvidersHolderRPG.getEquipmentsProvider()));
+		super.addGameObjectLoader(new LoaderCreatureTRAn(this.gameObjectsProvidersHolderRPG.getCreaturesProvider()));
 
 		super.initNonFinalStuffs();
 		System.out.println("GControllerTRAr init non final stuff done\n\n");

@@ -15,7 +15,7 @@ public class HelmetOfPlanetaryMeteors extends EINotJewelry {
 	public static final String NAME = "Helmet Of Planetary Meteors";
 
 	public HelmetOfPlanetaryMeteors(GModalityRPG gmrpg) {
-		super(gmrpg, EquipmentTypesTRAr.Head, NAME);
+		super(gmrpg, EquipmentTypesTRAn.Head, NAME);
 		// TODO Auto-generated constructor stub
 	}
 

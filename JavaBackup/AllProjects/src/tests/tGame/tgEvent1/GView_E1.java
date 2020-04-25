@@ -15,7 +15,7 @@ import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.misc.GThread.GTRunnable;
 import games.generic.view.GameView;
-import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CurrencySetTRAr;
 
 public class GView_E1 extends GameView {
@@ -116,13 +116,13 @@ public class GView_E1 extends GameView {
 		constr.gridx = 1;
 		jlMoneyValue = new JLabel("0");
 		jpPlayerStats.add(jlMoneyValue, constr);
-		jlPlayerStatText = new JLabel[AttributesTRAr.VALUES.length];
-		jlPlayerStatValue = new JLabel[AttributesTRAr.VALUES.length];
-		n = AttributesTRAr.VALUES.length;
+		jlPlayerStatText = new JLabel[AttributesTRAn.VALUES.length];
+		jlPlayerStatValue = new JLabel[AttributesTRAn.VALUES.length];
+		n = AttributesTRAn.VALUES.length;
 		while (--n >= 0) {
 			constr.gridy = 2 + n;
 			constr.gridx = 0;
-			jlPlayerStatText[n] = new JLabel(AttributesTRAr.VALUES[n].name());
+			jlPlayerStatText[n] = new JLabel(AttributesTRAn.VALUES[n].name());
 			jpPlayerStats.add(jlPlayerStatText[n], constr);
 			constr.gridx = 1;
 			jlPlayerStatValue[n] = new JLabel("0");
@@ -165,7 +165,7 @@ public class GView_E1 extends GameView {
 //		}
 //		jtaPlayerStats.setText(sb.toString());
 		jlMoneyValue.setText(Integer.toString(p.getCurrencies().getMoneyAmount(CurrencySetTRAr.BASE_CURRENCY_INDEX)));
-		n = AttributesTRAr.VALUES.length;
+		n = AttributesTRAn.VALUES.length;
 		while (--n >= 0) {
 			jlPlayerStatValue[n].setText(Integer.toString(ca.getValue(n)));
 		}

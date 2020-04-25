@@ -2,12 +2,14 @@
 	{
 		"name": "Benedicted",
 		"rarity": 2,
+		"bonusPrice": [27],
 		"modifiers": [
 			{"attribute": "Faith", "value": 15}
 		]
 	}, {
 		"name": "Consacrated",
 		"rarity": 3,
+		"bonusPrice": [40],
 		"modifiers": [
 			{"attribute": "Faith", "value": 23},
 			{"attribute": "Wisdom", "value": 12}
@@ -15,6 +17,7 @@
 	} ,{
 		"name": "Thick",
 		"rarity": 1,
+		"bonusPrice": [10],
 		"modifiers": [
 			{"attribute": "Defense", "value": 5},
 			{"attribute": "Constitution", "value": 2}
@@ -22,6 +25,7 @@
 	}, {
 		"name": "Tempered",
 		"rarity": 3,
+		"bonusPrice": [60],
 		"modifiers": [
 			{"attribute": "Defense", "value": 10},
 			{"attribute": "Constitution", "value": 5}
@@ -29,6 +33,7 @@
 	}, {
 		"name": "with Art Decorations",
 		"rarity": 3,
+		"bonusPrice": [80],
 		"modifiers": [
 			{"attribute": "Wisdom", "value": 8},
 			{"attribute": "Health", "value": 5},
@@ -39,6 +44,7 @@
 	}, {
 		"name": "Moon runed",
 		"rarity": 3,
+		"bonusPrice": [100],
 		"modifiers": [
 			{"attribute": "ManaMax", "value": 15},
 			{"attribute": "RigenMana", "value": 8},
@@ -51,6 +57,7 @@
 	}, {
 		"name": "Sun runed",
 		"rarity": 3,
+		"bonusPrice": [100],
 		"modifiers": [
 			{"attribute": "LifeMax", "value": 15},
 			{"attribute": "RigenLife", "value": 8},
@@ -63,6 +70,7 @@
 	}, {
 		"name": "of Dwarf",
 		"rarity": 2,
+		"bonusPrice": [25],
 		"modifiers": [
 			{"attribute": "Defense", "value": 7},
 			{"attribute": "Strength", "value": 12},
@@ -71,6 +79,7 @@
 	}, {
 		"name": "of Elf",
 		"rarity": 2,
+		"bonusPrice": [25],
 		"modifiers": [
 			{"attribute": "Precision", "value": 7},
 			{"attribute": "Dexterity", "value": 12},
@@ -79,8 +88,72 @@
 	}, {
 		"name": "Good",
 		"rarity": 1,
+		"bonusPrice": [12],
 		"modifiers": [
 			{"attribute": "Defense", "value": 3}
+		]
+	}, {
+		"name": "Granata colored",
+		"rarity": 2,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "Strength", "value": 5}
+		]
+	}, {
+		"name": "Magenta colored",
+		"rarity": 2,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "Constitution", "value": 5}
+		]
+	}, {
+		"name": "Red colored",
+		"rarity": 2,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "Health", "value": 5}
+		]
+	}, {
+		"name": "Brown colored",
+		"rarity": 2,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "Defense", "value": 5}
+		]
+	}, {
+		"name": "Green colored",
+		"rarity": 2,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": 5}
+		]
+	}, {
+		"name": "Yellow colored",
+		"rarity": 2,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "Precision", "value": 5}
+		]
+	}, {
+		"name": "Blue colored",
+		"rarity": 2,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 5}
+		]
+	}, {
+		"name": "Opaline colored",
+		"rarity": 2,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "Wisdom", "value": 5}
+		]
+	}, {
+		"name": "Pearl colored",
+		"rarity": 2,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "Faith", "value": 5}
 		]
 	}
 ]

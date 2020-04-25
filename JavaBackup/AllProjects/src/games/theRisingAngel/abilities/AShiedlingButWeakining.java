@@ -15,7 +15,7 @@ import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
-import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.AttributesTRAn;
 
 /**
  * Upon taking damage, reduce it by
@@ -32,8 +32,8 @@ public class AShiedlingButWeakining extends AbilityModifyingAttributesRealTime i
 	private static final long serialVersionUID = -5898625452208602145L;
 	public static final String NAME = "Stonefying Skin";
 	public static final int DURATION_EFFECT = 2000; // 5000; // 750
-	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAr.RigenLife,
-			AttributesTRAr.DamageReductionPhysical, AttributesTRAr.DamageReductionMagical };
+	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RigenLife,
+			AttributesTRAn.DamageReductionPhysical, AttributesTRAn.DamageReductionMagical };
 
 	public AShiedlingButWeakining() {
 		super(WHAT_TO_MODIFY, NAME);
@@ -106,7 +106,7 @@ public class AShiedlingButWeakining extends AbilityModifyingAttributesRealTime i
 					cAttr = creatureWearing.getAttributes();
 					// activate the ability
 					// compute the bonuses and malus
-					lifeRegenOriginal = cAttr.getValue(AttributesTRAr.RigenLife.getIndex()); // Original
+					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); // Original
 					(am = this.attributesToModify[0]).setValue(-(lifeRegenOriginal >> 1)); // the half
 					cAttr.applyAttributeModifier(am);
 					lifeRegenOriginal >>= 2; // recycle as a temp

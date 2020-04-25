@@ -14,7 +14,7 @@ import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingSi
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.events.EventDamageTRAr;
 import games.theRisingAngel.events.EventsTRAr;
-import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.AttributesTRAn;
 import tools.ObjectWithID;
 
 public class AMoreDamageReceivedMoreLifeRegen_OLD extends AbilityModifyingSingleAttributeRealTime
@@ -24,7 +24,7 @@ public class AMoreDamageReceivedMoreLifeRegen_OLD extends AbilityModifyingSingle
 	public static final String NAME = "Pain Rinvigoring";
 
 	public AMoreDamageReceivedMoreLifeRegen_OLD() {
-		super(AttributesTRAr.RigenLife, NAME);
+		super(AttributesTRAn.RigenLife, NAME);
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(
 //		this.getAttributeToModify().getAttributeModified().getName()

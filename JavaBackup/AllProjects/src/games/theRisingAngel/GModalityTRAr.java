@@ -2,6 +2,7 @@ package games.theRisingAngel;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.GMap;
 import games.generic.controlModel.GameObjectsManager;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.BasePlayerRPG;
@@ -49,6 +50,15 @@ public class GModalityTRAr extends GModalityRPG {
 		return p;
 	}
 
+	@Override
+	protected GMap newGameMap(String mapName) {
+		GMapTRAr gmap;
+		gmap = new GMapTRAr(mapName);
+		gmap.setGOISMDelegated(getGObjectInSpaceManager());
+		return gmap;
+	}
+
+	/** Given a {@link PlayerTRAr}, set its initial set of attributes */
 	public void setStartingBaseAttributes(PlayerTRAr player) {
 		player.getCharacterType().applyStartingAttributes(player);
 	}
@@ -58,4 +68,5 @@ public class GModalityTRAr extends GModalityRPG {
 		super.startGame();
 		// and then? TODO
 	}
+
 }

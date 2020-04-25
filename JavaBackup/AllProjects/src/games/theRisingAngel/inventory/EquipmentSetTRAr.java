@@ -19,15 +19,15 @@ public class EquipmentSetTRAr extends EquipmentSet {
 
 	protected static final int firstIndexRings, firstIndexNecklace, firstIndexBracelets;
 	static {
-		firstIndexNecklace = EquipmentTypesTRAr.Necklace.ordinal();
-		firstIndexBracelets = firstIndexNecklace + EquipmentTypesTRAr.NECKLACE_AMOUNT;
-		firstIndexRings = firstIndexBracelets + EquipmentTypesTRAr.BRACELET_AMOUNT;
+		firstIndexNecklace = EquipmentTypesTRAn.Necklace.ordinal();
+		firstIndexBracelets = firstIndexNecklace + EquipmentTypesTRAn.NECKLACE_AMOUNT;
+		firstIndexRings = firstIndexBracelets + EquipmentTypesTRAn.BRACELET_AMOUNT;
 	}
 
 	protected final EquipmentItem[] equippedItems;
 
 	public EquipmentSetTRAr() {
-		equippedItems = new EquipmentItem[EquipmentTypesTRAr.TOTAL_AMOUNT_EQUIPMENTS_WEARABLES];
+		equippedItems = new EquipmentItem[EquipmentTypesTRAn.TOTAL_AMOUNT_EQUIPMENTS_WEARABLES];
 	}
 
 	@Override
@@ -54,20 +54,20 @@ public class EquipmentSetTRAr extends EquipmentSet {
 
 	@Override
 	public void addEquipmentItem(GModality gm, EquipmentItem ei) {
-		EquipmentTypesTRAr et;
+		EquipmentTypesTRAn et;
 		if (ei == null)
 			return;
-		et = (EquipmentTypesTRAr) ei.getEquipmentType();
+		et = (EquipmentTypesTRAn) ei.getEquipmentType();
 		switch (et) {
 //		case Earrings:break; // are put at the beginning
 		case Ring:
 			addRing(gm, (EIRing) ei);
 			break;
 		case Necklace:
-			addNecklaceOrBracelet(gm, ei, firstIndexNecklace, EquipmentTypesTRAr.NECKLACE_AMOUNT);
+			addNecklaceOrBracelet(gm, ei, firstIndexNecklace, EquipmentTypesTRAn.NECKLACE_AMOUNT);
 			break;
 		case Bracelet:
-			addNecklaceOrBracelet(gm, ei, firstIndexBracelets, EquipmentTypesTRAr.BRACELET_AMOUNT);
+			addNecklaceOrBracelet(gm, ei, firstIndexBracelets, EquipmentTypesTRAn.BRACELET_AMOUNT);
 			break;
 		default:
 			int i;
@@ -124,7 +124,7 @@ public class EquipmentSetTRAr extends EquipmentSet {
 			// first check the first slots, then second slot (to distribute)
 			slotIndexMinimum = 0;
 			do {
-				fingersLeftToCheck = EquipmentTypesTRAr.TOTAL_FINGERS_AMOUNT;
+				fingersLeftToCheck = EquipmentTypesTRAn.TOTAL_FINGERS_AMOUNT;
 				i = firstIndexRings + slotIndexMinimum;
 //				while(notAdded && i <= lastAvailableIndex) {
 				while(notAdded && fingersLeftToCheck-- >= 0) {
@@ -132,9 +132,9 @@ public class EquipmentSetTRAr extends EquipmentSet {
 						equipAt(gm, ring, i);
 						notAdded = false;
 					}
-					i += EquipmentTypesTRAr.RING_SLOTS_EACH_FINGERS; // jump to the next finger
+					i += EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS; // jump to the next finger
 				}
-			} while(notAdded && ++slotIndexMinimum < EquipmentTypesTRAr.RING_SLOTS_EACH_FINGERS);
+			} while(notAdded && ++slotIndexMinimum < EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS);
 			if (notAdded) {
 				swapEquipmentItem(gm, ring, equippedItems[firstIndexRings]);
 			}
@@ -146,9 +146,9 @@ public class EquipmentSetTRAr extends EquipmentSet {
 
 			// looks for the first finger having enough "place"
 			slotIndexMinimum = 0; // used as "starting slot
-			maxIndexToCheck = 1 + (EquipmentTypesTRAr.RING_SLOTS_EACH_FINGERS - s);
+			maxIndexToCheck = 1 + (EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS - s);
 			do {
-				fingersLeftToCheck = EquipmentTypesTRAr.TOTAL_FINGERS_AMOUNT;
+				fingersLeftToCheck = EquipmentTypesTRAn.TOTAL_FINGERS_AMOUNT;
 				i = firstIndexRings + slotIndexMinimum;
 //				while(notAdded && i <= lastAvailableIndex) {
 				while(notAdded && fingersLeftToCheck-- >= 0) {
@@ -163,7 +163,7 @@ public class EquipmentSetTRAr extends EquipmentSet {
 						equipAt(gm, ring, i);
 						notAdded = false;
 					}
-					i += EquipmentTypesTRAr.RING_SLOTS_EACH_FINGERS; // jump to the next finger
+					i += EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS; // jump to the next finger
 				}
 			} while(notAdded && ++slotIndexMinimum < maxIndexToCheck);
 		}

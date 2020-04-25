@@ -11,6 +11,7 @@ import games.generic.controlModel.subimpl.GModalityRPG;
  * {@link EquipItemAbility} could require that {@link GModality} instance, so
  * just the abilities' names are saved and lazily loaded.
  */
+@Deprecated
 public class EquipmentItemImpl extends EquipmentItem {
 	private static final long serialVersionUID = -56956980L;
 

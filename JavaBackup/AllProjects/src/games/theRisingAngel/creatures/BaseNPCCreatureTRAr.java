@@ -4,7 +4,7 @@ import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subimpl.CreatureAttributesCaching;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.inventory.EquipmentSetTRAr;
-import games.theRisingAngel.misc.AttributesTRAr;
+import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureUIDProvider;
 
 /**
@@ -20,7 +20,7 @@ public class BaseNPCCreatureTRAr extends BaseCreatureTRAr {
 		this.ID = CreatureUIDProvider.newID();
 		this.equipmentSet = new EquipmentSetTRAr();
 		this.equipmentSet.setCreatureWearingEquipments(this);
-		this.attributes = new CreatureAttributesCaching(AttributesTRAr.VALUES.length);
+		this.attributes = new CreatureAttributesCaching(AttributesTRAn.VALUES.length);
 		this.life = 1;
 		ticks = 0;
 		accumulatedTimeLifeRegen = 0;

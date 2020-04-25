@@ -1,20 +1,27 @@
 package games.theRisingAngel.inventory;
 
+import games.generic.controlModel.GModality;
+import games.generic.controlModel.GameObjectsProvidersHolder;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.subimpl.GModalityRPG;
 
 /**
- * Simple maker abstract class to represents all kinds of jewelry: rings,
- * necklaces, bracelets, earrings.
+ * Simple marker class to represents all kinds of jewelry: rings, necklaces,
+ * bracelets, earrings.
  */
-public abstract class EIJewelry extends EquipmentItem {
+public class EIJewelry extends EquipmentItem {
 	private static final long serialVersionUID = 1L;
 
-	public EIJewelry(GModalityRPG gmrpg, EquipmentTypesTRAr et, String name) {
+	public EIJewelry(GModalityRPG gmrpg, EquipmentTypesTRAn et, String name) {
 		super(gmrpg, et, name);
-		if (et == null || (et != EquipmentTypesTRAr.Earrings && et != EquipmentTypesTRAr.Necklace
-				&& et != EquipmentTypesTRAr.Ring)) {
+		if (et == null || (et != EquipmentTypesTRAn.Earrings && et != EquipmentTypesTRAn.Necklace
+				&& et != EquipmentTypesTRAn.Ring)) {
 			throw new IllegalArgumentException("Not a really jewelry");
 		}
+	}
+
+	@Override
+	protected void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder) {
+		// do nothing
 	}
 }
