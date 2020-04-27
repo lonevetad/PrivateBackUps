@@ -21,6 +21,10 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 		super();
 	}
 
+	public AbilityModifyingAttributesRealTime(String name) {
+		super(name);
+	}
+
 	public AbilityModifyingAttributesRealTime(AttributeIdentifier[] attributesModified, String name) {
 		super(name);
 		if (attributesModified != null) {
@@ -28,7 +32,8 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 		}
 	}
 
-	protected long accTimeElapsed;
+	protected long accumulatedTimeElapsedForUpdating;
+	/** Attributes this ability modifies. */
 	protected AttributeModification[] attributesToModify;
 
 	public AttributeModification[] getAttributesToModify() {
@@ -37,7 +42,7 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 
 	@Override
 	public long getAccumulatedTimeElapsed() {
-		return accTimeElapsed;
+		return accumulatedTimeElapsedForUpdating;
 	}
 
 	@Override
@@ -48,17 +53,13 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 	public void setAttributesToModify(AttributeIdentifier[] attributesModified) {
 //		this.attributesToModify = attributesToModify; // AttributeModification[] attributesToModify
 		if (attributesModified != null) {
-			int n;
-			attributesToModify = new AttributeModification[n = attributesModified.length];
-			while(--n >= 0) {
-				attributesToModify[n] = new AttributeModification(attributesModified[n], 0);
-			}
+			attributesToModify = AttributeModification.newEmptyArray(attributesModified);
 		}
 	}
 
 	@Override
 	public void setAccumulatedTimeElapsed(long newAccumulated) {
-		this.accTimeElapsed = newAccumulated;
+		this.accumulatedTimeElapsedForUpdating = newAccumulated;
 	}
 
 	//

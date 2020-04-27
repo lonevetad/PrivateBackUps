@@ -1,19 +1,12 @@
 package games.theRisingAngel.abilities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import games.generic.controlModel.GEventObserver;
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
-import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingAttributesRealTime;
+import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityAttributesModsVanishingOverTime;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.theRisingAngel.events.EventDamageTRAr;
+import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventsTRAr;
 import games.theRisingAngel.misc.AttributesTRAn;
 
@@ -22,119 +15,117 @@ import games.theRisingAngel.misc.AttributesTRAn;
  * <code>a Q percentage of life regeneration * N</code> by reducing it by H for
  * a certain amount of time T. Each damage taken reset the counter.<br>
  * It's like <i>enduring the skin as a stone: it's harder, but also harder to
- * heal</i>.
+ * heal</i>.<br>
+ * Default values:
+ * <ul>
+ * <li>Q = 25%</li>
+ * <li>H = 50%</li>
+ * <li>N = 1</li>
+ * <li>T = 2000 // milliseconds, for testing, 5000 on production</li>
+ * </ul>
  */
-// Q = 25%
-// H = 50%
-// N = 1
-// T = 5000 // milliseonds
-public class AShiedlingButWeakining extends AbilityModifyingAttributesRealTime implements GEventObserver {
+public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTime {
 	private static final long serialVersionUID = -5898625452208602145L;
+	public static final boolean IS_TESTING = false;
 	public static final String NAME = "Stonefying Skin";
-	public static final int DURATION_EFFECT = 2000; // 5000; // 750
+	public static final int DURATION_EFFECT = IS_TESTING ? 2000 : 5000; // 750
 	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RigenLife,
 			AttributesTRAn.DamageReductionPhysical, AttributesTRAn.DamageReductionMagical };
 
 	public AShiedlingButWeakining() {
-		super(WHAT_TO_MODIFY, NAME);
-		this.eventsWatching = new ArrayList<>(2);
+		super(AttributeModification.newEmptyArray(WHAT_TO_MODIFY), NAME);
 		this.eventsWatching.add(EventsTRAr.DamageReceived.getName());
-		ticks = 0;
-		timeThreshold = DURATION_EFFECT;
-		isAbilityActive = false;
-	}
-
-	protected boolean isAbilityActive;
-	protected long ticks, timeThreshold;
-	protected List<String> eventsWatching;
-
-	@Override
-	public Integer getObserverID() {
-		return getID();
+		this.setCumulative(false);
 	}
 
 //	public CreatureSimple getCreatureReferred() {return creatureReferred;}
 
 	@Override
-	public List<String> getEventsWatching() {
-		return eventsWatching;
+	public int getAbilityEffectDuration() {
+		return DURATION_EFFECT;
 	}
 
 	@Override
-	public long getTimeThreshold() {
-		return timeThreshold;
+	public int getVanishingEffectDuration() {
+		return 0; // ends immediately
 	}
+
+	@Override
+	public void setAbilityEffectDuration(int abilityEffectDuration) {
+	}
+
+	@Override
+	public void setVanishingEffectDuration(int vanishingEffectDuration) {
+	}
+
+	//
 
 	@Override
 	public void resetAbility() {
 		super.resetAbility();
-		ticks = 0;
-		isAbilityActive = false;
 		this.setAccumulatedTimeElapsed(0);
 		performAbility(null); // to nullify it
 	}
 
 	@Override
-	public void act(GModality modality, int timeUnits) {
-		if (isAbilityActive) {
-			// act only if the ability is active
-			super.act(modality, timeUnits);
-		} // if no, the do not waste the time
+	protected boolean isAcceptableEvent(IGEvent ge) {
+		EventDamageTRAn dEvent;
+		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
+			dEvent = (EventDamageTRAn) ge;
+			if (dEvent.getTarget() == this.getEquipItem().getCreatureWearingEquipments()
+					// check equality because it's bounded to the "wearer"
+					&& dEvent.getDamage().getDamageAmount() > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
-	public void performAbility(GModality modality) {
-		super.performAbility(modality);
-		isAbilityActive = false;
+	public void updateActiveEffectModAttributes() {
+		// no kind of updated
 	}
 
 	@Override
-	public void notifyEvent(GModality modality, IGEvent ge) {
-		int lifeRegenOriginal;
-		EventDamageTRAr<?> dEvent;
+	public void doUponAbilityActivated() {
+		int lifeRegenAmount;
 		BaseCreatureRPG creatureWearing;
 		CreatureAttributes cAttr;
 		AttributeModification am;
-		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
-			dEvent = (EventDamageTRAr<?>) ge;
-			if (dEvent.getTarget() ==
-			// check equality because it's bounded to the "wearer"
-			(creatureWearing = this.getEquipItem().getCreatureWearingEquipments())
-					&& dEvent.getDamage().getDamageAmount() > 0) {
-				// activate the ability
-				if (!this.isAbilityActive) {
-					cAttr = creatureWearing.getAttributes();
-					// activate the ability
-					// compute the bonuses and malus
-					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); // Original
-					(am = this.attributesToModify[0]).setValue(-(lifeRegenOriginal >> 1)); // the half
-					cAttr.applyAttributeModifier(am);
-					lifeRegenOriginal >>= 2; // recycle as a temp
-					(am = this.attributesToModify[1]).setValue(lifeRegenOriginal);
-					cAttr.applyAttributeModifier(am);
-					(am = this.attributesToModify[2]).setValue(lifeRegenOriginal);
-					cAttr.applyAttributeModifier(am);
-				}
-				this.setAccumulatedTimeElapsed(0);
-				this.isAbilityActive = true;
-			}
-		}
+		System.out.println("shield weakening activated");
+		creatureWearing = this.getEquipItem().getCreatureWearingEquipments();
+		cAttr = creatureWearing.getAttributes();
+		// lifeRegenAmount = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); //
+		// Original
+		lifeRegenAmount = creatureWearing.getLifeRegenation();
+		(am = this.attributesToModify[0]).setValue(-(lifeRegenAmount >> 1)); // the half
+		cAttr.applyAttributeModifier(am);
+		lifeRegenAmount >>= 2; // recycle as a temp
+		(am = this.attributesToModify[1]).setValue(lifeRegenAmount);
+		cAttr.applyAttributeModifier(am);
+		(am = this.attributesToModify[2]).setValue(lifeRegenAmount);
+		cAttr.applyAttributeModifier(am);
 	}
 
 	@Override
-	protected void updateAttributes(GModality gm, EquipmentItem ei, CreatureSimple ah, CreatureAttributes ca) {
-		this.isAbilityActive = false;
-		for (AttributeModification am : this.attributesToModify) {
-			ca.removeAttributeModifier(am);
-			am.setValue(0);
-		}
+	public void doUponAbilityStartsVanishing() {
+		System.out.println("start vanishing shield weakening");
 	}
 
 	@Override
-	public void updateAttributesModifiersValues(GModality gm, EquipmentItem ei, CreatureSimple ah,
-			CreatureAttributes ca) {
-//		for (AttributeModification am : this.attributesToModify) {
-//			am.setValue(0); // reset everyone
-//		}
+	public void doUponAbilityEffectEnds() {
+		System.out.println("effect ended shield weakening");
+		// nothing more than a simple reset (yet implemented elsewhere)
+	}
+
+	@Override
+	public void vanishEffect() {
+		// override as a safe guard
+		setPhaseTo(PhaseAbilityVanishing.Finished);
+	}
+
+	@Override
+	public void doUponAbilityRefreshed() {
+		System.out.println("effect refreshed shield weakening");
 	}
 }

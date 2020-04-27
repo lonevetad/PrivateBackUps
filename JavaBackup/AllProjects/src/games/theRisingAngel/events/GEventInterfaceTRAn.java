@@ -6,6 +6,7 @@ import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
 import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gEvents.EventMoneyChange;
+import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.misc.DamageGeneric;
@@ -17,9 +18,9 @@ import games.generic.controlModel.subimpl.GModalityET;
 import geometry.ObjectLocated;
 import tools.ObjectWithID;
 
-public class GEventInterfaceTRAr implements GEventInterfaceRPG {
+public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 
-	public GEventInterfaceTRAr() {
+	public GEventInterfaceTRAn() {
 		super();
 	}
 
@@ -62,17 +63,37 @@ public class GEventInterfaceTRAr implements GEventInterfaceRPG {
 	}
 
 	@Override
-	public <SourceDamage extends ObjectWithID> void fireDamageDealtEvent(GModalityET gm, SourceDamage source,
-			LivingObject target, DamageGeneric damage) {
-		this.getGameEventManager().fireEvent( //
-				new EventDamageTRAr<SourceDamage>(EventsTRAr.DamageInflicted, source, target, damage));
+	public EventDamage fireDamageDealtEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
+			DamageGeneric damage) {
+		EventDamage ed;
+		ed = new EventDamageTRAn(EventsTRAr.DamageInflicted, source, target, damage);
+		this.getGameEventManager().fireEvent(ed);
+		return ed;
 	}
 
 	@Override
-	public <SourceDamage extends ObjectWithID> EventDamage<SourceDamage> fireDamageReceivedEvent(GModalityET gm,
-			SourceDamage source, LivingObject target, DamageGeneric originalDamage, int damageAmountToBeApplied) {
-		EventDamageTRAr<SourceDamage> ed;
-		ed = new EventDamageTRAr<SourceDamage>(EventsTRAr.DamageReceived, source, target, originalDamage,
+	public EventDamage fireCriticalDamageDealtEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
+			DamageGeneric damage) {
+		EventDamage ed;
+		ed = new EventDamageTRAn(EventsTRAr.DamageCriticalInflicted, source, target, damage);
+		this.getGameEventManager().fireEvent(ed);
+		return ed;
+	}
+
+	@Override
+	public EventDamage fireDamageReceivedEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
+			DamageGeneric originalDamage, int damageAmountToBeApplied) {
+		EventDamageTRAn ed;
+		ed = new EventDamageTRAn(EventsTRAr.DamageReceived, source, target, originalDamage, damageAmountToBeApplied);
+		this.getGameEventManager().fireEvent(ed);
+		return ed;
+	}
+
+	@Override
+	public EventDamage fireDamageCriticalReceivedEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
+			DamageGeneric originalDamage, int damageAmountToBeApplied) {
+		EventDamageTRAn ed;
+		ed = new EventDamageTRAn(EventsTRAr.DamageCriticalReceived, source, target, originalDamage,
 				damageAmountToBeApplied);
 		this.getGameEventManager().fireEvent(ed);
 		return ed;

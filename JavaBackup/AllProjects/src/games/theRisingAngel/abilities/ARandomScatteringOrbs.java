@@ -8,7 +8,9 @@ import java.util.Set;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.GameObjectsManager;
+import games.generic.controlModel.gEvents.DamageReceiverGeneric;
+import games.generic.controlModel.gObj.CreatureSimple;
+import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.MovingObject;
 import games.generic.controlModel.gObj.MovingObjectDelegatingMovement;
 import games.generic.controlModel.gObj.OrbitingInteractiveObject;
@@ -17,6 +19,7 @@ import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityTargetingGO
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.GObjMovement;
 import games.generic.controlModel.subimpl.movements.GObjLinearMovement;
+import games.theRisingAngel.GModalityTRAn;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
@@ -27,18 +30,24 @@ import tools.ObjectWithID;
 import tools.UniqueIDProvider;
 
 // emula il "Storm Burst" di "path of Exile"
+/**
+ * Generates a series of orbs that scatters and deals damage upon hitting
+ * someone while moving or exploding.
+ */
 public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap, TimedObject {
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Scattering Bombs";
 	protected static final boolean STATUS_TRAVELLING = true, STATUS_STATIONARY_FOR_EXPLOSION = !STATUS_TRAVELLING;
 	protected static final int MILLIS_STATIONARY_BEFORE_EXPLOSION = 500, MILLIS_TRAVELLING = 1000;
 
-	public ARandomScatteringOrbs() {
+	public ARandomScatteringOrbs(GModalityTRAn gameModality) {
+		this.gameModality = gameModality;
 		orbsIDProvider = UniqueIDProvider.newBasicIDProvider();
 		random = new Random();
 		timeSpawningOrbs = tempSpawning = 0;
 	}
 
+	protected GModalityTRAn gameModality;
 	protected transient int tempSpawning;
 	protected int timeSpawningOrbs;
 	protected transient UniqueIDProvider orbsIDProvider;
@@ -92,7 +101,9 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 	//
 
 	/** Get the radius of each single orb */
-	public abstract int getRadiusOrbs();
+	public int getRadiusOrbs() {
+		return gameModality.getSpaceSubunitsEveryUnit(); // just 1 unit
+	}
 
 	/**
 	 * Returns an upper bound of amount of scattering orbs. A negative or zero
@@ -100,11 +111,11 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 	 */
 	public abstract int getMaxAmountScatteringOrbs();
 
-	public abstract DamageGeneric getDamageOrbs();
+	public abstract DamageGeneric getDamageOrbs(ScatteringOrb orb, DamageReceiverGeneric target);
 
 	/**
 	 * Orbs scatters randomly in a circle as large as this value. Greater-than-zero
-	 * values are strongly recommended.
+	 * values are strongly recommended.<br>
 	 */
 	public abstract int getRadiusScattering();
 
@@ -137,11 +148,18 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 		orbs.forEach(so -> so.act(modality, timeUnits));
 	}
 
-	//
+	protected void performDamage(GModality gm, ScatteringOrb orb, CreatureSimple target) {
+		GModalityTRAn gmtran;
+		gmtran = (GModalityTRAn) gm;
+		gmtran.dealsDamageTo(orb, target, getDamageOrbs(orb, target));
+	}
 
 	//
 
-	protected abstract class ScatteringOrb implements MovingObject, ObjectShaped, MovingObjectDelegatingMovement {
+	//
+
+	protected abstract class ScatteringOrb
+			implements MovingObject, ObjectShaped, MovingObjectDelegatingMovement, DamageDealerGeneric {
 		private static final long serialVersionUID = 1L;
 		protected transient boolean status; // if false, then it's stationary
 		protected transient int tempTime;
@@ -169,7 +187,7 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 
 		@Override
 		public Integer getID() {
-			return null;
+			return id;
 		}
 
 		@Override
@@ -192,13 +210,15 @@ public abstract class ARandomScatteringOrbs implements AbilityTargetingGObjInMap
 			this.shape = shape;
 		}
 
-		/** Perform blast explosion */
+		/**
+		 * Perform blast explosion, calling
+		 * {@link ARandomScatteringOrbs#performDamage(GModality, ScatteringOrb, CreatureSimple)}.
+		 */
 		public abstract void explode(GModality modality);
 
 		/**
 		 * SHOULD call GModality methods for handling damages, i.e.
-		 * {@link GModality#getGameObjectsManager()} and then
-		 * {@link GameObjectsManager#dealsDamageTo}
+		 * {@link ARandomScatteringOrbs#performDamage(GModality, ScatteringOrb, CreatureSimple)}.
 		 */
 		public abstract void damageOnTraveling(GModality modality, ObjectLocated target);
 

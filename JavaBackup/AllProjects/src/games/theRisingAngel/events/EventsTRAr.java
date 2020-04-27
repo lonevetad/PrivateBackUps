@@ -6,7 +6,8 @@ import games.generic.controlModel.gEvents.ExampleGameEvents;
 /** Taken from {@link ExampleGameEvents}. */
 public enum EventsTRAr implements IGEvent {
 	Destroyed("OIS"), ObjectAdded("OIS"), ObjectRemoved("OIS"), ObjectMoved("OIS"), // OIS = Object In Space
-	DamageInflicted("Dmg"), DamageReceived("Dmg"), HealReceived("Heal"), HealGiven("Heal"), //
+	DamageInflicted("Dmg"), DamageReceived("Dmg"), DamageCriticalInflicted("Dmg"), DamageCriticalReceived("Dmg"), //
+	HealReceived("Heal"), HealGiven("Heal"), //
 	PickedUpMoney("Money"), MoneyChanged("Money"), PickedUpDrop("Drop"), DropReleased("Drop");
 
 	protected final String type;

@@ -2,9 +2,9 @@ package games.theRisingAngel.misc;
 
 import games.generic.controlModel.subimpl.CreatureAttributesCaching;
 
-public class CreatureAttributesTRAr extends CreatureAttributesCaching {
+public class CreatureAttributesTRAn extends CreatureAttributesCaching {
 
-	public CreatureAttributesTRAr() {
+	public CreatureAttributesTRAn() {
 		super(AttributesTRAn.VALUES.length);
 		super.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAr());
 	}

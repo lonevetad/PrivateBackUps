@@ -8,6 +8,7 @@ import tools.ObjectWithID;
 public interface AbilityGeneric extends RarityHolder, ObjectNamedID {
 	public ObjectWithID getOwner();
 
+	/** A.k.a. "the caster" */
 	public void setOwner(ObjectWithID owner);
 
 	/** Perform the ability */

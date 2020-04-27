@@ -1,7 +1,5 @@
 package games.generic.controlModel.misc;
 
-import tools.ObjectNamedID;
-
 /**
  * Describes a generic type of damage (physical, fire, poison, ranged, critical,
  * dark, holy, cold, lightning, etc...), making event deliberation general
@@ -11,7 +9,7 @@ import tools.ObjectNamedID;
 public class DamageGeneric extends AmountNamed {
 	private static final long serialVersionUID = 894363018L;
 
-	public DamageGeneric(int damageAmount, ObjectNamedID damageType) {
+	public DamageGeneric(int damageAmount, DamageTypeGeneric damageType) {
 		super(damageType, damageAmount);
 	}
 
@@ -19,8 +17,8 @@ public class DamageGeneric extends AmountNamed {
 		return super.value; // super.getValue();
 	}
 
-	public ObjectNamedID getDamageType() {
-		return super.type;// super.getType();
+	public DamageTypeGeneric getDamageType() {
+		return (DamageTypeGeneric) super.type;// super.getType();
 	}
 
 	public void setDamageAmount(int damageAmount) {
@@ -28,7 +26,7 @@ public class DamageGeneric extends AmountNamed {
 		super.value = damageAmount;
 	}
 
-	public void setDamageType(ObjectNamedID damageType) {
+	public void setDamageType(DamageTypeGeneric damageType) {
 //		super.setType(damageType);
 		super.type = damageType;
 	}

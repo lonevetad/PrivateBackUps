@@ -15,17 +15,17 @@ import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingSi
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.BasePlayerRPG;
-import games.theRisingAngel.events.EventDamageTRAr;
+import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventsTRAr;
 import games.theRisingAngel.misc.AttributesTRAn;
-import games.theRisingAngel.misc.DamageTypesTRAr;
+import games.theRisingAngel.misc.DamageTypesTRAn;
 import tools.ObjectWithID;
 
 public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttributeRealTime implements GEventObserver {
 	private static final long serialVersionUID = -69287821202158L;
 	public static final String NAME = "Buying Reducion ";
 
-	public ADamageReductionCurrencyBased(DamageTypesTRAr dt) {
+	public ADamageReductionCurrencyBased(DamageTypesTRAn dt) {
 		super(AttributesTRAn.damageReductionByType(dt), NAME + dt.getName());
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAr.DamageReceived.getName());
@@ -109,11 +109,11 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 	@Override
 	public void notifyEvent(GModality modality, IGEvent ge) {
 		int a;
-		EventDamageTRAr<?> ed;
+		EventDamageTRAn ed;
 		BaseCreatureRPG c;
 		CurrencySet ch;
 		if (ge.getName() == EventsTRAr.DamageReceived.getName()) {
-			ed = (EventDamageTRAr<?>) ge;
+			ed = (EventDamageTRAn) ge;
 //			damage = ed.getDamage();
 			c = (BaseCreatureRPG) ed.getTarget();
 			if (!(c instanceof CurrencyHolder))

@@ -1,6 +1,7 @@
 package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.gEvents.DamageReceiverGeneric;
 import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.HealGeneric;
@@ -9,11 +10,7 @@ import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import tools.ObjectWithID;
 
-public interface LivingObject extends DestructibleObject {
-
-	public int getLife();
-
-	public int getLifeMax();
+public interface LivingObject extends DestructibleObject, DamageReceiverGeneric {
 
 	/**
 	 * Shorthand to get the life regeneration.<br>
@@ -21,27 +18,8 @@ public interface LivingObject extends DestructibleObject {
 	 */
 	public int getLifeRegenation();
 
-	/**
-	 * Raw setting, like assigning a variable's value.
-	 */
-	public void setLife(int life);
-
-	/**
-	 * Raw setting, like assigning a variable's value, like {@link #setLife(int).
-	 * Could invoke this last method if the actual life (returned by
-	 * {@link #getLife()} is greater than the given parameter).
-	 */
-	public void setLifeMax(int lifeMax);
-
 	/** See {@link #getLifeRegenation()}. */
 	public void setLifeRegenation(int lifeRegenation);
-
-	/**
-	 * Make this object receiving a non-negative amount of damage, in a context
-	 * expressed by {@link GModality}, which could be used to fire events.
-	 */
-	public <SourceDamage extends ObjectWithID> void receiveDamage(GModality gm, DamageGeneric damage,
-			SourceDamage source);
 
 	/**
 	 * Make this object receiving a non-negative amount of damage, in a context
@@ -63,8 +41,8 @@ public interface LivingObject extends DestructibleObject {
 	 * occurred.<br>
 	 * A reply/reaction to the "raw damage received" could be a damage reduction.
 	 */
-	public default <SourceDamage extends ObjectWithID> EventDamage<SourceDamage> fireDamageReceived(GModality gm,
-			DamageGeneric originalDamage, SourceDamage source, int damageAmountToBeApplied) {
+	public default EventDamage fireDamageReceived(GModality gm, DamageGeneric originalDamage,
+			DamageDealerGeneric source, int damageAmountToBeApplied) {
 		GModalityRPG gmodrpg;
 		GEventInterfaceRPG geie1;
 //		GameObjectsManager gom;

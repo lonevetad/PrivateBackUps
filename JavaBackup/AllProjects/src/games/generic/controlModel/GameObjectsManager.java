@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import dataStructures.SetMapped;
 import dataStructures.isom.InSpaceObjectsManager;
 import games.generic.controlModel.gObj.CreatureSimple;
+import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.gObj.MovingObject;
@@ -37,7 +38,7 @@ import tools.ObjectWithID;
  * <li>{@link MovingObject} (through {@link InSpaceObjectsManager}
  * instance)</li>
  * <li>{@link LivingObject} (through methods like
- * {@link #dealsDamageTo(Object, CreatureSimple, DamageGeneric)}).</li>
+ * {@link #dealsDamageTo(DamageDealerGeneric, CreatureSimple, DamageGeneric)}).</li>
  * <li>{@link ObjectInSpace} (as n°1)</li>
  * <li>{@link GEventObserver} (through {@link GEventInterface} instance)</li>
  * </ul>
@@ -56,11 +57,11 @@ public interface GameObjectsManager extends GModalityHolder {
 
 	//
 
-	public default void addToSpace(MovingObject mo) {
+	public default void addToSpace(ObjectInSpace mo) {
 		getGObjectInSpaceManager().addObject(mo);
 	}
 
-	public default void removeFromSpace(MovingObject mo) {
+	public default void removeFromSpace(ObjectInSpace mo) {
 		getGObjectInSpaceManager().removeObject(mo);
 	}
 
@@ -99,7 +100,7 @@ public interface GameObjectsManager extends GModalityHolder {
 	 * {@link #removeFromSpace(MovingObject)} and then
 	 * {@link #addToSpace(MovingObject)}.
 	 */
-	public default void moveTo(MovingObject mo, Point newLocation) {
+	public default void moveTo(ObjectInSpace mo, Point newLocation) {
 		if (mo == null)
 			throw new IllegalArgumentException("The object to move is null");
 		removeFromSpace(mo);
@@ -119,10 +120,8 @@ public interface GameObjectsManager extends GModalityHolder {
 	 * {@link LivingObject#receiveDamage(GModality, DamageGeneric, ObjectWithID)}
 	 * and so on.
 	 */
-	public default <SourceDamage extends ObjectWithID> void dealsDamageTo(SourceDamage source, CreatureSimple target,
-			DamageGeneric damage) {
+	public default void dealsDamageTo(DamageDealerGeneric source, CreatureSimple target, DamageGeneric damage) {
 		this.getGEventInterface().fireDamageDealtEvent((GModalityET) getGameModality(), source, target, damage);
 		target.receiveDamage(getGameModality(), damage, source);
 	}
-
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.CreatureAttributes;
@@ -14,10 +15,9 @@ import games.generic.controlModel.misc.HealGeneric;
 import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureUIDProvider;
-import games.theRisingAngel.misc.DamageTypesTRAr;
+import games.theRisingAngel.misc.DamageTypesTRAn;
 import geometry.AbstractShape2D;
 import tools.ObjectNamedID;
-import tools.ObjectWithID;
 
 /**
  * Defines a default (but not mandatory) implementation of a "creature" concept,
@@ -261,26 +261,26 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	protected int getDamageReductionForType(ObjectNamedID damageType) {
 		// damageType == DamageTypesTRAr.Physical
 		return this.getAttributes()
-				.getValue(AttributesTRAn.damageReductionByType((DamageTypesTRAr) damageType).getIndex());
+				.getValue(AttributesTRAn.damageReductionByType((DamageTypesTRAn) damageType).getIndex());
 	}
 
 	// TODO fire damage
 	@Override
-	public <SourceDamage extends ObjectWithID> void receiveDamage(GModality gm, DamageGeneric originalDamage,
-			SourceDamage source) {
-		int dr, damageReallyReceived; // originalDamageAmount
+	public void receiveDamage(GModality gm, DamageGeneric originalDamage, DamageDealerGeneric source) {
+		int damageAmountToBeApplied, damageReallyReceived; // originalDamageAmount
 //		GModalityRPG gmrpg;
-		EventDamage<SourceDamage> eventDamageProcessed;
+		EventDamage eventDamageProcessed;
 		if (originalDamage.getDamageAmount() <= 0)
 			return;
 //		gmrpg = (GModalityRPG) gm;
 //		// check the type
 //		gmrpg.getGameObjectsManager().dealsDamageTo(source, this, originalDamage);
-		dr = getDamageReductionForType(originalDamage.getType());
+		damageAmountToBeApplied = originalDamage.getDamageAmount()
+				- getDamageReductionForType(originalDamage.getType());
 		// no negativity check: could there be a malus
-		eventDamageProcessed = fireDamageReceived(gm, originalDamage, source, originalDamage.getDamageAmount() - dr);
+		eventDamageProcessed = fireDamageReceived(gm, originalDamage, source, damageAmountToBeApplied);
 		// after notifying everyone, the damage could have changed: check it again
-		damageReallyReceived = (eventDamageProcessed == null ? (originalDamage.getDamageAmount() - dr)//
+		damageReallyReceived = (eventDamageProcessed == null ? damageAmountToBeApplied //
 				: eventDamageProcessed.getDamageAmountToBeApplied());
 		if (damageReallyReceived > 0) {
 			System.out.println("-_-''-BaseCreatureRPGImpl then the damage received is: " + damageReallyReceived);

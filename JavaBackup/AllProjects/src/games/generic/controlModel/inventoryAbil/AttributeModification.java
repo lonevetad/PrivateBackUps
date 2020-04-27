@@ -18,6 +18,20 @@ public class AttributeModification extends AmountNamed {
 	public static final Function<AttributeModification, String> KEY_EXTRACTOR = eu -> eu.getAttributeModified()
 			.getName();
 
+	public static AttributeModification newEmpty(AttributeIdentifier attributeModified) {
+		return new AttributeModification(attributeModified, 0);
+	}
+
+	public static AttributeModification[] newEmptyArray(AttributeIdentifier[] attributesModified) {
+		int n;
+		AttributeModification[] r;
+		r = new AttributeModification[n = attributesModified.length];
+		while(--n >= 0) {
+			r[n] = newEmpty(attributesModified[n]);
+		}
+		return r;
+	}
+
 //	protected AttributeIdentifier attributeModified;
 
 	public AttributeModification(AttributeIdentifier attributeModified, int value) {

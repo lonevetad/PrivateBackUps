@@ -24,8 +24,8 @@ import tools.ObjectNamedID;
  * randomly</li>
  * </ol>
  */
-public interface CreatureSimple
-		extends AttributesHolder, LivingObject, MovingObject, RarityHolder, GModalityHolder, ObjectNamedID {
+public interface CreatureSimple extends AttributesHolder, LivingObject, MovingObject, DamageDealerGeneric, RarityHolder,
+		GModalityHolder, ObjectNamedID {
 
 	public static final int TICKS_PER_SECONDS = 4, LOG_TICKS_PER_SECONDS = 2;
 	public static final int MILLIS_REGEN_LIFE_MANA = 1000 / TICKS_PER_SECONDS;

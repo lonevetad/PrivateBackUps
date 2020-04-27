@@ -2,6 +2,7 @@ package games.theRisingAngel.misc;
 
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
+import games.theRisingAngel.GModalityTRAn;
 import tools.minorTools.RandomWeightedIndexes;
 
 /**
@@ -32,8 +33,9 @@ import tools.minorTools.RandomWeightedIndexes;
  * CriticalMultiplier</li>
  * <li>Faith: +3 ManaMax, +0.5 RigenMana, +0.125 DamageBonusMagical, +0.125
  * DamageReductionMagical, +0.2 CriticalProbability</li>
- * <li>Velocity: "space-unit per time-unit", could be then divided by some
- * factor</li>
+ * <li>Velocity: "space-unit per time-unit", corresponds to the numbers of
+ * sub-unit expressed in
+ * {@link GModalityTRAn#SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN}</li>
  * <li>Luck: as for CriticalProbability, it's not meant as a percentage, but
  * "per 10 thousand", so it should divided by 100. Used to alter
  * {@link RandomWeightedIndexes} in some way</li>
@@ -69,7 +71,6 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 		v = 0;
 		switch (a) {
 		case LifeMax:
-
 			v = c.getValue(AttributesTRAn.Constitution.getIndex())
 					+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 1)
 					+ (c.getValue(AttributesTRAn.Health.getIndex()) << 1);
@@ -133,18 +134,19 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 					+ (c.getValue(AttributesTRAn.Faith.getIndex()) / 5);
 //			v /= 10;
 			break;
-		case ProbabilityHit:
+		case ProbabilityHitPhysical:
 			v = (c.getValue(AttributesTRAn.Precision.getIndex()) >> 1)
 					+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 2);
 			break;
-		case ProbabilityAvoid:
+		case ProbabilityAvoidPhysical:
 			v = (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Precision.getIndex()) >> 2);
+					+ (c.getValue(AttributesTRAn.Precision.getIndex()) >> 2)
+					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3);
 			break;
 		case Velocity:
-			v = c.getValue(AttributesTRAn.Strength.getIndex())
-					+ (c.getValue(AttributesTRAn.Constitution.getIndex()) << 1)
-					+ (c.getValue(AttributesTRAn.Health.getIndex()) << 2);
+			v = ((c.getValue(AttributesTRAn.Dexterity.getIndex()) << 1) / 5) //
+					+ ((c.getValue(AttributesTRAn.Constitution.getIndex()) << 1) / 15)
+					+ ((c.getValue(AttributesTRAn.Strength.getIndex()) << 1) / 15);
 			break;
 		case Luck:// TODO to be continued
 			v = +(c.getValue(AttributesTRAn.Health.getIndex()) >> 3)

@@ -25,6 +25,7 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 		TOTAL_RINGS_SLOTS_AMOUNT = (TOTAL_FINGERS_AMOUNT * RING_SLOTS_EACH_FINGERS);
 		TOTAL_AMOUNT_EQUIPMENTS_WEARABLES = (EquipmentTypesTRAn.values().length - 3) // 3 = Rings + Necklace + Bracelet
 				+ TOTAL_RINGS_SLOTS_AMOUNT + BRACELET_AMOUNT + NECKLACE_AMOUNT; // = 27
+		System.out.println("TOTAL_AMOUNT_EQUIPMENTS_WEARABLES: " + TOTAL_AMOUNT_EQUIPMENTS_WEARABLES);
 	}
 
 	public final EquipItemFactory factory;

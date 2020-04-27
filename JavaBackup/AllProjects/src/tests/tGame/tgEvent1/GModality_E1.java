@@ -8,8 +8,8 @@ import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
-import games.theRisingAngel.GModalityTRAr;
-import games.theRisingAngel.GameObjectsProvidersHolderTRAr;
+import games.theRisingAngel.GModalityTRAn;
+import games.theRisingAngel.GameObjectsProvidersHolderTRAn;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
@@ -19,7 +19,7 @@ import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
 import tests.tGame.tgEvent1.oggettiDesempio.ObserverPrinterEvent;
 import tools.ObjectNamedID;
 
-public class GModality_E1 extends GModalityTRAr {
+public class GModality_E1 extends GModalityTRAn {
 	static final int STARTING_PLAYER_LIFE_MAX = 100;
 
 	public GModality_E1(GController controller, String modalityName) {
@@ -46,18 +46,19 @@ public class GModality_E1 extends GModalityTRAr {
 		ArmProtectionShieldingDamageByMoney armProtection_sdbm;
 		EquipmentItem equip;
 //		GC_E1 contr;
-		GameObjectsProvidersHolderTRAr goph;
+		GameObjectsProvidersHolderTRAn goph;
 		ObjPrinter_EventDeliver printerPlayer;
 		String equipmentName;
 
 		super.onCreate();
+		super.setRandomSeed(0);
 
 		System.out.println("\n\n\n MY NAME: " + getModalityName() + "\n\n");
 
 		//
 //		contr = (GC_E1) controller;
 		gmodel = (GModel_E1) this.getModel();
-		goph = (GameObjectsProvidersHolderTRAr) this.getGameObjectsProvider();
+		goph = (GameObjectsProvidersHolderTRAn) this.getGameObjectsProvider();
 
 		// TODO add all stuffs .. qui è il posto in cui dovrebbero stare gli oggetti
 		// strani che inserisco
@@ -118,17 +119,18 @@ public class GModality_E1 extends GModalityTRAr {
 		// first make the player, then the damager, the healer, the fairy, the
 		// money-maker, etc
 
-		odd = new ObjDamageDeliverE1(5000);
+		odd = new ObjDamageDeliverE1(6000);
 		odd.setTarget(p);
-		odd.setDamageAmount(75);
-		odd.setAccumulatedTimeElapsed(3000);
+		odd.setDamageAmount(125);
+		odd.setAccumulatedTimeElapsed(5999);
 		this.addGameObject(odd);
 
-//		odd = new ObjDamageDeliverE1(1750);
-//		odd.setTarget(p);
-//		odd.setDamageAmount(50);
-//		odd.setAccumulatedTimeElapsed(1500);
-//		this.addGameObject(odd);
+		odd = new ObjDamageDeliverE1(4000);
+		odd.setTarget(p);
+		odd.setDamageAmount(75);
+		odd.setAccumulatedTimeElapsed(3500);
+		this.addGameObject(odd);
+
 		equipmentName = "Plated Armor of Stonefying Skin";
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
 		System.out.println("\n\n equipping: " + equipmentName);
@@ -148,11 +150,20 @@ public class GModality_E1 extends GModalityTRAr {
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
 		p.equip(equip);
 
+		equipmentName = "Sunstone Ring";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		p.equip(equip);
+
+		equipmentName = "Triphane Ring";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		p.equip(equip);
+
 		System.out.println("GModalit_E1#onCreate .. quanti oggetti ho?");
 		this.forEachGameObject(o -> System.out.println(o));
 		System.out.println("and timed objects?");
 		gmodel.forEachTimedObject(o -> System.out.println(o));
 		System.out.println("timed objects ended\n\n");
+
 		gmodel.forEachObjHolder((gohname, goh) -> {
 			System.out.println("GOH " + gohname + " has: ");
 			goh.forEach(o -> System.out.println("\t - " + o));
@@ -160,7 +171,7 @@ public class GModality_E1 extends GModalityTRAr {
 		System.out.println("and then\n\n\n equipment set:");
 		p.getEquipmentSet().forEachEquipment((e, i) -> {
 			if (e != null)
-				System.out.println(e);
+				System.out.println(i + "-> " + e);
 		});
 		System.out.println("\n\n at the end, the player looks like:");
 		System.out.println(printerPlayer.getText());

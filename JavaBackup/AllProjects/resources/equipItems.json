@@ -382,6 +382,7 @@
 			{"attribute": "Strength", "value": 4},
 			{"attribute": "Constitution", "value": 4},
 			{"attribute": "Health", "value": 4},
+			{"attribute": "RigenLife", "value": 4},
 			{"attribute": "Defense", "value": 4}
 		],
 		"abilities": []
@@ -397,6 +398,7 @@
 			{"attribute": "Intelligence", "value": 4},
 			{"attribute": "Wisdom", "value": 4},
 			{"attribute": "Faith", "value": 4},
+			{"attribute": "RigenMana", "value": 4},
 			{"attribute": "Luck", "value": 1}
 		],
 		"abilities": []
@@ -437,7 +439,7 @@
 		"attributeMods": [
 			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Health", "value": -15},
-			{"attribute": "Defense", "value": 17},
+			{"attribute": "Defense", "value": 20},
 			{"attribute": "Dexterity", "value": -8},
 			{"attribute": "DamageReductionPhysical", "value": 3},
 			{"attribute": "DamageReductionMagical", "value": 3}
@@ -446,11 +448,11 @@
 	}, {
 		"name": "Belt with Limph-made Walled",
 		"type": "Belt",
+		"rarity": 3,
 		"sellPrice": [203],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"rarity": 3,
 		"attributeMods": [
 			{"attribute": "RigenLife", "value": 2}
 		],
@@ -458,11 +460,11 @@
 	}, {
 		"name": "Cloth Trousers",
 		"type": "Legs",
+		"rarity": 1,
 		"sellPrice": [64],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"rarity": 1,
 		"attributeMods": [
 			{"attribute": "LifeMax", "value": 20},
 			{"attribute": "Defense", "value": 8},
@@ -696,10 +698,219 @@
 			"width": 2, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Strength", "value": 8},
+			{"attribute": "Strength", "value": 6},
 			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Defense", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet of river stones",
+		"type": "Bracelet",
+		"rarity": 1,
+		"sellPrice": [17],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Wisdom", "value": 1},
+			{"attribute": "Faith", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet of animal bones",
+		"type": "Bracelet",
+		"rarity": 2,
+		"sellPrice": [22],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Constitution", "value": 4},
 			{"attribute": "Dexterity", "value": 6},
-			{"attribute": "Defense", "value": 2}
+			{"attribute": "Wisdom", "value": 3},
+			{"attribute": "Faith", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet of wolves teeth",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [35],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 7},
+			{"attribute": "Precision", "value": 8},
+			{"attribute": "Dexterity", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet of precious stones",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [42],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Intelligence", "value": 6},
+			{"attribute": "Wisdom", "value": 6},
+			{"attribute": "Faith", "value": 6}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet with metal bands",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [42],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 6},
+			{"attribute": "Constitution", "value": 6},
+			{"attribute": "Health", "value": 6}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet of runed woods",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [42],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 6},
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Precision", "value": 6}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet of flowers and leaves",
+		"type": "Bracelet",
+		"rarity": 2,
+		"sellPrice": [26],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 15},
+			{"attribute": "ManaMax", "value": 10},
+			{"attribute": "Health", "value": 3},
+			{"attribute": "Faith", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet gold plated",
+		"type": "Bracelet",
+		"rarity": 4,
+		"sellPrice": [222],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "DamageBonusMagical", "value": 5},
+			{"attribute": "DamageReductionMagical", "value": 7},
+			{"attribute": "Luck", "value": -5},
+			{"attribute": "Faith", "value": 8}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet silver plated",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [100],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "DamageBonusMagical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 3},
+			{"attribute": "Luck", "value": -2},
+			{"attribute": "Faith", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Belt with iron plates",
+		"type": "Belt",
+		"rarity": 2,
+		"sellPrice": [53],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 5},
+			{"attribute": "Constitution", "value": 7},
+			{"attribute": "Defense", "value": 10},
+			{"attribute": "Dexterity", "value": -4}
+		],
+		"abilities": []
+	}, {
+		"name": "String belt",
+		"type": "Belt",
+		"rarity": 1,
+		"sellPrice": [16],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2},
+		],
+		"abilities": []
+	}, {
+		"name": "Belt of the Warrior",
+		"type": "Belt",
+		"rarity": 3,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 8},
+			{"attribute": "Constitution", "value": 6},
+			{"attribute": "Health", "value": 4},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageBonusPhysical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Belt of the Druid",
+		"type": "Belt",
+		"rarity": 3,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "CriticalMultiplier", "value": 2},
+			{"attribute": "CriticalProbability", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Belt of the Bishop",
+		"type": "Belt",
+		"rarity": 3,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Wisdom", "value": 5},
+			{"attribute": "Faith", "value": 8},
+			{"attribute": "DamageReductionMagical", "value": 1},
+			{"attribute": "DamageBonusMagical", "value": 1}
 		],
 		"abilities": []
 	}

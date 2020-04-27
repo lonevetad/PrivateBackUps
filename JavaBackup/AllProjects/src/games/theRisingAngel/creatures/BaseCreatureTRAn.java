@@ -2,7 +2,9 @@ package games.theRisingAngel.creatures;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
+import games.generic.controlModel.misc.DamageTypeGeneric;
 import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
@@ -10,11 +12,12 @@ import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.events.EventsTRAr;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAr;
+import games.theRisingAngel.misc.DamageTypesTRAn;
 
-public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
+public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	private static final long serialVersionUID = -34551879021102L;
 
-	public BaseCreatureTRAr(GModalityRPG gModRPG, String name) {
+	public BaseCreatureTRAn(GModalityRPG gModRPG, String name) {
 		super(gModRPG, name);
 	}
 
@@ -36,6 +39,36 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 	@Override
 	public int getLifeRegenation() {
 		return this.getAttributes().getValue(AttributesTRAn.RigenLife.getIndex());
+	}
+
+	@Override
+	public int getProbabilityPerThousandAvoid(DamageTypeGeneric damageType) {
+		AttributeIdentifier ai;
+		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityAvoidPhysical
+				: AttributesTRAn.ProbabilityAvoidMagical;
+		return this.getAttributes().getValue(ai.getIndex())
+				+ this.getAttributes().getValue(AttributesTRAn.Luck.getIndex());
+	}
+
+	@Override
+	public int getProbabilityPerThousandHit(DamageTypeGeneric damageType) {
+		AttributeIdentifier ai;
+		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityHitPhysical
+				: AttributesTRAn.ProbabilityHitMagical;
+		return this.getAttributes().getValue(ai.getIndex())
+				+ this.getAttributes().getValue(AttributesTRAn.Luck.getIndex());
+	}
+
+	@Override
+	public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) {
+		return this.getAttributes().getValue(AttributesTRAn.CriticalProbability.getIndex())
+				+ this.getAttributes().getValue(AttributesTRAn.Luck.getIndex());
+	}
+
+	@Override
+	public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) {
+		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplier.getIndex())
+				+ (this.getAttributes().getValue(AttributesTRAn.Luck.getIndex()) >> 2);
 	}
 
 	//
@@ -79,5 +112,4 @@ public abstract class BaseCreatureTRAr extends BaseCreatureRPGImpl {
 		gei = (GEventInterfaceRPG) gmet.getEventInterface();
 		gei.fireDestructionObjectEvent((GModalityET) gm, this);
 	}
-
 }

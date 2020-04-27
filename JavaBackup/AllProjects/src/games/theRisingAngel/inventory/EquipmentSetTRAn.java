@@ -15,18 +15,21 @@ import games.generic.controlModel.inventoryAbil.EquipmentSet;
  * to that array all modifiers, wasting memory in almost-empty arrays, just
  * collect all statistic modifications.
  */
-public class EquipmentSetTRAr extends EquipmentSet {
+public class EquipmentSetTRAn extends EquipmentSet {
 
 	protected static final int firstIndexRings, firstIndexNecklace, firstIndexBracelets;
 	static {
 		firstIndexNecklace = EquipmentTypesTRAn.Necklace.ordinal();
 		firstIndexBracelets = firstIndexNecklace + EquipmentTypesTRAn.NECKLACE_AMOUNT;
 		firstIndexRings = firstIndexBracelets + EquipmentTypesTRAn.BRACELET_AMOUNT;
+//		System.out.println("firstIndexNecklace: " + firstIndexNecklace);
+//		System.out.println("firstIndexBracelets: " + firstIndexBracelets);
+//		System.out.println("firstIndexRings: " + firstIndexRings);
 	}
 
 	protected final EquipmentItem[] equippedItems;
 
-	public EquipmentSetTRAr() {
+	public EquipmentSetTRAn() {
 		equippedItems = new EquipmentItem[EquipmentTypesTRAn.TOTAL_AMOUNT_EQUIPMENTS_WEARABLES];
 	}
 

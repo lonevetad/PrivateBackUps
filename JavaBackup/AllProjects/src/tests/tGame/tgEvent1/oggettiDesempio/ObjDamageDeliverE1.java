@@ -2,15 +2,17 @@ package tests.tGame.tgEvent1.oggettiDesempio;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.misc.DamageGeneric;
+import games.generic.controlModel.misc.DamageTypeGeneric;
 import games.generic.controlModel.subimpl.TimedObjectSimpleImpl;
-import games.theRisingAngel.GameObjectsManagerTRAr;
-import games.theRisingAngel.misc.DamageTypesTRAr;
+import games.theRisingAngel.GameObjectsManagerTRAn;
+import games.theRisingAngel.misc.DamageTypesTRAn;
 import tests.tGame.tgEvent1.GModality_E1;
 import tools.UniqueIDProvider;
 
 // TODO fare con GUI e affini
-public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl {
+public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl, DamageDealerGeneric {
 	private static final long serialVersionUID = 4741714L;
 	static final int MILLIS_EACH__DAMAGE = 1500;
 	long timeElapsed, timeThreshold;
@@ -68,13 +70,33 @@ public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl {
 	@Override
 	public void executeAction(GModality modality) {
 		GModality_E1 gmodtrar;
-		GameObjectsManagerTRAr gomTrar;
+		GameObjectsManagerTRAn gomTrar;
 		DamageGeneric d;
-		d = new DamageGeneric(damageAmount, DamageTypesTRAr.Physical);
+		d = new DamageGeneric(damageAmount, DamageTypesTRAn.Physical);
 		System.out.println("Damage time" + c++);
 		gmodtrar = (GModality_E1) modality;
-		gomTrar = (GameObjectsManagerTRAr) gmodtrar.getGameObjectsManager();
+		gomTrar = (GameObjectsManagerTRAn) gmodtrar.getGameObjectsManager();
 		gomTrar.dealsDamageTo(this, target, d);
+	}
+
+	@Override
+	public String getName() {
+		return "Obj damage dealer";
+	}
+
+	@Override
+	public int getProbabilityPerThousandHit(DamageTypeGeneric damageType) {
+		return 250;
+	}
+
+	@Override
+	public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) {
+		return 0;
+	}
+
+	@Override
+	public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) {
+		return 0;
 	}
 
 //	public void act(GModality modality, long milliseconds) {

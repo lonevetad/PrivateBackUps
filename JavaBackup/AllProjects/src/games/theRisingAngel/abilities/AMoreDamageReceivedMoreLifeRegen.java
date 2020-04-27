@@ -12,7 +12,7 @@ import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingSingleAttributeRealTime;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.theRisingAngel.events.EventDamageTRAr;
+import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventsTRAr;
 import games.theRisingAngel.misc.AttributesTRAn;
 import tools.ObjectWithID;
@@ -94,10 +94,10 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingSingleAttr
 	public void notifyEvent(GModality modality, IGEvent ge) {
 		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
 			int d;
-			EventDamageTRAr<?> dEvent;
+			EventDamageTRAn dEvent;
 //			AttributeModification am;
 //			CreatureAttributes ca;
-			dEvent = (EventDamageTRAr<?>) ge;
+			dEvent = (EventDamageTRAn) ge;
 			if (dEvent.getTarget() ==
 			// check equality because it's bounded to the "wearer"
 			this.getEquipItem().getCreatureWearingEquipments() && //
@@ -124,7 +124,7 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingSingleAttr
 			CreatureAttributes ca) {
 		int v, t;
 		AttributeModification am;
-		am = this.getAttributesToModify()[0];
+		am = this.getAttributesToModify()[0]; // the first one == the only one
 		v = am.getValue();
 		if (v > 0) {
 			if (++ticks >= (1000 / AbilityModifyingSingleAttributeRealTime.MILLISEC_ATTRIBUTE_UPDATE))

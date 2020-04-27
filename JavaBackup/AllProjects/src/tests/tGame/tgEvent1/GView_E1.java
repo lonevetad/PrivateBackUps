@@ -16,7 +16,7 @@ import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.misc.GThread.GTRunnable;
 import games.generic.view.GameView;
 import games.theRisingAngel.misc.AttributesTRAn;
-import games.theRisingAngel.misc.CurrencySetTRAr;
+import games.theRisingAngel.misc.CurrencySetTRAn;
 
 public class GView_E1 extends GameView {
 
@@ -164,7 +164,7 @@ public class GView_E1 extends GameView {
 //			sb.append(AttributesTRAr.VALUES[i].name()).append("\t: ").append(ca.getValue(i)).append('\n');
 //		}
 //		jtaPlayerStats.setText(sb.toString());
-		jlMoneyValue.setText(Integer.toString(p.getCurrencies().getMoneyAmount(CurrencySetTRAr.BASE_CURRENCY_INDEX)));
+		jlMoneyValue.setText(Integer.toString(p.getCurrencies().getMoneyAmount(CurrencySetTRAn.BASE_CURRENCY_INDEX)));
 		n = AttributesTRAn.VALUES.length;
 		while (--n >= 0) {
 			jlPlayerStatValue[n].setText(Integer.toString(ca.getValue(n)));

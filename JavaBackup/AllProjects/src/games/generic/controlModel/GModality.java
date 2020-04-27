@@ -1,5 +1,6 @@
 package games.generic.controlModel;
 
+import java.util.Random;
 import java.util.function.Consumer;
 
 import games.generic.controlModel.misc.CurrencySet;
@@ -33,11 +34,12 @@ import tools.ObjectWithID;
  * <p>
  * Useful classes/interfaces used here:
  * <ul>
- * <li>{@link GameObjectsManager}</li>
+ * <li>{@link GameObjectsManager} to delegate most of the object's management
+ * (events, time progression, space and map, damage dealing and spawning)</li>
  * <li>{@link GameObjectsProvidersHolder}</li>
  * <li>{@link GThread}</li>
- * <li>{@link GameObjectsManager}</li>
- * <li>{@link GameObjectsManager}</li>
+ * <li>{@link PlayerGeneric}</li>
+ * <li>{@link GMap}</li>
  * </ul>
  */
 public abstract class GModality {
@@ -51,6 +53,7 @@ public abstract class GModality {
 	protected final GameObjectsProvidersHolder gameObjectsProviderHolder;
 	protected final GameObjectsManager gomDelegated;
 	protected GMap mapCurrent;
+	protected Random random;
 
 	public GModality(GController controller, String modalityName) {
 		this.controller = controller;
@@ -58,6 +61,7 @@ public abstract class GModality {
 		this.model = newGameModel();
 		this.gameObjectsProviderHolder = controller.getGObjProvidersHolderForGModality(this);
 		this.gomDelegated = newGameObjectsManager(); // ((GControllerRPG) controller).get; //
+		this.random = new Random();
 		onCreate();
 		// il game model deve avere anche l'holder dovuto dal "Misom"
 		assert this.getModel()
@@ -99,6 +103,10 @@ public abstract class GModality {
 
 	public GController getController() {
 		return controller;
+	}
+
+	public Random getRandom() {
+		return random;
 	}
 
 	public GModel getModel() {
@@ -144,6 +152,10 @@ public abstract class GModality {
 
 	public void setMapCurrent(GMap mapCurrent) {
 		this.mapCurrent = mapCurrent;
+	}
+
+	public void setRandomSeed(long seed) {
+		this.random.setSeed(seed);
 	}
 
 	//

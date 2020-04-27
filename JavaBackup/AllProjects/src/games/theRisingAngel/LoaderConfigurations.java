@@ -26,12 +26,12 @@ public class LoaderConfigurations extends LoaderGeneric {
 
 	@Override
 	public void loadInto(GController gc) {
-		GControllerTRAr gcTrar;
-		GameObjectsProvidersHolderTRAr gophTrar;
+		GControllerTRAn gcTrar;
+		GameObjectsProvidersHolderTRAn gophTrar;
 		GameOptions go;
 //		JSONParser jsonReader;
-		gcTrar = (GControllerTRAr) gc;
-		gophTrar = (GameObjectsProvidersHolderTRAr) gcTrar.getGameObjectsProvider();
+		gcTrar = (GControllerTRAn) gc;
+		gophTrar = (GameObjectsProvidersHolderTRAn) gcTrar.getGameObjectsProvider();
 //		jsonReader=new JSONParser(source, global, dualFields)
 		go = new GameOptions();
 		go.loadConfig();

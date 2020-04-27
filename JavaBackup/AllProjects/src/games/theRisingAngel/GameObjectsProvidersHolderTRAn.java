@@ -8,8 +8,8 @@ import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 
 // todoooo
 
-public class GameObjectsProvidersHolderTRAr extends GameObjectsProvidersHolderRPG {
-	public GameObjectsProvidersHolderTRAr() {
+public class GameObjectsProvidersHolderTRAn extends GameObjectsProvidersHolderRPG {
+	public GameObjectsProvidersHolderTRAn() {
 		super();
 	}
 
