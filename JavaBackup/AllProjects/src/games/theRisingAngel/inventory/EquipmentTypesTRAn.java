@@ -91,4 +91,19 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 		return VALUES[index];
 	}
 
+	public static int getAmountItemsEquippables(EquipmentTypesTRAn et) {
+		switch (et) {
+		case Necklace: {
+			return NECKLACE_AMOUNT;
+		}
+		case Bracelet: {
+			return BRACELET_AMOUNT;
+		}
+		case Ring: {
+			return TOTAL_RINGS_SLOTS_AMOUNT;
+		}
+		default:
+		}
+		return 1;
+	}
 }
