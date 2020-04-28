@@ -131,6 +131,8 @@ public class GModality_E1 extends GModalityTRAn {
 		odd.setAccumulatedTimeElapsed(3500);
 		this.addGameObject(odd);
 
+		//
+
 		equipmentName = "Plated Armor of Stonefying Skin";
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
 		System.out.println("\n\n equipping: " + equipmentName);
@@ -150,6 +152,10 @@ public class GModality_E1 extends GModalityTRAn {
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
 		p.equip(equip);
 
+		equipmentName = "Ring of rusted plate";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		p.equip(equip);
+
 		equipmentName = "Sunstone Ring";
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
 		p.equip(equip);
@@ -157,6 +163,18 @@ public class GModality_E1 extends GModalityTRAn {
 		equipmentName = "Triphane Ring";
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
 		p.equip(equip);
+
+		equipmentName = "Amazonite Ring";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		p.equip(equip);
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		p.equip(equip);
+		// second slot or hand
+		equipmentName = "Moonstone Ring";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		p.equip(equip);
+
+		//
 
 		System.out.println("GModalit_E1#onCreate .. quanti oggetti ho?");
 		this.forEachGameObject(o -> System.out.println(o));

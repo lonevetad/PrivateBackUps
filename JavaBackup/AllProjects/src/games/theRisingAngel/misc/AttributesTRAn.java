@@ -21,12 +21,14 @@ import tools.Comparators;
  * </ul>
  */
 public enum AttributesTRAn implements AttributeIdentifier {
+	// the following 9 are the base attributes
 	Strength, Constitution, Health, //
 	Defense, Dexterity, Precision, //
 	Intelligence, Wisdom, Faith,
 	//
+	Luck, //
 	LifeMax, ManaMax, RigenLife, RigenMana, //
-	Luck, Velocity,
+	Velocity,
 	//
 	DamageBonusPhysical, DamageReductionPhysical, //
 	ProbabilityHitPhysical, ProbabilityAvoidPhysical, //

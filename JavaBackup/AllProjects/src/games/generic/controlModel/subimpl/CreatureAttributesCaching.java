@@ -25,22 +25,27 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 
 	@Override
 	public int getValue(int index) {
+		boolean bcNotNull;
 		int v, i;
+		CreatureAttributesBonusesCalculator bc;
 		if (isCacheAvailable)
 			return this.cacheValues[index];
 		isCacheAvailable = true;
 		i = attributesCount;
-		while(--i >= 0) {// update the values
+		if (bcNotNull = (bc = this.bonusCalculator) != null)
+			bc.markCacheAsDirty();
+
+		while (--i >= 0) {// update the values
 			v = super.originalValues[i] + this.attributesModificationsApplied[i];
+			if (bcNotNull)
+				v += bc.getBonusForValue(i);
 			this.cacheValues[i] = v;
 		}
-		if (this.bonusCalculator != null) {
-			i = attributesCount;
-			v = 0;
-			while(--i >= 0) {// update the values
-				this.cacheValues[i] += this.bonusCalculator.getBonusForValue(i);
-			}
-		}
+//		if (bcNotNull) {
+//			i = attributesCount;
+//			while (--i >= 0) // update the values
+//				this.cacheValues[i] += bc.getBonusForValue(i);
+//		}
 		return this.cacheValues[index];
 	}
 

@@ -46,8 +46,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		AttributeIdentifier ai;
 		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityAvoidPhysical
 				: AttributesTRAn.ProbabilityAvoidMagical;
-		return this.getAttributes().getValue(ai.getIndex())
-				+ this.getAttributes().getValue(AttributesTRAn.Luck.getIndex());
+		return this.getAttributes().getValue(ai.getIndex());
 	}
 
 	@Override
@@ -55,20 +54,17 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		AttributeIdentifier ai;
 		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityHitPhysical
 				: AttributesTRAn.ProbabilityHitMagical;
-		return this.getAttributes().getValue(ai.getIndex())
-				+ this.getAttributes().getValue(AttributesTRAn.Luck.getIndex());
+		return this.getAttributes().getValue(ai.getIndex());
 	}
 
 	@Override
 	public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalProbability.getIndex())
-				+ this.getAttributes().getValue(AttributesTRAn.Luck.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.CriticalProbability.getIndex());
 	}
 
 	@Override
 	public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplier.getIndex())
-				+ (this.getAttributes().getValue(AttributesTRAn.Luck.getIndex()) >> 2);
+		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplier.getIndex());
 	}
 
 	//

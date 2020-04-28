@@ -1,5 +1,7 @@
 package games.theRisingAngel.inventory;
 
+import java.awt.Point;
+
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
@@ -27,15 +29,39 @@ public class EquipmentSetTRAn extends EquipmentSet {
 //		System.out.println("firstIndexRings: " + firstIndexRings);
 	}
 
+	protected boolean isNiceEquippingRings;
 	protected final EquipmentItem[] equippedItems;
 
 	public EquipmentSetTRAn() {
 		equippedItems = new EquipmentItem[EquipmentTypesTRAn.TOTAL_AMOUNT_EQUIPMENTS_WEARABLES];
+		this.isNiceEquippingRings = true;
 	}
 
 	@Override
 	public EquipmentItem[] getEquippedItems() {
 		return equippedItems;
+	}
+
+	/**
+	 * Configuration-like setting for setting the way to displace rings upon
+	 * equipping:
+	 * <ul>
+	 * <li><code>true</code>: rings are spread among fingers in a balanced way.</li>
+	 * <li><code>false</code>: Rings are clustered in the first finger
+	 * available</li>
+	 * </ul>
+	 */
+	public boolean isNiceEquippingRings() {
+		return isNiceEquippingRings;
+	}
+
+	@Override
+	public EquipmentItem getEquippedItemAt(int index) {
+		return equippedItems[index];
+	}
+
+	public void setNiceEquippingRings(boolean isNiceEquippingRings) {
+		this.isNiceEquippingRings = isNiceEquippingRings;
 	}
 
 	// TODO
@@ -94,6 +120,7 @@ public class EquipmentSetTRAn extends EquipmentSet {
 		equippedItems[index] = ei;
 		System.out.println("E_Set_TRAr at index " + index + " EQUIPPING " + ei.getName());
 		ei.setBelongingEquipmentSet(this);
+		ei.setLocationInInventory(new Point(index, index)); // just to use it in some way ...
 		ei.onEquip(gm);
 	}
 
@@ -102,7 +129,7 @@ public class EquipmentSetTRAn extends EquipmentSet {
 		int firstIndex;
 		firstIndex = index;
 		notAdded = true;
-		while(notAdded && equipItemSlotToCheck-- >= 0) {
+		while (notAdded && equipItemSlotToCheck-- >= 0) {
 			if (equippedItems[index] == null) {
 //				equippedItems[index] = ei;
 //				ei.setBelongingEquipmentSet(this);
@@ -119,65 +146,134 @@ public class EquipmentSetTRAn extends EquipmentSet {
 
 	protected void addRing(GModality gm, EIRing ring) {
 		boolean notAdded;
-		int s, i, fingersLeftToCheck, slotIndexMinimum;
+		int s, i, fingersRemainingToCheck, startingIndexSlot, maxIndexSlotToStart, k;
+		// cercare prima un posto libero
 		notAdded = true;
 		s = ring.getSlotFingerSize();
-//		lastAvailableIndex = firstIndexNecklace;
-		if (s == 1) {
-			// first check the first slots, then second slot (to distribute)
-			slotIndexMinimum = 0;
-			do {
-				fingersLeftToCheck = EquipmentTypesTRAn.TOTAL_FINGERS_AMOUNT;
-				i = firstIndexRings + slotIndexMinimum;
-//				while(notAdded && i <= lastAvailableIndex) {
-				while(notAdded && fingersLeftToCheck-- >= 0) {
-					if (equippedItems[i] == null) {
-						equipAt(gm, ring, i);
-						notAdded = false;
-					}
-					i += EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS; // jump to the next finger
-				}
-			} while(notAdded && ++slotIndexMinimum < EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS);
-			if (notAdded) {
-				swapEquipmentItem(gm, ring, equippedItems[firstIndexRings]);
-			}
-		} else { // >= 2
-			int maxIndexToCheck, k;
-			// cercare prima un posto libero
+		fingersRemainingToCheck = EquipmentTypesTRAn.TOTAL_FINGERS_AMOUNT;
+		startingIndexSlot = 0; // used as "starting slot
+		maxIndexSlotToStart = 1 + (EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS - s);
+		if (isNiceEquippingRings) {
 			// poi se fallisce, cercare le prime due dita con un solo anello
 			// se trovate, allora compattare ed inserire
 
 			// looks for the first finger having enough "place"
-			slotIndexMinimum = 0; // used as "starting slot
-			maxIndexToCheck = 1 + (EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS - s);
 			do {
-				fingersLeftToCheck = EquipmentTypesTRAn.TOTAL_FINGERS_AMOUNT;
-				i = firstIndexRings + slotIndexMinimum;
+				i = firstIndexRings + startingIndexSlot;
 //				while(notAdded && i <= lastAvailableIndex) {
-				while(notAdded && fingersLeftToCheck-- >= 0) {
+				while (notAdded && fingersRemainingToCheck-- >= 0) {
 					// check all slots, an amount of slots equal to th ring's size
 					k = 0;
-					while(equippedItems[i + k] == null && ++k < s)
+					while (equippedItems[i + k] == null && ++k < s)
 						;
-					if (k == maxIndexToCheck) { // found where to place the item
-						while(--k > 0) { // place the ring, ignore the 0: it's used in equipAt
+					if (k == s) { // found enough space for the ring, i.e. where to place the item
+						while (--k > 0) { // place the ring, ignore the 0: it's used in equipAt
 							equippedItems[i + k] = ring;
 						}
-						equipAt(gm, ring, i);
+						equipAt(gm, ring, i); // setting for "k==0" is performed here
 						notAdded = false;
 					}
 					i += EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS; // jump to the next finger
 				}
-			} while(notAdded && ++slotIndexMinimum < maxIndexToCheck);
+			} while (notAdded && ++startingIndexSlot < maxIndexSlotToStart);
+		} else {
+			int fingerIndex;
+			fingerIndex = 0;
+			i = firstIndexRings;
+			do {
+				// for each index, find the first available slot
+//				i = firstIndexRings + startingIndexSlot + (fingerIndex * EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS);
+				/*
+				 * find the first finger's index that, starting from that index, has enought
+				 * available slots
+				 */
+				/*
+				 * so, for each finger, find the first available index (i.e.: the first
+				 * non-filled finger)
+				 */
+				startingIndexSlot = 0;
+				while (equippedItems[i + startingIndexSlot] != null && ++startingIndexSlot < maxIndexSlotToStart)
+					;
+				if (startingIndexSlot < maxIndexSlotToStart) {
+					// found non-filled
+					k = 0;
+					// count the amount of available slot
+					while (equippedItems[i + startingIndexSlot + k] == null && ++k < s)
+						;
+					if (k == s) { // found enough space for the ring, i.e. where to place the item
+						while (--k > 0) { // place the ring, ignore the 0: it's used in equipAt
+							equippedItems[i + startingIndexSlot + k] = ring;
+						}
+						equipAt(gm, ring, i + startingIndexSlot); // setting for "k==0" is performed here
+						notAdded = false;
+					}
+				}
+				i += EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS; // jump to the next finger
+			} while (notAdded && ++fingerIndex < fingersRemainingToCheck);
 		}
 	}
+
+//	protected void addRing(GModality gm, EIRing ring) {
+//		boolean notAdded;
+//		int s, i, fingersRemainingToCheck, startingIndexSlot;
+//		notAdded = true;
+//		s = ring.getSlotFingerSize();
+////		lastAvailableIndex = firstIndexNecklace;
+//		if (s == 1) {
+//			// first check the first slots, then second slot (to distribute)
+//			startingIndexSlot = 0;
+//			do {
+//				fingersRemainingToCheck = EquipmentTypesTRAn.TOTAL_FINGERS_AMOUNT;
+//				i = firstIndexRings + startingIndexSlot;
+////				while(notAdded && i <= lastAvailableIndex) {
+//				while (notAdded && fingersRemainingToCheck-- >= 0) {
+//					if (equippedItems[i] == null) {
+//						equipAt(gm, ring, i);
+//						notAdded = false;
+//					}
+//					i += EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS; // jump to the next finger
+//				}
+//			} while (notAdded && ++startingIndexSlot < EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS);
+//			if (notAdded) {
+//				swapEquipmentItem(gm, ring, equippedItems[firstIndexRings]);
+//			}
+//		} else { // >= 2
+//			int maxIndexSlotToStart, k;
+//			// cercare prima un posto libero
+//			// poi se fallisce, cercare le prime due dita con un solo anello
+//			// se trovate, allora compattare ed inserire
+//
+//			// looks for the first finger having enough "place"
+//			startingIndexSlot = 0; // used as "starting slot
+//			maxIndexSlotToStart = 1 + (EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS - s);
+//			do {
+//				fingersRemainingToCheck = EquipmentTypesTRAn.TOTAL_FINGERS_AMOUNT;
+//				i = firstIndexRings + startingIndexSlot;
+////				while(notAdded && i <= lastAvailableIndex) {
+//				while (notAdded && fingersRemainingToCheck-- >= 0) {
+//					// check all slots, an amount of slots equal to th ring's size
+//					k = 0;
+//					while (equippedItems[i + k] == null && ++k < s)
+//						;
+//					if (k == s) { // found enought space for the ring, i.e. where to place the item
+//						while (--k > 0) { // place the ring, ignore the 0: it's used in equipAt
+//							equippedItems[i + k] = ring;
+//						}
+//						equipAt(gm, ring, i); // setting for "k==0" is performed here
+//						notAdded = false;
+//					}
+//					i += EquipmentTypesTRAn.RING_SLOTS_EACH_FINGERS; // jump to the next finger
+//				}
+//			} while (notAdded && ++startingIndexSlot < maxIndexSlotToStart);
+//		}
+//	}
 
 	@Override
 	public void forEachEquipment(ConsumerEquipmentIndex consumer) {
 		int i, n;
 		n = equippedItems.length;
 		i = -1;
-		while(++i < n) {
+		while (++i < n) {
 			consumer.apply(equippedItems[i], i);
 		}
 	}

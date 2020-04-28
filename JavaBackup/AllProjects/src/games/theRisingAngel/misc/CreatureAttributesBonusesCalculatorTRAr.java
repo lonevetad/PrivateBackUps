@@ -6,9 +6,15 @@ import games.theRisingAngel.GModalityTRAn;
 import tools.minorTools.RandomWeightedIndexes;
 
 /**
- * Bonuses are calculated this way
+ * Bonuses are calculated this way (and should rely only on "basic attributes"
+ * (luck may vary)
  * <ul>
- * <li>Every increments and reductions are integers. Fractions (call those
+ * <li>Every increments and reductions are integers. Fractions are computed
+ * away.</li>
+ * <li>EVERY probability and multipliers are considered as "per thousand" (i.e.:
+ * "%/10"), meaning that those values must be divided by 1000 or considered in a
+ * context where are added or subtracted to values are ranging in
+ * [-1000;1000]</li>
  * <li>CriticalProbability: it's meant as a "n/10 %" (i.e.: it's not a
  * "percentile" but "per thousand")</li>
  * <li>CriticalMultiplier: it should be divided by 10.0, at least (or 100)</li>
@@ -44,6 +50,8 @@ import tools.minorTools.RandomWeightedIndexes;
  */
 public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttributesBonusesCalculator {
 
+	protected boolean isCacheDirty;
+	protected int[] cache;
 	protected CreatureAttributes creatureAttributesSet;
 
 	@Override
@@ -53,111 +61,118 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 
 	@Override
 	public void setCreatureAttributesSet(CreatureAttributes creatureAttributesSet) {
+		int n, c[];
 		this.creatureAttributesSet = creatureAttributesSet;
 		if (creatureAttributesSet == null)
 			throw new IllegalArgumentException("Creaure Attribute Set is null");
+		c = cache = new int[n = creatureAttributesSet.getAttributesCount()];
+		while (n-- > 0)// clean memory
+			c[n] = 0;
+	}
+
+	@Override
+	public void markCacheAsDirty() {
+		isCacheDirty = true;
 	}
 
 	@Override
 	public int getBonusForValue(int index) {
-		int v;
-		AttributesTRAn a;
+		if (isCacheDirty)
+			recalculateCache();
+		return cache[index];
+	}
+
+	public void recalculateCache() {
 		CreatureAttributes c;
 		c = getCreatureAttributesSet();
 		if (c == null)
 			throw new IllegalStateException("Creaure Attribute Set is null");
-		a = AttributesTRAn.VALUES[index];
-//		v = super.getValue(index);
-		v = 0;
-		switch (a) {
-		case LifeMax:
-			v = c.getValue(AttributesTRAn.Constitution.getIndex())
-					+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Health.getIndex()) << 1);
-			break;
-		case RigenLife:
-			v = (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 3)
-					+ ((c.getValue(AttributesTRAn.Health.getIndex())) >> 2)
-					+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 4)
-					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 5)
-					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 5);
-			v >>= 1; // to high
-			break;
-		case DamageReductionPhysical:
-			v = (c.getValue(AttributesTRAn.Strength.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Defense.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10);
-			break;
-		case DamageBonusPhysical:
-			v = (c.getValue(AttributesTRAn.Strength.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAn.Precision.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 4);
-			break;
-		case ManaMax:
-			v = (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1) //
-					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()))
-					+ (c.getValue(AttributesTRAn.Faith.getIndex()) << 1);
-			v >>= 1; // too high, make it half
-			break;
-		case RigenMana:
-			v = (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2);
-			break;
-		case DamageBonusMagical:
-			v = (c.getValue(AttributesTRAn.Precision.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 3);
-			break;
-		case DamageReductionMagical:
-			v = (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Defense.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2);
-			break;
-		case CriticalMultiplier:
-			v = (c//
-					.getValue(AttributesTRAn.Strength.getIndex()) / 5)
-					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) / 10);
-//			v /= 10;
-			break;
-		case CriticalProbability:
-			v = (c.getValue(AttributesTRAn.Precision.getIndex()) / 5)
-					+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) / 10)
-					+ (c.getValue(AttributesTRAn.Faith.getIndex()) / 5);
-//			v /= 10;
-			break;
-		case ProbabilityHitPhysical:
-			v = (c.getValue(AttributesTRAn.Precision.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 2);
-			break;
-		case ProbabilityAvoidPhysical:
-			v = (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 1)
-					+ (c.getValue(AttributesTRAn.Precision.getIndex()) >> 2)
-					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3);
-			break;
-		case Velocity:
-			v = ((c.getValue(AttributesTRAn.Dexterity.getIndex()) << 1) / 5) //
-					+ ((c.getValue(AttributesTRAn.Constitution.getIndex()) << 1) / 15)
-					+ ((c.getValue(AttributesTRAn.Strength.getIndex()) << 1) / 15);
-			break;
-		case Luck:// TODO to be continued
-			v = +(c.getValue(AttributesTRAn.Health.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3)
-					+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 3);
-			break;
-		default:
-			v = 0;
-		}
-		return v;
+		isCacheDirty = false;
+		cache[AttributesTRAn.Luck.ordinal()] = // TODO to be continued
+//				+(c.getValue(AttributesTRAn.Health.getIndex()) >> 3)
+//						+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
+//						+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 3)
+//						+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3)
+//						+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 3);
+				(c.getValue(AttributesTRAn.Health.getIndex()) + c.getValue(AttributesTRAn.Wisdom.getIndex())
+						+ c.getValue(AttributesTRAn.Faith.getIndex()) + c.getValue(AttributesTRAn.Dexterity.getIndex())
+						+ c.getValue(AttributesTRAn.Intelligence.getIndex())) >> 3;
+
+		cache[AttributesTRAn.LifeMax.ordinal()] = c.getValue(AttributesTRAn.Constitution.getIndex())
+				+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 1)
+				+ (c.getValue(AttributesTRAn.Health.getIndex()) << 1);
+
+		cache[AttributesTRAn.RigenLife.ordinal()] = (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 3)
+				+ ((c.getValue(AttributesTRAn.Health.getIndex())) >> 2)
+				+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 4)
+				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 5)
+				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 5);
+//			v >>= 1; // to high
+
+		cache[AttributesTRAn.DamageReductionPhysical.ordinal()] = (c.getValue(AttributesTRAn.Strength.getIndex()) >> 2)
+				+ (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 1)
+				+ (c.getValue(AttributesTRAn.Defense.getIndex()) >> 1)
+				+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10);
+
+		cache[AttributesTRAn.DamageBonusPhysical.ordinal()] = (c.getValue(AttributesTRAn.Strength.getIndex()) >> 1)
+				+ (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 2)
+				+ (c.getValue(AttributesTRAn.Precision.getIndex()) / 10)
+				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) / 10)
+				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 4);
+
+		cache[AttributesTRAn.ManaMax.ordinal()] = (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1) //
+				+ (c.getValue(AttributesTRAn.Wisdom.getIndex())) + (c.getValue(AttributesTRAn.Faith.getIndex()) << 1);
+//			v >>= 1; // too high, make it half
+
+		cache[AttributesTRAn.RigenMana.ordinal()] = (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
+				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2);
+
+		cache[AttributesTRAn.DamageBonusMagical.ordinal()] = (c.getValue(AttributesTRAn.Precision.getIndex()) / 10)
+				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
+				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 2)
+				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 3);
+
+		cache[AttributesTRAn.DamageReductionMagical.ordinal()] = (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10)
+				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
+				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 1)
+				+ (c.getValue(AttributesTRAn.Defense.getIndex()) >> 2)
+				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2);
+
+		cache[AttributesTRAn.CriticalMultiplier.ordinal()] = (c.getValue(AttributesTRAn.Strength.getIndex()) << 1)
+				+ c.getValue(AttributesTRAn.Intelligence.getIndex()) + c.getValue(AttributesTRAn.Wisdom.getIndex())
+				+ c.getValue(AttributesTRAn.Luck.getIndex());
+
+		cache[AttributesTRAn.CriticalProbability.ordinal()] = //
+				((c.getValue(AttributesTRAn.Precision.getIndex()) << 1)
+						+ c.getValue(AttributesTRAn.Dexterity.getIndex()) + c.getValue(AttributesTRAn.Faith.getIndex())//
+						+ ((+c.getValue(AttributesTRAn.Intelligence.getIndex())
+								+ c.getValue(AttributesTRAn.Wisdom.getIndex())) >> 1)//
+				) + c.getValue(AttributesTRAn.Luck.getIndex());
+
+		cache[AttributesTRAn.ProbabilityHitPhysical.ordinal()] = //
+				c.getValue(AttributesTRAn.Precision.getIndex()) + (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 1)
+						+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 2)
+						+ c.getValue(AttributesTRAn.Luck.getIndex())
+						+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3);
+
+		cache[AttributesTRAn.ProbabilityAvoidPhysical.ordinal()] = c.getValue(AttributesTRAn.Dexterity.getIndex())
+				+ (c.getValue(AttributesTRAn.Precision.getIndex()) >> 1)
+				+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 2)
+				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3);
+
+		cache[AttributesTRAn.ProbabilityHitMagical.ordinal()] = //
+				c.getValue(AttributesTRAn.Wisdom.getIndex()) + (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
+						+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2)
+						+ c.getValue(AttributesTRAn.Luck.getIndex())
+						+ (c.getValue(AttributesTRAn.Precision.getIndex()) >> 3);
+
+		cache[AttributesTRAn.ProbabilityAvoidMagical.ordinal()] = c.getValue(AttributesTRAn.Intelligence.getIndex())
+				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 1)
+				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2)
+				+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 3);
+
+		cache[AttributesTRAn.Velocity.ordinal()] = ((c.getValue(AttributesTRAn.Dexterity.getIndex()) << 1) / 5) //
+				+ (((c.getValue(AttributesTRAn.Constitution.getIndex())
+						+ c.getValue(AttributesTRAn.Strength.getIndex())) << 1) / 15);
 	}
 }

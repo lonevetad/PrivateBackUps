@@ -376,7 +376,7 @@
 		"rarity": 3,
 		"sellPrice": [65],
 		"dimensInvent": {
-			"width": 1, "height": 1
+			"width": 2, "height": 1
 		},
 		"attributeMods": [
 			{"attribute": "Strength", "value": 4},
@@ -392,7 +392,7 @@
 		"rarity": 3,
 		"sellPrice": [65],
 		"dimensInvent": {
-			"width": 1, "height": 1
+			"width": 2, "height": 1
 		},
 		"attributeMods": [
 			{"attribute": "Intelligence", "value": 4},
@@ -911,6 +911,45 @@
 			{"attribute": "Faith", "value": 8},
 			{"attribute": "DamageReductionMagical", "value": 1},
 			{"attribute": "DamageBonusMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Earrings of little hunger",
+		"type": "Earrings",
+		"rarity": 2,
+		"sellPrice": [15],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Health", "value": -5},
+			{"attribute": "RigenLife", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Earrings of rusted plate",
+		"type": "Earrings",
+		"rarity": 1,
+		"sellPrice": [7],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Health", "value": 5},
+			{"attribute": "RigenLife", "value": -2}
+		],
+		"abilities": []
+	}, {
+		"name": "Ring of rusted plate",
+		"type": "Ring",
+		"rarity": 1,
+		"sellPrice": [7],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Health", "value": 5},
+			{"attribute": "RigenLife", "value": -2}
 		],
 		"abilities": []
 	}
