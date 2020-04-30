@@ -9,9 +9,9 @@ import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
-import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAr;
+import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
 
 public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
@@ -27,7 +27,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	protected CreatureAttributes newAttributes() {
 		CreatureAttributes ca;
 		ca = newAttributes(AttributesTRAn.VALUES.length);
-		ca.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAr());
+		ca.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAn());
 		return ca;
 	}
 
@@ -93,7 +93,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	@Override
 	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
-		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
+		return maybeDestructionEvent.getName() == EventsTRAn.Destroyed.getName();
 	}
 
 	// TODO FIRE EVENTS

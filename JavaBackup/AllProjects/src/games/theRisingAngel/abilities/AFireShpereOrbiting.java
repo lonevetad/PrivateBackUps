@@ -17,6 +17,7 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 
 	public AFireShpereOrbiting() {
 		super();
+		setRarityIndex(4);
 	}
 
 	protected EquipmentItem eqipItem; // related to this ability

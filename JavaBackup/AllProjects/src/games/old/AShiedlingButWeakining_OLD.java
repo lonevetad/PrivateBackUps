@@ -14,7 +14,7 @@ import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingAt
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.events.EventDamageTRAn;
-import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 import tools.ObjectWithID;
 
@@ -41,7 +41,7 @@ public class AShiedlingButWeakining_OLD extends AbilityModifyingAttributesRealTi
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(
 //				this.getAttributeToModify().getAttributeModified().getName()
-				EventsTRAr.DamageReceived.getName());
+				EventsTRAn.DamageReceived.getName());
 		ticks = 0;
 		timeThreshold = DURATION_EFFECT;
 		isAbilityActive = false;
@@ -101,7 +101,7 @@ public class AShiedlingButWeakining_OLD extends AbilityModifyingAttributesRealTi
 		EventDamageTRAn<?> dEvent;
 		BaseCreatureRPG creatureWearing;
 		CreatureAttributes cAttr;
-		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
+		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 			dEvent = (EventDamageTRAn<?>) ge;
 			if (dEvent.getTarget() ==
 			// check equality because it's bounded to the "wearer"

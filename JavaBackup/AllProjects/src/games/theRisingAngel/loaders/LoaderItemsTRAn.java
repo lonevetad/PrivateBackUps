@@ -36,7 +36,7 @@ public class LoaderItemsTRAn extends LoaderItems {
 
 	protected static class FactoryItems implements FactoryObjGModalityBased<InventoryItem> {
 		int rarity;
-		String name;
+		String name, description = "";
 		Dimension dimensionInInventory = null;
 		int[] price;
 		InventoryItemFactory inventoryItemFactory = null;
@@ -45,6 +45,7 @@ public class LoaderItemsTRAn extends LoaderItems {
 		public InventoryItem newInstance(GModality gm) {
 			InventoryItem ii;
 			ii = inventoryItemFactory.newItem(gm, name);
+			ii.setDescription(description);
 			this.setValues(gm, ii);
 			return ii;
 		}
@@ -59,7 +60,7 @@ public class LoaderItemsTRAn extends LoaderItems {
 				cs = gm.newCurrencyHolder();
 				cs.setGameModaliy(null); // not needed
 				n = price.length;
-				while(--n >= 0)
+				while (--n >= 0)
 					cs.setMoneyAmount(n, price[n]);
 				ii.setSellPrice(cs);
 			}

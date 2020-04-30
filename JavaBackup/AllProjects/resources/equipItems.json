@@ -952,5 +952,21 @@
 			{"attribute": "RigenLife", "value": -2}
 		],
 		"abilities": []
+	}, {
+		"name": "Gloves of the mad hunter",
+		"description": "Gloves belonged to a bloody madman, who always became crazy and frenzy if he cannot satisfy his cruelty upon missing the target.",
+		"type": "Hands",
+		"rarity": 3,
+		"sellPrice": [5],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Dexterity", "value": 2}
+		],
+		"abilities": ["Frenzy for a miss"]
 	}
 ]

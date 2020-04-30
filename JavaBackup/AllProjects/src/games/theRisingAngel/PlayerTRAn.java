@@ -10,7 +10,7 @@ import games.generic.controlModel.player.BasePlayerRPG;
 import games.generic.controlModel.player.ExperienceLevelHolderImpl;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.creatures.BaseCreatureTRAn;
-import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.inventory.EquipmentSetTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 
@@ -22,7 +22,7 @@ public class PlayerTRAn extends BaseCreatureTRAn implements BasePlayerRPG {
 		this.characterType = characterType;
 		this.attributePointsLeftToApply = 0;
 		this.eventsWatching = new ArrayList<>(2);
-		this.eventsWatching.add(EventsTRAr.Destroyed.getName());
+		this.eventsWatching.add(EventsTRAn.Destroyed.getName());
 		this.experienceLevelHolder = new ExperienceLevelHolderImpl();
 		this.setEquipmentSet(new EquipmentSetTRAn());
 	}

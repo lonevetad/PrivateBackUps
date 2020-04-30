@@ -16,7 +16,7 @@ import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.BasePlayerRPG;
 import games.theRisingAngel.events.EventDamageTRAn;
-import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
 import tools.ObjectWithID;
@@ -28,9 +28,10 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 	public ADamageReductionCurrencyBased(DamageTypesTRAn dt) {
 		super(AttributesTRAn.damageReductionByType(dt), NAME + dt.getName());
 		this.eventsWatching = new ArrayList<>(2);
-		this.eventsWatching.add(EventsTRAr.DamageReceived.getName());
+		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
 		perThousandFraction = 0;
 		maximumReduction = 0;
+		setRarityIndex(3);
 	}
 
 	protected int perThousandFraction, maximumReduction;
@@ -112,7 +113,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 		EventDamageTRAn ed;
 		BaseCreatureRPG c;
 		CurrencySet ch;
-		if (ge.getName() == EventsTRAr.DamageReceived.getName()) {
+		if (ge.getName() == EventsTRAn.DamageReceived.getName()) {
 			ed = (EventDamageTRAn) ge;
 //			damage = ed.getDamage();
 			c = (BaseCreatureRPG) ed.getTarget();

@@ -65,7 +65,7 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 			String[] splitted;
 			FactoryEquip fe;
 			factories = new LinkedList<>();
-			while(line.contains("{")) { // start of an equip, must start at the previous end if any
+			while (line.contains("{")) { // start of an equip, must start at the previous end if any
 				fe = new FactoryEquip();
 				do {
 					line = lr.next().trim();
@@ -77,6 +77,9 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 					switch (line) {
 					case "name":
 						fe.fi.name = LoaderGeneric.removeQuotes(splitted[1]);
+						break;
+					case "description":
+						fe.fi.description = LoaderGeneric.removeQuotes(splitted[1]);
 						break;
 					case "type":
 						fe.type = EquipmentTypesTRAn.getEquipTypeTRArByName(LoaderGeneric.removeQuotes(splitted[1]));
@@ -103,7 +106,7 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 						break;
 					}
 
-				} while(!line.contains("}")); // to the end
+				} while (!line.contains("}")); // to the end
 				factories.add(fe);
 			}
 		}

@@ -13,13 +13,13 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingAttributesRealTime;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.theRisingAngel.abilities.AShiedlingButWeakining;
+import games.theRisingAngel.abilities.AShieldingButWeakining;
 import games.theRisingAngel.events.EventDamageTRAn;
-import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 
 /**
- * See {@link AShiedlingButWeakining}.
+ * See {@link AShieldingButWeakining}.
  */
 public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealTime implements GEventObserver {
 	private static final long serialVersionUID = -5898625452208602145L;
@@ -32,7 +32,7 @@ public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealT
 	public AShiedlingButWeakining_OLD2() {
 		super(WHAT_TO_MODIFY, NAME);
 		this.eventsWatching = new ArrayList<>(2);
-		this.eventsWatching.add(EventsTRAr.DamageReceived.getName());
+		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
 		ticks = 0;
 		timeThreshold = DURATION_EFFECT;
 		isAbilityActive = false;
@@ -89,7 +89,7 @@ public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealT
 		BaseCreatureRPG creatureWearing;
 		CreatureAttributes cAttr;
 		AttributeModification am;
-		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
+		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 			dEvent = (EventDamageTRAn) ge;
 			if (dEvent.getTarget() ==
 			// check equality because it's bounded to the "wearer"

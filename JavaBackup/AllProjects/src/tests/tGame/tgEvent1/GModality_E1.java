@@ -66,6 +66,7 @@ public class GModality_E1 extends GModalityTRAn {
 		p.setName("Lonevetad");
 
 		this.setPlayer(p);
+		p.setLife((int) (p.getLife() * 1.5));
 		p.setGameModality(this);
 		p.getCurrencies().setMoneyAmount(0, 100);
 
@@ -122,14 +123,14 @@ public class GModality_E1 extends GModalityTRAn {
 		odd = new ObjDamageDeliverE1(6000);
 		odd.setTarget(p);
 		odd.setDamageAmount(125);
-		odd.setAccumulatedTimeElapsed(5999);
+		odd.setAccumulatedTimeElapsed(5000);
 		this.addGameObject(odd);
 
-		odd = new ObjDamageDeliverE1(4000);
-		odd.setTarget(p);
-		odd.setDamageAmount(75);
-		odd.setAccumulatedTimeElapsed(3500);
-		this.addGameObject(odd);
+//		odd = new ObjDamageDeliverE1(4000);
+//		odd.setTarget(p);
+//		odd.setDamageAmount(75);
+//		odd.setAccumulatedTimeElapsed(2500);
+//		this.addGameObject(odd);
 
 		//
 
@@ -171,6 +172,10 @@ public class GModality_E1 extends GModalityTRAn {
 		p.equip(equip);
 		// second slot or hand
 		equipmentName = "Moonstone Ring";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		p.equip(equip);
+
+		equipmentName = "Gloves of the mad hunter";
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
 		p.equip(equip);
 

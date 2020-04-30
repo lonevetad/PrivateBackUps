@@ -11,7 +11,7 @@ import games.generic.controlModel.gObj.CurrencyHolder;
 import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.EquipmentAbilityBaseImpl;
 import games.generic.controlModel.misc.CurrencySet;
-import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.EventsTRAn;
 import tools.ObjectWithID;
 
 /**
@@ -27,8 +27,9 @@ public class AHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl impl
 	public AHealingMakesEarnBaseCurrency() {
 		super();
 		this.eventsWatching = new ArrayList<>(2);
-		this.eventsWatching.add(EventsTRAr.HealReceived.getName());
+		this.eventsWatching.add(EventsTRAn.HealReceived.getName());
 		this.hasReceivedOddReneration = false;
+		setRarityIndex(4);
 	}
 
 	protected boolean hasReceivedOddReneration;
@@ -52,7 +53,7 @@ public class AHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl impl
 
 	@Override
 	public void notifyEvent(GModality modality, IGEvent ge) {
-		if (EventsTRAr.HealReceived.getName() == ge.getName()) {
+		if (EventsTRAn.HealReceived.getName() == ge.getName()) {
 			int amoutHealed;
 			EventHealing<?> eventHealing;
 			CurrencyHolder ch;

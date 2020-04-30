@@ -7,7 +7,7 @@ import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityAttributesM
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.events.EventDamageTRAn;
-import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 
 /**
@@ -24,7 +24,7 @@ import games.theRisingAngel.misc.AttributesTRAn;
  * <li>T = 2000 // milliseconds, for testing, 5000 on production</li>
  * </ul>
  */
-public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTime {
+public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTime {
 	private static final long serialVersionUID = -5898625452208602145L;
 	public static final boolean IS_TESTING = false;
 	public static final String NAME = "Stonefying Skin";
@@ -32,10 +32,11 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RigenLife,
 			AttributesTRAn.DamageReductionPhysical, AttributesTRAn.DamageReductionMagical };
 
-	public AShiedlingButWeakining() {
-		super(AttributeModification.newEmptyArray(WHAT_TO_MODIFY), NAME);
-		this.eventsWatching.add(EventsTRAr.DamageReceived.getName());
+	public AShieldingButWeakining() {
+		super(NAME, AttributeModification.newEmptyArray(WHAT_TO_MODIFY));
+		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
 		this.setCumulative(false);
+		setRarityIndex(2);
 	}
 
 //	public CreatureSimple getCreatureReferred() {return creatureReferred;}
@@ -70,7 +71,7 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 	@Override
 	protected boolean isAcceptableEvent(IGEvent ge) {
 		EventDamageTRAn dEvent;
-		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
+		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 			dEvent = (EventDamageTRAn) ge;
 			if (dEvent.getTarget() == this.getEquipItem().getCreatureWearingEquipments()
 					// check equality because it's bounded to the "wearer"
@@ -92,7 +93,6 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 		BaseCreatureRPG creatureWearing;
 		CreatureAttributes cAttr;
 		AttributeModification am;
-		System.out.println("shield weakening activated");
 		creatureWearing = this.getEquipItem().getCreatureWearingEquipments();
 		cAttr = creatureWearing.getAttributes();
 		// lifeRegenAmount = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); //
@@ -109,13 +109,7 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 
 	@Override
 	public void doUponAbilityStartsVanishing() {
-		System.out.println("start vanishing shield weakening");
-	}
-
-	@Override
-	public void doUponAbilityEffectEnds() {
-		System.out.println("effect ended shield weakening");
-		// nothing more than a simple reset (yet implemented elsewhere)
+		removeAndNullifyEffects();
 	}
 
 	@Override
@@ -126,6 +120,6 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 
 	@Override
 	public void doUponAbilityRefreshed() {
-		System.out.println("effect refreshed shield weakening");
+
 	}
 }

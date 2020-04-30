@@ -78,12 +78,14 @@ public interface EquipItemAbility extends AbilityGeneric {
 
 	/**
 	 * The opposite work of {@link #onEquip(GModality)}, stopping every acting work
-	 * AND resetting to the original state
+	 * AND resetting to the original state: it also calls
+	 * {@link #onRemoving(GModality)}.
 	 */
 	public default void onUnEquipping(GModality gm) {
 		if (gm == null)
 			return;
 		gm.removeGameObject(this);
+		onRemoving(gm);
 	}
 
 }

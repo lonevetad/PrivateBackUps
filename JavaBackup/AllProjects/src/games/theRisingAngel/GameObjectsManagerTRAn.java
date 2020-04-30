@@ -13,6 +13,7 @@ import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.DamageTypeGeneric;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GObjectsInSpaceManagerImpl;
+import games.theRisingAngel.events.GEventInterfaceTRAn;
 
 public class GameObjectsManagerTRAn implements GameObjectsManager {
 	public static final int THRESHOLD_PROBABILITY_BASE_TO_HIT = 75,
@@ -25,17 +26,17 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 		this.goism = new GObjectsInSpaceManagerImpl();
 	}
 
-	protected GModalityTRAn gmodalityTrar;
+	protected GModalityTRAn gmodalityTran;
 	protected GObjectsInSpaceManager goism;
 
 	@Override
 	public GModality getGameModality() {
-		return gmodalityTrar;
+		return gmodalityTran;
 	}
 
 	@Override
 	public void setGameModality(GModality gameModality) {
-		this.gmodalityTrar = (GModalityTRAn) gameModality;
+		this.gmodalityTran = (GModalityTRAn) gameModality;
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 
 	@Override
 	public GEventInterface getGEventInterface() {
-		return gmodalityTrar.getEventInterface();
+		return gmodalityTran.getEventInterface();
 	}
 
 	@Override
@@ -56,7 +57,7 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 	@Override
 	public void setGEventInterface(GEventInterface gei) {
 //		this.gei = (GEventInterfaceTRAr) gei;
-		gmodalityTrar.setEventInterface(gei);
+		gmodalityTran.setEventInterface(gei);
 	}
 
 	//
@@ -74,11 +75,9 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 		// consider source and target chances
 		thresholdToHitting = (THRESHOLD_PROBABILITY_BASE_TO_HIT_PER_THOUSAND
 				+ source.getProbabilityPerThousandHit(damageType)) - target.getProbabilityPerThousandAvoid(damageType);
-		System.out
-				.println("LLLLLLL damage tryes with r:" + r + " to overcome thresholdToHitting: " + thresholdToHitting);
+		gm = (GModalityET) getGameModality();
 		if (r <= thresholdToHitting) {
 //			GameObjectsManager.super.dealsDamageTo(source, target, damage);
-			gm = (GModalityET) getGameModality();
 			ed = this.getGEventInterface().fireDamageDealtEvent(gm, source, target, damage);
 //			update the damage amount
 			damage.setValue(ed.getDamageAmountToBeApplied());
@@ -98,6 +97,11 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 			}
 			// in the end, the damage is ready to be delivered
 			target.receiveDamage(gm, damage, source);
+		} else {
+			GEventInterfaceTRAn geiTran;
+			geiTran = (GEventInterfaceTRAn) this.getGEventInterface();
+			geiTran.fireDamageAvoidedEvent(gm, source, target, damage);
+			geiTran.fireDamageMissedEvent(gm, source, target, damage);
 		}
 	}
 }

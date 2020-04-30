@@ -48,7 +48,7 @@ import tools.minorTools.RandomWeightedIndexes;
  * <li></li>
  * </ul>
  */
-public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttributesBonusesCalculator {
+public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttributesBonusesCalculator {
 
 	protected boolean isCacheDirty;
 	protected int[] cache;
@@ -124,8 +124,10 @@ public class CreatureAttributesBonusesCalculatorTRAr implements CreatureAttribut
 				+ (c.getValue(AttributesTRAn.Wisdom.getIndex())) + (c.getValue(AttributesTRAn.Faith.getIndex()) << 1);
 //			v >>= 1; // too high, make it half
 
-		cache[AttributesTRAn.RigenMana.ordinal()] = (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
-				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2);
+		cache[AttributesTRAn.RigenMana.ordinal()] = (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2)
+				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
+				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 4)
+				+ (c.getValue(AttributesTRAn.Health.getIndex()) >> 5);
 
 		cache[AttributesTRAn.DamageBonusMagical.ordinal()] = (c.getValue(AttributesTRAn.Precision.getIndex()) / 10)
 				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
