@@ -25,10 +25,11 @@
 	}, {
 		"name": "Tempered",
 		"rarity": 3,
-		"bonusPrice": [60],
+		"bonusPrice": [56],
 		"modifiers": [
-			{"attribute": "Defense", "value": 10},
-			{"attribute": "Constitution", "value": 5}
+			{"attribute": "Defense", "value": 25},
+			{"attribute": "DamageReductionPhysical", "value": 15},
+			{"attribute": "DamageReductionMagical", "value": 15}
 		]
 	}, {
 		"name": "with Art Decorations",
@@ -79,8 +80,8 @@
 		"rarity": 3,
 		"bonusPrice": [6],
 		"modifiers": [
-			{"attribute": "ProbabilityAvoidPhysical", "value": 4},
-			{"attribute": "ProbabilityAvoidMagical", "value": 4}
+			{"attribute": "ProbabilityAvoidPhysical", "value": 40},
+			{"attribute": "ProbabilityAvoidMagical", "value": 40}
 		]
 	}, {
 		"name": "Warm",
@@ -171,8 +172,8 @@
 			{"attribute": "Precision", "value": 6},
 			{"attribute": "Dexterity", "value": 7},
 			{"attribute": "Velocity", "value": 5},
-			{"attribute": "ProbabilityHitPhysical", "value": 10},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 5}
+			{"attribute": "ProbabilityHitPhysical", "value": 100},
+			{"attribute": "ProbabilityAvoidPhysical", "value": 50}
 		]
 	}, {
 		"name": "of Thief",
@@ -182,8 +183,8 @@
 			{"attribute": "Strength", "value": 3},
 			{"attribute": "Dexterity", "value": 7},
 			{"attribute": "Intelligence", "value": 5},
-			{"attribute": "ProbabilityHitPhysical", "value": 5},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 10}
+			{"attribute": "ProbabilityHitPhysical", "value": 50},
+			{"attribute": "ProbabilityAvoidPhysical", "value": 100}
 		]
 	}, {
 		"name": "of Fanatic",
@@ -194,7 +195,7 @@
 			{"attribute": "Faith", "value": 16},
 			{"attribute": "Intelligence", "value": -7},
 			{"attribute": "DamageBonusPhysical", "value": 5},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -7}
+			{"attribute": "ProbabilityAvoidPhysical", "value": -70}
 		]
 	}, {
 		"name": "of Explorer",
@@ -204,7 +205,7 @@
 			{"attribute": "Strength", "value": 6},
 			{"attribute": "Wisdom", "value": 10},
 			{"attribute": "Dexterity", "value": 7},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 5}
+			{"attribute": "ProbabilityAvoidPhysical", "value": 50}
 		]
 	}, {
 		"name": "of Thrull",
@@ -216,10 +217,10 @@
 			{"attribute": "Strength", "value": 8},
 			{"attribute": "Constitution", "value": 8},
 			{"attribute": "Defense", "value": 10},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -5}
+			{"attribute": "ProbabilityAvoidPhysical", "value": -50}
 		]
 	}, {
-		"name": "heavily-plated",
+		"name": "Heavily-plated",
 		"rarity": 2,
 		"bonusPrice": [12],
 		"modifiers": [
@@ -228,7 +229,7 @@
 			{"attribute": "Dexterity", "value": -8}
 		]
 	}, {
-		"name": "leaves adorned",
+		"name": "Leaves adorned",
 		"rarity": 2,
 		"bonusPrice": [8],
 		"modifiers": [
@@ -236,7 +237,7 @@
 			{"attribute": "Dexterity", "value": 6}
 		]
 	}, {
-		"name": "used ",
+		"name": "Used ",
 		"rarity": 1,
 		"bonusPrice": [-8],
 		"modifiers": [
@@ -244,15 +245,42 @@
 			{"attribute": "Defense", "value": -3}
 		]
 	}, {
-		"name": "poor",
+		"name": "Ruined",
 		"rarity": 2,
-		"bonusPrice": [8],
+		"bonusPrice": [-8],
 		"modifiers": [
 			{"attribute": "Defense", "value": -2},
-			{"attribute": "Faith", "value": -2}
+			{"attribute": "Faith", "value": -2},
+			{"attribute": "Dexterity", "value": -2}
 		]
 	}, {
-		"name": "rusted",
+		"name": "Poor",
+		"rarity": 1,
+		"bonusPrice": [-5],
+		"modifiers": [
+			{"attribute": "Defense", "value": -2}
+		]
+	}, {
+		"name": "Rough",
+		"rarity": 1,
+		"bonusPrice": [-5],
+		"modifiers": [
+			{"attribute": "Precision", "value": -1},
+			{"attribute": "Dexterity", "value": -1},
+			{"attribute": "Strength", "value": -1},
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Defense", "value": 1}
+		]
+	}, {
+		"name": "Worn-out",
+		"rarity": 2,
+		"bonusPrice": [-13],
+		"modifiers": [
+			{"attribute": "Defense", "value": -2},
+			{"attribute": "Precision", "value": -2}
+		]
+	}, {
+		"name": "Rusted",
 		"rarity": 3,
 		"bonusPrice": [-20],
 		"modifiers": [
@@ -263,7 +291,47 @@
 			{"attribute": "Faith", "value": -4}
 		]
 	}, {
-		"name": "bended",
+		"name": "Stinging",
+		"rarity": 2,
+		"bonusPrice": [6],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": -7},
+			{"attribute": "Defense", "value": -3},
+			{"attribute": "Constitution", "value": -2},
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "CriticalMultiplier", "value": 5}
+		]
+	}, {
+		"name": "Broken",
+		"rarity": 2,
+		"bonusPrice": [-22],
+		"modifiers": [
+			{"attribute": "Defense", "value": -5},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Strength", "value": -3},
+			{"attribute": "CriticalMultiplier", "value": 10}
+		]
+	}, {
+		"name": "Fragile",
+		"rarity": 2,
+		"bonusPrice": [-18],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Strength", "value": -2}
+		]
+	}, {
+		"name": "Thinner",
+		"rarity": 1,
+		"bonusPrice": [-2],
+		"modifiers": [
+			{"attribute": "DamageBonusPhysical", "value": -2},
+			{"attribute": "DamageBonusMagical", "value": -2},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 2}
+		]
+	}, {
+		"name": "Bended",
 		"rarity": 1,
 		"bonusPrice": [-7],
 		"modifiers": [
@@ -272,13 +340,31 @@
 			{"attribute": "Dexterity", "value": -3}
 		]
 	}, {
-		"name": "well-balanced",
+		"name": "Well-balanced",
 		"rarity": 3,
 		"bonusPrice": [36],
 		"modifiers": [
 			{"attribute": "Constitution", "value": 4},
 			{"attribute": "Precision", "value": 6},
 			{"attribute": "Dexterity", "value": 8}
+		]
+	}, {
+		"name": "Sharp",
+		"rarity": 2,
+		"bonusPrice": [26],
+		"modifiers": [
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageBonusMagical", "value": 2},
+			{"attribute": "CriticalMultiplier", "value": 7}
+		]
+	}, {
+		"name": "Well-sharpened",
+		"rarity": 3,
+		"bonusPrice": [35],
+		"modifiers": [
+			{"attribute": "DamageBonusPhysical", "value": 5},
+			{"attribute": "DamageBonusMagical", "value": 5},
+			{"attribute": "CriticalMultiplier", "value": 16}
 		]
 	}, {
 		"name": "Leather stuffed",
@@ -317,6 +403,18 @@
 			{"attribute": "Dexterity", "value": -10}
 		]
 	}, {
+		"name": "of Hero",
+		"rarity": 4,
+		"bonusPrice": [47],
+		"modifiers": [
+			{"attribute": "Strength", "value": 22},
+			{"attribute": "Precision", "value": 8},
+			{"attribute": "Dexterity", "value": 8},
+			{"attribute": "DamageBonusPhysical", "value": 7},
+			{"attribute": "DamageBonusMagical", "value": 7},
+			{"attribute": "CriticalMultiplier", "value": 25}
+		]
+	}, {
 		"name": "of Hermit",
 		"rarity": 4,
 		"bonusPrice": [50],
@@ -329,6 +427,17 @@
 			{"attribute": "Constitution", "value": 10},
 			{"attribute": "Wisdom", "value": 10},
 			{"attribute": "Faith", "value": 5}
+		]
+	}, {
+		"name": "of Archer",
+		"rarity": 2,
+		"bonusPrice": [23],
+		"modifiers": [
+			{"attribute": "Precision", "value": 20},
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "ProbabilityHitPhysical", "value": 50},
+			{"attribute": "ProbabilityHitMagical", "value": 50},
+			{"attribute": "CriticalProbability", "value": 50}
 		]
 	}, {
 		"name": "of Wizard",
@@ -344,8 +453,8 @@
 			{"attribute": "Dexterity", "value": -4},
 			{"attribute": "DamageBonusMagical", "value": 3},
 			{"attribute": "DamageReductionMagical", "value": 2},
-			{"attribute": "ProbabilityHitMagical", "value": 5},
-			{"attribute": "ProbabilityAvoidMagical", "value": 5}
+			{"attribute": "ProbabilityHitMagical", "value": 50},
+			{"attribute": "ProbabilityAvoidMagical", "value": 50}
 		]
 	}, {
 		"name": "of Druid",
@@ -359,8 +468,8 @@
 			{"attribute": "Strength", "value": -4},
 			{"attribute": "Health", "value": 3},
 			{"attribute": "CriticalProbability", "value": 3},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 3},
-			{"attribute": "ProbabilityAvoidMagical", "value": 7}
+			{"attribute": "ProbabilityAvoidPhysical", "value": 30},
+			{"attribute": "ProbabilityAvoidMagical", "value": 70}
 		]
 	}, {
 		"name": "of Knight",
@@ -370,7 +479,7 @@
 			{"attribute": "Strength", "value": 10},
 			{"attribute": "Constitution", "value": 7},
 			{"attribute": "Defense", "value": 6},
-			{"attribute": "ProbabilityHitPhysical", "value": 5},
+			{"attribute": "ProbabilityHitPhysical", "value": 50},
 			{"attribute": "DamageBonusPhysical", "value": 3}
 		]
 	}, {
@@ -453,10 +562,10 @@
 			{"attribute": "DamageBonusPhysical", "value": 2},
 			{"attribute": "DamageBonusMagical", "value": 7},
 			{"attribute": "CriticalMultiplier", "value": 15},
-			{"attribute": "ProbabilityHitPhysical", "value": 5},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -10},
-			{"attribute": "ProbabilityHitMagical", "value": 5},
-			{"attribute": "ProbabilityAvoidMagical", "value": -10}
+			{"attribute": "ProbabilityHitPhysical", "value": 50},
+			{"attribute": "ProbabilityAvoidPhysical", "value": -100},
+			{"attribute": "ProbabilityHitMagical", "value": 50},
+			{"attribute": "ProbabilityAvoidMagical", "value": -100}
 		]
 	}, {
 		"name": "Cursed",
