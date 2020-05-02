@@ -42,4 +42,12 @@ public class EventDamage extends EventInfo_SourceToTarget<DamageDealerGeneric, L
 	public boolean isRequirigImmediateProcessing() {
 		return true;
 	}
+
+	public boolean isSource(DamageDealerGeneric ddg) {
+		return super.source == ddg;
+	}
+
+	public boolean isTarget(LivingObject ddg) {
+		return super.target == ddg;
+	}
 }

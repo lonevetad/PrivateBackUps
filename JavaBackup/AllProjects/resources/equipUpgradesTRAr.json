@@ -594,5 +594,267 @@
 			{"attribute": "DamageBonusPhysical", "value": 5},
 			{"attribute": "CriticalMultiplier", "value": 10}
 		]
+	}, {
+		"name": "of Farmer",
+		"rarity": 1,
+		"bonusPrice": [6],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": -10},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 8},
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Health", "value": 6},
+			{"attribute": "LifeMax", "value": -35}
+		]
+	}, {
+		"name": "of King",
+		"rarity": 4,
+		"bonusPrice": [120],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 7},
+			{"attribute": "Wisdom", "value": 15},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Health", "value": -8},
+			{"attribute": "ProbabilityHitPhysical", "value": 60},
+			{"attribute": "ProbabilityHitMagical", "value": 60}
+		]
+	}, {
+		"name": "of Drunk",
+		"rarity": 2,
+		"bonusPrice": [-8],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "Precision", "value": -10},
+			{"attribute": "Strength", "value": 6},
+			{"attribute": "Constitution", "value": -8},
+			{"attribute": "Health", "value": -5},
+			{"attribute": "Intelligence", "value": -10},
+			{"attribute": "Wisdom", "value": -15},
+			{"attribute": "Faith", "value": 20},
+			{"attribute": "DamageBonusPhysical", "value": -3},
+			{"attribute": "DamageBonusMagical", "value": -3},
+			{"attribute": "ProbabilityAvoidPhysical", "value": 80},
+			{"attribute": "ProbabilityAvoidMagical", "value": 80}
+		]
+	}, {
+		"name": "of Farmer",
+		"rarity": 1,
+		"bonusPrice": [6],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": -10},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 8},
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Health", "value": 6},
+			{"attribute": "LifeMax", "value": -35}
+		]
+	}, {
+		"name": "of Training",
+		"rarity": 1,
+		"bonusPrice": [7],
+		"modifiers": [
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Intelligence", "value": 3}
+		]
+	}, {
+		"name": "Ancient",
+		"rarity": 2,
+		"bonusPrice": [48],
+		"modifiers": [
+			{"attribute": "Wisdom", "value": 6}
+		]
+	}, {
+		"name": "of Runner",
+		"rarity": 1,
+		"bonusPrice": [3],
+		"modifiers": [
+			{"attribute": "Velocity", "value": 20}
+		]
+	}, {
+		"name": "of Relax",
+		"rarity": 1,
+		"bonusPrice": [5],
+		"modifiers": [
+			{"attribute": "Strength", "value": 1},
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Defense", "value": 1},
+			{"attribute": "Dexterity", "value": 1},
+			{"attribute": "Precision", "value": 1},
+			{"attribute": "Intelligence", "value": 1},
+			{"attribute": "Wisdom", "value": 1},
+			{"attribute": "Faith", "value": 1}
+		]
+	}, {
+		"name": "of Equilibrium",
+		"rarity": 3,
+		"bonusPrice": [38],
+		"modifiers": [
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Health", "value": 4},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 4},
+			{"attribute": "Intelligence", "value": 4},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 4}
+		]
+	}, {
+		"name": "of Happiness and Gratification",
+		"rarity": 4,
+		"bonusPrice": [100],
+		"modifiers": [
+			{"attribute": "Strength", "value": 7},
+			{"attribute": "Constitution", "value": 7},
+			{"attribute": "Health", "value": 7},
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "Intelligence", "value": 7},
+			{"attribute": "Wisdom", "value": 7},
+			{"attribute": "Faith", "value": 7}
+		]
+	}, {
+		"name": "of Inspiration",
+		"rarity": 1,
+		"bonusPrice": [10],
+		"modifiers": [
+			{"attribute": "Faith", "value": 8},
+			{"attribute": "Luck", "value": 6}
+		]
+	}, {
+		"name": "of Sadness",
+		"rarity": 2,
+		"bonusPrice": [-24],
+		"modifiers": [
+			{"attribute": "Strength", "value": -2},
+			{"attribute": "Constitution", "value": -2},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "Defense", "value": -2},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Intelligence", "value": -2},
+			{"attribute": "Wisdom", "value": -2},
+			{"attribute": "Faith", "value": -2}
+		]
+	}, {
+		"name": "of Depression",
+		"rarity": 3,
+		"bonusPrice": [-47],
+		"modifiers": [
+			{"attribute": "Strength", "value": -4},
+			{"attribute": "Constitution", "value": -4},
+			{"attribute": "Health", "value": -4},
+			{"attribute": "Defense", "value": -4},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Precision", "value": -4},
+			{"attribute": "Intelligence", "value": -4},
+			{"attribute": "Wisdom", "value": -4},
+			{"attribute": "Faith", "value": -4}
+		]
+	}, {
+		"name": "With a written story",
+		"rarity": 2,
+		"bonusPrice": [10],
+		"modifiers": [
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Intelligence", "value": 2}
+		]
+	}, {
+		"name": "of the Wind",
+		"rarity": 2,
+		"bonusPrice": [14],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": 13},
+			{"attribute": "Defense", "value": 6},
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "Velocity", "value": 20}
+		]
+	}, {
+		"name": "of Gem-cutter",
+		"rarity": 3,
+		"bonusPrice": [40],
+		"modifiers": [
+			{"attribute": "Precision", "value": 15},
+			{"attribute": "Faith", "value": 6},
+			{"attribute": "Luck", "value": 8}
+		]
+	}, {
+		"name": "with Good Senses",
+		"rarity": 3,
+		"bonusPrice": [35],
+		"modifiers": [
+			{"attribute": "ProbabilityHitPhysical", "value": 50},
+			{"attribute": "ProbabilityAvoidPhysical", "value": 50},
+			{"attribute": "ProbabilityHitMagical", "value": 50},
+			{"attribute": "ProbabilityAvoidMagical", "value": 50},
+			{"attribute": "CriticalProbability", "value": 50},
+			{"attribute": "Precision", "value": 15},
+			{"attribute": "Dexterity", "value": 15}
+		]
+	}, {
+		"name": "of Sensitive",
+		"rarity": 3,
+		"bonusPrice": [35],
+		"modifiers": [
+			{"attribute": "RigenLife", "value": -5},
+			{"attribute": "RigenMana", "value": -5},
+			{"attribute": "LifeMax", "value": -20},
+			{"attribute": "ManaMax", "value": -20},
+			{"attribute": "Luck", "value": 10},
+			{"attribute": "Dexterity", "value": 10},
+			{"attribute": "Precision", "value": 5},
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Wisdom", "value": 5},
+			{"attribute": "Faith", "value": 20},
+			{"attribute": "ProbabilityAvoidPhysical", "value": 50},
+			{"attribute": "ProbabilityAvoidMagical", "value": 50}
+		]
+	}, {
+		"name": "of Tireness",
+		"rarity": 2,
+		"bonusPrice": [-35],
+		"modifiers": [
+			{"attribute": "Strength", "value": -3},
+			{"attribute": "Constitution", "value": -3},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Defense", "value": -3},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Intelligence", "value": -3},
+			{"attribute": "Wisdom", "value": -3},
+			{"attribute": "Faith", "value": 10},
+			{"attribute": "ProbabilityAvoidPhysical", "value":30},
+			{"attribute": "ProbabilityAvoidMagical", "value": 30}
+		]
+	}, {
+		"name": "Dark Thefth",
+		"rarity": 1,
+		"bonusPrice": [7],
+		"modifiers": [
+			{"attribute": "LifeLeechPercentage", "value": 5},
+			{"attribute": "ManaLeechPercentage", "value": 2}
+		]
+	}, {
+		"name": "of Void Siphoning",
+		"rarity": 3,
+		"bonusPrice": [44],
+		"modifiers": [
+			{"attribute": "LifeLeechPercentage", "value": 15},
+			{"attribute": "ManaLeechPercentage", "value": 7}
+		]
+	}, {
+		"name": "of the Bloodgus",
+		"rarity": 3,
+		"bonusPrice": [27],
+		"modifiers": [
+			{"attribute": "LifeLeechPercentage", "value": 25},
+			{"attribute": "LifeMax", "value": 100},
+			{"attribute": "RigenLife", "value": -15}
+		]
 	}
 ]

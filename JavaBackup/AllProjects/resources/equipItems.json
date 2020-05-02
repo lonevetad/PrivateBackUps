@@ -968,5 +968,24 @@
 			{"attribute": "Dexterity", "value": 2}
 		],
 		"abilities": ["Frenzy for a miss"]
+	}, {
+		"name": "Necklace of devoted vampire",
+		"type": "Necklace",
+		"rarity": 3,
+		"sellPrice": [76],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "LifeLeechPercentage", "value": 10},
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "Luck", "value": -3},
+			{"attribute": "Constitution", "value": -12},
+			{"attribute": "Strength", "value": -4}
+		],
+		"abilities": ["Bloodlust"]
 	}
+	
+	
 ]
