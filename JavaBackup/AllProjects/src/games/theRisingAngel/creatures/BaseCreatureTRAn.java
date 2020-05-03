@@ -2,6 +2,7 @@ package games.theRisingAngel.creatures;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.DamageTypeGeneric;
@@ -10,6 +11,7 @@ import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.events.EventsTRAn;
+import games.theRisingAngel.inventory.EquipmentSetTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
@@ -19,6 +21,8 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	public BaseCreatureTRAn(GModalityRPG gModRPG, String name) {
 		super(gModRPG, name);
+		this.equipmentSet = newEquipmentSet();
+		this.equipmentSet.setCreatureWearingEquipments(this);
 	}
 
 	//
@@ -29,6 +33,11 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		ca = newAttributes(AttributesTRAn.VALUES.length);
 		ca.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAn());
 		return ca;
+	}
+
+	@Override
+	public EquipmentSet newEquipmentSet() {
+		return new EquipmentSetTRAn();
 	}
 
 	@Override

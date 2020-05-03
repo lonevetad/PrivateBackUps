@@ -1,4 +1,19 @@
 TODO:
+aggiunto nel 03/05/2020
+1) due abilità:
+- - "Shielding the Temple": "perdi prima il mana, poi la vita"
+	ossia è unGEventObserver che, come riceve danno, fa scalare sia l'ammontare del danno sia il mana per il valore minimo tra i due
+	dare una priorità (definita come costante statica) di almeno 1
+- - "Essence insofference":
+	simile a quella sopra
+	int[DamageTypesTRAn.values().length] di contatori, inizializzati ad N (es: 100) e quando ricevono un danno, scalano quel contatore
+		"assorbendo" il danno prima che vada a far diminuire la vita
+	dare una priorità di 1 maggiore a quella sopra (usando sempre le costanti statiche)
+	
+
+
+
+TODO:
 aggiunto nel 27/04/2020
 aggiungere metodo per il drop randomico degli oggetti (magari in parallelo e con un GThread a parte)
 

@@ -11,4 +11,18 @@ public interface EquipmentsHolder extends GModalityHolder {
 	 * {@link EquipmentSet#setCreatureWearingEquipments(BaseCreatureRPG)}
 	 */
 	public void setEquipmentSet(EquipmentSet equips);
+
+	//
+
+	public EquipmentSet newEquipmentSet();
+
+	//
+
+	public default void equip(EquipmentItem equipment) {
+		EquipmentSet es;
+		es = this.getEquipmentSet();
+		if (es != null) {
+			es.addEquipmentItem(getGameModality(), equipment);
+		}
+	}
 }

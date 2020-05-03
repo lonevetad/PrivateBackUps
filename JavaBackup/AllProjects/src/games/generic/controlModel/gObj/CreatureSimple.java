@@ -24,8 +24,9 @@ import tools.ObjectNamedID;
  * randomly</li>
  * </ol>
  */
-public interface CreatureSimple extends AttributesHolder, LivingObject, MovingObject, DamageDealerGeneric, RarityHolder,
-		GModalityHolder, ObjectNamedID {
+public interface CreatureSimple
+		extends AttributesHolder, LivingObject, MovingObject, DamageDealerGeneric, AbilitiesHolder, //
+		RarityHolder, GModalityHolder, ObjectNamedID {
 
 	public static final int TICKS_PER_SECONDS = 4, LOG_TICKS_PER_SECONDS = 2;
 	public static final int MILLIS_REGEN_LIFE_MANA = 1000 / TICKS_PER_SECONDS;
@@ -35,7 +36,7 @@ public interface CreatureSimple extends AttributesHolder, LivingObject, MovingOb
 		return 0;
 	}
 
-	public int getTicks();
+	public int getTicksHealing();
 
 	public int getAccumulatedTimeLifeRegen();
 
@@ -56,7 +57,7 @@ public interface CreatureSimple extends AttributesHolder, LivingObject, MovingOb
 		int temp;
 		GModality gm;
 		gm = getGameModality();
-		temp = getTicks() + 1;
+		temp = getTicksHealing() + 1;
 		if (temp >= TICKS_PER_SECONDS) {
 			setTicks(0);
 			temp = getLifeRegenation();
