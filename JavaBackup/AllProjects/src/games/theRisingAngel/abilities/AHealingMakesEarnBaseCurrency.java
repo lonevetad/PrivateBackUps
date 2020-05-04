@@ -23,13 +23,14 @@ import tools.ObjectWithID;
 public class AHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl implements GEventObserver {
 	private static final long serialVersionUID = -5898625452208602147L;
 	public static final String NAME = "Healthy wallet in healthy body";
+	public static final int RARITY = 4;
 
 	public AHealingMakesEarnBaseCurrency() {
 		super();
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAn.HealReceived.getName());
 		this.hasReceivedOddReneration = false;
-		setRarityIndex(4);
+		setRarityIndex(RARITY);
 	}
 
 	protected boolean hasReceivedOddReneration;

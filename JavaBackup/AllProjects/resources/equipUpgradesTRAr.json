@@ -856,5 +856,53 @@
 			{"attribute": "LifeMax", "value": 100},
 			{"attribute": "RigenLife", "value": -15}
 		]
+	}, {
+		"name": "of Sadism",
+		"rarity": 2,
+		"bonusPrice": [13],
+		"modifiers": [
+			{"attribute": "LifeLeechPercentage", "value": 5}
+		]
+	}, {
+		"name": "of Competition",
+		"rarity": 2,
+		"bonusPrice": [13],
+		"modifiers": [
+			{"attribute": "ManaLeechPercentage", "value": 5}
+		]
+	}, {
+		"name": "Pure",
+		"rarity": 3,
+		"bonusPrice": [43],
+		"modifiers": [
+			{"attribute": "ManaLeechPercentage", "value": -10},
+			{"attribute": "Faith", "value": 15},
+			{"attribute": "Luck", "value": 5}
+		]
+	}, {
+		"name": "Pacific",
+		"rarity": 3,
+		"bonusPrice": [43],
+		"modifiers": [
+			{"attribute": "LifeLeechPercentage", "value": -10},
+			{"attribute": "Health", "value": 15},
+			{"attribute": "Luck", "value": 5}
+		]
+	}, {
+		"name": "of Sorrow",
+		"rarity": 1,
+		"bonusPrice": [-20],
+		"modifiers": [
+			{"attribute": "ManaLeechPercentage", "value": -5},
+			{"attribute": "LifeLeechPercentage", "value": -5}
+		]
+	}, {
+		"name": "of Puppy Hunt-play",
+		"rarity": 2,
+		"bonusPrice": [7],
+		"modifiers": [
+			{"attribute": "ManaLeechPercentage", "value": 2},
+			{"attribute": "LifeLeechPercentage", "value": 2}
+		]
 	}
 ]

@@ -24,6 +24,7 @@ import tools.ObjectWithID;
 public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttributeRealTime implements GEventObserver {
 	private static final long serialVersionUID = -69287821202158L;
 	public static final String NAME = "Buying Reducion ";
+	public static final int RARITY = 3;
 
 	public ADamageReductionCurrencyBased(DamageTypesTRAn dt) {
 		super(AttributesTRAn.damageReductionByType(dt), NAME + dt.getName());
@@ -31,7 +32,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
 		perThousandFraction = 0;
 		maximumReduction = 0;
-		setRarityIndex(3);
+		setRarityIndex(RARITY);
 	}
 
 	protected int perThousandFraction, maximumReduction;

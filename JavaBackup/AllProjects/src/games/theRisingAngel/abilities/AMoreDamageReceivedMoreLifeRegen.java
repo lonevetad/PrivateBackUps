@@ -28,7 +28,7 @@ import tools.ObjectWithID;
 public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingSingleAttributeRealTime
 		implements GEventObserver {
 	private static final long serialVersionUID = 5411087000163L;
-	public static final int VALUE_DECREMENT_PER_TICK = 4;
+	public static final int VALUE_DECREMENT_PER_TICK = 4, RARITY = 3;
 	public static final String NAME = "Pain Rinvigoring";
 
 	public AMoreDamageReceivedMoreLifeRegen() {
@@ -38,7 +38,7 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingSingleAttr
 		ticks = 0;
 		thresholdTime = 1000;
 		accumulatedLifeRegen = 0;
-		setRarityIndex(3);
+		setRarityIndex(RARITY);
 	}
 
 	protected int accumulatedLifeRegen;

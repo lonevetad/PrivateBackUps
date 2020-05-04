@@ -3,6 +3,7 @@ package games.theRisingAngel.abilities;
 import java.awt.Point;
 import java.util.function.Predicate;
 
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.gEvents.DamageReceiverGeneric;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.theRisingAngel.GModalityTRAn;
@@ -55,6 +56,12 @@ public class ARandomScatteringOrbsIMpl extends ARandomScatteringOrbs {
 	protected ScatteringOrb newOrb() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void onAddingToOwner(GModality gm) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

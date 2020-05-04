@@ -14,10 +14,13 @@ import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
 import games.theRisingAngel.abilities.AHealingMakesEarnBaseCurrency;
+import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
 import games.theRisingAngel.abilities.ARandomScatteringOrbs;
 import games.theRisingAngel.abilities.ARandomScatteringOrbsIMpl;
 import games.theRisingAngel.abilities.AShieldingButWeakining;
+import games.theRisingAngel.abilities.AShieldingEachCurableResources;
+import games.theRisingAngel.abilities.AVampireBerserker;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
@@ -30,14 +33,18 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 
 	@Override
 	public void loadInto(GController gcontroller) {
-		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Physical.getName(), 3,
+		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Physical.getName(),
+				ADamageReductionCurrencyBased.RARITY,
 				gc -> new ADamageReductionCurrencyBased(DamageTypesTRAn.Physical));
-		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Magical.getName(), 3,
-				gc -> new ADamageReductionCurrencyBased(DamageTypesTRAn.Magical));
-		objProvider.addObj(AMoreDamageReceivedMoreLifeRegen.NAME, 3, gc -> new AMoreDamageReceivedMoreLifeRegen());
-		objProvider.addObj(AFireShpereOrbiting.NAME, 4, gc -> new AFireShpereOrbiting());
-		objProvider.addObj(AShieldingButWeakining.NAME, 2, gm -> new AShieldingButWeakining());
-		objProvider.addObj(AHealingMakesEarnBaseCurrency.NAME, 4, gm -> new AHealingMakesEarnBaseCurrency());
+		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Magical.getName(),
+				ADamageReductionCurrencyBased.RARITY, gc -> new ADamageReductionCurrencyBased(DamageTypesTRAn.Magical));
+		objProvider.addObj(AMoreDamageReceivedMoreLifeRegen.NAME, AMoreDamageReceivedMoreLifeRegen.RARITY,
+				gc -> new AMoreDamageReceivedMoreLifeRegen());
+		objProvider.addObj(AFireShpereOrbiting.NAME, AFireShpereOrbiting.RARITY, gc -> new AFireShpereOrbiting());
+		objProvider.addObj(AShieldingButWeakining.NAME, AShieldingButWeakining.RARITY,
+				gm -> new AShieldingButWeakining());
+		objProvider.addObj(AHealingMakesEarnBaseCurrency.NAME, AHealingMakesEarnBaseCurrency.RARITY,
+				gm -> new AHealingMakesEarnBaseCurrency());
 		objProvider.addObj(ARandomScatteringOrbs.NAME, gm -> new ARandomScatteringOrbsIMpl((GModalityTRAn) gm));
 		objProvider.addObj("Wounded Berseker", 3, gm -> {
 			ASimpleFixedBufferVanishing a;
@@ -72,6 +79,7 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 							new AttributeModification(AttributesTRAn.Dexterity, -5),
 							new AttributeModification(AttributesTRAn.Intelligence, -6),
 							new AttributeModification(AttributesTRAn.Wisdom, -7) }) {
+
 				private static final long serialVersionUID = 777962548965262L;
 
 				@Override
@@ -141,5 +149,11 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 			a.setMaxAmountStackedTriggerCharges(7);
 			return a;
 		});
+		objProvider.addObj(ALoseManaBeforeLife.NAME, ALoseManaBeforeLife.RARITY, gm -> new ALoseManaBeforeLife());
+		objProvider.addObj(AShieldingEachCurableResources.NAME, AShieldingEachCurableResources.RARITY,
+				gm -> new AShieldingEachCurableResources());
+
+		objProvider.addObj(AVampireBerserker.NAME, AVampireBerserker.RARITY, gm -> new AVampireBerserker());
+		// TODO MOVE ALL HARD_CODED RARITIES INTO THEIR CLASSES
 	}
 }

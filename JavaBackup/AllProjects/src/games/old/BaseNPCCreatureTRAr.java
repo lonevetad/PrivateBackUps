@@ -1,8 +1,9 @@
-package games.theRisingAngel.creatures;
+package games.old;
 
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subimpl.CreatureAttributesCaching;
 import games.generic.controlModel.subimpl.GModalityRPG;
+import games.theRisingAngel.creatures.BaseCreatureTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 
 /**

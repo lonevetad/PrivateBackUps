@@ -34,8 +34,8 @@ public class EventDamage extends EventInfo_SourceToTarget<DamageDealerGeneric, L
 		this.damage = damage;
 	}
 
-	public void setRiductionByTarget(int riductionByTarget) {
-		this.damageAmountToBeApplied = riductionByTarget;
+	public void setDamageAmountToBeApplied(int damageAmountToBeApplied) {
+		this.damageAmountToBeApplied = damageAmountToBeApplied;
 	}
 
 	@Override

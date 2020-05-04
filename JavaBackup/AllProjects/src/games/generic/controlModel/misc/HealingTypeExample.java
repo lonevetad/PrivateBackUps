@@ -1,9 +1,7 @@
 package games.generic.controlModel.misc;
 
-import tools.ObjectNamedID;
-
 /** Provides a set of examples of healing. */
-public enum HealingTypeExample implements ObjectNamedID {
+public enum HealingTypeExample implements HealingType {
 	Life, Mana, Shield, Stamina;
 
 	@Override

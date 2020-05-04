@@ -36,10 +36,6 @@ public interface CreatureSimple
 		return 0;
 	}
 
-	public int getTicksHealing();
-
-	public int getAccumulatedTimeLifeRegen();
-
 	//
 
 	@Override
@@ -47,40 +43,11 @@ public interface CreatureSimple
 		return this;
 	}
 
-	public void setAccumulatedTimeLifeRegen(int newAccumulated);
-
-	public void setTicks(int ticks);
-
-	//
-
-	public default void performAllHealings() {
-		int temp;
-		GModality gm;
-		gm = getGameModality();
-		temp = getTicksHealing() + 1;
-		if (temp >= TICKS_PER_SECONDS) {
-			setTicks(0);
-			temp = getLifeRegenation();
-			temp -= (TICKS_PER_SECONDS - 1) * (temp >> LOG_TICKS_PER_SECONDS);
-		} else {
-			setTicks(temp);
-			temp = getLifeRegenation() >> LOG_TICKS_PER_SECONDS;
-		}
-		System.out.println("HEALIIIIIING of " + temp);
-		receiveLifeHealing(gm, temp, this);
-	}
-
 	@Override
-	public default void act(GModality modality, int milliseconds) {
-		int tfinal;
-		MovingObject.super.act(modality, milliseconds);
-		tfinal = getAccumulatedTimeLifeRegen() + milliseconds;
-		if (tfinal > MILLIS_REGEN_LIFE_MANA) {
-			setAccumulatedTimeLifeRegen(tfinal - MILLIS_REGEN_LIFE_MANA);
-			performAllHealings();
-		} else {
-			setAccumulatedTimeLifeRegen(tfinal);
-		}
+	public default void act(GModality modality, int timeUnits) {
+		MovingObject.super.act(modality, timeUnits);
+		LivingObject.super.act(modality, timeUnits); // this is the same of the below :
+//		ObjectHealing.super.act(modality, timeUnits);
 	}
 
 }
