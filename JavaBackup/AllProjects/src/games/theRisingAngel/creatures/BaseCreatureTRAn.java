@@ -89,6 +89,15 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	}
 
 	@Override
+	public int getCurableResourceMax(HealingType healType) {
+		if (healType == HealingTypeExample.Life)
+			return getLifeMax();
+		else if (healType == HealingTypeExample.Mana)
+			return getManaMax();
+		return 0;
+	}
+
+	@Override
 	public int getProbabilityPerThousandAvoid(DamageTypeGeneric damageType) {
 		AttributeIdentifier ai;
 		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityAvoidPhysical

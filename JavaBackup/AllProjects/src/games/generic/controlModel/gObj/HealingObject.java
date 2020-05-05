@@ -20,7 +20,6 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 
 	public default void addHealingType(HealingType healType) {
 		getCurableResourcesHolders().addHealingType(healType);
-		;
 	}
 
 //	public void removeHealingType(HealingType healType);
@@ -31,6 +30,8 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	public default int getCurableResourceAmount(HealingType healType) {
 		return getCurableResourcesHolders().getCurableResourceAmount(healType);
 	}
+
+	public int getCurableResourceMax(HealingType healType);
 
 	/**
 	 * Differently from {@link #getCurableResourceAmount(HealingType)}, this method
@@ -136,7 +137,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 		crh = getCurableResourcesHolders();
 		// now apply healing to everybody
 		this.getAllHealings().forEach(ht -> {
-			int amountHealed, indexHealingType;
+			int amountHealed, indexHealingType, maxAmount, tempTotalResource;
 			amountHealed = getHealingRegenerationAmount(ht); // how much does I heal myself?
 			indexHealingType = crh.indexCurableResources.get(ht);
 			if (isLastTick) {
@@ -146,10 +147,21 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 			} else {
 				amountHealed /= ticksPerTimeUnits;
 			}
-			crh.curableResources[indexHealingType] += amountHealed;
+			if (amountHealed > 0) {
+				maxAmount = getCurableResourceMax(ht);
+				tempTotalResource = crh.curableResources[indexHealingType] + amountHealed;
+				if (tempTotalResource > maxAmount) {
+					// check the maximum cap
+					amountHealed -= (tempTotalResource - maxAmount);
+					tempTotalResource = maxAmount;
+				}
+				if (amountHealed > 0) { // there is still an healing instance after the cap-check?
+					crh.curableResources[indexHealingType] = tempTotalResource;
 //			crh.getCurableResourceAmount(ht);
-			System.out.println("HEALIIIIIING " + ht.getName() + " of " + amountHealed);
-			fireHealingReceived(gm, this, newHealInstance(ht, amountHealed));
+					System.out.println("HEALIIIIIING " + ht.getName() + " of " + amountHealed);
+					fireHealingReceived(gm, this, newHealInstance(ht, amountHealed));
+				}
+			}
 		});
 	}
 

@@ -13,7 +13,7 @@ import games.generic.controlModel.subimpl.LoaderAbilities;
 import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
-import games.theRisingAngel.abilities.AHealingMakesEarnBaseCurrency;
+import games.theRisingAngel.abilities.ALifeHealingMakesEarnBaseCurrency;
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
 import games.theRisingAngel.abilities.ARandomScatteringOrbs;
@@ -43,8 +43,8 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 		objProvider.addObj(AFireShpereOrbiting.NAME, AFireShpereOrbiting.RARITY, gc -> new AFireShpereOrbiting());
 		objProvider.addObj(AShieldingButWeakining.NAME, AShieldingButWeakining.RARITY,
 				gm -> new AShieldingButWeakining());
-		objProvider.addObj(AHealingMakesEarnBaseCurrency.NAME, AHealingMakesEarnBaseCurrency.RARITY,
-				gm -> new AHealingMakesEarnBaseCurrency());
+		objProvider.addObj(ALifeHealingMakesEarnBaseCurrency.NAME, ALifeHealingMakesEarnBaseCurrency.RARITY,
+				gm -> new ALifeHealingMakesEarnBaseCurrency());
 		objProvider.addObj(ARandomScatteringOrbs.NAME, gm -> new ARandomScatteringOrbsIMpl((GModalityTRAn) gm));
 		objProvider.addObj("Wounded Berseker", 3, gm -> {
 			ASimpleFixedBufferVanishing a;

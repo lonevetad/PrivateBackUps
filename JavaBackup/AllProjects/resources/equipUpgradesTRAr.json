@@ -470,57 +470,93 @@
 			{"attribute": "CriticalProbability", "value": 3},
 			{"attribute": "ProbabilityAvoidPhysical", "value": 30},
 			{"attribute": "ProbabilityAvoidMagical", "value": 70}
-		]
+		]  // TODO OOOOOOOOOOOOOOOOOOOOOOOOOOO da qua in su bisogna riaggiustare tutto considerando che gli equipaggiamenti "base" forniscono 1-1.5 livelli in bonus (ossia 10-15 punti base)
 	}, {
 		"name": "of Knight",
 		"rarity": 3,
 		"bonusPrice": [32],
 		"modifiers": [
-			{"attribute": "Strength", "value": 10},
-			{"attribute": "Constitution", "value": 7},
-			{"attribute": "Defense", "value": 6},
+			{"attribute": "Strength", "value": 8},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Defense", "value": 4},
 			{"attribute": "ProbabilityHitPhysical", "value": 50},
-			{"attribute": "DamageBonusPhysical", "value": 3}
+			{"attribute": "DamageBonusPhysical", "value": 2}
 		]
 	}, {
 		"name": "of Woodcutter",
 		"rarity": 2,
 		"bonusPrice": [17],
 		"modifiers": [
-			{"attribute": "Strength", "value": 8},
-			{"attribute": "Constitution", "value": 5},
-			{"attribute": "Precision", "value": 3},
-			{"attribute": "Intelligence", "value": -4},
+			{"attribute": "Strength", "value": 6},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Intelligence", "value": -3},
 			{"attribute": "Wisdom", "value": -2},
-			{"attribute": "DamageBonusPhysical", "value": 2}
+			{"attribute": "DamageBonusPhysical", "value": 1}
 		]
 	}, {
 		"name": "with sacred oils",
 		"rarity": 2,
 		"bonusPrice": [22],
 		"modifiers": [
-			{"attribute": "Faith", "value": 6},
-			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "DamageBonusMagical", "value": 2},
 			{"attribute": "DamageReductionMagical", "value": 1}
 		]
 	}, {
-		"name": "Dragonscaled",
+		"name": "Dragon-scaled",
 		"rarity": 4,
 		"bonusPrice": [56],
 		"modifiers": [
-			{"attribute": "Defense", "value": 16},
-			{"attribute": "Precision", "value": 4},
-			{"attribute": "Dexterity", "value": -2},
-			{"attribute": "DamageReductionMagical", "value": 3},
-			{"attribute": "DamageReductionPhysical", "value": 3}
+			{"attribute": "Strength", "value": 5},
+			{"attribute": "Defense", "value": 12},
+			{"attribute": "Precision", "value": 3},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Velocity", "value": -5},
+			{"attribute": "DamageReductionMagical", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 7}
+		]
+	}, {
+		"name": "Serpent-scaled",
+		"rarity": 4,
+		"bonusPrice": [56],
+		"modifiers": [
+			{"attribute": "Defense", "value": 8},
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Velocity", "value": -5},
+			{"attribute": "DamageReductionMagical", "value": 6},
+			{"attribute": "DamageReductionPhysical", "value": 6}
+		]
+	}, {
+		"name": "Fly-bug-scaled",
+		"rarity": 4,
+		"bonusPrice": [56],
+		"modifiers": [
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Precision", "value": -5},
+			{"attribute": "Dexterity", "value": 12},
+			{"attribute": "Velocity", "value": 25},
+			{"attribute": "DamageReductionMagical", "value": 8},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "ProbabilityAvoidPhysical", "value": 150},
+			{"attribute": "ProbabilityAvoidMagical", "value": 150}
 		]
 	}, {
 		"name": "of Seaman",
 		"rarity": 1,
 		"bonusPrice": [11],
 		"modifiers": [
-			{"attribute": "Faith", "value": 5},
-			{"attribute": "Precision", "value": 5}
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "Precision", "value": 3}
+		]
+	}, {
+		"name": "Fight-escaper",
+		"rarity": 1,
+		"bonusPrice": [11],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Wisdom", "value": 3}
 		]
 	}, {
 		"name": "of Cruelty",
@@ -528,12 +564,14 @@
 		"bonusPrice": [17],
 		"modifiers": [
 			{"attribute": "LifeLeechPercentage", "value": 3},
-			{"attribute": "Faith", "value": -6},
+			{"attribute": "Faith", "value": -10},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Luck", "value": -10},
 			{"attribute": "Constitution", "value": -4},
-			{"attribute": "Strength", "value": 10},
+			{"attribute": "Strength", "value": 12},
 			{"attribute": "Intelligence", "value": -4},
 			{"attribute": "Wisdom", "value": -5},
-			{"attribute": "RigenMana", "value": 2},
+			{"attribute": "RigenMana", "value": 3},
 			{"attribute": "DamageBonusPhysical", "value": 5},
 			{"attribute": "DamageBonusMagical", "value": 3}
 		]
@@ -542,10 +580,10 @@
 		"rarity": 2,
 		"bonusPrice": [26],
 		"modifiers": [
-			{"attribute": "Precision", "value": 10},
-			{"attribute": "Dexterity", "value": 8},
-			{"attribute": "Strength", "value": 6},
-			{"attribute": "ManaMax", "value": -15},
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "ManaMax", "value": -10},
 			{"attribute": "Velocity", "value": 5}
 		]
 	}, {
@@ -553,14 +591,14 @@
 		"rarity": 4,
 		"bonusPrice": [-32],
 		"modifiers": [
-			{"attribute": "RigenLife", "value": -12},
-			{"attribute": "RigenMana", "value": -8},
-			{"attribute": "Faith", "value": -8},
-			{"attribute": "Constitution", "value": -10},
-			{"attribute": "Defense", "value": -6},
-			{"attribute": "Luck", "value": -8},
+			{"attribute": "RigenLife", "value": -9},
+			{"attribute": "RigenMana", "value": -6},
+			{"attribute": "Faith", "value": -7},
+			{"attribute": "Constitution", "value": -8},
+			{"attribute": "Defense", "value": -4},
+			{"attribute": "Luck", "value": -6},
 			{"attribute": "DamageBonusPhysical", "value": 2},
-			{"attribute": "DamageBonusMagical", "value": 7},
+			{"attribute": "DamageBonusMagical", "value": 6},
 			{"attribute": "CriticalMultiplier", "value": 15},
 			{"attribute": "ProbabilityHitPhysical", "value": 50},
 			{"attribute": "ProbabilityAvoidPhysical", "value": -100},
@@ -572,50 +610,37 @@
 		"rarity": 3,
 		"bonusPrice": [-35],
 		"modifiers": [
-			{"attribute": "LifeMax", "value": -20},
-			{"attribute": "ManaMax", "value": 10},
-			{"attribute": "Faith", "value": -12},
-			{"attribute": "Constitution", "value": -8},
-			{"attribute": "Defense", "value": -8},
+			{"attribute": "LifeMax", "value": -10},
+			{"attribute": "Faith", "value": -8},
+			{"attribute": "Constitution", "value": -6},
+			{"attribute": "Defense", "value": -6},
 			{"attribute": "DamageBonusPhysical", "value": 3},
 			{"attribute": "DamageBonusMagical", "value": 5},
-			{"attribute": "Luck", "value": -10},
+			{"attribute": "Luck", "value": -8},
 			{"attribute": "Precision", "value": -4}
 		]
 	}, {
 		"name": "of Butcher",
-		"rarity": 4,
+		"rarity": 2,
 		"bonusPrice": [23],
 		"modifiers": [
-			{"attribute": "Faith", "value": -10},
-			{"attribute": "Wisdom", "value": -6},
-			{"attribute": "Constitution", "value": 9},
-			{"attribute": "Strength", "value": 12},
-			{"attribute": "DamageBonusPhysical", "value": 5},
+			{"attribute": "Faith", "value": -5},
+			{"attribute": "Wisdom", "value": -2},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Strength", "value": 8},
+			{"attribute": "DamageBonusPhysical", "value": 4},
 			{"attribute": "CriticalMultiplier", "value": 10}
-		]
-	}, {
-		"name": "of Farmer",
-		"rarity": 1,
-		"bonusPrice": [6],
-		"modifiers": [
-			{"attribute": "Intelligence", "value": -10},
-			{"attribute": "Wisdom", "value": 4},
-			{"attribute": "Faith", "value": 8},
-			{"attribute": "Strength", "value": 4},
-			{"attribute": "Health", "value": 6},
-			{"attribute": "LifeMax", "value": -35}
 		]
 	}, {
 		"name": "of King",
 		"rarity": 4,
 		"bonusPrice": [120],
 		"modifiers": [
-			{"attribute": "Intelligence", "value": 7},
-			{"attribute": "Wisdom", "value": 15},
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Wisdom", "value": 10},
 			{"attribute": "Dexterity", "value": -3},
 			{"attribute": "Strength", "value": 2},
-			{"attribute": "Health", "value": -8},
+			{"attribute": "Health", "value": -6},
 			{"attribute": "ProbabilityHitPhysical", "value": 60},
 			{"attribute": "ProbabilityHitMagical", "value": 60}
 		]
@@ -624,39 +649,40 @@
 		"rarity": 2,
 		"bonusPrice": [-8],
 		"modifiers": [
-			{"attribute": "Dexterity", "value": 7},
-			{"attribute": "Precision", "value": -10},
-			{"attribute": "Strength", "value": 6},
-			{"attribute": "Constitution", "value": -8},
-			{"attribute": "Health", "value": -5},
-			{"attribute": "Intelligence", "value": -10},
-			{"attribute": "Wisdom", "value": -15},
-			{"attribute": "Faith", "value": 20},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": -5},
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": -4},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Intelligence", "value": -6},
+			{"attribute": "Wisdom", "value": -7},
+			{"attribute": "Faith", "value": 10},
 			{"attribute": "DamageBonusPhysical", "value": -3},
 			{"attribute": "DamageBonusMagical", "value": -3},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 80},
-			{"attribute": "ProbabilityAvoidMagical", "value": 80}
+			{"attribute": "ProbabilityAvoidPhysical", "value": 70},
+			{"attribute": "ProbabilityAvoidMagical", "value": 70}
 		]
 	}, {
 		"name": "of Farmer",
 		"rarity": 1,
 		"bonusPrice": [6],
 		"modifiers": [
-			{"attribute": "Intelligence", "value": -10},
-			{"attribute": "Wisdom", "value": 4},
-			{"attribute": "Faith", "value": 8},
-			{"attribute": "Strength", "value": 4},
-			{"attribute": "Health", "value": 6},
-			{"attribute": "LifeMax", "value": -35}
+			{"attribute": "Intelligence", "value": -6},
+			{"attribute": "Wisdom", "value": 2},
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Health", "value": 3},
+			{"attribute": "LifeMax", "value": -25}
 		]
 	}, {
 		"name": "of Training",
 		"rarity": 1,
 		"bonusPrice": [7],
 		"modifiers": [
-			{"attribute": "Strength", "value": 4},
-			{"attribute": "Constitution", "value": 3},
-			{"attribute": "Intelligence", "value": 3}
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Wisdom", "value": 1},
+			{"attribute": "Intelligence", "value": 2}
 		]
 	}, {
 		"name": "Ancient",
@@ -692,6 +718,21 @@
 		"rarity": 3,
 		"bonusPrice": [38],
 		"modifiers": [
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 3},
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": 3},
+			{"attribute": "Intelligence", "value": 3},
+			{"attribute": "Wisdom", "value": 3},
+			{"attribute": "Faith", "value": 3}
+		]
+	}, {
+		"name": "of Happiness and Gratification",
+		"rarity": 4,
+		"bonusPrice": [100],
+		"modifiers": [
 			{"attribute": "Strength", "value": 4},
 			{"attribute": "Constitution", "value": 4},
 			{"attribute": "Health", "value": 4},
@@ -703,27 +744,12 @@
 			{"attribute": "Faith", "value": 4}
 		]
 	}, {
-		"name": "of Happiness and Gratification",
-		"rarity": 4,
-		"bonusPrice": [100],
-		"modifiers": [
-			{"attribute": "Strength", "value": 7},
-			{"attribute": "Constitution", "value": 7},
-			{"attribute": "Health", "value": 7},
-			{"attribute": "Defense", "value": 7},
-			{"attribute": "Dexterity", "value": 7},
-			{"attribute": "Precision", "value": 7},
-			{"attribute": "Intelligence", "value": 7},
-			{"attribute": "Wisdom", "value": 7},
-			{"attribute": "Faith", "value": 7}
-		]
-	}, {
 		"name": "of Inspiration",
 		"rarity": 1,
 		"bonusPrice": [10],
 		"modifiers": [
-			{"attribute": "Faith", "value": 8},
-			{"attribute": "Luck", "value": 6}
+			{"attribute": "Faith", "value": 5},
+			{"attribute": "Luck", "value": 3}
 		]
 	}, {
 		"name": "of Sadness",
@@ -745,33 +771,33 @@
 		"rarity": 3,
 		"bonusPrice": [-47],
 		"modifiers": [
-			{"attribute": "Strength", "value": -4},
-			{"attribute": "Constitution", "value": -4},
-			{"attribute": "Health", "value": -4},
-			{"attribute": "Defense", "value": -4},
-			{"attribute": "Dexterity", "value": -4},
-			{"attribute": "Precision", "value": -4},
-			{"attribute": "Intelligence", "value": -4},
-			{"attribute": "Wisdom", "value": -4},
-			{"attribute": "Faith", "value": -4}
+			{"attribute": "Strength", "value":-3},
+			{"attribute": "Constitution", "value":-3},
+			{"attribute": "Health", "value":-3},
+			{"attribute": "Defense", "value":-3},
+			{"attribute": "Dexterity", "value":-3},
+			{"attribute": "Precision", "value":-3},
+			{"attribute": "Intelligence", "value":-3},
+			{"attribute": "Wisdom", "value":-3},
+			{"attribute": "Faith", "value":-3}
 		]
 	}, {
-		"name": "With a written story",
-		"rarity": 2,
+		"name": "With a story",
+		"rarity": 1,
 		"bonusPrice": [10],
 		"modifiers": [
-			{"attribute": "Health", "value": 2},
-			{"attribute": "Wisdom", "value": 4},
-			{"attribute": "Intelligence", "value": 2}
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Wisdom", "value": 2},
+			{"attribute": "Intelligence", "value": 1}
 		]
 	}, {
 		"name": "of the Wind",
 		"rarity": 2,
 		"bonusPrice": [14],
 		"modifiers": [
-			{"attribute": "Dexterity", "value": 13},
-			{"attribute": "Defense", "value": 6},
-			{"attribute": "Faith", "value": 4},
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Faith", "value": 3},
 			{"attribute": "Velocity", "value": 20}
 		]
 	}, {
@@ -779,9 +805,9 @@
 		"rarity": 3,
 		"bonusPrice": [40],
 		"modifiers": [
-			{"attribute": "Precision", "value": 15},
-			{"attribute": "Faith", "value": 6},
-			{"attribute": "Luck", "value": 8}
+			{"attribute": "Precision", "value": 8},
+			{"attribute": "Faith", "value": 3},
+			{"attribute": "Luck", "value": 5}
 		]
 	}, {
 		"name": "with Good Senses",
@@ -793,24 +819,24 @@
 			{"attribute": "ProbabilityHitMagical", "value": 50},
 			{"attribute": "ProbabilityAvoidMagical", "value": 50},
 			{"attribute": "CriticalProbability", "value": 50},
-			{"attribute": "Precision", "value": 15},
-			{"attribute": "Dexterity", "value": 15}
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "Dexterity", "value": 7}
 		]
 	}, {
 		"name": "of Sensitive",
 		"rarity": 3,
 		"bonusPrice": [35],
 		"modifiers": [
-			{"attribute": "RigenLife", "value": -5},
-			{"attribute": "RigenMana", "value": -5},
+			{"attribute": "RigenLife", "value": -3},
+			{"attribute": "RigenMana", "value": -3},
 			{"attribute": "LifeMax", "value": -20},
 			{"attribute": "ManaMax", "value": -20},
 			{"attribute": "Luck", "value": 10},
-			{"attribute": "Dexterity", "value": 10},
+			{"attribute": "Dexterity", "value": 8},
 			{"attribute": "Precision", "value": 5},
-			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Intelligence", "value": 4},
 			{"attribute": "Wisdom", "value": 5},
-			{"attribute": "Faith", "value": 20},
+			{"attribute": "Faith", "value": 17},
 			{"attribute": "ProbabilityAvoidPhysical", "value": 50},
 			{"attribute": "ProbabilityAvoidMagical", "value": 50}
 		]
@@ -819,24 +845,24 @@
 		"rarity": 2,
 		"bonusPrice": [-35],
 		"modifiers": [
-			{"attribute": "Strength", "value": -3},
-			{"attribute": "Constitution", "value": -3},
-			{"attribute": "Health", "value": -3},
-			{"attribute": "Defense", "value": -3},
-			{"attribute": "Dexterity", "value": -3},
-			{"attribute": "Precision", "value": -3},
-			{"attribute": "Intelligence", "value": -3},
-			{"attribute": "Wisdom", "value": -3},
-			{"attribute": "Faith", "value": 10},
-			{"attribute": "ProbabilityAvoidPhysical", "value":30},
-			{"attribute": "ProbabilityAvoidMagical", "value": 30}
+			{"attribute": "Strength", "value": -2},
+			{"attribute": "Constitution", "value": -2},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "Defense", "value": -2},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Intelligence", "value": -2},
+			{"attribute": "Wisdom", "value": -2},
+			{"attribute": "Faith", "value": 8},
+			{"attribute": "ProbabilityAvoidPhysical", "value": -30},
+			{"attribute": "ProbabilityAvoidMagical", "value": -30}
 		]
 	}, {
 		"name": "Dark Thefth",
 		"rarity": 1,
 		"bonusPrice": [7],
 		"modifiers": [
-			{"attribute": "LifeLeechPercentage", "value": 5},
+			{"attribute": "LifeLeechPercentage", "value": 4},
 			{"attribute": "ManaLeechPercentage", "value": 2}
 		]
 	}, {
@@ -876,8 +902,8 @@
 		"bonusPrice": [43],
 		"modifiers": [
 			{"attribute": "ManaLeechPercentage", "value": -10},
-			{"attribute": "Faith", "value": 15},
-			{"attribute": "Luck", "value": 5}
+			{"attribute": "Faith", "value": 10},
+			{"attribute": "Luck", "value": 4}
 		]
 	}, {
 		"name": "Pacific",
@@ -885,8 +911,8 @@
 		"bonusPrice": [43],
 		"modifiers": [
 			{"attribute": "LifeLeechPercentage", "value": -10},
-			{"attribute": "Health", "value": 15},
-			{"attribute": "Luck", "value": 5}
+			{"attribute": "Health", "value": 10},
+			{"attribute": "Luck", "value": 4}
 		]
 	}, {
 		"name": "of Sorrow",

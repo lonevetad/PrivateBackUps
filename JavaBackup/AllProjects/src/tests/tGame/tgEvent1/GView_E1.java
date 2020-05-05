@@ -28,7 +28,7 @@ public class GView_E1 extends GameView {
 	JButton jbCloseAll, jbStartPause;
 	JPanel jpBigContainer;
 	JPanel jpStartStop, jpPlayerStats;
-	JProgressBar jpbPlayerLife;
+	JProgressBar jpbPlayerLife, jpbPlayerMana;
 //	JTextArea jtaPlayerStats;
 //	JScrollPane jspPlayerAttributes;
 	JLabel jlMoneyText, jlMoneyValue;
@@ -37,7 +37,7 @@ public class GView_E1 extends GameView {
 	@Override
 	public void initAndShow() {
 //		Container panel;
-		int n;
+		int n, startYStats;
 		JPanel jpNorth;
 		GController c;
 		c = super.gc;
@@ -90,16 +90,22 @@ public class GView_E1 extends GameView {
 		constr = new GridBagConstraints();
 		jpPlayerStats = new JPanel(new GridBagLayout());
 		jpBigContainer.add(jpPlayerStats, BorderLayout.EAST);
-		jpbPlayerLife = new JProgressBar(0, 100);
-		jpbPlayerLife.setStringPainted(true);
+
+		jpbPlayerMana = new JProgressBar(0, 100);
+		jpbPlayerMana.setStringPainted(true);
 //		jpbPlayerLife.setMaximum(100);
 		constr.gridx = 0;
 		constr.gridy = 0;
 		constr.gridwidth = 2;
 		constr.gridheight = 1;
 		constr.weightx = constr.weighty = 1;
-		jpPlayerStats.add(jpbPlayerLife, constr);
+		jpPlayerStats.add(jpbPlayerMana, constr);
+		//
+		jpbPlayerLife = new JProgressBar(0, 100);
+		jpbPlayerLife.setStringPainted(true);
 		constr.gridy = 1;
+		jpPlayerStats.add(jpbPlayerLife, constr);
+		constr.gridy = 2;
 		constr.gridwidth = 1;
 //		constr.gridheight = 9;
 //		constr.weighty = 9;
@@ -110,7 +116,7 @@ public class GView_E1 extends GameView {
 //		jpPlayerStats.add(jspPlayerAttributes, constr);
 //		jtaPlayerStats.setLineWrap(false);
 		constr.gridwidth = 1;
-		constr.gridy = 1;
+		constr.gridy = 2;
 		jlMoneyText = new JLabel("Currency: ");
 		jpPlayerStats.add(jlMoneyText, constr);
 		constr.gridx = 1;
@@ -119,8 +125,9 @@ public class GView_E1 extends GameView {
 		jlPlayerStatText = new JLabel[AttributesTRAn.VALUES.length];
 		jlPlayerStatValue = new JLabel[AttributesTRAn.VALUES.length];
 		n = AttributesTRAn.VALUES.length;
+		startYStats = constr.gridy + 1;
 		while (--n >= 0) {
-			constr.gridy = 2 + n;
+			constr.gridy = startYStats + n;
 			constr.gridx = 0;
 			jlPlayerStatText[n] = new JLabel(AttributesTRAn.VALUES[n].name());
 			jpPlayerStats.add(jlPlayerStatText[n], constr);
@@ -158,6 +165,13 @@ public class GView_E1 extends GameView {
 		textDisplayed = "Life: " + v + " / " + max;
 		jpbPlayerLife.setToolTipText(textDisplayed);
 		jpbPlayerLife.setString(textDisplayed);
+		//
+		jpbPlayerMana.setMaximum(max = p.getManaMax());
+		jpbPlayerMana.setValue(v = p.getMana());
+		jpbPlayerMana.repaint();
+		textDisplayed = "Mana: " + v + " / " + max;
+		jpbPlayerMana.setToolTipText(textDisplayed);
+		jpbPlayerMana.setString(textDisplayed);
 		ca = p.getAttributes();
 //		sb = new StringBuilder(128);
 //		for (int i = 0, n = ca.getAttributesCount(); i < n; i++) {

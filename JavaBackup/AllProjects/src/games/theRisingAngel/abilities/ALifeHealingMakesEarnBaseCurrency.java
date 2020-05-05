@@ -11,21 +11,22 @@ import games.generic.controlModel.gObj.CurrencyHolder;
 import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.EquipmentAbilityBaseImpl;
 import games.generic.controlModel.misc.CurrencySet;
+import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.events.EventsTRAn;
 import tools.ObjectWithID;
 
 /**
- * Upon receiving healing, make the owner earn N percentage of the base
+ * Upon receiving life healing, make the owner earn N percentage of the base
  * currency, if possible.
  * <p>
  * N = 50.
  */
-public class AHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl implements GEventObserver {
+public class ALifeHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl implements GEventObserver {
 	private static final long serialVersionUID = -5898625452208602147L;
 	public static final String NAME = "Healthy wallet in healthy body";
 	public static final int RARITY = 4;
 
-	public AHealingMakesEarnBaseCurrency() {
+	public ALifeHealingMakesEarnBaseCurrency() {
 		super();
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAn.HealReceived.getName());
@@ -62,6 +63,8 @@ public class AHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl impl
 			LivingObject ol;
 			ObjectWithID owid;
 			eventHealing = (EventHealing<?>) ge;
+			if (eventHealing.getHeal().getType() != HealingTypeExample.Life)
+				return;
 			amoutHealed = eventHealing.getHeal().getHealAmount();
 			owid = getOwner();
 			if (eventHealing.getTarget() == owid //

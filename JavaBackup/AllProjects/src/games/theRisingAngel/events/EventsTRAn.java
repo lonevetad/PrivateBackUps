@@ -9,7 +9,9 @@ public enum EventsTRAn implements IGEvent {
 	DamageInflicted("Dmg"), DamageReceived("Dmg"), DamageCriticalInflicted("Dmg"), DamageCriticalReceived("Dmg"),
 	DamageMissed("Dmg"), DamageAvoided("Dmg"), //
 	HealReceived("Heal"), HealGiven("Heal"), //
-	PickedUpMoney("Money"), MoneyChanged("Money"), PickedUpDrop("Drop"), DropReleased("Drop");
+	PickedUpMoney("Money"), MoneyChanged("Money"), PickedUpDrop("Drop"), DropReleased("Drop"),
+	//
+	UserInteraction("User");
 
 	protected final String type;
 

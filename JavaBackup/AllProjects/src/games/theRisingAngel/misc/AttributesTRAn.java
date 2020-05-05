@@ -22,22 +22,32 @@ import tools.Comparators;
  */
 public enum AttributesTRAn implements AttributeIdentifier {
 	// the following 9 are the base attributes
-	Strength, Constitution, Health, //
-	Defense, Dexterity, Precision, //
-	Intelligence, Wisdom, Faith,
+	Strength(true), Constitution(true), Health(true), //
+	Defense(true), Dexterity(true), Precision(true), //
+	Intelligence(true), Wisdom(true), Faith(true),
 	//
 	Luck, //
-	LifeMax, ManaMax, RigenLife, RigenMana, //
-	Velocity,
+	LifeMax(true), ManaMax(true), RigenLife, RigenMana, //
+	Velocity(true),
 	//
 	DamageBonusPhysical, DamageReductionPhysical, //
 	ProbabilityHitPhysical, ProbabilityAvoidPhysical, //
 	DamageBonusMagical, DamageReductionMagical, //
 	ProbabilityHitMagical, ProbabilityAvoidMagical, //
 	//
-	CriticalProbability, CriticalMultiplier //
+	CriticalProbability(true), CriticalMultiplier(true) //
 	, LifeLeechPercentage, ManaLeechPercentage//
 	;
+
+	public final boolean isStrictlyPositive;
+
+	AttributesTRAn() {
+		this(false);
+	}
+
+	AttributesTRAn(boolean flag) {
+		this.isStrictlyPositive = flag;
+	}
 
 	@Override
 	public int getIndex() {

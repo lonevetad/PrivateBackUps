@@ -93,88 +93,88 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //						+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
 //						+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 3)
 //						+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3)
-//						+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 3);
-				(c.getValue(AttributesTRAn.Health.getIndex()) + c.getValue(AttributesTRAn.Wisdom.getIndex())
-						+ c.getValue(AttributesTRAn.Faith.getIndex()) + c.getValue(AttributesTRAn.Dexterity.getIndex())
-						+ c.getValue(AttributesTRAn.Intelligence.getIndex())) >> 3;
+//						+ (c.getValue(AttributesTRAn.Dexterity) >> 3);
+				(c.getValue(AttributesTRAn.Health) + c.getValue(AttributesTRAn.Wisdom)
+						+ c.getValue(AttributesTRAn.Faith) + c.getValue(AttributesTRAn.Dexterity)
+						+ c.getValue(AttributesTRAn.Intelligence)) >> 3;
 
-		cache[AttributesTRAn.LifeMax.ordinal()] = c.getValue(AttributesTRAn.Constitution.getIndex())
-				+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 1)
-				+ (c.getValue(AttributesTRAn.Health.getIndex()) << 1);
+		cache[AttributesTRAn.LifeMax.ordinal()] = c.getValue(AttributesTRAn.Constitution)
+				+ (c.getValue(AttributesTRAn.Strength) >> 1) + (c.getValue(AttributesTRAn.Health) << 1);
 
-		cache[AttributesTRAn.RigenLife.ordinal()] = (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 3)
-				+ ((c.getValue(AttributesTRAn.Health.getIndex())) >> 2)
-				+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 4)
-				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 5)
-				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 5);
+		cache[AttributesTRAn.RigenLife.ordinal()] = //
+				+((c.getValue(AttributesTRAn.Health) + (c.getValue(AttributesTRAn.Constitution) >> 1)
+						+ (c.getValue(AttributesTRAn.Strength) / 3) // >> 2)
+				) >> 2)//
+						+ ((c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Faith)) >> 5);
 //			v >>= 1; // to high
 
-		cache[AttributesTRAn.DamageReductionPhysical.ordinal()] = (c.getValue(AttributesTRAn.Strength.getIndex()) >> 2)
-				+ (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 1)
-				+ (c.getValue(AttributesTRAn.Defense.getIndex()) >> 1)
-				+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10);
+		cache[AttributesTRAn.DamageReductionPhysical.ordinal()] = ( //
+		+c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Defense)
+				+ ((c.getValue(AttributesTRAn.Strength) + (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)
+				+ (c.getValue(AttributesTRAn.Dexterity) / 5)//
+		) >> 1;
 
-		cache[AttributesTRAn.DamageBonusPhysical.ordinal()] = (c.getValue(AttributesTRAn.Strength.getIndex()) >> 1)
-				+ (c.getValue(AttributesTRAn.Constitution.getIndex()) >> 2)
-				+ (c.getValue(AttributesTRAn.Precision.getIndex()) / 10)
-				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) / 10)
-				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 4);
+		cache[AttributesTRAn.DamageBonusPhysical.ordinal()] = ( //
+		+((c.getValue(AttributesTRAn.Strength) + c.getValue(AttributesTRAn.Constitution)) >> 1)
+				+ ((c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Intelligence)) / 5)
+				+ (c.getValue(AttributesTRAn.Wisdom) >> 3)//
+		) >> 1;
 
-		cache[AttributesTRAn.ManaMax.ordinal()] = (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1) //
-				+ (c.getValue(AttributesTRAn.Wisdom.getIndex())) + (c.getValue(AttributesTRAn.Faith.getIndex()) << 1);
+		cache[AttributesTRAn.ManaMax.ordinal()] = (c.getValue(AttributesTRAn.Intelligence) >> 1) //
+				+ (c.getValue(AttributesTRAn.Wisdom)) + (c.getValue(AttributesTRAn.Faith) << 1);
 //			v >>= 1; // too high, make it half
 
-		cache[AttributesTRAn.RigenMana.ordinal()] = (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2)
-				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
-				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 4)
-				+ (c.getValue(AttributesTRAn.Health.getIndex()) >> 5);
+		cache[AttributesTRAn.RigenMana.ordinal()] = //
+				+(c.getValue(AttributesTRAn.Faith) + (c.getValue(AttributesTRAn.Intelligence) / 3)// >>
+																									// 2)
+						+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)//
+				) >> 2;
+//		cache[AttributesTRAn.RigenMana.ordinal()] = ((c.getValue(AttributesTRAn.Faith))
+//				+ (c.getValue(AttributesTRAn.Wisdom) >> 1)
+//				+ (c.getValue(AttributesTRAn.Intelligence) >> 2)
+//				+ (c.getValue(AttributesTRAn.Health) >> 3)) / 10;
 
-		cache[AttributesTRAn.DamageBonusMagical.ordinal()] = (c.getValue(AttributesTRAn.Precision.getIndex()) / 10)
-				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
-				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 2)
-				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 3);
+		cache[AttributesTRAn.DamageBonusMagical.ordinal()] = ( //
+		(c.getValue(AttributesTRAn.Precision) / 5) + c.getValue(AttributesTRAn.Intelligence)
+				+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Faith) >> 1)) >> 1)//
+		) >> 1;
 
-		cache[AttributesTRAn.DamageReductionMagical.ordinal()] = (c.getValue(AttributesTRAn.Dexterity.getIndex()) / 10)
-				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
-				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 1)
-				+ (c.getValue(AttributesTRAn.Defense.getIndex()) >> 2)
-				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2);
+		cache[AttributesTRAn.DamageReductionMagical.ordinal()] = ( //
+		+(c.getValue(AttributesTRAn.Dexterity) / 5) + c.getValue(AttributesTRAn.Intelligence)
+				+ c.getValue(AttributesTRAn.Wisdom) //
+				+ ((c.getValue(AttributesTRAn.Defense) >> 2) + (c.getValue(AttributesTRAn.Faith)) >> 1)//
+		) >> 1;
 
-		cache[AttributesTRAn.CriticalMultiplier.ordinal()] = (c.getValue(AttributesTRAn.Strength.getIndex()) << 1)
-				+ c.getValue(AttributesTRAn.Intelligence.getIndex()) + c.getValue(AttributesTRAn.Wisdom.getIndex())
-				+ c.getValue(AttributesTRAn.Luck.getIndex());
+		cache[AttributesTRAn.CriticalMultiplier.ordinal()] = (c.getValue(AttributesTRAn.Strength) << 1)
+				+ c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Wisdom)
+				+ c.getValue(AttributesTRAn.Luck);
 
 		cache[AttributesTRAn.CriticalProbability.ordinal()] = //
-				((c.getValue(AttributesTRAn.Precision.getIndex()) << 1)
-						+ c.getValue(AttributesTRAn.Dexterity.getIndex()) + c.getValue(AttributesTRAn.Faith.getIndex())//
-						+ ((+c.getValue(AttributesTRAn.Intelligence.getIndex())
-								+ c.getValue(AttributesTRAn.Wisdom.getIndex())) >> 1)//
-				) + c.getValue(AttributesTRAn.Luck.getIndex());
+				((c.getValue(AttributesTRAn.Precision) << 1) + c.getValue(AttributesTRAn.Dexterity)
+						+ c.getValue(AttributesTRAn.Faith)//
+						+ ((+c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Wisdom)) >> 1)//
+				) + c.getValue(AttributesTRAn.Luck);
 
 		cache[AttributesTRAn.ProbabilityHitPhysical.ordinal()] = //
-				c.getValue(AttributesTRAn.Precision.getIndex()) + (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 1)
-						+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 2)
-						+ c.getValue(AttributesTRAn.Luck.getIndex())
-						+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3);
+				+c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Luck)
+						+ ((c.getValue(AttributesTRAn.Dexterity) + (c.getValue(AttributesTRAn.Strength) >> 1)
+								+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
 
-		cache[AttributesTRAn.ProbabilityAvoidPhysical.ordinal()] = c.getValue(AttributesTRAn.Dexterity.getIndex())
-				+ (c.getValue(AttributesTRAn.Precision.getIndex()) >> 1)
-				+ (c.getValue(AttributesTRAn.Strength.getIndex()) >> 2)
-				+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3);
+		cache[AttributesTRAn.ProbabilityAvoidPhysical.ordinal()] = //
+				+c.getValue(AttributesTRAn.Dexterity) + c.getValue(AttributesTRAn.Luck)
+						+ ((c.getValue(AttributesTRAn.Precision) + (c.getValue(AttributesTRAn.Strength) >> 1)
+								+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
 
 		cache[AttributesTRAn.ProbabilityHitMagical.ordinal()] = //
-				c.getValue(AttributesTRAn.Wisdom.getIndex()) + (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 1)
-						+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2)
-						+ c.getValue(AttributesTRAn.Luck.getIndex())
-						+ (c.getValue(AttributesTRAn.Precision.getIndex()) >> 3);
+				+c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Luck)
+						+ ((c.getValue(AttributesTRAn.Intelligence) + (c.getValue(AttributesTRAn.Faith) >> 1)
+								+ (c.getValue(AttributesTRAn.Precision) >> 2)) >> 1);
 
-		cache[AttributesTRAn.ProbabilityAvoidMagical.ordinal()] = c.getValue(AttributesTRAn.Intelligence.getIndex())
-				+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 1)
-				+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 2)
-				+ (c.getValue(AttributesTRAn.Dexterity.getIndex()) >> 3);
+		cache[AttributesTRAn.ProbabilityAvoidMagical.ordinal()] = +c.getValue(AttributesTRAn.Luck)
+				+ c.getValue(AttributesTRAn.Intelligence) + ((c.getValue(AttributesTRAn.Wisdom)
+						+ (c.getValue(AttributesTRAn.Faith) >> 1) + (c.getValue(AttributesTRAn.Dexterity) >> 3)) >> 1);
 
-		cache[AttributesTRAn.Velocity.ordinal()] = ((c.getValue(AttributesTRAn.Dexterity.getIndex()) << 1) / 5) //
-				+ (((c.getValue(AttributesTRAn.Constitution.getIndex())
-						+ c.getValue(AttributesTRAn.Strength.getIndex())) << 1) / 15);
+		cache[AttributesTRAn.Velocity.ordinal()] = ((c.getValue(AttributesTRAn.Dexterity) << 1) / 5) //
+				+ (((c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Strength)) << 1) / 15);
 	}
 }

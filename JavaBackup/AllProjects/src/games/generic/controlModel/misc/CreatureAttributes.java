@@ -63,7 +63,7 @@ public abstract class CreatureAttributes {
 	 * (i.e.: {@link EquipmentItem} and their {@link AttributeModification}),
 	 * effects, auras, magics, abilities, battlefield's influences, etc.
 	 */
-	public int getValue(int index) {
+	protected int getValue(int index) {
 		return this.originalValues[index];
 	}
 
@@ -73,7 +73,9 @@ public abstract class CreatureAttributes {
 	 * parameter.
 	 */
 	public int getValue(AttributeIdentifier identifier) {
-		return getValue(identifier.getIndex());
+		int v;
+		v = getValue(identifier.getIndex());
+		return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
 	}
 
 	public CreatureAttributesBonusesCalculator getBonusCalculator() {
