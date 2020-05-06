@@ -1,5 +1,6 @@
 package tests.tDataStruct;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
@@ -189,6 +190,22 @@ public class TestMapTreeAVL {
 		System.out.println("\n now remove min");
 		System.out.println(t.removeMinimum());
 		System.out.println(t);
+
+		System.out.println("\n\n\n\n remove 2.0\n\n\n");
+		t.clear();
+		for (int i = 0; i < 31; i++) {
+			x = i;
+			t.put(x, x);
+		}
+		System.out.println(t);
+		vals = new int[] { 1, 11, 23, 15, 24, 25, 30, 26, 29, 21 };
+		System.out.println("removing: " + Arrays.toString(vals));
+		for (int i : vals) {
+			x = i;
+			t.remove(x);
+			System.out.println("\n after removing " + i + "we get:");
+			System.out.println(t);
+		}
 	}
 
 	static void ap(MapTreeAVL<Integer, Integer> t, Integer x) {
@@ -198,5 +215,4 @@ public class TestMapTreeAVL {
 		System.out.println(t);
 		System.out.println(t.peekMinimum() + " - " + t.peekMaximum());
 	}
-
 }

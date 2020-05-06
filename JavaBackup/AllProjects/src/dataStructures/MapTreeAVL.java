@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import dataStructures.MapTreeAVL.MapTreeAVLFactory;
 //import dataStructures.MapTreeAVL.MapTreeAVLFactory;
 import dataStructures.mtAvl.MapTreeAVLFull;
 import dataStructures.mtAvl.MapTreeAVLLightweight;
@@ -314,7 +315,7 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 		return v;
 	}
 
-	public default V remove(int index) {
+	public default V removeAt(int index) {
 		Entry<K, V> e;
 		V v;
 		e = getAt(index);
