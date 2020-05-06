@@ -103,7 +103,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 		am.setValue(reduct);
 		System.out.println(";;ADamagRedCurrBas... attri to mod " + am.getAttributeModified().getName() + " has value "
 				+ am.getValue() + ", creature's value : " + this.getEquipItem().getCreatureWearingEquipments()
-						.getAttributes().getValue(am.getAttributeModified().getIndex()));
+						.getAttributes().getValue(am.getAttributeModified()));
 		System.out.println("MoNeY: " + //
 				((BasePlayerRPG) this.getEquipItem().getCreatureWearingEquipments()).getCurrencies().getMoneyAmount(0));
 	}

@@ -56,12 +56,12 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	@Override
 	public int getLifeMax() {
-		return this.getAttributes().getValue(AttributesTRAn.LifeMax.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.LifeMax);
 	}
 
 	@Override
 	public int getLifeRegenation() {
-		return this.getAttributes().getValue(AttributesTRAn.RigenLife.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.RigenLife);
 	}
 
 	@Override
@@ -71,12 +71,12 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	@Override
 	public int getManaMax() {
-		return this.getAttributes().getValue(AttributesTRAn.ManaMax.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.ManaMax);
 	}
 
 	@Override
 	public int getManaRegenation() {
-		return this.getAttributes().getValue(AttributesTRAn.RigenMana.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.RigenMana);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		AttributeIdentifier ai;
 		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityAvoidPhysical
 				: AttributesTRAn.ProbabilityAvoidMagical;
-		return this.getAttributes().getValue(ai.getIndex());
+		return this.getAttributes().getValue(ai);
 	}
 
 	@Override
@@ -110,17 +110,17 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		AttributeIdentifier ai;
 		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityHitPhysical
 				: AttributesTRAn.ProbabilityHitMagical;
-		return this.getAttributes().getValue(ai.getIndex());
+		return this.getAttributes().getValue(ai);
 	}
 
 	@Override
 	public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalProbability.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.CriticalProbability);
 	}
 
 	@Override
 	public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplier.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplier);
 	}
 
 	//
