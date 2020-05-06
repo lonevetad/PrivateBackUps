@@ -442,16 +442,18 @@
 	}, {
 		"name": "of Wizard",
 		"rarity": 3,
-		"bonusPrice": [32],
+		"bonusPrice": [38],
 		"modifiers": [
-			{"attribute": "Faith", "value": 6},
+			{"attribute": "Faith", "value": 5},
 			{"attribute": "Intelligence", "value": 12},
-			{"attribute": "Wisdom", "value": 15},
+			{"attribute": "Wisdom", "value": 10},
 			{"attribute": "Strength", "value": -6},
-			{"attribute": "Constitution", "value": -5},
+			{"attribute": "Constitution", "value": -4},
 			{"attribute": "Defense", "value": -3},
 			{"attribute": "Dexterity", "value": -4},
-			{"attribute": "DamageBonusMagical", "value": 3},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Luck", "value": 5},
+			{"attribute": "DamageBonusMagical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": 2},
 			{"attribute": "ProbabilityHitMagical", "value": 50},
 			{"attribute": "ProbabilityAvoidMagical", "value": 50}
@@ -459,28 +461,37 @@
 	}, {
 		"name": "of Druid",
 		"rarity": 3,
-		"bonusPrice": [32],
+		"bonusPrice": [38],
 		"modifiers": [
-			{"attribute": "Precision", "value": 7},
-			{"attribute": "Dexterity", "value": 9},
-			{"attribute": "Faith", "value": 8},
-			{"attribute": "Wisdom", "value": 2},
-			{"attribute": "Strength", "value": -4},
+			{"attribute": "Precision", "value": 4},
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Faith", "value": 12},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Strength", "value": -5},
 			{"attribute": "Health", "value": 3},
-			{"attribute": "CriticalProbability", "value": 3},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 30},
+			{"attribute": "Constitution", "value": -2},
+			{"attribute": "Defense", "value": -2},
+			{"attribute": "LifeMax", "value": -75},
+			{"attribute": "ManaMax", "value": 50},
+			{"attribute": "Velocity", "value": 10},
+			{"attribute": "CriticalProbability", "value": 30},
 			{"attribute": "ProbabilityAvoidMagical", "value": 70}
 		]  // TODO OOOOOOOOOOOOOOOOOOOOOOOOOOO da qua in su bisogna riaggiustare tutto considerando che gli equipaggiamenti "base" forniscono 1-1.5 livelli in bonus (ossia 10-15 punti base)
 	}, {
 		"name": "of Knight",
 		"rarity": 3,
-		"bonusPrice": [32],
+		"bonusPrice": [38],
 		"modifiers": [
 			{"attribute": "Strength", "value": 8},
-			{"attribute": "Dexterity", "value": 5},
-			{"attribute": "Defense", "value": 4},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 4},
+			{"attribute": "Faith", "value": -4},
 			{"attribute": "ProbabilityHitPhysical", "value": 50},
-			{"attribute": "DamageBonusPhysical", "value": 2}
+			{"attribute": "ProbabilityAvoidPhysical", "value": 30},
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 1}
 		]
 	}, {
 		"name": "of Woodcutter",

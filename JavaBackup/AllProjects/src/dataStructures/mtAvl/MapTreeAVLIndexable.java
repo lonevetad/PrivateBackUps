@@ -49,7 +49,6 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 		NodeAVL_Indexable n, temp;
 		n = (MapTreeAVLIndexable<K, V>.NodeAVL_Indexable) nnn;
 		while (n != NIL) {
-			// lh= ;rh=;
 			// recalculate, just to be sure
 			n.height = (((hl = n.left.height) > (hr = n.right.height)) ? hl : hr) + 1;
 			delta = hl - hr;
@@ -68,13 +67,35 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 				n = (NodeAVL_Indexable) n.father;
 			} else {
 //				if(delta >=2)n.rotate(true);else
-				temp = n;
-				n = (NodeAVL_Indexable) n.father;
-				temp.rotate(delta >= 2);
+//				temp = n;
+//				n = (NodeAVL_Indexable) n.father;
+//				temp.rotate(delta >= 2);
+
+				// copied from Lightweight
+				n.rotate(delta >= 2);
+				n = (NodeAVL_Indexable) n.father.father;
 			}
 		}
 		((NodeAVL_Indexable) NIL).sizeLeft = ((NodeAVL_Indexable) NIL).sizeRight = -1;
 		NIL.height = -1;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected V delete(NodeAVL nnn) {
+		int prevSize;
+		prevSize = size;
+		V v;
+		v = super.delete(nnn);
+		if (prevSize == Integer.MAX_VALUE) {
+			prevSize = (1 + ((NodeAVL_Indexable) root).sizeLeft + ((NodeAVL_Indexable) root).sizeRight);
+			// is there an overflow?
+			if (prevSize < 0 || ((NodeAVL_Indexable) root).sizeLeft < 0 || ((NodeAVL_Indexable) root).sizeRight < 0) {
+				prevSize = Integer.MAX_VALUE;
+			} //
+			size = prevSize;
+		} // else nothing, everything is jet ok
+		return v;
 	}
 
 	//

@@ -607,7 +607,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		if (--size == 0)
 			root = NIL;
 		else if (root == NIL)
-			throw new RuntimeException("Root is nil but tree is not empty");
+			throw new RuntimeException("BUG: Root is nil but tree is not empty");
 		NIL.father = NIL.left = NIL.right = NIL;
 		return v;
 	}
@@ -1317,6 +1317,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		// putt all nodes onto the array
 		this.forEach(new ForEacherEntry((i, e) -> nodes[i] = e));
 		this.root = balanceRec(nodes, 0, nodes.length - 1);
+		this.root.father = NIL;
+		NIL.left = NIL.left.right = NIL.father = NIL;
 	}
 
 	/** Interval's Boundaries are all inclusive */

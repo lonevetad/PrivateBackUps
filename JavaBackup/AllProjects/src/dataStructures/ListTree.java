@@ -2,6 +2,7 @@ package dataStructures;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
@@ -9,8 +10,12 @@ import java.util.function.Consumer;
 
 /**
  * A {@link List} implementation that guarantee a <code>O(log2(N))</code>
- * performance over insertion (first and last), insertion at index, fetch at
- * index, remove (first and last) and remove at index.<br>
+ * performance over {@link #add(Object)}, {@link #add(int, Object)},
+ * {@link #addFirst(Object)}, {@link #addLast(Object)}, {@link #get(int)},
+ * {@link #remove(int)}, {@link #remove(Object)}.<br>
+ * Sadly, {@link #indexOf(Object)} and {@link #lastIndexOf(Object)} runs in
+ * <code>O(n)</code>. Further implementations could enhance those two methods if
+ * the given generic class is implementing {@link Comparable}. <br>
  * It uses a binary balanced AVL-like tree.
  */
 public class ListTree<E> implements List<E> {
@@ -30,7 +35,8 @@ public class ListTree<E> implements List<E> {
 	public void clear() {
 		size = 0;
 		root = first = last = NIL;
-		NIL.father = NIL.left = NIL.right = NIL;
+		NIL.height = DEPTH_INITIAL;
+		NIL.nullifyReferences();
 	}
 
 	@Override
@@ -43,6 +49,7 @@ public class ListTree<E> implements List<E> {
 		return root == NIL;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean contains(Object o) {
 		NodeListTree n;
@@ -84,6 +91,7 @@ public class ListTree<E> implements List<E> {
 		return e;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int indexOf(Object o) {
 		NodeListTree n;
@@ -91,6 +99,7 @@ public class ListTree<E> implements List<E> {
 		return n == NIL ? -1 : n.index();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int lastIndexOf(Object o) {
 		int i;
@@ -111,22 +120,8 @@ public class ListTree<E> implements List<E> {
 	}
 
 	@Override
-	public Object[] toArray() {
-		int[] index;
-		if (size == 0)
-			return null;
-		if (size == 1)
-			return new Object[] { root.element };
-		Object[] a;
-		a = new Object[size];
-		index = new int[] { 0 };
-		this.forEach(e -> a[index[0]++] = e);
-		return a;
-	}
-
-	@Override
 	public boolean add(E element) {
-		add(size, element);
+		addLast(element);
 		return true;
 	}
 
@@ -135,7 +130,7 @@ public class ListTree<E> implements List<E> {
 	}
 
 	public void addLast(E element) {
-		add(element);
+		add(size, element);
 	}
 
 	@Override
@@ -177,14 +172,16 @@ public class ListTree<E> implements List<E> {
 
 		if (index == size) {
 			x = last;
+			last = n;
 			x.right = n;
 			x.next = n;
 			n.father = x;
 			n.prev = x;
+			n.next = NIL;
 //			last.height++;
 //			x.sizeRight++;	
 			x = n;
-			insertFixup(n);
+			insertFixup(x); // n is yet balanced: it's a leaf
 		} else {
 			boolean addToLeft;
 			// get the node and put it on its left (by default)
@@ -192,6 +189,8 @@ public class ListTree<E> implements List<E> {
 			if (index == 0) {
 				x = first;
 				first = n;
+				n.next = x;
+				x.prev = n;
 			} else {
 				x = getAt(index);
 				/*
@@ -201,29 +200,39 @@ public class ListTree<E> implements List<E> {
 				 */
 //				hasRight = x.right != NIL;
 				if (x.left != NIL) {
+					System.out.println("________________adding " + n.element + " at" + index + " BUT LEFT NOT NIL: "
+							+ x.left.element + " ... and x is " + x.element);
 					/*
 					 * a left exists, then also a previous exists (since all "next"s are placed at
 					 * the right)
 					 */
-					x = x.prev;
 					addToLeft = false;
+					n.prev = x.prev;
+					n.next = x;
+					x.prev.next = n;
+					x.prev = n;
+					System.out.println("----- and x.prev is " + x.prev.element);
+					x = n.prev;
+				} else {
+					/*
+					 * linked-list-like insertion. In case of index == 0, then prev would be NIL, so
+					 * this two lines would be useless, that's why they are in this "if"
+					 */
+					n.prev = x.prev;
+					n.next = x;
+					x.prev.next = n;
+					x.prev = n;
 				}
-				/*
-				 * linked-list-like insertion. In case of index == 0, then prev would be NIL, so
-				 * this two lines would be useless, that's why they are in this "if"
-				 */
-				n.prev = x.prev;
-				x.prev.next = n;
 			}
 			if (addToLeft)
 				x.left = n;
 			else
 				x.right = n;
-			x.father = n;
-			n.next = x;
+			n.father = x;
 //			x.height++;
 //			x.sizeLeft++;
-			insertFixup(n);
+//			insertFixup(n);
+			insertFixup(x); // n is yet balanced: it's a leaf
 		}
 		if (size != Integer.MAX_VALUE)
 			size++;
@@ -254,13 +263,25 @@ public class ListTree<E> implements List<E> {
 
 	@Override
 	public void forEach(Consumer<? super E> action) {
-		NodeListTree n;
-		if (root == NIL)
+		NodeListTree n, nil;
+		nil = NIL;
+		if (root == nil)
 			return;
 		n = first;
 		do {
 			action.accept(n.element);
-		} while ((n = n.right) != NIL);
+		} while ((n = n.next) != nil);
+	}
+
+	public void forEachReversed(Consumer<? super E> action) {
+		NodeListTree n, nil;
+		nil = NIL;
+		if (root == nil)
+			return;
+		n = last;
+		do {
+			action.accept(n.element);
+		} while ((n = n.prev) != nil);
 	}
 
 	//
@@ -348,11 +369,13 @@ public class ListTree<E> implements List<E> {
 		NodeListTree temp;
 		while (n != NIL) {
 			// recalculate, just to be sure
+			System.out.println("fixin up with " + n.element);
 			n.height = (((hl = n.left.height) > (hr = n.right.height)) ? hl : hr) + 1;
+			delta = hl - hr;
+			System.out.println("new height: " + n.height + ", hl: " + hl + ", hr: " + hr);
 			// adjust sizes
 			n.sizeLeft = hl = (temp = n.left) == NIL ? 0 : (temp.sizeLeft + temp.sizeRight + 1);
 			n.sizeRight = hr = (temp = n.right) == NIL ? 0 : (temp.sizeLeft + temp.sizeRight + 1);
-			delta = hl - hr;
 			// update father's size, could be usefull
 			if ((temp = n.father) != NIL) {
 				if (temp.left == n)
@@ -364,6 +387,9 @@ public class ListTree<E> implements List<E> {
 				// no rotation
 				n = n.father;
 			} else {
+				System.out.println("rotating with delta: " + delta);// + ", hl: " + hl + ", hr: " + hr);
+//				if ((hr - hl) != (-delta))
+//					throw new RuntimeException("WTF");
 				n.rotate(delta >= 2);
 				n = n.father.father;
 
@@ -372,6 +398,8 @@ public class ListTree<E> implements List<E> {
 //				temp = n;
 //				n = n.father;
 //				temp.rotate(delta >= 2);
+				System.out.println("the result is");
+				System.out.println(this);
 			}
 		}
 		NIL.height = DEPTH_INITIAL;
@@ -389,13 +417,13 @@ public class ListTree<E> implements List<E> {
 		// actionPosition is the parent of the physically removed node
 		if (root == NIL || nToBeDeleted == NIL)
 			return NIL;
-		v = null;
 //			tempForLinks = nToBeDeleted;
 		v = nToBeDeleted;
 		if (size == 1 && Objects.equals(root.element, nToBeDeleted.element)) {
 			size = 0;
 			v = root;
-			root = NIL;
+			root = last = first = NIL;
+			NIL.nullifyReferences();
 			return v;
 		}
 
@@ -447,7 +475,7 @@ public class ListTree<E> implements List<E> {
 			succ.next.prev = succ.prev;
 			succ.prev.next = succ.next;
 		} else if (hasLeft || hasRight) { // or "^" or "!="
-			// just one child
+			// just one child: delete it stealing from it its element
 			NodeListTree child;
 			if (hasLeft) {
 				child = nToBeDeleted.left;
@@ -471,6 +499,8 @@ public class ListTree<E> implements List<E> {
 			}
 			actionPosition = nToBeDeleted;
 			v = child;
+			child.prev.next = child.next;
+			child.next.prev = child.prev;
 		} else {
 			// leaf
 			if (notNilFather) {
@@ -487,11 +517,12 @@ public class ListTree<E> implements List<E> {
 					last = ntbdFather;
 					ntbdFather.next = NIL;
 				}
-			} else {// i'm root AND a leaf: this tree will be cleared (leather)
-				size = 0;
-				root = first = last = NIL;
-				NIL.father = NIL.left = NIL.right = NIL;
-				NIL.height = DEPTH_INITIAL;
+				nToBeDeleted.prev.next = nToBeDeleted.next;
+				nToBeDeleted.next.prev = nToBeDeleted.prev;
+				// do not clear nToBeDeleted's fields to save time
+//				actionPosition=ntbdFather; // removed because it's redundant
+			} else {// i'm root AND a leaf: this tree will be cleared (later)
+				clear();
 				return v;
 			}
 		}
@@ -504,13 +535,100 @@ public class ListTree<E> implements List<E> {
 				: actionPosition.right.height) + 1;
 
 		// todo 2
-		if (--size == 0) {
+		if (size == Integer.MAX_VALUE) {
+			size = (1 + root.sizeLeft + root.sizeRight);
+			// is there an overflow?
+			if (size < 0 || root.sizeLeft < 0 || root.sizeRight < 0) {
+				size = Integer.MAX_VALUE;
+			}
+		} else if (--size == 0) {
 			root = last = first = NIL;
 		} else if (root == NIL)
-			throw new RuntimeException("Root is nil but tree is not empty");
-		NIL.father = NIL.left = NIL.right = NIL;
+			throw new RuntimeException("BUG: Root is nil but tree is not empty");
+		NIL.nullifyReferences();
 		return v;
 	}
+
+	//
+
+	// TODO INHERITED FROM LIST (but uglier than other more common methods
+
+	@Override
+	public Object[] toArray() {
+		if (size == 0)
+			return null;
+		if (size == 1)
+			return new Object[] { root.element };
+		return toArray(new Object[size]);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T[] toArray(T[] a) {
+		int[] index;
+		final T[] tempArray;
+		if (size == 0 || a == null)
+			return a;
+		if (a.length < size)
+			a = (T[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+		tempArray = a;
+		index = new int[] { 0 };
+		this.forEach(e -> tempArray[index[0]++] = (T) e);
+		return tempArray;
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> c) {
+		for (Object o : c) {
+			if (!contains(o))
+				return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean addAll(Collection<? extends E> c) {
+//		boolean[] flag;
+		final int prevSize;
+		final ListTree<E> thisList;
+		thisList = this;
+		prevSize = size();
+//		flag = new boolean[] { false };
+		c.forEach(o -> {
+			thisList.add(o);
+//			flag[0] |= prevSize != thisList.size();
+		});
+		return prevSize != thisList.size();
+	}
+
+	@Override
+	public boolean addAll(int index, Collection<? extends E> c) {
+		final int prevSize, i[];
+		final ListTree<E> thisList;
+		thisList = this;
+		prevSize = size();
+//		flag = new boolean[] { false };
+		i = new int[] { index };
+		c.forEach(o -> {
+			thisList.add(i[0]++, o);
+//			flag[0] |= prevSize != thisList.size();
+		});
+		return prevSize != thisList.size();
+	}
+
+	@Override
+	public boolean removeAll(Collection<?> c) {
+		final int prevSize;
+		final ListTree<E> thisList;
+		thisList = this;
+		prevSize = size();
+		c.forEach(o -> remove(o));
+		return prevSize != thisList.size();
+	}
+
+	//
+
+	//
 
 	@Override
 	public String toString() {
@@ -724,6 +842,55 @@ public class ListTree<E> implements List<E> {
 		}
 	}
 
+	//
+
+	//
+
+	@Override
+	public boolean retainAll(Collection<?> c) {
+		LinkedList<E> toBeRemoved;
+		if (c == null || this.isEmpty())
+			return false;
+		if (c.isEmpty()) {
+			this.clear();
+			return true;
+		}
+		toBeRemoved = new LinkedList<>();
+		this.forEach(e -> {
+			if (!c.contains(e))
+				toBeRemoved.add(e);
+		});
+		if (toBeRemoved.isEmpty())
+			return false;
+		while (!toBeRemoved.isEmpty())
+			this.remove(toBeRemoved.removeFirst());
+		return true;
+	}
+
+	@Override
+	public ListIterator<E> listIterator() {
+		throw new UnsupportedOperationException("Operation not implemented yet");
+	}
+
+	@Override
+	public ListIterator<E> listIterator(int index) {
+		throw new UnsupportedOperationException("Operation not implemented yet");
+	}
+
+	@Override
+	public List<E> subList(int fromIndex, int toIndex) {
+		/*
+		 * could be achieved through "proxy" methods (also, clear() could act as a
+		 * <code>loop of remove(index)</code>, in a similar way getAt(i) could be
+		 * <code>backList.getAt(baseIndex+i)</code>, and so on).
+		 */
+		throw new UnsupportedOperationException("Operation not implemented yet");
+	}
+
+	//
+
+	//
+
 	class IteratorListTree implements Iterator<E> {
 		NodeListTree n = first;
 
@@ -742,57 +909,4 @@ public class ListTree<E> implements List<E> {
 
 	}
 
-	@Override
-	public <T> T[] toArray(T[] a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addAll(Collection<? extends E> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addAll(int index, Collection<? extends E> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean retainAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ListIterator<E> listIterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ListIterator<E> listIterator(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<E> subList(int fromIndex, int toIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
