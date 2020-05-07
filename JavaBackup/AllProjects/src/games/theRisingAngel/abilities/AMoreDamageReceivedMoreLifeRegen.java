@@ -32,7 +32,7 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingSingleAttr
 	public static final String NAME = "Pain Rinvigoring";
 
 	public AMoreDamageReceivedMoreLifeRegen() {
-		super(AttributesTRAn.RigenLife, NAME);
+		super(NAME, AttributesTRAn.RegenLife);
 		this.eventsWatching = new ArrayList<>(2);
 		this.addEventWatched(EventsTRAn.DamageReceived);
 		ticks = 0;

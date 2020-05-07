@@ -260,8 +260,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	protected int getDamageReductionForType(ObjectNamedID damageType) {
 		// damageType == DamageTypesTRAr.Physical
-		return this.getAttributes()
-				.getValue(AttributesTRAn.damageReductionByType((DamageTypesTRAn) damageType).getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.damageReductionByType((DamageTypesTRAn) damageType));
 	}
 
 	// TODO fire damage

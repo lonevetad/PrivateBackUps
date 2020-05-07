@@ -158,7 +158,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 				if (amountHealed > 0) { // there is still an healing instance after the cap-check?
 					crh.curableResources[indexHealingType] = tempTotalResource;
 //			crh.getCurableResourceAmount(ht);
-					System.out.println("HEALIIIIIING " + ht.getName() + " of " + amountHealed);
+//					System.out.println("HEALIIIIIING " + ht.getName() + " of " + amountHealed);
 					fireHealingReceived(gm, this, newHealInstance(ht, amountHealed));
 				}
 			}

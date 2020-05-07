@@ -101,7 +101,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 		cache[AttributesTRAn.LifeMax.ordinal()] = c.getValue(AttributesTRAn.Constitution)
 				+ (c.getValue(AttributesTRAn.Strength) >> 1) + (c.getValue(AttributesTRAn.Health) << 1);
 
-		cache[AttributesTRAn.RigenLife.ordinal()] = //
+		cache[AttributesTRAn.RegenLife.ordinal()] = //
 				+((c.getValue(AttributesTRAn.Health) + (c.getValue(AttributesTRAn.Constitution) >> 1)
 						+ (c.getValue(AttributesTRAn.Strength) / 3) // >> 2)
 				) >> 2)//
@@ -109,10 +109,13 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //			v >>= 1; // to high
 
 		cache[AttributesTRAn.DamageReductionPhysical.ordinal()] = ( //
-		+c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Defense)
-				+ ((c.getValue(AttributesTRAn.Strength) + (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)
+		+c.getValue(AttributesTRAn.Defense) //
+				+ (((c.getValue(AttributesTRAn.Strength) >> 1) + c.getValue(AttributesTRAn.Constitution)
+						+ (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)
 				+ (c.getValue(AttributesTRAn.Dexterity) / 5)//
 		) >> 1;
+
+		//
 
 		cache[AttributesTRAn.DamageBonusPhysical.ordinal()] = ( //
 		+((c.getValue(AttributesTRAn.Strength) + c.getValue(AttributesTRAn.Constitution)) >> 1)
@@ -124,7 +127,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 				+ (c.getValue(AttributesTRAn.Wisdom)) + (c.getValue(AttributesTRAn.Faith) << 1);
 //			v >>= 1; // too high, make it half
 
-		cache[AttributesTRAn.RigenMana.ordinal()] = //
+		cache[AttributesTRAn.RegenMana.ordinal()] = //
 				+(c.getValue(AttributesTRAn.Faith) + (c.getValue(AttributesTRAn.Intelligence) / 3)// >>
 																									// 2)
 						+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)//
@@ -154,6 +157,17 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 						+ c.getValue(AttributesTRAn.Faith)//
 						+ ((+c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Wisdom)) >> 1)//
 				) + c.getValue(AttributesTRAn.Luck);
+
+		cache[AttributesTRAn.CriticalMultiplierReduction.ordinal()] = ( //
+		+c.getValue(AttributesTRAn.Defense) + c.getValue(AttributesTRAn.Constitution) //
+				+ ((+(c.getValue(AttributesTRAn.Strength) >> 1) + (c.getValue(AttributesTRAn.Dexterity) >> 2)) >> 1)//
+		) >> 3;
+
+		cache[AttributesTRAn.CriticalProbabilityAvoid.ordinal()] = (+c.getValue(AttributesTRAn.Constitution) //
+				+ ((+c.getValue(AttributesTRAn.Dexterity)//
+						+ ((c.getValue(AttributesTRAn.Defense) + ((c.getValue(AttributesTRAn.Precision)
+								+ c.getValue(AttributesTRAn.Intelligence)) >> 1)) >> 1)) >> 1)//
+		);
 
 		cache[AttributesTRAn.ProbabilityHitPhysical.ordinal()] = //
 				+c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Luck)

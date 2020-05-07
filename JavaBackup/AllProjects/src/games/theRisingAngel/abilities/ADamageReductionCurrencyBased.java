@@ -27,7 +27,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 	public static final int RARITY = 3;
 
 	public ADamageReductionCurrencyBased(DamageTypesTRAn dt) {
-		super(AttributesTRAn.damageReductionByType(dt), NAME + dt.getName());
+		super(NAME + dt.getName(), AttributesTRAn.damageReductionByType(dt));
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
 		perThousandFraction = 0;

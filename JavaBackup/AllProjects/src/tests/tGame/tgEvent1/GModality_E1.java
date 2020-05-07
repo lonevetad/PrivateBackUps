@@ -12,6 +12,7 @@ import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.GameObjectsProvidersHolderTRAn;
 import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
+import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
@@ -93,7 +94,7 @@ public class GModality_E1 extends GModalityTRAn {
 				ca = p.getAttributes();
 				sb.append("Player life ").append(p.getLife()).append(", current values: ");
 				for (int i = 0; i < ca.getAttributesCount(); i++)
-					sb.append(ca.getValue(i)).append(", ");
+					sb.append(ca.getValue(AttributesTRAn.VALUES[i])).append(", ");
 				return sb.toString();
 			}
 		};

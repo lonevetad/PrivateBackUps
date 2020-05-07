@@ -26,7 +26,7 @@ public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealT
 	public static final boolean IS_TESTING = true;
 	public static final String NAME = "Stonefying Skin";
 	public static final int DURATION_EFFECT = IS_TESTING ? 2000 : 5000; // 750
-	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RigenLife,
+	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RegenLife,
 			AttributesTRAn.DamageReductionPhysical, AttributesTRAn.DamageReductionMagical };
 
 	public AShiedlingButWeakining_OLD2() {
@@ -100,7 +100,7 @@ public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealT
 					cAttr = creatureWearing.getAttributes();
 					// activate the ability
 					// compute the bonuses and malus
-					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); // Original
+					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RegenLife.getIndex()); // Original
 					(am = this.attributesToModify[0]).setValue(-(lifeRegenOriginal >> 1)); // the half
 					cAttr.applyAttributeModifier(am);
 					lifeRegenOriginal >>= 2; // recycle as a temp

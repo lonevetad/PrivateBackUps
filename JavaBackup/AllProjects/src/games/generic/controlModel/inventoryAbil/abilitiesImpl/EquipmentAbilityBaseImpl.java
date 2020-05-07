@@ -1,5 +1,6 @@
 package games.generic.controlModel.inventoryAbil.abilitiesImpl;
 
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.inventoryAbil.EquipItemAbility;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
@@ -44,5 +45,10 @@ public abstract class EquipmentAbilityBaseImpl extends AbilityBaseImpl implement
 			return null;
 		ah = ei.getCreatureWearingEquipments();
 		return (ah == null) ? null : ah.getAttributes();
+	}
+
+	@Override
+	public void onAddingToOwner(GModality gm) {
+		EquipItemAbility.super.onAddingToOwner(gm);
 	}
 }

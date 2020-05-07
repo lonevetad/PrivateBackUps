@@ -25,7 +25,7 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 		super(name);
 	}
 
-	public AbilityModifyingAttributesRealTime(AttributeIdentifier[] attributesModified, String name) {
+	public AbilityModifyingAttributesRealTime(String name, AttributeIdentifier[] attributesModified) {
 		super(name);
 		if (attributesModified != null) {
 			setAttributesToModify(attributesModified);

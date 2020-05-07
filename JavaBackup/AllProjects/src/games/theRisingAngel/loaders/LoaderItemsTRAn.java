@@ -69,7 +69,8 @@ public class LoaderItemsTRAn extends LoaderItems {
 		@Override
 		public String toString() {
 			return "FactoryEquip [\n name=" + name + ",\n rarity=" + rarity + ", sell price: " + Arrays.toString(price)
-					+ ",\n dimensions: " + dimensionInInventory + ",\n abilities=\n\t";
+					+ ",\n description: " + description + ",\n dimensions: " + dimensionInInventory
+					+ ",\n abilities=\n\t";
 		}
 	}
 }

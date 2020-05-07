@@ -61,7 +61,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	@Override
 	public int getLifeRegenation() {
-		return this.getAttributes().getValue(AttributesTRAn.RigenLife);
+		return this.getAttributes().getValue(AttributesTRAn.RegenLife);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	@Override
 	public int getManaRegenation() {
-		return this.getAttributes().getValue(AttributesTRAn.RigenMana);
+		return this.getAttributes().getValue(AttributesTRAn.RegenMana);
 	}
 
 	@Override
@@ -159,7 +159,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	@Override
 	public void setLifeRegenation(int lifeRegenation) {
 		if (lifeRegenation >= 0) {
-			this.getAttributes().setOriginalValue(AttributesTRAn.RigenLife.getIndex(), lifeRegenation);
+			this.getAttributes().setOriginalValue(AttributesTRAn.RegenLife.getIndex(), lifeRegenation);
 		}
 	}
 
@@ -175,7 +175,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	@Override
 	public void setManaRegenation(int lifeRegenation) {
 		if (lifeRegenation >= 0) {
-			this.getAttributes().setOriginalValue(AttributesTRAn.RigenMana.getIndex(), lifeRegenation);
+			this.getAttributes().setOriginalValue(AttributesTRAn.RegenMana.getIndex(), lifeRegenation);
 		}
 	}
 

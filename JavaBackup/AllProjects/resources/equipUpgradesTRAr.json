@@ -61,7 +61,7 @@
 		"bonusPrice": [100],
 		"modifiers": [
 			{"attribute": "ManaMax", "value": 50},
-			{"attribute": "RigenMana", "value": 8},
+			{"attribute": "RegenMana", "value": 8},
 			{"attribute": "Wisdom", "value": 8},
 			{"attribute": "Intelligence", "value": 5},
 			{"attribute": "Faith", "value": 10},
@@ -74,7 +74,7 @@
 		"bonusPrice": [100],
 		"modifiers": [
 			{"attribute": "LifeMax", "value": 50},
-			{"attribute": "RigenLife", "value": 8},
+			{"attribute": "RegenLife", "value": 8},
 			{"attribute": "Constitution", "value": 8},
 			{"attribute": "Strength", "value": 5},
 			{"attribute": "Health", "value": 10},
@@ -107,8 +107,8 @@
 		"modifiers": [
 			{"attribute": "LifeLeechPercentage", "value": 10},
 			{"attribute": "ManaLeechPercentage", "value": 10},
-			{"attribute": "RigenLife", "value": 2},
-			{"attribute": "RigenMana", "value": 2},
+			{"attribute": "RegenLife", "value": 2},
+			{"attribute": "RegenMana", "value": 2},
 			{"attribute": "Luck", "value": -5}
 		]
 	}, {
@@ -614,8 +614,8 @@
 		"modifiers": [
 			{"attribute": "LifeMax", "value": 15},
 			{"attribute": "ManaMax", "value": 15},
-			{"attribute": "RigenMana", "value": 2},
-			{"attribute": "RigenLife", "value": 2},
+			{"attribute": "RegenMana", "value": 2},
+			{"attribute": "RegenLife", "value": 2},
 			{"attribute": "Health", "value": -5},
 			{"attribute": "Constitution", "value": 6},
 			{"attribute": "Wisdom", "value": 8},
@@ -799,7 +799,7 @@
 			{"attribute": "Strength", "value": 12},
 			{"attribute": "Intelligence", "value": -4},
 			{"attribute": "Wisdom", "value": -5},
-			{"attribute": "RigenMana", "value": 3},
+			{"attribute": "RegenMana", "value": 3},
 			{"attribute": "DamageBonusPhysical", "value": 5},
 			{"attribute": "DamageBonusMagical", "value": 3}
 		]
@@ -819,8 +819,8 @@
 		"rarity": 4,
 		"bonusPrice": [-32],
 		"modifiers": [
-			{"attribute": "RigenLife", "value": -9},
-			{"attribute": "RigenMana", "value": -6},
+			{"attribute": "RegenLife", "value": -9},
+			{"attribute": "RegenMana", "value": -6},
 			{"attribute": "Faith", "value": -7},
 			{"attribute": "Constitution", "value": -8},
 			{"attribute": "Defense", "value": -4},
@@ -1055,8 +1055,8 @@
 		"rarity": 3,
 		"bonusPrice": [35],
 		"modifiers": [
-			{"attribute": "RigenLife", "value": -3},
-			{"attribute": "RigenMana", "value": -3},
+			{"attribute": "RegenLife", "value": -3},
+			{"attribute": "RegenMana", "value": -3},
 			{"attribute": "LifeMax", "value": -20},
 			{"attribute": "ManaMax", "value": -20},
 			{"attribute": "Luck", "value": 10},
@@ -1108,7 +1108,7 @@
 		"modifiers": [
 			{"attribute": "LifeLeechPercentage", "value": 25},
 			{"attribute": "LifeMax", "value": 100},
-			{"attribute": "RigenLife", "value": -15}
+			{"attribute": "RegenLife", "value": -15}
 		]
 	}, {
 		"name": "of Sadism",

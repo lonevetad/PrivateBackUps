@@ -181,7 +181,7 @@ public class GView_E1 extends GameView {
 		jlMoneyValue.setText(Integer.toString(p.getCurrencies().getMoneyAmount(CurrencySetTRAn.BASE_CURRENCY_INDEX)));
 		n = AttributesTRAn.VALUES.length;
 		while (--n >= 0) {
-			jlPlayerStatValue[n].setText(Integer.toString(ca.getValue(n)));
+			jlPlayerStatValue[n].setText(Integer.toString(ca.getValue(AttributesTRAn.VALUES[n])));
 		}
 		jpPlayerStats.repaint();
 		// TODO

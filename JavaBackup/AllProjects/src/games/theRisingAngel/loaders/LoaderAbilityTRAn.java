@@ -18,6 +18,7 @@ import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
 import games.theRisingAngel.abilities.ARandomScatteringOrbs;
 import games.theRisingAngel.abilities.ARandomScatteringOrbsIMpl;
+import games.theRisingAngel.abilities.ARegenToLeech;
 import games.theRisingAngel.abilities.AShieldingButWeakining;
 import games.theRisingAngel.abilities.AShieldingEachCurableResources;
 import games.theRisingAngel.abilities.AVampireBerserker;
@@ -104,7 +105,7 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 							new AttributeModification(AttributesTRAn.DamageReductionPhysical, -10),
 							new AttributeModification(AttributesTRAn.Velocity,
 									GModalityTRAn.SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN), // frenzy
-							new AttributeModification(AttributesTRAn.RigenLife, 10) }) {
+							new AttributeModification(AttributesTRAn.RegenLife, 10) }) {
 				private static final long serialVersionUID = 2588519748901515L;
 
 				@Override
@@ -126,12 +127,12 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 			a = new ASimpleFixedBufferVanishing("Bloodlust",
 					new AttributeModification[] { new AttributeModification(AttributesTRAn.Strength, 4),
 							new AttributeModification(AttributesTRAn.Health, 4),
-							new AttributeModification(AttributesTRAn.RigenLife, 1),
+							new AttributeModification(AttributesTRAn.RegenLife, 1),
 							new AttributeModification(AttributesTRAn.Velocity, // frenzy
 									GModalityTRAn.SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN >> 2),
 							new AttributeModification(AttributesTRAn.Intelligence, -1),
 							new AttributeModification(AttributesTRAn.Wisdom, -3),
-							new AttributeModification(AttributesTRAn.RigenMana, 2) }) {
+							new AttributeModification(AttributesTRAn.RegenMana, 2) }) {
 				private static final long serialVersionUID = 287962548965262L;
 
 				@Override
@@ -152,8 +153,7 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 		objProvider.addObj(ALoseManaBeforeLife.NAME, ALoseManaBeforeLife.RARITY, gm -> new ALoseManaBeforeLife());
 		objProvider.addObj(AShieldingEachCurableResources.NAME, AShieldingEachCurableResources.RARITY,
 				gm -> new AShieldingEachCurableResources());
-
 		objProvider.addObj(AVampireBerserker.NAME, AVampireBerserker.RARITY, gm -> new AVampireBerserker());
-		// TODO MOVE ALL HARD_CODED RARITIES INTO THEIR CLASSES
+		objProvider.addObj(ARegenToLeech.NAME, ARegenToLeech.RARITY, gm -> new ARegenToLeech());
 	}
 }

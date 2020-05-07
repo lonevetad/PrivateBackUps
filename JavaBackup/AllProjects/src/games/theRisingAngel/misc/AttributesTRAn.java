@@ -27,7 +27,7 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	Intelligence(true), Wisdom(true), Faith(true),
 	//
 	Luck, //
-	LifeMax(true), ManaMax(true), RigenLife, RigenMana, //
+	LifeMax(true), ManaMax(true), RegenLife, RegenMana, //
 	Velocity(true),
 	//
 	DamageBonusPhysical, DamageReductionPhysical, //
@@ -35,8 +35,9 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	DamageBonusMagical, DamageReductionMagical, //
 	ProbabilityHitMagical, ProbabilityAvoidMagical, //
 	//
-	CriticalProbability(true), CriticalMultiplier(true) //
-	, LifeLeechPercentage, ManaLeechPercentage//
+	CriticalProbability(true), CriticalMultiplier(true), //
+	CriticalProbabilityAvoid(true), CriticalMultiplierReduction(true), //
+	LifeLeechPercentage, ManaLeechPercentage//
 	;
 
 	public final boolean isStrictlyPositive;

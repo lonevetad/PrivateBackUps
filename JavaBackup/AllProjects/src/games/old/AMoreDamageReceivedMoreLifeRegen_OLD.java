@@ -24,7 +24,7 @@ public class AMoreDamageReceivedMoreLifeRegen_OLD extends AbilityModifyingSingle
 	public static final String NAME = "Pain Rinvigoring";
 
 	public AMoreDamageReceivedMoreLifeRegen_OLD() {
-		super(AttributesTRAn.RigenLife, NAME);
+		super(AttributesTRAn.RegenLife, NAME);
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(
 //		this.getAttributeToModify().getAttributeModified().getName()

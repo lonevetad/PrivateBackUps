@@ -9,6 +9,7 @@ import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 
 public class AVampireBerserker extends ASimpleFixedBufferVanishing {
+	private static final long serialVersionUID = 624478230215L;
 	public static final String NAME = "Vampire Hunt";
 	public static final int RARITY = 4, BASE_LIFE_LEECH = 5;
 
@@ -16,8 +17,8 @@ public class AVampireBerserker extends ASimpleFixedBufferVanishing {
 		super(NAME,
 				new AttributeModification[] {
 						new AttributeModification(AttributesTRAn.LifeLeechPercentage, BASE_LIFE_LEECH),
-						new AttributeModification(AttributesTRAn.RigenLife, -1),
-						new AttributeModification(AttributesTRAn.RigenMana, 0) });
+						new AttributeModification(AttributesTRAn.RegenLife, -1),
+						new AttributeModification(AttributesTRAn.RegenMana, 0) });
 		setCumulative(true);
 		addEventWatched(EventsTRAn.DamageReceived);
 		setAbilityEffectDuration(5000);

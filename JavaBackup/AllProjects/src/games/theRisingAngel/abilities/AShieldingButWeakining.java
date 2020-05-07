@@ -29,7 +29,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	public static final boolean IS_TESTING = false;
 	public static final String NAME = "Stonefying Skin";
 	public static final int RARITY = 2, DURATION_EFFECT = IS_TESTING ? 2000 : 5000; // 750
-	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RigenLife,
+	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RegenLife,
 			AttributesTRAn.DamageReductionPhysical, AttributesTRAn.DamageReductionMagical };
 
 	public AShieldingButWeakining() {
