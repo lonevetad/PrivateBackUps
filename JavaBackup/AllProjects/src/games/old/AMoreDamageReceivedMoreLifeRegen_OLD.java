@@ -102,7 +102,7 @@ public class AMoreDamageReceivedMoreLifeRegen_OLD extends AbilityModifyingSingle
 //		ca.removeAttributeModifier(am);
 //		am.setValue(d > 0 ? d : 0);
 //		ca.applyAttributeModifier(am);
-//		System.out.println("같같같같같� now regen is: " + am.getValue());
+//		System.out.println("째째째째째째째째째째째 now regen is: " + am.getValue());
 				d >>= 3;
 				if (d > 0)
 					accumulatedLifeRegen += d;

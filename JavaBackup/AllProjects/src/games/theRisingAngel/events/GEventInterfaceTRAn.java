@@ -47,7 +47,7 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 		this.getGameEventManager().fireEvent(doe);
 	}
 
-// TODOOOOOOOOO dc'è da spostare molti eventi in un luogo più idoneo
+// TODOOOOOOOOO dc'Ã¨ da spostare molti eventi in un luogo piÃ¹ idoneo
 
 	@Override
 	public void firePlayerEnteringInMap(GModalityET gameModality, PlayerGeneric p) {

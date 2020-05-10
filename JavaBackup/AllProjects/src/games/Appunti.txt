@@ -1,8 +1,9 @@
 TODO del 05/05/2020
 Le statistiche scalano troppo in alto (portarle al valore di 200 le rende eccessivamente forti)
-scalare anche i bonus di armature e upgrade vari sicchè diano al massimo 1,5 livelli
+scalare anche i bonus di armature e upgrade vari sicchÃ¨ diano al massimo 1,5 livelli
 (ed essendo almeno 7 pezzi non-jewelry, vorrebbe dire almeno 1,5*7= 10-11 livelli gratis
- con gli oggetti a rarità 1 o 2, che è tanto)
+ con gli oggetti a raritÃ  1 o 2, che Ã¨ tanto)
+
 
 
 
@@ -22,7 +23,7 @@ Le spell devono essere un po' personalizzabili ed un po' specifiche:
 - - quello di skill apprese (tramite libri e non solo), che possono essere TUTTE le magie esistenti, inizialmente quelle di cui sopra E sbloccate
 - - quello di skill attualmente equipaggiae ed utilizzabili in battaglia
 
-Il GameController dovrà poi definire i metodi di "caricamento dei salvataggi" (oltre a quello delle mappe)
+Il GameController dovrÃ  poi definire i metodi di "caricamento dei salvataggi" (oltre a quello delle mappe)
 tra cui caricare un Player, col suo livello, inventario, etc. Saranno necessari dei loader apposa
 
 Definire poi gli altri CharacterType
@@ -45,7 +46,7 @@ ad ogni livello si guadagnano 10 punti, gli equipaggiamenti dovrebbero fornire v
 
 
 22/03/2020
-come scrissi, l'equipaggiamento è complesso e diviso in 9 pezzi + 10 anelli + 3 collane
+come scrissi, l'equipaggiamento Ã¨ complesso e diviso in 9 pezzi + 10 anelli + 3 collane
 orecchini	|	testa	|	mantello
 mani		|	busto	|	braccia
 piedi		|	cintura	|	gambe(pantaloni)
@@ -54,41 +55,41 @@ originariamente al posto degli orecchini c'erano le spalle .. le incorporo in "b
 poi una colonna per ciascuna mano, le 3 collane in colonna
 aggiungere i braccialetti alle due mani? troppo incasinato, ma ci sta: con le collane si otterrebbe una colonna completa alta 5
 magari al posto di "vuoto" metterci un "famiglio"
-per ogni mano, se il numero di anelli supera il 2 allora si ha un progressivo malus in agilità, forza, destrezza, precisione
+per ogni mano, se il numero di anelli supera il 2 allora si ha un progressivo malus in agilitÃ , forza, destrezza, precisione
 (tienila te una spada facendo presa con migliaia di anelli)
 originariamente ciascun dito poteva tenere 2 anelli (aveva 2 slot) e gli anelli erano divisi in "slot singolo" e "doppio slot"
 (un po' come le armi a due mani) e la regola di cui sopra si applicava per un numero di slot superiore a 3.
-Si potrebbe implementare, con l'accortezza però che gli anelli "singoli" siano più deboli dei "doppi".
+Si potrebbe implementare, con l'accortezza perÃ² che gli anelli "singoli" siano piÃ¹ deboli dei "doppi".
 In tal caso, per calcolare il malus sopra, gli anelli doppi contano come 1.5 per tutto il dito
-(mentre due anelli singoli contano come 1 ciascuno, quindi 2), perchè per essere indossati hanno delle prese ergonomiche.
+(mentre due anelli singoli contano come 1 ciascuno, quindi 2), perchÃ¨ per essere indossati hanno delle prese ergonomiche.
 
 
 
 19/03/2020
 
-La logica ad eventi è avvincente, MA è sconveniente per infliggere danno alle cose che hanno una vita:
+La logica ad eventi Ã¨ avvincente, MA Ã¨ sconveniente per infliggere danno alle cose che hanno una vita:
 - Se si usassero gli eventi, allora bisognerebbe notificare TUTTI di ogni singolo evento di danneggiamento
-	E tali oggetti dovrebbero sempre controllare che il "target" del danno non sia sè stesso (o, ancora peggio,
-	controllare che sè stessi non sia inclusi nell'insieme di "targets")
-- con il "danno diretto", si può da un lato semplificare, dall'altro complicare:
-- - si complica perchè risulta difficile prevenire/amplificare/ridurre/redirezionare il danno, mentre con gli
-	eventi risulta più facile modificare l'evento stesso di danneggiamento.
+	E tali oggetti dovrebbero sempre controllare che il "target" del danno non sia sÃ¨ stesso (o, ancora peggio,
+	controllare che sÃ¨ stessi non sia inclusi nell'insieme di "targets")
+- con il "danno diretto", si puÃ² da un lato semplificare, dall'altro complicare:
+- - si complica perchÃ¨ risulta difficile prevenire/amplificare/ridurre/redirezionare il danno, mentre con gli
+	eventi risulta piÃ¹ facile modificare l'evento stesso di danneggiamento.
 	Problema: se il danno venisse modificato come notifichi poi il/i target finali? Aggiungendo un metodo
 		"doAfterNotifyingEverybody(gameModality)" ?
 		Pesante e complesso ... ma forse necessario per gli oggetti tipo "preveni la morte sacrificando
 		questo oggetto" (a.k.a.: "death-saver").
-		Risulta pesante anche perchè OGNI nemico, giocatore e "pet" può subire danno, QUINDI OGNI danno dovrà
-		essere passato in rassegna a TUTTI gli ascoltatori, con complessità di O(N*A), con
-		N = n° danni effettuati in un ciclo e A = n° ascoltatori/osservatori .. il chè è TANTO
+		Risulta pesante anche perchÃ¨ OGNI nemico, giocatore e "pet" puÃ² subire danno, QUINDI OGNI danno dovrÃ 
+		essere passato in rassegna a TUTTI gli ascoltatori, con complessitÃ  di O(N*A), con
+		N = nÂ° danni effettuati in un ciclo e A = nÂ° ascoltatori/osservatori .. il chÃ¨ Ã¨ TANTO
 - - logica del mondo chiuso:
 	si impediscono le MOD libere, si sa esattamente come funziona il gioco e quindi si attivano tutte le meccaniche
 	A MANO
-	Problema: in cose grosse, si raggiunge facilmente allo spaghetti code, ci si dimenticherà di "collegare tutto",
-		diventerà impossibile seguire il flusso di chiamate (perchè c'è poca corretta-delegazione delle
-		responsabilità E è tutt'altro che automatizzato
+	Problema: in cose grosse, si raggiunge facilmente allo spaghetti code, ci si dimenticherÃ  di "collegare tutto",
+		diventerÃ  impossibile seguire il flusso di chiamate (perchÃ¨ c'Ã¨ poca corretta-delegazione delle
+		responsabilitÃ  E Ã¨ tutt'altro che automatizzato
 		
 TOTALE:
-1) Mondo chiuso per le cose più ottimizzate e critiche, che da risolvere sono un casino, tipo:
+1) Mondo chiuso per le cose piÃ¹ ottimizzate e critiche, che da risolvere sono un casino, tipo:
 	- "death-saver"
 	- damage management ( danno -> applica incrementi/decrementi e poi moltiplicatori del source -> ferisci il target ->
 		target applica i +/- e moltiplicatori -> spara eventi DamageInflicted e DamageReceived o blocked, etc)
@@ -98,11 +99,11 @@ TOTALE:
 	-) preferibilmente di rara attivazione
 	-) non critici (es: on-healing,
 
-Insomma, fare un po' di selezione e per le cose più incasinate implementare una "patch".
+Insomma, fare un po' di selezione e per le cose piÃ¹ incasinate implementare una "patch".
 Infatti gli eventi dovrebbero essere semplicemente delle azioni da fare "in seguito" all'evento,
 dei trigger. Gli eventi che invece possono essere modificati, soprattutto pesantemente (come danno, cura e morte)
 fino ad essere totalmente invalidati .. beh, conviene fare hard-code, magari nella GameModality stessa,
-perchè sennò la complessità nel far processare un evento a tutti esplode malamente. E gli FPS calano.
+perchÃ¨ sennÃ² la complessitÃ  nel far processare un evento a tutti esplode malamente. E gli FPS calano.
 
 
 

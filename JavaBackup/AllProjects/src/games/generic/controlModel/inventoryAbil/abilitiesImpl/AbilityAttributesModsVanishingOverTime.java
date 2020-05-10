@@ -252,7 +252,6 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 
 	@Override
 	public void doUponAbilityActivated() {
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		removeAndNullifyEffects();
 		this.stackedTriggerCharges = 1;
 	}
@@ -293,7 +292,6 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 				this.attributesToModify[n].setValue(this.attributesToModifyOriginal[n].getValue());
 			}
 		}
-
 		eventsReceivedBeweenUpdateds = 0;
 	}
 
@@ -301,8 +299,6 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	public void act(GModality modality, int timeUnits) {
 		evolveAbilityStatus(modality, timeUnits);
 		// first make the ability to evolve, then update values
-//		AbilityVanishingOverTime.
-//		AbilityModifyingAttributesRealTime.
 		super.act(modality, timeUnits);
 	}
 
