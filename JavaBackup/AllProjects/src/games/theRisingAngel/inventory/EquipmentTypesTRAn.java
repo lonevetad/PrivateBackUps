@@ -17,7 +17,9 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 	MainWeapon, Special, SecodaryWeapon, //
 	Necklace, Bracelet, Ring((g, e, name) -> new EIRing(g, name))//
 	;
-	public static final int HANDS_AMOUNT = 2, FINGERS_EACH_HAND = 5, RING_SLOTS_EACH_FINGERS = 2, //
+
+	public static final int HANDS_AMOUNT = 2, FINGERS_EACH_HAND = 5, //
+			RING_SLOTS_EACH_FINGERS = 2, // previously was 2, but there could be too many rings in the character
 			TOTAL_RINGS_SLOTS_AMOUNT, TOTAL_FINGERS_AMOUNT = (HANDS_AMOUNT * FINGERS_EACH_HAND), //
 			BRACELET_AMOUNT = 2, NECKLACE_AMOUNT = 3, TOTAL_AMOUNT_EQUIPMENTS_WEARABLES;
 
@@ -25,6 +27,7 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 		TOTAL_RINGS_SLOTS_AMOUNT = (TOTAL_FINGERS_AMOUNT * RING_SLOTS_EACH_FINGERS);
 		TOTAL_AMOUNT_EQUIPMENTS_WEARABLES = (EquipmentTypesTRAn.values().length - 3) // 3 = Rings + Necklace + Bracelet
 				+ TOTAL_RINGS_SLOTS_AMOUNT + BRACELET_AMOUNT + NECKLACE_AMOUNT; // = 27
+		System.out.println("TOTAL_AMOUNT_EQUIPMENTS_WEARABLES: " + TOTAL_AMOUNT_EQUIPMENTS_WEARABLES);
 	}
 
 	public final EquipItemFactory factory;
@@ -88,4 +91,19 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 		return VALUES[index];
 	}
 
+	public static int getAmountItemsEquippables(EquipmentTypesTRAn et) {
+		switch (et) {
+		case Necklace: {
+			return NECKLACE_AMOUNT;
+		}
+		case Bracelet: {
+			return BRACELET_AMOUNT;
+		}
+		case Ring: {
+			return TOTAL_RINGS_SLOTS_AMOUNT;
+		}
+		default:
+		}
+		return 1;
+	}
 }

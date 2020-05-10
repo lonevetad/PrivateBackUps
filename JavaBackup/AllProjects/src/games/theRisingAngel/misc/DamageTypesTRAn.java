@@ -1,8 +1,8 @@
 package games.theRisingAngel.misc;
 
-import tools.ObjectNamedID;
+import games.generic.controlModel.misc.DamageTypeGeneric;
 
-public enum DamageTypesTRAr implements ObjectNamedID {
+public enum DamageTypesTRAn implements DamageTypeGeneric {
 	Physical, Magical;
 
 	@Override

@@ -8,22 +8,22 @@ import games.theRisingAngel.loaders.LoaderCreatureTRAn;
 import games.theRisingAngel.loaders.LoaderEquipTRAn;
 import games.theRisingAngel.loaders.LoaderEquipUpgradesTRAn;
 
-public class GControllerTRAr extends GControllerRPG {
-	public static final String GM_NAME_TRAR_BASE = "gc_trar_base";
+public class GControllerTRAn extends GControllerRPG {
+	public static final String GM_NAME_TRAR_BASE = "gc_tran_base";
 
-	public GControllerTRAr() {
+	public GControllerTRAn() {
 		super();
 	}
 
 	@Override
 	protected GameObjectsProvidersHolderRPG newGameObjectsProvider() {
-		return new GameObjectsProvidersHolderTRAr();
+		return new GameObjectsProvidersHolderTRAn();
 	}
 
 	@Override
 	protected void defineGameModalitiesFactories() {
 		this.getGameModalitiesFactories().put(GM_NAME_TRAR_BASE, (name, gc) -> {
-			return new GModalityTRAr(name, gc);
+			return new GModalityTRAn(name, gc);
 		});
 	}
 
@@ -42,7 +42,7 @@ public class GControllerTRAr extends GControllerRPG {
 		super.addGameObjectLoader(new LoaderCreatureTRAn(this.gameObjectsProvidersHolderRPG.getCreaturesProvider()));
 
 		super.initNonFinalStuffs();
-		System.out.println("GControllerTRAr init non final stuff done\n\n");
+		System.out.println("GControllerTRAn init non final stuff done\n\n");
 //		this.gameObjectsProvidersHolderRPG.getEquipmentsProvider().getObjectsIdentified().forEach((n, f) -> {
 //			System.out.println("daffaking equip name: " + n);
 //		});

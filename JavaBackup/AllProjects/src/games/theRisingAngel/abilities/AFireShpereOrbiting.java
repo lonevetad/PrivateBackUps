@@ -12,11 +12,12 @@ import geometry.implementations.shapes.ShapeCircle;
 // TODO to be completed
 public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipItemAbility {
 	private static final long serialVersionUID = 1L;
-	public static final int BLOB_RADIUS = 3, BLOB_RADIUS_FROM_CENTRE = 7;
+	public static final int RARITY = 4, BLOB_RADIUS = 3, BLOB_RADIUS_FROM_CENTRE = 7;
 	public static final String NAME = "Planetary Fire Spheres";
 
 	public AFireShpereOrbiting() {
 		super();
+		setRarityIndex(RARITY);
 	}
 
 	protected EquipmentItem eqipItem; // related to this ability

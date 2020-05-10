@@ -9,22 +9,22 @@ import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.BasePlayerRPG;
 import games.generic.controlModel.player.ExperienceLevelHolderImpl;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.creatures.BaseCreatureTRAr;
-import games.theRisingAngel.events.EventsTRAr;
-import games.theRisingAngel.inventory.EquipmentSetTRAr;
+import games.theRisingAngel.creatures.BaseCreatureTRAn;
+import games.theRisingAngel.events.EventsTRAn;
+import games.theRisingAngel.inventory.EquipmentSetTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 
-public class PlayerTRAr extends BaseCreatureTRAr implements BasePlayerRPG {
+public class PlayerTRAn extends BaseCreatureTRAn implements BasePlayerRPG {
 	private static final long serialVersionUID = -3336623605789L;
 
-	public PlayerTRAr(GModalityRPG gameModality, PlayerCharacterTypes characterType) {
+	public PlayerTRAn(GModalityRPG gameModality, PlayerCharacterTypes characterType) {
 		super(gameModality, "No name currently provided");
 		this.characterType = characterType;
 		this.attributePointsLeftToApply = 0;
 		this.eventsWatching = new ArrayList<>(2);
-		this.eventsWatching.add(EventsTRAr.Destroyed.getName());
+		this.eventsWatching.add(EventsTRAn.Destroyed.getName());
 		this.experienceLevelHolder = new ExperienceLevelHolderImpl();
-		this.setEquipmentSet(new EquipmentSetTRAr());
+		this.setEquipmentSet(new EquipmentSetTRAn());
 	}
 
 	protected int attributePointsLeftToApply;

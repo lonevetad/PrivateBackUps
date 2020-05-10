@@ -10,21 +10,45 @@ import tools.Comparators;
  * All attributes for creatures and player.
  * <p>
  * Important notes:
- * 
+ * <ul>
+ * <li>Probabilities and multipliers are meant o be a percentage</li>
+ * <li>Luck should add up to the above concepts and to the drop (what kinds of
+ * drops, rarity, amount of modifiers and abilities and their rarities).</li>
+ * <li>Velocity is free to interpretation (usually, "10-th of a unit each
+ * second").</li>
+ * <li>Probabilities to hit and avoid are competitive: upon dealing receiving an
+ * attack, the attacker:</li>
+ * </ul>
  */
 public enum AttributesTRAn implements AttributeIdentifier {
-	LifeMax, ManaMax, RigenLife, RigenMana, //
-	Luck, Velocity,
+	// the following 9 are the base attributes
+	Strength(true), Constitution(true), Health(true), //
+	Defense(true), Dexterity(true), Precision(true), //
+	Intelligence(true), Wisdom(true), Faith(true),
 	//
-	Strength, Constitution, Health, //
-	Defense, Dexterity, Precision, //
-	Intelligence, Wisdom, Faith,
+	Luck, //
+	LifeMax(true), ManaMax(true), RegenLife, RegenMana, //
+	Velocity(true),
 	//
-	ProbabilityHit, ProbabilityAvoid,
+	DamageBonusPhysical, DamageReductionPhysical, //
+	ProbabilityHitPhysical, ProbabilityAvoidPhysical, //
+	DamageBonusMagical, DamageReductionMagical, //
+	ProbabilityHitMagical, ProbabilityAvoidMagical, //
 	//
-	DamageBonusPhysical, DamageBonusMagical, DamageReductionPhysical, DamageReductionMagical, //
-	CriticalProbability, CriticalMultiplier //
+	CriticalProbability(true), CriticalMultiplier(true), //
+	CriticalProbabilityAvoid(true), CriticalMultiplierReduction(true), //
+	LifeLeechPercentage, ManaLeechPercentage//
 	;
+
+	public final boolean isStrictlyPositive;
+
+	AttributesTRAn() {
+		this(false);
+	}
+
+	AttributesTRAn(boolean flag) {
+		this.isStrictlyPositive = flag;
+	}
 
 	@Override
 	public int getIndex() {
@@ -68,13 +92,13 @@ public enum AttributesTRAn implements AttributeIdentifier {
 		return VALUES[index];
 	}
 
-	public static AttributesTRAn damageReductionByType(DamageTypesTRAr dt) {
-		return (dt == DamageTypesTRAr.Physical) ? AttributesTRAn.DamageReductionPhysical
+	public static AttributesTRAn damageReductionByType(DamageTypesTRAn dt) {
+		return (dt == DamageTypesTRAn.Physical) ? AttributesTRAn.DamageReductionPhysical
 				: AttributesTRAn.DamageReductionMagical;
 	}
 
-	public static AttributesTRAn damageBonusByType(DamageTypesTRAr dt) {
-		return (dt == DamageTypesTRAr.Physical) ? AttributesTRAn.DamageBonusPhysical
+	public static AttributesTRAn damageBonusByType(DamageTypesTRAn dt) {
+		return (dt == DamageTypesTRAn.Physical) ? AttributesTRAn.DamageBonusPhysical
 				: AttributesTRAn.DamageBonusMagical;
 	}
 }

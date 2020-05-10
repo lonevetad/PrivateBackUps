@@ -1,3 +1,16 @@
+TODO del 05/05/2020
+Le statistiche scalano troppo in alto (portarle al valore di 200 le rende eccessivamente forti)
+scalare anche i bonus di armature e upgrade vari sicchè diano al massimo 1,5 livelli
+(ed essendo almeno 7 pezzi non-jewelry, vorrebbe dire almeno 1,5*7= 10-11 livelli gratis
+ con gli oggetti a rarità 1 o 2, che è tanto)
+
+
+
+TODO:
+aggiunto nel 27/04/2020
+aggiungere metodo per il drop randomico degli oggetti (magari in parallelo e con un GThread a parte)
+
+
 TODO:
 aggiunto nel 20/04/2020
 
@@ -133,80 +146,5 @@ __________________________________
 
 
 
-In ogni GameModality:
-static final long MIN_DELTA = 10L;
-
-void runGame(){
-	long start, lastDelta;
-	while( isAlive() ){
-		lastDelta = MIN_DELTA;
-		while(isPlaying()){
-			start = System.currentTimeMillis();
-			doOnEachCycle(lastDelta);
-			lastDelta = Math.min(MIN_DELTA, System.currentTimeMillis() - start );
-		}
-	}
-}
-
-/**Designed to be overrided*/
-void doOnEachCycle(long millisecToElapse){
-	// first, move everybody
-	for each MovableObject mo {
-		mo.move(lastDelta);
-	}
-	// then make everyone act
-	for each ActiveObject ao {
-		ao.act(lastDelta); // fai progredire QUALSIASI cosa: abilità che si ricaricano col tempo, rigenerazioni, movimento di proiettili e cose, etc
-	}
-	// then, perform each event
-	getGameEventManager().manageAll();
-}
-
-e mettere a disposizione metodi per aggiungere ActiveObjects e non solo
-
-
-
-
-
-
---------------------------------------------------------------
-
-
-
-
-GameEventManager:
-Ogni GameEvent, come vedremo, ha un ID.
-Questo Manager ha un insieme di GameEventHandler, plausibilmente suddisi per ciascun GameEvent.
-Ciascuna suddivisione, qualora il GameEventManager implementasse effettivamente la suddivisione,
-potrebbe essere una coda di priorità:
-- "n > 0": alta priorità: esempio, come la "bambola Voodoo" del gioco Castlevenia, "se stai per morire,
-allora mi distruggo io e tu rinasci/sopravvivi".
-- "h == 0": "importante ma non troppo". Esempio: "se muori tu, io, tua fatina spirituale, muoio con te" o
-"questo buff/malus dura fino alla morte"
-- "h < 0": low-priority
-Questo manager dovrebbe gestire ogni singolo evento come se avvenissero in contemporanea
-
-GameEvent:
-interface ObjectWIthID {
-	public Integer getID();
-}
-interface GameEvent extends ObjectWIthID{
-	// public String getName(); //needed?
-}
-enum ExmapleGE implements GameEvent{
-	Moved, Destroyed, Spawned, DamageTaken, DamageInflicted, HealReceived, HealGained, PickedUpMoney, PickedUpObject;
-	public Integer getID(){
-		return ordinal();
-	}
-}
-
-
-Per gestire la distruzione, si potrebbe definire un
-interface DestructibleObject{
-	public boolean isDestroyed();
-	public boolean shouldBeDestroyed(); // semplice flag o cosa computata, per esempio verificando se vita<=0
-	public void notifyDestruction(GameEventManager gem);
-}
-così da semplificare ed automatizzarne la gestione.
 L'evento "EventObjDestroyed" potrebbe sia avere una referenza all'oggetto che dovrebbe
 essere distrutto sia qualche flag del tipo "distructionAvoided, distructionUnavoidable", impostato da qualche handler particolare.

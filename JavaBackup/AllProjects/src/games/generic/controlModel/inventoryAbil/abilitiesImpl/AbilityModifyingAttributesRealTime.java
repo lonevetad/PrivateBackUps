@@ -21,14 +21,19 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 		super();
 	}
 
-	public AbilityModifyingAttributesRealTime(AttributeIdentifier[] attributesModified, String name) {
+	public AbilityModifyingAttributesRealTime(String name) {
+		super(name);
+	}
+
+	public AbilityModifyingAttributesRealTime(String name, AttributeIdentifier[] attributesModified) {
 		super(name);
 		if (attributesModified != null) {
 			setAttributesToModify(attributesModified);
 		}
 	}
 
-	protected long accTimeElapsed;
+	protected long accumulatedTimeElapsedForUpdating;
+	/** Attributes this ability modifies. */
 	protected AttributeModification[] attributesToModify;
 
 	public AttributeModification[] getAttributesToModify() {
@@ -37,7 +42,7 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 
 	@Override
 	public long getAccumulatedTimeElapsed() {
-		return accTimeElapsed;
+		return accumulatedTimeElapsedForUpdating;
 	}
 
 	@Override
@@ -48,20 +53,32 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 	public void setAttributesToModify(AttributeIdentifier[] attributesModified) {
 //		this.attributesToModify = attributesToModify; // AttributeModification[] attributesToModify
 		if (attributesModified != null) {
-			int n;
-			attributesToModify = new AttributeModification[n = attributesModified.length];
-			while(--n >= 0) {
-				attributesToModify[n] = new AttributeModification(attributesModified[n], 0);
-			}
+			attributesToModify = AttributeModification.newEmptyArray(attributesModified);
 		}
 	}
 
 	@Override
 	public void setAccumulatedTimeElapsed(long newAccumulated) {
-		this.accTimeElapsed = newAccumulated;
+		this.accumulatedTimeElapsedForUpdating = newAccumulated;
 	}
 
 	//
+
+	protected void applyModifyingEffecsOnEquipping() {
+		CreatureAttributes ca;
+		ca = getAttributesWearer();
+		if (ca == null)
+			return;
+		for (AttributeModification am : this.attributesToModify) {
+			ca.applyAttributeModifier(am);
+		}
+	}
+
+	@Override
+	public void onEquip(GModality gm) {
+		super.onEquip(gm);
+		applyModifyingEffecsOnEquipping();
+	}
 
 	@Override
 	public void performAbility(GModality modality) {
@@ -88,9 +105,8 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 
 	/**
 	 * Override designed.<br>
-	 * Update one or more {@link CreatureAttributes}'s attribute.<br>
-	 * Default implementation update just one value, but multiple values at once
-	 * could be modified.
+	 * Update one or more {@link CreatureAttributes}'s attribute (the ones in
+	 * {@link #getAttributesToModify()}).
 	 */
 	protected void updateAttributes(GModality gm, EquipmentItem ei, CreatureSimple ah, CreatureAttributes ca) {
 		for (AttributeModification am : this.attributesToModify) {
@@ -113,5 +129,4 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 				+ (this.getEquipItem() == null ? "null" : this.getEquipItem().getName()) + ",\n\t attributesToModify="
 				+ Arrays.toString(attributesToModify) + "]";
 	}
-
 }

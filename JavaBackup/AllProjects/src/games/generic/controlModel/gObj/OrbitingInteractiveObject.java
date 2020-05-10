@@ -9,7 +9,7 @@ import java.util.Set;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsManager;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.GModalityTRAr;
+import games.theRisingAngel.GModalityTRAn;
 import geometry.AbstractShape2D;
 import geometry.ObjectShaped;
 import tools.ObjectWithID;
@@ -164,7 +164,7 @@ public abstract class OrbitingInteractiveObject implements TimedObject, MovingOb
 		GModalityRPG gmrpg;
 		GameObjectsManager gom;
 		Set<ObjectInSpace> foundObjs;
-		gmrpg = (GModalityTRAr) modality;
+		gmrpg = (GModalityTRAn) modality;
 		gom = gmrpg.getGameObjectsManager();
 		foundObjs = gom.findInArea(os.getShape());
 		foundObjs.forEach(ois -> {

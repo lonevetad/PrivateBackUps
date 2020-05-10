@@ -34,11 +34,15 @@ public abstract class EquipmentSet {
 	//
 
 	/**
-	 * Get the set of {@link EquipmentItem}.<br>
+	 * Get the set of {@link EquipmentItem}. Should not be used.<br>
 	 * NOTE: unused slots (i.e. "places" where there is no equipped objects for that
 	 * type) are <code>null</code>.
 	 */
 	public abstract EquipmentItem[] getEquippedItems();
+
+	public EquipmentItem getEquippedItemAt(int index) {
+		return getEquippedItems()[index];
+	}
 
 	/**
 	 * Equip the given item into the set NOTE: Should check if is yet equipped an

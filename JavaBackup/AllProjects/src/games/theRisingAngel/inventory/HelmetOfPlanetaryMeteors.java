@@ -7,7 +7,7 @@ import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
-import games.theRisingAngel.misc.DamageTypesTRAr;
+import games.theRisingAngel.misc.DamageTypesTRAn;
 
 public class HelmetOfPlanetaryMeteors extends EINotJewelry {
 	private static final long serialVersionUID = 922120283L;
@@ -28,7 +28,7 @@ public class HelmetOfPlanetaryMeteors extends EINotJewelry {
 		// TODO Auto-generated method stub
 		this.abilitySphereOrbiting = (AFireShpereOrbiting) ap.getAbilityByName(gm, AFireShpereOrbiting.NAME);
 		this.abilitySphereOrbiting.setOwner(this);
-		abilitySphereOrbiting.setDamageToDeal(new DamageGeneric(15, DamageTypesTRAr.Magical));
+		abilitySphereOrbiting.setDamageToDeal(new DamageGeneric(15, DamageTypesTRAn.Magical));
 		super.addAbility(this.abilitySphereOrbiting);
 	}
 

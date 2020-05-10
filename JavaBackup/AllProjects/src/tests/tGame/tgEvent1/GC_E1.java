@@ -1,8 +1,8 @@
 package tests.tGame.tgEvent1;
 
-import games.theRisingAngel.GControllerTRAr;
+import games.theRisingAngel.GControllerTRAn;
 
-public class GC_E1 extends GControllerTRAr {
+public class GC_E1 extends GControllerTRAn {
 	public static final String GM_NAME = "TEST";
 
 	public GC_E1() {

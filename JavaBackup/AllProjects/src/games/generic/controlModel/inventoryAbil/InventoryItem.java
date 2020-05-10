@@ -16,7 +16,7 @@ public abstract class InventoryItem implements RarityHolder, ObjectNamedID {
 	private static final long serialVersionUID = 47104252L;
 	protected int rarityIndex;
 	protected Integer ID;
-	protected String name;
+	protected String name, description;
 	protected Point locationInInventory;
 	protected Dimension dimensionInInventory;
 	protected CurrencySet sellPrice;
@@ -35,6 +35,10 @@ public abstract class InventoryItem implements RarityHolder, ObjectNamedID {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	@Override
@@ -66,6 +70,10 @@ public abstract class InventoryItem implements RarityHolder, ObjectNamedID {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

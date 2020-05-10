@@ -9,16 +9,18 @@ import games.generic.controlModel.player.BasePlayerRPG;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.events.GEventInterfaceTRAr;
-import games.theRisingAngel.misc.CurrencySetTRAr;
+import games.theRisingAngel.events.GEventInterfaceTRAn;
+import games.theRisingAngel.misc.CurrencySetTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 import tools.ObjectNamedID;
 
 // TODO todo tons of stuffs
-public class GModalityTRAr extends GModalityRPG {
-	public static final int ATTRIBUTES_POINTS_GAINED_ON_LEVELING = 10;
+public class GModalityTRAn extends GModalityRPG {
+	public static final int ATTRIBUTES_POINTS_GAINED_ON_LEVELING = 5;
+	/** See {@link GModalityRPG#SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE} */
+	public static final int SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN = 20;
 
-	public GModalityTRAr(GController controller, String modalityName) {
+	public GModalityTRAn(GController controller, String modalityName) {
 		super(controller, modalityName);
 	}
 
@@ -29,37 +31,37 @@ public class GModalityTRAr extends GModalityRPG {
 
 	@Override
 	public GEventInterface newEventInterface() {
-		return new GEventInterfaceTRAr();
+		return new GEventInterfaceTRAn();
 	}
 
 	@Override
 	protected GameObjectsManager newGameObjectsManager(GEventInterface gei) {
-		return new GameObjectsManagerTRAr(this);
+		return new GameObjectsManagerTRAn(this);
 	}
 
 	@Override
 	public CurrencySet newCurrencyHolder() {
-		return new CurrencySetTRAr(this, 0);
+		return new CurrencySetTRAn(this, 0);
 	}
 
 	@Override
 	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer, ObjectNamedID characterType) {
-		PlayerTRAr p;
-		p = new PlayerTRAr(this, (PlayerCharacterTypes) characterType);
+		PlayerTRAn p;
+		p = new PlayerTRAn(this, (PlayerCharacterTypes) characterType);
 		setStartingBaseAttributes(p);
 		return p;
 	}
 
 	@Override
 	protected GMap newGameMap(String mapName) {
-		GMapTRAr gmap;
-		gmap = new GMapTRAr(mapName);
+		GMapTRAn gmap;
+		gmap = new GMapTRAn(mapName);
 		gmap.setGOISMDelegated(getGObjectInSpaceManager());
 		return gmap;
 	}
 
-	/** Given a {@link PlayerTRAr}, set its initial set of attributes */
-	public void setStartingBaseAttributes(PlayerTRAr player) {
+	/** Given a {@link PlayerTRAn}, set its initial set of attributes */
+	public void setStartingBaseAttributes(PlayerTRAn player) {
 		player.getCharacterType().applyStartingAttributes(player);
 	}
 
@@ -68,5 +70,12 @@ public class GModalityTRAr extends GModalityRPG {
 		super.startGame();
 		// and then? TODO
 	}
+
+	// TODO to do definire un metodo di dropping degli oggetti, con abilità e
+	// modificatori annessi
+
+//
+
+	// TODO DAMAGE CALCULATION
 
 }

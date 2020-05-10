@@ -2,10 +2,16 @@ package games.theRisingAngel.misc;
 
 import java.util.Arrays;
 
+import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.theRisingAngel.PlayerTRAr;
+import games.theRisingAngel.GModalityTRAn;
+import games.theRisingAngel.PlayerTRAn;
 import tools.ObjectNamedID;
 
+/**
+ * TODO refactor giving a full set of starting values (like a set of
+ * {@link AttributeModification}).
+ */
 public class PlayerCharacterTypesHolder {
 	public static final int TOTAL_STARTING_ATTRIBUTES = 200, //
 			HUMAN_MEAN_ATTRIBUTES = TOTAL_STARTING_ATTRIBUTES / AttributesTRAn.ATTRIBUTES_UPGRADABLE_COUNT, //
@@ -48,12 +54,14 @@ public class PlayerCharacterTypesHolder {
 			this.startingAttribues = startingAttribues;
 		}
 
-		public void applyStartingAttributes(PlayerTRAr player) {
+		public void applyStartingAttributes(PlayerTRAn player) {
 			CreatureAttributes ca;
 			ca = player.getAttributes();
 			for (int i = 0, n = startingAttribues.length; i < n; i++) {
 				ca.setOriginalValue(AttributesTRAn.FIRST_INDEX_ATTRIBUTE_UPGRADABLE + i, startingAttribues[i]);
 			}
+			ca.setOriginalValue(AttributesTRAn.Velocity.getIndex(),
+					GModalityTRAn.SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN * 2);
 		}
 
 		@Override

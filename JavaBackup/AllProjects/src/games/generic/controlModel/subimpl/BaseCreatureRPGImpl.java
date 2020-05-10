@@ -1,23 +1,27 @@
 package games.generic.controlModel.subimpl;
 
 import java.util.List;
+import java.util.Map;
 
+import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.gObj.DamageDealerGeneric;
+import games.generic.controlModel.gObj.HealingObject;
+import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.GObjMovement;
 import games.generic.controlModel.misc.HealGeneric;
-import games.generic.controlModel.misc.HealingTypeExample;
+import games.generic.controlModel.misc.HealingType;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureUIDProvider;
-import games.theRisingAngel.misc.DamageTypesTRAr;
+import games.theRisingAngel.misc.DamageTypesTRAn;
 import geometry.AbstractShape2D;
+import tools.Comparators;
 import tools.ObjectNamedID;
-import tools.ObjectWithID;
 
 /**
  * Defines a default (but not mandatory) implementation of a "creature" concept,
@@ -36,15 +40,17 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	private static final long serialVersionUID = 1L;
 
 	protected boolean isDestroyed;
-	protected int life, ticks;
+	protected int ticksHealing;
 	protected int accumulatedTimeLifeRegen;
 	protected Integer ID;
 	protected String name;
 	protected List<String> eventsWatching;
 	protected EquipmentSet equipmentSet;
 	protected CreatureAttributes attributes;
+	protected CurableResourcesHolders curableResourcesHolders;
 	protected AbstractShape2D shape;
 	protected GObjMovement movementImplementation;
+	protected Map<String, AbilityGeneric> abilities = null;
 
 	protected GModalityRPG gModalityRPG;
 
@@ -53,7 +59,11 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		this.gModalityRPG = gModRPG;
 		this.name = name;
 		initializeID();
+		this.isDestroyed = false;
 		this.attributes = newAttributes();
+		this.setCurableResourcesHolders(new HealingObject.CurableResourcesHolders());
+		ticksHealing = 0;
+		accumulatedTimeLifeRegen = 0;
 	}
 
 	protected void initializeID() {
@@ -102,6 +112,17 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
+	public Map<String, AbilityGeneric> getAbilities() {
+		checkAbilitiesSet();
+		return abilities;
+	}
+
+	@Override
+	public CurableResourcesHolders getCurableResourcesHolders() {
+		return this.curableResourcesHolders;
+	}
+
+	@Override
 	public AbstractShape2D getShape() {
 		return shape;
 	}
@@ -116,32 +137,17 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		return isDestroyed;
 	}
 
-	@Override
-	public int getLife() {
-		return life;
-	}
-
-	@Override
-	public int getLifeMax() {
-		return this.getAttributes().getValue(AttributesTRAn.LifeMax.getIndex());
-	}
-
-	@Override
-	public int getLifeRegenation() {
-		return this.getAttributes().getValue(AttributesTRAn.RigenLife.getIndex());
-	}
-
 	public GObjMovement getMovementImplementation() {
 		return movementImplementation;
 	}
 
 	@Override
-	public int getTicks() {
-		return ticks;
+	public int getTicksHealing() {
+		return ticksHealing;
 	}
 
 	@Override
-	public int getAccumulatedTimeLifeRegen() {
+	public int getAccumulatedTimeRegen() {
 		return accumulatedTimeLifeRegen;
 	}
 
@@ -182,6 +188,11 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
+	public void setCurableResourcesHolders(CurableResourcesHolders curableResourcesHolders) {
+		this.curableResourcesHolders = curableResourcesHolders;
+	}
+
+	@Override
 	public void setShape(AbstractShape2D shape) {
 		this.shape = shape;
 	}
@@ -190,29 +201,17 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		this.isDestroyed = isDestroyed;
 	}
 
-	@Override
-	public void setLife(int life) {
-//	public void setLife(int life) {this.life = life; }
-		if (life <= 0)
-			this.life = 0;
-		else {
-			if (life > getLifeMax())
-				life = getLifeMax();
-			this.life = life;
-		}
-	}
-
 	public void setMovementImplementation(GObjMovement movementImplementation) {
 		this.movementImplementation = movementImplementation;
 	}
 
 	@Override
-	public void setTicks(int ticks) {
-		this.ticks = ticks;
+	public void setTicksHealing(int ticks) {
+		this.ticksHealing = ticks;
 	}
 
 	@Override
-	public void setAccumulatedTimeLifeRegen(int accumulatedTimeLifeRegen) {
+	public void setAccumulatedTimeRegen(int accumulatedTimeLifeRegen) {
 		this.accumulatedTimeLifeRegen = accumulatedTimeLifeRegen;
 	}
 
@@ -238,6 +237,15 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	//
 
+	protected void checkAbilitiesSet() {
+		if (this.abilities == null) {
+			MapTreeAVL<String, AbilityGeneric> m;
+			m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, MapTreeAVL.BehaviourOnKeyCollision.Replace,
+					Comparators.STRING_COMPARATOR);
+			this.abilities = m; // m.toSetValue(AbilityGeneric.NAME_EXTRACTOR);
+		}
+	}
+
 	@Override
 	public void move(GModality modality, int timeUnits) {
 		if (movementImplementation != null)
@@ -250,37 +258,28 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		return false;
 	}
 
-	public void equip(EquipmentItem equipment) {
-		EquipmentSet es;
-		es = this.getEquipmentSet();
-		if (es != null) {
-			es.addEquipmentItem(getGameModality(), equipment);
-		}
-	}
-
 	protected int getDamageReductionForType(ObjectNamedID damageType) {
 		// damageType == DamageTypesTRAr.Physical
-		return this.getAttributes()
-				.getValue(AttributesTRAn.damageReductionByType((DamageTypesTRAr) damageType).getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.damageReductionByType((DamageTypesTRAn) damageType));
 	}
 
 	// TODO fire damage
 	@Override
-	public <SourceDamage extends ObjectWithID> void receiveDamage(GModality gm, DamageGeneric originalDamage,
-			SourceDamage source) {
-		int dr, damageReallyReceived; // originalDamageAmount
+	public void receiveDamage(GModality gm, DamageGeneric originalDamage, DamageDealerGeneric source) {
+		int damageAmountToBeApplied, damageReallyReceived; // originalDamageAmount
 //		GModalityRPG gmrpg;
-		EventDamage<SourceDamage> eventDamageProcessed;
+		EventDamage eventDamageProcessed;
 		if (originalDamage.getDamageAmount() <= 0)
 			return;
 //		gmrpg = (GModalityRPG) gm;
 //		// check the type
 //		gmrpg.getGameObjectsManager().dealsDamageTo(source, this, originalDamage);
-		dr = getDamageReductionForType(originalDamage.getType());
+		damageAmountToBeApplied = originalDamage.getDamageAmount()
+				- getDamageReductionForType(originalDamage.getType());
 		// no negativity check: could there be a malus
-		eventDamageProcessed = fireDamageReceived(gm, originalDamage, source, originalDamage.getDamageAmount() - dr);
+		eventDamageProcessed = fireDamageReceived(gm, originalDamage, source, damageAmountToBeApplied);
 		// after notifying everyone, the damage could have changed: check it again
-		damageReallyReceived = (eventDamageProcessed == null ? (originalDamage.getDamageAmount() - dr)//
+		damageReallyReceived = (eventDamageProcessed == null ? damageAmountToBeApplied //
 				: eventDamageProcessed.getDamageAmountToBeApplied());
 		if (damageReallyReceived > 0) {
 			System.out.println("-_-''-BaseCreatureRPGImpl then the damage received is: " + damageReallyReceived);
@@ -290,12 +289,13 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public HealGeneric newHealLifeInstance(int healAmount) {
-		return new HealGeneric(HealingTypeExample.Life, healAmount);
+	public HealGeneric newHealInstance(HealingType healType, int healAmount) {
+		return new HealGeneric(healType, healAmount);
 	}
 
 	//
 
 	// TODO FIRE EVENTS
 
+	// TODO MANA
 }

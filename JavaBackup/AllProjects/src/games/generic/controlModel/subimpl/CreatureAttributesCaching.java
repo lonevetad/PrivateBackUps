@@ -1,6 +1,7 @@
 package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.inventoryAbil.AttributeModification;
+import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
 
@@ -24,24 +25,33 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 	protected final int[] attributesModificationsApplied, cacheValues;
 
 	@Override
-	public int getValue(int index) {
-		int v, i;
-		if (isCacheAvailable)
-			return this.cacheValues[index];
+	public int getValue(AttributeIdentifier identifier) {
+		boolean bcNotNull;
+		int v, i, index;
+		CreatureAttributesBonusesCalculator bc;
+		index = identifier.getIndex();
+		if (isCacheAvailable) {
+			v = this.cacheValues[index];
+			return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
+		}
 		isCacheAvailable = true;
 		i = attributesCount;
-		while(--i >= 0) {// update the values
+		if (bcNotNull = (bc = this.bonusCalculator) != null)
+			bc.markCacheAsDirty();
+
+		while (--i >= 0) {// update the values
 			v = super.originalValues[i] + this.attributesModificationsApplied[i];
+			if (bcNotNull)
+				v += bc.getBonusForValue(i);
 			this.cacheValues[i] = v;
 		}
-		if (this.bonusCalculator != null) {
-			i = attributesCount;
-			v = 0;
-			while(--i >= 0) {// update the values
-				this.cacheValues[i] += this.bonusCalculator.getBonusForValue(i);
-			}
-		}
-		return this.cacheValues[index];
+//		if (bcNotNull) {
+//			i = attributesCount;
+//			while (--i >= 0) // update the values
+//				this.cacheValues[i] += bc.getBonusForValue(i);
+//		}
+		v = this.cacheValues[index];
+		return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
 	}
 
 //	public int[] getComputedAttributesModifications() {

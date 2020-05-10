@@ -5,10 +5,10 @@ import games.generic.controlModel.gObj.OrbitingInteractiveObject;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import geometry.ObjectShaped;
 
-public abstract class OrbitingSpawningBlobs extends OrbitingInteractiveObject implements AbilityGeneric {
+public abstract class AOrbitingSpawningBlobs extends OrbitingInteractiveObject implements AbilityGeneric {
 	private static final long serialVersionUID = 787845125863202423L;
 
-	public OrbitingSpawningBlobs() {
+	public AOrbitingSpawningBlobs() {
 		super();
 		tempSpawnBlob = 0;
 	}

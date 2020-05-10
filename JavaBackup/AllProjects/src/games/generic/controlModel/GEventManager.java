@@ -119,7 +119,6 @@ public abstract class GEventManager implements GObjectsHolder {
 		 * this.eventsQueued.put(id, l); // <br>
 		 * }
 		 */
-		System.out.println("--- GEventManager adding event : " + ge);
 		if (ge.isRequirigImmediateProcessing()) {
 			this.notifyEventObservers(ge);
 		} else {
@@ -138,7 +137,7 @@ public abstract class GEventManager implements GObjectsHolder {
 		gm = this.gameModality;
 		q = this.eventsQueued;
 //		this.eventsQueued.forEach((id, q) -> {
-		while(!q.isEmpty()) {
+		while (!q.isEmpty()) {
 
 			// make me sleep and waiting the game to be resumed
 			/**
@@ -149,7 +148,7 @@ public abstract class GEventManager implements GObjectsHolder {
 			 * two different threads, then this check is way more required, to synchronize
 			 * both threads upon sleeping and awakening.
 			 */
-			while((!q.isEmpty()) && gm.isRunningOrSleep()) {
+			while ((!q.isEmpty()) && gm.isRunningOrSleep()) {
 //					l.remove(0).performEvent(gm);
 				notifyEventObservers(q.poll()); // remove the first event
 			}

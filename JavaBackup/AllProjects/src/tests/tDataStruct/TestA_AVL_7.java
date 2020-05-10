@@ -71,7 +71,7 @@ public class TestA_AVL_7 {
 				}
 			}
 			compactOnlyAtEnd = !compactOnlyAtEnd;
-		} while(compactOnlyAtEnd);
+		} while (compactOnlyAtEnd);
 		System.out.println("before compact:");
 		System.out.println(t);
 		t.compact();
@@ -90,6 +90,20 @@ public class TestA_AVL_7 {
 		System.out.println("now balance t:");
 		t.compact();
 		System.out.println(t);
+
+		System.out.println("\n\n\n add -1 as a test \n\n");
+		x = -1;
+		t.put(x, x);
+		System.out.println(t);
+
+		System.out.println("\n\n\n now sequential add \n\n");
+		for (int i = 0; i < 20; i++) {
+			x = -i;
+			System.out.println("adding " + -i);
+			t.put(x, x);
+			System.out.println(t);
+			System.out.println("added");
+		}
 	}
 
 	static void buildAndPrint(MapTreeAVL<Integer, Integer> t, IntSequence is) {
@@ -99,7 +113,7 @@ public class TestA_AVL_7 {
 	static void buildAndPrint(MapTreeAVL<Integer, Integer> t, IntSequence is, boolean shouldPrint) {
 		Integer x;
 		t.clear();
-		while(is.hasNext()) {
+		while (is.hasNext()) {
 			x = is.next();
 			t.put(x, x);
 		}

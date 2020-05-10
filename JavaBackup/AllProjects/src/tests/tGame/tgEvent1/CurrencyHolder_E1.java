@@ -1,9 +1,9 @@
 package tests.tGame.tgEvent1;
 
 import games.generic.controlModel.GModality;
-import games.theRisingAngel.misc.CurrencySetTRAr;
+import games.theRisingAngel.misc.CurrencySetTRAn;
 
-public class CurrencyHolder_E1 extends CurrencySetTRAr {
+public class CurrencyHolder_E1 extends CurrencySetTRAn {
 
 	public CurrencyHolder_E1(GModality gm, int typesAmount) {
 		super(gm, typesAmount);

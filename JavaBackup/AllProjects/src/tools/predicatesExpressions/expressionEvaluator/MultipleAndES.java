@@ -1,9 +1,9 @@
 package tools.predicatesExpressions.expressionEvaluator;
 
+import tools.predicatesExpressions.expressionEvaluator.sourceEvaluer.AndExpressionSegment;
 import tools.predicatesExpressions.expressionEvaluator.sourceEvaluer.MultipleAndOrES;
-import tools.predicatesExpressions.expressionEvaluator.sourceEvaluer.OrExpressionSegment;
 
-public class MultipleAndES extends MultipleAndOrES implements OrExpressionSegment {
+public class MultipleAndES extends MultipleAndOrES implements AndExpressionSegment {
 	private static final long serialVersionUID = 81603777L;
 
 	public MultipleAndES() {
