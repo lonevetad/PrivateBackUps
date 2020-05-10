@@ -14,7 +14,11 @@ import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingAt
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.events.EventDamageTRAn;
+<<<<<<< HEAD
 import games.theRisingAngel.events.EventsTRAn;
+=======
+import games.theRisingAngel.events.EventsTRAr;
+>>>>>>> master
 import games.theRisingAngel.misc.AttributesTRAn;
 import tools.ObjectWithID;
 
@@ -101,7 +105,11 @@ public class AShiedlingButWeakining_OLD extends AbilityModifyingAttributesRealTi
 		EventDamageTRAn<?> dEvent;
 		BaseCreatureRPG creatureWearing;
 		CreatureAttributes cAttr;
+<<<<<<< HEAD
 		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
+=======
+		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
+>>>>>>> master
 			dEvent = (EventDamageTRAn<?>) ge;
 			if (dEvent.getTarget() ==
 			// check equality because it's bounded to the "wearer"

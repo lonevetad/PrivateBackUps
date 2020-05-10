@@ -13,9 +13,11 @@ import games.generic.controlModel.misc.CreatureAttributes;
 
 /**
  * See super-documentation of {@link AbilityVanishingOverTime}.<br>
- * The vanishing effect could be defined by overriding {@link #vanishEffect()}.
- * Currently it is diminished depending on the result of
- * {@link #computeNewAmountOnVanishing(AttributeModification)}.
+ * <<<<<<< HEAD The vanishing effect could be defined by overriding
+ * {@link #vanishEffect()}. Currently it is diminished depending on the result
+ * of {@link #computeNewAmountOnVanishing(AttributeModification)}. ======= The
+ * vanishing effect could be defined by overriding {@link #vanishEffect()},
+ * currently is "divided by half". >>>>>>> master
  * <p>
  * The ability could simple be active (and each acceptable {@link IGEvent} reset
  * the "active-counter") or cumulative, meaning that the
@@ -293,7 +295,6 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 				this.attributesToModify[n].setValue(this.attributesToModifyOriginal[n].getValue());
 			}
 		}
-
 		eventsReceivedBeweenUpdateds = 0;
 	}
 
@@ -301,8 +302,6 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	public void act(GModality modality, int timeUnits) {
 		evolveAbilityStatus(modality, timeUnits);
 		// first make the ability to evolve, then update values
-//		AbilityVanishingOverTime.
-//		AbilityModifyingAttributesRealTime.
 		super.act(modality, timeUnits);
 	}
 

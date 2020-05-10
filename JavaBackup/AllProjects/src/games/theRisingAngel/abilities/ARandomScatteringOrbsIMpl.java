@@ -61,7 +61,5 @@ public class ARandomScatteringOrbsIMpl extends ARandomScatteringOrbs {
 	@Override
 	public void onAddingToOwner(GModality gm) {
 		// TODO Auto-generated method stub
-
 	}
-
 }

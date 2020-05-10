@@ -12,6 +12,11 @@ aggiungere metodo per il drop randomico degli oggetti (magari in parallelo e con
 
 
 TODO:
+aggiunto nel 27/04/2020
+aggiungere metodo per il drop randomico degli oggetti (magari in parallelo e con un GThread a parte)
+
+
+TODO:
 aggiunto nel 20/04/2020
 
 Le spell devono essere un po' personalizzabili ed un po' specifiche:

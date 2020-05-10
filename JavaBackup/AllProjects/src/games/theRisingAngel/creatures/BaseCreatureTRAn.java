@@ -2,18 +2,14 @@ package games.theRisingAngel.creatures;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.DamageTypeGeneric;
-import games.generic.controlModel.misc.HealingType;
-import games.generic.controlModel.misc.HealingTypeExample;
 import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.events.EventsTRAn;
-import games.theRisingAngel.inventory.EquipmentSetTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
@@ -23,18 +19,9 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	public BaseCreatureTRAn(GModalityRPG gModRPG, String name) {
 		super(gModRPG, name);
-		this.equipmentSet = newEquipmentSet();
-		this.equipmentSet.setCreatureWearingEquipments(this);
-		this.addHealingType(HealingTypeExample.Life);
-		this.addHealingType(HealingTypeExample.Mana);
 	}
 
 	//
-
-	@Override
-	public int getTimeSubunitsEachTimeUnits() {
-		return 1000;
-	}
 
 	@Override
 	protected CreatureAttributes newAttributes() {
@@ -45,16 +32,6 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	}
 
 	@Override
-	public EquipmentSet newEquipmentSet() {
-		return new EquipmentSetTRAn();
-	}
-
-	@Override
-	public int getLife() {
-		return getCurableResourceAmount(HealingTypeExample.Life);
-	}
-
-	@Override
 	public int getLifeMax() {
 		return this.getAttributes().getValue(AttributesTRAn.LifeMax);
 	}
@@ -62,39 +39,6 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	@Override
 	public int getLifeRegenation() {
 		return this.getAttributes().getValue(AttributesTRAn.RegenLife);
-	}
-
-	@Override
-	public int getMana() {
-		return getCurableResourceAmount(HealingTypeExample.Mana);
-	}
-
-	@Override
-	public int getManaMax() {
-		return this.getAttributes().getValue(AttributesTRAn.ManaMax);
-	}
-
-	@Override
-	public int getManaRegenation() {
-		return this.getAttributes().getValue(AttributesTRAn.RegenMana);
-	}
-
-	@Override
-	public int getHealingRegenerationAmount(HealingType healType) {
-		if (healType == HealingTypeExample.Life)
-			return getLifeRegenation();
-		else if (healType == HealingTypeExample.Mana)
-			return getManaRegenation();
-		return 0;
-	}
-
-	@Override
-	public int getCurableResourceMax(HealingType healType) {
-		if (healType == HealingTypeExample.Life)
-			return getLifeMax();
-		else if (healType == HealingTypeExample.Mana)
-			return getManaMax();
-		return 0;
 	}
 
 	@Override
@@ -125,28 +69,6 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	//
 
-	//
-
-	@Override
-	public void setLife(int life) {
-//	public void setLife(int life) {this.life = life; }
-		if (life > getLifeMax())
-			life = getLifeMax();
-		if (life <= 0)
-			life = (0);
-		this.setCurableResourceAmount(HealingTypeExample.Life, life);
-	}
-
-	@Override
-	public void setMana(int mana) {
-		if (mana > getManaMax())
-			mana = getManaMax();
-		if (mana <= 0)
-			mana = (0);
-		this.setCurableResourceAmount(HealingTypeExample.Mana, mana);
-
-	}
-
 	@Override
 	public void setLifeMax(int lifeMax) {
 		if (lifeMax > 0) {
@@ -161,30 +83,6 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		if (lifeRegenation >= 0) {
 			this.getAttributes().setOriginalValue(AttributesTRAn.RegenLife.getIndex(), lifeRegenation);
 		}
-	}
-
-	@Override
-	public void setManaMax(int lifeMax) {
-		if (lifeMax > 0) {
-			this.getAttributes().setOriginalValue(AttributesTRAn.ManaMax.getIndex(), lifeMax);
-			if (this.getMana() > lifeMax)
-				this.setMana(lifeMax);
-		}
-	}
-
-	@Override
-	public void setManaRegenation(int lifeRegenation) {
-		if (lifeRegenation >= 0) {
-			this.getAttributes().setOriginalValue(AttributesTRAn.RegenMana.getIndex(), lifeRegenation);
-		}
-	}
-
-	@Override
-	public void setHealingRegenerationAmount(HealingType healType, int value) {
-		if (healType == HealingTypeExample.Life)
-			setLifeRegenation(value);
-		else if (healType == HealingTypeExample.Mana)
-			setManaRegenation(value);
 	}
 
 	//

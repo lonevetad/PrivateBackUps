@@ -22,7 +22,7 @@ public interface LivingObject extends DestructibleObject, DamageReceiverGeneric,
 //	public default void act(GModality modality, int timeUnits) {
 //		// override required to sub-instances to call the super implementation
 //		ObjectHealing.super.act(modality, timeUnits);
-//	}
+//	} 
 
 	/**
 	 * Similar to {@link #fireDestructionEvent(GModality)}, upon receiving damage

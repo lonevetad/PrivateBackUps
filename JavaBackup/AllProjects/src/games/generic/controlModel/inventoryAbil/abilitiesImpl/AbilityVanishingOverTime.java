@@ -97,9 +97,9 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 				doUponAbilityActivated();
 		} else if (pav == PhaseAbilityVanishing.Vanishing)
 			doUponAbilityStartsVanishing();
-		else // if (pav == PhaseAbilityVanishing.Finished)
-			doUponAbilityEffectEnds();
-		setPhaseAbilityCurrent(pav);
+		else // if (pav == PhaseAbilityVanishing.Finished) doUponAbilityEffectEnds();
+
+			setPhaseAbilityCurrent(pav);
 		setAccumulatedTimeAbililtyVanishing(0);
 	}
 
@@ -112,6 +112,7 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 	 * example, is during the call of
 	 * {@link AbilityModifyingAttributesRealTime#updateAttributesModifiersValues(GModality, EquipmentItem, CreatureSimple, CreatureAttributes)}.
 	 */
+
 	public void vanishEffect();
 
 	/** Perform something upon the ability activation */
@@ -128,7 +129,6 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 
 	/** Perform something upon the ability ends the vanishing effects */
 	public abstract void doUponAbilityEffectEnds();
-//		setPhaseAbilityCurrent(PhaseAbilityVanishing.Inactive);
 
 	//
 
@@ -138,9 +138,10 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 	}
 
 	/**
-	 * Upon receiving a triggering event (like a damage event or an activation from
-	 * the User through buttons or clicks), active this ability, or refresh it ant
-	 * trigger it again it it was yet {@link PhaseAbilityVanishing#Active} or
+	 * <<<<<<< HEAD Upon receiving a triggering event (like a damage event or an
+	 * activation from the User through buttons or clicks), active this ability, or
+	 * refresh it ant trigger it again it it was yet
+	 * {@link PhaseAbilityVanishing#Active} or
 	 * {@link PhaseAbilityVanishing#Vanishing}.
 	 */
 	public default void reActivateAbility(GModality gm) {
@@ -148,8 +149,9 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 	}
 
 	/**
-	 * This ability evolves through time (from {@link PhaseAbilityVanishing#Active}
-	 * to {@link PhaseAbilityVanishing#Vanishing} and later
+	 * ======= >>>>>>> master This ability evolves through time (from
+	 * {@link PhaseAbilityVanishing#Active} to
+	 * {@link PhaseAbilityVanishing#Vanishing} and later
 	 * {@link PhaseAbilityVanishing#Finished} [at the end, it comes back to
 	 * {@link PhaseAbilityVanishing#Inactive}) and this is the default
 	 * implementation of this concept. <br>
