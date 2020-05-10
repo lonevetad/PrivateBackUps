@@ -84,4 +84,14 @@ public interface GEventObserver extends ObjectWithID {
 	 * to implement it (but it's usefull for fine-grained systems).
 	 */
 	public List<String> getEventsWatching(); // default { return null; }
+
+	public default GEventObserver addEventWatched(String eventName) {
+		getEventsWatching().add(eventName);
+		return this;
+	}
+
+	public default GEventObserver addEventWatched(ObjectNamed objNamed) {
+		getEventsWatching().add(objNamed.getName());
+		return this;
+	}
 }

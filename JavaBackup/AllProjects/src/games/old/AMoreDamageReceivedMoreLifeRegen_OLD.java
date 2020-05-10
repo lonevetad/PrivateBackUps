@@ -13,7 +13,11 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingSingleAttributeRealTime;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.events.EventDamageTRAn;
+<<<<<<< HEAD
+import games.theRisingAngel.events.EventsTRAn;
+=======
 import games.theRisingAngel.events.EventsTRAr;
+>>>>>>> master
 import games.theRisingAngel.misc.AttributesTRAn;
 import tools.ObjectWithID;
 
@@ -24,11 +28,11 @@ public class AMoreDamageReceivedMoreLifeRegen_OLD extends AbilityModifyingSingle
 	public static final String NAME = "Pain Rinvigoring";
 
 	public AMoreDamageReceivedMoreLifeRegen_OLD() {
-		super(AttributesTRAn.RigenLife, NAME);
+		super(AttributesTRAn.RegenLife, NAME);
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(
 //		this.getAttributeToModify().getAttributeModified().getName()
-				EventsTRAr.DamageReceived.getName());
+				EventsTRAn.DamageReceived.getName());
 		ticks = 0;
 		thresholdTime = 1000;
 		accumulatedLifeRegen = 0;
@@ -84,7 +88,7 @@ public class AMoreDamageReceivedMoreLifeRegen_OLD extends AbilityModifyingSingle
 
 	@Override
 	public void notifyEvent(GModality modality, IGEvent ge) {
-		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
+		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 			int d;
 			EventDamageTRAn<?> dEvent;
 //	AttributeModification am;

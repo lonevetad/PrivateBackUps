@@ -60,50 +60,56 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 
 		@Override
 		protected void readAllFileImpl(String line) {
-//			int indexComma;
+			int indexComma;
 			String temp;
 			String[] splitted;
 			FactoryEquip fe;
 			factories = new LinkedList<>();
-			while(line.contains("{")) { // start of an equip, must start at the previous end if any
+			while (line.contains("{")) { // start of an equip, must start at the previous end if any
 				fe = new FactoryEquip();
 				do {
 					line = lr.next().trim();
-//					indexComma = line.indexOf(':');
-					splitted = line.split(":"); //
-//					splitted = new String[] { line.substring(0, indexComma), line.substring(indexComma + 1) };
-					trimAll(splitted);
-					line = LoaderGeneric.removeQuotes(splitted[0]).trim();// as cache
-					switch (line) {
-					case "name":
-						fe.fi.name = LoaderGeneric.removeQuotes(splitted[1]);
-						break;
-					case "type":
-						fe.type = EquipmentTypesTRAn.getEquipTypeTRArByName(LoaderGeneric.removeQuotes(splitted[1]));
-						break;
-					case "attributeMods":
-						fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(lr);
-						break;
-					case "abilities":
-						temp = splitted[1].trim();
-						fe.abilities = LoaderFunctionsTRAn.extractAbilitiesName(temp);
-						break;
-					case "rarity":
-						fe.fi.rarity = LoaderGeneric.extractIntValue(splitted[1]);
-						break;
-					case "dimensInvent":
-						fe.fi.dimensionInInventory = LoaderFunctionsTRAn.extractDimensionInInventory(lr.next().trim());
-						lr.next();
-						break;
-					case "sellPrice":
-						temp = splitted[1].trim();
-						fe.fi.price = LoaderFunctionsTRAn.extractSellPrices(temp);
-						break;
-					default:
-						break;
+					indexComma = line.indexOf(':');
+					if (indexComma >= 0) {
+//						splitted = line.split(":"); //
+						splitted = new String[] { line.substring(0, indexComma), line.substring(indexComma + 1) };
+						trimAll(splitted);
+						line = LoaderGeneric.removeQuotes(splitted[0]).trim();// as cache
+						switch (line) {
+						case "name":
+							fe.fi.name = LoaderGeneric.removeQuotes(splitted[1]);
+							break;
+						case "description":
+							fe.fi.description = LoaderGeneric.removeQuotes(splitted[1]);
+							break;
+						case "type":
+							fe.type = EquipmentTypesTRAn
+									.getEquipTypeTRArByName(LoaderGeneric.removeQuotes(splitted[1]));
+							break;
+						case "attributeMods":
+							fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(lr);
+							break;
+						case "abilities":
+							temp = splitted[1].trim();
+							fe.abilities = LoaderFunctionsTRAn.extractAbilitiesName(temp);
+							break;
+						case "rarity":
+							fe.fi.rarity = LoaderGeneric.extractIntValue(splitted[1]);
+							break;
+						case "dimensInvent":
+							fe.fi.dimensionInInventory = LoaderFunctionsTRAn
+									.extractDimensionInInventory(lr.next().trim());
+							lr.next();
+							break;
+						case "sellPrice":
+							temp = splitted[1].trim();
+							fe.fi.price = LoaderFunctionsTRAn.extractSellPrices(temp);
+							break;
+						default:
+							break;
+						}
 					}
-
-				} while(!line.contains("}")); // to the end
+				} while (!line.contains("}")); // to the end
 				factories.add(fe);
 			}
 		}

@@ -1,6 +1,7 @@
 package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.inventoryAbil.AttributeModification;
+import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
 
@@ -24,12 +25,15 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 	protected final int[] attributesModificationsApplied, cacheValues;
 
 	@Override
-	public int getValue(int index) {
+	public int getValue(AttributeIdentifier identifier) {
 		boolean bcNotNull;
-		int v, i;
+		int v, i, index;
 		CreatureAttributesBonusesCalculator bc;
-		if (isCacheAvailable)
-			return this.cacheValues[index];
+		index = identifier.getIndex();
+		if (isCacheAvailable) {
+			v = this.cacheValues[index];
+			return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
+		}
 		isCacheAvailable = true;
 		i = attributesCount;
 		if (bcNotNull = (bc = this.bonusCalculator) != null)
@@ -46,7 +50,8 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 //			while (--i >= 0) // update the values
 //				this.cacheValues[i] += bc.getBonusForValue(i);
 //		}
-		return this.cacheValues[index];
+		v = this.cacheValues[index];
+		return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
 	}
 
 //	public int[] getComputedAttributesModifications() {

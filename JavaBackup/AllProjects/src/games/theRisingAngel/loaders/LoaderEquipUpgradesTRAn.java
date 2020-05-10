@@ -44,33 +44,41 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 		@Override
 		protected void readAllFileImpl(String line) {
 //			String temp;
+			int indexComma;
 			String[] splitted;
 			FactoryEquipUpgrade fe;
 			factories = new LinkedList<>();
-			while(line.contains("{")) { // start of an equip, must start at the previous end if any
+			while (line.contains("{")) { // start of an equip, must start at the previous end if any
 				fe = new FactoryEquipUpgrade();
 				do {
 					line = lr.next().trim();
-					splitted = line.split(":");
-					trimAll(splitted);
-					line = LoaderGeneric.removeQuotes(splitted[0]).trim();// as cache
-					switch (line) {
-					case "name":
-						fe.name = LoaderGeneric.removeQuotes(splitted[1]);
-						break;
-					case "modifiers":
-						fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(lr);
-						break;
-					case "rarity":
-						fe.rarity = LoaderGeneric.extractIntValue(splitted[1]);
-						break;
-					case "bonusPrice":
-						fe.bonusPriceSell = LoaderFunctionsTRAn.extractSellPrices(splitted[1].trim());
-						break;
-					default:
-						break;
+					indexComma = line.indexOf(':');
+					if (indexComma >= 0) {
+//						splitted = line.split(":"); //
+						splitted = new String[] { line.substring(0, indexComma), line.substring(indexComma + 1) };
+						trimAll(splitted);
+						line = LoaderGeneric.removeQuotes(splitted[0]).trim();// as cache
+						switch (line) {
+						case "name":
+							fe.name = LoaderGeneric.removeQuotes(splitted[1]);
+							break;
+						case "description":
+							fe.description = LoaderGeneric.removeQuotes(splitted[1]);
+							break;
+						case "modifiers":
+							fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(lr);
+							break;
+						case "rarity":
+							fe.rarity = LoaderGeneric.extractIntValue(splitted[1]);
+							break;
+						case "bonusPrice":
+							fe.bonusPriceSell = LoaderFunctionsTRAn.extractSellPrices(splitted[1].trim());
+							break;
+						default:
+							break;
+						}
 					}
-				} while(!line.contains("}")); // to the end
+				} while (!line.contains("}")); // to the end
 				factories.add(fe);
 			}
 		}
@@ -79,13 +87,14 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 	protected static class FactoryEquipUpgrade implements FactoryObjGModalityBased<EquipmentUpgrade> {
 		int rarity;
 		int[] bonusPriceSell;
-		String name;
+		String name, description;
 		List<AttributeModification> attrMods = null;
 
 		@Override
 		public EquipmentUpgrade newInstance(GModality gm) {
 			EquipmentUpgrade ei;
 			ei = new EquipmentUpgradeImpl(rarity, name);
+//			ei.description = description;
 			if (attrMods != null) {
 				for (AttributeModification am : attrMods)
 					ei.addAttributeModifier(am);

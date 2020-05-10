@@ -1,3 +1,16 @@
+TODO del 05/05/2020
+Le statistiche scalano troppo in alto (portarle al valore di 200 le rende eccessivamente forti)
+scalare anche i bonus di armature e upgrade vari sicchè diano al massimo 1,5 livelli
+(ed essendo almeno 7 pezzi non-jewelry, vorrebbe dire almeno 1,5*7= 10-11 livelli gratis
+ con gli oggetti a rarità 1 o 2, che è tanto)
+
+
+
+TODO:
+aggiunto nel 27/04/2020
+aggiungere metodo per il drop randomico degli oggetti (magari in parallelo e con un GThread a parte)
+
+
 TODO:
 aggiunto nel 27/04/2020
 aggiungere metodo per il drop randomico degli oggetti (magari in parallelo e con un GThread a parte)

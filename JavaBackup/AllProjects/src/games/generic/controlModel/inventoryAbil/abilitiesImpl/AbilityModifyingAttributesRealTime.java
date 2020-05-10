@@ -25,7 +25,7 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 		super(name);
 	}
 
-	public AbilityModifyingAttributesRealTime(AttributeIdentifier[] attributesModified, String name) {
+	public AbilityModifyingAttributesRealTime(String name, AttributeIdentifier[] attributesModified) {
 		super(name);
 		if (attributesModified != null) {
 			setAttributesToModify(attributesModified);
@@ -64,6 +64,22 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 
 	//
 
+	protected void applyModifyingEffecsOnEquipping() {
+		CreatureAttributes ca;
+		ca = getAttributesWearer();
+		if (ca == null)
+			return;
+		for (AttributeModification am : this.attributesToModify) {
+			ca.applyAttributeModifier(am);
+		}
+	}
+
+	@Override
+	public void onEquip(GModality gm) {
+		super.onEquip(gm);
+		applyModifyingEffecsOnEquipping();
+	}
+
 	@Override
 	public void performAbility(GModality modality) {
 		EquipmentItem ei;
@@ -89,9 +105,8 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 
 	/**
 	 * Override designed.<br>
-	 * Update one or more {@link CreatureAttributes}'s attribute.<br>
-	 * Default implementation update just one value, but multiple values at once
-	 * could be modified.
+	 * Update one or more {@link CreatureAttributes}'s attribute (the ones in
+	 * {@link #getAttributesToModify()}).
 	 */
 	protected void updateAttributes(GModality gm, EquipmentItem ei, CreatureSimple ah, CreatureAttributes ca) {
 		for (AttributeModification am : this.attributesToModify) {
@@ -114,5 +129,4 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 				+ (this.getEquipItem() == null ? "null" : this.getEquipItem().getName()) + ",\n\t attributesToModify="
 				+ Arrays.toString(attributesToModify) + "]";
 	}
-
 }

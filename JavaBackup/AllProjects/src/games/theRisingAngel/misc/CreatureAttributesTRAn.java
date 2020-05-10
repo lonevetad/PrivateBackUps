@@ -6,7 +6,6 @@ public class CreatureAttributesTRAn extends CreatureAttributesCaching {
 
 	public CreatureAttributesTRAn() {
 		super(AttributesTRAn.VALUES.length);
-		super.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAr());
+		super.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAn());
 	}
-
 }

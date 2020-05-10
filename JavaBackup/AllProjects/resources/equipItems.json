@@ -1,5 +1,461 @@
 [
 	{
+		"name": "Cloth Trousers",
+		"type": "Legs",
+		"rarity": 1,
+		"sellPrice": [25],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Precision", "value": 3},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Defense", "value": 1},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Shirt",
+		"type": "Chest",
+		"rarity": 1,
+		"sellPrice": [25],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 4},
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Sleeve",
+		"type": "Arms",
+		"rarity": 1,
+		"sellPrice": [8],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": 5},
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Defense", "value": 1},
+			{"attribute": "ProbabilityAvoidPhysical", "value": 10},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Shoes",
+		"type": "Feet",
+		"rarity": 1,
+		"sellPrice": [20],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "ProbabilityAvoidPhysical", "value": 10},
+			{"attribute": "ProbabilityAvoidMagical", "value": 10},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Hat",
+		"type": "Head",
+		"rarity": 1,
+		"sellPrice": [18],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "CriticalProbabilityAvoid", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Gloves",
+		"type": "Hands",
+		"rarity": 1,
+		"sellPrice": [15],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Precision", "value": 4},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Cloak",
+		"type": "Cloak",
+		"rarity": 1,
+		"sellPrice": [21],
+		"dimensInvent": {
+			"width": 2, "height": 4
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -1},
+			{"attribute": "Faith", "value": 1},
+			{"attribute": "Velocity", "value": -2},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Hat",
+		"type": "Head",
+		"rarity": 1,
+		"sellPrice": [18],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Gloves",
+		"type": "Hands",
+		"rarity": 1,
+		"sellPrice": [25],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Precision", "value": -1},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Sleeve",
+		"type": "Arms",
+		"rarity": 1,
+		"sellPrice": [8],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Trousers",
+		"type": "Legs",
+		"rarity": 1,
+		"sellPrice": [27],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 10},
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Velocity", "value": -3},
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Pullover",
+		"type": "Chest",
+		"description": "A warm shirt of raw wool, a uncomfortable for soft skins but smooths hurts.",
+		"rarity": 1,
+		"sellPrice": [28],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 15},
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -4},
+			{"attribute": "RegenLife", "value": -1},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Shoes",
+		"type": "Feet",
+		"rarity": 1,
+		"sellPrice": [27],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Wool Cloak",
+		"type": "Cloak",
+		"rarity": 1,
+		"sellPrice": [25],
+		"dimensInvent": {
+			"width": 2, "height": 4
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 8},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Velocity", "value": -4},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Trousers",
+		"type": "Legs",
+		"rarity": 2,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 23},
+			{"attribute": "Defense", "value": 6},
+			{"attribute": "Constitution", "value": 7},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Velocity", "value": -3},
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Jacket",
+		"type": "Chest",
+		"rarity": 1,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 18},
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Constitution", "value": 8},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Dexterity", "value": -5},
+			{"attribute": "DamageReductionPhysical", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Shoes",
+		"type": "Feet",
+		"rarity": 2,
+		"sellPrice": [34],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Constitution", "value": 7},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Health", "value": -1},
+			{"attribute": "Velocity", "value": 10},
+			{"attribute": "ManaMax", "value": -10},
+			{"attribute": "DamageReductionPhysical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Boots",
+		"type": "Feet",
+		"rarity": 2,
+		"sellPrice": [37],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 6},
+			{"attribute": "Constitution", "value": 8},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Velocity", "value": 7},
+			{"attribute": "ManaMax", "value": -5},
+			{"attribute": "DamageReductionPhysical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Helmet",
+		"type": "Head",
+		"rarity": 2,
+		"sellPrice": [28],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 11},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 1},
+			{"attribute": "CriticalMultiplierReduction", "value": 7}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Gloves",
+		"type": "Hands",
+		"rarity": 2,
+		"sellPrice": [22],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "Precision", "value": 3},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "ProbabilityHitPhysical", "value": 3},
+			{"attribute": "ProbabilityHitMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Sleeve",
+		"type": "Arms",
+		"rarity": 2,
+		"sellPrice": [13],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Constitution", "value": 6},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "Precision", "value": 4},
+			{"attribute": "Dexterity", "value": -5},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "CriticalMultiplierReduction", "value": 5},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Cloak",
+		"type": "Cloak",
+		"rarity": 2,
+		"sellPrice": [35],
+		"dimensInvent": {
+			"width": 2, "height": 4
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 10},
+			{"attribute": "Constitution", "value": 10},
+			{"attribute": "Dexterity", "value": -6},
+			{"attribute": "Precision", "value": -4},
+			{"attribute": "Faith", "value": -3},
+			{"attribute": "Velocity", "value": -10},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Leather Belt",
+		"type": "Belt",
+		"rarity": 1,
+		"sellPrice": [24],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Defense", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Belt with iron plates",
+		"type": "Belt",
+		"rarity": 2,
+		"sellPrice": [39],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "DamageReductionPhysical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "String belt",
+		"type": "Belt",
+		"rarity": 1,
+		"sellPrice": [16],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 1},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 1},
+		],
+		"abilities": []
+	}, {
 		"name": "Ruby Ring",
 		"type": "Ring",
 		"rarity": 1,
@@ -8,7 +464,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Strength", "value": 10}
+			{"attribute": "Strength", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -20,7 +476,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": 60}
+			{"attribute": "LifeMax", "value": 30}
 		],
 		"abilities": []
 	}, {
@@ -32,7 +488,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "ManaMax", "value": 45}
+			{"attribute": "ManaMax", "value": 25}
 		],
 		"abilities": []
 	}, {
@@ -44,7 +500,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Precision", "value": 10}
+			{"attribute": "Precision", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -56,7 +512,23 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 10}
+			{"attribute": "Dexterity", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Ring of fearful animal",
+		"type": "Ring",
+		"description": "Fear have a strong power: in long run, can endure sense at the cost of lucidity.",
+		"rarity": 1,
+		"sellPrice": [27],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "Intelligence", "value": -2},
+			{"attribute": "Wisdom", "value": -1},
+			{"attribute": "CriticalProbabilityAvoid", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -68,7 +540,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Intelligence", "value": 10}
+			{"attribute": "Intelligence", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -80,7 +552,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": 4}
+			{"attribute": "RegenLife", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -92,7 +564,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "RigenMana", "value": 4}
+			{"attribute": "RegenMana", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -104,7 +576,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Wisdom", "value": 10}
+			{"attribute": "Wisdom", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -116,8 +588,8 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": 2},
-			{"attribute": "RigenMana", "value": 2}
+			{"attribute": "RegenLife", "value": 1},
+			{"attribute": "RegenMana", "value": 1}
 		],
 		"abilities": []
 	}, {
@@ -129,8 +601,8 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": 6},
-			{"attribute": "RigenMana", "value": -2}
+			{"attribute": "RegenLife", "value": 3},
+			{"attribute": "RegenMana", "value": -1}
 		],
 		"abilities": []
 	}, {
@@ -142,8 +614,8 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": -2},
-			{"attribute": "RigenMana", "value": 6}
+			{"attribute": "RegenLife", "value": -1},
+			{"attribute": "RegenMana", "value": 3}
 		],
 		"abilities": []
 	}, {
@@ -155,8 +627,8 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": 2},
-			{"attribute": "LifeMax", "value": 40}
+			{"attribute": "RegenLife", "value": 1},
+			{"attribute": "LifeMax", "value": 20}
 		],
 		"abilities": []
 	}, {
@@ -168,8 +640,8 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "ManaMax", "value": 35},
-			{"attribute": "RigenMana", "value": 2}
+			{"attribute": "ManaMax", "value": 20},
+			{"attribute": "RegenMana", "value": 1}
 		],
 		"abilities": []
 	}, {
@@ -181,9 +653,9 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Defense", "value": 4},
-			{"attribute": "Dexterity", "value": 4},
-			{"attribute": "Precision", "value": 4}
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -195,14 +667,14 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Health", "value": 10}
+			{"attribute": "Health", "value": 4}
 		],
 		"abilities": []
 	}, {
 		"name": "Diamond Ring",
 		"type": "Ring",
-		"rarity": 2,
-		"sellPrice": [49],
+		"rarity": 3,
+		"sellPrice": [65],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
@@ -219,7 +691,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Constitution", "value": 10}
+			{"attribute": "Constitution", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -231,7 +703,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Faith", "value": 10}
+			{"attribute": "Faith", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -243,7 +715,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Velocity", "value": 15}
+			{"attribute": "Velocity", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -255,7 +727,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "DamageBonusMagical", "value": 4}
+			{"attribute": "DamageBonusMagical", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -267,7 +739,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "DamageReductionMagical", "value": 4}
+			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -279,7 +751,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "DamageBonusPhysical", "value": 4}
+			{"attribute": "DamageBonusPhysical", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -291,7 +763,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "DamageReductionPhysical", "value": 4}
+			{"attribute": "DamageReductionPhysical", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -315,19 +787,32 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "CriticalMultiplier", "value": 10}
+			{"attribute": "CriticalMultiplier", "value": 5}
 		],
 		"abilities": []
 	}, {
-		"name": "Topaz Ring",
+		"name": "Blue Topaz Ring",
 		"type": "Ring",
-		"rarity": 1,
-		"sellPrice": [33],
+		"rarity": 2,
+		"sellPrice": [48],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
 			{"attribute": "DamageBonusMagical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Light-Blue Topaz Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"sellPrice": [48],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "DamageBonusMagical", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
@@ -340,8 +825,8 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 6},
-			{"attribute": "Precision", "value": 4}
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -353,12 +838,12 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 4},
-			{"attribute": "Precision", "value": 6}
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 3}
 		],
 		"abilities": []
 	}, {
-		"name": "Zoisite Ring",
+		"name": "Yellow Zoisite Ring",
 		"type": "Ring",
 		"rarity": 2,
 		"sellPrice": [55],
@@ -367,6 +852,19 @@
 		},
 		"attributeMods": [
 			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Green Zoisite Ring",
+		"type": "Ring",
+		"rarity": 2,
+		"sellPrice": [55],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "DamageBonusPhysical", "value": 1},
 			{"attribute": "DamageReductionPhysical", "value": 2}
 		],
 		"abilities": []
@@ -379,11 +877,20 @@
 			"width": 2, "height": 1
 		},
 		"attributeMods": [
+<<<<<<< HEAD
+			{"attribute": "LifeMax", "value": 25},
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "RegenLife", "value": 2}
+
+=======
 			{"attribute": "Strength", "value": 4},
 			{"attribute": "Constitution", "value": 4},
 			{"attribute": "Health", "value": 4},
 			{"attribute": "RigenLife", "value": 4},
 			{"attribute": "Defense", "value": 4}
+>>>>>>> master
 		],
 		"abilities": []
 	}, {
@@ -395,10 +902,18 @@
 			"width": 2, "height": 1
 		},
 		"attributeMods": [
+<<<<<<< HEAD
+			{"attribute": "ManaMax", "value": 15},
+			{"attribute": "Intelligence", "value": 2},
+			{"attribute": "Wisdom", "value": 2},
+			{"attribute": "Faith", "value": 2},
+			{"attribute": "RegenMana", "value": 2},
+=======
 			{"attribute": "Intelligence", "value": 4},
 			{"attribute": "Wisdom", "value": 4},
 			{"attribute": "Faith", "value": 4},
 			{"attribute": "RigenMana", "value": 4},
+>>>>>>> master
 			{"attribute": "Luck", "value": 1}
 		],
 		"abilities": []
@@ -406,13 +921,15 @@
 		"name": "Pyrite Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [55],
+		"sellPrice": [40],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
 			{"attribute": "DamageBonusPhysical", "value": 2},
-			{"attribute": "DamageBonusMagical", "value": 2}
+			{"attribute": "DamageBonusMagical", "value": 2},
+			{"attribute": "RegenLife", "value": -1},
+			{"attribute": "RegenMana", "value": -1}
 		],
 		"abilities": []
 	}, {
@@ -425,7 +942,8 @@
 		},
 		"attributeMods": [
 			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 2}
+			{"attribute": "DamageReductionMagical", "value": 2},
+			{"attribute": "Luck", "value": -1}
 		],
 		"abilities": []
 	}, {
@@ -437,10 +955,17 @@
 			"width": 2, "height": 3
 		},
 		"attributeMods": [
+<<<<<<< HEAD
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": -5},
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Dexterity", "value": -6},
+=======
 			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Health", "value": -15},
 			{"attribute": "Defense", "value": 20},
 			{"attribute": "Dexterity", "value": -8},
+>>>>>>> master
 			{"attribute": "DamageReductionPhysical", "value": 3},
 			{"attribute": "DamageReductionMagical", "value": 3}
 		],
@@ -454,250 +979,240 @@
 			"width": 2, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": 2}
+			{"attribute": "RegenLife", "value": 2},
+			{"attribute": "Luck", "value": -4}
 		],
 		"abilities": ["Healthy wallet in healthy body"]
 	}, {
+<<<<<<< HEAD
+		"name": "Bracelet of a child",
+		"type": "Bracelet",
+		"rarity": 1,
+		"sellPrice": [15],
+=======
 		"name": "Cloth Trousers",
 		"type": "Legs",
 		"rarity": 1,
 		"sellPrice": [64],
+>>>>>>> master
 		"dimensInvent": {
-			"width": 2, "height": 3
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": 20},
-			{"attribute": "Defense", "value": 8},
-			{"attribute": "Constitution", "value": 3},
-			{"attribute": "Dexterity", "value": 2},
-			{"attribute": "Velocity", "value": 5},
-			{"attribute": "DamageReductionPhysical", "value": 3},
-			{"attribute": "DamageReductionMagical", "value": 3}
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Faith", "value": 2},
+			{"attribute": "Luck", "value": 2}
 		],
 		"abilities": []
 	}, {
-		"name": "Cloth Shirt",
-		"type": "Chest",
+		"name": "Bracelet of river stones",
+		"type": "Bracelet",
 		"rarity": 1,
-		"sellPrice": [50],
+		"sellPrice": [17],
 		"dimensInvent": {
-			"width": 2, "height": 3
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": 27},
-			{"attribute": "Defense", "value": 11},
-			{"attribute": "Constitution", "value": 7},
-			{"attribute": "DamageReductionPhysical", "value": 4},
-			{"attribute": "DamageReductionMagical", "value": 2}
-		],
-		"abilities": []
-	}, {
-		"name": "Cloth Shoes",
-		"type": "Feet",
-		"rarity": 1,
-		"sellPrice": [44],
-		"dimensInvent": {
-			"width": 2, "height": 2
-		},
-		"attributeMods": [
-			{"attribute": "Defense", "value": 4},
 			{"attribute": "Constitution", "value": 2},
-			{"attribute": "Dexterity", "value": 10},
-			{"attribute": "Velocity", "value": 5},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 1}
+			{"attribute": "Wisdom", "value": 1},
+			{"attribute": "Faith", "value": 2},
+			{"attribute": "Dexterity", "value": -1}
 		],
 		"abilities": []
 	}, {
-		"name": "Cloth Hat",
-		"type": "Head",
-		"rarity": 1,
-		"sellPrice": [33],
+		"name": "Bracelet of animal bones",
+		"type": "Bracelet",
+		"rarity": 2,
+		"sellPrice": [22],
 		"dimensInvent": {
-			"width": 2, "height": 2
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Defense", "value": 4},
-			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Wisdom", "value": 1},
+			{"attribute": "Faith", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet of wolves teeth",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [35],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 5},
 			{"attribute": "Precision", "value": 6},
-			{"attribute": "Dexterity", "value": 5},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 1}
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Faith", "value": -2}
 		],
 		"abilities": []
 	}, {
-		"name": "Cloth Gloves",
-		"type": "Hands",
-		"rarity": 1,
-		"sellPrice": [20],
+		"name": "Bracelet of precious stones",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [42],
 		"dimensInvent": {
-			"width": 2, "height": 2
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Defense", "value": 3},
-			{"attribute": "Constitution", "value": 3},
-			{"attribute": "Precision", "value": 6},
-			{"attribute": "Dexterity", "value": 6},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 1}
+			{"attribute": "Intelligence", "value": 3},
+			{"attribute": "Wisdom", "value": 3},
+			{"attribute": "Faith", "value": 3},
+			{"attribute": "Luck", "value": 2}
 		],
 		"abilities": []
 	}, {
-		"name": "Wool Hat",
-		"type": "Head",
-		"rarity": 1,
-		"sellPrice": [38],
+		"name": "Bracelet with metal bands",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [42],
 		"dimensInvent": {
-			"width": 2, "height": 2
-		},
-		"attributeMods": [
-			{"attribute": "Constitution", "value": 6},
-			{"attribute": "Health", "value": 3},
-			{"attribute": "Defense", "value": 8},
-			{"attribute": "Dexterity", "value": -2},
-			{"attribute": "Precision", "value": -2},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 3}
-		],
-		"abilities": []
-	}, {
-		"name": "Wool Gloves",
-		"type": "Hands",
-		"rarity": 1,
-		"sellPrice": [25],
-		"dimensInvent": {
-			"width": 2, "height": 2
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
 			{"attribute": "Strength", "value": 3},
 			{"attribute": "Constitution", "value": 3},
-			{"attribute": "Health", "value": 1},
-			{"attribute": "Defense", "value": 6},
-			{"attribute": "Precision", "value": 2},
-			{"attribute": "Dexterity", "value": -2},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 3}
+			{"attribute": "Health", "value": 3},
+			{"attribute": "Luck", "value": 2}
 		],
 		"abilities": []
 	}, {
-		"name": "Wool Trousers",
-		"type": "Legs",
-		"rarity": 1,
-		"sellPrice": [55],
+		"name": "Bracelet of runed woods",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [42],
 		"dimensInvent": {
-			"width": 2, "height": 3
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": 10},
-			{"attribute": "Defense", "value": 13},
-			{"attribute": "Health", "value": 4},
-			{"attribute": "Constitution", "value": 5},
-			{"attribute": "Dexterity", "value": -4},
-			{"attribute": "Precision", "value": -2},
-			{"attribute": "Velocity", "value": -3},
-			{"attribute": "DamageReductionPhysical", "value": 5},
-			{"attribute": "DamageReductionMagical", "value": 5}
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": 3},
+			{"attribute": "Luck", "value": 2}
 		],
 		"abilities": []
 	}, {
-		"name": "Wool Shirt",
-		"type": "Chest",
-		"rarity": 1,
-		"sellPrice": [62],
+		"name": "Bracelet of flowers and leaves",
+		"type": "Bracelet",
+		"rarity": 2,
+		"sellPrice": [26],
 		"dimensInvent": {
-			"width": 2, "height": 3
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
 			{"attribute": "LifeMax", "value": 15},
-			{"attribute": "Defense", "value": 13},
-			{"attribute": "Constitution", "value": 7},
-			{"attribute": "Health", "value": 3},
-			{"attribute": "Dexterity", "value": -2},
-			{"attribute": "Precision", "value": -5},
-			{"attribute": "DamageReductionPhysical", "value": 6},
-			{"attribute": "DamageReductionMagical", "value": 4}
-		],
-		"abilities": []
-	}, {
-		"name": "Wool Shoes",
-		"type": "Feet",
-		"rarity": 1,
-		"sellPrice": [27],
-		"dimensInvent": {
-			"width": 2, "height": 2
-		},
-		"attributeMods": [
-			{"attribute": "Defense", "value": 7},
-			{"attribute": "Constitution", "value": 5},
+			{"attribute": "ManaMax", "value": 10},
 			{"attribute": "Health", "value": 2},
-			{"attribute": "Dexterity", "value": 3},
-			{"attribute": "Precision", "value": -2},
-			{"attribute": "Velocity", "value": 7},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 3}
+			{"attribute": "Faith", "value": 2}
 		],
 		"abilities": []
 	}, {
-		"name": "Wool Cloak",
-		"type": "Cloak",
-		"rarity": 1,
-		"sellPrice": [76],
-		"dimensInvent": {
-			"width": 2, "height": 4
-		},
-		"attributeMods": [
-			{"attribute": "Defense", "value": 13},
-			{"attribute": "Constitution", "value": 12},
-			{"attribute": "Health", "value": 5},
-			{"attribute": "Dexterity", "value": -7},
-			{"attribute": "Precision", "value": -5},
-			{"attribute": "Velocity", "value": -4},
-			{"attribute": "DamageReductionPhysical", "value": 3},
-			{"attribute": "DamageReductionMagical", "value": 6}
-		],
-		"abilities": []
-	}, {
-		"name": "Cloth Cloak",
-		"type": "Cloak",
-		"rarity": 1,
-		"sellPrice": [68],
-		"dimensInvent": {
-			"width": 2, "height": 4
-		},
-		"attributeMods": [
-			{"attribute": "Defense", "value": 11},
-			{"attribute": "Constitution", "value": 9},
-			{"attribute": "Health", "value": 3},
-			{"attribute": "Dexterity", "value": -5},
-			{"attribute": "Precision", "value": -3},
-			{"attribute": "Faith", "value": 2},
-			{"attribute": "DamageReductionPhysical", "value": 1},
-			{"attribute": "DamageReductionMagical", "value": 4}
-		],
-		"abilities": []
-	}, {
-		"name": "Bracelet of a child",
+		"name": "Bracelet gold plated",
 		"type": "Bracelet",
-		"rarity": 1,
+		"rarity": 4,
+		"sellPrice": [170],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "DamageBonusMagical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 4},
+			{"attribute": "Luck", "value": -5},
+			{"attribute": "Faith", "value": 4}
+		],
+		"abilities": []
+	}, {
+		"name": "Bracelet silver plated",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [80],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "DamageBonusMagical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 2},
+			{"attribute": "Luck", "value": -2},
+			{"attribute": "Faith", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Belt of the Warrior",
+		"type": "Belt",
+		"rarity": 3,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 7},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Health", "value": 3},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageBonusPhysical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Belt of the Druid",
+		"type": "Belt",
+		"rarity": 3,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "CriticalMultiplier", "value": 4},
+			{"attribute": "CriticalProbability", "value": 20}
+		],
+		"abilities": []
+	}, {
+		"name": "Belt of the Bishop",
+		"type": "Belt",
+		"rarity": 3,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Intelligence", "value": 4},
+			{"attribute": "Wisdom", "value": 5},
+			{"attribute": "Faith", "value": 6},
+			{"attribute": "DamageReductionMagical", "value": 1},
+			{"attribute": "DamageBonusMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Earrings of little hunger",
+		"type": "Earrings",
+		"rarity": 2,
 		"sellPrice": [15],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Health", "value": 3},
-			{"attribute": "Faith", "value": 4},
-			{"attribute": "Luck", "value": 2}
+			{"attribute": "Health", "value": -5},
+			{"attribute": "RegenLife", "value": 2}
 		],
 		"abilities": []
 	}, {
-		"name": "Leather Belt",
-		"type": "Belt",
+		"name": "Earrings of rusted plate",
+		"type": "Earrings",
 		"rarity": 1,
-		"sellPrice": [35],
+		"sellPrice": [7],
 		"dimensInvent": {
-			"width": 2, "height": 1
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
+<<<<<<< HEAD
+			{"attribute": "Health", "value": 5},
+			{"attribute": "RegenLife", "value": -2}
+=======
 			{"attribute": "Strength", "value": 6},
 			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Dexterity", "value": 3},
@@ -937,6 +1452,7 @@
 		"attributeMods": [
 			{"attribute": "Health", "value": 5},
 			{"attribute": "RigenLife", "value": -2}
+>>>>>>> master
 		],
 		"abilities": []
 	}, {
@@ -949,8 +1465,45 @@
 		},
 		"attributeMods": [
 			{"attribute": "Health", "value": 5},
+<<<<<<< HEAD
+			{"attribute": "RegenLife", "value": -2}
+=======
 			{"attribute": "RigenLife", "value": -2}
+>>>>>>> master
 		],
 		"abilities": []
-	}
+	}, {
+		"name": "Gloves of the mad hunter",
+		"description": "Gloves belonged to a bloody madman, who always became crazy and frenzy if he cannot satisfy his cruelty upon missing the target.",
+		"type": "Hands",
+		"rarity": 3,
+		"sellPrice": [5],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Dexterity", "value": 2}
+		],
+		"abilities": ["Frenzy for a miss"]
+	}, {
+		"name": "Necklace of devoted vampire",
+		"type": "Necklace",
+		"rarity": 3,
+		"sellPrice": [76],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "LifeLeechPercentage", "value": 10},
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "Luck", "value": -3},
+			{"attribute": "Constitution", "value": -12},
+			{"attribute": "Strength", "value": -4}
+		],
+		"abilities": ["Bloodlust"]
+	}	
 ]

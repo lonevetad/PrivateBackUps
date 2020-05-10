@@ -16,7 +16,7 @@ import tools.ObjectNamedID;
 
 // TODO todo tons of stuffs
 public class GModalityTRAn extends GModalityRPG {
-	public static final int ATTRIBUTES_POINTS_GAINED_ON_LEVELING = 10;
+	public static final int ATTRIBUTES_POINTS_GAINED_ON_LEVELING = 5;
 	/** See {@link GModalityRPG#SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE} */
 	public static final int SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN = 20;
 

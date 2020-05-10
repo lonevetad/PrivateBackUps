@@ -43,7 +43,7 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 	@Override
 	public void fireDestructionObjectEvent(GModalityET gaModality, DestructibleObject desObj) {
 		DestructionObjEvent doe;
-		doe = new DestructionObjEvent(desObj, EventsTRAr.Destroyed.getName());
+		doe = new DestructionObjEvent(desObj, EventsTRAn.Destroyed.getName());
 		this.getGameEventManager().fireEvent(doe);
 	}
 
@@ -66,16 +66,41 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 	public EventDamage fireDamageDealtEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
 			DamageGeneric damage) {
 		EventDamage ed;
+<<<<<<< HEAD:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAn.java
+		ed = new EventDamageTRAn(EventsTRAn.DamageInflicted, source, target, damage);
+=======
 		ed = new EventDamageTRAn(EventsTRAr.DamageInflicted, source, target, damage);
+>>>>>>> master:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAr.java
 		this.getGameEventManager().fireEvent(ed);
 		return ed;
 	}
 
+<<<<<<< HEAD:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAn.java
+	public void fireDamageAvoidedEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
+			DamageGeneric damage) {
+		EventDamage ed;
+		ed = new EventDamageTRAn(EventsTRAn.DamageAvoided, source, target, damage);
+		this.getGameEventManager().fireEvent(ed);
+	}
+
+	public void fireDamageMissedEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
+			DamageGeneric damage) {
+		EventDamage ed;
+		ed = new EventDamageTRAn(EventsTRAn.DamageMissed, source, target, damage);
+		this.getGameEventManager().fireEvent(ed);
+	}
+
+=======
+>>>>>>> master:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAr.java
 	@Override
 	public EventDamage fireCriticalDamageDealtEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
 			DamageGeneric damage) {
 		EventDamage ed;
+<<<<<<< HEAD:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAn.java
+		ed = new EventDamageTRAn(EventsTRAn.DamageCriticalInflicted, source, target, damage);
+=======
 		ed = new EventDamageTRAn(EventsTRAr.DamageCriticalInflicted, source, target, damage);
+>>>>>>> master:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAr.java
 		this.getGameEventManager().fireEvent(ed);
 		return ed;
 	}
@@ -84,7 +109,11 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 	public EventDamage fireDamageReceivedEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
 			DamageGeneric originalDamage, int damageAmountToBeApplied) {
 		EventDamageTRAn ed;
+<<<<<<< HEAD:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAn.java
+		ed = new EventDamageTRAn(EventsTRAn.DamageReceived, source, target, originalDamage, damageAmountToBeApplied);
+=======
 		ed = new EventDamageTRAn(EventsTRAr.DamageReceived, source, target, originalDamage, damageAmountToBeApplied);
+>>>>>>> master:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAr.java
 		this.getGameEventManager().fireEvent(ed);
 		return ed;
 	}
@@ -93,7 +122,11 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 	public EventDamage fireDamageCriticalReceivedEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
 			DamageGeneric originalDamage, int damageAmountToBeApplied) {
 		EventDamageTRAn ed;
+<<<<<<< HEAD:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAn.java
+		ed = new EventDamageTRAn(EventsTRAn.DamageCriticalReceived, source, target, originalDamage,
+=======
 		ed = new EventDamageTRAn(EventsTRAr.DamageCriticalReceived, source, target, originalDamage,
+>>>>>>> master:JavaBackup/AllProjects/src/games/theRisingAngel/events/GEventInterfaceTRAr.java
 				damageAmountToBeApplied);
 		this.getGameEventManager().fireEvent(ed);
 		return ed;
@@ -102,13 +135,13 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 	@Override
 	public <SourceHealing extends ObjectWithID> void fireHealGivenEvent(GModalityET gaModality, LivingObject receiver,
 			HealGeneric heal, SourceHealing source) {
-		this.getGameEventManager().fireEvent(new EventHealTRAr<>(EventsTRAr.HealGiven, source, receiver, heal));
+		this.getGameEventManager().fireEvent(new EventHealTRAr<>(EventsTRAn.HealGiven, source, receiver, heal));
 	}
 
 	@Override
 	public <SourceHealing extends ObjectWithID> void fireHealReceivedEvent(GModalityET gaModality, SourceHealing source,
 			LivingObject receiver, HealGeneric heal) {
-		this.getGameEventManager().fireEvent(new EventHealTRAr<>(EventsTRAr.HealReceived, source, receiver, heal));
+		this.getGameEventManager().fireEvent(new EventHealTRAr<>(EventsTRAn.HealReceived, source, receiver, heal));
 	}
 
 	@Override

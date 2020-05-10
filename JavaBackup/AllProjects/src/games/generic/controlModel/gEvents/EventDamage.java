@@ -34,12 +34,20 @@ public class EventDamage extends EventInfo_SourceToTarget<DamageDealerGeneric, L
 		this.damage = damage;
 	}
 
-	public void setRiductionByTarget(int riductionByTarget) {
-		this.damageAmountToBeApplied = riductionByTarget;
+	public void setDamageAmountToBeApplied(int damageAmountToBeApplied) {
+		this.damageAmountToBeApplied = damageAmountToBeApplied;
 	}
 
 	@Override
 	public boolean isRequirigImmediateProcessing() {
 		return true;
+	}
+
+	public boolean isSource(DamageDealerGeneric ddg) {
+		return super.source == ddg;
+	}
+
+	public boolean isTarget(LivingObject ddg) {
+		return super.target == ddg;
 	}
 }

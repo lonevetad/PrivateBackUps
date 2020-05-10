@@ -14,6 +14,7 @@ import tools.minorTools.RandomWeightedIndexes;
  * Could be used with the {@link RandomWeightedIndexes}.
  */
 public interface RarityHolder {
+	public static final int NO_RARITY = -1;
 
 	public int getRarityIndex();
 

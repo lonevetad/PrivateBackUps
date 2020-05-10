@@ -314,7 +314,7 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 		return v;
 	}
 
-	public default V remove(int index) {
+	public default V removeAt(int index) {
 		Entry<K, V> e;
 		V v;
 		e = getAt(index);
@@ -514,24 +514,22 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 		prevSize = size();
 		flag = new boolean[] { false };
 		c.forEach(o -> {
-			if (o != null) {
+			try {
+				Entry<K, V> e;
+				e = (Entry<K, V>) o;
+				thisList.put(e.getKey(), e.getValue());
+			} catch (ClassCastException e1) {
 				try {
-					Entry<K, V> e;
-					e = (Entry<K, V>) o;
-					thisList.put(e.getKey(), e.getValue());
-				} catch (ClassCastException e1) {
+					thisList.put((K) o, null);
+				} catch (ClassCastException e2) {
 					try {
-						thisList.put((K) o, null);
-					} catch (ClassCastException e2) {
-						try {
-							thisList.put(null, (V) o);
-						} catch (ClassCastException e3) {
-							throw new ClassCastException("Cannot determine and use the class of " + o.getClass());
-						}
+						thisList.put(null, (V) o);
+					} catch (ClassCastException e3) {
+						throw new ClassCastException("Cannot determine and use the class of " + o.getClass());
 					}
 				}
-				flag[0] |= prevSize != thisList.size();
 			}
+			flag[0] |= prevSize != thisList.size();
 		});
 		return flag[0];
 	}

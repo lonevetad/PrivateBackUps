@@ -9,9 +9,9 @@ import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
-import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAr;
+import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
 
 public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
@@ -27,18 +27,18 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	protected CreatureAttributes newAttributes() {
 		CreatureAttributes ca;
 		ca = newAttributes(AttributesTRAn.VALUES.length);
-		ca.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAr());
+		ca.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAn());
 		return ca;
 	}
 
 	@Override
 	public int getLifeMax() {
-		return this.getAttributes().getValue(AttributesTRAn.LifeMax.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.LifeMax);
 	}
 
 	@Override
 	public int getLifeRegenation() {
-		return this.getAttributes().getValue(AttributesTRAn.RigenLife.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.RegenLife);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		AttributeIdentifier ai;
 		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityAvoidPhysical
 				: AttributesTRAn.ProbabilityAvoidMagical;
-		return this.getAttributes().getValue(ai.getIndex());
+		return this.getAttributes().getValue(ai);
 	}
 
 	@Override
@@ -54,17 +54,17 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		AttributeIdentifier ai;
 		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityHitPhysical
 				: AttributesTRAn.ProbabilityHitMagical;
-		return this.getAttributes().getValue(ai.getIndex());
+		return this.getAttributes().getValue(ai);
 	}
 
 	@Override
 	public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalProbability.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.CriticalProbability);
 	}
 
 	@Override
 	public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplier.getIndex());
+		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplier);
 	}
 
 	//
@@ -81,7 +81,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	@Override
 	public void setLifeRegenation(int lifeRegenation) {
 		if (lifeRegenation >= 0) {
-			this.getAttributes().setOriginalValue(AttributesTRAn.RigenLife.getIndex(), lifeRegenation);
+			this.getAttributes().setOriginalValue(AttributesTRAn.RegenLife.getIndex(), lifeRegenation);
 		}
 	}
 
@@ -93,7 +93,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	@Override
 	public boolean isDestructionEvent(IGEvent maybeDestructionEvent) {
-		return maybeDestructionEvent.getName() == EventsTRAr.Destroyed.getName();
+		return maybeDestructionEvent.getName() == EventsTRAn.Destroyed.getName();
 	}
 
 	// TODO FIRE EVENTS
