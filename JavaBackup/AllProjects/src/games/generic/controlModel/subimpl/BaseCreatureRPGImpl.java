@@ -12,10 +12,11 @@ import games.generic.controlModel.gObj.HealingObject;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.CreatureAttributes;
+import games.generic.controlModel.misc.CurableResourceType;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.GObjMovement;
 import games.generic.controlModel.misc.HealGeneric;
-import games.generic.controlModel.misc.HealingType;
+import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureUIDProvider;
 import games.theRisingAngel.misc.DamageTypesTRAn;
@@ -62,12 +63,20 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		this.isDestroyed = false;
 		this.attributes = newAttributes();
 		this.setCurableResourcesHolders(new HealingObject.CurableResourcesHolders());
+		defineAllCurableResources();
 		ticksHealing = 0;
 		accumulatedTimeLifeRegen = 0;
 	}
 
 	protected void initializeID() {
 		this.ID = CreatureUIDProvider.newID();
+	}
+
+	@Override
+	public void defineAllCurableResources() {
+		this.addCurableResourceType(HealingTypeExample.Life);
+		this.addCurableResourceType(HealingTypeExample.Mana);
+		this.addCurableResourceType(HealingTypeExample.Shield);
 	}
 
 	/**
@@ -289,7 +298,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public HealGeneric newHealInstance(HealingType healType, int healAmount) {
+	public HealGeneric newHealInstance(CurableResourceType healType, int healAmount) {
 		return new HealGeneric(healType, healAmount);
 	}
 

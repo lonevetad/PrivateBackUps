@@ -30,29 +30,19 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 	protected GObjectsInSpaceManager goism;
 
 	@Override
-	public GModality getGameModality() {
-		return gmodalityTran;
-	}
+	public GModality getGameModality() { return gmodalityTran; }
 
 	@Override
-	public void setGameModality(GModality gameModality) {
-		this.gmodalityTran = (GModalityTRAn) gameModality;
-	}
+	public void setGameModality(GModality gameModality) { this.gmodalityTran = (GModalityTRAn) gameModality; }
 
 	@Override
-	public GObjectsInSpaceManager getGObjectInSpaceManager() {
-		return goism;
-	}
+	public GObjectsInSpaceManager getGObjectInSpaceManager() { return goism; }
 
 	@Override
-	public GEventInterface getGEventInterface() {
-		return gmodalityTran.getEventInterface();
-	}
+	public GEventInterface getGEventInterface() { return gmodalityTran.getEventInterface(); }
 
 	@Override
-	public void setGObjectsInSpaceManager(GObjectsInSpaceManager gisom) {
-		this.goism = gisom;
-	}
+	public void setGObjectsInSpaceManager(GObjectsInSpaceManager gisom) { this.goism = gisom; }
 
 	@Override
 	public void setGEventInterface(GEventInterface gei) {
@@ -84,7 +74,9 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 
 			// does it crits?
 			thresholdToHitting = source.getProbabilityPerThousandCriticalStrike(damageType); // use it as a "temp"
-			r = source.getPercentageCriticalStrikeMultiplier(damageType); // used as a "temp"
+			// now uses "r" as a "temp"
+			r = source.getPercentageCriticalStrikeMultiplier(damageType)
+					- target.getPercentageCriticalStrikeReduction(damageType);
 			if (thresholdToHitting > 0 && r > 0) { // no positive multiplier -> no crit applied
 				thresholdToHitting -= rand.nextInt(MAX_PROBABILITY_VALUE_PER_THOUSAND);
 				if (thresholdToHitting >= 0) {

@@ -17,6 +17,7 @@ public abstract class GModel implements GObjectsHolder {
 	protected MapTreeAVL<Integer, ObjectWithID> allObjects_BackMap;
 	protected Set<ObjectWithID> allObjects;
 	protected MapTreeAVL<String, GObjectsHolder> objectsHoldersSpecialized;
+	protected GMap mapCurrent;
 
 	public GModel() {
 		this.allObjects_BackMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
@@ -31,7 +32,13 @@ public abstract class GModel implements GObjectsHolder {
 
 	//
 
-	public abstract void onCreate();
+	public GMap getMapCurrent() {
+		return mapCurrent;
+	}
+
+	public void setMapCurrent(GMap mapCurrent) {
+		this.mapCurrent = mapCurrent;
+	}
 
 	/**
 	 * BEWARE: returns just the object NOT held by some {@link GObjectsHolder} added
@@ -47,14 +54,20 @@ public abstract class GModel implements GObjectsHolder {
 		return allObjects;
 	}
 
+	//
+
+	//
+
+	public abstract void onCreate();
+
 	@Override
 	public boolean add(ObjectWithID o) {
 		boolean added[];
 		if (o == null)
 			return false;
-		System.out.println("############################################# ADDING OWID to model: " + o);
 		/*
-		 * to bypass the forEach restriction to non-pointers (i.e. non-final variables)
+		 * Using an array to bypass the forEach restriction to non-pointers (i.e.
+		 * non-final variables)
 		 */
 		added = new boolean[] { false };
 		this.objectsHoldersSpecialized.forEach((s, h) -> {

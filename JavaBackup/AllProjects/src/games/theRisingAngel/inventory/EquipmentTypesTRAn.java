@@ -11,7 +11,7 @@ import tools.Comparators;
  * cumbersome ring, the biggest ones).
  */
 public enum EquipmentTypesTRAn implements EquipmentType {
-	Earrings, Head, Cloak, // cloak = mantello
+	Earrings, Head, Shoulder, // Shoulder includes "cloak" (= mantello)
 	Hands, Chest, Arms, //
 	Feet, Belt, Legs, //
 	MainWeapon, Special, SecodaryWeapon, //

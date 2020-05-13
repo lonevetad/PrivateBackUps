@@ -16,6 +16,7 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgradesProvider;
 import games.generic.controlModel.inventoryAbil.InventoryItem;
 import games.generic.controlModel.inventoryAbil.InventoryItemNotEquippable;
+import games.generic.controlModel.misc.GMapProvider;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import tools.Comparators;
 import tools.minorTools.RandomWeightedIndexes;
@@ -49,24 +50,29 @@ import tools.minorTools.RandomWeightedIndexes;
  */
 public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvidersHolder {
 
-	public GameObjectsProvidersHolderRPG() {
+	public GameObjectsProvidersHolderRPG(GControllerRPG gController) {
+		this.gController = gController;
 		this.providers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
 		this.abilitiesProvider = newAbilitiesProvider();
 		this.equipmentsProvider = newEquipItemProvider();
 		this.creaturesProvider = newCreatureProvider();
 		this.equipUpgradesProvider = newEquipUpgradesProvider();
+		this.mapsProvider = newMapsProvider();
 		this.providers.put(AbilitiesProvider.NAME, abilitiesProvider);
 		this.providers.put(EquipItemProvider.NAME, equipmentsProvider);
 		this.providers.put(EquipmentUpgradesProvider.NAME, equipUpgradesProvider);
 		this.providers.put(CreaturesProvider.NAME, creaturesProvider);
+		this.providers.put(GMapProvider.NAME_FOR_GOPROVIDER, mapsProvider);
 		this.random = new Random();
 	}
 
+	protected GControllerRPG gController;
 	protected Map<String, GameObjectsProvider<? extends ObjectNamed>> providers;
 	protected AbilitiesProvider abilitiesProvider;
 	protected EquipItemProvider equipmentsProvider;
 	protected EquipmentUpgradesProvider equipUpgradesProvider;
 	protected CreaturesProvider<BaseCreatureRPG> creaturesProvider;
+	protected GMapProvider mapsProvider;
 	// for random stuffs
 	protected RandomWeightedIndexes equipItemsWeights;
 	protected Random random;
@@ -91,10 +97,6 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 
 	public CreaturesProvider<BaseCreatureRPG> getCreaturesProvider() {
 		return creaturesProvider;
-	}
-
-	public RandomWeightedIndexes getEquipItemsWeights() {
-		return equipItemsWeights;
 	}
 
 	public Random getRandom() {
@@ -138,4 +140,6 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 	 */
 	public abstract CreaturesProvider<BaseCreatureRPG> newCreatureProvider();
 //	public abstract CreaturesProvider<? extends CreatureSimple> newCreatureProvider();
+
+	public abstract GMapProvider newMapsProvider();
 }

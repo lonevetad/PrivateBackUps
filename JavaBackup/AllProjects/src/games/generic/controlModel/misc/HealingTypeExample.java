@@ -1,7 +1,7 @@
 package games.generic.controlModel.misc;
 
 /** Provides a set of examples of healing. */
-public enum HealingTypeExample implements HealingType {
+public enum HealingTypeExample implements CurableResourceType {
 	Life, Mana, Shield, Stamina;
 
 	@Override

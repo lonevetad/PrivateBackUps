@@ -52,7 +52,6 @@ public abstract class GModality {
 	protected PlayerGeneric player;
 	protected final GameObjectsProvidersHolder gameObjectsProviderHolder;
 	protected final GameObjectsManager gomDelegated;
-	protected GMap mapCurrent;
 	protected Random random;
 
 	public GModality(GController controller, String modalityName) {
@@ -114,7 +113,7 @@ public abstract class GModality {
 	}
 
 	public GMap getMapCurrent() {
-		return mapCurrent;
+		return model.getMapCurrent();
 	}
 
 	public GameObjectsProvidersHolder getGameObjectsProvider() {
@@ -150,8 +149,9 @@ public abstract class GModality {
 			player.setGameModality(this);
 	}
 
+	// proxy
 	public void setMapCurrent(GMap mapCurrent) {
-		this.mapCurrent = mapCurrent;
+		this.model.setMapCurrent(mapCurrent);
 	}
 
 	public void setRandomSeed(long seed) {
@@ -194,6 +194,8 @@ public abstract class GModality {
 	 * used in this game modality and supports it in defining the game.<br>
 	 * Requires an {@link GEventInterface} as a parameter but it's optional, if the
 	 * game modality does not use the events system.
+	 * <p>
+	 * It could be used by {@link GMap}
 	 */
 	protected abstract GameObjectsManager newGameObjectsManager();
 

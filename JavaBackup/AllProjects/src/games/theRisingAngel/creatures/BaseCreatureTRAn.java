@@ -5,13 +5,14 @@ import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
+import games.generic.controlModel.misc.CurableResourceType;
 import games.generic.controlModel.misc.DamageTypeGeneric;
-import games.generic.controlModel.misc.HealingType;
 import games.generic.controlModel.misc.HealingTypeExample;
 import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
+import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.inventory.EquipmentSetTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
@@ -25,15 +26,13 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		super(gModRPG, name);
 		this.equipmentSet = newEquipmentSet();
 		this.equipmentSet.setCreatureWearingEquipments(this);
-		this.addHealingType(HealingTypeExample.Life);
-		this.addHealingType(HealingTypeExample.Mana);
 	}
 
 	//
 
 	@Override
 	public int getTimeSubunitsEachTimeUnits() {
-		return 1000;
+		return GModalityTRAn.TIME_SUBUNITS_EACH_TIME_UNIT_TRAn; // milliseconds :D
 	}
 
 	@Override
@@ -45,57 +44,107 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	}
 
 	@Override
-	public EquipmentSet newEquipmentSet() {
-		return new EquipmentSetTRAn();
+	public void defineAllCurableResources() {
+		this.addCurableResource(new CurableResourceTRAn(HealingTypeExample.Life) {
+
+			@Override
+			public int getResourceAmountMax() { return getLifeMax(); }
+
+			@Override
+			public int getResourceRegen() { return getLifeRegenation(); }
+
+			@Override
+			public void setResourceAmountMax(int resourceAmountMax) { setLifeMax(resourceAmountMax); }
+
+			@Override
+			public void setResourceRegen(int resourceRegen) { setLifeRegenation(resourceRegen); }
+		});
+		this.addCurableResource(new CurableResourceTRAn(HealingTypeExample.Mana) {
+
+			@Override
+			public int getResourceAmountMax() { return getManaMax(); }
+
+			@Override
+			public int getResourceRegen() { return getManaRegenation(); }
+
+			@Override
+			public void setResourceAmountMax(int resourceAmountMax) { setManaMax(resourceAmountMax); }
+
+			@Override
+			public void setResourceRegen(int resourceRegen) { setManaRegenation(resourceRegen); }
+		});
+		this.addCurableResource(new CurableResourceTRAn(HealingTypeExample.Shield) {
+
+			@Override
+			public int getResourceAmountMax() { return getShieldMax(); }
+
+			@Override
+			public int getResourceRegen() { return getShieldRegenation(); }
+
+			@Override
+			public void setResourceAmountMax(int resourceAmountMax) { setShieldMax(resourceAmountMax); }
+
+			@Override
+			public void setResourceRegen(int resourceRegen) { setShieldRegenation(resourceRegen); }
+		});
 	}
 
 	@Override
-	public int getLife() {
-		return getCurableResourceAmount(HealingTypeExample.Life);
-	}
+	public EquipmentSet newEquipmentSet() { return new EquipmentSetTRAn(); }
+
+	// TODO GETTER
 
 	@Override
-	public int getLifeMax() {
-		return this.getAttributes().getValue(AttributesTRAn.LifeMax);
-	}
+	public int getLife() { return getCurableResourceAmount(HealingTypeExample.Life); }
 
 	@Override
-	public int getLifeRegenation() {
-		return this.getAttributes().getValue(AttributesTRAn.RegenLife);
-	}
+	public int getLifeMax() { return this.getAttributes().getValue(AttributesTRAn.LifeMax); }
 
 	@Override
-	public int getMana() {
-		return getCurableResourceAmount(HealingTypeExample.Mana);
-	}
+	public int getLifeRegenation() { return this.getAttributes().getValue(AttributesTRAn.RegenLife); }
 
 	@Override
-	public int getManaMax() {
-		return this.getAttributes().getValue(AttributesTRAn.ManaMax);
-	}
+	public int getMana() { return getCurableResourceAmount(HealingTypeExample.Mana); }
 
 	@Override
-	public int getManaRegenation() {
-		return this.getAttributes().getValue(AttributesTRAn.RegenMana);
-	}
+	public int getManaMax() { return this.getAttributes().getValue(AttributesTRAn.ManaMax); }
 
 	@Override
-	public int getHealingRegenerationAmount(HealingType healType) {
+	public int getManaRegenation() { return this.getAttributes().getValue(AttributesTRAn.RegenMana); }
+
+	@Override
+	public int getShield() { return getCurableResourceAmount(HealingTypeExample.Shield); }
+
+	@Override
+	public int getShieldMax() { return this.getAttributes().getValue(AttributesTRAn.ShieldMax); }
+
+	@Override
+
+	public int getShieldRegenation() { return this.getAttributes().getValue(AttributesTRAn.RegenShield); }
+
+	@Override
+	public int getHealingRegenerationAmount(CurableResourceType healType) {
 		if (healType == HealingTypeExample.Life)
 			return getLifeRegenation();
 		else if (healType == HealingTypeExample.Mana)
 			return getManaRegenation();
+		else if (healType == HealingTypeExample.Shield)
+			return getShieldRegenation();
 		return 0;
 	}
 
 	@Override
-	public int getCurableResourceMax(HealingType healType) {
+	public int getCurableResourceMax(CurableResourceType healType) {
 		if (healType == HealingTypeExample.Life)
 			return getLifeMax();
 		else if (healType == HealingTypeExample.Mana)
 			return getManaMax();
+		else if (healType == HealingTypeExample.Shield)
+			return getShieldMax();
 		return 0;
 	}
+
+	// TODO damage dealer receiver
 
 	@Override
 	public int getProbabilityPerThousandAvoid(DamageTypeGeneric damageType) {
@@ -123,6 +172,17 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplier);
 	}
 
+	@Override
+	public int getProbabilityPerThousandAvoidCritical(DamageTypeGeneric damageType) {
+		return this.getAttributes().getValue(AttributesTRAn.CriticalProbabilityAvoid);
+	}
+
+	/** Percentage amount of multiplication of the damage. Should be positive. */
+	@Override
+	public int getPercentageCriticalStrikeReduction(DamageTypeGeneric damageType) {
+		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplierReduction);
+	}
+
 	//
 
 	//
@@ -135,16 +195,6 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		if (life <= 0)
 			life = (0);
 		this.setCurableResourceAmount(HealingTypeExample.Life, life);
-	}
-
-	@Override
-	public void setMana(int mana) {
-		if (mana > getManaMax())
-			mana = getManaMax();
-		if (mana <= 0)
-			mana = (0);
-		this.setCurableResourceAmount(HealingTypeExample.Mana, mana);
-
 	}
 
 	@Override
@@ -164,6 +214,16 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	}
 
 	@Override
+	public void setMana(int mana) {
+		if (mana > getManaMax())
+			mana = getManaMax();
+		if (mana <= 0)
+			mana = (0);
+		this.setCurableResourceAmount(HealingTypeExample.Mana, mana);
+
+	}
+
+	@Override
 	public void setManaMax(int lifeMax) {
 		if (lifeMax > 0) {
 			this.getAttributes().setOriginalValue(AttributesTRAn.ManaMax.getIndex(), lifeMax);
@@ -180,7 +240,33 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	}
 
 	@Override
-	public void setHealingRegenerationAmount(HealingType healType, int value) {
+	public void setShield(int shield) {
+		if (shield > getShieldMax())
+			shield = getShieldMax();
+		if (shield <= 0)
+			shield = (0);
+		this.setCurableResourceAmount(HealingTypeExample.Shield, shield);
+
+	}
+
+	@Override
+	public void setShieldMax(int lifeMax) {
+		if (lifeMax > 0) {
+			this.getAttributes().setOriginalValue(AttributesTRAn.ShieldMax.getIndex(), lifeMax);
+			if (this.getShield() > lifeMax)
+				this.setShield(lifeMax);
+		}
+	}
+
+	@Override
+	public void setShieldRegenation(int lifeRegenation) {
+		if (lifeRegenation >= 0) {
+			this.getAttributes().setOriginalValue(AttributesTRAn.RegenShield.getIndex(), lifeRegenation);
+		}
+	}
+
+	@Override
+	public void setHealingRegenerationAmount(CurableResourceType healType, int value) {
 		if (healType == HealingTypeExample.Life)
 			setLifeRegenation(value);
 		else if (healType == HealingTypeExample.Mana)
@@ -209,5 +295,35 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		gmet = (GModalityET) gm;
 		gei = (GEventInterfaceRPG) gmet.getEventInterface();
 		gei.fireDestructionObjectEvent((GModalityET) gm, this);
+	}
+
+	//
+
+	// TODO CLASS
+
+	public abstract class CurableResourceTRAn implements CurableResource {
+
+		public CurableResourceTRAn(CurableResourceType ht) { this.resourceType = ht; }
+
+		protected int resourceAmount;
+		protected final CurableResourceType resourceType;
+
+		@Override
+		public int getResourceAmount() { return resourceAmount; }
+
+		@Override
+		public void setResourceAmount(int resourceAmount) {
+			int max;
+			max = getResourceAmountMax();
+			if (resourceAmount < 0 && (!this.resourceType.acceptsNegative())) { resourceAmount = 0; }
+			if (resourceAmount > max) { resourceAmount = max; }
+			this.resourceAmount = resourceAmount;
+		}
+
+		@Override
+		public CurableResourceType getResourceType() { return resourceType; }
+
+		@Override
+		public void alterResourceAmount(int delta) { setResourceAmount(this.getResourceAmount() + delta); }
 	}
 }

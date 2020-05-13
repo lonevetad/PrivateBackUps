@@ -4,6 +4,7 @@ import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreaturesProvider;
 import games.generic.controlModel.inventoryAbil.EquipItemProvider;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgradesProvider;
+import games.generic.controlModel.misc.GMapProvider;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 
 // todoooo
@@ -28,5 +29,10 @@ public class GameObjectsProvidersHolderTRAn extends GameObjectsProvidersHolderRP
 	@Override
 	public CreaturesProvider<BaseCreatureRPG> newCreatureProvider() {
 		return new CreaturesProvider<>();
+	}
+
+	@Override
+	public GMapProvider newMapsProvider() {
+		return new GMapProvider();
 	}
 }

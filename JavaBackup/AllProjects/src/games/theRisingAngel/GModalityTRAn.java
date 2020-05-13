@@ -19,6 +19,8 @@ public class GModalityTRAn extends GModalityRPG {
 	public static final int ATTRIBUTES_POINTS_GAINED_ON_LEVELING = 5;
 	/** See {@link GModalityRPG#SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE} */
 	public static final int SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN = 20;
+	/** Milliseconds :D */
+	public static final int TIME_SUBUNITS_EACH_TIME_UNIT_TRAn = 1000;
 
 	public GModalityTRAn(GController controller, String modalityName) {
 		super(controller, modalityName);
@@ -77,5 +79,9 @@ public class GModalityTRAn extends GModalityRPG {
 //
 
 	// TODO DAMAGE CALCULATION
+
+	//
+
+	// TODO class
 
 }

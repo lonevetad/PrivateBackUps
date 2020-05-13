@@ -1,3 +1,20 @@
+TODO 13/05/2020
+creare abilità che da bonus alle rigenerazioni Vita e Mana di N*K se si sta fermi e non si ricevono danni per almeno (3+K) secondi.
+- (farla generica, ossia con parametro da costruttore di K, che è anche la rarità) ... K va da 1 a 5
+- fare un ciclo
+- il NAME è generico ("Meditation ") e si concatena il K
+
+
+
+
+TODO 10/05/2020
+-) implementare ProbabilityOfContextesHolders
+-) cambiare TRAn LoaderGeneric così che il JSON abbia un oggetto (il ProbabilityOfContextesHolders appunto)
+	avente un array di oggetti: di coppie <nome, arraiDiProbabilità> (ossia RandomWeightedIndexes)
+-) utilizzare in modo decente questa mappa in GModalityTRAn
+
+
+
 TODO del 05/05/2020
 Le statistiche scalano troppo in alto (portarle al valore di 200 le rende eccessivamente forti)
 scalare anche i bonus di armature e upgrade vari sicchè diano al massimo 1,5 livelli

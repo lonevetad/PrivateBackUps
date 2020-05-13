@@ -23,13 +23,9 @@ import tools.ObjectNamedID;
 public class GModality_E1 extends GModalityTRAn {
 	static final int STARTING_PLAYER_LIFE_MAX = 100;
 
-	public GModality_E1(GController controller, String modalityName) {
-		super(controller, modalityName);
-	}
+	public GModality_E1(GController controller, String modalityName) { super(controller, modalityName); }
 
-	public Player_E1 getPlayerRPG() {
-		return (Player_E1) player;
-	}
+	public Player_E1 getPlayerRPG() { return (Player_E1) player; }
 
 	@Override
 	public void startGame() {
@@ -204,9 +200,7 @@ public class GModality_E1 extends GModalityTRAn {
 	}
 
 	@Override
-	public GModel newGameModel() {
-		return new GModel_E1();
-	}
+	public GModel newGameModel() { return new GModel_E1(); }
 
 	@Override
 	public GEventInterface newEventInterface() {
@@ -240,7 +234,5 @@ public class GModality_E1 extends GModalityTRAn {
 	}
 
 	@Override
-	public CurrencySet newCurrencyHolder() {
-		return new CurrencyHolder_E1(this, 1);
-	}
+	public CurrencySet newCurrencyHolder() { return new CurrencyHolder_E1(this, 1); }
 }

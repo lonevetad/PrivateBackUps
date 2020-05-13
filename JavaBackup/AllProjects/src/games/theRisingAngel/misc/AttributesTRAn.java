@@ -27,7 +27,7 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	Intelligence(true), Wisdom(true), Faith(true),
 	//
 	Luck, //
-	LifeMax(true), ManaMax(true), RegenLife, RegenMana, //
+	LifeMax(true), RegenLife, ManaMax(true), RegenMana, ShieldMax(true), RegenShield, //
 	Velocity(true),
 	//
 	DamageBonusPhysical, DamageReductionPhysical, //
@@ -67,7 +67,9 @@ public enum AttributesTRAn implements AttributeIdentifier {
 
 	//
 
-	public static final int ATTRIBUTES_UPGRADABLE_COUNT = 9, FIRST_INDEX_ATTRIBUTE_UPGRADABLE = Strength.getIndex();
+	public static final int FIRST_INDEX_ATTRIBUTE_UPGRADABLE = Strength.getIndex(),
+			LAST_INDEX_ATTRIBUTE_UPGRADABLE = Faith.getIndex(),
+			ATTRIBUTES_UPGRADABLE_COUNT = 1 + (LAST_INDEX_ATTRIBUTE_UPGRADABLE - FIRST_INDEX_ATTRIBUTE_UPGRADABLE);;
 	public static final AttributesTRAn[] VALUES = AttributesTRAn.values();
 	private static Map<String, AttributesTRAn> attTRArByName = null;
 

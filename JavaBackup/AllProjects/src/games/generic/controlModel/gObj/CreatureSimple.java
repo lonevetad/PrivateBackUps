@@ -25,7 +25,7 @@ import tools.ObjectNamedID;
  * </ol>
  */
 public interface CreatureSimple
-		extends AttributesHolder, LivingObject, MovingObject, DamageDealerGeneric, AbilitiesHolder, //
+		extends AttributesHolder, LivingObject, MovingObject, DamageDealerGeneric, AbilitiesHolder, ShieldHavingObject, //
 		RarityHolder, GModalityHolder, ObjectNamedID {
 
 	public static final int TICKS_PER_SECONDS = 4, LOG_TICKS_PER_SECONDS = 2;

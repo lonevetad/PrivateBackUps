@@ -12,6 +12,7 @@ import tools.UniqueIDProvider;
  * Could help implement the event-oriented programming.
  */
 public abstract class GEvent implements IGEvent {
+	private static final long serialVersionUID = -53224778410585340L;
 	protected final Integer ID;
 
 	public GEvent() {

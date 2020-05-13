@@ -11,13 +11,15 @@ import games.generic.controlModel.inventoryAbil.abilitiesImpl.ASimpleFixedBuffer
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.subimpl.LoaderAbilities;
 import games.theRisingAngel.GModalityTRAn;
+import games.theRisingAngel.abilities.AAttrSingleBonusMalusRandomFixed;
+import games.theRisingAngel.abilities.AAttrSingleBonusMalusRandomPercentage;
 import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
 import games.theRisingAngel.abilities.ALifeHealingMakesEarnBaseCurrency;
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
 import games.theRisingAngel.abilities.ARandomScatteringOrbs;
-import games.theRisingAngel.abilities.ARandomScatteringOrbsIMpl;
+import games.theRisingAngel.abilities.ARandomScatteringOrbsImpl;
 import games.theRisingAngel.abilities.ARegenToLeech;
 import games.theRisingAngel.abilities.AShieldingButWeakining;
 import games.theRisingAngel.abilities.AShieldingEachCurableResources;
@@ -46,7 +48,7 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 				gm -> new AShieldingButWeakining());
 		objProvider.addObj(ALifeHealingMakesEarnBaseCurrency.NAME, ALifeHealingMakesEarnBaseCurrency.RARITY,
 				gm -> new ALifeHealingMakesEarnBaseCurrency());
-		objProvider.addObj(ARandomScatteringOrbs.NAME, gm -> new ARandomScatteringOrbsIMpl((GModalityTRAn) gm));
+		objProvider.addObj(ARandomScatteringOrbs.NAME, gm -> new ARandomScatteringOrbsImpl((GModalityTRAn) gm));
 		objProvider.addObj("Wounded Berseker", 3, gm -> {
 			ASimpleFixedBufferVanishing a;
 			a = new ASimpleFixedBufferVanishing("Wounded Berseker",
@@ -155,5 +157,9 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 				gm -> new AShieldingEachCurableResources());
 		objProvider.addObj(AVampireBerserker.NAME, AVampireBerserker.RARITY, gm -> new AVampireBerserker());
 		objProvider.addObj(ARegenToLeech.NAME, ARegenToLeech.RARITY, gm -> new ARegenToLeech());
+		objProvider.addObj(AAttrSingleBonusMalusRandomFixed.NAME, AAttrSingleBonusMalusRandomFixed.RARITY,
+				gm -> new AAttrSingleBonusMalusRandomFixed());
+		objProvider.addObj(AAttrSingleBonusMalusRandomPercentage.NAME, AAttrSingleBonusMalusRandomPercentage.RARITY,
+				gm -> new AAttrSingleBonusMalusRandomPercentage());
 	}
 }

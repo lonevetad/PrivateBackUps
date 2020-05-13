@@ -66,7 +66,7 @@ public class GameObjectsProvider<E extends ObjectNamed> {
 	public E getNewObjByName(GModality gm, String name) {
 		FactoryObjGModalityBased<E> e;
 		e = this.objsByName.get(name);
-		return this.objsByName.get(name).newInstance(gm);
+		return e == null ? null : e.newInstance(gm);
 	}
 
 	public FactoryObjGModalityBased<E> getAtIndex(int index) {

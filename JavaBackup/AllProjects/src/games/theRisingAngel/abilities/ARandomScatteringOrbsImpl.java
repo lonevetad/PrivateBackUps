@@ -9,9 +9,9 @@ import games.generic.controlModel.misc.DamageGeneric;
 import games.theRisingAngel.GModalityTRAn;
 import geometry.ObjectLocated;
 
-public class ARandomScatteringOrbsIMpl extends ARandomScatteringOrbs {
+public class ARandomScatteringOrbsImpl extends ARandomScatteringOrbs {
 
-	public ARandomScatteringOrbsIMpl(GModalityTRAn gameModality) {
+	public ARandomScatteringOrbsImpl(GModalityTRAn gameModality) {
 		super(gameModality);
 		// TODO Auto-generated constructor stub
 	}

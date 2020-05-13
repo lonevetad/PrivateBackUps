@@ -1,43 +1,28 @@
-package games.generic.controlModel.gObj;
+package games.old;
 
 import java.util.Set;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.misc.CurableResourceType;
+import games.generic.controlModel.gObj.CreatureSimple;
+import games.generic.controlModel.gObj.GModalityHolder;
+import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.misc.HealGeneric;
+import games.generic.controlModel.misc.CurableResourceType;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import tools.ObjectWithID;
 
-public interface HealingObject extends TimedObject, GModalityHolder { //
+public interface HealingObject_OLD extends TimedObject, GModalityHolder { //
 	public static final int TICKS_PER_TIME_UNIT = 4, LOG_TICKS_PER_TIME_UNIT = 2;
 
-	/** Helper for this class, just return a field of this class. */
-	public CurableResourcesHolders getCurableResourcesHolders();
-
-	/**
-	 * "Init-like" method, used to set the Set of {@link #getAllCurableResources()}
-	 * by calling {{@link #addCurableResource(CurableResource)}.
-	 */
-	public void defineAllCurableResources();
-
 	/** Returns all healing types modeled by this class. */
-	public default Set<CurableResourceType> getAllCurableResourceTypes() {
-		return getCurableResourcesHolders().mcrAsSet;
+	public default Set<CurableResourceType> getAllHealings() {
+		return getCurableResourcesHolders().icrAsSet;
 	}
 
-	/** Returns all healing resources modeled by this class. */
-	public default Set<CurableResource> getAllCurableResources() {
-		return getCurableResourcesHolders().curableResources;
-	}
-
-	public default void addCurableResourceType(CurableResourceType healType) {
-		getCurableResourcesHolders().addCurableResourceType(healType);
-	}
-
-	public default void addCurableResource(CurableResource healType) {
-		getCurableResourcesHolders().addCurableResource(healType);
+	public default void addHealingType(CurableResourceType healType) {
+		getCurableResourcesHolders().addHealingType(healType);
 	}
 
 //	public void removeHealingType(HealingType healType);
@@ -52,8 +37,8 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	public int getCurableResourceMax(CurableResourceType healType);
 
 	/**
-	 * Differently from {@link #getCurableResourceAmount(CurableResourceType)}, this
-	 * method (and the setter) relies on the implementor, not the helper class
+	 * Differently from {@link #getCurableResourceAmount(CurableResourceType)}, this method
+	 * (and the setter) relies on the implementor, not the helper class
 	 * {@link CurableResourcesHolders}, so no default implementation is provided.
 	 * <p>
 	 * To be meant "per time unit", like "per second".<br>
@@ -61,6 +46,9 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	 */
 	// delegated to the implementor
 	public int getHealingRegenerationAmount(CurableResourceType healType);
+
+	/** Helper for this class, just return a field of this class. */
+	public CurableResourcesHolders getCurableResourcesHolders();
 
 	//
 
@@ -78,8 +66,8 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	//
 
 	/** Short-hand to getters and setters. */
-	public default void alterCurableResourceAmount(CurableResourceType healType, int delta) {
-		getCurableResourcesHolders().alterCurableResourceAmount(healType, delta);
+	public default void increaseCurableResourceAmount(CurableResourceType healType, int delta) {
+		getCurableResourcesHolders().increaseCurableResourceAmount(healType, delta);
 	}
 
 	//
@@ -151,11 +139,10 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 			setTicksHealing(temp);
 		crh = getCurableResourcesHolders();
 		// now apply healing to everybody
-		this.getAllCurableResourceTypes().forEach(ht -> {
-			int amountHealed, maxAmount, tempTotalResource;
-			CurableResource cr;
-			cr = crh.mapCurableResources.get(ht);
-			amountHealed = cr.getResourceRegen(); // getHealingRegenerationAmount(ht); // how much does I heal myself?
+		this.getAllHealings().forEach(ht -> {
+			int amountHealed, indexHealingType, maxAmount, tempTotalResource;
+			amountHealed = getHealingRegenerationAmount(ht); // how much does I heal myself?
+			indexHealingType = crh.indexCurableResources.get(ht);
 			if (isLastTick) {
 				// calculate the last piece of the cake not currently healed
 				amountHealed -= (ticksPerTimeUnits - 1) * //
@@ -164,15 +151,15 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 				amountHealed /= ticksPerTimeUnits;
 			}
 			if (amountHealed > 0) {
-				maxAmount = cr.getResourceAmountMax(); // getCurableResourceMax(ht);
-				tempTotalResource = cr.getResourceAmount() + amountHealed;
+				maxAmount = getCurableResourceMax(ht);
+				tempTotalResource = crh.curableResources[indexHealingType] + amountHealed;
 				if (tempTotalResource > maxAmount) {
 					// check the maximum cap
 					amountHealed -= (tempTotalResource - maxAmount);
 					tempTotalResource = maxAmount;
 				}
 				if (amountHealed > 0) { // there is still an healing instance after the cap-check?
-					cr.setResourceAmount(tempTotalResource);
+					crh.curableResources[indexHealingType] = tempTotalResource;
 //			crh.getCurableResourceAmount(ht);
 					fireHealingReceived(gm, this, newHealInstance(ht, amountHealed));
 				}
@@ -215,7 +202,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 		int healingAmount;
 		healingAmount = healingInstance.getHealAmount();
 		if (healingAmount > 0) {
-			this.alterCurableResourceAmount(healingInstance.getHealType(), healingAmount);
+			this.increaseCurableResourceAmount(healingInstance.getHealType(), healingAmount);
 			fireHealingReceived(gm, source, healingInstance);
 		}
 	}
@@ -235,132 +222,67 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 
 	// TODO CLASSES
 
-	public static interface CurableResource {
-		public CurableResourceType getResourceType();
-
-		public int getResourceAmount();
-
-		public int getResourceAmountMax();
-
-		public int getResourceRegen();
-
-		public void setResourceAmount(int resourceAmount);
-
-		public void setResourceAmountMax(int resourceAmountMax);
-
-		public void setResourceRegen(int resourceRegen);
-
-		public default void alterResourceAmount(int delta) {
-			setResourceAmount(this.getResourceAmount() + delta);
-		}
-	}
-
-	public static class CurableResourceImpl implements CurableResource {
-		public CurableResourceImpl(CurableResourceType ht) {
-			this.resourceType = ht;
-		}
-
-		protected final CurableResourceType resourceType;
-		protected int resourceAmount, resourceAmountMax, resourceRegen;
-
-		@Override
-		public CurableResourceType getResourceType() {
-			return resourceType;
-		}
-
-		@Override
-		public int getResourceAmount() {
-			return resourceAmount;
-		}
-
-		@Override
-		public int getResourceAmountMax() {
-			return resourceAmountMax;
-		}
-
-		@Override
-		public int getResourceRegen() {
-			return resourceRegen;
-		}
-
-		@Override
-		public void setResourceAmount(int resourceAmount) {
-			if (resourceAmount < 0 && (!this.resourceType.acceptsNegative())) {
-				resourceAmount = 0;
-			}
-			if ((resourceAmount > 0 && resourceAmount > resourceAmountMax)
-					|| (resourceAmount < 0 && resourceAmount < resourceAmountMax)) {
-				resourceAmount = resourceAmountMax;
-			}
-			this.resourceAmount = resourceAmount;
-		}
-
-		@Override
-		public void setResourceAmountMax(int resourceAmountMax) {
-			if (resourceAmountMax < 0 && (!this.resourceType.acceptsNegative())) {
-				resourceAmountMax = this.resourceType.acceptsZeroAsMaximum() ? 0 : 1;
-			} else if (resourceAmountMax == 0 && (!this.resourceType.acceptsZeroAsMaximum())) {
-				resourceAmountMax = 1;
-			}
-			this.resourceAmountMax = resourceAmountMax;
-			// set bounds
-			if ((resourceAmountMax > 0 && resourceAmountMax < resourceAmount)
-					|| (resourceAmountMax < 0 && resourceAmountMax > resourceAmount)) {
-				this.resourceAmount = resourceAmountMax;
-			}
-		}
-
-		@Override
-		public void setResourceRegen(int resourceRegen) {
-			this.resourceRegen = resourceRegen;
-		}
-
-		@Override
-		public void alterResourceAmount(int delta) {
-			setResourceAmount(resourceAmount + delta);
-		}
-	}
+//	public static interface
 
 	public static class CurableResourcesHolders {
-//		protected int size;
-//		protected int[] curableResources; // ArrayList-like
-		protected MapTreeAVL<CurableResourceType, CurableResource> mapCurableResources;
-		protected Set<CurableResourceType> mcrAsSet;
-		protected Set<CurableResource> curableResources;
+		protected int size;
+		protected int[] curableResources; // ArrayList-like
+		protected MapTreeAVL<CurableResourceType, Integer> indexCurableResources;
+		protected Set<CurableResourceType> icrAsSet;
 
 		public CurableResourcesHolders() {
-			this.mapCurableResources = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
+			this.curableResources = null;
+			this.indexCurableResources = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 					MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, CurableResourceType.COMPARATOR_CURABLE_RES_TYPE);
-			this.curableResources = this.mapCurableResources.toSetValue(cr -> cr.getResourceType());
-			this.mcrAsSet = this.mapCurableResources.keySet();
+			this.icrAsSet = this.indexCurableResources.keySet();
 		}
 
 		public int getCurableResourceAmount(CurableResourceType healType) {
-			return mapCurableResources.get(healType).getResourceAmount();
+			return curableResources[indexCurableResources.get(healType)];
 		}
 
 		/** See {@link #getCurableResourceAmount(CurableResourceType)}. */
 		public void setCurableResourceAmount(CurableResourceType healType, int value) {
-			mapCurableResources.get(healType).setResourceAmount(value);
+			curableResources[indexCurableResources.get(healType)] = value;
 		}
 
 		/**
-		 * See {@link #getCurableResourceAmount(CurableResourceType)}, but the delta
-		 * could be negative.
+		 * See {@link #getCurableResourceAmount(CurableResourceType)}, but the delta could be
+		 * negative.
 		 */
-		public void alterCurableResourceAmount(CurableResourceType healType, int delta) {
-			mapCurableResources.get(healType).alterResourceAmount(delta);
+		public void increaseCurableResourceAmount(CurableResourceType healType, int delta) {
+			curableResources[indexCurableResources.get(healType)] += delta;
 		}
 
-		public void addCurableResourceType(CurableResourceType healType) {
-			addCurableResource(new CurableResourceImpl(healType));
+		public void addHealingType(CurableResourceType healType) {
+			if (this.curableResources == null) {
+				this.indexCurableResources.put(healType, 0);
+				this.curableResources = new int[2];
+				this.size = 1;
+				return;
+			}
+			/*
+			 * fast way to check if the healType wasn't present: save the size, add and
+			 * check the new size: if changed, then expand the array
+			 */
+			this.indexCurableResources.put(healType, this.size);
+			if (this.size != this.indexCurableResources.size()) {
+				if (this.size == this.curableResources.length) {
+					int[] newArray;
+					newArray = new int[this.size + (this.size >> 1)]; // grow factor of 1.5
+					System.arraycopy(this.curableResources, 0, newArray, 0, this.size);
+					this.curableResources = newArray;
+				}
+				this.size++;
+			}
 		}
-
-		public void addCurableResource(CurableResource cr) {
-			this.mapCurableResources.put(cr.getResourceType(), cr);
-		}
-
 //		public void removeHealingType(HealingType healType) {		}
-
 	}
+
+	//
+
+	//
+
+//	public static void main(String[] args) {}
+//	static class OH_Test implements ObjectHealing {
 }

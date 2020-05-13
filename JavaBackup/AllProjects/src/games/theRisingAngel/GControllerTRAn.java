@@ -3,6 +3,7 @@ package games.theRisingAngel;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GControllerRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
+import games.theRisingAngel.LoaderConfigurations.GameOptionsTRAn;
 import games.theRisingAngel.loaders.LoaderAbilityTRAn;
 import games.theRisingAngel.loaders.LoaderCreatureTRAn;
 import games.theRisingAngel.loaders.LoaderEquipTRAn;
@@ -14,6 +15,22 @@ public class GControllerTRAn extends GControllerRPG {
 	public GControllerTRAn() {
 		super();
 	}
+
+	protected GameOptionsTRAn gameOptionsTRAn;
+
+	//
+
+	public GameOptionsTRAn getGameOptionsTRAn() {
+		return gameOptionsTRAn;
+	}
+
+	//
+
+	public void setGameOptionsTRAn(GameOptionsTRAn gameOptionsTRAn) {
+		this.gameOptionsTRAn = gameOptionsTRAn;
+	}
+
+	//
 
 	@Override
 	protected GameObjectsProvidersHolderRPG newGameObjectsProvider() {

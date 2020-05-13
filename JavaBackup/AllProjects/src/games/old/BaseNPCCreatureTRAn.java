@@ -11,10 +11,10 @@ import games.theRisingAngel.misc.AttributesTRAn;
  * multiple inheritance, so ... interfaces and redundancy).
  */
 @Deprecated
-public class BaseNPCCreatureTRAr extends BaseCreatureTRAn {
+public class BaseNPCCreatureTRAn extends BaseCreatureTRAn {
 	private static final long serialVersionUID = 1L;
 
-	public BaseNPCCreatureTRAr(GModalityRPG gModRPG, String name) {
+	public BaseNPCCreatureTRAn(GModalityRPG gModRPG, String name) {
 		super(gModRPG, name);
 		this.isDestroyed = false;
 		this.attributes = new CreatureAttributesCaching(AttributesTRAn.VALUES.length);

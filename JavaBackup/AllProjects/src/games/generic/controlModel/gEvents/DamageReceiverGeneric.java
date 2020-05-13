@@ -42,4 +42,14 @@ public interface DamageReceiverGeneric extends ObjectNamedID {
 	 * expressed by {@link GModality}, which could be used to fire events.
 	 */
 	public void receiveDamage(GModality gm, DamageGeneric damage, DamageDealerGeneric source);
+
+	/**
+	 * Similar to
+	 * {@link DamageDealerGeneric#getProbabilityPerThousandHit(DamageTypeGeneric)},
+	 * see it for further informations.
+	 */
+	public int getProbabilityPerThousandAvoidCritical(DamageTypeGeneric damageType);
+
+	/** Percentage amount of multiplication of the damage. Should be positive. */
+	public int getPercentageCriticalStrikeReduction(DamageTypeGeneric damageType);
 }
