@@ -108,7 +108,6 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 				factories.add(fe);
 			}
 		}
-
 	}
 
 	/** Instantiator of the loaded equipment */

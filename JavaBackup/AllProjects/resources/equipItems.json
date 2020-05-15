@@ -430,13 +430,13 @@
 		"rarity": 2,
 		"sellPrice": [37],
 		"dimensInvent": {
-			"width": 2, "height": 2
+			"width": 2, "height": 3
 		},
-		"attributeMods": [ TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+		"attributeMods": [
 			{"attribute": "LifeMax", "value": -20},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 5},
-			{"attribute": "Health", "value": -2},
+			{"attribute": "Dexterity", "value": -2},
 			{"attribute": "DamageReductionPhysical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": -2},
 			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
@@ -444,17 +444,18 @@
 		"abilities": []
 	}, {
 		"name": "Chainmail Brigandine",
-		"type": "Head",
+		"type": "Chest",
 		"rarity": 2,
 		"sellPrice": [37],
 		"dimensInvent": {
-			"width": 2, "height": 2
+			"width": 2, "height": 3
 		},
 		"attributeMods": [
 			{"attribute": "LifeMax", "value": -20},
-			{"attribute": "Defense", "value": 6},
-			{"attribute": "Constitution", "value": 5},
-			{"attribute": "Health", "value": -2},
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Constitution", "value": 8},
+			{"attribute": "Precision", "value": -4},
+			{"attribute": "Dexterity", "value": -2},
 			{"attribute": "DamageReductionPhysical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": -2},
 			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
@@ -464,18 +465,252 @@
 		"name": "Chainmail Coif",
 		"type": "Head",
 		"rarity": 2,
-		"sellPrice": [37],
+		"sellPrice": [25],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": -20},
+			{"attribute": "LifeMax", "value": -10},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 5},
-			{"attribute": "Health", "value": -2},
+			{"attribute": "Precision", "value": -5},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": -2},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 7}
+		],
+		"abilities": []
+	}, {
+		"name": "Chainmail Gauntlet",
+		"type": "Hands",
+		"rarity": 2,
+		"sellPrice": [32],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": -1},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Chainmail Sleeve",
+		"type": "Arms",
+		"rarity": 2,
+		"sellPrice": [28],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -15},
+			{"attribute": "Defense", "value": 6},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Precision", "value": -5},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": -2},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 7}
+		],
+		"abilities": []
+	}, {
+		"name": "Chainmail Boots",
+		"type": "Feet",
+		"rarity": 2,
+		"sellPrice": [23],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -10},
+			{"attribute": "LifeMax", "value": -20},
+			{"attribute": "Defense", "value": 8},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 8}
+		],
+		"abilities": []
+	}, {
+		"name": "Steelplated Trousers",
+		"type": "Legs",
+		"rarity": 3,
+		"sellPrice": [45],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -30},
+			{"attribute": "Defense", "value": 11},
+			{"attribute": "Constitution", "value": 9},
+			{"attribute": "Dexterity", "value": -6},
+			{"attribute": "Velocity", "value": -10},
+			{"attribute": "DamageReductionPhysical", "value": 9},
+			{"attribute": "DamageReductionMagical", "value": -4},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -80},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -80},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 50},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 15}
+		],
+		"abilities": []
+	}, {
+		"name": "Steelplated Armor",
+		"type": "Chest",
+		"rarity": 3,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -35},
+			{"attribute": "Defense", "value": 13},
+			{"attribute": "Constitution", "value": 11},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Velocity", "value": -5},
+			{"attribute": "DamageReductionPhysical", "value": 11},
+			{"attribute": "DamageReductionMagical", "value": -6},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -60},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -100},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 50},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 15}
+		],
+		"abilities": []
+	}, {
+		"name": "Steelplated Helm",
+		"type": "Head",
+		"rarity": 3,
+		"sellPrice": [30],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -16},
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -5},
 			{"attribute": "DamageReductionPhysical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": -2},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -40},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -40},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 25},
 			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Steelplated Ponthelm",
+		"type": "Head",
+		"rarity": 3,
+		"sellPrice": [33],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -19},
+			{"attribute": "Defense", "value": 8},
+			{"attribute": "Constitution", "value": 7},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Precision", "value": -7},
+			{"attribute": "DamageReductionPhysical", "value": 6},
+			{"attribute": "DamageReductionMagical", "value": -1},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -50},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -50},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 30},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 15}
+		],
+		"abilities": []
+	}, {
+		"name": "Steelplated Cage",
+		"type": "Head",
+		"rarity": 3,
+		"sellPrice": [28],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -7},
+			{"attribute": "Defense", "value": 6},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Dexterity", "value": -1},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": -1},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -30},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -30},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 20},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 8}
+		],
+		"abilities": []
+	}, {
+		"name": "Steelplated Gauntlet",
+		"type": "Hands",
+		"rarity": 2,
+		"sellPrice": [27],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 5},
+			{"attribute": "Defense", "value": 6},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -10},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -10},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 15},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 6}
+		],
+		"abilities": []
+	}, {
+		"name": "Steelplated Sleeve",
+		"type": "Arms",
+		"rarity": 2,
+		"sellPrice": [31],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -15},
+			{"attribute": "ManaMax", "value": -15},
+			{"attribute": "Strength", "value": 7},
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Precision", "value": -8},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": -1},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -25},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -25},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 20},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 8}
+		],
+		"abilities": []
+	}, {
+		"name": "Steelplated Sollerets",
+		"type": "Feet",
+		"rarity": 3,
+		"sellPrice": [25],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -10},
+			{"attribute": "ManaMax", "value": -20},
+			{"attribute": "Defense", "value": 8},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Dexterity", "value": -1},
+			{"attribute": "Velocity", "value": 3},
+			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": -1},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -5},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -5},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 10},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 3}
 		],
 		"abilities": []
 	}, {
@@ -713,6 +948,20 @@
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Dexterity", "value": 2},
 			{"attribute": "DamageReductionMagical", "value": 1},
+		],
+		"abilities": []
+	}, {
+		"name": "Belt with Vials",
+		"type": "Belt",
+		"rarity": 1,
+		"sellPrice": [16],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "LifeMax", "value": 50},
+			{"attribute": "ManaMax", "value": 70}
 		],
 		"abilities": []
 	}, {
@@ -1666,5 +1915,51 @@
 			{"attribute": "Strength", "value": -5}
 		],
 		"abilities": ["AMeditationMoreRegen 2"]
+	}, {
+		"name": "Angel-guided Sleeve",
+		"type": "Arms",
+		"rarity": 4,
+		"sellPrice": [65],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "Precision", "value": 10},
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "Luck", "value": 5},
+			{"attribute": "DamageBonusPhysical", "value": -5},
+			{"attribute": "DamageBonusMagical", "value": -5},
+			{"attribute": "CriticalProbabilityPerThousand", "value": -20},
+			{"attribute": "CriticalMultiplierPercentage", "value": -10},
+			{"attribute": "DamageReductionMagical", "value": 4},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 50},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 50},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 50},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Archers Sleeve",
+		"type": "Arms",
+		"rarity": 2,
+		"sellPrice": [20],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [
+			{"attribute": "Precision", "value": 8},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 30},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 30},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 20},
+			{"attribute": "CriticalMultiplierPercentage", "value": 10},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -50},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -50}
+		],
+		"abilities": []
 	}
 ]
