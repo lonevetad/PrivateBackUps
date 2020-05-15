@@ -8,7 +8,7 @@ import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gObj.LivingObject;
-import games.generic.controlModel.inventoryAbil.abilitiesImpl.EquipmentAbilityBaseImpl;
+import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityBaseImpl;
 import games.generic.controlModel.misc.CurableResourceType;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.HealGeneric;
@@ -18,7 +18,7 @@ import games.theRisingAngel.events.EventHealTRAr;
 import games.theRisingAngel.misc.DamageTypesTRAn;
 import tools.ObjectWithID;
 
-public class AShieldingEachCurableResources extends EquipmentAbilityBaseImpl implements GEventObserver {
+public class AShieldingEachCurableResources extends AbilityBaseImpl implements GEventObserver {
 	private static final long serialVersionUID = 1L;
 	public static final int MAX_SHIELD = 100, RARITY = 4,
 			PRIORITY_DAMAGE_OBSERVER = ALoseManaBeforeLife.PRIORITY_OBSERVER_SHIELDING_THE_TEMPLE << 1;

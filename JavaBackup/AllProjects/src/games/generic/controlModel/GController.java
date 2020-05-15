@@ -8,6 +8,7 @@ import dataStructures.MapTreeAVL;
 import games.generic.controlModel.misc.GModalityFactory;
 import games.generic.controlModel.misc.LoaderGameObjects;
 import games.generic.controlModel.misc.LoaderGeneric;
+import games.generic.controlModel.misc.ProbabilityOfContextesHolders;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.theRisingAngel.LoaderConfigurations;
 import tools.Comparators;
@@ -43,6 +44,7 @@ public abstract class GController {
 	protected UserAccountGeneric user;
 	protected final List<LoaderGameObjects<? extends ObjectNamed>> gameObjectsLoader;
 	protected final LoaderGeneric loaderConfigurations;
+	protected ProbabilityOfContextesHolders probabilityOfContextesHolders;
 
 	/** Create everything and loads everything as well. */
 	protected GController() {
@@ -51,17 +53,16 @@ public abstract class GController {
 				Comparators.STRING_COMPARATOR);
 		this.gameObjectsLoader = new LinkedList<>();
 		this.loaderConfigurations = newLoaderConfigurations(this);
+		this.probabilityOfContextesHolders = new ProbabilityOfContextesHolders();
 	}
 
 	//
 
-	public GModality getCurrentGameModality() {
-		return currentGameModality;
-	}
+	public GModality getCurrentGameModality() { return currentGameModality; }
 
-	public Map<String, GModalityFactory> getGameModalitiesFactories() {
-		return gameModalitiesFactories;
-	}
+	public Map<String, GModalityFactory> getGameModalitiesFactories() { return gameModalitiesFactories; }
+
+	public ProbabilityOfContextesHolders getProbabilityOfContextesHolders() { return probabilityOfContextesHolders; }
 
 	//
 
@@ -120,17 +121,13 @@ public abstract class GController {
 		this.gameObjectsLoader.forEach(l -> l.loadInto(this));
 	}
 
-	protected LoaderGeneric newLoaderConfigurations(GController cgRPG) {
-		return new LoaderConfigurations();
-	}
+	protected LoaderGeneric newLoaderConfigurations(GController cgRPG) { return new LoaderConfigurations(); }
 
 	//
 
 	//
 
-	public boolean isAlive() {
-		return isAlive;
-	}
+	public boolean isAlive() { return isAlive; }
 
 	public boolean isPlaying() {
 		GModality gm;

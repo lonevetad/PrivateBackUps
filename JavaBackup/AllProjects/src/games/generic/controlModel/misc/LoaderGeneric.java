@@ -79,13 +79,17 @@ public abstract class LoaderGeneric {
 
 		public void readAllFile() {
 			String line;// , splitted[];
-			while (lr.hasNext()) {
-				line = lr.next();
+			while (getLineReader().hasNext()) {
+				line = getLineReader().next();
 				readAllFileImpl(line);
 			}
 		}
 
 		protected abstract void readAllFileImpl(String line);
+
+		public JSONLineReader getLineReader() {
+			return lr;
+		}
 	}
 
 	//

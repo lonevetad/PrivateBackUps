@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.gObj.TimedObject;
 import tools.Comparators;
+import tools.ObjectNamedID;
 import tools.ObjectWithID;
 
 public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
@@ -20,16 +21,16 @@ public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
 	}
 
 	@Override
-	public Set<ObjectWithID> getObjects() {
-		return timedObjects_Set;
-	}
+	public Set<ObjectWithID> getObjects() { return timedObjects_Set; }
 
 	@Override
 	public boolean add(ObjectWithID o) {
 		if (o == null || (!(o instanceof TimedObject)))
 			return false;
-		if (timedObjects.containsKey(o.getID()))
+		if (timedObjects.containsKey(o.getID())) {
+			System.out.println("AAAAAAH THERE's a TIMED KEY: " + ((ObjectNamedID) o).getName());
 			return false;
+		}
 		timedObjects.put(o.getID(), o);
 		return true;
 	}
@@ -50,17 +51,11 @@ public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
 	}
 
 	@Override
-	public boolean contains(ObjectWithID o) {
-		return timedObjects.containsKey(o.getID());
-	}
+	public boolean contains(ObjectWithID o) { return timedObjects.containsKey(o.getID()); }
 
 	@Override
-	public ObjectWithID get(Integer id) {
-		return timedObjects.get(id);
-	}
+	public ObjectWithID get(Integer id) { return timedObjects.get(id); }
 
 	@Override
-	public void forEach(Consumer<ObjectWithID> action) {
-		timedObjects.forEach((id, to) -> action.accept(to));
-	}
+	public void forEach(Consumer<ObjectWithID> action) { timedObjects.forEach((id, to) -> action.accept(to)); }
 }

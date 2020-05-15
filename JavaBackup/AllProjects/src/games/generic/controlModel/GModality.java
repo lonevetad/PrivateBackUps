@@ -3,6 +3,7 @@ package games.generic.controlModel;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import games.generic.controlModel.gObj.GameObjectGeneric;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.player.PlayerGeneric;
@@ -77,9 +78,7 @@ public abstract class GModality {
 	 * Used to check if the game is SHUTTED-OFF. <br>
 	 * Differs from {@link #isRunning()}, see it for differences.
 	 */
-	public boolean isAlive() {
-		return this.controller.isAlive();
-	}
+	public boolean isAlive() { return this.controller.isAlive(); }
 
 	/**
 	 * Simply return a flag. Used to check if the game is running or not (i.e.: the
@@ -88,37 +87,21 @@ public abstract class GModality {
 	 * <br>
 	 * Differs from {@link #isAlive()}, see it for differences.
 	 */
-	public boolean isRunning() {
-		return this.isRunning;
-	}
+	public boolean isRunning() { return this.isRunning; }
 
-	public PlayerGeneric getPlayer() {
-		return player;
-	}
+	public PlayerGeneric getPlayer() { return player; }
 
-	public String getModalityName() {
-		return modalityName;
-	}
+	public String getModalityName() { return modalityName; }
 
-	public GController getController() {
-		return controller;
-	}
+	public GController getController() { return controller; }
 
-	public Random getRandom() {
-		return random;
-	}
+	public Random getRandom() { return random; }
 
-	public GModel getModel() {
-		return model;
-	}
+	public GModel getModel() { return model; }
 
-	public GMap getMapCurrent() {
-		return model.getMapCurrent();
-	}
+	public GMap getMapCurrent() { return model.getMapCurrent(); }
 
-	public GameObjectsProvidersHolder getGameObjectsProvider() {
-		return gameObjectsProviderHolder;
-	}
+	public GameObjectsProvidersHolder getGameObjectsProvider() { return gameObjectsProviderHolder; }
 
 	/** Get the HUGE delegate of almost everything. */
 	public GameObjectsManager getGameObjectsManager() {
@@ -139,9 +122,7 @@ public abstract class GModality {
 
 	// setter
 
-	public void setModel(GModel model) {
-		this.model = model;
-	}
+	public void setModel(GModel model) { this.model = model; }
 
 	public void setPlayer(PlayerGeneric player) {
 		this.player = player;
@@ -150,13 +131,9 @@ public abstract class GModality {
 	}
 
 	// proxy
-	public void setMapCurrent(GMap mapCurrent) {
-		this.model.setMapCurrent(mapCurrent);
-	}
+	public void setMapCurrent(GMap mapCurrent) { this.model.setMapCurrent(mapCurrent); }
 
-	public void setRandomSeed(long seed) {
-		this.random.setSeed(seed);
-	}
+	public void setRandomSeed(long seed) { this.random.setSeed(seed); }
 
 	//
 
@@ -219,23 +196,27 @@ public abstract class GModality {
 	// TODO CONCRETE METHODS
 
 	/** Add a {@link ObjectWithID} to the {@link GModel}. */
-	public boolean addGameObject(ObjectWithID o) {
+	public boolean addGameObject(GameObjectGeneric o) {
 		GModel gm;
 		if (o == null)
 			return false;
 		gm = this.getModel();
 		if (gm != null) {
-			return gm.add(o);
+			boolean added;
+			o.onAddedToGame(this);
+			added = gm.add(o);
+			return added;
 		}
 		return false;
 	}
 
-	public boolean removeGameObject(ObjectWithID o) {
+	public boolean removeGameObject(GameObjectGeneric o) {
 		GModel gm;
 		if (o == null)
 			return false;
 		gm = this.getModel();
 		if (gm != null) {
+			o.onRemovedFromGame(this);
 			return gm.remove(o);
 		}
 		return false;
@@ -244,9 +225,7 @@ public abstract class GModality {
 	public boolean removeAllGameObjects() {
 		GModel gm;
 		gm = this.getModel();
-		if (gm != null) {
-			return gm.removeAll();
-		}
+		if (gm != null) { return gm.removeAll(); }
 		return false;
 	}
 
@@ -255,9 +234,7 @@ public abstract class GModality {
 		if (o == null)
 			return false;
 		gm = this.getModel();
-		if (gm != null) {
-			return gm.contains(o);
-		}
+		if (gm != null) { return gm.contains(o); }
 		return false;
 	}
 
@@ -266,9 +243,7 @@ public abstract class GModality {
 		if (action == null)
 			return;
 		gm = this.getModel();
-		if (gm != null) {
-			gm.forEach(action);
-		}
+		if (gm != null) { gm.forEach(action); }
 	}
 
 	//
@@ -285,16 +260,10 @@ public abstract class GModality {
 	 */
 	public abstract void startGame();
 
-	public void pause() {
-		this.isRunning = false;
-	}
+	public void pause() { this.isRunning = false; }
 
-	public void resume() {
-		this.isRunning = true;
-	}
+	public void resume() { this.isRunning = true; }
 
 	/** Override AND call the super implementation. */
-	public void closeAll() {
-		this.pause();
-	}
+	public void closeAll() { this.pause(); }
 }

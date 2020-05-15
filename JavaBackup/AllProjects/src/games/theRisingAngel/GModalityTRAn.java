@@ -22,29 +22,19 @@ public class GModalityTRAn extends GModalityRPG {
 	/** Milliseconds :D */
 	public static final int TIME_SUBUNITS_EACH_TIME_UNIT_TRAn = 1000;
 
-	public GModalityTRAn(GController controller, String modalityName) {
-		super(controller, modalityName);
-	}
+	public GModalityTRAn(GController controller, String modalityName) { super(controller, modalityName); }
 
 	@Override
-	public int getAttributesPointGainedOnLevelingUp(BasePlayerRPG p) {
-		return ATTRIBUTES_POINTS_GAINED_ON_LEVELING;
-	}
+	public int getAttributesPointGainedOnLevelingUp(BasePlayerRPG p) { return ATTRIBUTES_POINTS_GAINED_ON_LEVELING; }
 
 	@Override
-	public GEventInterface newEventInterface() {
-		return new GEventInterfaceTRAn();
-	}
+	public GEventInterface newEventInterface() { return new GEventInterfaceTRAn(); }
 
 	@Override
-	protected GameObjectsManager newGameObjectsManager(GEventInterface gei) {
-		return new GameObjectsManagerTRAn(this);
-	}
+	protected GameObjectsManager newGameObjectsManager(GEventInterface gei) { return new GameObjectsManagerTRAn(this); }
 
 	@Override
-	public CurrencySet newCurrencyHolder() {
-		return new CurrencySetTRAn(this, 0);
-	}
+	public CurrencySet newCurrencyHolder() { return new CurrencySetTRAn(this, 0); }
 
 	@Override
 	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer, ObjectNamedID characterType) {
@@ -69,6 +59,7 @@ public class GModalityTRAn extends GModalityRPG {
 
 	@Override
 	public void startGame() {
+		this.getGameObjectsProviderHolderRPG().setgModality(this);
 		super.startGame();
 		// and then? TODO
 	}

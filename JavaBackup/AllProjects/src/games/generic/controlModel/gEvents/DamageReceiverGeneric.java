@@ -2,16 +2,16 @@ package games.generic.controlModel.gEvents;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.DamageDealerGeneric;
+import games.generic.controlModel.gObj.GameObjectGeneric;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.DamageTypeGeneric;
-import tools.ObjectNamedID;
 
 /**
  * Marker interface for an entity capable of receiving damage, analog and
  * "opposite" to {@link DamageDealerGeneric}.<br>
  * It's enriched with info useful for damage computation.
  */
-public interface DamageReceiverGeneric extends ObjectNamedID {
+public interface DamageReceiverGeneric extends GameObjectGeneric {
 
 	public int getLife();
 

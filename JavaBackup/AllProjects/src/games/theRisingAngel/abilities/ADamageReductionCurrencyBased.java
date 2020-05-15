@@ -10,16 +10,13 @@ import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.CurrencyHolder;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingSingleAttributeRealTime;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
-import games.generic.controlModel.player.BasePlayerRPG;
 import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
-import tools.ObjectWithID;
 
 public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttributeRealTime implements GEventObserver {
 	private static final long serialVersionUID = -69287821202158L;
@@ -41,26 +38,18 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 	//
 
 	@Override
-	public Integer getObserverID() {
-		return getID();
-	}
+	public Integer getObserverID() { return getID(); }
 
 	/**
 	 * Get the "percentage" (but it's over a thousand, 1000, not the classical
 	 * hundred of "%") of the currency held to be converted to
 	 * {@link AttributesTRAn.DamageReductionPhysical}.
 	 */
-	public int getPerThousandFraction() {
-		return perThousandFraction;
-	}
+	public int getPerThousandFraction() { return perThousandFraction; }
 
-	public int getMaximumReduction() {
-		return maximumReduction;
-	}
+	public int getMaximumReduction() { return maximumReduction; }
 
-	public void setMaximumReduction(int maximumReduction) {
-		this.maximumReduction = maximumReduction;
-	}
+	public void setMaximumReduction(int maximumReduction) { this.maximumReduction = maximumReduction; }
 
 	protected int getDefaultCurrencyAmount(CreatureSimple c) {
 		int a;
@@ -73,39 +62,31 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 	}
 
 	@Override
-	public List<String> getEventsWatching() {
-		return eventsWatching;
-	}
-
-	@Override
-	public ObjectWithID getOwner() {
-		return this.getEquipItem().getCreatureWearingEquipments();
-	}
+	public List<String> getEventsWatching() { return eventsWatching; }
 
 	//
 
-	public void setPerThousandFraction(int perThousandFraction) {
-		this.perThousandFraction = perThousandFraction;
-	}
+	public void setPerThousandFraction(int perThousandFraction) { this.perThousandFraction = perThousandFraction; }
 
 	//
 
 	@Override
-	public void updateAttributesModifiersValues(GModality gm, EquipmentItem ei, CreatureSimple ah,
+	public void updateAttributesModifiersValues(GModality gm, /* EquipmentItem ei, */ CreatureSimple ah,
 			CreatureAttributes ca) {
 		int reduct;
 		AttributeModification am;
 		am = super.getAttributesToModify()[0];
 		reduct = (getDefaultCurrencyAmount(ah) * getPerThousandFraction()) / 1000;
-		if (maximumReduction > 0 && reduct > maximumReduction) {
-			reduct = maximumReduction;
-		}
+		if (maximumReduction > 0 && reduct > maximumReduction) { reduct = maximumReduction; }
 		am.setValue(reduct);
-		System.out.println(";;ADamagRedCurrBas... attri to mod " + am.getAttributeModified().getName() + " has value "
-				+ am.getValue() + ", creature's value : " + this.getEquipItem().getCreatureWearingEquipments()
-						.getAttributes().getValue(am.getAttributeModified()));
-		System.out.println("MoNeY: " + //
-				((BasePlayerRPG) this.getEquipItem().getCreatureWearingEquipments()).getCurrencies().getMoneyAmount(0));
+//		System.out.println(";;ADamagRedCurrBas... attri to mod " + am.getAttributeModified().getName() + " has value "
+//				+ am.getValue() + ", creature's value : " + //
+//				// this.getEquipItem().getCreatureWearingEquipments().getAttributes()
+//				this.getAttributesOfOwner()//
+//						.getValue(am.getAttributeModified()));
+//		System.out.println("MoNeY: " + //
+//				((BasePlayerRPG) this.getOwner() // this.getEquipItem().getCreatureWearingEquipments()
+//				).getCurrencies().getMoneyAmount(0));
 	}
 
 	@Override

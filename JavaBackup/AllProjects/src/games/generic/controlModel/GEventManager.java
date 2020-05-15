@@ -37,9 +37,7 @@ public abstract class GEventManager implements GObjectsHolder {
 
 	//
 
-	public GModality getGameModality() {
-		return gameModality;
-	}
+	public GModality getGameModality() { return gameModality; }
 
 	/**
 	 * Use with caution.
@@ -53,9 +51,7 @@ public abstract class GEventManager implements GObjectsHolder {
 	//
 
 	/***/
-	public void setGameModality(GModalityET gameModality) {
-		this.gameModality = gameModality;
-	}
+	public void setGameModality(GModalityET gameModality) { this.gameModality = gameModality; }
 
 	//
 
@@ -83,9 +79,7 @@ public abstract class GEventManager implements GObjectsHolder {
 	}
 
 	@Override
-	public void forEach(Consumer<ObjectWithID> action) {
-		forEachEventObservers(geo -> action.accept(geo));
-	}
+	public void forEach(Consumer<ObjectWithID> action) { forEachEventObservers(geo -> action.accept(geo)); }
 
 	@Override
 	public boolean add(ObjectWithID o) {
@@ -134,6 +128,7 @@ public abstract class GEventManager implements GObjectsHolder {
 	public void performAllEvents() {
 		final GModalityET gm;
 		Queue<IGEvent> q;
+		IGEvent event;
 		gm = this.gameModality;
 		q = this.eventsQueued;
 //		this.eventsQueued.forEach((id, q) -> {
@@ -150,7 +145,8 @@ public abstract class GEventManager implements GObjectsHolder {
 			 */
 			while ((!q.isEmpty()) && gm.isRunningOrSleep()) {
 //					l.remove(0).performEvent(gm);
-				notifyEventObservers(q.poll()); // remove the first event
+				notifyEventObservers(event = q.poll()); // remove the first event
+				event.onProcessingEnded();
 			}
 		}
 //		});

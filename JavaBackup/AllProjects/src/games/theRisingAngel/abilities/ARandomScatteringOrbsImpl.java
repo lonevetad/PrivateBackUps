@@ -10,6 +10,7 @@ import games.theRisingAngel.GModalityTRAn;
 import geometry.ObjectLocated;
 
 public class ARandomScatteringOrbsImpl extends ARandomScatteringOrbs {
+	private static final long serialVersionUID = 1L;
 
 	public ARandomScatteringOrbsImpl(GModalityTRAn gameModality) {
 		super(gameModality);

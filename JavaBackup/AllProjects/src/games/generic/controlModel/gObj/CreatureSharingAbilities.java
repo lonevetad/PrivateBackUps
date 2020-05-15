@@ -82,7 +82,7 @@ public interface CreatureSharingAbilities extends BaseCreatureRPG, GEventObserve
 			sharedAbl.remove(abilSharedByObj);
 			ability = this.getAbilities().get(abilSharedByObj);
 			if (ability != null) {
-				ability.onRemoving(modality);
+				ability.onRemovingFromOwner(modality);
 				// then remove it
 				this.getAbilities().remove(abilSharedByObj);
 			}

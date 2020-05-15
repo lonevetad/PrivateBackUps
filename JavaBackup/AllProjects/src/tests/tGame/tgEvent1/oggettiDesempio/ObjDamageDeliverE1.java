@@ -28,42 +28,26 @@ public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl, DamageDealerGe
 	}
 
 	@Override
-	public Integer getID() {
-		return ID;
-	}
+	public Integer getID() { return ID; }
 
 	@Override
-	public long getAccumulatedTimeElapsed() {
-		return timeElapsed;
-	}
+	public long getAccumulatedTimeElapsed() { return timeElapsed; }
 
 	@Override
-	public long getTimeThreshold() {
-		return timeThreshold;
-	}
+	public long getTimeThreshold() { return timeThreshold; }
 
-	public BaseCreatureRPG getTarget() {
-		return target;
-	}
+	public BaseCreatureRPG getTarget() { return target; }
 
-	public int getDamageAmount() {
-		return damageAmount;
-	}
+	public int getDamageAmount() { return damageAmount; }
 
 	//
 
-	public void setDamageAmount(int damageAmount) {
-		this.damageAmount = damageAmount;
-	}
+	public void setDamageAmount(int damageAmount) { this.damageAmount = damageAmount; }
 
-	public void setTarget(BaseCreatureRPG target) {
-		this.target = target;
-	}
+	public void setTarget(BaseCreatureRPG target) { this.target = target; }
 
 	@Override
-	public void setAccumulatedTimeElapsed(long newAccumulated) {
-		this.timeElapsed = newAccumulated;
-	}
+	public void setAccumulatedTimeElapsed(long newAccumulated) { this.timeElapsed = newAccumulated; }
 
 	//
 
@@ -80,24 +64,22 @@ public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl, DamageDealerGe
 	}
 
 	@Override
-	public String getName() {
-		return "Obj damage dealer";
-	}
+	public String getName() { return "Obj damage dealer"; }
 
 	@Override
-	public int getProbabilityPerThousandHit(DamageTypeGeneric damageType) {
-		return 250;
-	}
+	public int getProbabilityPerThousandHit(DamageTypeGeneric damageType) { return 250; }
 
 	@Override
-	public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) {
-		return 0;
-	}
+	public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) { return 0; }
 
 	@Override
-	public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) {
-		return 0;
-	}
+	public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) { return 0; }
+
+	@Override
+	public void onAddedToGame(GModality gm) {}
+
+	@Override
+	public void onRemovedFromGame(GModality gm) {}
 
 //	public void act(GModality modality, long milliseconds) {
 //		if (milliseconds > 0) {

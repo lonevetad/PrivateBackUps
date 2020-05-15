@@ -6,49 +6,36 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
-import games.generic.controlModel.inventoryAbil.EquipItemAbility;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.subimpl.AbilityTimedGeneric;
+import tools.ObjectWithID;
 
-public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilityBaseImpl
-		implements AbilityTimedGeneric, EquipItemAbility {
+public abstract class AbilityModifyingAttributesRealTime extends AbilityBaseImpl // EquipmentAbilityBaseImpl
+		implements AbilityTimedGeneric { // , EquipItemAbility
 	private static final long serialVersionUID = 56132035015L;
 	public static final long MILLISEC_ATTRIBUTE_UPDATE = 500;
 
-	public AbilityModifyingAttributesRealTime() {
-		super();
-	}
+	public AbilityModifyingAttributesRealTime() { super(); }
 
-	public AbilityModifyingAttributesRealTime(String name) {
-		super(name);
-	}
+	public AbilityModifyingAttributesRealTime(String name) { super(name); }
 
 	public AbilityModifyingAttributesRealTime(String name, AttributeIdentifier[] attributesModified) {
 		super(name);
-		if (attributesModified != null) {
-			setAttributesToModify(attributesModified);
-		}
+		if (attributesModified != null) { setAttributesToModify(attributesModified); }
 	}
 
 	protected long accumulatedTimeElapsedForUpdating;
 	/** Attributes this ability modifies. */
 	protected AttributeModification[] attributesToModify;
 
-	public AttributeModification[] getAttributesToModify() {
-		return attributesToModify;
-	}
+	public AttributeModification[] getAttributesToModify() { return attributesToModify; }
 
 	@Override
-	public long getAccumulatedTimeElapsed() {
-		return accumulatedTimeElapsedForUpdating;
-	}
+	public long getAccumulatedTimeElapsed() { return accumulatedTimeElapsedForUpdating; }
 
 	@Override
-	public long getTimeThreshold() {
-		return MILLISEC_ATTRIBUTE_UPDATE;
-	}
+	public long getTimeThreshold() { return MILLISEC_ATTRIBUTE_UPDATE; }
 
 	public void setAttributesToModify(AttributeIdentifier[] attributesModified) {
 //		this.attributesToModify = attributesToModify; // AttributeModification[] attributesToModify
@@ -66,7 +53,7 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 
 	protected void applyModifyingEffecsOnEquipping() {
 		CreatureAttributes ca;
-		ca = getAttributesWearer();
+		ca = getAttributesOfOwner();
 		if (ca == null)
 			return;
 		for (AttributeModification am : this.attributesToModify) {
@@ -74,27 +61,39 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 		}
 	}
 
+	protected void removeModifyingEffecs() {
+		CreatureAttributes ca;
+		ca = getAttributesOfOwner();
+		if (ca == null)
+			return;
+		for (AttributeModification am : this.attributesToModify) {
+			ca.removeAttributeModifier(am);
+		}
+	}
+
 	@Override
-	public void onEquip(GModality gm) {
-		super.onEquip(gm);
+	public void onAddingToOwner(GModality gm) {
+//		super.onEquip(gm);
+		AbilityTimedGeneric.super.onAddingToOwner(gm);
 		applyModifyingEffecsOnEquipping();
 	}
 
 	@Override
 	public void performAbility(GModality modality) {
-		EquipmentItem ei;
+//		EquipmentItem ei;
 		BaseCreatureRPG ah;
 		CreatureAttributes ca;
-		ei = this.equipItem;
-		if (ei == null)
+		ObjectWithID o;
+		o = owner;
+		if (o == null)
 			return;
-		ah = ei.getCreatureWearingEquipments();
+		ah = (o instanceof BaseCreatureRPG) ? ((BaseCreatureRPG) o) : null; // ei.getCreatureWearingEquipments();
 		if (ah == null)
 			return;
 		ca = ah.getAttributes();
 		if (ca == null)
 			return;
-		updateAttributes(modality, ei, ah, ca);
+		updateAttributes(modality, /* ei, */ ah, ca);
 	}
 
 	// jet done
@@ -108,11 +107,11 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 	 * Update one or more {@link CreatureAttributes}'s attribute (the ones in
 	 * {@link #getAttributesToModify()}).
 	 */
-	protected void updateAttributes(GModality gm, EquipmentItem ei, CreatureSimple ah, CreatureAttributes ca) {
+	protected void updateAttributes(GModality gm, /* EquipmentItem ei, */ CreatureSimple ah, CreatureAttributes ca) {
 		for (AttributeModification am : this.attributesToModify) {
 			ca.removeAttributeModifier(am);
 		}
-		updateAttributesModifiersValues(gm, ei, ah, ca);
+		updateAttributesModifiersValues(gm, /* ei, */ ah, ca);
 		for (AttributeModification am : this.attributesToModify) {
 			ca.applyAttributeModifier(am);
 		}
@@ -120,13 +119,13 @@ public abstract class AbilityModifyingAttributesRealTime extends EquipmentAbilit
 
 //
 
-	public abstract void updateAttributesModifiersValues(GModality gm, EquipmentItem ei, CreatureSimple ah,
+	public abstract void updateAttributesModifiersValues(GModality gm, /* EquipmentItem ei, */ CreatureSimple ah,
 			CreatureAttributes ca);
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [name=" + name + ", ID=" + ID + "\n\t equipped to: "
-				+ (this.getEquipItem() == null ? "null" : this.getEquipItem().getName()) + ",\n\t attributesToModify="
-				+ Arrays.toString(attributesToModify) + "]";
+		return this.getClass().getSimpleName() + " [name=" + name + ", ID=" + ID +
+//			+	"\n\t equipped to: " + (this.getEquipItem() == null ? "null" : this.getEquipItem().getName())
+				",\n\t attributesToModify=" + Arrays.toString(attributesToModify) + "]";
 	}
 }

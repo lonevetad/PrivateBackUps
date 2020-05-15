@@ -13,9 +13,7 @@ public class NecklaceOfPainRinvigoring extends EIJewelry {
 	public static final String NAME = "Necklace of Pain Rinvigoring";
 	protected AMoreDamageReceivedMoreLifeRegen abilityDamageToLifeRegen;
 
-	public NecklaceOfPainRinvigoring(GModalityRPG gmrpg) {
-		super(gmrpg, EquipmentTypesTRAn.Necklace, NAME);
-	}
+	public NecklaceOfPainRinvigoring(GModalityRPG gmrpg) { super(gmrpg, EquipmentTypesTRAn.Necklace, NAME); }
 
 	@Override
 	protected void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder) {
@@ -23,7 +21,7 @@ public class NecklaceOfPainRinvigoring extends EIJewelry {
 		ap = ((GameObjectsProvidersHolderRPG) providersHolder).getAbilitiesProvider();
 		this.abilityDamageToLifeRegen = (AMoreDamageReceivedMoreLifeRegen) ap.getAbilityByName(gm,
 				AMoreDamageReceivedMoreLifeRegen.NAME);
-		this.abilityDamageToLifeRegen.setOwner(this);
+		this.abilityDamageToLifeRegen.setOwner(this.getOwner());
 		super.addAbility(this.abilityDamageToLifeRegen);
 	}
 }

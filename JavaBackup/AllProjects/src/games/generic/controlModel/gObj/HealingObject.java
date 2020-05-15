@@ -210,7 +210,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	 * Make this object receiving a non-negative amount of healing, in a context
 	 * expressed by {@link GModality}, which could be used to fire events.
 	 */
-	public default <SourceHealing extends ObjectWithID> void receiveLifeHealing(GModality gm, SourceHealing source,
+	public default <SourceHealing extends ObjectWithID> void receiveHealing(GModality gm, SourceHealing source,
 			HealGeneric healingInstance) {
 		int healingAmount;
 		healingAmount = healingInstance.getHealAmount();

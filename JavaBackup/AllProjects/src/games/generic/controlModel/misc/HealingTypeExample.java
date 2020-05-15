@@ -5,12 +5,14 @@ public enum HealingTypeExample implements CurableResourceType {
 	Life, Mana, Shield, Stamina;
 
 	@Override
-	public Integer getID() {
-		return ordinal();
-	}
+	public Integer getID() { return ordinal(); }
 
 	@Override
-	public String getName() {
-		return name();
-	}
+	public String getName() { return name(); }
+
+	@Override
+	public boolean acceptsNegative() { return false; }
+
+	@Override
+	public boolean acceptsZeroAsMaximum() { return true; }
 }

@@ -82,32 +82,22 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	// TODO GETTER
 
 	@Override
-	public List<String> getEventsWatching() {
-		return eventsWatching;
-	}
+	public List<String> getEventsWatching() { return eventsWatching; }
 
 	@Override
-	public boolean isCumulative() {
-		return isCumulative;
-	}
+	public boolean isCumulative() { return isCumulative; }
 
 	@Override
-	public PhaseAbilityVanishing getPhaseAbilityCurrent() {
-		return phaseAbilityCurrent;
-	}
+	public PhaseAbilityVanishing getPhaseAbilityCurrent() { return phaseAbilityCurrent; }
 
 	@Override
-	public int getAccumulatedTimeAbililtyVanishing() {
-		return accumulatedTimeAbililtyVanishing;
-	}
+	public int getAccumulatedTimeAbililtyVanishing() { return accumulatedTimeAbililtyVanishing; }
 
 	/**
 	 * Returns the amount of cumulated effect activation, if any. See
 	 * {@link #getMaxAmountStackedTriggerCharges()}.
 	 */
-	public int getStackedTriggerCharges() {
-		return stackedTriggerCharges;
-	}
+	public int getStackedTriggerCharges() { return stackedTriggerCharges; }
 
 	/**
 	 * If this ability {@link #isCumulative()}, then the ability can stack and the
@@ -122,9 +112,7 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	 * this value o <code>1</code> makes the same effect of setting the flag to
 	 * <code>false</code>.
 	 */
-	public int getMaxAmountStackedTriggerCharges() {
-		return maxAmountStackedTriggerCharges;
-	}
+	public int getMaxAmountStackedTriggerCharges() { return maxAmountStackedTriggerCharges; }
 
 	//
 
@@ -156,9 +144,7 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	}
 
 	@Override
-	public void setPhaseAbilityCurrent(PhaseAbilityVanishing pav) {
-		this.phaseAbilityCurrent = pav;
-	}
+	public void setPhaseAbilityCurrent(PhaseAbilityVanishing pav) { this.phaseAbilityCurrent = pav; }
 
 	@Override
 	public void setAccumulatedTimeAbililtyVanishing(int accumulatedTimeAbililtyVanishing) {
@@ -189,8 +175,8 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	}
 
 	@Override
-	public void onRemoving(GModality gm) {
-		super.onRemoving(gm);
+	public void onRemovingFromOwner(GModality gm) {
+		super.onRemovingFromOwner(gm);
 		// remove previously added attributes
 //		if (modificationsAppliedAtLeastOnce) {
 		// do not remove more than once
@@ -201,7 +187,7 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 
 	protected void removeAndNullifyEffects() {
 		CreatureAttributes ca;
-		ca = getAttributesWearer();
+		ca = getAttributesOfOwner(); // getAttributesWearer();
 		if (ca == null)
 			return;
 		for (AttributeModification am : attributesToModify) {
@@ -215,17 +201,13 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 //		super.onEquip(gm);
 //	}
 
-	protected boolean isAcceptableEvent(IGEvent e) {
-		return this.eventsWatching.contains(e.getName());
-	}
+	protected boolean isAcceptableEvent(IGEvent e) { return this.eventsWatching.contains(e.getName()); }
 
 	/**
 	 * Override designed.<br>
 	 * Default implementation returns the half of the current value.
 	 */
-	protected int computeNewAmountOnVanishing(AttributeModification am) {
-		return am.getValue() >> 1;
-	}
+	protected int computeNewAmountOnVanishing(AttributeModification am) { return am.getValue() >> 1; }
 
 	/**
 	 * It's really called in
@@ -330,7 +312,7 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	}
 
 	@Override
-	public void updateAttributesModifiersValues(GModality gm, EquipmentItem ei, CreatureSimple ah,
+	public void updateAttributesModifiersValues(GModality gm, /* EquipmentItem ei, */ CreatureSimple ah,
 			CreatureAttributes ca) {
 		PhaseAbilityVanishing phaseAbility;
 		phaseAbility = phaseAbilityCurrent;

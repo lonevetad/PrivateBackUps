@@ -7,9 +7,7 @@ import tools.UniqueIDProvider;
 public abstract class AbilityBaseImpl implements AbilityGeneric {
 	private static final long serialVersionUID = -8784886155L;
 
-	public AbilityBaseImpl() {
-		this(null);
-	}
+	public AbilityBaseImpl() { this(null); }
 
 	public AbilityBaseImpl(String name) {
 		this.name = name;
@@ -20,14 +18,10 @@ public abstract class AbilityBaseImpl implements AbilityGeneric {
 	protected String name;
 	protected ObjectWithID owner;
 
-	protected void assignID() {
-		ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID();
-	}
+	protected void assignID() { ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID(); }
 
 	@Override
-	public Integer getID() {
-		return ID;
-	}
+	public Integer getID() { return ID; }
 
 	@Override
 	public String getName() {
@@ -35,14 +29,10 @@ public abstract class AbilityBaseImpl implements AbilityGeneric {
 	}
 
 	@Override
-	public ObjectWithID getOwner() {
-		return owner;
-	}
+	public ObjectWithID getOwner() { return owner; }
 
 	//
 
 	@Override
-	public void setOwner(ObjectWithID owner) {
-		this.owner = owner;
-	}
+	public void setOwner(ObjectWithID owner) { this.owner = owner; }
 }

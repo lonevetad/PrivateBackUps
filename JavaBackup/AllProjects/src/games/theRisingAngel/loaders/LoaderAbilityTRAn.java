@@ -8,6 +8,7 @@ import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.ASimpleFixedBufferVanishing;
+import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.subimpl.LoaderAbilities;
 import games.theRisingAngel.GModalityTRAn;
@@ -17,6 +18,7 @@ import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
 import games.theRisingAngel.abilities.ALifeHealingMakesEarnBaseCurrency;
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
+import games.theRisingAngel.abilities.AMeditationMoreRegen;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
 import games.theRisingAngel.abilities.ARandomScatteringOrbs;
 import games.theRisingAngel.abilities.ARandomScatteringOrbsImpl;
@@ -30,9 +32,7 @@ import games.theRisingAngel.misc.DamageTypesTRAn;
 
 public class LoaderAbilityTRAn extends LoaderAbilities {
 
-	public LoaderAbilityTRAn(GameObjectsProvider<AbilityGeneric> objProvider) {
-		super(objProvider);
-	}
+	public LoaderAbilityTRAn(GameObjectsProvider<AbilityGeneric> objProvider) { super(objProvider); }
 
 	@Override
 	public void loadInto(GController gcontroller) {
@@ -161,5 +161,19 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 				gm -> new AAttrSingleBonusMalusRandomFixed());
 		objProvider.addObj(AAttrSingleBonusMalusRandomPercentage.NAME, AAttrSingleBonusMalusRandomPercentage.RARITY,
 				gm -> new AAttrSingleBonusMalusRandomPercentage());
+
+		//
+		for (int maxLevel = 5; maxLevel >= 0; maxLevel--) {
+			objProvider.addObj(AMeditationMoreRegen.NAME + maxLevel, maxLevel,
+//					((Function<Integer, FactoryObjGModalityBased<AbilityGeneric>>) (level -> {
+//						return gm -> new AMeditationMoreRegen(level);
+//					})).apply(maxLevel) // moved to a function because reminds TOO MUCH to JavaScript ...
+					newAMeditationMoreRegen_LevelBased(maxLevel)//
+			);
+		}
+	}
+
+	private FactoryObjGModalityBased<AbilityGeneric> newAMeditationMoreRegen_LevelBased(int level) {
+		return gm -> new AMeditationMoreRegen(level);
 	}
 }

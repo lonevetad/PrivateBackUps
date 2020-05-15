@@ -20,32 +20,25 @@ import games.generic.controlModel.misc.LoaderGeneric;
  */
 public class LoaderConfigurations extends LoaderGeneric {
 
-	public LoaderConfigurations() {
-	}
+	public LoaderConfigurations() {}
 
 	@Override
 	public void loadInto(GController gc) {
-		GControllerTRAn gcTrar;
-		GameObjectsProvidersHolderTRAn gophTrar;
+//		GControllerTRAn gcTrar;
+//		GameObjectsProvidersHolderTRAn gophTrar;
 		GameOptionsTRAn go;
 //		JSONParser jsonReader;
-		gcTrar = (GControllerTRAn) gc;
-		gophTrar = (GameObjectsProvidersHolderTRAn) gcTrar.getGameObjectsProvider();
+//		gcTrar = (GControllerTRAn) gc;
+//		gophTrar = (GameObjectsProvidersHolderTRAn) gcTrar.getGameObjectsProvider();
 //		jsonReader=new JSONParser(source, global, dualFields)
 		go = new GameOptionsTRAn();
 		go.loadConfig();
-		gophTrar.setEquipItemsWeights(go.equipWeights);
 		System.out.println("Loader Configurations loaded: ");
-		System.out.println(go.equipWeights);
-
-	}
-
-	public static void main(String[] args) {
-		GameOptionsTRAn go;
-		System.out.println("CIAO");
-		go = new GameOptionsTRAn();
-		go.loadConfig();
-		System.out.println("Loader Configurations loaded: ");
-		System.out.println(go.equipWeights);
+		//
+//		gophTrar.setEquipItemsWeights(go.equipWeights);
+		go.probabilitiesContexes.getWeightedIndexesContextes().forEach((nameContex, contextWeightsProbabilities) -> {
+			System.out.println("context weights probabilities: " + contextWeightsProbabilities);
+			gc.getProbabilityOfContextesHolders().addWeightedIndexesContext(nameContex, contextWeightsProbabilities);
+		});
 	}
 }

@@ -32,13 +32,9 @@ public abstract class GModel implements GObjectsHolder {
 
 	//
 
-	public GMap getMapCurrent() {
-		return mapCurrent;
-	}
+	public GMap getMapCurrent() { return mapCurrent; }
 
-	public void setMapCurrent(GMap mapCurrent) {
-		this.mapCurrent = mapCurrent;
-	}
+	public void setMapCurrent(GMap mapCurrent) { this.mapCurrent = mapCurrent; }
 
 	/**
 	 * BEWARE: returns just the object NOT held by some {@link GObjectsHolder} added
@@ -50,9 +46,7 @@ public abstract class GModel implements GObjectsHolder {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Set<ObjectWithID> getObjects() {
-		return allObjects;
-	}
+	public Set<ObjectWithID> getObjects() { return allObjects; }
 
 	//
 
@@ -70,9 +64,7 @@ public abstract class GModel implements GObjectsHolder {
 		 * non-final variables)
 		 */
 		added = new boolean[] { false };
-		this.objectsHoldersSpecialized.forEach((s, h) -> {
-			added[0] |= h.add(o);
-		});
+		this.objectsHoldersSpecialized.forEach((s, h) -> { added[0] |= h.add(o); });
 		if (!added[0]) {
 			// no one has added it: so I add it
 			this.allObjects.add(o);
@@ -148,9 +140,7 @@ public abstract class GModel implements GObjectsHolder {
 				action.accept(owid);
 			}
 		};
-		this.objectsHoldersSpecialized.forEach((str, goh) -> {
-			goh.forEach(innerConsumer);
-		});
+		this.objectsHoldersSpecialized.forEach((str, goh) -> { goh.forEach(innerConsumer); });
 	}
 
 	/**
@@ -210,8 +200,6 @@ public abstract class GModel implements GObjectsHolder {
 		}
 
 		@Override
-		public void accept(String t, GObjectsHolder goh) {
-			removed |= goh.remove(target);
-		}
+		public void accept(String t, GObjectsHolder goh) { removed |= goh.remove(target); }
 	}
 }

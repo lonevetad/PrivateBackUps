@@ -51,7 +51,7 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 			while (line.contains("{")) { // start of an equip, must start at the previous end if any
 				fe = new FactoryEquipUpgrade();
 				do {
-					line = lr.next().trim();
+					line = getLineReader().next().trim();
 					indexComma = line.indexOf(':');
 					if (indexComma >= 0) {
 //						splitted = line.split(":"); //
@@ -66,7 +66,7 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 							fe.description = LoaderGeneric.removeQuotes(splitted[1]);
 							break;
 						case "modifiers":
-							fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(lr);
+							fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(getLineReader());
 							break;
 						case "rarity":
 							fe.rarity = LoaderGeneric.extractIntValue(splitted[1]);

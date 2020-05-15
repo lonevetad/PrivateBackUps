@@ -9,6 +9,7 @@ import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
+import tools.ObjectWithID;
 
 /**
  * Upon taking damage, reduce it by
@@ -42,9 +43,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 //	public CreatureSimple getCreatureReferred() {return creatureReferred;}
 
 	@Override
-	public int getAbilityEffectDuration() {
-		return DURATION_EFFECT;
-	}
+	public int getAbilityEffectDuration() { return DURATION_EFFECT; }
 
 	@Override
 	public int getVanishingEffectDuration() {
@@ -52,12 +51,10 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	}
 
 	@Override
-	public void setAbilityEffectDuration(int abilityEffectDuration) {
-	}
+	public void setAbilityEffectDuration(int abilityEffectDuration) {}
 
 	@Override
-	public void setVanishingEffectDuration(int vanishingEffectDuration) {
-	}
+	public void setVanishingEffectDuration(int vanishingEffectDuration) {}
 
 	//
 
@@ -73,7 +70,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 		EventDamageTRAn dEvent;
 		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 			dEvent = (EventDamageTRAn) ge;
-			if (dEvent.getTarget() == this.getEquipItem().getCreatureWearingEquipments()
+			if (dEvent.getTarget() == this.getOwner() // this.getEquipItem().getCreatureWearingEquipments()
 					// check equality because it's bounded to the "wearer"
 					&& dEvent.getDamage().getDamageAmount() > 0) {
 				return true;
@@ -93,7 +90,9 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 		BaseCreatureRPG creatureWearing;
 		CreatureAttributes cAttr;
 		AttributeModification am;
-		creatureWearing = this.getEquipItem().getCreatureWearingEquipments();
+		ObjectWithID o;
+		o = getOwner();
+		creatureWearing = (o instanceof BaseCreatureRPG) ? ((BaseCreatureRPG) o) : null; // this.getEquipItem().getCreatureWearingEquipments();
 		cAttr = creatureWearing.getAttributes();
 		// lifeRegenAmount = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); //
 		// Original
@@ -108,9 +107,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	}
 
 	@Override
-	public void doUponAbilityStartsVanishing() {
-		removeAndNullifyEffects();
-	}
+	public void doUponAbilityStartsVanishing() { removeAndNullifyEffects(); }
 
 	@Override
 	public void vanishEffect() {
@@ -119,7 +116,5 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	}
 
 	@Override
-	public void doUponAbilityRefreshed() {
-
-	}
+	public void doUponAbilityRefreshed() {}
 }

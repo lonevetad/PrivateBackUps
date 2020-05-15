@@ -11,8 +11,12 @@ import games.generic.controlModel.gObj.TimedObject;
  * Some {@link EquipmentItem} could have special abilities. Instead of relying
  * on equipment's subclasses implementations, separates the ability in this
  * interface to enhance OOP design and allow abilities reuse (and maybe
- * "extraction in a magic essence to apply in other items")
+ * "extraction in a magic essence to apply in other items") .
+ * <p>
+ * DEPRECATED because it's no different than its super interface
+ * {@link AbilityGeneric}.
  */
+@Deprecated
 public interface EquipItemAbility extends AbilityGeneric {
 
 	public static final Function<EquipItemAbility, Integer> ID_EXTRACTOR = e -> e.getID();
@@ -69,34 +73,18 @@ public interface EquipItemAbility extends AbilityGeneric {
 	 * See {@link EquipmentItem#getBelongingEquipmentSet()} and
 	 * {@link EquipmentSet#getCreatureWearingEquipments()} for further
 	 * informations.>
-	 */
-	public default void onEquip(GModality gm) {
-		if (gm == null)
-			return;
-		gm.addGameObject(this);
-	}
-
-	/**
-	 * IMPORTANT NOTE: By default, this method calls {@link #onEquip(GModality)},
-	 * then override THAT method instead.
 	 * <p>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public default void onAddingToOwner(GModality gm) {
-		onEquip(gm);
-	}
+	public default void onAddingToOwner(GModality gm) { AbilityGeneric.super.onAddingToOwner(gm); }
 
 	/**
 	 * The opposite work of {@link #onEquip(GModality)}, stopping every acting work
 	 * AND resetting to the original state: it also calls
-	 * {@link #onRemoving(GModality)}.
+	 * {@link #onRemovingFromOwner(GModality)}.
 	 */
-	public default void onUnEquipping(GModality gm) {
-		if (gm == null)
-			return;
-		gm.removeGameObject(this);
-		onRemoving(gm);
-	}
+	@Override
+	public default void onRemovingFromOwner(GModality gm) { AbilityGeneric.super.onRemovingFromOwner(gm); }
 
 }

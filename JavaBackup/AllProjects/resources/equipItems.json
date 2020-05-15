@@ -75,7 +75,7 @@
 		"name": "Cloth Hat",
 		"type": "Head",
 		"rarity": 1,
-		"sellPrice": [18],
+		"sellPrice": [12],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
@@ -86,6 +86,22 @@
 			{"attribute": "CriticalProbabilityAvoid", "value": 5},
 			{"attribute": "DamageReductionPhysical", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Cloth Hood",
+		"type": "Head",
+		"rarity": 1,
+		"sellPrice": [18],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "CriticalMultiplierReduction", "value": 5},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
 	}, {
@@ -416,7 +432,7 @@
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeMods": [ TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 			{"attribute": "LifeMax", "value": -20},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 5},
@@ -1475,12 +1491,12 @@
 		],
 		"abilities": ["Bloodlust"]
 	}, {
-		"name": "Necklace of the dance",
+		"name": "Bead of the dance",
 		"type": "Necklace",
 		"rarity": 1,
 		"sellPrice": [17],
 		"dimensInvent": {
-			"width": 1, "height": 2
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
 			{"attribute": "LifeMax", "value": 30},
@@ -1488,12 +1504,12 @@
 		],
 		"abilities": []
 	}, {
-		"name": "Necklace with Eye of the tiger",
+		"name": "Pendant with Eye of the tiger",
 		"type": "Necklace",
 		"rarity": 1,
 		"sellPrice": [17],
 		"dimensInvent": {
-			"width": 1, "height": 2
+			"width": 1, "height": 1
 		},
 		"attributeMods": [
 			{"attribute": "ManaMax", "value": 30},
@@ -1501,7 +1517,7 @@
 		],
 		"abilities": []
 	}, {
-		"name": "Necklace of inebriance",
+		"name": "Choker of inebriance",
 		"type": "Necklace",
 		"rarity": 2,
 		"sellPrice": [14],
@@ -1531,5 +1547,124 @@
 			{"attribute": "DamageBonusMagical", "value": -1}
 		],
 		"abilities": []
+	}, {
+		"name": "Warm scarf",
+		"type": "Necklace",
+		"rarity": 1,
+		"sellPrice": [8],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Health", "value": 4},
+			{"attribute": "RegenLife", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": -2}
+		],
+		"abilities": []
+	}, {
+		"name": "Amulet of spiritual guardian",
+		"type": "Necklace",
+		"rarity": 3,
+		"sellPrice": [47],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "ManaMax", "value": -25},
+			{"attribute": "RegenMana", "value": -7},
+			{"attribute": "DamageReductionMagical", "value": 8},
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "CriticalMultiplierReduction", "value": 15}
+		],
+		"abilities": []
+	}, {
+		"name": "Earrings of hard touch",
+		"type": "Earrings",
+		"rarity": 2,
+		"sellPrice": [22],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "DamageBonusPhysical", "value": -10},
+			{"attribute": "DamageBonusMagical", "value": -10},
+			{"attribute": "CriticalMultiplier", "value": 30}
+		],
+		"abilities": []
+	}, {
+		"name": "Gloves of soft touch",
+		"type": "Hands",
+		"rarity": 1,
+		"sellPrice": [12],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Health", "value": 5},
+			{"attribute": "Faith", "value": 3},
+			{"attribute": "DamageBonusPhysical", "value": -7},
+			{"attribute": "DamageBonusMagical", "value": -7},
+			{"attribute": "CriticalMultiplier", "value": -20},
+			{"attribute": "DamageReductionPhysical", "value": 7},
+			{"attribute": "DamageReductionMagical", "value": 7},
+			{"attribute": "CriticalMultiplierReduction", "value": 20}
+		],
+		"abilities": []
+	}, {
+		"name": "Crystal armguard",
+		"type": "Arms",
+		"rarity": 4,
+		"sellPrice": [230],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "ShieldMax", "value": 50},
+			{"attribute": "RegenShield", "value": 5},
+			{"attribute": "DamageBonusMagical", "value": 12},
+			{"attribute": "CriticalMultiplier", "value": 15},
+			{"attribute": "CriticalMultiplierReduction", "value": -20}
+		],
+		"abilities": []
+	}, {
+		"name": "Runed armguard",
+		"type": "Arms",
+		"rarity": 3,
+		"sellPrice": [80],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -40},
+			{"attribute": "ManaMax", "value": -50},
+			{"attribute": "RegenMana", "value": -7},
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Wisdom", "value": 8},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "DamageBonusPhysical", "value": 4},
+			{"attribute": "DamageBonusMagical", "value": 4},
+			{"attribute": "CriticalMultiplier", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Gems Necklace of Meditation",
+		"type": "Necklace",
+		"rarity": 2,
+		"sellPrice": [44],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "RegenLife", "value": 2},
+			{"attribute": "RegenMana", "value": 2},
+			{"attribute": "Health", "value": 4},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 8},
+			{"attribute": "Strength", "value": -5}
+		],
+		"abilities": ["AMeditationMoreRegen 2"]
 	}
 ]

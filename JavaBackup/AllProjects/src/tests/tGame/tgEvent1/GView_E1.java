@@ -20,9 +20,7 @@ import games.theRisingAngel.misc.CurrencySetTRAn;
 
 public class GView_E1 extends GameView {
 
-	public GView_E1(GController gc) {
-		super(gc);
-	}
+	public GView_E1(GController gc) { super(gc); }
 
 	JFrame fin;
 	JButton jbCloseAll, jbStartPause;
@@ -142,7 +140,7 @@ public class GView_E1 extends GameView {
 		 * stats
 		 */
 
-		fin.setSize(500, 500);
+		fin.setSize(500, 700);
 		jpBigContainer.setSize(fin.getSize());
 		fin.setVisible(true);
 //		fin.pack();
@@ -220,8 +218,7 @@ public class GView_E1 extends GameView {
 		}
 
 		@Override
-		public void stopAndDie() {
-		}
+		public void stopAndDie() {}
 
 	}
 

@@ -1,11 +1,12 @@
-package games.theRisingAngel.inventory;
+package games.theRisingAngel.abilities;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsProvidersHolder;
 import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
-import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
+import games.theRisingAngel.inventory.EINotJewelry;
+import games.theRisingAngel.inventory.EquipmentTypesTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
 
 /**
@@ -17,9 +18,7 @@ public class ArmProtectionShieldingDamageByMoney extends EINotJewelry {
 	public static final String NAME = "Arm protection of Goldmade Fat Cat";
 	protected ADamageReductionCurrencyBased abilityDamageReductionByPaying;
 
-	public ArmProtectionShieldingDamageByMoney(GModalityRPG gmrpg) {
-		super(gmrpg, EquipmentTypesTRAn.Arms, NAME);
-	}
+	public ArmProtectionShieldingDamageByMoney(GModalityRPG gmrpg) { super(gmrpg, EquipmentTypesTRAn.Arms, NAME); }
 
 	@Override
 	protected void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder) {
@@ -27,9 +26,10 @@ public class ArmProtectionShieldingDamageByMoney extends EINotJewelry {
 		ap = ((GameObjectsProvidersHolderRPG) providersHolder).getAbilitiesProvider();
 		this.abilityDamageReductionByPaying = (ADamageReductionCurrencyBased) ap.getAbilityByName(gm,
 				ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Physical.getName());
-		this.abilityDamageReductionByPaying.setPerThousandFraction(100);
+		this.abilityDamageReductionByPaying.setPerThousandFraction(50);
 		this.abilityDamageReductionByPaying.setMaximumReduction(50);
 		this.abilityDamageReductionByPaying.setOwner(this);
 		super.addAbility(this.abilityDamageReductionByPaying);
+
 	}
 }

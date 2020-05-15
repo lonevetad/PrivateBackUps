@@ -6,12 +6,8 @@ import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 public interface AbilityTimedGeneric extends AbilityGeneric, TimedObjectSimpleImpl {
 
 	@Override
-	public default void executeAction(GModality gmodality) {
-		performAbility(gmodality);
-	}
+	public default void executeAction(GModality gmodality) { performAbility(gmodality); }
 
 	@Override
-	public default void resetAbility() {
-		setAccumulatedTimeElapsed(0);
-	}
+	public default void resetAbility() { setAccumulatedTimeElapsed(0); }
 }

@@ -193,8 +193,12 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		if (life > getLifeMax())
 			life = getLifeMax();
 		if (life <= 0)
-			life = (0);
+			life = 0;
 		this.setCurableResourceAmount(HealingTypeExample.Life, life);
+		if (getLife() <= 0) {
+			destroy();
+			fireDestructionEvent(getgModalityRPG());
+		}
 	}
 
 	@Override

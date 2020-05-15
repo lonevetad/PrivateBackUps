@@ -1,3 +1,5 @@
 {
-	"equipItemsRarities": [32,256,128,64,32,16,8]
+	"probabilityOfContextesHolders": [
+		{"equipItemsRarities": [32,256,128,64,32,16,8]}
+	]
 }

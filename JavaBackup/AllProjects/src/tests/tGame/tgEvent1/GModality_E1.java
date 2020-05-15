@@ -10,7 +10,7 @@ import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.GameObjectsProvidersHolderTRAn;
-import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
+import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
@@ -101,16 +101,10 @@ public class GModality_E1 extends GModalityTRAn {
 
 		necklace_opr = (NecklaceOfPainRinvigoring) goph.getEquipmentsProvider()//
 				.getNewObjByName(this, NecklaceOfPainRinvigoring.NAME);
-//		necklace_opr.setCreatureReferred(p);
 		p.equip(necklace_opr);
-//		this.addGameObject(necklace_opr); // yet provided by equipping
-//		this.addEventObserver(necklace_opr); // yet provided by equipping
 
 		armProtection_sdbm = (ArmProtectionShieldingDamageByMoney) goph.getEquipmentsProvider().getNewObjByName(this,
 				ArmProtectionShieldingDamageByMoney.NAME);
-//		adrpcb = new ADamageReductionPhysicalCurrencyBased();
-//		adrpcb.setOwner(p);
-//		adrpcb.setEquipItem(equipmentItem);
 		p.equip(armProtection_sdbm);
 
 		// TODO aggiungere gli esempi pensati negli Appunti e esempio
@@ -178,14 +172,14 @@ public class GModality_E1 extends GModalityTRAn {
 
 		//
 
-		System.out.println("GModalit_E1#onCreate .. quanti oggetti ho?");
+		System.out.println("\n\n\nGModalit_E1#onCreate .. quanti oggetti ho?");
 		this.forEachGameObject(o -> System.out.println(o));
-		System.out.println("and timed objects?");
+		System.out.println("\n\n and timed objects?");
 		gmodel.forEachTimedObject(o -> System.out.println(o));
 		System.out.println("timed objects ended\n\n");
 
 		gmodel.forEachObjHolder((gohname, goh) -> {
-			System.out.println("GOH " + gohname + " has: ");
+			System.out.println("\n\nGOH " + gohname + " has: ");
 			goh.forEach(o -> System.out.println("\t - " + o));
 		});
 		System.out.println("and then\n\n\n equipment set:");

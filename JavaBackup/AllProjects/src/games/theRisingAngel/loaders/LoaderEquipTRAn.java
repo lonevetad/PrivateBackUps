@@ -8,7 +8,6 @@ import games.generic.controlModel.GController;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
-import games.generic.controlModel.inventoryAbil.EquipItemAbility;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GameObjectsProvider;
@@ -16,7 +15,7 @@ import games.generic.controlModel.misc.LoaderGeneric;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 import games.generic.controlModel.subimpl.LoaderEquipments;
-import games.theRisingAngel.inventory.ArmProtectionShieldingDamageByMoney;
+import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.EquipmentTypesTRAn;
 import games.theRisingAngel.inventory.HelmetOfPlanetaryMeteors;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
@@ -24,9 +23,7 @@ import games.theRisingAngel.loaders.LoaderItemsTRAn.FactoryItems;
 
 public class LoaderEquipTRAn extends LoaderEquipments {
 
-	public LoaderEquipTRAn(GameObjectsProvider<EquipmentItem> objProvider) {
-		super(objProvider);
-	}
+	public LoaderEquipTRAn(GameObjectsProvider<EquipmentItem> objProvider) { super(objProvider); }
 
 	@Override
 	public void loadInto(GController gc) {
@@ -54,9 +51,7 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 	protected static class LoaderEquipFromFile extends JSONFileConsumer {
 		List<FactoryEquip> factories;
 
-		protected LoaderEquipFromFile(String subPath, String filename) {
-			super(subPath, filename);
-		}
+		protected LoaderEquipFromFile(String subPath, String filename) { super(subPath, filename); }
 
 		@Override
 		protected void readAllFileImpl(String line) {
@@ -68,7 +63,7 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 			while (line.contains("{")) { // start of an equip, must start at the previous end if any
 				fe = new FactoryEquip();
 				do {
-					line = lr.next().trim();
+					line = getLineReader().next().trim();
 					indexComma = line.indexOf(':');
 					if (indexComma >= 0) {
 //						splitted = line.split(":"); //
@@ -87,7 +82,7 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 									.getEquipTypeTRArByName(LoaderGeneric.removeQuotes(splitted[1]));
 							break;
 						case "attributeMods":
-							fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(lr);
+							fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(getLineReader());
 							break;
 						case "abilities":
 							temp = splitted[1].trim();
@@ -98,8 +93,8 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 							break;
 						case "dimensInvent":
 							fe.fi.dimensionInInventory = LoaderFunctionsTRAn
-									.extractDimensionInInventory(lr.next().trim());
-							lr.next();
+									.extractDimensionInInventory(getLineReader().next().trim());
+							getLineReader().next();
 							break;
 						case "sellPrice":
 							temp = splitted[1].trim();
@@ -146,7 +141,7 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 				gophRpg = (GameObjectsProvidersHolderRPG) gm.getGameObjectsProvider();
 				ap = gophRpg.getAbilitiesProvider();
 				for (String an : abilities) {
-					ei.addAbility((EquipItemAbility) ap.getAbilityByName(gm, an));
+					ei.addAbility(ap.getAbilityByName(gm, an));
 				}
 			}
 		}

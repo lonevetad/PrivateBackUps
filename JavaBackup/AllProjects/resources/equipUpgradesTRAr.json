@@ -352,6 +352,18 @@
 			{"attribute": "Defense", "value": 1}
 		]
 	}, {
+		"name": "Rudimentary",
+		"rarity": 1,
+		"bonusPrice": [4],
+		"modifiers": [
+			{"attribute": "Strength", "value": 1},
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Intelligence", "value": 1},
+			{"attribute": "DamageBonusPhysical", "value": -1},
+			{"attribute": "DamageBonusMagical", "value": -1},
+			{"attribute": "CriticalMultiplier", "value": -4}
+		]
+	}, {
 		"name": "Worn-out",
 		"rarity": 2,
 		"bonusPrice": [-13],
@@ -1157,6 +1169,23 @@
 		"modifiers": [
 			{"attribute": "ManaLeechPercentage", "value": 2},
 			{"attribute": "LifeLeechPercentage", "value": 2}
+		]
+	}, {
+		"name": "Fear of fight",
+		"rarity": 1,
+		"bonusPrice": [3],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Intelligence", "value": -2},
+			{"attribute": "Wisdom", "value": -2},
+			{"attribute": "ProbabilityAvoidPhysical", "value": 50},
+			{"attribute": "ProbabilityAvoidMagical", "value": 50},
+			{"attribute": "CriticalProbabilityAvoid", "value": 50},
+			{"attribute": "ProbabilityHitPhysical", "value": -50},
+			{"attribute": "ProbabilityHitMagical", "value": -50},
+			{"attribute": "CriticalProbability", "value": -50}
 		]
 	}
 ]

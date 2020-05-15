@@ -22,32 +22,25 @@ public class EventDamage extends EventInfo_SourceToTarget<DamageDealerGeneric, L
 	protected DamageGeneric damage;
 	protected int damageAmountToBeApplied;
 
-	public DamageGeneric getDamage() {
-		return damage;
-	}
+	public DamageGeneric getDamage() { return damage; }
 
-	public int getDamageAmountToBeApplied() {
-		return damageAmountToBeApplied;
-	}
+	public int getDamageAmountToBeApplied() { return damageAmountToBeApplied; }
 
-	public void setDamage(DamageGeneric damage) {
-		this.damage = damage;
-	}
+	public void setDamage(DamageGeneric damage) { this.damage = damage; }
 
 	public void setDamageAmountToBeApplied(int damageAmountToBeApplied) {
 		this.damageAmountToBeApplied = damageAmountToBeApplied;
 	}
 
 	@Override
-	public boolean isRequirigImmediateProcessing() {
-		return true;
-	}
+	public boolean isRequirigImmediateProcessing() { return true; }
 
-	public boolean isSource(DamageDealerGeneric ddg) {
-		return super.source == ddg;
-	}
+	public boolean isSource(DamageDealerGeneric ddg) { return super.source == ddg; }
 
-	public boolean isTarget(LivingObject ddg) {
-		return super.target == ddg;
+	public boolean isTarget(LivingObject ddg) { return super.target == ddg; }
+
+	@Override
+	public String toString() {
+		return "EventDamage [damage=" + damage + ", damageAmountToBeApplied=" + damageAmountToBeApplied + "]";
 	}
 }

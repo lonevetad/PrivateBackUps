@@ -22,6 +22,6 @@ public class EIJewelry extends EquipmentItem {
 
 	@Override
 	protected void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder) {
-		// do nothing
+		// do nothing, yet done in loading time
 	}
 }
