@@ -30,18 +30,30 @@ public interface EquipmentsHolder extends GModalityHolder, GameObjectGeneric {
 	public default void forEachEquipment(ConsumerEquipmentIndex action) { getEquipmentSet().forEachEquipment(action); }
 
 	@Override
-	public default void onRemovedFromGame(GModality gm) {
+	public default void addMeToGame(GModality gm) {
+		GameObjectGeneric.super.addMeToGame(gm);
 		forEachEquipment((e, i) -> {
 			if (e != null)
-				e.onRemovedFromGame(gm);
+				e.addMeToGame(gm);
 		});
 	}
 
 	@Override
 	public default void onAddedToGame(GModality gm) {
+		// nothing in particular to be done: each ability will behave by its own
+	}
+
+	@Override
+	public default void removeMeToGame(GModality gm) {
+		GameObjectGeneric.super.removeMeToGame(gm);
 		forEachEquipment((e, i) -> {
 			if (e != null)
-				e.onAddedToGame(gm);
+				e.removeMeToGame(gm);
 		});
+	}
+
+	@Override
+	public default void onRemovedFromGame(GModality gm) {
+		// nothing in particular to be done: each ability will behave by its own
 	}
 }

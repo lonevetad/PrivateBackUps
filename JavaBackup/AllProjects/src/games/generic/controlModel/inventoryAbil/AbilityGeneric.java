@@ -67,6 +67,7 @@ public interface AbilityGeneric extends AssignableObject, RarityHolder, GameObje
 	@Override
 	public default void onAddedToGame(GModality gm) {
 		// nothing to do here, right now, except from ...
+		AssignableObject.super.onAddedToGame(gm);
 		resetAbility();
 	}
 

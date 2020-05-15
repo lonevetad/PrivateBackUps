@@ -226,10 +226,7 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 	}
 
 	/**
-	 * Should apply ({@link AttributeModification}) and activate this optional
-	 * {@link EquipItemAbility}.
-	 * <p>
-	 * See {@link EquipItemAbility#onEquip(GModality)} for further informations.
+	 * The opposite of {@link #onUnEquip(GModality)}.
 	 */
 	public void onEquip(final GModality gm) {
 		final AttributesHolder ah;
@@ -252,27 +249,8 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 		}
 	}
 
-	@Override
-	public void onAddingToOwner(GModality gm) {
-		Set<AbilityGeneric> abl;
-		ObjectWithID o;
-		o = getOwner();
-		AssignableObject.super.onAddingToOwner(gm);
-		abl = this.getAbilitiesSet();
-		if (abl != null) {
-//			abl.forEach(ea -> ea.onEquip(gm));
-			abl.forEach(ea -> {
-				ea.setOwner(o);
-				ea.onAddingToOwner(gm);
-			});
-		}
-	}
-
 	/**
 	 * The opposite of {@link #onEquip(GModality)}.
-	 * <p>
-	 * See {@link EquipItemAbility#onUEquipping(GModality)} for further
-	 * informations.
 	 */
 	public void onUnEquipping(final GModality gm) {
 		final AttributesHolder ah;
@@ -295,6 +273,28 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 				up.getAttributeModifiers().forEach(modifierRemover);
 			});
 		}
+	}
+
+	@Override
+	public void onAddingToOwner(GModality gm) {
+		Set<AbilityGeneric> abl;
+		ObjectWithID o;
+		o = getOwner();
+		AssignableObject.super.onAddingToOwner(gm);
+		abl = this.getAbilitiesSet();
+		if (abl != null) {
+//			abl.forEach(ea -> ea.onEquip(gm));
+			abl.forEach(ea -> {
+				ea.setOwner(o);
+				ea.onAddingToOwner(gm);
+			});
+		}
+	}
+
+	@Override
+	public void onAddedToGame(GModality gm) {
+		AbilitiesHolder.super.onAddedToGame(gm);
+		AssignableObject.super.onAddedToGame(gm);
 	}
 
 	@Override
@@ -330,5 +330,4 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 		abilities.forEach(ea -> sb.append(ea));
 		return sb.toString();
 	}
-
 }

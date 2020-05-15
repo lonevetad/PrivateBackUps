@@ -30,7 +30,7 @@ public class GModality_E1 extends GModalityTRAn {
 	@Override
 	public void startGame() {
 		super.startGame();
-		getPlayerRPG().onEnteringInGame(this);
+//		getPlayerRPG().onEnteringInGame(this);
 	}
 
 	@Override
@@ -61,11 +61,11 @@ public class GModality_E1 extends GModalityTRAn {
 		// strani che inserisco
 		p = (Player_E1) newPlayerInGame(null, PlayerCharacterTypes.Human); // new Player_E1(this);
 		p.setName("Lonevetad");
-
 		this.setPlayer(p);
+
 		p.setLife((int) (p.getLife() * 1.5));
 		p.setGameModality(this);
-		p.getCurrencies().setMoneyAmount(0, 100);
+//		p.getCurrencies().setMoneyAmount(0, 100);
 
 		this.addGameObject(p);
 		this.addGameObject(new ObjPrinterTO(1250, "LongWaiting"));

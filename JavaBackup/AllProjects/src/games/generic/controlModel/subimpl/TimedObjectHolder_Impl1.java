@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.gObj.TimedObject;
 import tools.Comparators;
-import tools.ObjectNamedID;
 import tools.ObjectWithID;
 
 public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
@@ -27,10 +26,7 @@ public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
 	public boolean add(ObjectWithID o) {
 		if (o == null || (!(o instanceof TimedObject)))
 			return false;
-		if (timedObjects.containsKey(o.getID())) {
-			System.out.println("AAAAAAH THERE's a TIMED KEY: " + ((ObjectNamedID) o).getName());
-			return false;
-		}
+		if (timedObjects.containsKey(o.getID())) { return false; }
 		timedObjects.put(o.getID(), o);
 		return true;
 	}

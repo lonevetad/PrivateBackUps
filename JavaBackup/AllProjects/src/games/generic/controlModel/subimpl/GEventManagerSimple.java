@@ -27,19 +27,24 @@ public class GEventManagerSimple extends GEventManager {
 	}
 
 	@Override
-	public void addEventObserver(GEventObserver geo) {
+	public boolean addEventObserver(GEventObserver geo) {
+		if (this.observers.containsKey(geo.getID()))
+			return false;
 		this.observers.put(geo.getObserverID(), geo);
+		return true;
 	}
 
 	@Override
-	public void removeEventObserver(GEventObserver geo) {
-		this.observers.remove(geo.getObserverID());
+	public boolean removeEventObserver(GEventObserver geo) {
+		if (this.observers.containsKey(geo.getID())) {
+			this.observers.remove(geo.getObserverID());
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void removeAllEventObserver() {
-		this.observers.clear();
-	}
+	public void removeAllEventObserver() { this.observers.clear(); }
 
 	@Override
 	public void forEachEventObservers(Consumer<GEventObserver> action) {
@@ -53,19 +58,13 @@ public class GEventManagerSimple extends GEventManager {
 	}
 
 	@Override
-	public Set<ObjectWithID> getObjects() {
-		return this.observersSet;
-	}
+	public Set<ObjectWithID> getObjects() { return this.observersSet; }
 
 	@Override
-	public boolean contains(ObjectWithID o) {
-		return this.observers.containsKey(o.getID());
-	}
+	public boolean contains(ObjectWithID o) { return this.observers.containsKey(o.getID()); }
 
 	@Override
-	public ObjectWithID get(Integer id) {
-		return this.observers.get(id);
-	}
+	public ObjectWithID get(Integer id) { return this.observers.get(id); }
 
 	//
 
@@ -81,8 +80,6 @@ public class GEventManagerSimple extends GEventManager {
 		}
 
 		@Override
-		public void accept(Integer t, ObjectWithID o) {
-			((GEventObserver) o).notifyEvent(gem.getGameModality(), ge);
-		}
+		public void accept(Integer t, ObjectWithID o) { ((GEventObserver) o).notifyEvent(gem.getGameModality(), ge); }
 	}
 }

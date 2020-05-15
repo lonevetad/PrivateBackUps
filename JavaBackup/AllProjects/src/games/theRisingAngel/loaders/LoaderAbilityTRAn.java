@@ -77,8 +77,8 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 			ASimpleFixedBufferVanishing a;
 			a = new ASimpleFixedBufferVanishing("Frenzy for a miss",
 					new AttributeModification[] { new AttributeModification(AttributesTRAn.Strength, 6),
-							new AttributeModification(AttributesTRAn.ProbabilityHitPhysical, 4), // frenzy
-							new AttributeModification(AttributesTRAn.ProbabilityHitMagical, 4), // frenzy
+							new AttributeModification(AttributesTRAn.ProbabilityPerThousandHitPhysical, 4), // frenzy
+							new AttributeModification(AttributesTRAn.ProbabilityPerThousandHitMagical, 4), // frenzy
 							new AttributeModification(AttributesTRAn.Dexterity, -5),
 							new AttributeModification(AttributesTRAn.Intelligence, -6),
 							new AttributeModification(AttributesTRAn.Wisdom, -7) }) {

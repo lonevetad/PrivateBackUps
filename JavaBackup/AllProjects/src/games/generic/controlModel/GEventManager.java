@@ -57,9 +57,9 @@ public abstract class GEventManager implements GObjectsHolder {
 
 	// TODO ABSTRACT
 
-	public abstract void addEventObserver(GEventObserver geo);
+	public abstract boolean addEventObserver(GEventObserver geo);
 
-	public abstract void removeEventObserver(GEventObserver geo);
+	public abstract boolean removeEventObserver(GEventObserver geo);
 
 	public abstract void removeAllEventObserver();
 
@@ -85,16 +85,14 @@ public abstract class GEventManager implements GObjectsHolder {
 	public boolean add(ObjectWithID o) {
 		if (o == null || (!(o instanceof GEventObserver)))
 			return false;
-		addEventObserver((GEventObserver) o);
-		return true;
+		return addEventObserver((GEventObserver) o);
 	}
 
 	@Override
 	public boolean remove(ObjectWithID o) {
 		if (o == null || (!(o instanceof GEventObserver)))
 			return false;
-		removeEventObserver((GEventObserver) o);
-		return true;
+		return removeEventObserver((GEventObserver) o);
 	}
 
 	/**

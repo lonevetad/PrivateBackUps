@@ -21,10 +21,10 @@ public interface AssignableObject extends GameObjectGeneric {
 	 * this instance is a {@link TimedObject} or a {@link GEventObserver}, then the
 	 * method {@link GModality#addGameObject(ObjectWithID)} should be called.
 	 */
-	public default void onAddingToOwner(GModality gm) {
-		if (gm == null) { return; }
-		gm.addGameObject(this);
-	}
+	public default void onAddingToOwner(GModality gm) { addMeToGame(gm); }
+
+	@Override
+	public default void onAddedToGame(GModality gm) {}
 
 	/**
 	 * Override designed.<br>
@@ -33,13 +33,11 @@ public interface AssignableObject extends GameObjectGeneric {
 	 * belonging {@link EquipmentItem}, etc.
 	 */
 	public default void onRemovingFromOwner(GModality gm) {
-		if (gm != null)
-			gm.removeGameObject(this);
+		resetStuffs();
+		setOwner(null);
+		removeMeToGame(gm);
 	}
 
 	@Override
-	public default void onRemovedFromGame(GModality gm) {
-		resetStuffs();
-		setOwner(null);
-	}
+	public default void onRemovedFromGame(GModality gm) {}
 }

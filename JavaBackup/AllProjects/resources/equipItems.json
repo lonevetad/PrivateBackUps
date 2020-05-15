@@ -47,7 +47,7 @@
 			{"attribute": "Precision", "value": 5},
 			{"attribute": "Constitution", "value": 1},
 			{"attribute": "Defense", "value": 1},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 10},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 10},
 			{"attribute": "DamageReductionPhysical", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 2}
 		],
@@ -65,8 +65,8 @@
 			{"attribute": "Constitution", "value": 1},
 			{"attribute": "Defense", "value": 2},
 			{"attribute": "Velocity", "value": 5},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 10},
-			{"attribute": "ProbabilityAvoidMagical", "value": 10},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 10},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 10},
 			{"attribute": "DamageReductionPhysical", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 2}
 		],
@@ -83,7 +83,7 @@
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Precision", "value": 2},
-			{"attribute": "CriticalProbabilityAvoid", "value": 5},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 5},
 			{"attribute": "DamageReductionPhysical", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 1}
 		],
@@ -99,7 +99,7 @@
 		"attributeMods": [
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Constitution", "value": 3},
-			{"attribute": "CriticalMultiplierReduction", "value": 5},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 5},
 			{"attribute": "DamageReductionPhysical", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 2}
 		],
@@ -363,7 +363,7 @@
 			{"attribute": "Health", "value": -2},
 			{"attribute": "DamageReductionPhysical", "value": 3},
 			{"attribute": "DamageReductionMagical", "value": 1},
-			{"attribute": "CriticalMultiplierReduction", "value": 7}
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 7}
 		],
 		"abilities": []
 	}, {
@@ -381,8 +381,8 @@
 			{"attribute": "Precision", "value": 3},
 			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "ProbabilityHitPhysical", "value": 3},
-			{"attribute": "ProbabilityHitMagical", "value": 3}
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 3},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 3}
 		],
 		"abilities": []
 	}, {
@@ -401,7 +401,7 @@
 			{"attribute": "Precision", "value": 4},
 			{"attribute": "Dexterity", "value": -5},
 			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "CriticalMultiplierReduction", "value": 5},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
@@ -439,7 +439,7 @@
 			{"attribute": "Health", "value": -2},
 			{"attribute": "DamageReductionPhysical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": -2},
-			{"attribute": "CriticalMultiplierReduction", "value": 10}
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -457,7 +457,7 @@
 			{"attribute": "Health", "value": -2},
 			{"attribute": "DamageReductionPhysical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": -2},
-			{"attribute": "CriticalMultiplierReduction", "value": 10}
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -475,7 +475,7 @@
 			{"attribute": "Health", "value": -2},
 			{"attribute": "DamageReductionPhysical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": -2},
-			{"attribute": "CriticalMultiplierReduction", "value": 10}
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -491,9 +491,9 @@
 			{"attribute": "Precision", "value": -3},
 			{"attribute": "Wisdom", "value": -2},
 			{"attribute": "Velocity", "value": 5},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 15},
-			{"attribute": "ProbabilityAvoidMagical", "value": 15},
-			{"attribute": "CriticalProbabilityAvoid", "value": 15}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 15},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 15},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 15}
 		],
 		"abilities": []
 	}, {
@@ -510,11 +510,11 @@
 			{"attribute": "Faith", "value": 7},
 			{"attribute": "DamageBonusPhysical", "value": -5},
 			{"attribute": "DamageBonusMagical", "value": -5},
-			{"attribute": "CriticalProbability", "value": -30},
-			{"attribute": "CriticalMultiplier", "value": -15},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 40},
-			{"attribute": "ProbabilityAvoidMagical", "value": 40},
-			{"attribute": "CriticalProbabilityAvoid", "value": 40}
+			{"attribute": "CriticalProbabilityPerThousand", "value": -30},
+			{"attribute": "CriticalMultiplierPercentage", "value": -15},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 40},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 40},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 40}
 		],
 		"abilities": []
 	}, {
@@ -626,7 +626,7 @@
 			{"attribute": "Health", "value": -2},
 			{"attribute": "DamageReductionPhysical", "value": 3},
 			{"attribute": "DamageReductionMagical", "value": 1},
-			{"attribute": "CriticalMultiplierReduction", "value": 7}
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 7}
 		],
 		"abilities": []
 	}, {
@@ -644,8 +644,8 @@
 			{"attribute": "Precision", "value": 3},
 			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "ProbabilityHitPhysical", "value": 3},
-			{"attribute": "ProbabilityHitMagical", "value": 3}
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 3},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 3}
 		],
 		"abilities": []
 	}, {
@@ -664,7 +664,7 @@
 			{"attribute": "Precision", "value": 4},
 			{"attribute": "Dexterity", "value": -5},
 			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "CriticalMultiplierReduction", "value": 5},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
@@ -788,7 +788,7 @@
 			{"attribute": "Dexterity", "value": 7},
 			{"attribute": "Intelligence", "value": -2},
 			{"attribute": "Wisdom", "value": -1},
-			{"attribute": "CriticalProbabilityAvoid", "value": 4}
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 4}
 		],
 		"abilities": []
 	}, {
@@ -1035,7 +1035,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "CriticalProbability", "value": 10}
+			{"attribute": "CriticalProbabilityPerThousand", "value": 10}
 		],
 		"abilities": []
 	}, {
@@ -1047,7 +1047,7 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "CriticalMultiplier", "value": 5}
+			{"attribute": "CriticalMultiplierPercentage", "value": 5}
 		],
 		"abilities": []
 	}, {
@@ -1398,8 +1398,8 @@
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Dexterity", "value": 6},
 			{"attribute": "Precision", "value": 6},
-			{"attribute": "CriticalMultiplier", "value": 4},
-			{"attribute": "CriticalProbability", "value": 20}
+			{"attribute": "CriticalMultiplierPercentage", "value": 4},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 20}
 		],
 		"abilities": []
 	}, {
@@ -1574,7 +1574,7 @@
 			{"attribute": "RegenMana", "value": -7},
 			{"attribute": "DamageReductionMagical", "value": 8},
 			{"attribute": "DamageReductionPhysical", "value": 3},
-			{"attribute": "CriticalMultiplierReduction", "value": 15}
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 15}
 		],
 		"abilities": []
 	}, {
@@ -1588,7 +1588,7 @@
 		"attributeMods": [
 			{"attribute": "DamageBonusPhysical", "value": -10},
 			{"attribute": "DamageBonusMagical", "value": -10},
-			{"attribute": "CriticalMultiplier", "value": 30}
+			{"attribute": "CriticalMultiplierPercentage", "value": 30}
 		],
 		"abilities": []
 	}, {
@@ -1604,10 +1604,10 @@
 			{"attribute": "Faith", "value": 3},
 			{"attribute": "DamageBonusPhysical", "value": -7},
 			{"attribute": "DamageBonusMagical", "value": -7},
-			{"attribute": "CriticalMultiplier", "value": -20},
+			{"attribute": "CriticalMultiplierPercentage", "value": -20},
 			{"attribute": "DamageReductionPhysical", "value": 7},
 			{"attribute": "DamageReductionMagical", "value": 7},
-			{"attribute": "CriticalMultiplierReduction", "value": 20}
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 20}
 		],
 		"abilities": []
 	}, {
@@ -1622,8 +1622,8 @@
 			{"attribute": "ShieldMax", "value": 50},
 			{"attribute": "RegenShield", "value": 5},
 			{"attribute": "DamageBonusMagical", "value": 12},
-			{"attribute": "CriticalMultiplier", "value": 15},
-			{"attribute": "CriticalMultiplierReduction", "value": -20}
+			{"attribute": "CriticalMultiplierPercentage", "value": 15},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": -20}
 		],
 		"abilities": []
 	}, {
@@ -1645,7 +1645,7 @@
 			{"attribute": "Precision", "value": 7},
 			{"attribute": "DamageBonusPhysical", "value": 4},
 			{"attribute": "DamageBonusMagical", "value": 4},
-			{"attribute": "CriticalMultiplier", "value": 5}
+			{"attribute": "CriticalMultiplierPercentage", "value": 5}
 		],
 		"abilities": []
 	}, {

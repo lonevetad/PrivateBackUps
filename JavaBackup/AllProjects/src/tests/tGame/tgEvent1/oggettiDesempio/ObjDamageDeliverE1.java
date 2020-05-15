@@ -57,7 +57,7 @@ public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl, DamageDealerGe
 		GameObjectsManagerTRAn gomTrar;
 		DamageGeneric d;
 		d = new DamageGeneric(damageAmount, DamageTypesTRAn.Physical);
-		System.out.println("Damage time" + c++);
+		System.out.println("Damage fired this amont of times: " + c++);
 		gmodtrar = (GModality_E1) modality;
 		gomTrar = (GameObjectsManagerTRAn) gmodtrar.getGameObjectsManager();
 		gomTrar.dealsDamageTo(this, target, d);

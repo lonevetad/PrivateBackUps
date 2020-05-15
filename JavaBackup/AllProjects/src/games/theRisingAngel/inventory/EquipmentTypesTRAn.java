@@ -15,7 +15,9 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 	Hands, Chest, Arms, //
 	Feet, Belt, Legs, //
 	MainWeapon, Special, SecodaryWeapon, //
-	Necklace, Bracelet, Ring((g, e, name) -> new EIRing(g, name))//
+	Necklace, Bracelet, Ring(EquipItemFactory.DefaultEIF.RingFactory
+//			(g, e, name) -> new EIRing(g, name)
+	)//
 	;
 
 	public static final int HANDS_AMOUNT = 2, FINGERS_EACH_HAND = 5, //
@@ -32,9 +34,7 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 
 	public final EquipItemFactory factory;
 
-	private EquipmentTypesTRAn(EquipItemFactory factory) {
-		this.factory = factory;
-	}
+	private EquipmentTypesTRAn(EquipItemFactory factory) { this.factory = factory; }
 
 	private EquipmentTypesTRAn() {
 		/*
@@ -45,23 +45,17 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 		int i;
 		i = ordinal();
 		this.factory = (i == 0 || ((15 - i) <= 3)) ? //
-				EquipItemFactory.JewelryFactory : EquipItemFactory.NonJewelryFacory;
+				EquipItemFactory.DefaultEIF.JewelryFactory : EquipItemFactory.DefaultEIF.NonJewelryFacory;
 	}
 
 	@Override
-	public int getIndex() {
-		return ordinal();
-	}
+	public int getIndex() { return ordinal(); }
 
 	@Override
-	public String getName() {
-		return name();
-	}
+	public String getName() { return name(); }
 
 	@Override
-	public Integer getID() {
-		return ordinal();
-	}
+	public Integer getID() { return ordinal(); }
 
 	//
 
@@ -87,9 +81,7 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 		return e;
 	}
 
-	public static EquipmentTypesTRAn getEquipTypeTRArByIndex(int index) {
-		return VALUES[index];
-	}
+	public static EquipmentTypesTRAn getEquipTypeTRArByIndex(int index) { return VALUES[index]; }
 
 	public static int getAmountItemsEquippables(EquipmentTypesTRAn et) {
 		switch (et) {

@@ -149,38 +149,38 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	@Override
 	public int getProbabilityPerThousandAvoid(DamageTypeGeneric damageType) {
 		AttributeIdentifier ai;
-		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityAvoidPhysical
-				: AttributesTRAn.ProbabilityAvoidMagical;
+		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityPerThousandAvoidPhysical
+				: AttributesTRAn.ProbabilityPerThousandAvoidMagical;
 		return this.getAttributes().getValue(ai);
 	}
 
 	@Override
 	public int getProbabilityPerThousandHit(DamageTypeGeneric damageType) {
 		AttributeIdentifier ai;
-		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityHitPhysical
-				: AttributesTRAn.ProbabilityHitMagical;
+		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.ProbabilityPerThousandHitPhysical
+				: AttributesTRAn.ProbabilityPerThousandHitMagical;
 		return this.getAttributes().getValue(ai);
 	}
 
 	@Override
 	public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalProbability);
+		return this.getAttributes().getValue(AttributesTRAn.CriticalProbabilityPerThousand);
 	}
 
 	@Override
 	public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplier);
+		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplierPercentage);
 	}
 
 	@Override
 	public int getProbabilityPerThousandAvoidCritical(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalProbabilityAvoid);
+		return this.getAttributes().getValue(AttributesTRAn.CriticalProbabilityPerThousandAvoid);
 	}
 
 	/** Percentage amount of multiplication of the damage. Should be positive. */
 	@Override
 	public int getPercentageCriticalStrikeReduction(DamageTypeGeneric damageType) {
-		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplierReduction);
+		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplierPercentageReduction);
 	}
 
 	//

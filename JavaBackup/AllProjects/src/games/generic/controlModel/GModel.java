@@ -67,6 +67,8 @@ public abstract class GModel implements GObjectsHolder {
 		this.objectsHoldersSpecialized.forEach((s, h) -> { added[0] |= h.add(o); });
 		if (!added[0]) {
 			// no one has added it: so I add it
+			if (this.allObjects.contains(o))
+				return false;
 			this.allObjects.add(o);
 		}
 		return true;

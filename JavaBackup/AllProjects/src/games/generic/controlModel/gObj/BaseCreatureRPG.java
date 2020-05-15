@@ -10,14 +10,24 @@ public interface BaseCreatureRPG extends EquipmentsHolder, CreatureSimple, ManaH
 	public default void act(GModality modality, int timeUnits) { CreatureSimple.super.act(modality, timeUnits); }
 
 	@Override
-	default void onRemovedFromGame(GModality gm) {
-		EquipmentsHolder.super.onRemovedFromGame(gm);
-		CreatureSimple.super.onRemovedFromGame(gm);
+	default void addMeToGame(GModality gm) {
+		EquipmentsHolder.super.addMeToGame(gm);
+		CreatureSimple.super.addMeToGame(gm);
 	}
 
 	@Override
 	default void onAddedToGame(GModality gm) {
-		EquipmentsHolder.super.onAddedToGame(gm);
-		CreatureSimple.super.onAddedToGame(gm);
+		// nothing to do here righ now
+	}
+
+	@Override
+	default void removeMeToGame(GModality gm) {
+		EquipmentsHolder.super.removeMeToGame(gm);
+		CreatureSimple.super.removeMeToGame(gm);
+	}
+
+	@Override
+	default void onRemovedFromGame(GModality gm) {
+		// nothing to do here righ now
 	}
 }

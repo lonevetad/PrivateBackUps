@@ -12,9 +12,13 @@ public interface GameObjectGeneric extends ObjectNamedID {
 	 */
 	public void onAddedToGame(GModality gm);
 
+	public default void addMeToGame(GModality gm) { gm.addGameObject(this); }
+
 	/**
 	 * Opposite of {@link #onAddedToGame(GModality)}, performing clean-up actions
 	 * and called by {@link GModality#removeGameObject(GameObjectGeneric)}.
 	 */
 	public void onRemovedFromGame(GModality gm);
+
+	public default void removeMeToGame(GModality gm) { gm.removeGameObject(this); }
 }

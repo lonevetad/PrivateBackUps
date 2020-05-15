@@ -1,10 +1,12 @@
 package games.theRisingAngel;
 
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gObj.ExperienceLevelHolder;
+import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.BasePlayerRPG;
 import games.generic.controlModel.player.ExperienceLevelHolderImpl;
@@ -32,45 +34,29 @@ public class PlayerTRAn extends BaseCreatureTRAn implements BasePlayerRPG {
 	protected CurrencySet currencies;
 	protected ExperienceLevelHolder experienceLevelHolder;
 
-	public PlayerCharacterTypes getCharacterType() {
-		return characterType;
-	}
+	public PlayerCharacterTypes getCharacterType() { return characterType; }
 
-	public ExperienceLevelHolder getExperienceLevelHolder() {
-		return experienceLevelHolder;
-	}
+	public ExperienceLevelHolder getExperienceLevelHolder() { return experienceLevelHolder; }
 
 	@Override
-	public ExperienceLevelHolder getExpLevelHolder() {
-		return experienceLevelHolder;
-	}
+	public ExperienceLevelHolder getExpLevelHolder() { return experienceLevelHolder; }
 
 	@Override
-	public int getExperienceNow() {
-		return experienceLevelHolder.getExperienceNow();
-	}
+	public int getExperienceNow() { return experienceLevelHolder.getExperienceNow(); }
 
 	@Override
-	public CurrencySet getCurrencies() {
-		return currencies;
-	}
+	public CurrencySet getCurrencies() { return currencies; }
 
 	@Override
-	public int getAttributePointsLeftToApply() {
-		return attributePointsLeftToApply;
-	}
+	public int getAttributePointsLeftToApply() { return attributePointsLeftToApply; }
 
 	//
 
 	@Override
-	public void setCurrencies(CurrencySet currencies) {
-		this.currencies = currencies;
-	}
+	public void setCurrencies(CurrencySet currencies) { this.currencies = currencies; }
 
 	@Override
-	public void setExpLevelHolder(ExperienceLevelHolder expLevelHolder) {
-		this.experienceLevelHolder = expLevelHolder;
-	}
+	public void setExpLevelHolder(ExperienceLevelHolder expLevelHolder) { this.experienceLevelHolder = expLevelHolder; }
 
 	@Override
 	public void setAttributePointsLeftToApply(int attributePointsLeftToApply) {
@@ -90,20 +76,28 @@ public class PlayerTRAn extends BaseCreatureTRAn implements BasePlayerRPG {
 	}
 
 	@Override
-	public void recalculateExpToLevelUp() {
-		this.experienceLevelHolder.recalculateExpToLevelUp();
-	}
+	public void recalculateExpToLevelUp() { this.experienceLevelHolder.recalculateExpToLevelUp(); }
 
 //	public void act(GModality modality, int milliseconds) { super.act(modality, milliseconds); }
 
 	@Override
-	public void onEnteringInGame(GModality gm) {
-		this.setGameModality(gm);
+	public void onAddedToGame(GModality gm) {
+		BiConsumer<String, AbilityGeneric> abilityAdderToGModality;
+		super.onAddedToGame(gm);
+		// Add equips and abilities on GMod
+		abilityAdderToGModality = (n, ab) -> ab.onAddedToGame(gm);
+		this.getAbilities().forEach(abilityAdderToGModality);
+		this.getEquipmentSet().forEachEquipment((e, i) -> { if (e != null) { e.onAddedToGame(gm); } });
 	}
 
 	@Override
-	public void onLeavingMap() {
-		// TODO Auto-generated method stub
+	public void onRemovedFromGame(GModality gm) {
+		BiConsumer<String, AbilityGeneric> abilityAdderToGModality;
+		super.onRemovedFromGame(gm);
+		// Add equips and abilities on GMod
+		abilityAdderToGModality = (n, ab) -> ab.onRemovedFromGame(gm);
+		this.getAbilities().forEach(abilityAdderToGModality);
+		this.getEquipmentSet().forEachEquipment((e, i) -> { if (e != null) { e.onRemovedFromGame(gm); } });
 
 	}
 

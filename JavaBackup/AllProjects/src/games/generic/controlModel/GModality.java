@@ -3,6 +3,7 @@ package games.generic.controlModel;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.gObj.GameObjectGeneric;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.GThread;
@@ -126,8 +127,10 @@ public abstract class GModality {
 
 	public void setPlayer(PlayerGeneric player) {
 		this.player = player;
-		if (player != null)
-			player.setGameModality(this);
+		if (player != null) {
+			this.addGameObject(player);
+//			player.setGameModality(this);
+		}
 	}
 
 	// proxy
@@ -200,11 +203,13 @@ public abstract class GModality {
 		GModel gm;
 		if (o == null)
 			return false;
+		if (o instanceof GModalityHolder) { ((GModalityHolder) o).setGameModality(this); }
 		gm = this.getModel();
 		if (gm != null) {
 			boolean added;
-			o.onAddedToGame(this);
 			added = gm.add(o);
+			if (added)
+				o.onAddedToGame(this);
 			return added;
 		}
 		return false;
@@ -214,10 +219,14 @@ public abstract class GModality {
 		GModel gm;
 		if (o == null)
 			return false;
+		if (o instanceof GModalityHolder) { ((GModalityHolder) o).setGameModality(null); }
 		gm = this.getModel();
 		if (gm != null) {
-			o.onRemovedFromGame(this);
-			return gm.remove(o);
+			boolean removed;
+			removed = gm.remove(o);
+			if (removed)
+				o.onRemovedFromGame(this);
+			return removed;
 		}
 		return false;
 	}

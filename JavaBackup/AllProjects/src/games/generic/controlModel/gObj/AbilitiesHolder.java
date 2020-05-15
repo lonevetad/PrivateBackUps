@@ -22,8 +22,20 @@ public interface AbilitiesHolder extends GameObjectGeneric {
 	public default void forEachAbilities(BiConsumer<String, AbilityGeneric> action) { getAbilities().forEach(action); }
 
 	@Override
-	public default void onRemovedFromGame(GModality gm) { forEachAbilities((n, a) -> a.onRemovedFromGame(gm)); }
+	public default void addMeToGame(GModality gm) {
+		GameObjectGeneric.super.addMeToGame(gm);
+		forEachAbilities((n, a) -> a.addMeToGame(gm));
+	}
 
 	@Override
-	public default void onAddedToGame(GModality gm) { forEachAbilities((n, a) -> a.onAddedToGame(gm)); }
+	public default void onAddedToGame(GModality gm) {}
+
+	@Override
+	public default void removeMeToGame(GModality gm) {
+		GameObjectGeneric.super.removeMeToGame(gm);
+		forEachAbilities((n, a) -> a.removeMeToGame(gm));
+	}
+
+	@Override
+	public default void onRemovedFromGame(GModality gm) {}
 }

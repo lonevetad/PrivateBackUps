@@ -148,43 +148,43 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 				+ ((c.getValue(AttributesTRAn.Defense) >> 2) + (c.getValue(AttributesTRAn.Faith)) >> 1)//
 		) >> 1;
 
-		cache[AttributesTRAn.CriticalMultiplier.ordinal()] = (c.getValue(AttributesTRAn.Strength) << 1)
+		cache[AttributesTRAn.CriticalMultiplierPercentage.ordinal()] = (c.getValue(AttributesTRAn.Strength) << 1)
 				+ c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Wisdom)
 				+ c.getValue(AttributesTRAn.Luck);
 
-		cache[AttributesTRAn.CriticalProbability.ordinal()] = //
+		cache[AttributesTRAn.CriticalProbabilityPerThousand.ordinal()] = //
 				((c.getValue(AttributesTRAn.Precision) << 1) + c.getValue(AttributesTRAn.Dexterity)
 						+ c.getValue(AttributesTRAn.Faith)//
 						+ ((+c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Wisdom)) >> 1)//
 				) + c.getValue(AttributesTRAn.Luck);
 
-		cache[AttributesTRAn.CriticalMultiplierReduction.ordinal()] = ( //
+		cache[AttributesTRAn.CriticalMultiplierPercentageReduction.ordinal()] = ( //
 		+c.getValue(AttributesTRAn.Defense) + c.getValue(AttributesTRAn.Constitution) //
 				+ ((+(c.getValue(AttributesTRAn.Strength) >> 1) + (c.getValue(AttributesTRAn.Dexterity) >> 2)) >> 1)//
 		) >> 3;
 
-		cache[AttributesTRAn.CriticalProbabilityAvoid.ordinal()] = (+c.getValue(AttributesTRAn.Constitution) //
+		cache[AttributesTRAn.CriticalProbabilityPerThousandAvoid.ordinal()] = (+c.getValue(AttributesTRAn.Constitution) //
 				+ ((+c.getValue(AttributesTRAn.Dexterity)//
 						+ ((c.getValue(AttributesTRAn.Defense) + ((c.getValue(AttributesTRAn.Precision)
 								+ c.getValue(AttributesTRAn.Intelligence)) >> 1)) >> 1)) >> 1)//
 		);
 
-		cache[AttributesTRAn.ProbabilityHitPhysical.ordinal()] = //
+		cache[AttributesTRAn.ProbabilityPerThousandHitPhysical.ordinal()] = //
 				+c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Luck)
 						+ ((c.getValue(AttributesTRAn.Dexterity) + (c.getValue(AttributesTRAn.Strength) >> 1)
 								+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
 
-		cache[AttributesTRAn.ProbabilityAvoidPhysical.ordinal()] = //
+		cache[AttributesTRAn.ProbabilityPerThousandAvoidPhysical.ordinal()] = //
 				+c.getValue(AttributesTRAn.Dexterity) + c.getValue(AttributesTRAn.Luck)
 						+ ((c.getValue(AttributesTRAn.Precision) + (c.getValue(AttributesTRAn.Strength) >> 1)
 								+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
 
-		cache[AttributesTRAn.ProbabilityHitMagical.ordinal()] = //
+		cache[AttributesTRAn.ProbabilityPerThousandHitMagical.ordinal()] = //
 				+c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Luck)
 						+ ((c.getValue(AttributesTRAn.Intelligence) + (c.getValue(AttributesTRAn.Faith) >> 1)
 								+ (c.getValue(AttributesTRAn.Precision) >> 2)) >> 1);
 
-		cache[AttributesTRAn.ProbabilityAvoidMagical.ordinal()] = +c.getValue(AttributesTRAn.Luck)
+		cache[AttributesTRAn.ProbabilityPerThousandAvoidMagical.ordinal()] = +c.getValue(AttributesTRAn.Luck)
 				+ c.getValue(AttributesTRAn.Intelligence) + ((c.getValue(AttributesTRAn.Wisdom)
 						+ (c.getValue(AttributesTRAn.Faith) >> 1) + (c.getValue(AttributesTRAn.Dexterity) >> 3)) >> 1);
 

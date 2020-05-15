@@ -31,12 +31,12 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	Velocity(true),
 	//
 	DamageBonusPhysical, DamageReductionPhysical, //
-	ProbabilityHitPhysical, ProbabilityAvoidPhysical, //
+	ProbabilityPerThousandHitPhysical, ProbabilityPerThousandAvoidPhysical, //
 	DamageBonusMagical, DamageReductionMagical, //
-	ProbabilityHitMagical, ProbabilityAvoidMagical, //
+	ProbabilityPerThousandHitMagical, ProbabilityPerThousandAvoidMagical, //
 	//
-	CriticalProbability(true), CriticalMultiplier(true), //
-	CriticalProbabilityAvoid(true), CriticalMultiplierReduction(true), //
+	CriticalProbabilityPerThousand(true), CriticalMultiplierPercentage(true), //
+	CriticalProbabilityPerThousandAvoid(true), CriticalMultiplierPercentageReduction(true), //
 	LifeLeechPercentage, ManaLeechPercentage//
 	;
 

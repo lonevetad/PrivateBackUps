@@ -3,6 +3,7 @@ package games.generic.controlModel.inventoryAbil;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsProvidersHolder;
 import games.generic.controlModel.subimpl.GModalityRPG;
+import games.old.EquipItemAbility;
 
 /**
  * Used during loading: instances of {@link AttributeModification} and
