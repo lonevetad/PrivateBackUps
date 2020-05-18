@@ -6,6 +6,7 @@ import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityAttributesModsVanishingOverTime;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
+import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
@@ -72,7 +73,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 			dEvent = (EventDamageTRAn) ge;
 			if (dEvent.getTarget() == this.getOwner() // this.getEquipItem().getCreatureWearingEquipments()
 					// check equality because it's bounded to the "wearer"
-					&& dEvent.getDamage().getDamageAmount() > 0) {
+					&& dEvent.getDamageReducedByTargetArmors() > 0) {
 				return true;
 			}
 		}
@@ -80,7 +81,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	}
 
 	@Override
-	public void updateActiveEffectModAttributes() {
+	public void updateModAttributesDuringActiveEffect() {
 		// no kind of updated
 	}
 
@@ -107,14 +108,29 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	}
 
 	@Override
-	public void doUponAbilityStartsVanishing() { removeAndNullifyEffects(); }
+	public void doUponAbilityStartsVanishing() { setPhaseTo(PhaseAbilityVanishing.Finished); }
+
+	// TODO verificare se tali "corpi dei metodi" devono essere questi, in vista
+	// delle modifiche apportate alle sopraclassi e soprainterfacce
 
 	@Override
-	public void vanishEffect() {
+	public void vanishEffect(int timeUnits) {
 		// override as a safe guard
 		setPhaseTo(PhaseAbilityVanishing.Finished);
 	}
 
 	@Override
+	public void doUponAbilityEffectEnds() {
+		super.doUponAbilityEffectEnds();
+		removeAndNullifyEffects();
+	}
+
+	@Override
 	public void doUponAbilityRefreshed() {}
+
+	@Override
+	public void updateModAttributesDuringVanishing() { setPhaseTo(PhaseAbilityVanishing.Finished); }
+
+	@Override
+	public int getVanishingTimeThresholdUpdate() { return GModalityTRAn.TIME_SUBUNITS_EACH_TIME_UNIT_TRAn; }
 }

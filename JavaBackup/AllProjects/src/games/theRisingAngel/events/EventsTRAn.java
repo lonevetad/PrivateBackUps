@@ -15,21 +15,13 @@ public enum EventsTRAn implements IGEvent {
 
 	protected final String type;
 
-	EventsTRAn(String t) {
-		this.type = t;
-	}
+	EventsTRAn(String t) { this.type = t; }
 
 	@Override
-	public Integer getID() {
-		return ordinal();
-	}
+	public Integer getID() { return ordinal(); }
 
-	public String getSuperType() {
-		return type;
-	}
+	public String getSuperType() { return type; }
 
 	@Override
-	public String getName() {
-		return name();
-	}
+	public String getName() { return name(); }
 }

@@ -2,6 +2,7 @@ package games.theRisingAngel.creatures;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.gEvents.DestructionObjEvent;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
@@ -196,8 +197,9 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 			life = 0;
 		this.setCurableResourceAmount(HealingTypeExample.Life, life);
 		if (getLife() <= 0) {
-			destroy();
-			fireDestructionEvent(getgModalityRPG());
+			DestructionObjEvent de;
+			de = fireDestructionEvent(getgModalityRPG());
+			if (de == null || de.isDestructionValid()) { destroy(); }
 		}
 	}
 
@@ -291,20 +293,25 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	// TODO FIRE EVENTS
 
 	@Override
-	public void fireDestructionEvent(GModality gm) {
+	public DestructionObjEvent fireDestructionEvent(GModality gm) {
 		GModalityET gmet;
 		GEventInterfaceRPG gei;
 		if (gm == null || (!(gm instanceof GModalityET)))
-			return;
+			return null;
 		gmet = (GModalityET) gm;
 		gei = (GEventInterfaceRPG) gmet.getEventInterface();
-		gei.fireDestructionObjectEvent((GModalityET) gm, this);
+		return gei.fireDestructionObjectEvent(gmet, this);
 	}
 
 	//
 
 	// TODO CLASS
 
+	/**
+	 * Default implementation that let, to be defined,
+	 * {#{@link CurableResource#getResourceAmountMax()} and
+	 * {@link CurableResource#getResourceRegen()}.
+	 */
 	public abstract class CurableResourceTRAn implements CurableResource {
 
 		public CurableResourceTRAn(CurableResourceType ht) { this.resourceType = ht; }

@@ -133,7 +133,6 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	@Override
 	public int getAccumulatedTimeRegen() { return accumulatedTimeLifeRegen; }
-
 	// SETTER
 
 	public void setgModalityRPG(GModalityRPG gModalityRPG) { this.gModalityRPG = gModalityRPG; }
@@ -237,7 +236,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	@Override
 	public boolean destroy() {
 		this.gModalityRPG.removeGameObject(this);
-		System.out.println("\n\n\n\n I'M DEEEEEAAAAAADDDDDD \n\n\n");
+		System.out.println("\n\n\n\n " + name + " I'M DEEEEEAAAAAADDDDDD \n\n\n");
 		return true;
 	}
 

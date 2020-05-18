@@ -44,12 +44,10 @@ public class AVampireBerserker extends ASimpleFixedBufferVanishing {
 	}
 
 	@Override
-	public void doUponAbilityRefreshed() {
-
-	}
+	public void doUponAbilityRefreshed() {}
 
 	@Override
-	public void vanishEffect() {// nothing
+	public void vanishEffect(int timeUnit) {// nothing
 	}
 
 	@Override

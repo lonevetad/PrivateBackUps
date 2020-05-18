@@ -80,7 +80,7 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 			if (ht == null)
 				return;
 			index = ht.ordinal();
-			min = Math.min(ed.getDamageAmountToBeApplied(), this.shields[index]);
+			min = Math.min(ed.getDamageReducedByTargetArmors(), this.shields[index]);
 			// shields the damage
 			this.shields[index] -= min;
 			ed.setDamageAmountToBeApplied(ed.getDamageAmountToBeApplied() - min);
@@ -100,5 +100,4 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 			this.shields[index] = amount;
 		}
 	}
-
 }

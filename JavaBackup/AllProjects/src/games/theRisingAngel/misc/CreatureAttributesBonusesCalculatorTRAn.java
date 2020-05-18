@@ -55,9 +55,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 	protected CreatureAttributes creatureAttributesSet;
 
 	@Override
-	public CreatureAttributes getCreatureAttributesSet() {
-		return creatureAttributesSet;
-	}
+	public CreatureAttributes getCreatureAttributesSet() { return creatureAttributesSet; }
 
 	@Override
 	public void setCreatureAttributesSet(CreatureAttributes creatureAttributesSet) {
@@ -71,9 +69,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 	}
 
 	@Override
-	public void markCacheAsDirty() {
-		isCacheDirty = true;
-	}
+	public void markCacheAsDirty() { isCacheDirty = true; }
 
 	@Override
 	public int getBonusForValue(int index) {
@@ -170,6 +166,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 		);
 
 		cache[AttributesTRAn.ProbabilityPerThousandHitPhysical.ordinal()] = //
+
 				+c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Luck)
 						+ ((c.getValue(AttributesTRAn.Dexterity) + (c.getValue(AttributesTRAn.Strength) >> 1)
 								+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
@@ -180,11 +177,13 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 								+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
 
 		cache[AttributesTRAn.ProbabilityPerThousandHitMagical.ordinal()] = //
+
 				+c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Luck)
 						+ ((c.getValue(AttributesTRAn.Intelligence) + (c.getValue(AttributesTRAn.Faith) >> 1)
 								+ (c.getValue(AttributesTRAn.Precision) >> 2)) >> 1);
 
 		cache[AttributesTRAn.ProbabilityPerThousandAvoidMagical.ordinal()] = +c.getValue(AttributesTRAn.Luck)
+
 				+ c.getValue(AttributesTRAn.Intelligence) + ((c.getValue(AttributesTRAn.Wisdom)
 						+ (c.getValue(AttributesTRAn.Faith) >> 1) + (c.getValue(AttributesTRAn.Dexterity) >> 3)) >> 1);
 

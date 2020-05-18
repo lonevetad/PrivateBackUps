@@ -50,10 +50,11 @@ public class ALoseManaBeforeLife extends AbilityBaseImpl implements GEventObserv
 		manaAmount = mho.getMana();
 		if (manaAmount <= 0)
 			return; // no mana to sacrifice
-		damageAmount = ed.getDamage().getDamageAmount(); // get the original damage
+		damageAmount = ed.getDamageReducedByTargetArmors(); // get the damage (TODO not the AmountToBeApplied?)
 		min = damageAmount > manaAmount ? manaAmount : damageAmount;
 		mho.setMana(mho.getMana() - min);
 		ed.setDamageAmountToBeApplied(ed.getDamageAmountToBeApplied() - min);
+		// TODO sicuro che non sia getDamageReducedByTargetArmors ?
 	}
 
 	@Override
@@ -61,5 +62,4 @@ public class ALoseManaBeforeLife extends AbilityBaseImpl implements GEventObserv
 
 	@Override
 	public void resetAbility() {}
-
 }

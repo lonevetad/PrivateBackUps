@@ -21,15 +21,10 @@ public class ASimpleFixedBufferVanishing extends AbilityAttributesModsVanishingO
 	protected int abilityEffectDuration, vanishingEffectDuration;
 
 	@Override
-	public ASimpleFixedBufferVanishing addEventWatched(ObjectNamed objNamed) {
-		this.eventsWatching.add(objNamed.getName());
-		return this;
-	}
+	public int getAbilityEffectDuration() { return abilityEffectDuration; }
 
 	@Override
-	public int getAbilityEffectDuration() {
-		return abilityEffectDuration;
-	}
+	public int getVanishingEffectDuration() { return vanishingEffectDuration; }
 
 	@Override
 	public void setAbilityEffectDuration(int abilityEffectDuration) {
@@ -37,20 +32,24 @@ public class ASimpleFixedBufferVanishing extends AbilityAttributesModsVanishingO
 	}
 
 	@Override
-	public int getVanishingEffectDuration() {
-		return vanishingEffectDuration;
-	}
-
-	@Override
 	public void setVanishingEffectDuration(int vanishingEffectDuration) {
 		this.vanishingEffectDuration = vanishingEffectDuration;
 	}
 
+//
+
 	@Override
-	public void doUponAbilityRefreshed() {
+	public ASimpleFixedBufferVanishing addEventWatched(ObjectNamed objNamed) {
+		this.eventsWatching.add(objNamed.getName());
+		return this;
 	}
 
 	@Override
-	public void doUponAbilityStartsVanishing() {
-	}
+	public void doUponAbilityRefreshed() {}
+
+	@Override
+	public void doUponAbilityStartsVanishing() {}
+
+	@Override
+	public int getVanishingTimeThresholdUpdate() { return 0; }
 }

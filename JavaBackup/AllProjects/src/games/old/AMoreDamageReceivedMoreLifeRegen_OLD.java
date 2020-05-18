@@ -13,7 +13,15 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingSingleAttributeRealTime;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.theRisingAngel.events.EventDamageTRAn;
+<<<<<<< HEAD
 import games.theRisingAngel.events.EventsTRAn;
+=======
+<<<<<<< HEAD
+import games.theRisingAngel.events.EventsTRAn;
+=======
+import games.theRisingAngel.events.EventsTRAr;
+>>>>>>> master
+>>>>>>> develop
 import games.theRisingAngel.misc.AttributesTRAn;
 import tools.ObjectWithID;
 

@@ -20,9 +20,7 @@ import tools.ObjectWithID;
 
 public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 
-	public GEventInterfaceTRAn() {
-		super();
-	}
+	public GEventInterfaceTRAn() { super(); }
 
 	protected GEventManager gem;
 
@@ -32,19 +30,18 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 	}
 
 	@Override
-	public GEventManager getGameEventManager() {
-		return gem;
-	}
+	public GEventManager getGameEventManager() { return gem; }
 
 	//
 
 	// TODO EVENTS
 
 	@Override
-	public void fireDestructionObjectEvent(GModalityET gaModality, DestructibleObject desObj) {
+	public DestructionObjEvent fireDestructionObjectEvent(GModalityET gaModality, DestructibleObject desObj) {
 		DestructionObjEvent doe;
 		doe = new DestructionObjEvent(desObj, EventsTRAn.Destroyed.getName());
 		this.getGameEventManager().fireEvent(doe);
+		return doe;
 	}
 
 // TODOOOOOOOOO dc'è da spostare molti eventi in un luogo più idoneo

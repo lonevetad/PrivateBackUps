@@ -37,9 +37,7 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 	protected static class LoaderEquipUpgradeFromFile extends JSONFileConsumer {
 		List<FactoryEquipUpgrade> factories;
 
-		protected LoaderEquipUpgradeFromFile(String subPath, String filename) {
-			super(subPath, filename);
-		}
+		protected LoaderEquipUpgradeFromFile(String subPath, String filename) { super(subPath, filename); }
 
 		@Override
 		protected void readAllFileImpl(String line) {

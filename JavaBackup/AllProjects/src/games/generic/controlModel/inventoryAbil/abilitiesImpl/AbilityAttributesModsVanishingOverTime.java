@@ -1,5 +1,6 @@
 package games.generic.controlModel.inventoryAbil.abilitiesImpl;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.misc.CreatureAttributes;
 
 /**
@@ -52,7 +52,8 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	 * referred to the vanishing ability (both for base ability and vanishing
 	 * effect)
 	 */
-	protected int accumulatedTimeAbililtyVanishing;
+	protected int accumulatedTimePhaseAbililty, vanishUpdateTimeMacrounits;
+	protected int[] newModifiersAmountOnVanishing;
 //	protected int abilityEffectDuration, vanishingEffectDuration;
 	protected PhaseAbilityVanishing phaseAbilityCurrent;
 	protected List<String> eventsWatching;
@@ -72,9 +73,11 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 		this.phaseAbilityCurrent = PhaseAbilityVanishing.Inactive;
 		this.isCumulative = false;
 		this.eventsReceivedBeweenUpdateds = 0;
-		this.accumulatedTimeAbililtyVanishing = 0;
+		this.accumulatedTimePhaseAbililty = 0;
+		this.vanishUpdateTimeMacrounits = 0;
 //		this.modificationsAppliedAtLeastOnce = false;
 		this.maxAmountStackedTriggerCharges = this.stackedTriggerCharges = 0;
+
 	}
 
 	//
@@ -91,7 +94,7 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	public PhaseAbilityVanishing getPhaseAbilityCurrent() { return phaseAbilityCurrent; }
 
 	@Override
-	public int getAccumulatedTimeAbililtyVanishing() { return accumulatedTimeAbililtyVanishing; }
+	public int getAccumulatedTimePhaseAbililty() { return accumulatedTimePhaseAbililty; }
 
 	/**
 	 * Returns the amount of cumulated effect activation, if any. See
@@ -113,6 +116,12 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	 * <code>false</code>.
 	 */
 	public int getMaxAmountStackedTriggerCharges() { return maxAmountStackedTriggerCharges; }
+
+	/**
+	 * When the time goes by and the ability is in phase
+	 * {@link PhaseAbilityVanishing#Vanishing}
+	 */
+	public abstract int getVanishingTimeThresholdUpdate();
 
 	//
 
@@ -139,6 +148,8 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 
 	public void setAttributesToModify(AttributeModification[] attributesMods) {
 		this.attributesToModify = attributesMods;
+		newModifiersAmountOnVanishing = new int[attributesMods.length];
+		Arrays.fill(newModifiersAmountOnVanishing, 0);
 		if (isCumulative)
 			reinstanceAttributesOriginal();
 	}
@@ -147,8 +158,8 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	public void setPhaseAbilityCurrent(PhaseAbilityVanishing pav) { this.phaseAbilityCurrent = pav; }
 
 	@Override
-	public void setAccumulatedTimeAbililtyVanishing(int accumulatedTimeAbililtyVanishing) {
-		this.accumulatedTimeAbililtyVanishing = accumulatedTimeAbililtyVanishing;
+	public void setAccumulatedTimePhaseAbililty(int accumulatedTimeAbililtyVanishing) {
+		this.accumulatedTimePhaseAbililty = accumulatedTimeAbililtyVanishing;
 	}
 
 	//
@@ -169,9 +180,11 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 		super.resetAbility();
 		this.phaseAbilityCurrent = PhaseAbilityVanishing.Inactive;
 		this.eventsReceivedBeweenUpdateds = 0;
-		this.accumulatedTimeAbililtyVanishing = 0;
+		this.accumulatedTimePhaseAbililty = 0;
+		this.vanishUpdateTimeMacrounits = 0;
 		this.stackedTriggerCharges = 0;
 		removeAndNullifyEffects();
+		Arrays.fill(newModifiersAmountOnVanishing, 0);
 	}
 
 	@Override
@@ -181,7 +194,8 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 //		if (modificationsAppliedAtLeastOnce) {
 		// do not remove more than once
 //			modificationsAppliedAtLeastOnce = false;
-		removeAndNullifyEffects();
+//		removeAndNullifyEffects();
+		resetAbility();
 //		}
 	}
 
@@ -209,32 +223,13 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	 */
 	protected int computeNewAmountOnVanishing(AttributeModification am) { return am.getValue() >> 1; }
 
-	/**
-	 * It's really called in
-	 * {@link AbilityModifyingAttributesRealTime#updateAttributesModifiersValues(GModality, EquipmentItem, CreatureSimple, CreatureAttributes)}.
-	 * <p>
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void vanishEffect() {
-		int newValue, oldValue;
-		for (AttributeModification am : this.attributesToModify) {
-			oldValue = am.getValue();
-			if (oldValue != 0) {
-				newValue = computeNewAmountOnVanishing(am);
-				am.setValue(newValue);
-			}
-		}
-	}
-
 	@Override
 	protected void applyModifyingEffecsOnEquipping() {
-		// nullify this effect
+		// nullify this effect: this ability is not active at start
 	}
 
 	@Override
 	public void doUponAbilityActivated() {
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		removeAndNullifyEffects();
 		this.stackedTriggerCharges = 1;
 	}
@@ -242,6 +237,7 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	@Override
 	public void doUponAbilityEffectEnds() {
 		this.stackedTriggerCharges = 0;
+		this.accumulatedTimePhaseAbililty = 0;
 		// nullify modifications
 		// finished or Inactive, don't care, it's ended
 		setPhaseAbilityCurrent(PhaseAbilityVanishing.Inactive);
@@ -256,7 +252,7 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	 * <p>
 	 * REMEMBER to reset {@link #eventsReceivedBeweenUpdateds}.
 	 */
-	public void updateActiveEffectModAttributes() {
+	public void updateModAttributesDuringActiveEffect() {
 		int n;
 		AttributeModification am;
 		n = this.attributesToModify.length;
@@ -275,16 +271,30 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 				this.attributesToModify[n].setValue(this.attributesToModifyOriginal[n].getValue());
 			}
 		}
-
 		eventsReceivedBeweenUpdateds = 0;
+	}
+
+	/**
+	 * Override designed.<br>
+	 * Similar to {@link #updateModAttributesDuringActiveEffect()} about the main
+	 * idea, but related to "vanishing phase"
+	 * ({@link PhaseAbilityVanishing#Vanishing}).<br>
+	 * This method could apply the results of the {@link #vanishEffect(int)} calls,
+	 * which is called during {@link #evolveAbilityStatus(GModality, int)}, or just
+	 * being empty because it totally relies on {@link #vanishEffect(int)}..
+	 */
+	public void updateModAttributesDuringVanishing() {
+		int s;
+		s = this.attributesToModify.length;
+		while (--s >= 0) {
+			this.attributesToModify[s].setValue(this.newModifiersAmountOnVanishing[s]);
+		}
 	}
 
 	@Override
 	public void act(GModality modality, int timeUnits) {
 		evolveAbilityStatus(modality, timeUnits);
 		// first make the ability to evolve, then update values
-//		AbilityVanishingOverTime.
-//		AbilityModifyingAttributesRealTime.
 		super.act(modality, timeUnits);
 	}
 
@@ -306,8 +316,8 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 					this.stackedTriggerCharges = Integer.MAX_VALUE;
 			} // but still allows refreshing the counter
 			reActivateAbility(modality);
-			if (accumulatedTimeAbililtyVanishing > 0) // just to be sure
-				accumulatedTimeAbililtyVanishing = 0;
+			if (accumulatedTimePhaseAbililty > 0) // just to be sure
+				accumulatedTimePhaseAbililty = 0;
 		}
 	}
 
@@ -317,9 +327,9 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 		PhaseAbilityVanishing phaseAbility;
 		phaseAbility = phaseAbilityCurrent;
 		if (phaseAbility == PhaseAbilityVanishing.Active) {
-			updateActiveEffectModAttributes();
+			updateModAttributesDuringActiveEffect();
 		} else if (phaseAbility == PhaseAbilityVanishing.Vanishing) {
-			vanishEffect();
+			updateModAttributesDuringVanishing();
 		} else { // if (phaseAbility == PhaseAbilityVanishing.Endend) {}
 			for (AttributeModification am : this.attributesToModify) {
 				am.setValue(0);
@@ -334,5 +344,27 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 //			break;
 //		default:
 //		}
+	}
+
+	@Override
+	public void vanishEffect(int timeUnits) {
+		int newValue, oldValue, t, s;
+		AttributeModification am;
+		this.vanishUpdateTimeMacrounits += timeUnits;
+		while (this.vanishUpdateTimeMacrounits >= (t = getTimeUnitSuperscale())) {
+			this.vanishUpdateTimeMacrounits -= t;
+//			for (AttributeModification am : this.attributesToModify) {
+
+			s = this.attributesToModify.length;
+			while (--s >= 0) {
+				am = this.attributesToModify[s];
+//				this.attributesToModify[s].setValue(this.newModifiersAmountOnVanishing[s]);
+				oldValue = am.getValue();
+				if (oldValue != 0) {
+					newValue = computeNewAmountOnVanishing(am);
+					newModifiersAmountOnVanishing[s] = newValue;
+				}
+			}
+		}
 	}
 }

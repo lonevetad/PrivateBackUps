@@ -42,28 +42,18 @@ public enum AttributesTRAn implements AttributeIdentifier {
 
 	public final boolean isStrictlyPositive;
 
-	AttributesTRAn() {
-		this(false);
-	}
+	AttributesTRAn() { this(false); }
 
-	AttributesTRAn(boolean flag) {
-		this.isStrictlyPositive = flag;
-	}
+	AttributesTRAn(boolean flag) { this.isStrictlyPositive = flag; }
 
 	@Override
-	public int getIndex() {
-		return ordinal();
-	}
+	public int getIndex() { return ordinal(); }
 
 	@Override
-	public String getName() {
-		return name();
-	}
+	public String getName() { return name(); }
 
 	@Override
-	public Integer getID() {
-		return ordinal();
-	}
+	public Integer getID() { return ordinal(); }
 
 	//
 
@@ -90,9 +80,7 @@ public enum AttributesTRAn implements AttributeIdentifier {
 		return a;
 	}
 
-	public static AttributesTRAn getAttributeTRArByIndex(int index) {
-		return VALUES[index];
-	}
+	public static AttributesTRAn getAttributeTRArByIndex(int index) { return VALUES[index]; }
 
 	public static AttributesTRAn damageReductionByType(DamageTypesTRAn dt) {
 		return (dt == DamageTypesTRAn.Physical) ? AttributesTRAn.DamageReductionPhysical

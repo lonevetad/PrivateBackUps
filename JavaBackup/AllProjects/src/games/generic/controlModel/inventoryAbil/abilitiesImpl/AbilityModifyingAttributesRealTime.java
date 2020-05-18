@@ -5,16 +5,16 @@ import java.util.Arrays;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreatureSimple;
+import games.generic.controlModel.inventoryAbil.AbilityTimedGeneric;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.subimpl.AbilityTimedGeneric;
 import tools.ObjectWithID;
 
 public abstract class AbilityModifyingAttributesRealTime extends AbilityBaseImpl // EquipmentAbilityBaseImpl
 		implements AbilityTimedGeneric { // , EquipItemAbility
 	private static final long serialVersionUID = 56132035015L;
-	public static final long MILLISEC_ATTRIBUTE_UPDATE = 500;
+	public static final int MILLISEC_ATTRIBUTE_UPDATE = 500;
 
 	public AbilityModifyingAttributesRealTime() { super(); }
 

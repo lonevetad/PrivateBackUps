@@ -62,7 +62,6 @@ public class GModality_E1 extends GModalityTRAn {
 		p = (Player_E1) newPlayerInGame(null, PlayerCharacterTypes.Human); // new Player_E1(this);
 		p.setName("Lonevetad");
 		this.setPlayer(p);
-
 		p.setLife((int) (p.getLife() * 1.5));
 		p.setGameModality(this);
 //		p.getCurrencies().setMoneyAmount(0, 100);

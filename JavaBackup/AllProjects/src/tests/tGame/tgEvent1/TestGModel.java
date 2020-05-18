@@ -19,18 +19,14 @@ public class TestGModel {
 		printer = o -> System.out.println(o.getID());
 		gm = new GModel() {
 			@Override
-			public void onCreate() {
-				System.out.println("CIAOOOO");
-			}
+			public void onCreate() { System.out.println("CIAOOOO"); }
 		};
 		System.out.println("helooo " + gm.addObjHolder("TIME", new GOH()));
 		System.out.println("FINE");
 		gmt = new GModelTimeBased() {
 
 			@Override
-			public void onCreate() {
-				System.out.println("REAL timed model");
-			}
+			public void onCreate() { System.out.println("REAL timed model"); }
 		};
 		System.out.println("helooo 2.0 " + gmt.addObjHolder("MEMORYLESS", new GOH()));
 		gmt.addTimedObject(new TO(777));
@@ -52,19 +48,22 @@ public class TestGModel {
 		private static final long serialVersionUID = 1L;
 		Integer id;
 
-		public TO(Integer id) {
-			this.id = id;
-		}
+		public TO(Integer id) { this.id = id; }
 
 		@Override
-		public Integer getID() {
-			return id;
-		}
+		public Integer getID() { return id; }
 
 		@Override
-		public void act(GModality modality, int timeUnits) {
-			System.out.println("time " + timeUnits);
-		}
+		public void act(GModality modality, int timeUnits) { System.out.println("time " + timeUnits); }
+
+		@Override
+		public void onAddedToGame(GModality gm) {}
+
+		@Override
+		public void onRemovedFromGame(GModality gm) {}
+
+		@Override
+		public String getName() { return null; }
 	}
 
 	static class GOH implements GObjectsHolder {
@@ -75,32 +74,21 @@ public class TestGModel {
 		}
 
 		@Override
-		public boolean remove(ObjectWithID o) {
-			return false;
-		}
+		public boolean remove(ObjectWithID o) { return false; }
 
 		@Override
-		public boolean contains(ObjectWithID o) {
-			return false;
-		}
+		public boolean contains(ObjectWithID o) { return false; }
 
 		@Override
-		public void forEach(Consumer<ObjectWithID> action) {
-		}
+		public void forEach(Consumer<ObjectWithID> action) {}
 
 		@Override
-		public ObjectWithID get(Integer id) {
-			return null;
-		}
+		public ObjectWithID get(Integer id) { return null; }
 
 		@Override
-		public Set<ObjectWithID> getObjects() {
-			return null;
-		}
+		public Set<ObjectWithID> getObjects() { return null; }
 
 		@Override
-		public boolean removeAll() {
-			return false;
-		}
+		public boolean removeAll() { return false; }
 	}
 }

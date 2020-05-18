@@ -85,8 +85,7 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingSingleAttr
 			if (dEvent.getTarget() ==
 			// check equality because it's bounded to the "wearer"
 //					this.getEquipItem().getCreatureWearingEquipments()  //
-					this.getOwner() && (d = dEvent.getDamageAmountToBeApplied()) >= 8) {
-
+					this.getOwner() && (d = dEvent.getDamageReducedByTargetArmors()) >= 8) {
 				d >>= 3;
 				if (d > 0)
 					accumulatedLifeRegen += d;

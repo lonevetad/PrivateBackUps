@@ -7,7 +7,6 @@ import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
-import games.generic.controlModel.inventoryAbil.abilitiesImpl.ASimpleFixedBufferVanishing;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.subimpl.LoaderAbilities;
@@ -20,11 +19,13 @@ import games.theRisingAngel.abilities.ALifeHealingMakesEarnBaseCurrency;
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.AMeditationMoreRegen;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
+import games.theRisingAngel.abilities.AProtectButMakesSoft;
 import games.theRisingAngel.abilities.ARandomScatteringOrbs;
 import games.theRisingAngel.abilities.ARandomScatteringOrbsImpl;
 import games.theRisingAngel.abilities.ARegenToLeech;
 import games.theRisingAngel.abilities.AShieldingButWeakining;
 import games.theRisingAngel.abilities.AShieldingEachCurableResources;
+import games.theRisingAngel.abilities.ASimpleFixedBufferVanishingTRAn;
 import games.theRisingAngel.abilities.AVampireBerserker;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
@@ -50,8 +51,8 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 				gm -> new ALifeHealingMakesEarnBaseCurrency());
 		objProvider.addObj(ARandomScatteringOrbs.NAME, gm -> new ARandomScatteringOrbsImpl((GModalityTRAn) gm));
 		objProvider.addObj("Wounded Berseker", 3, gm -> {
-			ASimpleFixedBufferVanishing a;
-			a = new ASimpleFixedBufferVanishing("Wounded Berseker",
+			ASimpleFixedBufferVanishingTRAn a;
+			a = new ASimpleFixedBufferVanishingTRAn("Wounded Berseker",
 					new AttributeModification[] { new AttributeModification(AttributesTRAn.Strength, 8),
 							new AttributeModification(AttributesTRAn.Constitution, 5),
 							new AttributeModification(AttributesTRAn.Intelligence, -6),
@@ -74,8 +75,8 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 			return a;
 		});
 		objProvider.addObj("Frenzy for a miss", 2, gm -> {
-			ASimpleFixedBufferVanishing a;
-			a = new ASimpleFixedBufferVanishing("Frenzy for a miss",
+			ASimpleFixedBufferVanishingTRAn a;
+			a = new ASimpleFixedBufferVanishingTRAn("Frenzy for a miss",
 					new AttributeModification[] { new AttributeModification(AttributesTRAn.Strength, 6),
 							new AttributeModification(AttributesTRAn.ProbabilityPerThousandHitPhysical, 4), // frenzy
 							new AttributeModification(AttributesTRAn.ProbabilityPerThousandHitMagical, 4), // frenzy
@@ -101,8 +102,8 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 			return a;
 		});
 		objProvider.addObj("Immunoadrenaline", 2, gm -> {
-			ASimpleFixedBufferVanishing a;
-			a = new ASimpleFixedBufferVanishing("Immunoadrenaline",
+			ASimpleFixedBufferVanishingTRAn a;
+			a = new ASimpleFixedBufferVanishingTRAn("Immunoadrenaline",
 					new AttributeModification[] { new AttributeModification(AttributesTRAn.DamageReductionMagical, -10),
 							new AttributeModification(AttributesTRAn.DamageReductionPhysical, -10),
 							new AttributeModification(AttributesTRAn.Velocity,
@@ -125,8 +126,8 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 			return a;
 		});
 		objProvider.addObj("Bloodlust", 3, gm -> {
-			ASimpleFixedBufferVanishing a;
-			a = new ASimpleFixedBufferVanishing("Bloodlust",
+			ASimpleFixedBufferVanishingTRAn a;
+			a = new ASimpleFixedBufferVanishingTRAn("Bloodlust",
 					new AttributeModification[] { new AttributeModification(AttributesTRAn.Strength, 4),
 							new AttributeModification(AttributesTRAn.Health, 4),
 							new AttributeModification(AttributesTRAn.RegenLife, 1),
@@ -171,6 +172,7 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 					newAMeditationMoreRegen_LevelBased(maxLevel)//
 			);
 		}
+		objProvider.addObj(AProtectButMakesSoft.NAME, AProtectButMakesSoft.RARITY, gm -> new AProtectButMakesSoft());
 	}
 
 	private FactoryObjGModalityBased<AbilityGeneric> newAMeditationMoreRegen_LevelBased(int level) {

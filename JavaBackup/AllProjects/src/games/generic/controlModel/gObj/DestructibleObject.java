@@ -67,8 +67,12 @@ public interface DestructibleObject extends GameObjectGeneric, GModalityHolder, 
 	 * <p>
 	 * Note: Originally, the parameter was an instance of {@link GEventManager}, now
 	 * it's generalized to allow simpler event notification systems.
+	 * 
+	 * @return an instance of {@link DestructionObjEvent} that indicates if
+	 *         <code>this</code> object should really call {@link #destroy()} or not
+	 *         (through {@link DestructionObjEvent#isDestructionValid()}).
 	 */
-	public void fireDestructionEvent(GModality gm);
+	public DestructionObjEvent fireDestructionEvent(GModality gm);
 
 	/**
 	 * Check if this instance should be destroyed, fire the destruction's event by

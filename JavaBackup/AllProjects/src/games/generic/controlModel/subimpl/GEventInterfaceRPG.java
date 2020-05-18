@@ -1,6 +1,7 @@
 package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.gEvents.DestructionObjEvent;
 import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.DamageDealerGeneric;
@@ -15,7 +16,13 @@ public interface GEventInterfaceRPG extends GEventInterface {
 
 	// object living, moving and creature related
 
-	public void fireDestructionObjectEvent(GModalityET gaModality, DestructibleObject desObj);
+	/**
+	 * Fire a destruction event. If the event has not been invalidated (by setting
+	 * {@link DestructionObjEvent#setDestructionValid(boolean)} to
+	 * <code>false</code>), then the {@link DestructibleObject} (the second
+	 * parameter) should destroy itself.
+	 */
+	public DestructionObjEvent fireDestructionObjectEvent(GModalityET gaModality, DestructibleObject desObj);
 
 	/**
 	 * Fire a damage event and returns it, so informations like reductions and malus
@@ -23,8 +30,9 @@ public interface GEventInterfaceRPG extends GEventInterface {
 	 * (usually, a creature).
 	 * 
 	 * @param damageAmountToBeApplied: damage original subtracted by the amount of
-	 *        damage reduction provided by the target (usually, those two damages
-	 *        amounts are the same)
+	 *                                 damage reduction provided by the target
+	 *                                 (usually, those two damages amounts are the
+	 *                                 same)
 	 */
 	public EventDamage fireDamageReceivedEvent(GModalityET gm, DamageDealerGeneric source, LivingObject target,
 			DamageGeneric originalDamage, int damageAmountToBeApplied);

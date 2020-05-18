@@ -64,5 +64,4 @@ public class ARandomScatteringOrbsImpl extends ARandomScatteringOrbs {
 		// TODO Auto-generated method stub
 
 	}
-
 }

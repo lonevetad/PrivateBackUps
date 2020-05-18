@@ -1,11 +1,8 @@
 package games.generic.controlModel.inventoryAbil.abilitiesImpl;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import games.generic.controlModel.misc.CreatureAttributes;
 
 /**
  * Marks an ability as triggered that activate itself for an amount of time and
@@ -50,7 +47,7 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 	public int getVanishingEffectDuration();
 
 	/** Counter for time progressing. */
-	public int getAccumulatedTimeAbililtyVanishing();
+	public int getAccumulatedTimePhaseAbililty();
 
 	//
 
@@ -72,7 +69,7 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 	 */
 	public abstract void setVanishingEffectDuration(int vanishingEffectDuration);
 
-	public void setAccumulatedTimeAbililtyVanishing(int accumulatedTimeAbililtyVanishing);
+	public void setAccumulatedTimePhaseAbililty(int accumulatedTimeAbililtyVanishing);
 
 	//
 
@@ -95,24 +92,22 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 				doUponAbilityRefreshed();
 			else
 				doUponAbilityActivated();
-		} else if (pav == PhaseAbilityVanishing.Vanishing)
+		} else if (pav == PhaseAbilityVanishing.Vanishing) {
 			doUponAbilityStartsVanishing();
-		else // if (pav == PhaseAbilityVanishing.Finished)
+		} else // if (pav == PhaseAbilityVanishing.Finished)
 			doUponAbilityEffectEnds();
 		setPhaseAbilityCurrent(pav);
-		setAccumulatedTimeAbililtyVanishing(0);
+		setAccumulatedTimePhaseAbililty(0);
 	}
 
 	/**
-	 * Alters the ability (and probably its values) upon the time passing by
-	 * (because this method is probably called more than once during the vanish
-	 * phase, but it's no a constraint).<br>
-	 * The implementation of this interface decides how and when to call it (but
-	 * it's suggested to call it within the {@link #act(GModality, int)} call). An
-	 * example, is during the call of
-	 * {@link AbilityModifyingAttributesRealTime#updateAttributesModifiersValues(GModality, EquipmentItem, CreatureSimple, CreatureAttributes)}.
+	 * Alters the ability (and probably its values) upon the time passing by as the
+	 * ability vanish. It's called upon
+	 * {@link #evolveAbilityStatus(GModality, int)}.<br>
+	 * May rely on {@link #getAccumulatedTimePhaseAbililty()} to calculate its
+	 * values;
 	 */
-	public void vanishEffect();
+	public void vanishEffect(int timeUnits);
 
 	/** Perform something upon the ability activation */
 	public abstract void doUponAbilityActivated();
@@ -127,15 +122,15 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 	public abstract void doUponAbilityStartsVanishing();
 
 	/** Perform something upon the ability ends the vanishing effects */
-	public abstract void doUponAbilityEffectEnds();
+	public default void doUponAbilityEffectEnds() {
+		setAccumulatedTimePhaseAbililty(0);
+	}
 //		setPhaseAbilityCurrent(PhaseAbilityVanishing.Inactive);
 
 	//
 
 	@Override
-	public default void act(GModality modality, int timeUnits) {
-		evolveAbilityStatus(modality, timeUnits);
-	}
+	public default void act(GModality modality, int timeUnits) { evolveAbilityStatus(modality, timeUnits); }
 
 	/**
 	 * Upon receiving a triggering event (like a damage event or an activation from
@@ -143,9 +138,7 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 	 * trigger it again it it was yet {@link PhaseAbilityVanishing#Active} or
 	 * {@link PhaseAbilityVanishing#Vanishing}.
 	 */
-	public default void reActivateAbility(GModality gm) {
-		setPhaseTo(PhaseAbilityVanishing.Active);
-	}
+	public default void reActivateAbility(GModality gm) { setPhaseTo(PhaseAbilityVanishing.Active); }
 
 	/**
 	 * This ability evolves through time (from {@link PhaseAbilityVanishing#Active}
@@ -167,8 +160,7 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 		if (phaseAbility == PhaseAbilityVanishing.Inactive || phaseAbility == PhaseAbilityVanishing.Finished)
 			return;
 		// act only if the ability is active, if no, then do not waste the time
-		setAccumulatedTimeAbililtyVanishing(
-				accumulatedTimeAbililty = timeUnits + getAccumulatedTimeAbililtyVanishing());
+		setAccumulatedTimePhaseAbililty(accumulatedTimeAbililty = timeUnits + getAccumulatedTimePhaseAbililty());
 		// update, if necessary, the abiliy phase
 		if (phaseAbility == PhaseAbilityVanishing.Active) {
 			if (accumulatedTimeAbililty >= getAbilityEffectDuration()) {
@@ -178,6 +170,8 @@ public interface AbilityVanishingOverTime extends AbilityGeneric, TimedObject {
 		} else if (phaseAbility == PhaseAbilityVanishing.Vanishing) {
 			if (accumulatedTimeAbililty >= getVanishingEffectDuration()) {
 				setPhaseTo(PhaseAbilityVanishing.Finished);
+			} else {
+				vanishEffect(timeUnits);
 			}
 		}
 	}

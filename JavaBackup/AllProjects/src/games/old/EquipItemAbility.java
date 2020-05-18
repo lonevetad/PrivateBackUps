@@ -8,6 +8,7 @@ import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.inventoryAbil.EquipmentSet;
 
 /**
  * Some {@link EquipmentItem} could have special abilities. Instead of relying
@@ -88,5 +89,4 @@ public interface EquipItemAbility extends AbilityGeneric {
 	 */
 	@Override
 	public default void onRemovingFromOwner(GModality gm) { AbilityGeneric.super.onRemovingFromOwner(gm); }
-
 }

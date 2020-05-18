@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 TODO 10/05/2020
 -) cambiare TRAn LoaderGeneric così che il JSON abbia un oggetto (il ProbabilityOfContextesHolders appunto)
 	avente un array di oggetti: di coppie <nome, arraiDiProbabilità> (ossia RandomWeightedIndexes)
@@ -5,6 +6,8 @@ TODO 10/05/2020
 
 
 
+=======
+>>>>>>> develop
 TODO del 05/05/2020
 Le statistiche scalano troppo in alto (portarle al valore di 200 le rende eccessivamente forti)
 scalare anche i bonus di armature e upgrade vari sicchè diano al massimo 1,5 livelli
@@ -13,6 +16,14 @@ scalare anche i bonus di armature e upgrade vari sicchè diano al massimo 1,5 liv
 
 
 
+<<<<<<< HEAD
+=======
+TODO:
+aggiunto nel 27/04/2020
+aggiungere metodo per il drop randomico degli oggetti (magari in parallelo e con un GThread a parte)
+
+
+>>>>>>> develop
 TODO:
 aggiunto nel 27/04/2020
 aggiungere metodo per il drop randomico degli oggetti (magari in parallelo e con un GThread a parte)

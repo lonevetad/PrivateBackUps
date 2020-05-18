@@ -13,11 +13,11 @@ import games.generic.controlModel.misc.RarityHolder;
  * <ol>
  * <li>{@link AttributesHolder} (holding: {@link CreatureAttributes})</li>
  * <li>{@link MovingObject}</li>
- * <li>{@link TimedObject} (inherited by 2°)</li>
- * <li>{@link ObjectInSpace} (inherited by 2°)</li>
+ * <li>{@link TimedObject} (inherited by 2ï¿½)</li>
+ * <li>{@link ObjectInSpace} (inherited by 2ï¿½)</li>
  * <li>{@link LivingObject}</li>
- * <li>{@link DestructibleObject} (inherited by 5°)</li>
- * <li>{@link GEventObserver} (inherited by 6° but independent in its
+ * <li>{@link DestructibleObject} (inherited by 5ï¿½)</li>
+ * <li>{@link GEventObserver} (inherited by 6ï¿½ but independent in its
  * functionality and concept)</li>
  * <li>{@link RarityHolder}: NPC or enemy creatures could be spawned
  * randomly</li>

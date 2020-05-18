@@ -101,20 +101,10 @@ public abstract class GEventManager implements GObjectsHolder {
 	 * notify the {@link GEventObserver}s that the event has been occurred.
 	 */
 	public void fireEvent(IGEvent ge) {
-		/**
-		 * Integer id; Queue<IGEvent> l; // <br>
-		 * if (ge == null) return; // <br>
-		 * id = ge.getID(); // <br>
-		 * l = this.eventsQueued.get(id); // <br>
-		 * if (l == null) { // <br>
-		 * l = new LinkedList<>(); // <br>
-		 * this.eventsQueued.put(id, l); // <br>
-		 * }
-		 */
 		if (ge.isRequirigImmediateProcessing()) {
 			this.notifyEventObservers(ge);
 		} else {
-			eventsQueued.add(ge); // like offer
+			eventsQueued.add(ge); // like "offer"
 		}
 	}
 
@@ -143,7 +133,7 @@ public abstract class GEventManager implements GObjectsHolder {
 			 */
 			while ((!q.isEmpty()) && gm.isRunningOrSleep()) {
 //					l.remove(0).performEvent(gm);
-				notifyEventObservers(event = q.poll()); // remove the first event
+				this.notifyEventObservers(event = q.poll()); // remove the first event
 				event.onProcessingEnded();
 			}
 		}
