@@ -774,22 +774,110 @@
 		],
 		"abilities": []
 	}, {
-		"name": "Wood plated Trousers", // TODO OOO WOOOOOOOOOD
-		"type": "Legs",
-		"rarity": 2,
-		"sellPrice": [10],
+		"name": "Wood Chestplate",
+		"type": "Chest",
+		"rarity": 1,
+		"sellPrice": [17],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [ // TANTA destrezza e velocita', un po' di precisione e costituzione, tanta difesa magica, - health, + faith - intelligenza
-			{"attribute": "LifeMax", "value": 23},
+		"attributeMods": [
 			{"attribute": "Defense", "value": 6},
-			{"attribute": "Constitution", "value": 7},
-			{"attribute": "Health", "value": -2},
-			{"attribute": "Dexterity", "value": -3},
-			{"attribute": "Velocity", "value": -3},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Wisdom", "value": 3},
+			{"attribute": "Faith", "value": 3},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -25},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -25},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 5}
+		],
+		"abilities": []
+	}, {
+		"name": "Wood plated Trousers",
+		"type": "Legs",
+		"rarity": 2,
+		"sellPrice": [21],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [			
+			{"attribute": "Strength", "value": -4},
+			{"attribute": "Defense", "value": 6},
+			{"attribute": "Constitution", "value": -2},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Velocity", "value": 10},
+			{"attribute": "Faith", "value": 2},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 10},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 10},
+			{"attribute": "DamageReductionMagical", "value": 6}
+		],
+		"abilities": []
+	}, {
+		"name": "Wood Helmet",
+		"type": "Head",
+		"rarity": 2,
+		"sellPrice": [12],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [			
+			{"attribute": "Strength", "value": -2},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Constitution", "value": -2},
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Intelligence", "value": 4},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -5},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -5},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 30},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 30},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Wood Plinth",
+		"type": "Feet",
+		"rarity": 2,
+		"sellPrice": [15],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [			
+			{"attribute": "Strength", "value": -3},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Constitution", "value": -5},
+			{"attribute": "Precision", "value": 4},
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "Velocity", "value": 15},
+			{"attribute": "Faith", "value": 2},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 10},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Wood armguard",
+		"type": "Legs",
+		"rarity": 2,
+		"sellPrice": [9],
+		"dimensInvent": {
+			"width": 2, "height": 3
+		},
+		"attributeMods": [			
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -20},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -20},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 5},
 			{"attribute": "DamageReductionPhysical", "value": 3},
-			{"attribute": "DamageReductionMagical", "value": 1}
+			{"attribute": "DamageReductionMagical", "value": 3},
+			{"attribute": "DamageBonusMagical", "value": -2},
+			{"attribute": "DamageBonusPhysical", "value": -2}
 		],
 		"abilities": []
 	}, {
@@ -947,7 +1035,7 @@
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Dexterity", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 1}
 		],
 		"abilities": []
 	}, {

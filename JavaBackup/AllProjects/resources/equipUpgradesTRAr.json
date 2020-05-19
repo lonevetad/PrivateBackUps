@@ -1187,5 +1187,86 @@
 			{"attribute": "ProbabilityPerThousandHitMagical", "value": -50},
 			{"attribute": "CriticalProbabilityPerThousand", "value": -50}
 		]
+	}, {
+		"name": "Of Water Spirit",
+		"rarity": 2,
+		"bonusPrice": [32],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 4},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 4}
+		]
+	}, {
+		"name": "Of Wind Spirit",
+		"rarity": 2,
+		"bonusPrice": [32],
+		"modifiers": [
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 4}
+		]
+	}, {
+		"name": "Of Fire Spirit",
+		"rarity": 2,
+		"bonusPrice": [32],
+		"modifiers": [
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Health", "value": 4}
+		]
+	}, {
+		"name": "Of Rock Spirit",
+		"rarity": 2,
+		"bonusPrice": [32],
+		"modifiers": [
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 3},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -10},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -10},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": -10}
+		]
+	}, {
+		"name": "Of Leaf Spirit",
+		"rarity": 2,
+		"bonusPrice": [32],
+		"modifiers": [
+			{"attribute": "DamageReductionPhysical", "value": -3},
+			{"attribute": "DamageReductionMagical", "value": -3},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 10},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 10},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 10}
+		]
+	}, {
+		"name": "Of Envy",
+		"rarity": 2,
+		"bonusPrice": [32],
+		"modifiers": [
+			{"attribute": "RegenLife", "value": -3},
+			{"attribute": "RegenMana", "value": -3},
+			{"attribute": "Health", "value": -5},
+			{"attribute": "Faith", "value": -5},
+			{"attribute": "CriticalMultiplierPercentage", "value": 20},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 100}
+		]
+	}, {
+		"name": "Of Thornbrush",
+		"rarity": 2,
+		"bonusPrice": [32],
+		"modifiers": [
+			{"attribute": "DamageBonusPhysical", "value": 4},
+			{"attribute": "DamageBonusMagical", "value": 4},
+			{"attribute": "RegenLife", "value": -2},
+			{"attribute": "RegenMana", "value": -2},
+			{"attribute": "LifeMax", "value": -25},
+			{"attribute": "ManaMax", "value": -15}
+		]
+	}, {
+		"name": "Of Sleeper",
+		"rarity": 1,
+		"bonusPrice": [4],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 40},
+			{"attribute": "ManaMax", "value": 30}
+		]
 	}
 ]

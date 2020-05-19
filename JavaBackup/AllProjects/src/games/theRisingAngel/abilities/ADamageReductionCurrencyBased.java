@@ -10,26 +10,33 @@ import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.CurrencyHolder;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
-import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingSingleAttributeRealTime;
+import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingAttributesRealTime;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
-import games.theRisingAngel.misc.DamageTypesTRAn;
 
-public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttributeRealTime implements GEventObserver {
+public class ADamageReductionCurrencyBased extends AbilityModifyingAttributesRealTime implements GEventObserver {
 	private static final long serialVersionUID = -69287821202158L;
 	public static final String NAME = "Buying Reducion ";
 	public static final int RARITY = 3;
 
-	public ADamageReductionCurrencyBased(DamageTypesTRAn dt) {
-		super(NAME + dt.getName(), AttributesTRAn.damageReductionByType(dt));
+	public ADamageReductionCurrencyBased() {// (DamageTypesTRAn dt
+		this(RARITY);
+	}
+
+	public ADamageReductionCurrencyBased(int rarity) {
+//			super(NAME + dt.getName(), AttributesTRAn.damageReductionByType(dt));
+		super(NAME + rarity,
+				new AttributesTRAn[] { AttributesTRAn.DamageReductionPhysical, AttributesTRAn.DamageReductionMagical });
 		this.eventsWatching = new ArrayList<>(2);
 		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
 		perThousandFraction = 0;
 		maximumReduction = 0;
-		setRarityIndex(RARITY);
+		setRarityIndex(rarity);
+		this.setPerThousandFraction(25 + (10 * rarity));
+		this.setMaximumReduction(20 + (10 * rarity));
 	}
 
 	protected int perThousandFraction, maximumReduction;
@@ -75,9 +82,9 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 			CreatureAttributes ca) {
 		int reduct;
 		AttributeModification am;
-		am = super.getAttributesToModify()[0];
 		reduct = (getDefaultCurrencyAmount(ah) * getPerThousandFraction()) / 1000;
 		if (maximumReduction > 0 && reduct > maximumReduction) { reduct = maximumReduction; }
+		am = super.getAttributesToModify()[0];
 		am.setValue(reduct);
 //		System.out.println(";;ADamagRedCurrBas... attri to mod " + am.getAttributeModified().getName() + " has value "
 //				+ am.getValue() + ", creature's value : " + //
@@ -103,7 +110,9 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingSingleAttribu
 				return;
 			ch = ((CurrencyHolder) c).getCurrencies();
 			a = ch.getMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX);
-			a -= ((a * getPerThousandFraction()) / 1000);
+			a -= Math.min(//
+					((a * getPerThousandFraction()) / 1000), //
+					((maximumReduction * getPerThousandFraction()) / 1000));
 			ch.setMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX, //
 					a > 0 ? a : 0);
 //	super.getAttributeToModify().

@@ -1,5 +1,7 @@
 package games.theRisingAngel.loaders;
 
+import java.util.function.Consumer;
+
 import games.generic.controlModel.GController;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gEvents.EventDamage;
@@ -29,7 +31,6 @@ import games.theRisingAngel.abilities.ASimpleFixedBufferVanishingTRAn;
 import games.theRisingAngel.abilities.AVampireBerserker;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
-import games.theRisingAngel.misc.DamageTypesTRAn;
 
 public class LoaderAbilityTRAn extends LoaderAbilities {
 
@@ -37,11 +38,11 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 
 	@Override
 	public void loadInto(GController gcontroller) {
-		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Physical.getName(),
-				ADamageReductionCurrencyBased.RARITY,
-				gc -> new ADamageReductionCurrencyBased(DamageTypesTRAn.Physical));
-		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Magical.getName(),
-				ADamageReductionCurrencyBased.RARITY, gc -> new ADamageReductionCurrencyBased(DamageTypesTRAn.Magical));
+//		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Physical.getName(),
+//				ADamageReductionCurrencyBased.RARITY,
+//				gc -> new ADamageReductionCurrencyBased(DamageTypesTRAn.Physical));
+//		objProvider.addObj(ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Magical.getName(),
+//				ADamageReductionCurrencyBased.RARITY, gc -> new ADamageReductionCurrencyBased(DamageTypesTRAn.Magical));
 		objProvider.addObj(AMoreDamageReceivedMoreLifeRegen.NAME, AMoreDamageReceivedMoreLifeRegen.RARITY,
 				gc -> new AMoreDamageReceivedMoreLifeRegen());
 		objProvider.addObj(AFireShpereOrbiting.NAME, AFireShpereOrbiting.RARITY, gc -> new AFireShpereOrbiting());
@@ -164,18 +165,29 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 				gm -> new AAttrSingleBonusMalusRandomPercentage());
 
 		//
-		for (int maxLevel = 5; maxLevel >= 0; maxLevel--) {
-			objProvider.addObj(AMeditationMoreRegen.NAME + maxLevel, maxLevel,
+		forEachLevel_ZeroToMaz(ml -> {
+			objProvider.addObj(AMeditationMoreRegen.NAME + ml, ml,
 //					((Function<Integer, FactoryObjGModalityBased<AbilityGeneric>>) (level -> {
 //						return gm -> new AMeditationMoreRegen(level);
 //					})).apply(maxLevel) // moved to a function because reminds TOO MUCH to JavaScript ...
-					newAMeditationMoreRegen_LevelBased(maxLevel)//
+					newAMeditationMoreRegen_LevelBased(ml)//
 			);
-		}
+			objProvider.addObj(ADamageReductionCurrencyBased.NAME + ml, ml,
+					gm -> new ADamageReductionCurrencyBased(ml));
+
+			// other ones using applicable to a set of levels/rarities/ ?
+		});
 		objProvider.addObj(AProtectButMakesSoft.NAME, AProtectButMakesSoft.RARITY, gm -> new AProtectButMakesSoft());
+
 	}
 
 	private FactoryObjGModalityBased<AbilityGeneric> newAMeditationMoreRegen_LevelBased(int level) {
 		return gm -> new AMeditationMoreRegen(level);
+	}
+
+	private void forEachLevel_ZeroToMaz(Consumer<Integer> c) {
+		for (int maxLevel = 5; maxLevel >= 0; maxLevel--) {
+			c.accept(maxLevel);
+		}
 	}
 }
