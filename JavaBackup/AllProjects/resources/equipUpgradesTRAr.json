@@ -309,7 +309,7 @@
 	}, {
 		"name": "Ruined",
 		"rarity": 2,
-		"bonusPrice": [-8],
+		"bonusPrice": [-12],
 		"modifiers": [
 			{"attribute": "Defense", "value": -2},
 			{"attribute": "Faith", "value": -3},
@@ -604,32 +604,29 @@
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 60},
 			{"attribute": "CriticalMultiplierPercentage", "value": 20},
 			{"attribute": "CriticalProbabilityPerThousand", "value": 150}
-		]
+		]  // TODO OOOOOOOOOOOOOOOOOOOOOOOOOOO da qua in su bisogna riaggiustare tutto considerando che gli equipaggiamenti "base" forniscono 1-1.5 livelli in bonus (ossia 10-15 punti base)
 	}, {
 		"name": "of Boxer",
 		"rarity": 3,
 		"bonusPrice": [28],
 		"modifiers": [
-			{"attribute": "Strength", "value": 9},
-			{"attribute": "Constitution", "value": 4},
-			{"attribute": "Precision", "value": 6},
-			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Strength", "value": 5},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Precision", "value": 3},
+			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "Wisdom", "value": -4},
-			{"attribute": "DamageBonusPhysical", "value": 3},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "CriticalProbabilityPerThousand", "value": 70}
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 30}
 		]
 	}, {
 		"name": "of Hermit",
 		"rarity": 4,
 		"bonusPrice": [40],
 		"modifiers": [
-			{"attribute": "LifeMax", "value": 15},
-			{"attribute": "ManaMax", "value": 15},
-			{"attribute": "RegenMana", "value": 2},
 			{"attribute": "RegenLife", "value": 2},
 			{"attribute": "Health", "value": -5},
-			{"attribute": "Constitution", "value": 6},
+			{"attribute": "Constitution", "value": 4},
 			{"attribute": "Wisdom", "value": 8},
 			{"attribute": "Faith", "value": 8}
 		]
@@ -638,8 +635,8 @@
 		"rarity": 2,
 		"bonusPrice": [23],
 		"modifiers": [
-			{"attribute": "Precision", "value": 10},
-			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "Dexterity", "value": 8},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
 			{"attribute": "ProbabilityPerThousandHitMagical", "value": 20},
 			{"attribute": "CriticalProbabilityPerThousand", "value": 20},
@@ -650,10 +647,9 @@
 		"rarity": 1,
 		"bonusPrice": [16],
 		"modifiers": [
-			{"attribute": "Strength", "value": 2},
-			{"attribute": "Health", "value": 4},
+			{"attribute": "Strength", "value": 1},
 			{"attribute": "Precision", "value": 3},
-			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Dexterity", "value": 3},
 			{"attribute": "Faith", "value": 2}
 		]
 	}, {
@@ -661,8 +657,8 @@
 		"rarity": 3,
 		"bonusPrice": [33],
 		"modifiers": [
-			{"attribute": "Precision", "value": 18},
-			{"attribute": "Dexterity", "value": 8},
+			{"attribute": "Precision", "value": 11},
+			{"attribute": "Dexterity", "value": 5},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 100},
 			{"attribute": "ProbabilityPerThousandHitMagical", "value": 70},
 			{"attribute": "CriticalProbabilityPerThousand", "value": 50},
@@ -673,7 +669,7 @@
 		"rarity": 3,
 		"bonusPrice": [33],
 		"modifiers": [
-			{"attribute": "Faith", "value": 5},
+			{"attribute": "Faith", "value": 7},
 			{"attribute": "Intelligence", "value": 12},
 			{"attribute": "Wisdom", "value": 10},
 			{"attribute": "Strength", "value": -6},
@@ -694,10 +690,10 @@
 		"modifiers": [
 			{"attribute": "Precision", "value": 4},
 			{"attribute": "Dexterity", "value": 6},
-			{"attribute": "Faith", "value": 12},
-			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 10},
+			{"attribute": "Wisdom", "value": 3},
 			{"attribute": "Strength", "value": -5},
-			{"attribute": "Health", "value": 3},
+			{"attribute": "Health", "value": 2},
 			{"attribute": "Constitution", "value": -2},
 			{"attribute": "Defense", "value": -2},
 			{"attribute": "LifeMax", "value": -75},
@@ -705,17 +701,17 @@
 			{"attribute": "Velocity", "value": 10},
 			{"attribute": "CriticalProbabilityPerThousand", "value": 30},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 70}
-		]  // TODO OOOOOOOOOOOOOOOOOOOOOOOOOOO da qua in su bisogna riaggiustare tutto considerando che gli equipaggiamenti "base" forniscono 1-1.5 livelli in bonus (ossia 10-15 punti base)
+		]
 	}, {
 		"name": "of Knight",
 		"rarity": 3,
 		"bonusPrice": [33],
 		"modifiers": [
-			{"attribute": "Strength", "value": 8},
-			{"attribute": "Constitution", "value": 5},
-			{"attribute": "Defense", "value": 5},
-			{"attribute": "Dexterity", "value": 4},
-			{"attribute": "Precision", "value": 4},
+			{"attribute": "Strength", "value": 6},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": 3},
 			{"attribute": "Faith", "value": -4},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 30},
@@ -1267,6 +1263,119 @@
 		"modifiers": [
 			{"attribute": "LifeMax", "value": 40},
 			{"attribute": "ManaMax", "value": 30}
+		]
+	}, {
+		"name": "with Magic Stabilizers",
+		"rarity": 2,
+		"bonusPrice": [17],
+		"modifiers": [
+			{"attribute": "RegenMana", "value": -2},
+			{"attribute": "ManaMax", "value": -15},
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "Dexterity", "value": 6}
+		]
+	}, {
+		"name": "Ferromagnetic",
+		"rarity": 1,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "ShieldMax", "value": 10},
+			{"attribute": "RegenShield", "value": 1}
+		]
+	}, {
+		"name": "Paper Filled",
+		"rarity": 1,
+		"bonusPrice": [7],
+		"modifiers": [
+			{"attribute": "DamageReductionMagical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 1}
+		]
+	}, {
+		"name": "Romantic",
+		"rarity": 1,
+		"bonusPrice": [22],
+		"modifiers": [
+			{"attribute": "Strength", "value": -7},
+			{"attribute": "Intelligence", "value": -4},
+			{"attribute": "Wisdom", "value": -4},
+			{"attribute": "Faith", "value": 10},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 4}
+		]
+	}, {
+		"name": "Well-documented",
+		"rarity": 2,
+		"bonusPrice": [15],
+		"modifiers": [
+			{"attribute": "Precision", "value": 3},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Intelligence", "value": 1},
+			{"attribute": "Wisdom", "value": 4}
+		]
+	}, {
+		"name": "Of Knives-thrower",
+		"rarity": 2,
+		"bonusPrice": [27],
+		"modifiers": [
+			{"attribute": "Strength", "value": 1},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "Intelligence", "value": 1},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 15}
+		]
+	}, {
+		"name": "Lucky",
+		"rarity": 3,
+		"bonusPrice": [75],
+		"modifiers": [
+			{"attribute": "Luck", "value": 8}
+		]
+	}, {
+		"name": "Blessed by Luck",
+		"rarity": 4,
+		"bonusPrice": [100],
+		"modifiers": [
+			{"attribute": "Luck", "value": 10}
+		]
+	}, {
+		"name": "Bad-designed usage",
+		"rarity": 1,
+		"bonusPrice": [-12],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 2},
+			{"attribute": "Wisdom", "value": -4},
+			{"attribute": "Strength", "value": -1},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Health", "value": -1}
+		]
+	}, {
+		"name": "Unintelligible usage",
+		"rarity": 2,
+		"bonusPrice": [-34],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": -3},
+			{"attribute": "Wisdom", "value": -4},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Strength", "value": -4},
+			{"attribute": "Dexterity", "value": -2}
+		]
+	}, {
+		"name": "Uncomfortable",
+		"rarity": 1,
+		"bonusPrice": [-7],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Constitution", "value": -4},
+			{"attribute": "Faith", "value": -1}
+		]
+	}, {
+		"name": "Of Stupidity",
+		"rarity": 2,
+		"bonusPrice": [-30],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": -7},
+			{"attribute": "Wisdom", "value": -7},
+			{"attribute": "Faith", "value": 2}
 		]
 	}
 ]

@@ -44,8 +44,13 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 		 */
 		int i;
 		i = ordinal();
-		this.factory = (i == 0 || ((15 - i) <= 3)) ? //
-				EquipItemFactory.DefaultEIF.JewelryFactory : EquipItemFactory.DefaultEIF.NonJewelryFacory;
+		if (i == 0 || ((15 - i) <= 3)) {
+			this.factory = EquipItemFactory.DefaultEIF.JewelryFactory;
+		} else if (i == 9 || i == 11) {
+			this.factory = EquipItemFactory.DefaultEIF.WeaponFactory;
+		} else {
+			this.factory = EquipItemFactory.DefaultEIF.NonJewelryFacory;
+		}
 	}
 
 	@Override

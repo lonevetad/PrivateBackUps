@@ -2049,5 +2049,136 @@
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -50}
 		],
 		"abilities": []
+	}, {
+		"name": "Mantle of Semi-visibility",
+		"type": "Shoulder",
+		"rarity": 3,
+		"sellPrice": [77],
+		"dimensInvent": {
+			"width": 2, "height": 4
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": -30},
+			{"attribute": "ManaMax", "value": -20},
+			{"attribute": "Defense", "value": 20},
+			{"attribute": "Precision", "value": 15},
+			{"attribute": "DamageBonusPhysical", "value": -10},
+			{"attribute": "DamageBonusMagical", "value": -10},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": -100},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -150},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -150}
+		],
+		"abilities": []
+	}, {
+		"name": "Charm",
+		"type": "Necklace",
+		"rarity": 1,
+		"sellPrice": [22],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "LifeMax", "value": 25},
+			{"attribute": "ManaMax", "value": 10}
+		],
+		"abilities": []
+	}, {
+		"name": "Ring of the Wicked Witch",
+		"type": "Ring",
+		"rarity": 1,
+		"sellPrice": [13],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "ManaLeechPercentage", "value": 15},
+			{"attribute": "RegenMana", "value": -2},
+			{"attribute": "ManaMax", "value": -20}
+		],
+		"abilities": []
+	}, {
+		"name": "Ring of the Leech",
+		"type": "Ring",
+		"rarity": 1,
+		"sellPrice": [13],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "LifeLeechPercentage", "value": 15},
+			{"attribute": "RegenLife", "value": -2},
+			{"attribute": "LifeMax", "value": -30}
+		],
+		"abilities": []
+	}, {
+		"name": "Crystal Thunderstone Belt of mad Scientist",
+		"type": "Belt",
+		"rarity": 3,
+		"sellPrice": [100],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Faith", "value": 10},
+			{"attribute": "Intelligence", "value": 3},
+			{"attribute": "Constitution", "value": -5},
+			{"attribute": "Dexterity", "value": -15},
+			{"attribute": "RegenMana", "value": -12},
+			{"attribute": "RegenShield", "value": 8},
+			{"attribute": "ShieldMax", "value": 40}
+		],
+		"abilities": []
+	}, {
+		"name": "Ferromagnetic Ring",
+		"type": "Ring",
+		"rarity": 1,
+		"sellPrice": [18],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "ShieldMax", "value": 15},
+			{"attribute": "RegenShield", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Ferromagnetic Chocker",
+		"type": "Necklace",
+		"rarity": 1,
+		"sellPrice": [18],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "ShieldMax", "value": 15},
+			{"attribute": "RegenShield", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Ferromagnetic Bracelet",
+		"type": "Bracelet",
+		"rarity": 1,
+		"sellPrice": [18],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "ShieldMax", "value": 15},
+			{"attribute": "RegenShield", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Ferromagnetic Earrings",
+		"type": "Earrings",
+		"rarity": 1,
+		"sellPrice": [18],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "ShieldMax", "value": 15},
+			{"attribute": "RegenShield", "value": 1}
+		],
+		"abilities": []
 	}
 ]

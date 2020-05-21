@@ -124,7 +124,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	public int getShieldRegenation() { return this.getAttributes().getValue(AttributesTRAn.RegenShield); }
 
 	@Override
-	public int getHealingRegenerationAmount(CurableResourceType healType) {
+	public int getCurableResourceRegeneration(CurableResourceType healType) {
 		if (healType == HealingTypeExample.Life)
 			return getLifeRegenation();
 		else if (healType == HealingTypeExample.Mana)

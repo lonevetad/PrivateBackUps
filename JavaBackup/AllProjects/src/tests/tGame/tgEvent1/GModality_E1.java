@@ -113,7 +113,7 @@ public class GModality_E1 extends GModalityTRAn {
 		odd = new ObjDamageDeliverE1(6000);
 		odd.setTarget(p);
 		odd.setDamageAmount(125);
-		odd.setAccumulatedTimeElapsed(5000);
+		odd.setAccumulatedTimeElapsed(2500);
 		this.addGameObject(odd);
 
 //		odd = new ObjDamageDeliverE1(4000);
@@ -139,35 +139,13 @@ public class GModality_E1 extends GModalityTRAn {
 		System.out.println("\n\n");
 		p.equip(equip);
 
-		equipmentName = "Cloth Hat";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		p.equip(equip);
-
-		equipmentName = "Ring of rusted plate";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		p.equip(equip);
-
-		equipmentName = "Sunstone Ring";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		p.equip(equip);
-
-		equipmentName = "Triphane Ring";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		p.equip(equip);
-
-		equipmentName = "Amazonite Ring";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		p.equip(equip);
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		p.equip(equip);
-		// second slot or hand
-		equipmentName = "Moonstone Ring";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		p.equip(equip);
-
-		equipmentName = "Gloves of the mad hunter";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		p.equip(equip);
+		for (String en : new String[] { "Cloth Hat", "Ring of rusted plate", "Sunstone Ring", "Triphane Ring",
+				"Amazonite Ring", "Amazonite Ring", "Moonstone Ring", "Gloves of the mad hunter",
+				"Ferromagnetic Earrings", "Ferromagnetic Bracelet", "Ferromagnetic Chocker" }) {
+			equipmentName = en;
+			equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+			p.equip(equip);
+		}
 
 		//
 

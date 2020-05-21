@@ -248,7 +248,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	// TODO fire damage
 	@Override
 	public void receiveDamage(GModality gm, DamageGeneric originalDamage, DamageDealerGeneric source) {
-		int damageAmountToBeApplied, damageReallyReceived; // originalDamageAmount
+		int damageAmountToBeApplied, damageReallyReceived, shield; // originalDamageAmount
 //		GModalityRPG gmrpg;
 		EventDamage eventDamageProcessed;
 		if (originalDamage.getDamageAmount() <= 0)
@@ -265,7 +265,17 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 				: eventDamageProcessed.getDamageAmountToBeApplied());
 		if (damageReallyReceived > 0) {
 			System.out.println("-_-''-BaseCreatureRPGImpl then the damage received is: " + damageReallyReceived
-					+ " and i had " + getLife() + " life");
+					+ " and i had " + getLife() + " life, shield: " + getShield());
+			shield = getShield();
+			if (shield > 0) {
+				if (shield >= damageReallyReceived) {
+					setShield(shield - damageReallyReceived);
+					return;
+				} else {
+					setShield(0);
+					damageReallyReceived -= shield;
+				}
+			}
 			// then execute the damage, after ALL reductions and malus by listeners
 			setLife(getLife() - damageReallyReceived);
 		}
