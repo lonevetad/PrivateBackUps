@@ -1,9 +1,13 @@
 package tests.tGame.tgEvent1;
 
+import java.util.function.Consumer;
+
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModel;
+import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.inventoryAbil.EquipmentUpgrade;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.player.PlayerGeneric;
@@ -13,6 +17,7 @@ import games.theRisingAngel.GameObjectsProvidersHolderTRAn;
 import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
+import games.theRisingAngel.misc.CreatureAttributesTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
@@ -168,6 +173,22 @@ public class GModality_E1 extends GModalityTRAn {
 		System.out.println(printerPlayer.getText());
 		// then ...
 //		checkAndRebuildThreads();
+
+		// let's try to sum up ALL equip upgrades
+		CreatureAttributes ca;
+		Consumer<AttributeModification> amApplier;
+		ca = new CreatureAttributesTRAn();
+		amApplier = am -> { ca.applyAttributeModifier(am); };
+		goph.getEquipUpgradesProvider().forEachFactory((euName, f) -> {
+			EquipmentUpgrade eu;
+			eu = f.newInstance(this);
+			eu.getAttributeModifiers().forEach(amApplier);
+		});
+		System.out.println("\n\n All Attribute modifications all together would apply this modifications: ");
+		System.out.println(ca.toString());
+		System.out.println("\n\n and without bonuses");
+		ca.setBonusCalculator(null); // no bonus no cry
+		System.out.println(ca.toString());
 	}
 
 	@Override

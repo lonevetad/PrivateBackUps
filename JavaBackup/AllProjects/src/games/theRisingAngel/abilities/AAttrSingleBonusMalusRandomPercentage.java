@@ -20,11 +20,11 @@ public class AAttrSingleBonusMalusRandomPercentage extends AAttrSingleBonusMalus
 
 	@Override
 	public int getAttributesBonusValue(GModality gm, CreatureAttributes ca, AttributesTRAn attr) {
-		return ca.getBonusCalculator().getBonusForValue(attr.getIndex()) >> 2;
+		return ca.getBonusCalculator().getBonusFor(attr.getIndex()) >> 2;
 	}
 
 	@Override
 	public int getAttributesMalusValue(GModality gm, CreatureAttributes ca, AttributesTRAn attr) {
-		return -(ca.getBonusCalculator().getBonusForValue(attr.getIndex()) >> 3);
+		return -(ca.getBonusCalculator().getBonusFor(attr.getIndex()) >> 3);
 	}
 }

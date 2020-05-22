@@ -22,36 +22,45 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 	protected transient boolean isCacheAvailable = false;
 //	protected transient int attributesCountLeftToUpdate;
 //	protected final boolean[] attributesUpdated;
-	protected final int[] attributesModificationsApplied, cacheValues;
+	protected int[] attributesModificationsApplied, cacheValues;
+
+	@Override
+	public int getValue(int index) {
+		throw new UnsupportedOperationException(
+				"Cannot invoke on integer index because it cannot perform \"AttributeIdentifier#isStrictlyPositive()\" check");
+	}
 
 	@Override
 	public int getValue(AttributeIdentifier identifier) {
-		boolean bcNotNull;
-		int v, i, index;
-		CreatureAttributesBonusesCalculator bc;
+		int v, index;
 		index = identifier.getIndex();
-		if (isCacheAvailable) {
-			v = this.cacheValues[index];
-			return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
-		}
-		isCacheAvailable = true;
-		i = attributesCount;
-		if (bcNotNull = (bc = this.bonusCalculator) != null)
-			bc.markCacheAsDirty();
-
-		while (--i >= 0) {// update the values
-			v = super.originalValues[i] + this.attributesModificationsApplied[i];
-			if (bcNotNull)
-				v += bc.getBonusForValue(i);
-			this.cacheValues[i] = v;
-		}
-//		if (bcNotNull) {
-//			i = attributesCount;
-//			while (--i >= 0) // update the values
-//				this.cacheValues[i] += bc.getBonusForValue(i);
-//		}
+		if (!isCacheAvailable) { recalculateCache(); }
 		v = this.cacheValues[index];
 		return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
+	}
+
+	protected void recalculateCache() {
+		boolean bcNotNull;
+		int i, ac;
+		final int[] cv, ov, ama;
+		CreatureAttributesBonusesCalculator bc;
+		isCacheAvailable = true;
+		cv = this.cacheValues;
+		ov = super.originalValues;
+		ama = this.attributesModificationsApplied;
+		ac = attributesCount;
+		// then others
+		if (bcNotNull = (bc = this.bonusCalculator) != null) { bc.markCacheAsDirty(); }
+		i = ac;
+		if (bcNotNull) {
+			while (--i >= 0) {// update the values
+				cv[i] = ov[i] + ama[i] + bc.getBonusFor(i);
+			}
+		} else { // update others
+			while (--i >= 0) {// update the values
+				cv[i] = ov[i] + ama[i];
+			}
+		}
 	}
 
 //	public int[] getComputedAttributesModifications() {

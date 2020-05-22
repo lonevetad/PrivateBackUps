@@ -241,8 +241,8 @@
 		"rarity": 3,
 		"bonusPrice": [25],
 		"modifiers": [
-			{"attribute": "Strength", "value": 6},
-			{"attribute": "Faith", "value": 16},
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Faith", "value": 12},
 			{"attribute": "Intelligence", "value": -7},
 			{"attribute": "DamageBonusPhysical", "value": 5},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -70}
@@ -536,7 +536,7 @@
 			{"attribute": "Intelligence", "value": 5},
 			{"attribute": "Precision", "value": 20},
 			{"attribute": "Dexterity", "value": 3},
-			{"attribute": "Faith", "value": 5},
+			{"attribute": "Faith", "value": 2},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 150},
 			{"attribute": "ProbabilityPerThousandHitMagical", "value": 150},
 			{"attribute": "CriticalMultiplierPercentage", "value": 30},
@@ -735,7 +735,7 @@
 		"rarity": 2,
 		"bonusPrice": [22],
 		"modifiers": [
-			{"attribute": "Faith", "value": 4},
+			{"attribute": "Faith", "value": 2},
 			{"attribute": "DamageBonusMagical", "value": 2},
 			{"attribute": "DamageReductionMagical", "value": 1}
 		]
@@ -905,10 +905,10 @@
 		"modifiers": [
 			{"attribute": "Intelligence", "value": -6},
 			{"attribute": "Wisdom", "value": 2},
-			{"attribute": "Faith", "value": 4},
+			{"attribute": "Faith", "value": 3},
 			{"attribute": "Strength", "value": 3},
 			{"attribute": "Health", "value": 3},
-			{"attribute": "LifeMax", "value": -25}
+			{"attribute": "LifeMax", "value": -15}
 		]
 	}, {
 		"name": "of Training",
@@ -954,6 +954,21 @@
 		"rarity": 3,
 		"bonusPrice": [38],
 		"modifiers": [
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Intelligence", "value": 2},
+			{"attribute": "Wisdom", "value": 2},
+			{"attribute": "Faith", "value": 2}
+		]
+	}, {
+		"name": "of Happiness and Gratification",
+		"rarity": 4,
+		"bonusPrice": [100],
+		"modifiers": [
 			{"attribute": "Strength", "value": 3},
 			{"attribute": "Constitution", "value": 3},
 			{"attribute": "Health", "value": 3},
@@ -963,21 +978,6 @@
 			{"attribute": "Intelligence", "value": 3},
 			{"attribute": "Wisdom", "value": 3},
 			{"attribute": "Faith", "value": 3}
-		]
-	}, {
-		"name": "of Happiness and Gratification",
-		"rarity": 4,
-		"bonusPrice": [100],
-		"modifiers": [
-			{"attribute": "Strength", "value": 4},
-			{"attribute": "Constitution", "value": 4},
-			{"attribute": "Health", "value": 4},
-			{"attribute": "Defense", "value": 4},
-			{"attribute": "Dexterity", "value": 4},
-			{"attribute": "Precision", "value": 4},
-			{"attribute": "Intelligence", "value": 4},
-			{"attribute": "Wisdom", "value": 4},
-			{"attribute": "Faith", "value": 4}
 		]
 	}, {
 		"name": "of Inspiration",
@@ -1027,13 +1027,12 @@
 			{"attribute": "Intelligence", "value": 1}
 		]
 	}, {
-		"name": "of the Wind",
+		"name": "of the Blowing Wind",
 		"rarity": 2,
 		"bonusPrice": [14],
 		"modifiers": [
-			{"attribute": "Dexterity", "value": 7},
-			{"attribute": "Defense", "value": 4},
-			{"attribute": "Faith", "value": 3},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Defense", "value": 2},
 			{"attribute": "Velocity", "value": 20}
 		]
 	}, {
@@ -1217,6 +1216,7 @@
 		"modifiers": [
 			{"attribute": "DamageReductionPhysical", "value": 3},
 			{"attribute": "DamageReductionMagical", "value": 3},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -10},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -10},
 			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": -10}
@@ -1295,12 +1295,12 @@
 		"rarity": 1,
 		"bonusPrice": [22],
 		"modifiers": [
-			{"attribute": "Strength", "value": -7},
-			{"attribute": "Intelligence", "value": -4},
+			{"attribute": "Strength", "value": -5},
+			{"attribute": "Intelligence", "value": -2},
 			{"attribute": "Wisdom", "value": -4},
-			{"attribute": "Faith", "value": 10},
+			{"attribute": "Faith", "value": 6},
 			{"attribute": "Constitution", "value": 3},
-			{"attribute": "Health", "value": 4}
+			{"attribute": "Health", "value": 6}
 		]
 	}, {
 		"name": "Well-documented",
@@ -1376,6 +1376,167 @@
 			{"attribute": "Intelligence", "value": -7},
 			{"attribute": "Wisdom", "value": -7},
 			{"attribute": "Faith", "value": 2}
+		]
+	}, {
+		"name": "Of Impatience",
+		"rarity": 1,
+		"bonusPrice": [-5],
+		"modifiers": [
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Intelligence", "value": -3},
+			{"attribute": "Wisdom", "value": -4},
+			{"attribute": "Health", "value": -1},
+			{"attribute": "CriticalMultiplierPercentage", "value": 10}
+		]
+	}, {
+		"name": "Of Patience",
+		"rarity": 1,
+		"bonusPrice": [10],
+		"modifiers": [
+			{"attribute": "Strength", "value": -2},
+			{"attribute": "Precision", "value": 4},
+			{"attribute": "Intelligence", "value": 2},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Health", "value": 1},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": -15},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": -15},
+			{"attribute": "DamageBonusPhysical", "value": 1},
+			{"attribute": "DamageBonusMagical", "value": 1}
+		]
+	}, {
+		"name": "Blessed by Tech Angel",
+		"rarity": 3,
+		"bonusPrice": [65],
+		"modifiers": [
+			{"attribute": "ShieldMax", "value": 25},
+			{"attribute": "RegenShield", "value": 3},
+			{"attribute": "Faith", "value": 8}
+		]
+	}, {
+		"name": "With Crystal Glass Marquetry",
+		"rarity": 2,
+		"bonusPrice": [33],
+		"modifiers": [
+			{"attribute": "ShieldMax", "value": 15},
+			{"attribute": "RegenShield", "value": 1},
+			{"attribute": "Defense", "value": -7}
+		]
+	}, {
+		"name": "Adamantine",
+		"rarity": 3,
+		"bonusPrice": [100],
+		"modifiers": [
+			{"attribute": "ShieldMax", "value": 40},
+			{"attribute": "RegenShield", "value": 3},
+			{"attribute": "Luck", "value": -5}
+		]
+	}, {
+		"name": "Diamagnetic",
+		"rarity": 2,
+		"bonusPrice": [37],
+		"modifiers": [
+			{"attribute": "ShieldMax", "value": 5},
+			{"attribute": "RegenShield", "value": 5},
+			{"attribute": "Dexterity", "value": -2}
+		]
+	}, {
+		"name": "Dusty",
+		"rarity": 1,
+		"bonusPrice": [-3],
+		"modifiers": [
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Defense", "value": 2}
+		]
+	}, {
+		"name": "Of Animal",
+		"rarity": 1,
+		"bonusPrice": [14],
+		"modifiers": [
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "Wisdom", "value": -4},
+			{"attribute": "Faith", "value": -3}
+		]
+	}, {
+		"name": "Legendary",
+		"rarity": 4,
+		"bonusPrice": [100],
+		"modifiers": [
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 3},
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": 3},
+			{"attribute": "Intelligence", "value": 3},
+			{"attribute": "Wisdom", "value": 3},
+			{"attribute": "Faith", "value": 3},
+			{"attribute": "LifeLeechPercentage", "value": 5},
+			{"attribute": "ManaLeechPercentage", "value": 5},
+			{"attribute": "LifeMax", "value": -100}, //there's a price
+			{"attribute": "ManaMax", "value": -50}
+		]
+	}, {
+		"name": "Inauspicious",
+		"rarity": 4,
+		"bonusPrice": [-75],
+		"modifiers": [
+			{"attribute": "Strength", "value": -3},
+			{"attribute": "Constitution", "value": -3},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Defense", "value": -3},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Intelligence", "value": -3},
+			{"attribute": "Wisdom", "value": -3},
+			{"attribute": "Faith", "value": -3},
+			{"attribute": "CriticalMultiplierPercentage", "value": 15},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 15}
+		]
+	}, {
+		"name": "Of Genius",
+		"rarity": 2,
+		"bonusPrice": [60],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 15},
+			{"attribute": "Wisdom", "value": 7},
+			{"attribute": "Faith", "value": -10}
+		]
+	}, {
+		"name": "Of Fat",
+		"rarity": 1,
+		"bonusPrice": [-8],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 100},
+			{"attribute": "Health", "Wisdom": -10},
+			{"attribute": "Precision", "value": -7},
+			{"attribute": "Dexterity", "value": -7}
+		]
+	}, {
+		"name": "Of Nerd",
+		"rarity": 1,
+		"bonusPrice": [4],
+		"modifiers": [
+			{"attribute": "Strength", "Wisdom": -10},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Intelligence", "value": 4},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 8}
+		]
+	}, {
+		"name": "Of Medic",
+		"rarity": 3,
+		"bonusPrice": [55],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 30},
+			{"attribute": "Health", "value": 10},
+			{"attribute": "RegenLife", "value": 8},
+			{"attribute": "Intelligence", "value": 3},
+			{"attribute": "Wisdom", "value": 6},
+			{"attribute": "Faith", "value": -8}
 		]
 	}
 ]

@@ -1,5 +1,6 @@
 package games.theRisingAngel.loaders;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,13 +24,17 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 	@Override
 	public void loadInto(GController gc) {
 		LoaderEquipUpgradeFromFile leuff;
+		LinkedList<FactoryEquipUpgrade> factories;
+		FactoryEquipUpgrade fe;
 		// TODO prendere ispirazione da LoaderEquipments
 
 		// e poi
 		leuff = new LoaderEquipUpgradeFromFile("", "equipUpgradesTRAr.json");
 		leuff.readAllFile();
-		System.out.println("total equip-upgrades loaded: " + leuff.factories.size());
-		for (FactoryEquipUpgrade fe : leuff.factories) {
+		factories = (LinkedList<FactoryEquipUpgrade>) leuff.factories;
+		System.out.println("total equip-upgrades loaded: " + factories.size());
+		while (!factories.isEmpty()) {
+			fe = factories.removeFirst();
 			objProvider.addObj(fe.name, fe.rarity, fe);
 		}
 	}
@@ -108,14 +113,26 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 	}
 
 	public static void main(String[] args) {
+		int size;
+		int[] rarities;
 		LoaderEquipUpgradeFromFile leuff;
+		LinkedList<FactoryEquipUpgrade> factories;
+		FactoryEquipUpgrade fe;
 		leuff = new LoaderEquipUpgradeFromFile("", "equipUpgradesTRAr.json");
 		leuff.readAllFile();
+		size = leuff.factories.size();
 		System.out.println("LoaderEquipUpgradeFromFile we read:");
-		for (FactoryEquipUpgrade feu : leuff.factories) {
+		rarities = new int[6];
+		Arrays.fill(rarities, 0);
+		factories = (LinkedList<FactoryEquipUpgrade>) leuff.factories;
+		while (!factories.isEmpty()) {
+			fe = factories.removeFirst();
 			System.out.println();
-			System.out.println(feu);
+			System.out.println(fe);
+			rarities[fe.rarity]++;
 		}
-		System.out.println("total: " + leuff.factories.size());
+		System.out.println("total: " + size);
+		System.out.println("RARITIES proportion:");
+		System.out.println(Arrays.toString(rarities));
 	}
 }

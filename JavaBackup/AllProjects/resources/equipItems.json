@@ -2180,5 +2180,25 @@
 			{"attribute": "RegenShield", "value": 1}
 		],
 		"abilities": []
+	}, {
+		"name": "Gloves of the Trickster",
+		"type": "Hands",
+		"rarity": 2,
+		"sellPrice": [36],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": -10},
+			{"attribute": "Faith", "value": -8},
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 15},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 15},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 15},
+			{"attribute": "ShieldMax", "value": 8},
+			{"attribute": "RegenShield", "value": 8}
+		],
+		"abilities": []
 	}
 ]

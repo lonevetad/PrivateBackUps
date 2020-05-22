@@ -154,14 +154,26 @@ public class LoaderEquipTRAn extends LoaderEquipments {
 	}
 
 	public static void main(String[] args) {
+		int size;
+		int[] rarities;
 		LoaderEquipFromFile leff;
+		LinkedList<FactoryEquip> factories;
+		FactoryEquip fe;
 		leff = new LoaderEquipFromFile("", "equipItems.json");
 		leff.readAllFile();
+		size = leff.factories.size();
 		System.out.println("LoaderEquipFromFile we read:");
-		for (FactoryEquip fe : leff.factories) {
+		rarities = new int[6];
+		Arrays.fill(rarities, 0);
+		factories = (LinkedList<FactoryEquip>) leff.factories;
+		while (!factories.isEmpty()) {
+			fe = factories.removeFirst();
 			System.out.println();
 			System.out.println(fe);
+			rarities[fe.fi.rarity]++;
 		}
-		System.out.println("total: " + leff.factories.size());
+		System.out.println("total: " + size);
+		System.out.println("RARITIES proportion:");
+		System.out.println(Arrays.toString(rarities));
 	}
 }
