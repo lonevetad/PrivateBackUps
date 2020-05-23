@@ -1538,5 +1538,42 @@
 			{"attribute": "Wisdom", "value": 6},
 			{"attribute": "Faith", "value": -8}
 		]
+	}, {
+		"name": "Of Engineer",
+		"rarity": 2,
+		"bonusPrice": [40],
+		"modifiers": [
+			{"attribute": "Strength", "value": -7},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Constitution", "value": -5},
+			{"attribute": "Intelligence", "value": 20},
+			{"attribute": "Wisdom", "value": 12},
+			{"attribute": "Faith", "value": -15},
+			{"attribute": "ManaMax", "value": -25},
+			{"attribute": "ShieldMax", "value": 10},
+			{"attribute": "RegenShield", "value": 2},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 25},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 25},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 25},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 25},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 25},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 25}
+		]
+	}, {
+		"name": "Of Weakness",
+		"rarity": 2,
+		"bonusPrice": [-25],
+		"modifiers": [
+			{"attribute": "Strength", "Wisdom": -10},
+			{"attribute": "Defense", "value": -5},
+			{"attribute": "Dexterity", "value": -3}
+		]
+	}, {
+		"name": "Of Disappointment",
+		"rarity": 1,
+		"bonusPrice": [-17],
+		"modifiers": [
+			{"attribute": "Faith", "value": -10}
+		]
 	}
 ]
