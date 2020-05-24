@@ -14,10 +14,10 @@ import games.generic.controlModel.misc.DamageTypeGeneric;
 import games.generic.controlModel.misc.HealGeneric;
 import games.generic.controlModel.misc.HealingTypeExample;
 import games.generic.controlModel.subimpl.GModalityET;
-import games.generic.controlModel.subimpl.GObjectsInSpaceManagerImpl;
 import games.theRisingAngel.creatures.BaseCreatureTRAn;
 import games.theRisingAngel.events.GEventInterfaceTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
+import games.theRisingAngel.misc.GObjectsInSpaceManagerTRAn;
 
 public class GameObjectsManagerTRAn implements GameObjectsManager {
 	public static final int THRESHOLD_PROBABILITY_BASE_TO_HIT = 75,
@@ -34,7 +34,7 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 	public GameObjectsManagerTRAn(GModalityTRAn gmodalityTrar) {
 		super();
 		setGameModality(gmodalityTrar);
-		this.goism = new GObjectsInSpaceManagerImpl();
+		this.goism = new GObjectsInSpaceManagerTRAn();
 	}
 
 	protected GModalityTRAn gmodalityTran;

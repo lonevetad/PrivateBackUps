@@ -19,6 +19,6 @@ public class AbilitiesProvider extends GObjProviderRarityPartitioning<AbilityGen
 	}
 
 	public int getAbilitiesCount() {
-		return getObjectsIdentifiedCount();
+		return getObjectsFactoriesCount();
 	}
 }

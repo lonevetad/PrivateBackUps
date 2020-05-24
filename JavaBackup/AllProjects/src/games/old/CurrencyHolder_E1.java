@@ -1,4 +1,4 @@
-package tests.tGame.tgEvent1;
+package games.old;
 
 import games.generic.controlModel.GModality;
 import games.theRisingAngel.misc.CurrencySetTRAn;

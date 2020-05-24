@@ -7,12 +7,10 @@ import games.theRisingAngel.events.GEventInterfaceTRAn;
 
 public class CurrencySetTRAn extends CurrencySet {
 
-	public CurrencySetTRAn(GModality gm, int typesAmount) {
-		super(gm, typesAmount);
-	}
+	public CurrencySetTRAn(GModality gm, int typesAmount) { super(gm, typesAmount); }
 
 	@Override
-	public void fireMoneyChangeEvent(GModality gm, int indexType, int oldValue, int newValue) {
+	public void fireCurrencyChangeEvent(GModality gm, int indexType, int oldValue, int newValue) {
 		GModalityTRAn gmt;
 		GEventInterfaceTRAn gei;
 		gmt = (GModalityTRAn) gm;

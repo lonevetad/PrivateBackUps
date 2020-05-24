@@ -2,18 +2,18 @@ package games.theRisingAngel.misc;
 
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
-import games.generic.controlModel.subimpl.CreatureAttributesCaching;
+import games.generic.controlModel.subimpl.CreatureAttributesBaseAndDerivedCaching;
 
 /**
  * @deprecated Deprecated because in real game the values, due to abilities,
  *             could change frequently over time.
  */
 @Deprecated
-public class CreatureAttributesTRAn_OptimizeRareChanges extends CreatureAttributesCaching {
+public class CreatureAttributesTRAn_OptimizeRareChanges extends CreatureAttributesBaseAndDerivedCaching {
 
 	public CreatureAttributesTRAn_OptimizeRareChanges() {
 		super(AttributesTRAn.VALUES.length);
-		super.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAn());
+		super.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAn_OptimizeRareChanges());
 		this.cacheValues = null;
 
 	}

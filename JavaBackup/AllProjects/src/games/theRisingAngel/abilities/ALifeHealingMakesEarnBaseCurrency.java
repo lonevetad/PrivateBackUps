@@ -79,8 +79,7 @@ public class ALifeHealingMakesEarnBaseCurrency extends AbilityBaseImpl implement
 					// apply only if the regeneration has really happened
 					ch = (CurrencyHolder) owid;
 					cs = ch.getCurrencies();
-					cs.setMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX,
-							cs.getMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX) + (amoutHealed >> 1));
+					cs.alterCurrencyAmount(CurrencySet.BASE_CURRENCY_INDEX, (amoutHealed >> 1));
 				}
 			}
 		}

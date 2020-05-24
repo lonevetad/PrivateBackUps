@@ -198,6 +198,11 @@ public abstract class GModality {
 
 	// TODO CONCRETE METHODS
 
+	/** See {@link GObjectsInSpaceManager#getSpaceSubunitsEachMacrounits()}. */
+	public int getSpaceSubunitsEachMacrounits() {
+		return getGameObjectsManager().getGObjectInSpaceManager().getSpaceSubunitsEachMacrounits();
+	}
+
 	/** Add a {@link ObjectWithID} to the {@link GModel}. */
 	public boolean addGameObject(GameObjectGeneric o) {
 		GModel gm;

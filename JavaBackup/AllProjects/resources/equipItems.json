@@ -1474,11 +1474,12 @@
 			"width": 2, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": 25},
+			{"attribute": "LifeMax", "value": 40},
 			{"attribute": "Strength", "value": 2},
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Health", "value": 2},
-			{"attribute": "RegenLife", "value": 2}
+			{"attribute": "RegenLife", "value": 2},
+			{"attribute": "Luck", "value": 1}
 
 		],
 		"abilities": []
@@ -1491,7 +1492,7 @@
 			"width": 2, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "ManaMax", "value": 15},
+			{"attribute": "ManaMax", "value": 30},
 			{"attribute": "Intelligence", "value": 2},
 			{"attribute": "Wisdom", "value": 2},
 			{"attribute": "Faith", "value": 2},

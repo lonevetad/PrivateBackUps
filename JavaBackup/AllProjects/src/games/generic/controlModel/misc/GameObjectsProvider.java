@@ -74,7 +74,7 @@ public class GameObjectsProvider<E extends ObjectNamed> {
 		this.objsByName.forEach(action);
 	}
 
-	public int getObjectsIdentifiedCount() { return this.objsByName.size(); }
+	public int getObjectsFactoriesCount() { return this.objsByName.size(); }
 
 	public void removeAll() { this.objsByName.clear(); }
 }

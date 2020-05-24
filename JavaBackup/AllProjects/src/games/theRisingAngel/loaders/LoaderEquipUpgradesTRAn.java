@@ -8,6 +8,7 @@ import games.generic.controlModel.GController;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgrade;
+import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.misc.LoaderGeneric;
@@ -89,20 +90,30 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 
 	protected static class FactoryEquipUpgrade implements FactoryObjGModalityBased<EquipmentUpgrade> {
 		int rarity;
-		int[] bonusPriceSell;
+		int[] bonusPriceSell = null;
 		String name, description;
 		List<AttributeModification> attrMods = null;
 
 		@Override
 		public EquipmentUpgrade newInstance(GModality gm) {
-			EquipmentUpgrade ei;
-			ei = new EquipmentUpgradeImpl(rarity, name);
+			EquipmentUpgrade eu;
+			eu = new EquipmentUpgradeImpl(rarity, name);
 //			ei.description = description;
 			if (attrMods != null) {
 				for (AttributeModification am : attrMods)
-					ei.addAttributeModifier(am);
+					eu.addAttributeModifier(am);
 			}
-			return ei;
+			if (bonusPriceSell != null) {
+				int n;
+				CurrencySet cs;
+				cs = gm.newCurrencyHolder();
+				cs.setGameModaliy(gm); // not needed
+				n = bonusPriceSell.length;
+				while (--n >= 0)
+					cs.setCurrencyAmount(n, bonusPriceSell[n]);
+				eu.setPricesModifications(cs);
+			}
+			return eu;
 		}
 
 		@Override

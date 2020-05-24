@@ -83,7 +83,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	 * Creates a new {@link CreatureAttributes} with a fixed amounts of attribues.
 	 */
 	protected CreatureAttributes newAttributes(int attributesAmount) {
-		return new CreatureAttributesCaching(attributesAmount);
+		return new CreatureAttributesBaseAndDerivedCaching(attributesAmount);
 	}
 
 	/** Must call {@link #newAttributes(int)}. */

@@ -64,7 +64,7 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributesRea
 		if (!(c instanceof CurrencyHolder))
 			return 0;
 		ch = ((CurrencyHolder) c).getCurrencies();
-		a = ch.getMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX);
+		a = ch.getCurrencyAmount(CurrencySet.BASE_CURRENCY_INDEX);
 		return a > 0 ? a : 0;
 	}
 
@@ -109,11 +109,11 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributesRea
 			if (!(c instanceof CurrencyHolder))
 				return;
 			ch = ((CurrencyHolder) c).getCurrencies();
-			a = ch.getMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX);
+			a = ch.getCurrencyAmount(CurrencySet.BASE_CURRENCY_INDEX);
 			a -= Math.min(//
 					((a * getPerThousandFraction()) / 1000), //
 					((maximumReduction * getPerThousandFraction()) / 1000));
-			ch.setMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX, //
+			ch.setCurrencyAmount(CurrencySet.BASE_CURRENCY_INDEX, //
 					a > 0 ? a : 0);
 //	super.getAttributeToModify().
 		}

@@ -89,11 +89,9 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			break;
 		}
 		case RegenLife: {
-			v = //
-					+((c.getValue(AttributesTRAn.Health) + (c.getValue(AttributesTRAn.Constitution) >> 1)
-							+ (c.getValue(AttributesTRAn.Strength) / 3) // >> 2)
-					) >> 2)//
-							+ ((c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Faith)) >> 5);
+			v = +((c.getValue(AttributesTRAn.Health) + (c.getValue(AttributesTRAn.Constitution) >> 1)
+					+ (c.getValue(AttributesTRAn.Strength) / 3) // >> 2)
+					+ ((c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Faith)) >> 3)) >> 3);
 //			v >>= 1; // to highbreak;
 		}
 		case DamageReductionPhysical: {
@@ -123,7 +121,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 					+(c.getValue(AttributesTRAn.Faith) + //
 							(c.getValue(AttributesTRAn.Intelligence) / 3)// >> 2)
 							+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)//
-					) >> 2;
+					) >> 3;
 //		break;}case RigenMana : {v= ((c.getValue(AttributesTRAn.Faith))
 //				+ (c.getValue(AttributesTRAn.Wisdom) >> 1)
 //				+ (c.getValue(AttributesTRAn.Intelligence) >> 2)

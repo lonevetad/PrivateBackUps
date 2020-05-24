@@ -177,7 +177,8 @@ public class GView_E1 extends GameView {
 //			sb.append(AttributesTRAr.VALUES[i].name()).append("\t: ").append(ca.getValue(i)).append('\n');
 //		}
 //		jtaPlayerStats.setText(sb.toString());
-		jlMoneyValue.setText(Integer.toString(p.getCurrencies().getMoneyAmount(CurrencySetTRAn.BASE_CURRENCY_INDEX)));
+		jlMoneyValue
+				.setText(Integer.toString(p.getCurrencies().getCurrencyAmount(CurrencySetTRAn.BASE_CURRENCY_INDEX)));
 		n = AttributesTRAn.VALUES.length;
 		while (--n >= 0) {
 			jlPlayerStatValue[n].setText(Integer.toString(ca.getValue(AttributesTRAn.VALUES[n])));

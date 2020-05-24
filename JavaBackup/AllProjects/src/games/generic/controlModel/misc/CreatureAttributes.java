@@ -17,14 +17,12 @@ import games.generic.controlModel.inventoryAbil.EquipmentSet;
 public abstract class CreatureAttributes {
 	protected final int attributesCount;
 	protected final int[] originalValues;
-	protected CreatureAttributesBonusesCalculator bonusCalculator;
 
 	public CreatureAttributes(int attributesCount) {
 		if (attributesCount < 1) {
 			throw new IllegalArgumentException("Cannot have less than 1 attributes: " + attributesCount);
 		}
 		this.originalValues = new int[this.attributesCount = attributesCount];
-		this.bonusCalculator = null;
 	}
 
 	//
@@ -70,17 +68,6 @@ public abstract class CreatureAttributes {
 		int v;
 		v = getValue(identifier.getIndex());
 		return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
-	}
-
-	public CreatureAttributesBonusesCalculator getBonusCalculator() { return bonusCalculator; }
-
-	//
-
-	public void setBonusCalculator(CreatureAttributesBonusesCalculator bonusCalculator) {
-//		if (this.bonusCalculator != null)
-//			this.bonusCalculator.setCreatureAttributesSet(null); // CANNOT BE NULL-ED
-		this.bonusCalculator = bonusCalculator;
-		if (bonusCalculator != null) { bonusCalculator.setCreatureAttributesSet(this); }
 	}
 
 	/**

@@ -4,7 +4,7 @@
 		"rarity": 1,
 		"bonusPrice": [6],
 		"modifiers": [
-			{"attribute": "Faith", "value": 8},
+			{"attribute": "Faith", "value": 6},
 			{"attribute": "Wisdom", "value": 2},
 			{"attribute": "Intelligence", "value": -3}
 		]
@@ -14,25 +14,24 @@
 		"bonusPrice": [6],
 		"modifiers": [
 			{"attribute": "Constitution", "value": 1},
-			{"attribute": "Defense", "value": 2},
-			{"attribute": "Dexterity", "value": 3},
-			{"attribute": "Precision", "value": 3}
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 2}
 		]
 	}, {
 		"name": "Consacrated",
 		"rarity": 2,
 		"bonusPrice": [10],
 		"modifiers": [
-			{"attribute": "Faith", "value": 10},
-			{"attribute": "Wisdom", "value": 6},
-			{"attribute": "Intelligence", "value": -8}
+			{"attribute": "Faith", "value": 8},
+			{"attribute": "Wisdom", "value": 5},
+			{"attribute": "Intelligence", "value": -7}
 		]
 	} ,{
 		"name": "Thick",
 		"rarity": 1,
 		"bonusPrice": [10],
 		"modifiers": [
-			{"attribute": "Defense", "value": 5},
+			{"attribute": "Defense", "value": 3},
 			{"attribute": "Constitution", "value": 2}
 		]
 	}, {
@@ -40,18 +39,17 @@
 		"rarity": 3,
 		"bonusPrice": [56],
 		"modifiers": [
-			{"attribute": "Defense", "value": 12},
-			{"attribute": "DamageReductionPhysical", "value": 4},
-			{"attribute": "DamageReductionMagical", "value": 4}
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2}
 		]
 	}, {
 		"name": "with Art Decorations",
 		"rarity": 3,
 		"bonusPrice": [80],
 		"modifiers": [
-			{"attribute": "Wisdom", "value": 6},
-			{"attribute": "Health", "value": 3},
-			{"attribute": "Faith", "value": 2},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Health", "value": 2},
 			{"attribute": "DamageBonusMagical", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 1}
 		]
@@ -61,12 +59,12 @@
 		"bonusPrice": [100],
 		"modifiers": [
 			{"attribute": "ManaMax", "value": 50},
-			{"attribute": "RegenMana", "value": 8},
-			{"attribute": "Wisdom", "value": 8},
+			{"attribute": "RegenMana", "value": 4},
+			{"attribute": "Wisdom", "value": 5},
 			{"attribute": "Intelligence", "value": 5},
-			{"attribute": "Faith", "value": 10},
-			{"attribute": "DamageBonusMagical", "value": 3},
-			{"attribute": "DamageReductionMagical", "value": 3}
+			{"attribute": "Faith", "value": 5},
+			{"attribute": "DamageBonusMagical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2}
 		]
 	}, {
 		"name": "Sun runed",
@@ -74,27 +72,27 @@
 		"bonusPrice": [100],
 		"modifiers": [
 			{"attribute": "LifeMax", "value": 50},
-			{"attribute": "RegenLife", "value": 8},
-			{"attribute": "Constitution", "value": 8},
+			{"attribute": "RegenLife", "value": 4},
+			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Strength", "value": 5},
-			{"attribute": "Health", "value": 10},
-			{"attribute": "DamageBonusPhysical", "value": 3},
-			{"attribute": "DamageReductionPhysical", "value": 3}
+			{"attribute": "Health", "value": 5},
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 2}
 		]
 	}, {
-		"name": "Hearth runed",
+		"name": "Earth runed",
 		"rarity": 3,
 		"bonusPrice": [100],
 		"modifiers": [
 			{"attribute": "Defense", "value": 5},
 			{"attribute": "Dexterity", "value": 5},
 			{"attribute": "Precision", "value": 5},
-			{"attribute": "DamageBonusPhysical", "value": 4},
-			{"attribute": "DamageReductionPhysical", "value": 4},
+			{"attribute": "DamageBonusPhysical", "value": -2},
+			{"attribute": "DamageReductionPhysical", "value": -2},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 20},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 20},
-			{"attribute": "DamageBonusMagical", "value": 4},
-			{"attribute": "DamageReductionMagical", "value": 4},
+			{"attribute": "DamageBonusMagical", "value": -2},
+			{"attribute": "DamageReductionMagical", "value": -2},
 			{"attribute": "ProbabilityPerThousandHitMagical", "value": 20},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 20},
 			{"attribute": "CriticalProbabilityPerThousand", "value": 10},
@@ -105,8 +103,8 @@
 		"rarity": 3,
 		"bonusPrice": [30],
 		"modifiers": [
-			{"attribute": "LifeLeechPercentage", "value": 10},
-			{"attribute": "ManaLeechPercentage", "value": 10},
+			{"attribute": "LifeLeechPercentage", "value": 15},
+			{"attribute": "ManaLeechPercentage", "value": 15},
 			{"attribute": "RegenLife", "value": 2},
 			{"attribute": "RegenMana", "value": 2},
 			{"attribute": "Luck", "value": -5}
@@ -1437,8 +1435,7 @@
 		"bonusPrice": [37],
 		"modifiers": [
 			{"attribute": "ShieldMax", "value": 5},
-			{"attribute": "RegenShield", "value": 5},
-			{"attribute": "Dexterity", "value": -2}
+			{"attribute": "RegenShield", "value": 5}
 		]
 	}, {
 		"name": "Dusty",
@@ -1573,7 +1570,177 @@
 		"rarity": 1,
 		"bonusPrice": [-17],
 		"modifiers": [
-			{"attribute": "Faith", "value": -10}
+			{"attribute": "Faith", "value": -7}
 		]
+	}, {
+		"name": "Of Health",
+		"rarity": 1,
+		"bonusPrice": [12],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 30},
+			{"attribute": "Health", "value": 2}
+		]
+	}, {
+		"name": "Of Freshness",
+		"rarity": 1,
+		"bonusPrice": [14],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 2},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Dexterity", "value": 2}
+		]
+	}, {
+		"name": "Stones Intarsed",
+		"rarity": 1,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": 20}
+		]
+	}, {
+		"name": "Mana to Blood",
+		"rarity": 1,
+		"bonusPrice": [4],
+		"modifiers": [
+			{"attribute": "RegenLife", "value": 3},
+			{"attribute": "RegenMana", "value": -2}
+		]
+	}, {
+		"name": "Blood to Mana",
+		"rarity": 1,
+		"bonusPrice": [4],
+		"modifiers": [
+			{"attribute": "RegenLife", "value": -2},
+			{"attribute": "RegenMana", "value": 3}
+		]
+	}, {
+		"name": "Mind to Matter",
+		"rarity": 1,
+		"bonusPrice": [4],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 30},
+			{"attribute": "ManaMax", "value": -20}
+		]
+	}, {
+		"name": "Matter to Mind",
+		"rarity": 1,
+		"bonusPrice": [4],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": -20},
+			{"attribute": "ManaMax", "value": 30}
+		]
+	}, {
+		"name": "Dull",
+		"rarity": 1,
+		"bonusPrice": [-3],
+		"modifiers": [
+			{"attribute": "Strength", "value": -3},
+			{"attribute": "Intelligence", "value": -3},
+			{"attribute": "Constitution", "value": -2},
+			{"attribute": "Faith", "value": -2}
+		]
+	}, {
+		"name": "Of Heartfullness",
+		"rarity": 2,
+		"bonusPrice": [50],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 50},
+			{"attribute": "RegenLife", "value": 4},
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 8}
+		]
+	}, {
+		"name": "Of Wisdom",
+		"rarity": 2,
+		"bonusPrice": [50],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": 50},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Wisdom", "value": 8}
+		]
+	}, {
+		"name": "Of Reactivity",
+		"rarity": 2,
+		"bonusPrice": [50],
+		"modifiers": [
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Precision", "value": 5},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 20},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 20},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 20},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 5},
+		]
+	}, {
+		"name": "Of Determination",
+		"rarity": 2,
+		"bonusPrice": [50],
+		"modifiers": [
+			{"attribute": "Strength", "value": 7},
+			{"attribute": "Constitution", "value": 5},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 3},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
+		]
+	}, {
+		"name": "Of late Man",
+		"rarity": 2,
+		"bonusPrice": [-50],
+		"modifiers": [
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": -30},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": -30},
+			{"attribute": "CriticalProbabilityPerThousand", "value": -30},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -30},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -30},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": -30},
+			{"attribute": "Luck", "value": -5}
+		]
+	}, {
+		"name": "Of Complottist",
+		"rarity": 2,
+		"bonusPrice": [-100],
+		"modifiers": [
+			{"attribute": "Faith", "value": 10},
+			{"attribute": "Intelligence", "value": -15},
+			{"attribute": "Faith", "value": -15},
+			{"attribute": "Health", "value": -5}
+		]
+	}, {
+		"name": "Mask of the Vampire",
+		"type": "Head",
+		"rarity": 3,
+		"sellPrice": [39],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeLeechPercentage", "value": 15},
+			{"attribute": "ManaLeechPercentage", "value": 15},
+			{"attribute": "RegenLife", "value": -2},
+			{"attribute": "RegenMana", "value": -2},
+			{"attribute": "DamageBonusPhysical", "value": 3},
+			{"attribute": "DamageBonusMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Gloves of the Leech",
+		"type": "Hands",
+		"rarity": 2,
+		"sellPrice": [24],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeLeechPercentage", "value": 10},
+			{"attribute": "ManaLeechPercentage", "value": 10},
+			{"attribute": "RegenLife", "value": -1},
+			{"attribute": "RegenMana", "value": -1}
+		],
+		"abilities": []
 	}
 ]

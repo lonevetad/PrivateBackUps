@@ -9,11 +9,13 @@ import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgrade;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.CurrencySet;
+import games.generic.controlModel.misc.CreatureAttributesBaseAndDerived;
+import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.GameObjectsProvidersHolderTRAn;
+import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
@@ -46,6 +48,8 @@ public class GModality_E1 extends GModalityTRAn {
 		ObserverPrinterEvent ope;
 		NecklaceOfPainRinvigoring necklace_opr;
 		ArmProtectionShieldingDamageByMoney armProtection_sdbm;
+		CreatureAttributesBaseAndDerived ca;
+		CreatureAttributesBonusesCalculator cabc;
 		EquipmentItem equip;
 //		GC_E1 contr;
 		GameObjectsProvidersHolderTRAn goph;
@@ -117,8 +121,8 @@ public class GModality_E1 extends GModalityTRAn {
 
 		odd = new ObjDamageDeliverE1(6000);
 		odd.setTarget(p);
-		odd.setDamageAmount(125);
-		odd.setAccumulatedTimeElapsed(2500);
+		odd.setDamageAmount(200);
+		odd.setAccumulatedTimeElapsed(5000);
 		this.addGameObject(odd);
 
 //		odd = new ObjDamageDeliverE1(4000);
@@ -146,11 +150,24 @@ public class GModality_E1 extends GModalityTRAn {
 
 		for (String en : new String[] { "Cloth Hat", "Ring of rusted plate", "Sunstone Ring", "Triphane Ring",
 				"Amazonite Ring", "Amazonite Ring", "Moonstone Ring", "Gloves of the mad hunter",
-				"Ferromagnetic Earrings", "Ferromagnetic Bracelet", "Ferromagnetic Chocker" }) {
+				"Ferromagnetic Earrings", "Ferromagnetic Bracelet", "Ferromagnetic Chocker", "Crystal armguard" }) {
 			equipmentName = en;
 			equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
 			p.equip(equip);
 		}
+
+		equipmentName = "Lapis Lazuli Ring";
+		System.out.println("Now adding an artificially manipulated " + equipmentName);
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		System.out.println("Original equip");
+		System.out.println(equip);
+		for (String eu : new String[] { "Stones Intarsed", "Yellow colored", "Mana to Blood" }) {
+			equip.addUpgrade(goph.getEquipUpgradesProvider().getNewObjByName(this, eu));
+		}
+		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, ALoseManaBeforeLife.NAME));
+		System.out.println("--------------------------..........Altered equip");
+		System.out.println(equip);
+		p.equip(equip);
 
 		//
 
@@ -170,25 +187,36 @@ public class GModality_E1 extends GModalityTRAn {
 				System.out.println(i + "-> " + e);
 		});
 		System.out.println("\n\n at the end, the player looks like:");
+		ca = (CreatureAttributesBaseAndDerived) p.getAttributes();
 		System.out.println(printerPlayer.getText());
+		System.out.println(ca);
+		System.out.println("\n\n player attributes without bonuses");
+		cabc = ca.getBonusCalculator();
+		ca.setBonusCalculator(null);
+		System.out.println(ca);
+		System.out.println("\n\n\n");
+		ca.setBonusCalculator(cabc);
+
 		// then ...
 //		checkAndRebuildThreads();
 
 		// let's try to sum up ALL equip upgrades
-		CreatureAttributes ca;
-		Consumer<AttributeModification> amApplier;
-		ca = new CreatureAttributesTRAn();
-		amApplier = am -> { ca.applyAttributeModifier(am); };
-		goph.getEquipUpgradesProvider().forEachFactory((euName, f) -> {
-			EquipmentUpgrade eu;
-			eu = f.newInstance(this);
-			eu.getAttributeModifiers().forEach(amApplier);
-		});
-		System.out.println("\n\n All Attribute modifications all together would apply this modifications: ");
-		System.out.println(ca.toString());
-		System.out.println("\n\n and without bonuses");
-		ca.setBonusCalculator(null); // no bonus no cry
-		System.out.println(ca.toString());
+		{
+			Consumer<AttributeModification> amApplier;
+			CreatureAttributesTRAn caa;
+			caa = new CreatureAttributesTRAn();
+			amApplier = am -> { caa.applyAttributeModifier(am); };
+			goph.getEquipUpgradesProvider().forEachFactory((euName, f) -> {
+				EquipmentUpgrade eu;
+				eu = f.newInstance(this);
+				eu.getAttributeModifiers().forEach(amApplier);
+			});
+			System.out.println("\n\n All Attribute modifications all together would apply this modifications: ");
+			System.out.println(caa.toString());
+			System.out.println("\n\n and without bonuses");
+			caa.setBonusCalculator(null); // no bonus no cry
+			System.out.println(caa.toString());
+		}
 	}
 
 	@Override
@@ -206,25 +234,10 @@ public class GModality_E1 extends GModalityTRAn {
 	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer, ObjectNamedID playerType) {
 		Player_E1 p;
 		p = new Player_E1(this, (PlayerCharacterTypes) playerType);
-
-		if (p.getAttributes().getBonusCalculator() == null)
-			throw new IllegalStateException("WTF WHY IS NULL?");
-		if (p.getAttributes().getBonusCalculator().getCreatureAttributesSet() == null)
-			throw new IllegalStateException("WTF WHY IS NULL?");
-
 		setStartingBaseAttributes(p);
-
-		if (p.getAttributes().getBonusCalculator() == null)
-			throw new IllegalStateException("WTF WHY IS NULL?");
-		if (p.getAttributes().getBonusCalculator().getCreatureAttributesSet() == null)
-			throw new IllegalStateException("WTF WHY IS NULL?");
-
 		p.setLifeMax(STARTING_PLAYER_LIFE_MAX);
 		p.setLife(STARTING_PLAYER_LIFE_MAX);
 		p.setCurrencies(newCurrencyHolder());
 		return p;
 	}
-
-	@Override
-	public CurrencySet newCurrencyHolder() { return new CurrencyHolder_E1(this, 1); }
 }

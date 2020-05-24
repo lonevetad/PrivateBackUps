@@ -34,13 +34,14 @@ public class GModalityTRAn extends GModalityRPG {
 	protected GameObjectsManager newGameObjectsManager(GEventInterface gei) { return new GameObjectsManagerTRAn(this); }
 
 	@Override
-	public CurrencySet newCurrencyHolder() { return new CurrencySetTRAn(this, 0); }
+	public CurrencySet newCurrencyHolder() { return new CurrencySetTRAn(this, 1); }
 
 	@Override
 	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer, ObjectNamedID characterType) {
 		PlayerTRAn p;
 		p = new PlayerTRAn(this, (PlayerCharacterTypes) characterType);
 		setStartingBaseAttributes(p);
+		p.setCurrencies(newCurrencyHolder());
 		return p;
 	}
 

@@ -38,9 +38,23 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 	 * Used by {@link GObjectsHolder} (like {@link GModel}) to add this instance of
 	 * {@link GObjectsHolder}.
 	 */
-	public default String getNameGObjHolder() {
-		return OISM_NAME;
-	}
+	public default String getNameGObjHolder() { return OISM_NAME; }
+
+	/**
+	 * The "space" concept could not be atomic and so could be divided in smaller
+	 * parts, like the <i>meter</i> could be divided in <i>centimeters</i> or even
+	 * <i>millimeters</i>. See the "return" section for further informations.
+	 * 
+	 * @return The amount of <i>sub-units</i> that each <i>"space macro-unit"</i> is
+	 *         subdivided into. A number greater than one means that the space has a
+	 *         concept of <i>macro sections</i>, like <i>meter</i> has
+	 *         <i>centimeters</i>. Just <code>1</code> means that the space is at
+	 *         its finest granularity. A zero or negative number means <i>the space
+	 *         can be infinitively subdivided</i>.
+	 */
+	public int getSpaceSubunitsEachMacrounits();
+
+	//
 
 	public boolean containsObject(ObjectInSpace o);
 
@@ -78,9 +92,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 		return true;
 	}
 
-	public default boolean addObject(ObjectInSpace o) {
-		return addObject(true, o);
-	}
+	public default boolean addObject(ObjectInSpace o) { return addObject(true, o); }
 
 	/**
 	 * Set the object's location before adding it.
@@ -102,9 +114,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 		return added;
 	}
 
-	public default boolean removeObject(ObjectInSpace o) {
-		return removeObject(true, o);
-	}
+	public default boolean removeObject(ObjectInSpace o) { return removeObject(true, o); }
 
 	/**
 	 * @param fireEvent specify if a "remove" event should be fired
@@ -133,9 +143,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 	@Override
 	public default Set<ObjectWithID> getObjects() {
 		SetMapped<ObjectLocated, ObjectWithID> sm;
-		sm = new SetMapped<>(this.getOIMManager().getAllObjectLocated(), ol -> {
-			return (ObjectWithID) ol;
-		});
+		sm = new SetMapped<>(this.getOIMManager().getAllObjectLocated(), ol -> { return (ObjectWithID) ol; });
 		sm.setReverseMapper(owid -> {
 			if (owid instanceof ObjectLocated)
 				return (ObjectLocated) owid;
@@ -166,19 +174,13 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 	}
 
 	@Override
-	public default boolean removeAll() {
-		return this.getOIMManager().removeAllObjects();
-	}
+	public default boolean removeAll() { return this.getOIMManager().removeAllObjects(); }
 
 	@Override
-	public default ObjectWithID get(Integer id) {
-		return this.getOIMManager().getObjectLocated(id);
-	}
+	public default ObjectWithID get(Integer id) { return this.getOIMManager().getObjectLocated(id); }
 
 	@Override
-	public default void forEach(Consumer<ObjectWithID> action) {
-		this.getObjects().forEach(action);
-	}
+	public default void forEach(Consumer<ObjectWithID> action) { this.getObjects().forEach(action); }
 
 	//
 

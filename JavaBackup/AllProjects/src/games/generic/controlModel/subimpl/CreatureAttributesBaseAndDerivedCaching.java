@@ -2,16 +2,12 @@ package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.misc.AttributeIdentifier;
-import games.generic.controlModel.misc.CreatureAttributes;
+import games.generic.controlModel.misc.CreatureAttributesBaseAndDerived;
+import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
 
-/**
- * Caches all attribute's modifications (as like {@link AttributeModification})
- * in a separated array: use {@link #addAttributeModification(int, int)} and
- * {@link #removeAttributeModification(int, int)}.
- */
-public class CreatureAttributesCaching extends CreatureAttributes {
+public class CreatureAttributesBaseAndDerivedCaching extends CreatureAttributesBaseAndDerived {
 
-	public CreatureAttributesCaching(int attributesCount) {
+	public CreatureAttributesBaseAndDerivedCaching(int attributesCount) {
 		super(attributesCount);
 		this.attributesModificationsApplied = new int[attributesCount];
 		this.cacheValues = new int[attributesCount];
@@ -19,8 +15,8 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 	}
 
 	protected transient boolean isCacheAvailable = false;
-//	protected transient int attributesCountLeftToUpdate;
-//	protected final boolean[] attributesUpdated;
+//protected transient int attributesCountLeftToUpdate;
+//protected final boolean[] attributesUpdated;
 	protected int[] attributesModificationsApplied, cacheValues;
 
 	@Override
@@ -39,18 +35,36 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 	}
 
 	protected void recalculateCache() {
+		boolean bcNotNull;
 		int i, ac;
 		final int[] cv, ov, ama;
+		CreatureAttributesBonusesCalculator bc;
 		isCacheAvailable = true;
 		cv = this.cacheValues;
 		ov = super.originalValues;
 		ama = this.attributesModificationsApplied;
 		ac = attributesCount;
 		// then others
+		if (bcNotNull = (bc = this.bonusCalculator) != null) { bc.markCacheAsDirty(); }
 		i = ac;
-		while (--i >= 0) {// update the values
-			cv[i] = ov[i] + ama[i];
+		if (bcNotNull) {
+			while (--i >= 0) {// update the values
+				cv[i] = ov[i] + ama[i] + bc.getBonusFor(i);
+			}
+		} else { // update others
+			while (--i >= 0) {// update the values
+				cv[i] = ov[i] + ama[i];
+			}
 		}
+	}
+
+//public int[] getComputedAttributesModifications() {
+//	return attributesModifications;
+//}
+	@Override
+	public void setBonusCalculator(CreatureAttributesBonusesCalculator bonusCalculator) {
+		this.isCacheAvailable = false;
+		super.setBonusCalculator(bonusCalculator);
 	}
 
 	/**
@@ -74,7 +88,4 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 		this.isCacheAvailable = false;
 		this.attributesModificationsApplied[eam.getAttributeModified().getIndex()] -= eam.getValue();
 	}
-
-//	public void addAttributeModification(int index, int value) { this.computedAttributesModifications[index] += value; }
-//	public void removeAttributeModification(int index, int value) { this.computedAttributesModifications[index] -= value; }
 }
