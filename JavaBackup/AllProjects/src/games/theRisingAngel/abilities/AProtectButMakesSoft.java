@@ -24,6 +24,8 @@ public class AProtectButMakesSoft extends ASimpleFixedBufferVanishingTRAn {
 		super(NAME, AttributeModification.newEmptyArray(WHAT_TO_MODIFY));
 		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
 		this.setCumulative(false);
+		super.setVanishingEffectDuration(DURATION_VANISH);
+		super.setAbilityEffectDuration(DURATION_EFFECT);
 		setRarityIndex(RARITY);
 		malusVanishing = 0;
 	}
@@ -31,20 +33,6 @@ public class AProtectButMakesSoft extends ASimpleFixedBufferVanishingTRAn {
 	protected int malusVanishing;
 
 //		public CreatureSimple getCreatureReferred() {return creatureReferred;}
-
-	@Override
-	public int getAbilityEffectDuration() { return DURATION_EFFECT; }
-
-	@Override
-	public int getVanishingEffectDuration() { return DURATION_VANISH; }
-
-	//
-
-	@Override
-	public void setAbilityEffectDuration(int abilityEffectDuration) {}
-
-	@Override
-	public void setVanishingEffectDuration(int vanishingEffectDuration) {}
 
 //
 
@@ -69,12 +57,14 @@ public class AProtectButMakesSoft extends ASimpleFixedBufferVanishingTRAn {
 		if (isAcceptableEvent(ge)) {
 			if (++this.stackedTriggerCharges > 1) {
 				setPhaseTo(PhaseAbilityVanishing.Finished);
+				System.out.println("AProtectButMakesSoft: finished by damage event");
 			} else {
 				EventDamageTRAn de;
 				de = (EventDamageTRAn) ge;
 				d = de.getDamageReducedByTargetArmors() >> 1;
 				de.setDamageAmountToBeApplied(de.getDamageAmountToBeApplied() - d);
 				malusVanishing = -d; // NEGATIVE
+				System.out.println("AProtectButMakesSoft: " + d);
 //				this.attributesToModify[0].setValue(-d);
 //				this.attributesToModify[1].setValue(-d);
 			}
@@ -86,9 +76,16 @@ public class AProtectButMakesSoft extends ASimpleFixedBufferVanishingTRAn {
 	@Override
 	public void updateModAttributesDuringActiveEffect() {
 		int d;
+//		super.updateModAttributesDuringActiveEffect();
 		d = malusVanishing;
 		this.attributesToModify[0].setValue(d);
 		this.attributesToModify[1].setValue(d);
+//		malusVanishing = 0;ù
+	}
+
+	@Override
+	public void updateModAttributesDuringVanishing() {
+		super.updateModAttributesDuringVanishing();
 		malusVanishing = 0;
 	}
 }

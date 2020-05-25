@@ -37,9 +37,10 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 	private static final long serialVersionUID = -55232021L;
 	protected final EquipmentType equipmentType;
 	protected EquipmentSet belongingEquipmentSet;
+	protected final List<AttributeModification> baseAttributeModifiers;
 	protected MapTreeAVL<String, AbilityGeneric> backMapAbilities;
 	protected Set<AbilityGeneric> abilities;
-	protected final List<AttributeModification> baseAttributeModifiers;
+	protected MapTreeAVL<String, EquipmentUpgrade> backMapEquipUpgrades;
 	protected Set<EquipmentUpgrade> upgrades;
 
 	public EquipmentItem(GModalityRPG gmrpg, EquipmentType equipmentType, String name) {
@@ -53,15 +54,14 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 
 	//
 
-	@Override
-	public Map<String, AbilityGeneric> getAbilities() {
-		checkAbilitiesSet();
-		return this.backMapAbilities;
-	}
-
 	public EquipmentType getEquipmentType() { return this.equipmentType; }
 
 	public EquipmentSet getBelongingEquipmentSet() { return this.belongingEquipmentSet; }
+
+	/** Modifiers related to this equipment, that defines it. */
+	public List<AttributeModification> getBaseAttributeModifiers() {
+		return this.baseAttributeModifiers;
+	}
 
 	/** Beware: could return null if this item has no abilities. */
 	public Set<AbilityGeneric> getAbilitiesSet() {
@@ -69,7 +69,13 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 		return this.abilities;
 	}
 
-	public List<AttributeModification> getBaseAttributeModifiers() { return this.baseAttributeModifiers; }
+	@Override
+	public Map<String, AbilityGeneric> getAbilities() {
+		checkAbilitiesSet();
+		return this.backMapAbilities;
+	}
+
+	public Map<String, EquipmentUpgrade> getUpgradesMap() { return backMapEquipUpgrades; }
 
 	public Set<EquipmentUpgrade> getUpgrades() { return this.upgrades; }
 
@@ -101,9 +107,9 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 
 	protected void checkUpgradeSet() {
 		if (this.upgrades == null) {
-			MapTreeAVL<String, EquipmentUpgrade> mapEquipUpgrades;
-			mapEquipUpgrades = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
-			this.upgrades = mapEquipUpgrades.toSetValue(EquipmentUpgrade.KEY_EXTRACTOR);
+			this.backMapEquipUpgrades = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
+					Comparators.STRING_COMPARATOR);
+			this.upgrades = this.backMapEquipUpgrades.toSetValue(EquipmentUpgrade.KEY_EXTRACTOR);
 		}
 	}
 

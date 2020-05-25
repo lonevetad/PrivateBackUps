@@ -1707,40 +1707,76 @@
 		"modifiers": [
 			{"attribute": "Faith", "value": 10},
 			{"attribute": "Intelligence", "value": -15},
-			{"attribute": "Faith", "value": -15},
+			{"attribute": "Wisdom", "value": -15},
 			{"attribute": "Health", "value": -5}
 		]
 	}, {
-		"name": "Mask of the Vampire",
-		"type": "Head",
-		"rarity": 3,
-		"sellPrice": [39],
-		"dimensInvent": {
-			"width": 2, "height": 2
-		},
-		"attributeMods": [
-			{"attribute": "LifeLeechPercentage", "value": 15},
-			{"attribute": "ManaLeechPercentage", "value": 15},
-			{"attribute": "RegenLife", "value": -2},
-			{"attribute": "RegenMana", "value": -2},
-			{"attribute": "DamageBonusPhysical", "value": 3},
-			{"attribute": "DamageBonusMagical", "value": 3}
-		],
-		"abilities": []
+		"name": "Of Bodybuilder",
+		"rarity": 1,
+		"bonusPrice": [11],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 50},
+			{"attribute": "Strength", "value": 15},
+			{"attribute": "Constitution", "value": 6},
+			{"attribute": "Health", "value": -4},
+			{"attribute": "Dexterity", "value": -6},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Intelligence", "value": -3},
+			{"attribute": "Wisdom", "value": -5}
+		]
 	}, {
-		"name": "Gloves of the Leech",
-		"type": "Hands",
-		"rarity": 2,
-		"sellPrice": [24],
-		"dimensInvent": {
-			"width": 2, "height": 2
-		},
-		"attributeMods": [
-			{"attribute": "LifeLeechPercentage", "value": 10},
-			{"attribute": "ManaLeechPercentage", "value": 10},
-			{"attribute": "RegenLife", "value": -1},
-			{"attribute": "RegenMana", "value": -1}
-		],
-		"abilities": []
+		"name": "Of Book Lover",
+		"rarity": 1,
+		"bonusPrice": [18],
+		"modifiers": [
+			{"attribute": "Wisdom", "value": 10},
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Constitution", "value": -3},
+			{"attribute": "Defense", "value": -4},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Health", "value": 2}
+		]
+	}, {
+		"name": "Of Atheist",
+		"rarity": 1,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "Wisdom", "value": 7},
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Faith", "value": -13},
+			{"attribute": "RegenMana", "value": -4},
+			{"attribute": "Precision", "value": 3},
+			{"attribute": "Health", "value": 2}
+		]
+	}, {
+		"name": "Of Diet",
+		"rarity": 1,
+		"bonusPrice": [7],
+		"modifiers": [
+			{"attribute": "Wisdom", "value": 2},
+			{"attribute": "RegenMana", "value": -8},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 5}
+		]
+	}, {
+		"name": "Of Edonist",
+		"rarity": 1,
+		"bonusPrice": [9],
+		"modifiers": [
+			{"attribute": "Health", "value": 6},
+			{"attribute": "Faith", "value": -4},
+			{"attribute": "Wisdom", "value": 3}
+		]
+	}, {
+		"name": "Of Sinner",
+		"rarity": 1,
+		"bonusPrice": [-17],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 15},
+			{"attribute": "ManaMax", "value": -15},
+			{"attribute": "Wisdom", "value": -3},
+			{"attribute": "RegenMana", "value": -2},
+			{"attribute": "Faith", "value": -4}
+		]
 	}
 ]

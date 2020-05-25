@@ -8,8 +8,8 @@
 			"width": 2, "height": 3
 		},
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 5},
-			{"attribute": "Precision", "value": 3},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": 2},
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Defense", "value": 1},
 			{"attribute": "Velocity", "value": 5},
@@ -26,8 +26,8 @@
 			"width": 2, "height": 3
 		},
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 4},
-			{"attribute": "Precision", "value": 4},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": 3},
 			{"attribute": "Constitution", "value": 1},
 			{"attribute": "Defense", "value": 2},
 			{"attribute": "DamageReductionPhysical", "value": 1},
@@ -43,8 +43,8 @@
 			"width": 1, "height": 2
 		},
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 3},
-			{"attribute": "Precision", "value": 5},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 4},
 			{"attribute": "Constitution", "value": 1},
 			{"attribute": "Defense", "value": 1},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 10},
@@ -61,7 +61,7 @@
 			"width": 2, "height": 2
 		},
 		"attributeMods": [
-			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "Constitution", "value": 1},
 			{"attribute": "Defense", "value": 2},
 			{"attribute": "Velocity", "value": 5},
@@ -2199,6 +2199,56 @@
 			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 15},
 			{"attribute": "ShieldMax", "value": 8},
 			{"attribute": "RegenShield", "value": 8}
+		],
+		"abilities": []
+	}, {
+		"name": "Mask of the Vampire",
+		"type": "Head",
+		"rarity": 3,
+		"sellPrice": [39],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeLeechPercentage", "value": 15},
+			{"attribute": "ManaLeechPercentage", "value": 15},
+			{"attribute": "RegenLife", "value": -2},
+			{"attribute": "RegenMana", "value": -2},
+			{"attribute": "DamageBonusPhysical", "value": 3},
+			{"attribute": "DamageBonusMagical", "value": 3}
+		],
+		"abilities": []
+	}, {
+		"name": "Gloves of the Leech",
+		"type": "Hands",
+		"rarity": 2,
+		"sellPrice": [24],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "LifeLeechPercentage", "value": 10},
+			{"attribute": "ManaLeechPercentage", "value": 10},
+			{"attribute": "RegenLife", "value": -1},
+			{"attribute": "RegenMana", "value": -1}
+		],
+		"abilities": []
+	}, {
+		"name": "Snake Belt",
+		"type": "Belt",
+		"rarity": 2,
+		"sellPrice": [27],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 1},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Precision", "value": 4},
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Wisdom", "value": -2},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 35},
+			{"attribute": "CriticalMultiplierPercentage", "value": 10}
 		],
 		"abilities": []
 	}

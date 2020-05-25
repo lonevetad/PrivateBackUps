@@ -16,6 +16,7 @@ import games.generic.controlModel.player.UserAccountGeneric;
 import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.GameObjectsProvidersHolderTRAn;
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
+import games.theRisingAngel.abilities.AProtectButMakesSoft;
 import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
@@ -107,13 +108,13 @@ public class GModality_E1 extends GModalityTRAn {
 //		this.addEventObserver(ope);
 		this.addGameObject(ope);
 
-		necklace_opr = (NecklaceOfPainRinvigoring) goph.getEquipmentsProvider()//
-				.getNewObjByName(this, NecklaceOfPainRinvigoring.NAME);
-		p.equip(necklace_opr);
-
-		armProtection_sdbm = (ArmProtectionShieldingDamageByMoney) goph.getEquipmentsProvider().getNewObjByName(this,
-				ArmProtectionShieldingDamageByMoney.NAME);
-		p.equip(armProtection_sdbm);
+//		necklace_opr = (NecklaceOfPainRinvigoring) goph.getEquipmentsProvider()//
+//				.getNewObjByName(this, NecklaceOfPainRinvigoring.NAME);
+//		p.equip(necklace_opr);
+//
+//		armProtection_sdbm = (ArmProtectionShieldingDamageByMoney) goph.getEquipmentsProvider().getNewObjByName(this,
+//				ArmProtectionShieldingDamageByMoney.NAME);
+//		p.equip(armProtection_sdbm);
 
 		// TODO aggiungere gli esempi pensati negli Appunti e esempio
 		// first make the player, then the damager, the healer, the fairy, the
@@ -133,20 +134,20 @@ public class GModality_E1 extends GModalityTRAn {
 
 		//
 
-		equipmentName = "Plated Armor of Stonefying Skin";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		System.out.println("\n\n equipping: " + equipmentName);
-		System.out.println(equip.toString());
-		System.out.println("\n\n");
-		p.equip(equip);
-		System.out.println("Plated Armor of Stonefying Skin has " + equip.getAbilities().size() + " abilities !!!");
-
-		equipmentName = "Belt with Limph-made Walled";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		System.out.println("\n\n equipping: " + equipmentName);
-		System.out.println(equip.toString());
-		System.out.println("\n\n");
-		p.equip(equip);
+//		equipmentName = "Plated Armor of Stonefying Skin";
+//		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+//		System.out.println("\n\n equipping: " + equipmentName);
+//		System.out.println(equip.toString());
+//		System.out.println("\n\n");
+//		p.equip(equip);
+//		System.out.println("Plated Armor of Stonefying Skin has " + equip.getAbilities().size() + " abilities !!!");
+//
+//		equipmentName = "Belt with Limph-made Walled";
+//		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+//		System.out.println("\n\n equipping: " + equipmentName);
+//		System.out.println(equip.toString());
+//		System.out.println("\n\n");
+//		p.equip(equip);
 
 		for (String en : new String[] { "Cloth Hat", "Ring of rusted plate", "Sunstone Ring", "Triphane Ring",
 				"Amazonite Ring", "Amazonite Ring", "Moonstone Ring", "Gloves of the mad hunter",
@@ -167,6 +168,19 @@ public class GModality_E1 extends GModalityTRAn {
 		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, ALoseManaBeforeLife.NAME));
 		System.out.println("--------------------------..........Altered equip");
 		System.out.println(equip);
+		p.equip(equip);
+
+		// another custom equip
+//		equipmentName = "Cloth Shoes";
+//		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+//		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, AMeditationMoreRegen.NAME));
+//		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, "Mag(ic)netic Dynamo"));
+//		equip.addUpgrade(goph.getEquipUpgradesProvider().getNewObjByName(this, "Of Diet"));
+//		p.equip(equip);
+
+		equipmentName = "Snake Belt";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, AProtectButMakesSoft.NAME));
 		p.equip(equip);
 
 		//
@@ -202,9 +216,10 @@ public class GModality_E1 extends GModalityTRAn {
 
 		// let's try to sum up ALL equip upgrades
 		{
-			Consumer<AttributeModification> amApplier;
-			CreatureAttributesTRAn caa;
+			final Consumer<AttributeModification> amApplier;
+			final CreatureAttributesTRAn caa;
 			caa = new CreatureAttributesTRAn();
+			p.setAttributes(caa);
 			amApplier = am -> { caa.applyAttributeModifier(am); };
 			goph.getEquipUpgradesProvider().forEachFactory((euName, f) -> {
 				EquipmentUpgrade eu;
@@ -216,6 +231,8 @@ public class GModality_E1 extends GModalityTRAn {
 			System.out.println("\n\n and without bonuses");
 			caa.setBonusCalculator(null); // no bonus no cry
 			System.out.println(caa.toString());
+			// at the end, reset original attributes
+			p.setAttributes(ca);
 		}
 	}
 

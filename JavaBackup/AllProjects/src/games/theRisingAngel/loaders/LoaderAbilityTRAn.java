@@ -57,7 +57,8 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 			ASimpleFixedBufferVanishingTRAn a;
 			a = new ASimpleFixedBufferVanishingTRAn("Wounded Berseker",
 					new AttributeModification[] { new AttributeModification(AttributesTRAn.Strength, 8),
-							new AttributeModification(AttributesTRAn.Constitution, 5),
+							new AttributeModification(AttributesTRAn.Defense, 1),
+							new AttributeModification(AttributesTRAn.Constitution, 4),
 							new AttributeModification(AttributesTRAn.Intelligence, -6),
 							new AttributeModification(AttributesTRAn.Wisdom, -4) }) {
 				private static final long serialVersionUID = 2588519748901517L;
@@ -124,7 +125,7 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 			a.setCumulative(false);
 			a.addEventWatched(EventsTRAn.DamageReceived);
 			a.setAbilityEffectDuration(2000);
-			a.setVanishingEffectDuration(0);
+			a.setVanishingEffectDuration(1000);
 			a.setRarityIndex(2);
 			return a;
 		});
