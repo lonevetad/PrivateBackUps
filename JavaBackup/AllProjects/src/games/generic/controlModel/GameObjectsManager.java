@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import dataStructures.SetMapped;
-import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.InSpaceObjectsManagerImpl;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.GModalityHolder;
@@ -35,7 +35,7 @@ import tools.ObjectWithID;
  * <p>
  * Kind of object handled:
  * <ul>
- * <li>{@link MovingObject} (through {@link InSpaceObjectsManager}
+ * <li>{@link MovingObject} (through {@link InSpaceObjectsManagerImpl}
  * instance)</li>
  * <li>{@link LivingObject} (through methods like
  * {@link #dealsDamageTo(DamageDealerGeneric, CreatureSimple, DamageGeneric)}).</li>

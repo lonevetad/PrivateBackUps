@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.SetMapped;
-import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.AbstractShape2D;
@@ -25,7 +25,7 @@ import tools.LoggerMessages;
 import tools.NumberManager;
 
 /** Rectangular matrix-based implementation */
-public abstract class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpaceObjectsManager<Distance> {
+public abstract class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpaceObjectsManagerImpl<Distance> {
 	private static final long serialVersionUID = 6663104159265L;
 	protected static final Double justOne = 1.0, sqrtTwo = /* Math.max(justOne + 0.5, */Math.sqrt(2);
 //	public static enum OperationOnShape {Add, Remove, Replace, Collect;}

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
-import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import geometry.AbstractShape2D;
@@ -31,7 +31,7 @@ public abstract class PathFinderIsomMatrix<Distance extends Number>
 //public boolean isSynchronized() {return isSynchronized;}
 
 	@Override
-	public InSpaceObjectsManager<Distance> getSpaceToRunThrough() {
+	public InSpaceObjectsManagerImpl<Distance> getSpaceToRunThrough() {
 		return matrix;
 	}
 

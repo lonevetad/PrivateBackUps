@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import dataStructures.SetMapped;
-import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.NodeIsom;
 import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.gObj.ObjectInSpace;
@@ -23,7 +23,7 @@ import tools.ObjectWithID;
  * One of the core classes.
  * <p>
  * "Space"-focused handler for objects in game.<br>
- * Wraps a {@link InSpaceObjectsManager} instance, delegating to it the real
+ * Wraps a {@link InSpaceObjectsManagerImpl} instance, delegating to it the real
  * object management, to let {@link GEvent}s to be fired through subclasses of
  * {@link GModality} returned by {@link #getGameModality()}.
  */
@@ -32,7 +32,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 	public static final String OISM_NAME = "oism";
 
 	/** Delegates there the real objects management */
-	public InSpaceObjectsManager<Double> getOIMManager();
+	public InSpaceObjectsManagerImpl<Double> getOIMManager();
 
 	//
 
@@ -201,7 +201,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 
 	/**
 	 * Refers to
-	 * {@link InSpaceObjectsManager#findInPath(AbstractShape2D, Predicate, List) }.
+	 * {@link InSpaceObjectsManagerImpl#findInPath(AbstractShape2D, Predicate, List) }.
 	 */
 	public default Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter,
 			List<Point> path) {

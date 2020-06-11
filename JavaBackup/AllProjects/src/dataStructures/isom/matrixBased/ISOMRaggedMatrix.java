@@ -11,7 +11,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
-import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.AbstractShape2D;
@@ -25,7 +25,7 @@ import tools.NumberManager;
  * A set of {@link MatrixInSpaceObjectsManager} to build a map that could be
  * non-rectangular, i.e. non-simple shaped.
  */
-public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceObjectsManager<Distance> {
+public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceObjectsManagerImpl<Distance> {
 
 //TODO
 
@@ -68,7 +68,7 @@ public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceO
 	public Map<Integer, ChunkMISOM> getChunks() { return chunks; }
 
 	/**
-	 * Add a rectangular chunk (i.e. a {@link InSpaceObjectsManager} having a
+	 * Add a rectangular chunk (i.e. a {@link InSpaceObjectsManagerImpl} having a
 	 * {@link Rectangle} as a {@link AbstractShape2D}) to this set
 	 */
 //	public void addChunk(int xTopLeft, int yTopLeft, Dimension sizeRectangularRegion) {

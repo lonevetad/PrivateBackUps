@@ -2,7 +2,7 @@ package games.generic.controlModel.subimpl;
 
 import java.util.Set;
 
-import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.matrixBased.MISOMImpl;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import dataStructures.isom.matrixBased.pathFinders.PathFInderAStar_Matrix;
@@ -25,11 +25,11 @@ public abstract class GObjectsInSpaceManagerImpl implements GObjectsInSpaceManag
 	}
 
 	protected Set<ObjectWithID> objWID;
-	protected InSpaceObjectsManager<Double> isom;
+	protected InSpaceObjectsManagerImpl<Double> isom;
 	protected GModality gameModality;
 
 	@Override
-	public InSpaceObjectsManager<Double> getOIMManager() { return isom; }
+	public InSpaceObjectsManagerImpl<Double> getOIMManager() { return isom; }
 
 	@Override
 	public GModality getGameModality() { return gameModality; }
