@@ -1778,7 +1778,9 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		 */
 		@SuppressWarnings("unchecked")
 		public void forEach(ForEachMode iterMode, Consumer<? super E> action) {
-			forEach(iterMode, (entry) -> { action.accept((E) irt.extract((NodeAVL) entry)); });
+//			this.getBackTree().
+			MapTreeAVLLightweight.this.forEach(iterMode,
+					(entry) -> { action.accept((E) irt.extract((NodeAVL) entry)); });
 		}
 
 		@SuppressWarnings("unchecked")
@@ -1934,7 +1936,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public boolean isEmpty() { return MapTreeAVLLightweight.this.isEmpty(); }
 
 		@Override
-		public void forEach(Consumer<? super E> action) { super.forEach(ForEachMode.Queue, action); }
+		public void forEach(Consumer<? super E> action) { super.forEach(ForEachMode.SortedGrowing, action); }
 
 		@Override
 		public boolean remove(Object key) {

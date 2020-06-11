@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 
 import dataStructures.SetMapped;
 import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.NodeIsom;
 import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.controlModel.subimpl.GEvent;
@@ -15,6 +16,7 @@ import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.IGameModalityEventBased;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
+import geometry.pointTools.PointConsumer;
 import tools.ObjectWithID;
 
 /**
@@ -186,7 +188,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 
 	//
 
-	//
+	// also proxies
 
 	public default Set<ObjectLocated> findAll(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter) {
 		return getOIMManager().fetch(areaToLookInto, objectFilter);
@@ -213,4 +215,10 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 	public default Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, List<Point> path) {
 		return findInPath(areaToLookInto, null, path);
 	}
+
+	public default void runOnShape(AbstractShape2D shape, PointConsumer action) {
+		getOIMManager().runOnShape(shape, action);
+	}
+
+	public default NodeIsom getNodeAt(Point location) { return getOIMManager().getNodeAt(location); }
 }

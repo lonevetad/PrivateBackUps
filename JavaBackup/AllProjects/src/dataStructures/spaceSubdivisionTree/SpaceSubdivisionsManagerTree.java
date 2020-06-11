@@ -9,7 +9,7 @@ import dataStructures.spaceSubdivisionTree.impl.utils.SubsectionDivisionRuler;
  * TODO del 05-10-2019 <br>
  * Per implementare l'aggiunta di un oggetto con forma (shape), collezionare
  * tutti gli SpaceSubsectionNode "foglia" (senza children) che intersecano con
- * tale forma e in ciascuno fare l'aggiunta. Se la forma √® un punto, usare il
+ * tale forma e in ciascuno fare l'aggiunta. Se la forma Ë un punto, usare il
  * modo gi√† implementato per ottimizzare. Altrimenti, invocare un metodo
  * gatherAllNodesAbleToHold che restituisce una List<SpaceSubsectionNode>. Per
  * farlo, si prende ogni nodo ad incominciare dal root, e si vede se la forma
@@ -17,14 +17,14 @@ import dataStructures.spaceSubdivisionTree.impl.utils.SubsectionDivisionRuler;
  * SpaceSubsectionNode ha una shape associata. Quindi si vede se tale shape
  * intersecano. si interseca con la forma dell'oggetto da inserire. Se si,
  * allora si vede se ha children. Se si, allora ricorsione su tutti i children
- * raggruppando i risultati in una unica LinkedList. Se no, allora tale nodo √®
+ * raggruppando i risultati in una unica LinkedList. Se no, allora tale nodo Ë
  * una foglia e si raccoglie tale nodo. <br>
  * Ottenuta tale lista, per ogni nodo si effettua un inserimento dell'oggetto
  * (avente una forma) da inserire.
  * <p>
- * Volendo, non √® necessario fare la raccolta nella List e poi inserire in tutti
- * la forma, pu√≤ bastare usare la ricorsione sul singolo nodo il quale far√†
- * l'inserimento appena capisce che sia √® una foglia sia c'√® intersezione.
+ * Volendo, non Ë necessario fare la raccolta nella List e poi inserire in tutti
+ * la forma, puÚ bastare usare la ricorsione sul singolo nodo il quale far√†
+ * l'inserimento appena capisce che sia Ë una foglia sia c'Ë intersezione.
  */
 // TODO
 public abstract class SpaceSubdivisionsManagerTree implements Serializable {
@@ -60,21 +60,13 @@ public abstract class SpaceSubdivisionsManagerTree implements Serializable {
 
 	//
 
-	public double getMinSquareSideLength() {
-		return minSquareSideLength;
-	}
+	public double getMinSquareSideLength() { return minSquareSideLength; }
 
-	public Rectangle getBaseShape() {
-		return baseShape;
-	}
+	public Rectangle getBaseShape() { return baseShape; }
 
-	public SubsectionDivisionRuler getDivisionManager() {
-		return divisionRuler;
-	}
+	public SubsectionDivisionRuler getDivisionManager() { return divisionRuler; }
 
-	public SpaceSubdivisions getSpaceSubdivisions() {
-		return spaceSubdivisions;
-	}
+	public SpaceSubdivisions getSpaceSubdivisions() { return spaceSubdivisions; }
 
 	//
 

@@ -1,3 +1,18 @@
+TODO 28/05/2020
+Il ISOM potrebbe essere formata da un insieme di sotto-isom-matrix, ciascuno avente una lista di adiacenza di altre matrix (inserite a mano)
+tale ISOM-WRAPPER è anch'esso un "point provider", esattamente come le sotto-matrici, con la differenza che la prima fa cose del tipo
+public NodeIsom getAt(int x, int y){
+	ISOM matrix = getMatrixHolding(x,y);
+	return matrix.getAt(x,y);
+}
+Per fare RunShape sulla ISOM si fa
+- dato il centro della Shape, identificare quale matrix M la contiene
+- se la Shape è interamente contenuta in M, allora eseguire il runner in tale M (ossia fornire al runner M come istanza di "point provider"
+- altrimenti usare "this" come "point provider" da fornire al runner
+
+
+
+
 TODO 10/05/2020
 -) cambiare TRAn LoaderGeneric così che il JSON abbia un oggetto (il ProbabilityOfContextesHolders appunto)
 	avente un array di oggetti: di coppie <nome, arraiDiProbabilità> (ossia RandomWeightedIndexes)

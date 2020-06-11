@@ -1778,5 +1778,54 @@
 			{"attribute": "RegenMana", "value": -2},
 			{"attribute": "Faith", "value": -4}
 		]
+	}, {
+		"name": "Painted",
+		"rarity": 1,
+		"bonusPrice": [5],
+		"modifiers": [
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Wisdom", "value": 2}
+		]
+	}, {
+		"name": "Spitted over",
+		"rarity": 1,
+		"bonusPrice": [-15],
+		"modifiers": [
+			{"attribute": "Health", "value": -4},
+			{"attribute": "Constitution", "value": -2}
+		]
+	}, {
+		"name": "Dirty",
+		"rarity": 1,
+		"bonusPrice": [-3],
+		"modifiers": [
+			{"attribute": "Constitution", "value": -2}
+		]
+	}, {
+		"name": "of Programmer",
+		"rarity": 3,
+		"bonusPrice": [26],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 12},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": -7},
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "ManaMax", "value": 10}
+		]
+	}, {
+		"name": "Mottled",
+		"rarity": 1,
+		"bonusPrice": [7],
+		"modifiers": [
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Intelligence", "value": 2},
+			{"attribute": "Constitution", "value": -1}
+		]
 	}
 ]
