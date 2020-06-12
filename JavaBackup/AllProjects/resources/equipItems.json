@@ -2251,5 +2251,19 @@
 			{"attribute": "CriticalMultiplierPercentage", "value": 10}
 		],
 		"abilities": []
+	}, {
+		"name": "Earrings with Feathers",
+		"type": "Earrings",
+		"rarity": 1,
+		"sellPrice": [6],
+		"dimensInvent": {
+			"width": 1, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Constitution", "value": 1}
+		],
+		"abilities": []
 	}
 ]

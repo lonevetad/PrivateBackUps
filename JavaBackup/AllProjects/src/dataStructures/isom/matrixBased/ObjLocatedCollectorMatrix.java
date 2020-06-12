@@ -5,11 +5,19 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
+import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.NodeIsom;
+import dataStructures.isom.NodeIsomProvider;
 import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.ObjectLocated;
 import tools.Comparators;
 
+/**
+ * Collector of objects (it's a subclass of {@link ObjLocatedCollectorIsom})
+ * that's optimized for matrix-based {@link InSpaceObjectsManager} (in fact, it
+ * requires a {@link MatrixInSpaceObjectsManager}) and based to just a single
+ * instance of it.
+ */
 public class ObjLocatedCollectorMatrix<Distance extends Number> extends PointConsumerRowOptimizer<Distance>
 		implements ObjLocatedCollectorIsom {
 	private static final long serialVersionUID = 1L;
@@ -27,19 +35,13 @@ public class ObjLocatedCollectorMatrix<Distance extends Number> extends PointCon
 	protected Predicate<ObjectLocated> targetFilter;
 
 	@Override
-	public Predicate<ObjectLocated> getTargetsFilter() {
-		return targetFilter;
-	}
+	public Predicate<ObjectLocated> getTargetsFilter() { return targetFilter; }
 
 	@Override
-	public Set<ObjectLocated> getCollectedObjects() {
-		return objFound;
-	}
+	public Set<ObjectLocated> getCollectedObjects() { return objFound; }
 
 	@Override
-	public NodeIsom getNodeAt(Point location) {
-		return this.rowCache[(int) location.getX()];
-	}
+	public NodeIsom getNodeAt(Point location) { return this.rowCache[(int) location.getX()]; }
 
 	@Override
 	public void acceptImpl(Point location) {
@@ -49,6 +51,17 @@ public class ObjLocatedCollectorMatrix<Distance extends Number> extends PointCon
 		 * objFound.put(o.getID(), o); });
 		 */
 		ObjLocatedCollectorIsom.super.accept(location);
+	}
+
+	@Override
+	public NodeIsomProvider getNodeIsomProvider() { // TODO Auto-generated method stub
+		return this.getMisom();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void setNodeIsomProvider(NodeIsomProvider nodeIsomProvider) {
+		setMisom((MatrixInSpaceObjectsManager<Distance>) nodeIsomProvider);
 	}
 
 }

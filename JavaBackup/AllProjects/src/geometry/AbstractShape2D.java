@@ -16,9 +16,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	protected static final double MINUS_360 = -360.0;
 	private static final long serialVersionUID = -5641048035L;
 
-	public AbstractShape2D(AbstractShape2D s) {
-		this(s.shapeImplementing);
-	}
+	public AbstractShape2D(AbstractShape2D s) { this(s.shapeImplementing); }
 
 	public AbstractShape2D(ShapeRunnersImplemented shapeImplementing) {
 		if (shapeImplementing == null)
@@ -46,14 +44,10 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 		// p.contains(x, y);
 	}
 
-	public final boolean contains(Point2D p) {
-		return contains((int) p.getX(), (int) p.getY());
-	}
+	public final boolean contains(Point2D p) { return contains((int) p.getX(), (int) p.getY()); }
 
 	@Override
-	public Integer getID() {
-		return ID;
-	}
+	public Integer getID() { return ID; }
 
 	/** The x-component of {@link #getCenter()}. */
 	public abstract int getXCenter();
@@ -66,13 +60,9 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * circle's centre. <br>
 	 * See {@link #getBoundingBox()}.
 	 */
-	public Point getCenter() {
-		return new Point(getXCenter(), getYCenter());
-	}
+	public Point getCenter() { return new Point(getXCenter(), getYCenter()); }
 
-	public ShapeRunnersImplemented getShapeImplementing() {
-		return shapeImplementing;
-	}
+	public ShapeRunnersImplemented getShapeImplementing() { return shapeImplementing; }
 
 	/**
 	 * Returns the angle of the shape's rotation, expressed in degrees, relative to
@@ -94,9 +84,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * Returns the radius, got by dividing (and rounding down) the diameter returned
 	 * by {@link #getDiameter()}.
 	 */
-	public int getRadius() {
-		return getDiameter() >> 1;
-	};
+	public int getRadius() { return getDiameter() >> 1; };
 
 	/**
 	 * Returns the amount of corners represented by this regular polygon. A value
@@ -125,9 +113,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 		return this;
 	}
 
-	public AbstractShape2D setCenter(Point p) {
-		return p == null ? null : setCenter(p.x, p.y);
-	}
+	public AbstractShape2D setCenter(Point p) { return p == null ? null : setCenter(p.x, p.y); }
 
 	public AbstractShape2D setCenter(int x, int y) {
 		int dx, dy;
@@ -144,15 +130,15 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 		return this;
 	}
 
-	@Override
-	public void setLocation(Point location) {
-		setCenter(location);
-	}
+	public void setLeftTopCorner(int x, int y) { setCenter(x + (getWidth() >> 1), y + (getHeight() >> 1)); }
+
+	public void setLeftTopCorner(Point p) { setCenter(p.x + (getWidth() >> 1), p.y + (getHeight() >> 1)); }
 
 	@Override
-	public void setLocation(int x, int y) {
-		setCenter(x, y);
-	}
+	public void setLocation(Point location) { setCenter(location); }
+
+	@Override
+	public void setLocation(int x, int y) { setCenter(x, y); }
 
 	/**
 	 * Override-designed, but remember to call <code>super.setCenterImpl()</code> at
@@ -165,9 +151,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 
 	public abstract AbstractShape2D setAngleRotation(double angleRotation);
 
-	public AbstractShape2D setRadius(int radius) {
-		return radius < 0 ? null : setDiameter(radius << 1);
-	}
+	public AbstractShape2D setRadius(int radius) { return radius < 0 ? null : setDiameter(radius << 1); }
 
 	public abstract AbstractShape2D setDiameter(int diameter);
 
@@ -209,13 +193,9 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 		return new Rectangle((int) ltc.getX(), (int) ltc.getY(), (int) dim.getWidth(), (int) dim.getHeight());
 	}
 
-	public int getWidth() {
-		return (int) getDimension().getWidth();
-	}
+	public int getWidth() { return (int) getDimension().getWidth(); }
 
-	public int getHeight() {
-		return (int) getDimension().getHeight();
-	}
+	public int getHeight() { return (int) getDimension().getHeight(); }
 
 	/**
 	 * Returns all of four corners of the bounding, in clockwise order: top-left,
@@ -237,7 +217,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 		greatery = lowery = yp[len];
 		topLeftVirtualCorner = new Point2D.Double(lowerx, lowery);
 		bottomRightVirtualCorner = new Point2D.Double(greaterx, greatery);
-		while(--len >= 0) {
+		while (--len >= 0) {
 			if ((temp = xp[len]) < lowerx)
 				topLeftVirtualCorner.x = lowerx = temp;
 			if (temp > greaterx)
@@ -272,25 +252,19 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * <p>
 	 * NOTE: no cache is performed to calculate this point!
 	 */
-	public Point2D getLeftTopCorner() {
-		return getLeftTopCorner(getBoundingBoxCorners());
-	}
+	public Point2D getLeftTopCorner() { return getLeftTopCorner(getBoundingBoxCorners()); }
 
 	/**
 	 * Get the x-component of the of the {@link Point} returned by
 	 * {@link #getLeftTopCorner()}.
 	 */
-	public int getXLeftTop() {
-		return (int) getLeftTopCorner().getX();
-	}
+	public int getXLeftTop() { return (int) getLeftTopCorner().getX(); }
 
 	/**
 	 * Get the y-component of the of the {@link Point} returned by
 	 * {@link #getLeftTopCorner()}.
 	 */
-	public int getYLeftTop() {
-		return (int) getLeftTopCorner().getY();
-	}
+	public int getYLeftTop() { return (int) getLeftTopCorner().getY(); }
 
 	//
 
@@ -336,9 +310,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	// TODO PROTECTED METHODS
 
 	/** Test whether this shape can move */
-	protected boolean shouldMove() {
-		return true;
-	}
+	protected boolean shouldMove() { return true; }
 
 	protected final void movePolygon(int dx, int dy, boolean hasx, boolean hasy) {
 		// move the polygon
@@ -370,9 +342,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 
 	}
 
-	protected Point2D getLeftTopCorner(Point2D[] corners) {
-		return corners[0];
-	}
+	protected Point2D getLeftTopCorner(Point2D[] corners) { return corners[0]; }
 
 	protected Dimension getDimension(Point2D[] corners) {
 		Point2D topLeftVirtualCorner, bottomRightVirtualCorner;
@@ -382,9 +352,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 				(int) Math.abs(topLeftVirtualCorner.getY() - bottomRightVirtualCorner.getY()));
 	}
 
-	protected int getDiameter(Rectangle r) {
-		return getDiameter(r.getSize());
-	}
+	protected int getDiameter(Rectangle r) { return getDiameter(r.getSize()); }
 
 	protected int getDiameter(Dimension r) {
 		// throw new UnsupportedOperationException("Before defining the diameter, a

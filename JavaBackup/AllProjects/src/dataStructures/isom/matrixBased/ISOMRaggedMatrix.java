@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
@@ -24,7 +25,11 @@ import tools.NumberManager;
 /**
  * A set of {@link MatrixInSpaceObjectsManager} to build a map that could be
  * non-rectangular, i.e. non-simple shaped.
+ * <p>
+ * 
+ * @deprecated because it's replaced
  */
+@Deprecated
 public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceObjectsManagerImpl<Distance> {
 
 //TODO
@@ -200,6 +205,10 @@ public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceO
 			if (adjacents.containsKey(c.IDChunk))
 				return;
 			adjacents.put(c.IDChunk, c);
+		}
+
+		@Override
+		public void forEachNode(Consumer<NodeIsom> action) { // TODO Auto-generated method stub
 		}
 	}
 

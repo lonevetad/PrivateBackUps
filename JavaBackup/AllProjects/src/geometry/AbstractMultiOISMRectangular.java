@@ -69,11 +69,7 @@ public abstract class AbstractMultiOISMRectangular implements AbstractObjectsInS
 	}
 
 	@Override
-	public ObjLocatedCollectorIsom newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) { // TODO
-																									// Auto-generated
-																									// method stub
-		return null;
-	}
+	public ObjLocatedCollectorIsom newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) { return null; }
 
 	@Override
 	public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, ObjCollector<ObjectLocated> collector,

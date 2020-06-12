@@ -10,7 +10,7 @@ public interface ObjLocatedCollectorIsom extends ObjCollector<ObjectLocated>, No
 
 	@Override
 	public default ObjectLocated getAt(Point location) {
-		return getNodeAt(location).getObject(0); // jus a randonm object
+		return getNodeAt(location).getObject(0); // just a random object
 	}
 
 //	public NodeIsom getNodeAt(Point location);
@@ -27,7 +27,5 @@ public interface ObjLocatedCollectorIsom extends ObjCollector<ObjectLocated>, No
 	}
 
 	@Override
-	default void accept(Point location) { // TODO Auto-generated method stub
-		NodeIsomConsumer.super.accept(location);
-	}
+	default void accept(Point location) { NodeIsomConsumer.super.accept(location); }
 }
