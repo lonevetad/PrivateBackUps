@@ -14,7 +14,6 @@ import geometry.AbstractObjectsInSpaceManager;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
-import geometry.PathFinderIsom;
 import geometry.PathOptimizer;
 import geometry.implementations.shapes.ShapeLine;
 import geometry.pointTools.impl.ObjCollector;
@@ -24,7 +23,7 @@ import tools.PathFinder;
 
 public interface InSpaceObjectsManager<Distance extends Number>
 //extends dataStructures.graph.GraphSimple<NodeIsom, D>
-		extends AbstractObjectsInSpaceManager {
+		extends NodeIsomProvider, AbstractObjectsInSpaceManager {
 
 	//
 
@@ -35,35 +34,32 @@ public interface InSpaceObjectsManager<Distance extends Number>
 
 	public PathOptimizer<Point> getPathOptimizer();
 
-	public Set<ObjectLocated> getAllObjectLocated();
-
 	public PathFinder<Point, ObjectLocated, Distance> getPathFinder();
+
+	public Set<ObjectLocated> getAllObjectLocated();
 
 	//
 
 	// TODO SETTER
 
-	public void setPathOptimizer(PathOptimizer<Point> pathOptimizer);
-
 	public void setLog(LoggerMessages log);
 
-	public void setPathFinder(PathFinderIsom<Point, ObjectLocated, Distance> pathFinder);
-
 	public void setNumberManager(NumberManager<Distance> numberManager);
+
+	public void setPathOptimizer(PathOptimizer<Point> pathOptimizer);
+
+	public void setPathFinder(PathFinderIsom<Point, ObjectLocated, Distance> pathFinder);
 
 	//
 
 	// TODO OTHER
 
-	/**
-	 * Could seems odd, but it's useful for {@link PathFinderIsom}s'
-	 * implementations.
-	 */
-	public NodeIsom getNodeAt(Point location);
-
 	public abstract ObjectLocated getObjectLocated(Integer ID);
 
-	public abstract boolean removeAllObjects();
+	public default boolean removeAllObjects() {
+		clearAllNodes();
+		return true;
+	}
 
 	/**
 	 * Perform an action to each adjacent of a given node. That action should take

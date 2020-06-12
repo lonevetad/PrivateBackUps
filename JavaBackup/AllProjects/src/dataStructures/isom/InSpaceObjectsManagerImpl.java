@@ -3,7 +3,6 @@ package dataStructures.isom;
 import java.awt.Point;
 
 import geometry.ObjectLocated;
-import geometry.PathFinderIsom;
 import geometry.PathOptimizer;
 import tools.LoggerMessages;
 import tools.NumberManager;

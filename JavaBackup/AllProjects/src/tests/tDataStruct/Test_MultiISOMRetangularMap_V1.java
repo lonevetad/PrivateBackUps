@@ -215,12 +215,6 @@ public class Test_MultiISOMRetangularMap_V1 {
 				, yLeftTop + (height >> 1)); // clear all
 	}
 
-	static void printTab(int d) {
-		for (int i = d; i > 0; i--) {
-			System.out.print('\t');
-		}
-	}
-
 	protected NodeMultiISOMRectangular rebuild(NodeMultiISOMRectangular father, List<MyRectangle> submaps, //
 			int xLeftTop, int yLeftTop, int xRightBottom, int yRightBottom, int width, int height, //
 			int xm, int ym) {
@@ -304,6 +298,11 @@ public class Test_MultiISOMRetangularMap_V1 {
 		return sb.toString();
 	}
 
+	static void printTab(int d) {
+		for (int i = d; i > 0; i--) {
+			System.out.print('\t');
+		}
+	}
 //
 
 // TODO CLASSES

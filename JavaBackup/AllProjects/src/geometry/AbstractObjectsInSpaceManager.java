@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import dataStructures.isom.IsomConsumer;
 import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.pointTools.PointConsumer;
 import geometry.pointTools.impl.ObjCollector;
@@ -15,8 +14,7 @@ import tools.PathFinder;
 
 /**
  * Abstract definition of a handler and manager for objects related to a "space"
- * concept. <br>
- * I
+ * concept (i.e. {@link ObjectLocated} and {@link ObjectShaped}).
  */
 public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, Serializable {
 
@@ -53,9 +51,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 
 	public boolean remove(ObjectLocated o);
 
-	public default boolean clearArea(AbstractShape2D areaToClear) {
-		return remove(areaToClear, null);
-	}
+	public default boolean clearArea(AbstractShape2D areaToClear) { return remove(areaToClear, null); }
 
 	public default boolean remove(AbstractShape2D areaToClear, Predicate<ObjectLocated> objectFilter) {
 		Set<ObjectLocated> objToRemove;
@@ -64,9 +60,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 		if (objToRemove == null || objToRemove.isEmpty())
 			return false;
 //		objToRemove.forEach(this::remove);
-		objToRemove.forEach(o -> {
-			removed[0] = remove(o);
-		});
+		objToRemove.forEach(o -> { removed[0] = remove(o); });
 		return removed[0];
 	}
 
@@ -120,9 +114,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 	 * As for {@link #runOnShape(AbstractShape2D, IsomConsumer)}, but giving the
 	 * {@link AbstractShape2D} returned by {@link #getSpaceShape()}.
 	 */
-	public default void runOnWholeMap(PointConsumer action) {
-		runOnShape(getBoundingShape(), action);
-	}
+	public default void runOnWholeMap(PointConsumer action) { runOnShape(getBoundingShape(), action); }
 
 	public default void runOnShape(AbstractShape2D shape, PointConsumer action) {
 		AbstractShapeRunner runner;

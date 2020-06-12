@@ -28,6 +28,8 @@ import tools.NumberManager;
 public abstract class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpaceObjectsManagerImpl<Distance> {
 	private static final long serialVersionUID = 6663104159265L;
 	protected static final Double justOne = 1.0, sqrtTwo = /* Math.max(justOne + 0.5, */Math.sqrt(2);
+	public static final CoordinatesDeltaForAdjacentNodes[] VALUES_CoordinatesDeltaForAdjacentNodes = CoordinatesDeltaForAdjacentNodes
+			.values();
 //	public static enum OperationOnShape {Add, Remove, Replace, Collect;}
 
 	public static enum CoordinatesDeltaForAdjacentNodes {
@@ -36,8 +38,8 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		, NORD_EST(1, -1, sqrtTwo), SUD_EST(1, 1, sqrtTwo), SUD_OVEST(-1, 1, sqrtTwo), NORD_OVEST(-1, -1, sqrtTwo)//
 		;
 
-		final int dx, dy;
-		final Double weight;
+		public final int dx, dy;
+		public final Double weight;
 
 		CoordinatesDeltaForAdjacentNodes(int dxx, int dyy, double w) {
 			dx = dxx;
@@ -80,9 +82,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	//
 
 	@Override
-	public AbstractShape2D getBoundingShape() {
-		return shape;
-	}
+	public AbstractShape2D getBoundingShape() { return shape; }
 
 	@Override
 	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector() {
@@ -90,39 +90,23 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public ProviderShapeRunner getProviderShapeRunner() {
-		return shapeRunnerProvider;
-	}
+	public ProviderShapeRunner getProviderShapeRunner() { return shapeRunnerProvider; }
 
-	public boolean isLazyNodeInstancing() {
-		return isLazyNodeInstancing;
-	}
+	public boolean isLazyNodeInstancing() { return isLazyNodeInstancing; }
 
-	public int getWidth() {
-		return width;
-	}
+	public int getWidth() { return width; }
 
-	public int getHeight() {
-		return height;
-	}
+	public int getHeight() { return height; }
 
-	public ProviderShapeRunner getShapeRunnerProvider() {
-		return shapeRunnerProvider;
-	}
+	public ProviderShapeRunner getShapeRunnerProvider() { return shapeRunnerProvider; }
 
 	/** Use with caution. */
-	public Map<Integer, ObjectLocated> getObjectsAdded() {
-		return objectsAdded;
-	}
+	public Map<Integer, ObjectLocated> getObjectsAdded() { return objectsAdded; }
 
 	@Override
-	public Set<ObjectLocated> getAllObjectLocated() {
-		return objectsAddedSet;
-	}
+	public Set<ObjectLocated> getAllObjectLocated() { return objectsAddedSet; }
 
-	public NodeIsom[] getRow(int y) {
-		return matrix[y];
-	}
+	public NodeIsom[] getRow(int y) { return matrix[y]; }
 
 	//
 
@@ -152,9 +136,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public void setLog(LoggerMessages log) {
-		this.log = LoggerMessages.loggerOrDefault(log);
-	}
+	public void setLog(LoggerMessages log) { this.log = LoggerMessages.loggerOrDefault(log); }
 
 	@Override
 	public void setProviderShapeRunner(ProviderShapeRunner providerShapeRunner) {
@@ -174,10 +156,10 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		if (isLazyNodeInstancing)
 			return;
 		r = -1;
-		while(++r < h) {
+		while (++r < h) {
 			row = m[r];
 			c = -1;
-			while(++c < w) {
+			while (++c < w) {
 				row[c] = newNodeMatrix(c, r);
 			}
 		}
@@ -188,18 +170,15 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		int x, y;
 		NodeIsom n;
 		n = matrix[y = (int) p.getY()][x = (int) p.getX()];
-		if (isLazyNodeInstancing && n == null) {
-			n = matrix[y][x] = newNodeMatrix(x, y);
-		}
+		if (isLazyNodeInstancing && n == null) { n = matrix[y][x] = newNodeMatrix(x, y); }
 		return n;
 	}
 
+	@Override
 	public NodeIsom getNodeAt(int x, int y) {
 		NodeIsom n;
 		n = matrix[y][x];
-		if (isLazyNodeInstancing && n == null) {
-			n = matrix[y][x] = newNodeMatrix(x, y);
-		}
+		if (isLazyNodeInstancing && n == null) { n = matrix[y][x] = newNodeMatrix(x, y); }
 		return n;
 	}
 
@@ -214,11 +193,11 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		h = this.height;
 		w = this.width;
 		r = -1;
-		while(++r < h) {
+		while (++r < h) {
 			row = m[r];
 			c = -1;
 			p.y = r;
-			while(++c < w) {
+			while (++c < w) {
 				if (row[c] != null) {
 //				if ((node = row[c]) != null) {
 					p.x = c;
@@ -251,14 +230,10 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public ObjectLocated getObjectLocated(Integer ID) {
-		return this.objectsAdded.get(ID);
-	}
+	public ObjectLocated getObjectLocated(Integer ID) { return this.objectsAdded.get(ID); }
 
 	@Override
-	public boolean contains(ObjectLocated o) {
-		return o != null && this.getObjectsAdded().containsKey(o.getID());
-	}
+	public boolean contains(ObjectLocated o) { return o != null && this.getObjectsAdded().containsKey(o.getID()); }
 
 	@Override
 	public boolean remove(ObjectLocated o) {
@@ -334,9 +309,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public Iterator<ObjectLocated> iterator() {
-		return new IteratorNodeIsom();
-	}
+	public Iterator<ObjectLocated> iterator() { return new IteratorNodeIsom(); }
 
 	//
 
@@ -360,9 +333,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public void acceptImpl(Point p) {
-			this.misom.getNodeAt(p).addObject(oToManipulate);
-		}
+		public void acceptImpl(Point p) { this.misom.getNodeAt(p).addObject(oToManipulate); }
 	}
 
 	protected static class RemoverObjLocated<D extends Number> extends ActionOnPointWithObj<D> {
@@ -373,9 +344,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public void acceptImpl(Point p) {
-			this.misom.getNodeAt(p).removeObject(oToManipulate);
-		}
+		public void acceptImpl(Point p) { this.misom.getNodeAt(p).removeObject(oToManipulate); }
 	}
 
 	protected class IteratorNodeIsom implements Iterator<ObjectLocated> {
@@ -392,9 +361,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		}
 
 		@Override
-		public boolean hasNext() {
-			return r < h;
-		}
+		public boolean hasNext() { return r < h; }
 
 		@Override
 		public ObjectLocated next() {
@@ -402,7 +369,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 			n = null;
 			// find the first available
 			if (nodeIteratingIterator == null || (!nodeIteratingIterator.hasNext())) {
-				while(hasNext() && ((n = getNodeAt(c, r)) == null || n.countObjectAdded() == 0)) {
+				while (hasNext() && ((n = getNodeAt(c, r)) == null || n.countObjectAdded() == 0)) {
 					toNext();
 				}
 			}

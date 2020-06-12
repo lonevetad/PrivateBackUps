@@ -6,34 +6,34 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
-import dataStructures.isom.InSpaceObjectsManagerImpl;
+import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.NodeIsom;
-import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
+import dataStructures.isom.NodeIsomProvider;
+import dataStructures.isom.PathFinderIsom;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
-import geometry.PathFinderIsom;
 import geometry.implementations.shapes.subHierarchy.ShapeFillable;
 import tools.NumberManager;
 
 public abstract class PathFinderIsomMatrix<Distance extends Number>
 		implements PathFinderIsom<Point, ObjectLocated, Distance> {
 
-	public PathFinderIsomMatrix(MatrixInSpaceObjectsManager<Distance> matrix) {
+	public PathFinderIsomMatrix(
+			// MatrixInSpaceObjectsManager<Distance>
+			InSpaceObjectsManager<Distance> matrix) {
 //this.isSynchronized = isSynchronized;boolean isSynchronized,
 		this.matrix = matrix;
 	}
 
 //protected final boolean isSynchronized;
 
-	protected final MatrixInSpaceObjectsManager<Distance> matrix;
+	protected final InSpaceObjectsManager<Distance> matrix; // MatrixInSpaceObjectsManager<Distance> matrix;
 
 //public boolean isSynchronized() {return isSynchronized;}
 
 	@Override
-	public InSpaceObjectsManagerImpl<Distance> getSpaceToRunThrough() {
-		return matrix;
-	}
+	public InSpaceObjectsManager<Distance> getSpaceToRunThrough() { return matrix; }
 
 //
 
@@ -41,7 +41,7 @@ public abstract class PathFinderIsomMatrix<Distance extends Number>
 	public List<Point> getPath(ObjectShaped objPlanningToMove, Point destination,
 			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester) {
 		boolean prevFilled, isFillable;
-		final MatrixInSpaceObjectsManager<Distance> m;
+		final NodeIsomProvider m; // MatrixInSpaceObjectsManager<Distance> m;
 		NodeIsom start, dest;
 		AbstractShape2D shape, sOnlyBorder;
 		Point originalLocation;
@@ -62,9 +62,7 @@ public abstract class PathFinderIsomMatrix<Distance extends Number>
 		forAdjacents = newAdjacentConsumerForObjectShaped(sOnlyBorder, isWalkableTester, distanceManager);
 		l = getPathGeneralized(start, dest, distanceManager, isWalkableTester, forAdjacents);
 		/// restore previous state
-		if (isFillable) {
-			((ShapeFillable) shape).setFilled(prevFilled);
-		}
+		if (isFillable) { ((ShapeFillable) shape).setFilled(prevFilled); }
 		shape.setCenter(originalLocation);
 		return l;
 	}
@@ -72,7 +70,7 @@ public abstract class PathFinderIsomMatrix<Distance extends Number>
 	@Override
 	public List<Point> getPath(Point startingPoint, Point destination, NumberManager<Distance> distanceManager,
 			Predicate<ObjectLocated> isWalkableTester) {
-		final MatrixInSpaceObjectsManager<Distance> m;
+		final NodeIsomProvider m; // MatrixInSpaceObjectsManager<Distance> m;
 		NodeIsom start, dest;
 		AbstractAdjacentForEacher forAdjacents;
 		m = matrix;
@@ -90,7 +88,7 @@ public abstract class PathFinderIsomMatrix<Distance extends Number>
 			return null;
 		//
 		l = new LinkedList<>();
-		while(end != start) {
+		while (end != start) {
 			l.add(end.thisNode.getLocation());
 			end = end.father;
 		}
@@ -139,21 +137,13 @@ public abstract class PathFinderIsomMatrix<Distance extends Number>
 			this.distanceManager = distanceManager;
 		}
 
-		public Predicate<ObjectLocated> getIsWalkableTester() {
-			return isWalkableTester;
-		}
+		public Predicate<ObjectLocated> getIsWalkableTester() { return isWalkableTester; }
 
-		public NumberManager<Distance> getDistanceManager() {
-			return distanceManager;
-		}
+		public NumberManager<Distance> getDistanceManager() { return distanceManager; }
 
-		public NodeInfo getCurrentNode() {
-			return currentNode;
-		}
+		public NodeInfo getCurrentNode() { return currentNode; }
 
-		public void setCurrentNode(NodeInfo currentNode) {
-			this.currentNode = currentNode;
-		}
+		public void setCurrentNode(NodeInfo currentNode) { this.currentNode = currentNode; }
 
 		//
 

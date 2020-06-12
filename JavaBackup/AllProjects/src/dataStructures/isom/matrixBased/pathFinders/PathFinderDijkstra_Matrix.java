@@ -9,15 +9,17 @@ import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
+import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.NodeIsom;
-import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import tools.NumberManager;
 
 public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFinderIsomMatrix<Distance> {
 
-	public PathFinderDijkstra_Matrix(MatrixInSpaceObjectsManager<Distance> matrix) {
+	public PathFinderDijkstra_Matrix(
+			// MatrixInSpaceObjectsManager<Distance> matrix
+			InSpaceObjectsManager<Distance> matrix) {
 		super(matrix);
 	}
 
@@ -49,7 +51,8 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 	@Override
 	protected List<Point> getPathGeneralized(NodeIsom start, NodeIsom dest, NumberManager<Distance> distanceManager,
 			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher fa) {
-		final MatrixInSpaceObjectsManager<Distance> m;
+		final InSpaceObjectsManager<Distance> m;
+		// NodeIsomProvider m; // MatrixInSpaceObjectsManager<Distance> m;
 		NodeInfoDijkstra ss, dd;
 		final Map<NodeIsom, NodeInfoDijkstra> nodeInfos;
 		final PriorityQueueKey<NodeInfoDijkstra, Distance> frontier;
@@ -75,7 +78,7 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 		forAdjacents.nodeInfos = nodeInfos;
 		forAdjacents.frontier = frontier;
 
-		while(!frontier.isEmpty()) {
+		while (!frontier.isEmpty()) {
 			final NodeInfoDijkstra n;
 			n = frontier.removeMinimum().getKey();
 			/*
@@ -176,9 +179,7 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 
 		/** Generalize the check */
 		@Override
-		public boolean isAdjacentNodeWalkable(NodeIsom currentNode) {
-			return currentNode.isWalkable(isWalkableTester);
-		}
+		public boolean isAdjacentNodeWalkable(NodeIsom currentNode) { return currentNode.isWalkable(isWalkableTester); }
 //		public void accept(GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized nod, Integer distToAdj) {
 
 	}
@@ -189,7 +190,7 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 				NumberManager<Distance> distanceManager) {
 			super(isWalkableTester, distanceManager);
 			this.shape = shape;
-			this.shapeWalkableChecker = new WholeShapeWalkableChecker<>(matrix, isWalkableTester);
+			this.shapeWalkableChecker = new WholeShapeWalkableChecker<Distance>(matrix, isWalkableTester);
 		}
 
 		protected final AbstractShape2D shape;
@@ -209,8 +210,6 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 		Distance distToNo;
 
 		@Override
-		public void accept(NodeInfoDijkstra nodd) {
-			nodd.distFromStart = distToNo;
-		}
+		public void accept(NodeInfoDijkstra nodd) { nodd.distFromStart = distToNo; }
 	}
 }

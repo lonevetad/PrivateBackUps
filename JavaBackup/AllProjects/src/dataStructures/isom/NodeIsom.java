@@ -23,9 +23,7 @@ public abstract class NodeIsom extends PointWrapper implements Iterable<ObjectLo
 	}, //
 			COMPARATOR_NODE_ISOM_POINT = Comparators.POINT_2D_COMPARATOR_LOWEST_LEFTMOST_FIRST::compare;
 
-	public NodeIsom() {
-		this(0, 0);
-	}
+	public NodeIsom() { this(0, 0); }
 
 	public NodeIsom(int x, int y) {
 		this.x = x;
@@ -40,13 +38,20 @@ public abstract class NodeIsom extends PointWrapper implements Iterable<ObjectLo
 
 	public abstract int countObjectAdded();
 
+	/** Return an object given an index */
 	public abstract ObjectLocated getObject(int i);
 
+	/** Return an object given an identifier */
 	public abstract ObjectLocated getObject(Integer ID);
+
+	/** Return an object satisfying a filer (no order is guaranteed)-. */
+	public abstract ObjectLocated getObject(Predicate<ObjectLocated> filter);
 
 	public abstract boolean removeObject(Integer ID);
 
 	public abstract boolean removeObject(ObjectLocated o);
+
+	public abstract boolean removeObject(Predicate<ObjectLocated> filter);
 
 	public abstract boolean removeAllObjects();
 
