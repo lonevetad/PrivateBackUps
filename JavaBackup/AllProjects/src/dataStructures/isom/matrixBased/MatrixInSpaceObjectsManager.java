@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
@@ -50,6 +51,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 	public MatrixInSpaceObjectsManager(boolean isLazyNodeInstancing, int width, int height,
 			NumberManager<Distance> weightManager) {
+		super();
 		this.isLazyNodeInstancing = isLazyNodeInstancing;
 		this.height = height;
 		this.width = width;
@@ -64,7 +66,6 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	protected final boolean isLazyNodeInstancing;
 	protected int width, height;
 	protected NodeIsom[][] matrix;
-	protected final NumberManager<Distance> weightManager;
 	protected AbstractShape2D shape;
 	protected ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
 	protected ProviderShapeRunner shapeRunnerProvider;
@@ -148,6 +149,25 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	//
 
 	public abstract NodeIsom newNodeMatrix(int x, int y);
+
+	@Override
+	public void forEachNode(Consumer<NodeIsom> action) {
+		int r, c, w, h;
+		NodeIsom[] row, m[];
+		m = this.matrix;
+		if (action == null || m == null)
+			return;
+		h = this.height;
+		w = this.width;
+		r = -1;
+		while (++r < h) {
+			row = m[r];
+			c = -1;
+			while (++c < w) {
+				action.accept(row[c]);
+			}
+		}
+	}
 
 	public void reinstanceMatrix() {
 		int r, c, w, h;

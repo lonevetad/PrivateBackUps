@@ -30,7 +30,7 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	// TODO GETTER
 	public LoggerMessages getLog();
 
-	public NumberManager<Distance> getNumberManager();
+	public NumberManager<Distance> getWeightManager();
 
 	public PathOptimizer<Point> getPathOptimizer();
 
@@ -93,7 +93,7 @@ public interface InSpaceObjectsManager<Distance extends Number>
 //		lni = this.getPathFinder().getPath(getNodeAt(start), getNodeAt(destination), numberManager);
 //		return listNodeToPoint(lni);
 		List<Point> path;
-		path = this.getPath(getNodeAt(start), getNodeAt(destination), getPathFinder(), getNumberManager(),
+		path = this.getPath(getNodeAt(start), getNodeAt(destination), getPathFinder(), getWeightManager(),
 				isWalkableTester);
 		return this.getPathOptimizer().optimizePath(path);// new ListMapped<>(path, ni -> ni.getLocation()));
 	}
@@ -115,7 +115,7 @@ public interface InSpaceObjectsManager<Distance extends Number>
 //		lni = this.getPathFinder().getPath(objRequiringTo, getNodeAt(destination), numberManager);
 //		return listNodeToPoint(lni);
 		List<Point> path;
-		path = this.getPath(objRequiringTo, getNodeAt(destination), getPathFinder(), getNumberManager(),
+		path = this.getPath(objRequiringTo, getNodeAt(destination), getPathFinder(), getWeightManager(),
 				isWalkableTester);
 		return this.getPathOptimizer().optimizePath(path);// new ListMapped<>(path, ni -> ni.getLocation()));
 	}

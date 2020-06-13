@@ -5,7 +5,7 @@ import java.util.Set;
 import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.matrixBased.MISOMImpl;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
-import dataStructures.isom.matrixBased.pathFinders.PathFInderAStar_Matrix;
+import dataStructures.isom.matrixBased.pfMatrix.PathFInderAStar_Matrix;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
 import games.generic.controlModel.gObj.ObjectInSpace;

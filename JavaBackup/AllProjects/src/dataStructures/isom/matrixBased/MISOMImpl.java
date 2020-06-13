@@ -8,11 +8,12 @@ public class MISOMImpl extends MatrixInSpaceObjectsManager<Double> {
 
 	public MISOMImpl(boolean isLazyNodeInstancing, int width, int height, NumberManager<Double> weightManager) {
 		super(isLazyNodeInstancing, width, height, weightManager);
-		// TODO Auto-generated constructor stub
+	}
+
+	public MISOMImpl(boolean isLazyNodeInstancing, int width, int height) {
+		super(isLazyNodeInstancing, width, height, NumberManager.getDoubleManager());
 	}
 
 	@Override
-	public NodeIsom newNodeMatrix(int x, int y) {
-		return new NodeIsomSingleObj(x, y);
-	}
+	public NodeIsom newNodeMatrix(int x, int y) { return new NodeIsomSingleObj(x, y); }
 }

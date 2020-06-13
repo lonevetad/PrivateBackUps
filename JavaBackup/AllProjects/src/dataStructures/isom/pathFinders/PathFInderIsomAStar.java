@@ -1,11 +1,10 @@
-package dataStructures.isom.matrixBased.pathFinders;
+package dataStructures.isom.pathFinders;
 
 import java.awt.Point;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
@@ -16,7 +15,7 @@ import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import tools.NumberManager;
 
-public class PathFInderAStar_Matrix<Distance extends Number> extends PathFinderIsomMatrix<Distance> {
+public class PathFInderIsomAStar<Distance extends Number> extends PathFinderIsomBaseImpl<Distance> {
 
 	protected final Comparator<NodeInfoAstar> COMPARATOR_NINFO = (ni1, ni2) -> {
 		if (ni1 == ni2)
@@ -28,33 +27,27 @@ public class PathFInderAStar_Matrix<Distance extends Number> extends PathFinderI
 		return NodeIsom.COMPARATOR_NODE_ISOM_POINT.compare(ni1.thisNode, ni2.thisNode);
 	};
 
-	public PathFInderAStar_Matrix(MatrixInSpaceObjectsManager<Distance> matrix,
-			BiFunction<Point, Point, Distance> heuristic) {
+	public PathFInderIsomAStar(MatrixInSpaceObjectsManager<Distance> matrix, BiFunction<Point, Point, Distance> heuristic) {
 		super(matrix);
 		this.heuristic = heuristic;
 	}
 
 	protected BiFunction<Point, Point, Distance> heuristic;
 
-	public BiFunction<Point, Point, Distance> getHeuristic() {
-		return heuristic;
-	}
+	public BiFunction<Point, Point, Distance> getHeuristic() { return heuristic; }
 
-	public void setHeuristic(BiFunction<Point, Point, Distance> heuristic) {
-		this.heuristic = heuristic;
-	}
+	public void setHeuristic(BiFunction<Point, Point, Distance> heuristic) { this.heuristic = heuristic; }
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected List<Point> getPathGeneralized(NodeIsom start, NodeIsom dest, NumberManager<Distance> distanceManager,
-			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher fa) {
-		final MatrixInSpaceObjectsManager<Distance> m;
+	public List<Point> getPathGeneralized(NodeIsom start, NodeIsom dest, NumberManager<Distance> distanceManager,
+			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher<Distance> fa) {
+//		final NodeIsomProvider m;
 		NodeInfoAstar ss, dd;
 		final Map<NodeIsom, NodeInfoAstar> nodeInfos;
 		final PriorityQueueKey<NodeInfoAstar, Distance> frontier;
 		final Comparator<Distance> comp;
 		AbstractAdjacentForEacherAstar forAdjacents;
-		m = matrix;
+//		m = isom;
 		comp = distanceManager.getComparator();
 		forAdjacents = (AbstractAdjacentForEacherAstar) fa;
 		//
@@ -74,7 +67,7 @@ public class PathFInderAStar_Matrix<Distance extends Number> extends PathFinderI
 		forAdjacents.nodeInfos = nodeInfos;
 		forAdjacents.frontier = frontier;
 
-		while((!frontier.isEmpty()) && dd.father == null) {
+		while ((!frontier.isEmpty()) && dd.father == null) {
 			final NodeInfoAstar n;
 			n = frontier.removeMinimum().getKey();
 			/*
@@ -85,7 +78,7 @@ public class PathFInderAStar_Matrix<Distance extends Number> extends PathFinderI
 			// dd.distFromStart > n.distFromStart
 					comp.compare(dd.fScore, n.fScore) > 0) {
 				forAdjacents.setCurrentNode(n);
-				m.forEachAdjacents(n.thisNode, forAdjacents);
+				isom.forEachAdjacents(n.thisNode, forAdjacents);
 //				n.thisNode.forEachAdjacents(forAdjacents);
 			} else
 				/*
@@ -101,24 +94,22 @@ public class PathFInderAStar_Matrix<Distance extends Number> extends PathFinderI
 	}
 
 	@Override
-	protected PathFinderIsomMatrix<Distance>.AbstractAdjacentForEacher newAdjacentConsumer(
-			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
-		// TODO Auto-generated method stub
-		return null;
+	public AbstractAdjacentForEacher<Distance> newAdjacentConsumer(Predicate<ObjectLocated> isWalkableTester,
+			NumberManager<Distance> distanceManager) {
+		return new AFEAStar_Point(isWalkableTester, distanceManager);
 	}
 
 	@Override
-	protected PathFinderIsomMatrix<Distance>.AbstractAdjacentForEacher newAdjacentConsumerForObjectShaped(
-			AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
-		// TODO Auto-generated method stub
-		return null;
+	public AbstractAdjacentForEacher<Distance> newAdjacentConsumerForObjectShaped(AbstractShape2D shape,
+			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
+		return new AFEAStar_Shape(shape, isWalkableTester, distanceManager);
 	}
 
 	//
 
 	//
 
-	protected class NodeInfoAstar extends NodeInfo {
+	protected class NodeInfoAstar extends NodeInfoFrontierBased<Distance> {
 		protected Distance distFromStart, distFromFather, fScore;
 
 		protected NodeInfoAstar(NodeIsom thisNode) {
@@ -127,18 +118,24 @@ public class PathFInderAStar_Matrix<Distance extends Number> extends PathFinderI
 		}
 	}
 
-	protected abstract class AbstractAdjacentForEacherAstar extends AbstractAdjacentForEacher {
+	protected class DistanceKeyAlteratorAStar extends DistanceKeyAlterator<NodeInfoAstar, Distance> {
+		Distance fScore;
+
+		@Override
+		public void accept(NodeInfoAstar nodd) { nodd.fScore = fScore; }
+	}
+
+	protected abstract class AbstractAdjacentForEacherAstar extends AbstractAdjacentForEacher<Distance> {
 		public AbstractAdjacentForEacherAstar(Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
 			super(isWalkableTester, distanceManager);
-			this.alterator = new DistanceKeyAlterator();
+			this.alterator = new DistanceKeyAlteratorAStar();
 		}
 
 		protected Map<NodeIsom, NodeInfoAstar> nodeInfos;
 		protected PriorityQueueKey<NodeInfoAstar, Distance> frontier;
-		protected final DistanceKeyAlterator alterator;
+		protected final DistanceKeyAlteratorAStar alterator;
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public void accept(NodeIsom nnn, Distance distToAdj) {
 			Distance distStartToNeighbour, fScore;
@@ -152,15 +149,14 @@ public class PathFInderAStar_Matrix<Distance extends Number> extends PathFinderI
 
 			if (noInfo.color == NodePositionInFrontier.Closed)
 				return;
-			distStartToNeighbour = // distToAdj + currentNode.distFromStart;
-					this.distanceManager.getAdder().apply(distToAdj, ((NodeInfoAstar) currentNode).distFromStart);
-			if (noInfo.father == null ||
-			// distToNo < noInfo.distFromStart
-					distanceManager.getComparator().compare(distStartToNeighbour, noInfo.distFromStart) < 0) {
+			distStartToNeighbour = this.distanceManager.getAdder().apply(distToAdj,
+					((NodeInfoAstar) currentNode).distFromStart);
+			if (noInfo.father == null
+					|| distanceManager.getComparator().compare(distStartToNeighbour, noInfo.distFromStart) < 0) {
 				// update
 				noInfo.father = currentNode;
-				noInfo.distFromFather = distToAdj; // Double.valueOf(distToAdj);
-				noInfo.distFromStart = distStartToNeighbour; // newDistanceFromStart;
+				noInfo.distFromFather = distToAdj;
+				noInfo.distFromStart = distStartToNeighbour;
 				fScore = this.distanceManager.getAdder().apply(distStartToNeighbour,
 						heuristic.apply(currentNode.thisNode.getLocation(), noInfo.thisNode.getLocation()));
 
@@ -173,7 +169,6 @@ public class PathFInderAStar_Matrix<Distance extends Number> extends PathFinderI
 					frontier.put(noInfo);
 				} else {
 					// it's grey, it's actually in the queue
-//					frontier.alterKey(noInfo, nodd -> (nodd).distFromStart = distToNo);
 					alterator.fScore = fScore;
 					frontier.alterKey(noInfo, alterator);
 				}
@@ -181,12 +176,32 @@ public class PathFInderAStar_Matrix<Distance extends Number> extends PathFinderI
 		}
 	}
 
-	protected class DistanceKeyAlterator implements Consumer<NodeInfoAstar> {
-		Distance fScore;
+	protected class AFEAStar_Point extends AbstractAdjacentForEacherAstar {
+
+		public AFEAStar_Point(
+//				PathFInderAStar<Distance> pathFInderAStar_Matrix,
+				Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
+//			pathFInderAStar_Matrix.
+			super(isWalkableTester, distanceManager);
+		}
+	}
+
+	protected class AFEAStar_Shape extends ShapedAdjacentForEacherBaseImpl {
+
+		public AFEAStar_Shape(AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
+				NumberManager<Distance> distanceManager) {
+			super(PathFInderIsomAStar.this, shape, isWalkableTester, distanceManager);
+			this.afed = new AFEAStar_Point(isWalkableTester, distanceManager) {
+				@Override
+				public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) { return ianw(adjacentNode); }
+			};
+		}
+
+		protected final AFEAStar_Point afed;
+
+		protected boolean ianw(NodeIsom adjacentNode) { return isAdjacentNodeWalkable(adjacentNode); }
 
 		@Override
-		public void accept(NodeInfoAstar nodd) {
-			nodd.fScore = fScore;
-		}
+		public void accept(NodeIsom adjacent, Distance distToAdj) { afed.accept(adjacent, distToAdj); }
 	}
 }

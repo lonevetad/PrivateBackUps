@@ -1,10 +1,9 @@
-package dataStructures.isom.matrixBased.pathFinders;
+package dataStructures.isom.pathFinders;
 
 import java.awt.Point;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
@@ -15,15 +14,15 @@ import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import tools.NumberManager;
 
-public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFinderIsomMatrix<Distance> {
+public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderIsomBaseImpl<Distance> {
 
-	public PathFinderDijkstra_Matrix(
+	public PathFinderIsomDijkstra(
 			// MatrixInSpaceObjectsManager<Distance> matrix
 			InSpaceObjectsManager<Distance> matrix) {
 		super(matrix);
 	}
 
-	protected final Comparator<NodeInfoDijkstra> COMPARATOR_NINFO = (ni1, ni2) -> {
+	protected final Comparator<NodeInfoFrontierBased<Distance>> COMPARATOR_NINFO = (ni1, ni2) -> {
 		if (ni1 == ni2)
 			return 0;
 		if (ni1 == null)
@@ -34,44 +33,43 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 	};
 
 	@Override
-	protected AbstractAdjacentForEacher newAdjacentConsumer(Predicate<ObjectLocated> isWalkableTester,
+	public AbstractAdjacentForEacher<Distance> newAdjacentConsumer(Predicate<ObjectLocated> isWalkableTester,
 			NumberManager<Distance> distanceManager) {
 		return new UsynchronizedAdjacentForEacherDijkstra(isWalkableTester, distanceManager);
 	}
 
 	@Override
-	protected AbstractAdjacentForEacher newAdjacentConsumerForObjectShaped(AbstractShape2D shape,
+	public AbstractAdjacentForEacher<Distance> newAdjacentConsumerForObjectShaped(AbstractShape2D shape,
 			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
 		return new ShapedAdjacentForEacherDijkstra(shape, isWalkableTester, distanceManager);
 	}
 
 	// TODO
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected List<Point> getPathGeneralized(NodeIsom start, NodeIsom dest, NumberManager<Distance> distanceManager,
-			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher fa) {
+	public List<Point> getPathGeneralized(NodeIsom start, NodeIsom dest, NumberManager<Distance> distanceManager,
+			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher<Distance> fa) {
 		final InSpaceObjectsManager<Distance> m;
 		// NodeIsomProvider m; // MatrixInSpaceObjectsManager<Distance> m;
-		NodeInfoDijkstra ss, dd;
-		final Map<NodeIsom, NodeInfoDijkstra> nodeInfos;
-		final PriorityQueueKey<NodeInfoDijkstra, Distance> frontier;
+		NodeInfoFrontierBased<Distance> ss, dd;
+		final Map<NodeIsom, NodeInfoFrontierBased<Distance>> nodeInfos;
+		final PriorityQueueKey<NodeInfoFrontierBased<Distance>, Distance> frontier;
 		final Comparator<Distance> comp;
 		AbstractAdjacentForEacherDijkstra forAdjacents;
-		m = matrix;
+		m = isom;
 		comp = distanceManager.getComparator();
 		forAdjacents = (AbstractAdjacentForEacherDijkstra) fa;
 		//
 		nodeInfos = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, NodeIsom.COMPARATOR_NODE_ISOM_POINT);
 		frontier = new PriorityQueueKey<>(COMPARATOR_NINFO, comp, MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious,
-				(NodeInfoDijkstra no) -> no.distFromStart);
-		ss = new NodeInfoDijkstra(start);
+				(NodeInfoFrontierBased<Distance> no) -> no.distFromStart);
+		ss = new NodeInfoFrontierBased<Distance>(start);
 		ss.father = ss;
 		ss.distFromFather = ss.distFromStart = null;
 		frontier.put(ss);
 		nodeInfos.put(start, ss);
-		dd = new NodeInfoDijkstra(dest);
+		dd = new NodeInfoFrontierBased<Distance>(dest);
 		nodeInfos.put(dest, dd);
 
 		// set non-final parameters
@@ -79,7 +77,7 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 		forAdjacents.frontier = frontier;
 
 		while (!frontier.isEmpty()) {
-			final NodeInfoDijkstra n;
+			final NodeInfoFrontierBased<Distance> n;
 			n = frontier.removeMinimum().getKey();
 			/*
 			 * do not waste time computing nodes that have longer path of the alredy
@@ -108,47 +106,34 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 
 	// subclasses
 
-	protected class NodeInfoDijkstra extends NodeInfo {
-		protected Distance distFromStart, distFromFather;
+	protected abstract class AbstractAdjacentForEacherDijkstra extends AbstractAdjacentForEacher<Distance> {
 
-//		protected NodeInfoDijkstra father;
-//		public static final Comparator<NodeIsom> COMPARATOR_NINFO = NodeIsom.COMPARATOR_NODE_ISOM_POINT::compare;
-//		protected NumberManager<Distance> distanceManager;
-		protected NodeInfoDijkstra(NodeIsom thisNode) {
-//			this.distanceManager = distanceManager;
-			super(thisNode);
-			distFromStart = distFromFather = null;
-		}
-	}
-
-	protected abstract class AbstractAdjacentForEacherDijkstra extends AbstractAdjacentForEacher {
-
-		protected Map<NodeIsom, NodeInfoDijkstra> nodeInfos;
-		protected PriorityQueueKey<NodeInfoDijkstra, Distance> frontier;
-		protected final DistanceKeyAlterator alterator;
+		protected Map<NodeIsom, NodeInfoFrontierBased<Distance>> nodeInfos;
+		protected PriorityQueueKey<NodeInfoFrontierBased<Distance>, Distance> frontier;
+		protected final DistanceKeyAlterator<NodeInfoFrontierBased<Distance>, Distance> alterator;
 
 		public AbstractAdjacentForEacherDijkstra(Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
 			super(isWalkableTester, distanceManager);
-			this.alterator = new DistanceKeyAlterator();
+			this.alterator = new DistanceKeyAlterator<>();
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public void accept(NodeIsom adjacent, Distance distToAdj) {
 			Distance distToNo;
-			NodeInfoDijkstra noInfo;
+			NodeInfoFrontierBased<Distance> noInfo;
 			if (!isAdjacentNodeWalkable(adjacent))
 				return;
 			if (nodeInfos.containsKey(adjacent))
 				noInfo = nodeInfos.get(adjacent);
 			else
-				nodeInfos.put(adjacent, noInfo = new NodeInfoDijkstra(adjacent));
+				nodeInfos.put(adjacent, noInfo = new NodeInfoFrontierBased<>(adjacent));
 
 			if (noInfo.color == NodePositionInFrontier.Closed)
 				return;
 			distToNo = // distToAdj + currentNode.distFromStart;
-					this.distanceManager.getAdder().apply(distToAdj, ((NodeInfoDijkstra) currentNode).distFromStart);
+					this.distanceManager.getAdder().apply(distToAdj,
+							((NodeInfoFrontierBased<Distance>) currentNode).distFromStart);
 			if (noInfo.father == null ||
 			// distToNo < noInfo.distFromStart
 					distanceManager.getComparator().compare(distToNo, noInfo.distFromStart) < 0) {
@@ -171,45 +156,29 @@ public class PathFinderDijkstra_Matrix<Distance extends Number> extends PathFind
 	}
 
 	protected class UsynchronizedAdjacentForEacherDijkstra extends AbstractAdjacentForEacherDijkstra {
-
+// nothing more to do here
 		protected UsynchronizedAdjacentForEacherDijkstra(//
 				Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
 			super(isWalkableTester, distanceManager);
 		}
-
-		/** Generalize the check */
-		@Override
-		public boolean isAdjacentNodeWalkable(NodeIsom currentNode) { return currentNode.isWalkable(isWalkableTester); }
-//		public void accept(GraphSimpleAsynchronized<E>.NodeGraphSimpleAsynchronized nod, Integer distToAdj) {
-
 	}
 
-	protected class ShapedAdjacentForEacherDijkstra extends AbstractAdjacentForEacherDijkstra {
+	protected class ShapedAdjacentForEacherDijkstra extends ShapedAdjacentForEacherBaseImpl {
 
 		public ShapedAdjacentForEacherDijkstra(AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
-			super(isWalkableTester, distanceManager);
-			this.shape = shape;
-			this.shapeWalkableChecker = new WholeShapeWalkableChecker<Distance>(matrix, isWalkableTester);
+			super(PathFinderIsomDijkstra.this, shape, isWalkableTester, distanceManager);
+			this.afed = new UsynchronizedAdjacentForEacherDijkstra(isWalkableTester, distanceManager) {
+				@Override
+				public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) { return ianw(adjacentNode); }
+			};
 		}
 
-		protected final AbstractShape2D shape;
-		protected final WholeShapeWalkableChecker<Distance> shapeWalkableChecker;
+		protected final AbstractAdjacentForEacherDijkstra afed;
+
+		protected boolean ianw(NodeIsom adjacentNode) { return isAdjacentNodeWalkable(adjacentNode); }
 
 		@Override
-		public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) {
-			shapeWalkableChecker.restart();
-			shape.setCenter(adjacentNode.x, adjacentNode.y);
-			matrix.runOnShape(shape, shapeWalkableChecker);
-			return shapeWalkableChecker.isWalkable();
-		}
-	}
-
-	/** Not used */
-	protected class DistanceKeyAlterator implements Consumer<NodeInfoDijkstra> {
-		Distance distToNo;
-
-		@Override
-		public void accept(NodeInfoDijkstra nodd) { nodd.distFromStart = distToNo; }
+		public void accept(NodeIsom adjacent, Distance distToAdj) { afed.accept(adjacent, distToAdj); }
 	}
 }

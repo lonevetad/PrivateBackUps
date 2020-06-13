@@ -22,10 +22,6 @@ import geometry.ObjectShaped;
  */
 public interface PathFinder<NodeType, NodeContent, Distance extends Number> { // NodeContent extends Point2D not needed
 
-	public static enum NodePositionInFrontier {
-		NeverAdded, InFrontier, Closed;
-	}
-
 	/**
 	 * Get the shortest path from one source to a destination (First two
 	 * parameters), managing distances types through the third parameter and

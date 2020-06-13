@@ -32,7 +32,6 @@ public class CreatureAttributesTRAn extends CreatureAttributesBaseAndDerivedCach
 	public String toString() {
 		StringBuilder sb;
 		sb = new StringBuilder(256);
-		System.out.println("TO STRIIIIING");
 		sb.append("CreatureAttributesTRAn [\n");
 		for (int i = 0, n = getAttributesCount(); i < n; i++)
 //			sb.append(getOriginalValue(i)).append(", ");

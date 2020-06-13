@@ -19,7 +19,7 @@ import dataStructures.SetMapped;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager.CoordinatesDeltaForAdjacentNodes;
 import dataStructures.isom.matrixBased.ObjLocatedCollectorMultimatrix;
-import dataStructures.isom.matrixBased.pathFinders.PathFinderDijkstra_Matrix;
+import dataStructures.isom.pathFinders.PathFinderIsomDijkstra;
 import geometry.AbstractMultiOISMRectangular;
 import geometry.AbstractShape2D;
 import geometry.AbstractShapeRunner;
@@ -65,7 +65,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		setObjectsAdded(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR));
 		shapeRect = null;// new ShapeRectangle()
 		clear();
-		pathFinder = new PathFinderDijkstra_Matrix<Distance>(this);
+		pathFinder = new PathFinderIsomDijkstra<Distance>(this);
 	}
 
 	protected int idProg = 0;
@@ -86,6 +86,8 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	protected final List<MISOMWrapper<Distance>> mapsAsList;
 	protected ShapeRectangle shapeRect;
 
+	// GETTER
+
 	@Override
 	public LoggerMessages getLog() { return log; }
 
@@ -96,7 +98,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	public PathFinderIsom<Point, ObjectLocated, Distance> getPathFinder() { return pathFinder; }
 
 	@Override
-	public NumberManager<Distance> getNumberManager() { return numberManager; }
+	public NumberManager<Distance> getWeightManager() { return numberManager; }
 
 	@Override
 	public PathOptimizer<Point> getPathOptimizer() { return pathOptimizer; }
@@ -149,6 +151,13 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 */
 	public ISOMCachingMISOM<Distance> newIsomCachingMISOM() { return new ISOMCachingMISOM<Distance>(this); }
 
+	/**
+	 * Returns a version of this instance that caches its held instances of
+	 * {@link MatrixInSpaceObjectsManager} (added via
+	 * {@link #addMap(MatrixInSpaceObjectsManager, Point, Dimension)})
+	 */
+	public InSpaceObjectsManager<Distance> asCachingMatrixISOM() { return newIsomCachingMISOM(); }
+
 	@Override
 	public NodeIsom getNodeAt(Point location) {
 		MatrixInSpaceObjectsManager<Distance> misom;
@@ -185,7 +194,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			p.y = c.dy;
 			misom = getMISOMContaining(p);
 			if (misom != null) {
-				adjacentDistanceConsumer.accept(misom.getNodeAt(p), misom.getNumberManager().fromDouble(c.weight));
+				adjacentDistanceConsumer.accept(misom.getNodeAt(p), misom.getWeightManager().fromDouble(c.weight));
 			}
 		}
 	}
@@ -293,10 +302,18 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		return null; // Error 404
 	}
 
-	public void addMap(MISOMWrapper<Distance> r) {
-		int c;
-		if (r == null)
+	public void addMap(MatrixInSpaceObjectsManager<Distance> map, int x, int y, int width, int height) {
+		if (map == null || width < 1 || height < 1)
 			return;
+		addMap(map, new Point(x, y), new Dimension(width, height));
+	}
+
+	public void addMap(MatrixInSpaceObjectsManager<Distance> map, Point locationLeftTop, Dimension mapDimension) {
+		int c;
+		MISOMWrapper<Distance> r;
+		if (map == null || mapDimension.width < 1 || mapDimension.height < 1)
+			return;
+		r = new MISOMWrapper<Distance>(this, map, locationLeftTop, mapDimension);
 		c = updateBoundingBox(r);
 		if (c < 0)
 			return;
@@ -775,7 +792,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		public PathFinderIsom<Point, ObjectLocated, Dd> getPathFinder() { return delegator.getPathFinder(); }
 
 		@Override
-		public NumberManager<Dd> getNumberManager() { return delegator.getNumberManager(); }
+		public NumberManager<Dd> getWeightManager() { return delegator.getWeightManager(); }
 
 		@Override
 		public PathOptimizer<Point> getPathOptimizer() { return delegator.getPathOptimizer(); }
@@ -874,7 +891,15 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 		public MatrixInSpaceObjectsManager<Dd> getMISOMContaining(Point p) { return delegator.getMISOMContaining(p); }
 
-		public void addMap(MISOMWrapper<Dd> r) { delegator.addMap(r); }
+//		public void addMap(MISOMWrapper<Dd> r) { delegator.addMap(r); }
+
+		public void addMap(MatrixInSpaceObjectsManager<Dd> map, int x, int y, int width, int height) {
+			delegator.addMap(map, x, y, width, height);
+		}
+
+		public void addMap(MatrixInSpaceObjectsManager<Dd> map, Point locationLeftTop, Dimension mapDimension) {
+			delegator.addMap(map, locationLeftTop, mapDimension);
+		}
 
 		public void addMaps(Collection<MISOMWrapper<Dd>> mapsList) { delegator.addMaps(mapsList); }
 

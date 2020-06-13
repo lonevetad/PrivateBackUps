@@ -34,7 +34,7 @@ public abstract class InSpaceObjectsManagerImpl<Distance extends Number> impleme
 	protected LoggerMessages log;
 //	protected PathFinderIsomAdapter<NodeIsom, D> pathFinder;
 	protected PathFinderIsom<Point, ObjectLocated, Distance> pathFinder;
-	protected NumberManager<Distance> numberManager;
+	protected NumberManager<Distance> weightManager;
 	protected PathOptimizer<Point> pathOptimizer;
 
 	//
@@ -45,7 +45,7 @@ public abstract class InSpaceObjectsManagerImpl<Distance extends Number> impleme
 	public LoggerMessages getLog() { return log; }
 
 	@Override
-	public NumberManager<Distance> getNumberManager() { return numberManager; }
+	public NumberManager<Distance> getWeightManager() { return weightManager; }
 
 	@Override
 	public PathOptimizer<Point> getPathOptimizer() { return pathOptimizer; }
@@ -69,7 +69,7 @@ public abstract class InSpaceObjectsManagerImpl<Distance extends Number> impleme
 	}
 
 	@Override
-	public void setNumberManager(NumberManager<Distance> numberManager) { this.numberManager = numberManager; }
+	public void setNumberManager(NumberManager<Distance> numberManager) { this.weightManager = numberManager; }
 
 	//
 

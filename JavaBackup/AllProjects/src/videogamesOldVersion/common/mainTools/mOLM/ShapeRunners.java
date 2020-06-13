@@ -852,7 +852,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 	 * @throw <code>IndexOutOfBoundsException</code> and
 	 *        <code>NullPointerException</code> because this method do no kind of
 	 *        check.
-	 * @param matrix the matrix where to paint the circle
+	 * @param isom the matrix where to paint the circle
 	 * @param x      the x-coordinate of the left-bottom bunding box's vertex
 	 * @param y      the y-coordinate of the left-bottom bunding box's vertex
 	 * @param ray    the ray of the circle .. the diameter will be
@@ -1155,7 +1155,7 @@ public class ShapeRunners implements AbstractShapeRunners {
 	 * N.B.: NO CHECK IS PERFORMED ABOUT {@link NullPointerException} AND
 	 * {@link IndexOutOfBoundsException}.
 	 * 
-	 * @param matrix the integer matrix to write the disc
+	 * @param isom the integer matrix to write the disc
 	 * @param x      the x-component of the bottom-left corner of the bounding box
 	 *               of the disc
 	 * @param y      the y-component of the bottom-left corner of the bounding box

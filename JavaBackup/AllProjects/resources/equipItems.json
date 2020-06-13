@@ -2265,5 +2265,20 @@
 			{"attribute": "Constitution", "value": 1}
 		],
 		"abilities": []
+	}, {
+		"name": "Leggins",
+		"type": "Legs",
+		"rarity": 2,
+		"sellPrice": [35],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Strength", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
 	}
 ]
