@@ -2,6 +2,7 @@ package games.theRisingAngel;
 
 import java.util.Random;
 
+import dataStructures.isom.MultiISOMRetangularMap;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
@@ -18,6 +19,7 @@ import games.theRisingAngel.creatures.BaseCreatureTRAn;
 import games.theRisingAngel.events.GEventInterfaceTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.GObjectsInSpaceManagerTRAn;
+import tools.NumberManager;
 
 public class GameObjectsManagerTRAn implements GameObjectsManager {
 	public static final int THRESHOLD_PROBABILITY_BASE_TO_HIT = 75,
@@ -26,15 +28,19 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 
 	/** DO NOT TOUCH */
 	public static final AttributesTRAn[] leechableResources = { AttributesTRAn.LifeLeechPercentage,
-			AttributesTRAn.ManaLeechPercentage }; // add shield in future
+			AttributesTRAn.ManaLeechPercentage, AttributesTRAn.ShieldLeechPercentage }; // add shield in future
 	/** DO NOT TOUCH */
-	public static final HealingTypeExample[] leechableHealingTypes = { HealingTypeExample.Life,
-			HealingTypeExample.Mana };
+	public static final HealingTypeExample[] leechableHealingTypes = { HealingTypeExample.Life, HealingTypeExample.Mana,
+			HealingTypeExample.Shield };
 
 	public GameObjectsManagerTRAn(GModalityTRAn gmodalityTrar) {
 		super();
+		MultiISOMRetangularMap<Double> isom;
 		setGameModality(gmodalityTrar);
-		this.goism = new GObjectsInSpaceManagerTRAn();
+		// isom = new MISOMImpl(false, 1, 1, NumberManager.getDoubleManager());
+		isom = new MultiISOMRetangularMap<Double>();
+		isom.setWeightManager(NumberManager.getDoubleManager());
+		this.goism = new GObjectsInSpaceManagerTRAn(isom);
 	}
 
 	protected GModalityTRAn gmodalityTran;

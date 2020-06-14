@@ -32,7 +32,7 @@ public class ObjLocatedCollectorMultimatrix<Distance extends Number> implements 
 	}
 
 	protected NodeIsomProviderCachingMISOM<Distance> isomProvider;
-	protected ObjLocatedCollectorMatrix<Distance> olcm; // for SINGLE matrix!!
+	protected ObjLocatedCollectorMatrix<Distance> olcm; // this is the implementation for SINGLE matrix!!
 
 	@Override
 	public void accept(Point location) {

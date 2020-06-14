@@ -69,7 +69,7 @@ public abstract class InSpaceObjectsManagerImpl<Distance extends Number> impleme
 	}
 
 	@Override
-	public void setNumberManager(NumberManager<Distance> numberManager) { this.weightManager = numberManager; }
+	public void setWeightManager(NumberManager<Distance> numberManager) { this.weightManager = numberManager; }
 
 	//
 

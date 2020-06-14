@@ -3,7 +3,9 @@ package dataStructures.spaceSubdivisionTree;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
+import dataStructures.isom.MultiISOMRetangularMap;
 import dataStructures.spaceSubdivisionTree.impl.utils.SubsectionDivisionRuler;
+import geometry.AbstractShape2D;
 
 /**
  * TODO del 05-10-2019 <br>
@@ -27,6 +29,11 @@ import dataStructures.spaceSubdivisionTree.impl.utils.SubsectionDivisionRuler;
  * l'inserimento appena capisce che sia è una foglia sia c'è intersezione.
  */
 // TODO
+/**
+ * TODO NOTE of 13/06/2020 <br>
+ * Use {@link MultiISOMRetangularMap} to build a {@link AbstractShape2D}-based
+ * implementation (and not just a {@link Rectangle}-based only).
+ */
 public abstract class SpaceSubdivisionsManagerTree implements Serializable {
 	private static final long serialVersionUID = -9982665230577L;
 

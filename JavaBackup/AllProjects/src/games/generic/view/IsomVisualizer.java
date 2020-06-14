@@ -21,8 +21,13 @@ public abstract class IsomVisualizer extends GuiComponent {
 	protected ShapeRectangle cameraView;
 //	protected Rectangle cameraView;
 	protected Map<Integer, ObjectInSpace> objectPainted;
+	protected Drawer drawer;
 
 	public ShapeRectangle getCameraView() { return cameraView; }
+
+	public Drawer getDrawer() { return drawer; }
+
+	public void setDrawer(Drawer drawer) { this.drawer = drawer; }
 
 	/**
 	 * Upon moving the main character, or just to see another part of the map, just
@@ -50,6 +55,7 @@ public abstract class IsomVisualizer extends GuiComponent {
 		sr.setCenter(x + ((width - w) >> 1), y + ((height - h) >> 1));
 	}
 
+	/** Should uses {@link #getDrawer()}. */
 	protected abstract void paintObject(ObjectInSpace o);
 
 	protected void paintOn(/* and a Graphics or consumer */) {
@@ -68,11 +74,13 @@ public abstract class IsomVisualizer extends GuiComponent {
 		m = objectPainted;
 		m.clear();
 		goism.runOnShape(this.cameraView, p -> {
+			int objAmount;
 			NodeIsom n;
 			ObjectInSpace o;
 			Integer id;
 			n = goism.getNodeAt(p);
-			int objAmount;
+			if (n == null)
+				return;
 			objAmount = n.countObjectAdded();
 			while (--objAmount >= 0) {
 				o = (ObjectInSpace) n.getObject(objAmount);

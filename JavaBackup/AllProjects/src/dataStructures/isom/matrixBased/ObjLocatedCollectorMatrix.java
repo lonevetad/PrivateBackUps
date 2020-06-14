@@ -41,7 +41,11 @@ public class ObjLocatedCollectorMatrix<Distance extends Number> extends PointCon
 	public Set<ObjectLocated> getCollectedObjects() { return objFound; }
 
 	@Override
-	public NodeIsom getNodeAt(Point location) { return this.rowCache[(int) location.getX()]; }
+	public NodeIsom getNodeAt(Point location) {
+		int x;
+		x = (int) location.getX();
+		return (0 <= x && x < this.rowCache.length) ? this.rowCache[x] : null;
+	}
 
 	@Override
 	public void acceptImpl(Point location) {

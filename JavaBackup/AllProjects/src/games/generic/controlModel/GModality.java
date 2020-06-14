@@ -127,6 +127,7 @@ public abstract class GModality {
 
 	public void setPlayer(PlayerGeneric player) {
 		this.player = player;
+		if (this.player != null) { this.removeGameObject(this.player); }
 		if (player != null) {
 			this.addGameObject(player);
 //			player.setGameModality(this);

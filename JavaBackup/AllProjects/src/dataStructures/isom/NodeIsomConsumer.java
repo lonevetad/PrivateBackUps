@@ -12,6 +12,7 @@ public interface NodeIsomConsumer extends PointConsumer {
 
 	//
 
+	/** Beware of nulls. */
 	public void consume(NodeIsom n);
 
 	@Override

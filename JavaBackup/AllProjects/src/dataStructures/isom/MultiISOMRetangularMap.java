@@ -54,6 +54,8 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	private static final long serialVersionUID = -879653210489L;
 	public static final int MAXIMUM_SUBMAPS_EACH_SECTION = 4, MINIMUM_DIMENSION_MAP = 4;
 
+	public MultiISOMRetangularMap() { this(MAXIMUM_SUBMAPS_EACH_SECTION); }
+
 	public MultiISOMRetangularMap(int maximumSubmapsEachSection) {
 		if (maximumSubmapsEachSection < 1)
 			throw new IllegalArgumentException(
@@ -112,7 +114,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	}
 
 	@Override
-	public void setNumberManager(NumberManager<Distance> numberManager) { this.numberManager = numberManager; }
+	public void setWeightManager(NumberManager<Distance> numberManager) { this.numberManager = numberManager; }
 
 	@Override
 	public void setPathOptimizer(PathOptimizer<Point> pathOptimizer) { this.pathOptimizer = pathOptimizer; }
@@ -302,18 +304,18 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		return null; // Error 404
 	}
 
-	public void addMap(MatrixInSpaceObjectsManager<Distance> map, int x, int y, int width, int height) {
-		if (map == null || width < 1 || height < 1)
+	public void addMap(MatrixInSpaceObjectsManager<Distance> map, int x, int y) {
+		if (map == null || map.getWidth() < 1 || map.getHeight() < 1)
 			return;
-		addMap(map, new Point(x, y), new Dimension(width, height));
+		addMap(map, new Point(x, y));
 	}
 
-	public void addMap(MatrixInSpaceObjectsManager<Distance> map, Point locationLeftTop, Dimension mapDimension) {
-		int c;
+	public void addMap(MatrixInSpaceObjectsManager<Distance> map, Point locationLeftTop) {
+		int c, w, h;
 		MISOMWrapper<Distance> r;
-		if (map == null || mapDimension.width < 1 || mapDimension.height < 1)
+		if (map == null || (w = map.getWidth()) < 1 || (h = map.getWidth()) < 1)
 			return;
-		r = new MISOMWrapper<Distance>(this, map, locationLeftTop, mapDimension);
+		r = new MISOMWrapper<Distance>(this, map, locationLeftTop, new Dimension(w, h));
 		c = updateBoundingBox(r);
 		if (c < 0)
 			return;
@@ -816,7 +818,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		}
 
 		@Override
-		public void setNumberManager(NumberManager<Dd> numberManager) { delegator.setNumberManager(numberManager); }
+		public void setWeightManager(NumberManager<Dd> numberManager) { delegator.setWeightManager(numberManager); }
 
 		@Override
 		public void setPathOptimizer(PathOptimizer<Point> pathOptimizer) { delegator.setPathOptimizer(pathOptimizer); }
@@ -893,12 +895,10 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 //		public void addMap(MISOMWrapper<Dd> r) { delegator.addMap(r); }
 
-		public void addMap(MatrixInSpaceObjectsManager<Dd> map, int x, int y, int width, int height) {
-			delegator.addMap(map, x, y, width, height);
-		}
+		public void addMap(MatrixInSpaceObjectsManager<Dd> map, int x, int y) { delegator.addMap(map, x, y); }
 
-		public void addMap(MatrixInSpaceObjectsManager<Dd> map, Point locationLeftTop, Dimension mapDimension) {
-			delegator.addMap(map, locationLeftTop, mapDimension);
+		public void addMap(MatrixInSpaceObjectsManager<Dd> map, Point locationLeftTop) {
+			delegator.addMap(map, locationLeftTop);
 		}
 
 		public void addMaps(Collection<MISOMWrapper<Dd>> mapsList) { delegator.addMaps(mapsList); }

@@ -52,7 +52,6 @@ public class ALoseManaBeforeLife extends AbilityBaseImpl implements GEventObserv
 			return; // no mana to sacrifice
 		damageAmount = ed.getDamageReducedByTargetArmors(); // get the damage (TODO not the AmountToBeApplied?)
 		min = damageAmount > manaAmount ? manaAmount : damageAmount;
-		System.out.println(NAME + " assorbed: " + min);
 		mho.setMana(mho.getMana() - min);
 		ed.setDamageAmountToBeApplied(ed.getDamageAmountToBeApplied() - min);
 		// TODO sicuro che non sia getDamageReducedByTargetArmors ?

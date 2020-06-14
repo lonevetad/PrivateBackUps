@@ -9,13 +9,13 @@ import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
+import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.NodeIsom;
-import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import tools.NumberManager;
 
-public class PathFInderIsomAStar<Distance extends Number> extends PathFinderIsomBaseImpl<Distance> {
+public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsomBaseImpl<Distance> {
 
 	protected final Comparator<NodeInfoAstar> COMPARATOR_NINFO = (ni1, ni2) -> {
 		if (ni1 == ni2)
@@ -27,7 +27,7 @@ public class PathFInderIsomAStar<Distance extends Number> extends PathFinderIsom
 		return NodeIsom.COMPARATOR_NODE_ISOM_POINT.compare(ni1.thisNode, ni2.thisNode);
 	};
 
-	public PathFInderIsomAStar(MatrixInSpaceObjectsManager<Distance> matrix, BiFunction<Point, Point, Distance> heuristic) {
+	public PathFinderIsomAStar(InSpaceObjectsManager<Distance> matrix, BiFunction<Point, Point, Distance> heuristic) {
 		super(matrix);
 		this.heuristic = heuristic;
 	}
@@ -190,7 +190,7 @@ public class PathFInderIsomAStar<Distance extends Number> extends PathFinderIsom
 
 		public AFEAStar_Shape(AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
-			super(PathFInderIsomAStar.this, shape, isWalkableTester, distanceManager);
+			super(PathFinderIsomAStar.this, shape, isWalkableTester, distanceManager);
 			this.afed = new AFEAStar_Point(isWalkableTester, distanceManager) {
 				@Override
 				public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) { return ianw(adjacentNode); }

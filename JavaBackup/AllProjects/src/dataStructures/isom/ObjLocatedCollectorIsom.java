@@ -10,7 +10,9 @@ public interface ObjLocatedCollectorIsom extends ObjCollector<ObjectLocated>, No
 
 	@Override
 	public default ObjectLocated getAt(Point location) {
-		return getNodeAt(location).getObject(0); // just a random object
+		NodeIsom n;
+		n = getNodeAt(location);
+		return (n == null) ? null : n.getObject(0); // just a random object
 	}
 
 //	public NodeIsom getNodeAt(Point location);
@@ -18,6 +20,8 @@ public interface ObjLocatedCollectorIsom extends ObjCollector<ObjectLocated>, No
 	@Override
 	public default void consume(NodeIsom n) {
 		final Set<ObjectLocated> co;
+		if (n == null)
+			return;
 		co = getCollectedObjects();
 		n.forEachAcceptableObject(getTargetsFilter(), o -> {
 			if (o == null)

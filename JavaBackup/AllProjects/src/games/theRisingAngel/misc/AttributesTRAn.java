@@ -37,7 +37,7 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	//
 	CriticalProbabilityPerThousand(true), CriticalMultiplierPercentage(true), //
 	CriticalProbabilityPerThousandAvoid(true), CriticalMultiplierPercentageReduction(true), //
-	LifeLeechPercentage, ManaLeechPercentage//
+	LifeLeechPercentage, ManaLeechPercentage, ShieldLeechPercentage//
 	;
 
 	public final boolean isStrictlyPositive;

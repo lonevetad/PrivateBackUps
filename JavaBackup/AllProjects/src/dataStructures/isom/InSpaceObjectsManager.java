@@ -44,7 +44,7 @@ public interface InSpaceObjectsManager<Distance extends Number>
 
 	public void setLog(LoggerMessages log);
 
-	public void setNumberManager(NumberManager<Distance> numberManager);
+	public void setWeightManager(NumberManager<Distance> numberManager);
 
 	public void setPathOptimizer(PathOptimizer<Point> pathOptimizer);
 

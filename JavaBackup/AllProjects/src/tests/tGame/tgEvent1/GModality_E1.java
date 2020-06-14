@@ -2,9 +2,12 @@ package tests.tGame.tgEvent1;
 
 import java.util.function.Consumer;
 
+import dataStructures.isom.MultiISOMRetangularMap;
+import dataStructures.isom.matrixBased.MISOMImpl;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModel;
+import games.generic.controlModel.GObjectsInSpaceManager;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgrade;
@@ -22,6 +25,7 @@ import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
+import geometry.implementations.shapes.ShapeRectangle;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
@@ -56,11 +60,20 @@ public class GModality_E1 extends GModalityTRAn {
 		GameObjectsProvidersHolderTRAn goph;
 		ObjPrinter_EventDeliver printerPlayer;
 		String equipmentName;
+		GObjectsInSpaceManager goism;
+		MultiISOMRetangularMap<Double> isom;
+		MISOMImpl matrix;
 
 		super.onCreate();
 		super.setRandomSeed(0);
 
 		System.out.println("\n\n\n MY NAME: " + getModalityName() + "\n\n");
+
+		// create a fake ISOMMatrix to add the player in
+		goism = this.getGameObjectsManager().getGObjectInSpaceManager();
+		isom = (MultiISOMRetangularMap<Double>) goism.getOIMManager();
+		matrix = new MISOMImpl(false, 20, 20);
+		isom.addMap(matrix, 0, 0);
 
 		//
 //		contr = (GC_E1) controller;
@@ -71,6 +84,8 @@ public class GModality_E1 extends GModalityTRAn {
 		// strani che inserisco
 		p = (Player_E1) newPlayerInGame(null, PlayerCharacterTypes.Human); // new Player_E1(this);
 		p.setName("Lonevetad");
+		p.setShape(new ShapeRectangle(0.0, 0, 0, true, 10, 10));
+		p.getShape().setLeftTopCorner(3, 3);
 		this.setPlayer(p);
 		p.setLife((int) (p.getLife() * 1.5));
 		p.setGameModality(this);
@@ -120,17 +135,17 @@ public class GModality_E1 extends GModalityTRAn {
 		// first make the player, then the damager, the healer, the fairy, the
 		// money-maker, etc
 
-		odd = new ObjDamageDeliverE1(6000);
+//		odd = new ObjDamageDeliverE1(6000);
+//		odd.setTarget(p);
+//		odd.setDamageAmount(300);
+//		odd.setAccumulatedTimeElapsed(5000);
+//		this.addGameObject(odd);
+
+		odd = new ObjDamageDeliverE1(2250);
 		odd.setTarget(p);
 		odd.setDamageAmount(200);
-		odd.setAccumulatedTimeElapsed(5000);
+		odd.setAccumulatedTimeElapsed(2500);
 		this.addGameObject(odd);
-
-//		odd = new ObjDamageDeliverE1(4000);
-//		odd.setTarget(p);
-//		odd.setDamageAmount(75);
-//		odd.setAccumulatedTimeElapsed(2500);
-//		this.addGameObject(odd);
 
 		//
 

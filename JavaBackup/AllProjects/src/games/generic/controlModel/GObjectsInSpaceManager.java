@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import dataStructures.SetMapped;
+import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.NodeIsom;
 import games.generic.controlModel.gObj.GModalityHolder;
@@ -32,7 +33,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 	public static final String OISM_NAME = "oism";
 
 	/** Delegates there the real objects management */
-	public InSpaceObjectsManagerImpl<Double> getOIMManager();
+	public InSpaceObjectsManager<Double> getOIMManager();
 
 	//
 
