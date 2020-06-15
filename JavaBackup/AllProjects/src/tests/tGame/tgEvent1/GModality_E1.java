@@ -135,34 +135,34 @@ public class GModality_E1 extends GModalityTRAn {
 		// first make the player, then the damager, the healer, the fairy, the
 		// money-maker, etc
 
-//		odd = new ObjDamageDeliverE1(6000);
-//		odd.setTarget(p);
-//		odd.setDamageAmount(300);
-//		odd.setAccumulatedTimeElapsed(5000);
-//		this.addGameObject(odd);
-
-		odd = new ObjDamageDeliverE1(2250);
+		odd = new ObjDamageDeliverE1(6000);
 		odd.setTarget(p);
-		odd.setDamageAmount(200);
+		odd.setDamageAmount(300);
+		odd.setAccumulatedTimeElapsed(5000);
+		this.addGameObject(odd);
+
+		odd = new ObjDamageDeliverE1(4000);
+		odd.setTarget(p);
+		odd.setDamageAmount(125);
 		odd.setAccumulatedTimeElapsed(2500);
 		this.addGameObject(odd);
 
 		//
 
-//		equipmentName = "Plated Armor of Stonefying Skin";
-//		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-//		System.out.println("\n\n equipping: " + equipmentName);
-//		System.out.println(equip.toString());
-//		System.out.println("\n\n");
-//		p.equip(equip);
-//		System.out.println("Plated Armor of Stonefying Skin has " + equip.getAbilities().size() + " abilities !!!");
-//
-//		equipmentName = "Belt with Limph-made Walled";
-//		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-//		System.out.println("\n\n equipping: " + equipmentName);
-//		System.out.println(equip.toString());
-//		System.out.println("\n\n");
-//		p.equip(equip);
+		equipmentName = "Plated Armor of Stonefying Skin";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		System.out.println("\n\n equipping: " + equipmentName);
+		System.out.println(equip.toString());
+		System.out.println("\n\n");
+		p.equip(equip);
+		System.out.println("Plated Armor of Stonefying Skin has " + equip.getAbilities().size() + " abilities !!!");
+
+		equipmentName = "Belt with Limph-made Walled";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		System.out.println("\n\n equipping: " + equipmentName);
+		System.out.println(equip.toString());
+		System.out.println("\n\n");
+		p.equip(equip);
 
 		for (String en : new String[] { "Cloth Hat", "Ring of rusted plate", "Sunstone Ring", "Triphane Ring",
 				"Amazonite Ring", "Amazonite Ring", "Moonstone Ring", "Gloves of the mad hunter",

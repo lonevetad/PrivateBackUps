@@ -36,4 +36,6 @@ public interface IGameModalityTimeBased {
 
 	public void addGameThread(GThread t);
 
+	public void removeGameThread(GThread t);
+
 }

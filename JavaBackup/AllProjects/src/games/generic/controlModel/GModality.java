@@ -102,9 +102,17 @@ public abstract class GModality {
 
 	public GMap getMapCurrent() { return model.getMapCurrent(); }
 
+	/**
+	 * Returns an instance of a holder of "providers", classes that are able to
+	 * provide (and probably instantiating as a new object) kinds of objects,
+	 * depending on the provider required.
+	 */
 	public GameObjectsProvidersHolder getGameObjectsProvider() { return gameObjectsProviderHolder; }
 
-	/** Get the HUGE delegate of almost everything. */
+	/**
+	 * Get the HUGE delegate of almost everything. See {@link GameObjectsManager} to
+	 * understand what it hold.
+	 */
 	public GameObjectsManager getGameObjectsManager() {
 		return gomDelegated;
 	}

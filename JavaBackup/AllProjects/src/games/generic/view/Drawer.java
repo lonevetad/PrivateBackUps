@@ -20,17 +20,17 @@ public interface Drawer {
 
 	public void drawString(String str, int x, int y);
 
-	public void drawRectangle(Rectangle rect, int x, int y);
+	public void drawRectangle(Rectangle rect);
 
-	public default void drawDrawable(DrawableObj drawable) { drawDrawable(drawable, drawable.getX(), drawable.getY()); }
+//	public default void drawDrawable(DrawableObj drawable) { drawDrawable(drawable, drawable.getX(), drawable.getY()); }
 
-	public default void drawDrawable(DrawableObj drawable, int x, int y) {
+	public default void drawDrawable(DrawableObj drawable) {
 		drawImage(drawable.getCurrentImage(), drawable.getX(), drawable.getY());
 	}
 
 	public void drawLine(int x1, int y1, int x2, int y2);
 
-	public default void drawPolygon(Polygon polygon, int x, int y) {
+	public default void drawPolygon(Polygon polygon) {
 		PolygonUtilities.forEachEdge(polygon, (p1, p2) -> drawLine(p1.x, p1.y, p2.x, p2.y));
 	}
 

@@ -31,6 +31,7 @@ public interface DrawableObj {
 	 */
 	public BufferedImage progressImageByTime(long cyclePainting, int timeSubunits);
 
+	/** Should not be used */
 	public default void drawOn(Drawer drawer) {
 		if (drawer != null) { drawer.drawImage(getCurrentImage(), getX(), getY()); }
 	}

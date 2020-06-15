@@ -1,8 +1,7 @@
 package games.generic.view;
 
-import games.generic.controlModel.GModality;
-
-public class GuiComponent {
+/** Generic gui component */
+public abstract class GuiComponent implements IGuiComponent {
 
 	public GuiComponent(GameView view) {
 		super();
@@ -13,10 +12,10 @@ public class GuiComponent {
 
 	//
 
+	@Override
 	public GameView getView() { return view; }
 
-	public GModality getGameModality() { return view.getCurrentModality(); }
-
+	@Override
 	public void setView(GameView view) { this.view = view; }
 
 }

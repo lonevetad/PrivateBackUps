@@ -47,13 +47,14 @@ public abstract class GameThreadsManager {
 		return true;
 	}
 
-	public void addGThread(GThread t) {
-		this.allThreads.put(t.getId(), t);
+	public void addGThread(GThread t) { this.allThreads.put(t.getId(), t); }
+
+	public void removeGThread(GThread t) {
+		t.stopAndDie();
+		this.allThreads.remove(t.getId());
 	}
 
-	public void startGThreads() {
-		this.allThreads.forEach((id, t) -> t.start());
-	}
+	public void startGThreads() { this.allThreads.forEach((id, t) -> t.start()); }
 
 	/**
 	 * Resume all sleeping threads (that starts sleeping due to a

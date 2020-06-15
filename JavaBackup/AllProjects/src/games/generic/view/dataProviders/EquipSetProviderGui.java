@@ -19,4 +19,12 @@ public class EquipSetProviderGui extends GuiComponent {
 		eh = (EquipmentsHolder) p;
 		return eh.getEquipmentSet();
 	}
+
+	@Override
+	public void onAddingOnView(GameView view) { // TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onRemovingOnView(GameView view) { // TODO Auto-generated method stub
+	}
 }

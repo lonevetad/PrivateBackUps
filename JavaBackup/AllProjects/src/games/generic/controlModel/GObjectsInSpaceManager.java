@@ -17,6 +17,7 @@ import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.IGameModalityEventBased;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
+import geometry.ProviderShapesIntersectionDetector;
 import geometry.pointTools.PointConsumer;
 import tools.ObjectWithID;
 
@@ -190,6 +191,10 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 	//
 
 	// also proxies
+
+	public default ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector() {
+		return getOIMManager().getProviderShapesIntersectionDetector();
+	}
 
 	public default Set<ObjectLocated> findAll(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter) {
 		return getOIMManager().fetch(areaToLookInto, objectFilter);

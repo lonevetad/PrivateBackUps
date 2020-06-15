@@ -8,6 +8,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.misc.GThread;
+import games.generic.controlModel.misc.GThread.GTRunnableSimplestImplementation;
 
 /**
  * Game modality based on real time and events.
@@ -100,6 +101,23 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 
 	@Override
 	public void addGameThread(GThread t) { this.gameThreadsManager.addGThread(t); }
+
+	public GThread addGameThread(GThread.GTRunnable runner) {
+		GThread gt;
+		gt = new GThread(runner);
+		this.addGameThread(gt);
+		return gt;
+	}
+
+	public GThread addGameThreadSimplyStoppable(Runnable runner) {
+		GTRunnableSimplestImplementation gr;
+		gr = new GTRunnableSimplestImplementation();
+		gr.setRunnerDelegated(runner);
+		return this.addGameThread(gr);
+	}
+
+	@Override
+	public void removeGameThread(GThread t) { this.gameThreadsManager.removeGThread(t); }
 
 	/**
 	 * Used by other objects and threads (like GUI, sound, animation, the game's
@@ -256,27 +274,21 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 		public GameThreadsManagerBase(GModalityET gmodality) { super(gmodality); }
 
 		@Override
-		public void instantiateAllThreads() { this.addGThread(new GThread(new RunGameInstance(gmodality))); }
+		public void instantiateAllThreads() { this.addGThread(new GThread(new RunnerOnGameInstance(gmodality))); }
 	}
 
 	// previously was ThreadGame_GameRunner_E1
-	protected static class RunGameInstance implements GThread.GTRunnable {
-		protected boolean isWorking = true; // when the
+	/**
+	 * The runner of the entire game (that's why it executes
+	 * <code>runSingleGameCycle()</code>).
+	 */
+	protected static class RunnerOnGameInstance extends GTRunnableSimplestImplementation {
 		protected GModalityET gmodality;
 
-		public RunGameInstance(GModalityET gmodality) {
+		public RunnerOnGameInstance(GModalityET gmodality) {
 			super();
 			this.gmodality = gmodality;
+			this.setRunnerDelegated(() -> gmodality.runSingleGameCycle());
 		}
-
-		@Override
-		public void run() {
-			while (isWorking) {
-				this.gmodality.runSingleGameCycle();
-			}
-		}
-
-		@Override
-		public void stopAndDie() { this.isWorking = false; }
 	}
 }
