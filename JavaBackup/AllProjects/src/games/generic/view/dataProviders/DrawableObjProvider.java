@@ -1,56 +1,79 @@
 package games.generic.view.dataProviders;
 
+import java.awt.Point;
 import java.util.Set;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import dataStructures.MapTreeAVL;
-import dataStructures.isom.InSpaceObjectsManager;
-import games.generic.controlModel.GModality;
-import games.generic.view.GameView;
-import games.generic.view.IsomPainter;
+import games.generic.controlModel.GEventObserver;
+import games.generic.view.DrawableObj;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
-import geometry.implementations.shapes.ShapeRectangle;
 import tools.Comparators;
 
 /**
- * Class able to provide all {@link ObjectLocated} held by a
- * {@link InSpaceObjectsManager} (provided by
- * {@link GModality#getGObjectInSpaceManager()}) and present in some
- * {@link AbstractShape2D} (usually it's the camera: a {@link ShapeRectangle},
- * as defined in {@link IsomPainter}).
+ * The core method to be designed is {@link #getDrawableFor(ObjectLocated)}.
  * <p>
- * And, for those who are wondering: yes, it's NOT a IGuiComponent subclass, it
- * just shares the gameView field.
+ * Provides {@link DrawableObj} in a specific {@link AbstractShape2D} using the
+ * support class {@link ObjLocatedProvider} to find what {@link DrawableObj}
+ * needs to be painted. <br>
+ * The {@link ObjLocatedProvider} is used because those {@link DrawableObj} are
+ * linked and identified to the {@link ObjectLocated} (through
+ * {@link DrawableObj#getRelatedObject()}), which are in fact obtained through
+ * {@link ObjLocatedProvider#forEachObjInArea(AbstractShape2D, java.util.function.Consumer)}.
+ * <p>
+ * To implement this, could implement also {@link GEventObserver} to observe
+ * when an object enters into or leave the <i>space</i> they are located on.
  */
 public abstract class DrawableObjProvider {
+	public static final Function<DrawableObj, Integer> KEY_EXTRACTOR = d -> {
+		ObjectLocated ol = d.getRelatedObject();
+		return (ol == null) ? null : ol.getID();
+	};
 
-	public DrawableObjProvider(GameView gameView) { this.gameView = gameView; }
+	protected DrawableObjProvider(ObjLocatedProvider objLocatedProvider) {
+		super();
+		this.objLocatedProvider = objLocatedProvider;
+	}
 
-	protected GameView gameView;
+	protected ObjLocatedProvider objLocatedProvider;
 
 	//
 
-	public GameView getGameView() { return gameView; }
+	//
 
-	public void setGameView(GameView gameView) { this.gameView = gameView; }
+	public ObjLocatedProvider getObjLocatedProvider() { return objLocatedProvider; }
 
-	/**
-	 * The core method.<br>
-	 * The possible implementation could:
-	 * <ul>
-	 * <li>just run into the area and pick the object.</li>
-	 * <li>Or just filter a set of object accepting the ones inside the area.</li>
-	 * </ul>
-	 */
-	public abstract void forEachObjInArea(AbstractShape2D shape, Consumer<ObjectLocated> action);
+	public void setObjLocatedProvider(ObjLocatedProvider objLocatedProvider) {
+		this.objLocatedProvider = objLocatedProvider;
+	}
 
-	public Set<ObjectLocated> getObjInArea(AbstractShape2D shape) {
-		Set<ObjectLocated> s;
-		MapTreeAVL<Integer, ObjectLocated> collected;
+	/** The core method. Could use a map to achieve it. */
+	public abstract DrawableObj getDrawableFor(ObjectLocated ol);
+
+	public void forEachDrawableInArea(AbstractShape2D shape, BiConsumer<Point, DrawableObj> action) {
+		ObjLocatedProvider olp;
+		olp = getObjLocatedProvider();
+		if (olp == null)
+			throw new NullPointerException("An instance of ObjLocatedProvider is required");
+		olp.forEachObjInArea(shape, (p, ol) -> {
+			DrawableObj d;
+			// no null check: special actions could be performed using specific objects
+			d = getDrawableFor(ol);
+			if (ol != null) { action.accept(p, d); }
+		});
+	}
+
+	public Set<DrawableObj> getDrawablesInArea(AbstractShape2D shape) {
+		Set<DrawableObj> s;
+		MapTreeAVL<Integer, DrawableObj> collected;
 		collected = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
-		s = collected.toSetValue(ObjectLocated.KEY_EXTRACTOR);
-		this.forEachObjInArea(shape, ol -> { if (ol != null) { collected.put(ol.getID(), ol); } });
+		s = collected.toSetValue(KEY_EXTRACTOR);
+		this.forEachDrawableInArea(shape, (p, d) -> {
+			if (d != null)
+				collected.put(KEY_EXTRACTOR.apply(d), d);
+		});
 		return s;
 	}
 }

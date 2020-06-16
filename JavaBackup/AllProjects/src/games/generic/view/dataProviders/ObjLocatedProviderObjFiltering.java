@@ -1,5 +1,7 @@
 package games.generic.view.dataProviders;
 
+import java.awt.Point;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import games.generic.controlModel.GModality;
@@ -17,22 +19,15 @@ import geometry.ProviderShapesIntersectionDetector;
  * No repetitions should be provided (it depends on
  * {@link GObjectsInSpaceManager#forEach(Consumer)} implementation).
  */
-public class DrawableObjProviderObjFiltering extends DrawableObjProvider {
+public class ObjLocatedProviderObjFiltering extends ObjLocatedProvider {
 
-	public DrawableObjProviderObjFiltering(GameView gameView) { super(gameView); }
+	public ObjLocatedProviderObjFiltering(GameView gameView) { super(gameView); }
 
 	@Override
-	public void forEachObjInArea(AbstractShape2D shape, Consumer<ObjectLocated> action) {
-		GModality gm;
-		GObjectsInSpaceManager goism;
+	public void forEachObjInArea(GObjectsInSpaceManager goism, AbstractShape2D shape,
+			BiConsumer<Point, ObjectLocated> action) {
 		ProviderShapesIntersectionDetector psid;
 //		InSpaceObjectsManager<Double> isom;
-		gm = this.gameView.getCurrentModality();
-		if (gm == null)
-			return;
-		goism = gm.getGObjectInSpaceManager();
-		if (goism == null)
-			return;
 		psid = goism.getProviderShapesIntersectionDetector();
 		if (psid == null)
 			return;
@@ -42,8 +37,8 @@ public class DrawableObjProviderObjFiltering extends DrawableObjProvider {
 				ol = (ObjectLocated) owid;
 				if (ol instanceof ObjectShaped) {
 					if (psid.areIntersecting(shape, ((ObjectShaped) ol).getShape()))
-						action.accept(ol);
-				} else if (shape.contains(ol.getLocation())) { action.accept(ol); }
+						action.accept(ol.getLocation(), ol);
+				} else if (shape.contains(ol.getLocation())) { action.accept(ol.getLocation(), ol); }
 			}
 		});
 	}

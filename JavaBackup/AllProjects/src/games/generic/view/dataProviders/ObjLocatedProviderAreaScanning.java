@@ -1,11 +1,12 @@
 package games.generic.view.dataProviders;
 
+import java.awt.Point;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.isom.NodeIsom;
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
 import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.view.GameView;
@@ -16,9 +17,9 @@ import tools.Comparators;
 /**
  * Scan the WHOLE area searching for object and prove them.<br>
  */
-public class DrawableObjProviderAreaScanning extends DrawableObjProvider {
+public class ObjLocatedProviderAreaScanning extends ObjLocatedProvider {
 
-	public DrawableObjProviderAreaScanning(GameView gameView) {
+	public ObjLocatedProviderAreaScanning(GameView gameView) {
 		super(gameView);
 		objectPainted = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
 	}
@@ -26,16 +27,11 @@ public class DrawableObjProviderAreaScanning extends DrawableObjProvider {
 	protected Map<Integer, ObjectInSpace> objectPainted;
 
 	@Override
-	public void forEachObjInArea(AbstractShape2D shape, Consumer<ObjectLocated> action) {
-		GModality gm;
-		GObjectsInSpaceManager goism;
+	public void forEachObjInArea(GObjectsInSpaceManager goism, AbstractShape2D shape,
+			BiConsumer<Point, ObjectLocated> action) {
 		final Map<Integer, ObjectInSpace> m;
 		Consumer<ObjectLocated> oisPainter;
 //		InSpaceObjectsManager<Double> isom;
-		gm = this.gameView.getCurrentModality();
-		if (gm == null)
-			return;
-		goism = gm.getGObjectInSpaceManager();
 		if (goism == null)
 			return;
 //		isom = goism.getOIMManager();
@@ -50,7 +46,7 @@ public class DrawableObjProviderAreaScanning extends DrawableObjProvider {
 			id = ol.getID();
 			if (!m.containsKey(id)) {
 				m.put(id, ois);
-				action.accept(ois);
+				action.accept(ois.getLocation(), ois);
 			}
 		};
 		goism.runOnShape(shape, p -> {

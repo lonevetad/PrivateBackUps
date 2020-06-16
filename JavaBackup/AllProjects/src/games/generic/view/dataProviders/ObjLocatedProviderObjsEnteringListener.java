@@ -1,11 +1,13 @@
 package games.generic.view.dataProviders;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.GObjectsInSpaceManager;
 import games.generic.controlModel.IGEvent;
 import games.generic.view.GameView;
 import geometry.AbstractShape2D;
@@ -15,10 +17,10 @@ import tools.UniqueIDProvider;
 
 /** Instead of simply scanning, just ... deprecated */
 @Deprecated
-public abstract class DrawableObjProviderObjEnteringListener extends DrawableObjProvider implements GEventObserver {
+public abstract class ObjLocatedProviderObjsEnteringListener extends ObjLocatedProvider implements GEventObserver {
 	protected static final UniqueIDProvider idProvider = UniqueIDProvider.newBasicIDProvider();
 
-	public DrawableObjProviderObjEnteringListener(GameView gameView) {
+	public ObjLocatedProviderObjsEnteringListener(GameView gameView) {
 		super(gameView);
 		this.ID = idProvider.getNewID();
 		eventsListened = new ArrayList<String>();
@@ -48,6 +50,7 @@ public abstract class DrawableObjProviderObjEnteringListener extends DrawableObj
 	}
 
 	@Override
-	public void forEachObjInArea(AbstractShape2D shape, Consumer<ObjectLocated> action) {}
+	public void forEachObjInArea(GObjectsInSpaceManager gameObjectInSpaceProvider, AbstractShape2D shape,
+			BiConsumer<Point, ObjectLocated> action) {}
 
 }

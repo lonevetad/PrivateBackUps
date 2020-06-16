@@ -4,9 +4,16 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import games.generic.controlModel.gObj.TimedObject;
+import geometry.ObjectLocated;
 
+/** Graphic part of a {@link ObjectLocated}. */
 public interface DrawableObj {
 // TODO un oggetto con forma e Drawable, tipo immagine o GIF
+
+	public ObjectLocated getRelatedObject();
+
+	public void setRelatedObject(ObjectLocated relatedObject);
+
 	/**
 	 * Both a static image or an animation (and possibly a 3D object) could have an
 	 * image associated. This is that image.
@@ -14,13 +21,25 @@ public interface DrawableObj {
 	public BufferedImage getCurrentImage();
 
 	/** This object is located somewhere in space. */
-	public Point getLocation();
+	public default Point getLocation() {
+		ObjectLocated ol;
+		ol = getRelatedObject();
+		return (ol == null) ? null : ol.getLocation();
+	}
 
 	/** See {@link #getLocation()}. */
-	public int getX();
+	public default int getX() {
+		ObjectLocated ol;
+		ol = getRelatedObject();
+		return (ol == null) ? 0 : ol.getx();
+	}
 
 	/** See {@link #getLocation()}. */
-	public int getY();
+	public default int getY() {
+		ObjectLocated ol;
+		ol = getRelatedObject();
+		return (ol == null) ? 0 : ol.gety();
+	}
 
 	/**
 	 * During the rendering process (that is probably performed cyclically and

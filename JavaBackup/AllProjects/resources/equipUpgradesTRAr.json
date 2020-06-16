@@ -1827,5 +1827,20 @@
 			{"attribute": "Intelligence", "value": 2},
 			{"attribute": "Constitution", "value": -1}
 		]
+	}, {
+		"name": "of Loathe",
+		"rarity": 3,
+		"bonusPrice": [-12],
+		"modifiers": [
+			{"attribute": "Strength", "value": 7},
+			{"attribute": "Health", "value": -8},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Intelligence", "value": -4},
+			{"attribute": "Wisdom", "value": -10},
+			{"attribute": "Faith", "value": 5},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 30},
+			{"attribute": "CriticalMultiplierPercentage", "value": 20}
+		]
 	}
 ]

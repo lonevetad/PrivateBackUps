@@ -2269,7 +2269,7 @@
 		"name": "Leggins",
 		"type": "Legs",
 		"rarity": 2,
-		"sellPrice": [35],
+		"sellPrice": [23],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
@@ -2278,6 +2278,40 @@
 			{"attribute": "Health", "value": 2},
 			{"attribute": "Strength", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 1}
+		],
+		"abilities": []
+	}, {
+		"name": "Helenite Belt",
+		"type": "Belt",
+		"rarity": 3,
+		"sellPrice": [40],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Dexterity", "value": 7},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Strength", "value": 2}
+		],
+		"abilities": []
+	}, {
+		"name": "Loath Mask",
+		"type": "Head",
+		"rarity": 2,
+		"sellPrice": [15],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Intelligence", "value": 2},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 35},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 35},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 35},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 20},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 20},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 50},
+			{"attribute": "Luck", "value": -7}
 		],
 		"abilities": []
 	}

@@ -1,18 +1,14 @@
 package games.generic.view;
 
-import java.util.function.Consumer;
+import java.awt.Point;
 
 import dataStructures.isom.InSpaceObjectsManager;
-import dataStructures.isom.NodeIsom;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
-import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.view.dataProviders.DrawableObjProvider;
-import games.generic.view.dataProviders.DrawableObjProviderAreaScanning;
 import games.generic.view.guiSwing.ISOMViewSwing;
-import geometry.ObjectLocated;
 import geometry.implementations.shapes.ShapeRectangle;
 
 /**
@@ -21,7 +17,7 @@ import geometry.implementations.shapes.ShapeRectangle;
  */
 public abstract class IsomPainter extends GuiComponent {
 
-	public IsomPainter(GameView view) { this(view, new DrawableObjProviderAreaScanning(view)); }
+//	public IsomPainter(GameView view) { this(view, new DrawableObjProviderListeningInOutEvents(new ObjLocatedProviderAreaScanning(view))); }
 
 	public IsomPainter(GameView view, DrawableObjProvider drawableProvider) {
 		super(view);
@@ -113,92 +109,18 @@ public abstract class IsomPainter extends GuiComponent {
 //		this.objectPainted = null;
 	}
 
-	/** Should uses {@link #getDrawer()} to paint this single object. */
-	protected abstract void paintObject(ObjectInSpace o);
-
-	protected void paintCycleIteration_OLD1() {
-//		final Map<Integer, ObjectInSpace> m;
-		GModality gm;
-		GObjectsInSpaceManager goism;
-		Consumer<ObjectLocated> oisPainter;
-		gm = this.getGameModality();
-		if (gm == null)
-			return;
-		goism = gm.getGObjectInSpaceManager();
-		if (goism == null)
-			return;
-
-		// check if it's currently painting
-		if (iterationPainting < 0) // currently in painting
-			return;
-		// increase the tick
-		if (++iterationPainting < 0) { // overflow
-			iterationPainting = -1;
-		} else {
-			iterationPainting = -iterationPainting;
-		}
-		// actual paint
-//		this.objectPainted.clear();
-		drawableProvider.forEachObjInArea(cameraView, ol -> {
-			if (ol != null) {
-
-			}
-		});
-
-//		if (objectPainted == null) {
-//			objectPainted = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
-//		}
-//		m = objectPainted;
-//		m.clear();
-
-		// -- start v2
-		oisPainter = ol -> {
-//			Integer id;
-			ObjectInSpace o;
-			o = (ObjectInSpace) ol;
-//			id = o.getID();
-//			if (!m.containsKey(id)) {
-//				m.put(id, o);
-			paintObject(o);
-//			}
-		};
-		// -- end v2
-
-		goism.runOnShape(this.cameraView, p -> {
-			// -- start v1
-//			int objAmount;
-			NodeIsom n;
-//			ObjectInSpace o;
-//			Integer id;
-			n = goism.getNodeAt(p);
-			if (n == null)
-				return;
-//			objAmount = n.countObjectAdded();
-//			while (--objAmount >= 0) {
-//				o = (ObjectInSpace) n.getObject(objAmount);
-//				id = o.getID();
-//				if (!m.containsKey(id)) {
-//					paintObject(o);
-//					m.put(id, o);
-//				}
-//			}
-			// -- end v1
-
-			// -- start v2
-			n.forEachHeldObject(oisPainter);
-			// -- end v2
-		});
-
-		// painting process ends, mark it
-		iterationPainting = -iterationPainting;
-	}
+	/**
+	 * Should uses {@link #getDrawer()} to paint this single object, which is
+	 * located in the provided center's {@link Point}.
+	 */
+	protected abstract void paintObject(Point locationCenterToPaint, DrawableObj d);
 
 	/** Single painting iteration */
 	protected void paintCycleIteration() {
 //		final Map<Integer, ObjectInSpace> m;
 		GModality gm;
 		GObjectsInSpaceManager goism;
-		Consumer<ObjectLocated> oisPainter;
+////	BiConsumer<Point, DrawableObj> oisPainter;
 		if (this.drawableProvider == null)
 			return;
 		gm = this.getGameModality();
@@ -218,39 +140,14 @@ public abstract class IsomPainter extends GuiComponent {
 			iterationPainting = -iterationPainting;
 		}
 		// actual paint
-//		this.objectPainted.clear();
 
-//		if (objectPainted == null) {
-//			objectPainted = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
-//		}
-//		m = objectPainted;
-//		m.clear();
-
-		oisPainter = ol -> {
-//			Integer id;
-			ObjectInSpace o;
-			o = (ObjectInSpace) ol;
-//			id = o.getID();
-//			if (!m.containsKey(id)) {
-//				m.put(id, o);
-			paintObject(o);
-//			}
-		};
-
-		drawableProvider.forEachObjInArea(this.cameraView, oisPainter);
+		// oisPainter = (p, d) -> paintObject(p, d);
+		drawableProvider.forEachDrawableInArea(this.cameraView, this::paintObject);
 
 		// painting process ends, mark it
 		iterationPainting = -iterationPainting;
 	}
 
-	/** The WHOLE cycle of painting, not just a single iteration! */
-//	public void paintCycle() {
-//
-//	}
-
-	//
-
-	//
-
-//	protected class 
+//	/** The WHOLE cycle of painting, not just a single iteration! */
+//	public void paintCycle() {	}
 }
