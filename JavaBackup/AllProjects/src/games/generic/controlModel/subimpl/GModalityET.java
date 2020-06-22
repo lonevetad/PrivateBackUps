@@ -6,9 +6,11 @@ import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
+import games.generic.controlModel.gObj.GameObjectGeneric;
 import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.misc.GThread.GTRunnableSimplestImplementation;
+import geometry.ObjectLocated;
 
 /**
  * Game modality based on real time and events.
@@ -87,6 +89,38 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	}
 
 	//
+
+	@Override
+	public boolean addGameObject(GameObjectGeneric o) {
+		boolean added;
+		GEventInterface eventInterface;
+		added = super.addGameObject(o);
+		eventInterface = this.getGameObjectsManager().getGEventInterface();
+		if (eventInterface != null && o instanceof ObjectLocated) {
+			eventInterface.fireGameObjectAdded(this, (ObjectLocated) o);
+		}
+		return added;
+	}
+
+	@Override
+	public boolean removeGameObject(GameObjectGeneric o) {
+		boolean added;
+		GEventInterface eventInterface;
+		added = super.removeGameObject(o);
+		eventInterface = this.getGameObjectsManager().getGEventInterface();
+		if (eventInterface != null && o instanceof ObjectLocated) {
+			eventInterface.fireGameObjectRemoved(this, (ObjectLocated) o);
+		}
+		return added;
+	}
+
+	/**
+	 * No event fired: EVERYONE will be removed, so no one will hear that.
+	 * <p>
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean removeAllGameObjects() { return super.removeAllGameObjects(); }
 
 	/**
 	 * Override designed, by default simply calls

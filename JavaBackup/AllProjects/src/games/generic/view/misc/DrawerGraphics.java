@@ -31,4 +31,7 @@ public class DrawerGraphics implements Drawer {
 
 	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) { graphics.drawLine(x1, y1, x2, y2); }
+
+	@Override
+	public void drawRectangle(Rectangle rect, int x, int y) { graphics.drawRect(x, y, rect.width, rect.height); }
 }

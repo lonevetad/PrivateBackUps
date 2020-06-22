@@ -1,4 +1,4 @@
-package common.gui;
+package videogamesOldVersion.common.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,9 +22,8 @@ public class MyProgressBar extends JLabel {
 			nomeImmagine = MyProgressBar.class.getSimpleName();
 			/*
 			 * = MyProgressBar.class.getName(); try { nomeImmagine =
-			 * nomeImmagine.substring(MyProgressBar.class.getPackage().getName()
-			 * .length() + 1, nomeImmagine.length()); } catch (Exception exc) {
-			 * exc.printStackTrace(); }
+			 * nomeImmagine.substring(MyProgressBar.class.getPackage().getName() .length() +
+			 * 1, nomeImmagine.length()); } catch (Exception exc) { exc.printStackTrace(); }
 			 */
 			// path = nomeImmagine;
 			// bi = castMatrixBufferedImage_ARGB( getMatrixPixel() ) ;
@@ -82,21 +81,15 @@ public class MyProgressBar extends JLabel {
 		matricePixelOriginal = getMatrixPixel_New();
 	}
 
-	public MyProgressBar() {
-		constructor(widthOriginal, heightOriginal, 0, 100, 0);
-	}
+	public MyProgressBar() { constructor(widthOriginal, heightOriginal, 0, 100, 0); }
 
 	public MyProgressBar(int valoreMin, int valoreMax, int valoreNow) {
 		this(widthOriginal, heightOriginal, valoreMin, valoreMax, valoreNow);
 	}
 
-	public MyProgressBar(int widthProg, int heightProg) {
-		constructor(widthProg, heightProg, 0, 100, 0);
-	}
+	public MyProgressBar(int widthProg, int heightProg) { constructor(widthProg, heightProg, 0, 100, 0); }
 
-	public MyProgressBar(Dimension size) {
-		this(size, 0, 100, 0);
-	}
+	public MyProgressBar(Dimension size) { this(size, 0, 100, 0); }
 
 	public MyProgressBar(Dimension size, int valoreMin, int valoreMax, int valoreNow) {
 		if (size != null) {
@@ -113,12 +106,8 @@ public class MyProgressBar extends JLabel {
 	// TODO
 	private void constructor(int widthProg, int heightProg, int valoreMin, int valoreMax, int valoreNow) {
 		// setting values
-		if (valoreMin >= 0) {
-			valMin = valoreMin;
-		}
-		if (valoreMax >= 0) {
-			valMax = valoreMax;
-		}
+		if (valoreMin >= 0) { valMin = valoreMin; }
+		if (valoreMax >= 0) { valMax = valoreMax; }
 		setValue(valoreNow, false);
 		initializeBufferedImage();
 		// initializeBufferedImage();
@@ -131,31 +120,25 @@ public class MyProgressBar extends JLabel {
 	private BufferedImage bi = null;
 
 	public static enum RotationAngleDeg {
-		LEFT_EMPTY_RIGHT_FULL(0.0), LEFT_FULL_RIGHT_EMPTY(180.0), BOTTOM_EMPTY_UP_FULL(270.0), TOP_EMPTY_DOWN_FULL(
-				90.0);
+		LEFT_EMPTY_RIGHT_FULL(0.0), LEFT_FULL_RIGHT_EMPTY(180.0), BOTTOM_EMPTY_UP_FULL(270.0),
+		TOP_EMPTY_DOWN_FULL(90.0);
+
 		final double value;
 
-		RotationAngleDeg(double n) {
-			value = n;
-		}
+		RotationAngleDeg(double n) { value = n; }
 
-		public double getValue() {
-			return value;
-		}
+		public double getValue() { return value; }
 	}
 
 	public static enum RotationPointStatement {
-		LEFT_ROTATION_POINT(0), CENTER_ROTATION_POINT(1), RIGHT_ROTATION_POINT(2), TOP_ROTATION_POINT(
-				0), BOTTOM_ROTATION_POINT(2);
+		LEFT_ROTATION_POINT(0), CENTER_ROTATION_POINT(1), RIGHT_ROTATION_POINT(2), TOP_ROTATION_POINT(0),
+		BOTTOM_ROTATION_POINT(2);
+
 		final int value;
 
-		RotationPointStatement(int n) {
-			value = n;
-		}
+		RotationPointStatement(int n) { value = n; }
 
-		public int getValue() {
-			return value;
-		}
+		public int getValue() { return value; }
 	}
 
 	private static int heightOriginal = 0, widthOriginal = 0;
@@ -166,8 +149,8 @@ public class MyProgressBar extends JLabel {
 	// punti interessanti
 	private int minXbg = 0, minYbg = 0, maxXbg = matricePixelOriginal[0].length, maxYbg = matricePixelOriginal.length;
 	/*
-	 * punti di inizio e fine del background della barra .. si intende della
-	 * matrice ORIGINALE
+	 * punti di inizio e fine del background della barra .. si intende della matrice
+	 * ORIGINALE
 	 */
 
 	private double angDeg = RotationAngleDeg.LEFT_EMPTY_RIGHT_FULL.value;
@@ -224,19 +207,12 @@ public class MyProgressBar extends JLabel {
 																// cool xD ;
 			UNKNOWN_PURPLE_DARK = new Color(149, 0, 149), // viola so dark and
 															// strong
-			GREEN_OLD_BACKGROUND = new Color(64, 255, 64), USER_DEFINITED = new Color(0, 0, 0); // the
-																								// color
-																								// definited
-																								// by
-																								// the
-																								// user
+			GREEN_OLD_BACKGROUND = new Color(64, 255, 64), //
+			USER_DEFINITED = new Color(0, 0, 0);
 
 	// GETTERS
 
-	private static final long serialVersionUID = -6244367458005809673L; // autogenerato,
-																		// ma
-																		// figo
-																		// :D
+	private static final long serialVersionUID = -6244367458005809673L;
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -259,12 +235,9 @@ public class MyProgressBar extends JLabel {
 	public BufferedImage getBufferedImage() {
 		/*
 		 * if ( matricePixel == null ) { initializePixelMatrix(); } return
-		 * castMatrixBufferedImage_ARGB( matricePixel ) ;
-		 * //getBufferedImageCopy( bi );
+		 * castMatrixBufferedImage_ARGB( matricePixel ) ; //getBufferedImageCopy( bi );
 		 */
-		if (bi == null) {
-			initializeBufferedImage();
-		}
+		if (bi == null) { initializeBufferedImage(); }
 		return getBufferedImageCopy(bi);
 	}
 
@@ -276,9 +249,7 @@ public class MyProgressBar extends JLabel {
 		return castBufferedImageMatrix(bi);
 	}
 
-	public static int[][] getMatrixPixelOriginal() {
-		return getMatriceCopy(matricePixelOriginal);
-	}
+	public static int[][] getMatrixPixelOriginal() { return getMatriceCopy(matricePixelOriginal); }
 
 	/**
 	 * Be carefull : it create new istances of Color at every call
@@ -298,29 +269,17 @@ public class MyProgressBar extends JLabel {
 		return new Color(colorBar.getRGB());
 	}
 
-	public double getAngleRotation() {
-		return angDeg;
-	}
+	public double getAngleRotation() { return angDeg; }
 
-	public int getValueNow() {
-		return valNow;
-	}
+	public int getValueNow() { return valNow; }
 
-	public int getValueMin() {
-		return valMin;
-	}
+	public int getValueMin() { return valMin; }
 
-	public int getValueMax() {
-		return valMax;
-	}
+	public int getValueMax() { return valMax; }
 
-	public int getXRotationPointStatement() {
-		return xRotationPointStatement;
-	}
+	public int getXRotationPointStatement() { return xRotationPointStatement; }
 
-	public int getYRotationPointStatement() {
-		return yRotationPointStatement;
-	}
+	public int getYRotationPointStatement() { return yRotationPointStatement; }
 
 	// RotationPointStatement.
 
@@ -370,19 +329,13 @@ public class MyProgressBar extends JLabel {
 		}
 	}
 
-	public int setValue(int value) {
-		return setValue(value, true);
-	}
+	public int setValue(int value) { return setValue(value, true); }
 
 	private int setValue(int value, boolean mustUpdate) {
 		int oldValue = valNow;
 		boolean changed = false;
-		if (value < valMin) {
-			value = valMin;
-		}
-		if (value > valMax) {
-			value = valMax;
-		}
+		if (value < valMin) { value = valMin; }
+		if (value > valMax) { value = valMax; }
 		if (valNow != value) {
 			valNow = value;
 			changed = true;
@@ -532,9 +485,7 @@ public class MyProgressBar extends JLabel {
 																	// alpha ) ;
 		}
 		ret = settedBar || settedBackg;
-		if (ret) {
-			updateImage(colorBackground.getRGB(), colorBar.getRGB(), oldColorBar, oldColorBackground);
-		}
+		if (ret) { updateImage(colorBackground.getRGB(), colorBar.getRGB(), oldColorBar, oldColorBackground); }
 		return ret;
 	}
 
@@ -589,9 +540,7 @@ public class MyProgressBar extends JLabel {
 		// setIcon( new ImageIcon ( castMatrixBufferedImage_ARGB(matricePixel) )
 		// );
 		setIcon(new ImageIcon(bi));
-		if (isVisible()) {
-			repaint();
-		}
+		if (isVisible()) { repaint(); }
 		// System.out.println("somethingChanged : " + somethingChanged +
 		// "\t updateMatrixPixel returns : " + b );
 		// System.out.println("\t image updated");
@@ -606,9 +555,7 @@ public class MyProgressBar extends JLabel {
 		// restoreMinMaxPointDraw();
 		somethingChanged = updateMatrixPixel(oldValue);
 		setIcon(new ImageIcon(bi));
-		if (isVisible()) {
-			repaint();
-		}
+		if (isVisible()) { repaint(); }
 		// System.out.println("\t image updated");
 		// }
 		return somethingChanged;
@@ -674,9 +621,7 @@ public class MyProgressBar extends JLabel {
 			// + " DURING " + r) , bi); }
 		}
 		// System.out.println( "\t\t somethingChanged = " + somethingChanged );
-		if (somethingChanged) {
-			setIcon(new ImageIcon(bi));
-		}
+		if (somethingChanged) { setIcon(new ImageIcon(bi)); }
 		// System.out.println( "\t minXbg = " + minXbg + "\t minYbg = " + minYbg
 		// + "\t maxXbg = " + maxXbg + "\t maxYbg = " + maxYbg );
 		return somethingChanged;
@@ -695,19 +640,13 @@ public class MyProgressBar extends JLabel {
 		// ipotizza che la barra abbia i bordi laterali verticali)
 		boolean somethingChanged = false, b = false;// boolean shouldWrite =
 													// true;
-		if (oldValue > valMax) {
-			oldValue = valMax;
-		}
+		if (oldValue > valMax) { oldValue = valMax; }
 		if (nParti > 0) {
 			lastPixelWidth = (int) (Math.round(((double) ((maxXbg - minXbg) * (valNow - valMin))) / ((double) nParti)))
 					+ minXbg;
 			oldPixelWidth = (int) (((double) ((maxXbg - minXbg) * (oldValue - valMin))) / ((double) nParti)) + minXbg;
-			if (oldPixelWidth < minXbg) {
-				oldPixelWidth = minXbg;
-			}
-			if (lastPixelWidth < minXbg) {
-				lastPixelWidth = minXbg;
-			}
+			if (oldPixelWidth < minXbg) { oldPixelWidth = minXbg; }
+			if (lastPixelWidth < minXbg) { lastPixelWidth = minXbg; }
 		} else {
 			lastPixelWidth = oldPixelWidth = minXbg;
 		}
@@ -752,9 +691,7 @@ public class MyProgressBar extends JLabel {
 																					// colonne
 					colOldMatrice = bi.getRGB(c, r);
 					b = isColorsEqual(new Color(colOldMatrice), colorBar); // colorBackground
-					if (b) {
-						bi.setRGB(c, r, colBg);
-					}
+					if (b) { bi.setRGB(c, r, colBg); }
 					// if( shouldWrite && (r % 10 == 0) ) { writeImage( ("mpb"+
 					// File.separatorChar + path + " DURING " + r) , bi); }
 				}
@@ -765,9 +702,7 @@ public class MyProgressBar extends JLabel {
 				for (c = lastPixelWidth; c <= oldPixelWidth; c++) {
 					colOldMatrice = bi.getRGB(c, r);
 					b = isColorsEqual(new Color(colOldMatrice), colorBackground); // colorBar
-					if (b) {
-						bi.setRGB(c, r, colBar);
-					}
+					if (b) { bi.setRGB(c, r, colBar); }
 				}
 				// if( shouldWrite && (r % 10 == 0) ) { writeImage( ("mpb"+
 				// File.separatorChar + path + " DURING " + r) , bi); }
@@ -776,9 +711,7 @@ public class MyProgressBar extends JLabel {
 		}
 		// System.out.println( "\t\t somethingChanged = " + somethingChanged );
 		if (somethingChanged) {
-			if (bi == null) {
-				initializeBufferedImage();
-			}
+			if (bi == null) { initializeBufferedImage(); }
 			setIcon(new ImageIcon(bi));
 		}
 		// System.out.println( "\t minXbg = " + minXbg + "\t minYbg = " + minYbg
@@ -787,9 +720,9 @@ public class MyProgressBar extends JLabel {
 	}
 
 	/**
-	 * Restore the current image and bufferedImage to the original returns true
-	 * if and only if the current matrix of pixel submits changes ather the
-	 * method returns.
+	 * Restore the current image and bufferedImage to the original returns true if
+	 * and only if the current matrix of pixel submits changes ather the method
+	 * returns.
 	 */
 	public boolean restoreOriginal() {
 		boolean hasChanged = false;
@@ -833,9 +766,7 @@ public class MyProgressBar extends JLabel {
 				}
 			}
 		}
-		if (hasChanged) {
-			restoreMinMaxPointDraw();
-		}
+		if (hasChanged) { restoreMinMaxPointDraw(); }
 		return hasChanged;
 	}
 
@@ -869,29 +800,19 @@ public class MyProgressBar extends JLabel {
 				// notFound = ! ( ( deleteAlpha(riga[c]) == colBg) || (
 				// deleteAlpha(riga[c]) == castAssemblyRGBandAlphaToARGB( colBg,
 				// alpha) ) ) ;
-				if (notFound) {
-					c++;
-				}
+				if (notFound) { c++; }
 				// notFound = ! ( isColorsEqual ( new Color(
 				// castAssemblyRGBandAlphaToARGB( bi.getRGB(c, r), bi.getRGB(c,
 				// r) ) ) , cbg ) ) ;
 			}
 			if (!notFound) {
-				if (minXbg > c) {
-					minXbg = c;
-				}
-				if (minYbg < 0) {
-					minYbg = r;
-				}
+				if (minXbg > c) { minXbg = c; }
+				if (minYbg < 0) { minYbg = r; }
 			}
 		}
 		// se i minimi non sono stati trovati, allora si riparte
-		if (minYbg < 0) {
-			minYbg = 0;
-		}
-		if (minXbg == width) {
-			minXbg = 0;
-		}
+		if (minYbg < 0) { minYbg = 0; }
+		if (minXbg == width) { minXbg = 0; }
 		// ricerca dei massimi
 		notFound = true;
 		for (r = height - 1; (r >= minYbg); r--) {
@@ -918,20 +839,12 @@ public class MyProgressBar extends JLabel {
 				// alpha) ) ) ;
 			}
 			if (!notFound) {
-				if (maxXbg < c || maxXbg < minXbg) {
-					maxXbg = c;
-				}
-				if (maxYbg == height) {
-					maxYbg = r;
-				}
+				if (maxXbg < c || maxXbg < minXbg) { maxXbg = c; }
+				if (maxYbg == height) { maxYbg = r; }
 			}
 		}
-		if (maxYbg == height || maxYbg < minYbg) {
-			maxYbg = height - 1;
-		}
-		if (maxXbg < 0 || maxXbg < minXbg) {
-			maxXbg = width - 1;
-		}
+		if (maxYbg == height || maxYbg < minYbg) { maxYbg = height - 1; }
+		if (maxXbg < 0 || maxXbg < minXbg) { maxXbg = width - 1; }
 		// System.out.println( "\t\t\t minXbg = " + minXbg + " minYbg = " +
 		// minYbg + " maxXbg = " + maxXbg + "maxYbg = " + maxYbg );
 	}
@@ -975,18 +888,10 @@ public class MyProgressBar extends JLabel {
 	private static int[][] mp_FirstOfFive, mp_SecondOfFive, mp_ThirdOfFive, mp_FourthOfFive, mp_FifthOfFive;
 
 	private static void initialize() {
-		if (mp_FirstOfFive == null) {
-			mp_FirstOfFive = get_matricePixel_FirstOfFive();
-		}
-		if (mp_SecondOfFive == null) {
-			mp_SecondOfFive = get_matricePixel_SecondOfFive();
-		}
-		if (mp_ThirdOfFive == null) {
-			mp_ThirdOfFive = get_matricePixel_ThirdOfFive();
-		}
-		if (mp_FourthOfFive == null) {
-			mp_FourthOfFive = get_matricePixel_FourthOfFive();
-		}
+		if (mp_FirstOfFive == null) { mp_FirstOfFive = get_matricePixel_FirstOfFive(); }
+		if (mp_SecondOfFive == null) { mp_SecondOfFive = get_matricePixel_SecondOfFive(); }
+		if (mp_ThirdOfFive == null) { mp_ThirdOfFive = get_matricePixel_ThirdOfFive(); }
+		if (mp_FourthOfFive == null) { mp_FourthOfFive = get_matricePixel_FourthOfFive(); }
 		if (mp_FifthOfFive == null) {
 			mp_FifthOfFive = get_matricePixel_FifthOfFive();
 			// matricePixel = getMatrixPixel_New();
@@ -1021,9 +926,7 @@ public class MyProgressBar extends JLabel {
 			height = heightOriginal; // matricePixel.length;
 			width = widthOriginal;
 		}
-		if (bi == null) {
-			bi = castMatrixBufferedImage(matricePixelOriginal, BufferedImage.TYPE_INT_ARGB);
-		}
+		if (bi == null) { bi = castMatrixBufferedImage(matricePixelOriginal, BufferedImage.TYPE_INT_ARGB); }
 	}
 
 	private static void nullify() {
@@ -1037,16 +940,15 @@ public class MyProgressBar extends JLabel {
 	 * 
 	 * @Override public void paintComponent(Graphics g) { Graphics2D g2 =
 	 * (Graphics2D)g; g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	 * RenderingHints.VALUE_ANTIALIAS_ON); AffineTransform aT =
-	 * g2.getTransform(); Shape oldshape = g2.getClip(); double xxx =
-	 * this.getWidth()/2.0; double yyy = this.getHeight()/2.0;
-	 * aT.rotate(Math.toRadians(angDeg) ,xxx, yyy); // x e y sono le coordinate
-	 * relative all'origine di default, aventi coordinate P(getX(), getY())
-	 * g2.setTransform(aT); g2.setClip(oldshape); super.paintComponent(g); }
+	 * RenderingHints.VALUE_ANTIALIAS_ON); AffineTransform aT = g2.getTransform();
+	 * Shape oldshape = g2.getClip(); double xxx = this.getWidth()/2.0; double yyy =
+	 * this.getHeight()/2.0; aT.rotate(Math.toRadians(angDeg) ,xxx, yyy); // x e y
+	 * sono le coordinate relative all'origine di default, aventi coordinate
+	 * P(getX(), getY()) g2.setTransform(aT); g2.setClip(oldshape);
+	 * super.paintComponent(g); }
 	 * 
-	 * @Override public void setSize( int width, int height) {
-	 * super.setSize(width, height); setSizeProgBar( jl.getWidth(),
-	 * jl.getHeight() ); } }
+	 * @Override public void setSize( int width, int height) { super.setSize(width,
+	 * height); setSizeProgBar( jl.getWidth(), jl.getHeight() ); } }
 	 */
 	public static final int[][] get_matricePixel_FirstOfFive() {
 		return new int[][] { new int[] { 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215,
@@ -3657,22 +3559,18 @@ public class MyProgressBar extends JLabel {
 		;
 	}
 
-	public static int deleteAlpha(int argb) {
-		return (argb << 8) >> 8;
-	}
+	public static int deleteAlpha(int argb) { return (argb << 8) >> 8; }
 
 	public static int castAssemblyRGBandAlphaToARGB(int rgb, int alpha) {
 		return ((rgb & 0x00FFFFFF)
 				/*
-				 * ((rgb & negateInt(255 << 24)) // setto l'ultimo byte a 0,
-				 * cos' da "lasciare il posto" per l'alpha
+				 * ((rgb & negateInt(255 << 24)) // setto l'ultimo byte a 0, cos' da
+				 * "lasciare il posto" per l'alpha
 				 */
 				| (alpha << 24));
 	}
 
-	public static int negateInt(int n) {
-		return n ^ 0xFFFFFFFF;
-	}
+	public static int negateInt(int n) { return n ^ 0xFFFFFFFF; }
 
 	public static int castARGBbytesToARGBInt(byte alpha, byte red, byte green, byte blue) {
 		return ((alpha & 0xFF) << 24) | ((red & 0xFF) << 0) | ((green & 0xFF) << 8) | ((blue & 0xFF) << 16);
@@ -3839,9 +3737,7 @@ public class MyProgressBar extends JLabel {
 		return ret;
 	}
 
-	public boolean writeImage(String pathAndName) {
-		return writeImage(pathAndName, bi);
-	}
+	public boolean writeImage(String pathAndName) { return writeImage(pathAndName, bi); }
 
 	public static boolean writeImage(String pathAndName, int[][] m) {
 		boolean successInWriting = false;
@@ -3899,8 +3795,6 @@ public class MyProgressBar extends JLabel {
 		return successInWriting;
 	}
 
-	public void setPreferredSize(int wp, int hp) {
-		super.setPreferredSize(new Dimension(wp, hp));
-	}
+	public void setPreferredSize(int wp, int hp) { super.setPreferredSize(new Dimension(wp, hp)); }
 
 }

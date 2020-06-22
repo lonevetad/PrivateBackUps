@@ -23,6 +23,9 @@ public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
 	public Set<ObjectWithID> getObjects() { return timedObjects_Set; }
 
 	@Override
+	public int objectsHeldCount() { return this.timedObjects.size(); }
+
+	@Override
 	public boolean add(ObjectWithID o) {
 		if (o == null || (!(o instanceof TimedObject)))
 			return false;
@@ -54,4 +57,5 @@ public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
 
 	@Override
 	public void forEach(Consumer<ObjectWithID> action) { timedObjects.forEach((id, to) -> action.accept(to)); }
+
 }

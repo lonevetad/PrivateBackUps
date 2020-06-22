@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GEventObserver;
@@ -12,6 +11,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gEvents.EventEnteringOnMap;
 import games.generic.controlModel.gEvents.EventLeavingMap;
+import games.generic.view.DrawableInstantiator;
 import games.generic.view.DrawableObj;
 import geometry.ObjectLocated;
 import tools.ObjectNamedID;
@@ -31,7 +31,7 @@ public abstract class DrawableObjProviderListeningInOutEvents extends DrawableOb
 
 	/***/
 	public DrawableObjProviderListeningInOutEvents(ObjLocatedProvider objLocatedProvider,
-			Function<ObjectLocated, DrawableObj> drawableCreator) {
+			DrawableInstantiator drawableCreator) {
 		super(objLocatedProvider);
 		this.drawableCreator = Objects.requireNonNull(drawableCreator);
 		this.ID = idProvider.getNewID();
@@ -44,7 +44,7 @@ public abstract class DrawableObjProviderListeningInOutEvents extends DrawableOb
 	protected final Integer ID;
 	protected final List<String> eventsListened;
 	protected Map<ObjectLocated, DrawableObj> drawablePartsForGameObjects;
-	protected Function<ObjectLocated, DrawableObj> drawableCreator;
+	protected DrawableInstantiator drawableCreator;
 
 	//
 

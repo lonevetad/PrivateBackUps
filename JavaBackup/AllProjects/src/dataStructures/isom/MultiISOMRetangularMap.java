@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
@@ -160,22 +161,35 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 */
 	public InSpaceObjectsManager<Distance> asCachingMatrixISOM() { return newIsomCachingMISOM(); }
 
+	/**
+	 * See {@link #getNodeAt(int, int)}.
+	 * <p>
+	 * {@inheritDoc}
+	 */
 	@Override
-	public NodeIsom getNodeAt(Point location) {
+	public NodeIsom getNodeAt(Point location) { return getNodeAt(location.x, location.y); }
+
+	/**
+	 * Get the {@link NodeIsom} at the specific coordinates.<br>
+	 * Those coordinates are to be meant <b>absolute</b>, <i>not</i> relatively to
+	 * the containing map (a map is a {@link MatrixInSpaceObjectsManager}). <br>
+	 * For instance, passing the point <code>{x:5, y:10}</code> as parameter (and
+	 * assuming that this point is contained by the map located at
+	 * <code>{x:1, y:3}</code>) will result in the {@link NodeIsom} located at
+	 * <code>{x:5, y:10} - {x:1, y:3} = {x:4, y:7}</code> so the {@link NodeIsom}
+	 * located at <code>{x:4, y:7}</code> on that map will be returned.
+	 */
+	@Override
+	public NodeIsom getNodeAt(int x, int y) {
 		MatrixInSpaceObjectsManager<Distance> misom;
 		MISOMWrapper<Distance> mw;
-		mw = getMISOMWrapperContaining(location);
+		mw = getMISOMWrapperContaining(x, y);
 		misom = mw.misom;
-//				getMISOMContaining(location);
 		if (misom == null)
 			return null;
 		// consider the offset
-		return misom.getNodeAt(location.x - mw.x, location.y - mw.y); // .getNodeAt(location);
-//	return getNodeAt(location.x,location. y); 
+		return misom.getNodeAt(x - mw.x, y - mw.y);
 	}
-
-	@Override
-	public NodeIsom getNodeAt(int x, int y) { return getNodeAt(new Point(x, y)); }
 
 	@Override
 	public void forEachNode(Consumer<NodeIsom> action) { this.maps.forEach((i, mw) -> mw.misom.forEachNode(action)); }
@@ -201,6 +215,20 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		}
 	}
 
+	/**
+	 * Apply an action to each stored map and the point (top-left corner) which it's
+	 * located in.
+	 */
+	public void forEachMap(BiConsumer<MatrixInSpaceObjectsManager<Distance>, Point> action) {
+		final Point offset;
+		offset = new Point();
+		this.maps.forEach((id, wrapper) -> {
+			offset.x = wrapper.x;
+			offset.y = wrapper.y;
+			action.accept(wrapper.misom, offset);
+		});
+	}
+
 	@Override
 	public ObjLocatedCollectorIsom newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) {
 		return new ObjLocatedCollectorMultimatrix<Distance>(this.newNodeIsomProviderCaching(), objectFilter);
@@ -210,7 +238,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter,
 			List<Point> path) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	@Override
@@ -304,12 +332,23 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		return null; // Error 404
 	}
 
+	/** See {@link #addMap(MatrixInSpaceObjectsManager, Point)}. */
 	public void addMap(MatrixInSpaceObjectsManager<Distance> map, int x, int y) {
 		if (map == null || map.getWidth() < 1 || map.getHeight() < 1)
 			return;
 		addMap(map, new Point(x, y));
 	}
 
+	/**
+	 * Add a map (a {@link MatrixInSpaceObjectsManager}) which is located, into the
+	 * space, at the given point.<br>
+	 * This point is the map's offset because the map's class's indexes (i.e. those
+	 * passed to {@link MatrixInSpaceObjectsManager#getNodeAt(Point)})) are relative
+	 * to its origin.
+	 * <p>
+	 * See {@link #getNodeAt(int, int)} to more informations and examples about the
+	 * meaning of <i>offset</i> and <i>coordinates</i> both relative and absolute.
+	 */
 	public void addMap(MatrixInSpaceObjectsManager<Distance> map, Point locationLeftTop) {
 		int c, w, h;
 		MISOMWrapper<Distance> r;
@@ -320,10 +359,10 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		if (c < 0)
 			return;
 		maps.put(r.ID, r);
-//		if (c > 0)
-		rebuild();
-//		else
-//			addNotRebuilding(r);
+		if (c > 0)
+			rebuild();
+		else
+			addNotRebuilding(r);
 	}
 
 	public void addMaps(Collection<MISOMWrapper<Distance>> mapsList) {
@@ -339,10 +378,10 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 				}
 			}
 		});
-//		if (cc[0] > 0)
-		rebuild();
-//		else
-//			mapsList.forEach(this::addNotRebuilding);
+		if (cc[0] > 0)
+			rebuild();
+		else
+			mapsList.forEach(this::addNotRebuilding);
 	}
 
 	/**
@@ -351,9 +390,94 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 * Should be a method to add a map without a full rebuild, but I don't know how
 	 * to do it in a smart way.
 	 */
-	protected void addNotRebuilding(MISOMWrapper<Distance> r) {
-		// TODO
-		throw new UnsupportedOperationException("Too lazy to think a so-variable scenario");
+	protected void addNotRebuilding(MISOMWrapper<Distance> map) {
+		if (root == null)
+			rebuild();
+		else
+			root = addNotRebuilding(map, root);
+	}
+
+	protected NodeMultiISOMRectangular newNodeWith(MISOMWrapper<Distance> map, NodeMultiISOMRectangular currentNode) {
+		NodeMultiISOMRectangular newNode;
+		newNode = new NodeMultiISOMRectangular(currentNode);
+		newNode.submaps = new ArrayList<>(maximumSubmapsEachSection);
+		newNode.submaps.add(map);
+		return newNode;
+	}
+
+	// the recursive part
+	// returns the node given or a newly created one
+	protected NodeMultiISOMRectangular addNotRebuilding(MISOMWrapper<Distance> map,
+			NodeMultiISOMRectangular currentNode) {
+		if (currentNode.isLeaf()) {
+			if (currentNode.submaps.size() < this.maximumSubmapsEachSection) {
+				// just add and nothing more
+				currentNode.submaps.add(map);
+			} else {
+				// else, build ricoursively
+				currentNode.submaps.add(map);
+				currentNode = rebuild(currentNode.father, currentNode.submaps, currentNode.x, currentNode.y,
+						currentNode.x + currentNode.w, currentNode.y + currentNode.w, currentNode.w, currentNode.h,
+						currentNode.xm, currentNode.ym);
+			}
+
+			// V2, later discarded
+//			List<MISOMWrapper<Distance>> newSetSubmaps;
+//			if (currentNode.isLeaf()) {
+//				newSetSubmaps = currentNode.submaps;
+//				if (newSetSubmaps.size() >= this.maximumSubmapsEachSection) {
+//					final List<MISOMWrapper<Distance>> tempSubmaps; // a final field is required
+//					tempSubmaps = new LinkedList<>();
+//					newSetSubmaps.forEach(mw_ -> tempSubmaps.add(mw_));
+//					newSetSubmaps = tempSubmaps;
+//				} // else just add and nothing more
+//				newSetSubmaps.add(r);
+//				// rebuild if necessary
+//				currentNode = rebuild(currentNode.father, newSetSubmaps, currentNode.x, currentNode.y,
+//						currentNode.x + currentNode.w, currentNode.y + currentNode.w, currentNode.w, currentNode.h,
+//						currentNode.xm, currentNode.ym);
+//			} else		{
+		} else {
+			int hw, hh, x_w_1, y_h_1;
+			hw = currentNode.w >> 1;
+			hh = currentNode.h >> 1;
+			x_w_1 = currentNode.x + hw + 1;
+			y_h_1 = currentNode.y + hh + 1;
+			// for each subsection ..
+			if ((currentNode.snw != null && currentNode.snw.intersectsWithMap(map)) //
+					|| // or that area does NOT exists BUT could hold the new map
+					(currentNode.snw == null && //
+							MathUtilities.intersects(currentNode.x, currentNode.y, hw, hh, map.x, map.y, map.width,
+									map.height))) {
+				currentNode.snw = (currentNode.snw == null) ? newNodeWith(map, currentNode)
+						: addNotRebuilding(map, currentNode.snw);
+			}
+			if ((currentNode.sne != null && currentNode.sne.intersectsWithMap(map)) //
+					|| // or that area does NOT exists BUT could hold the new map
+					(currentNode.sne == null && //
+							MathUtilities.intersects(x_w_1, currentNode.y, currentNode.w - hw, hh, map.x, map.y,
+									map.width, map.height))) {
+				currentNode.sne = (currentNode.sne == null) ? newNodeWith(map, currentNode)
+						: addNotRebuilding(map, currentNode.sne);
+			}
+			if ((currentNode.ssw != null && currentNode.ssw.intersectsWithMap(map)) //
+					|| // or that area does NOT exists BUT could hold the new map
+					(currentNode.ssw == null && //
+							MathUtilities.intersects(currentNode.x, y_h_1, hw, currentNode.h - hh, map.x, map.y,
+									map.width, map.height))) {
+				currentNode.ssw = (currentNode.ssw == null) ? newNodeWith(map, currentNode)
+						: addNotRebuilding(map, currentNode.ssw);
+			}
+			if ((currentNode.sse != null && currentNode.sse.intersectsWithMap(map)) //
+					|| // or that area does NOT exists BUT could hold the new map
+					(currentNode.sse == null && //
+							MathUtilities.intersects(x_w_1, y_h_1, currentNode.w - hw, currentNode.h - hh, map.x, map.y,
+									map.width, map.height))) {
+				currentNode.sse = (currentNode.sse == null) ? newNodeWith(map, currentNode)
+						: addNotRebuilding(map, currentNode.sse);
+			}
+		}
+		return currentNode;
 	}
 
 	public void removeMap(MISOMWrapper<Distance> r) {
@@ -522,17 +646,21 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	/**
 	 * Wrapper of a {@link MatrixInSpaceObjectsManager} that specify where that
 	 * matrix-map is located in space.<br>
-	 * Mainly used for internal stuffs and to {@link NodeIsomProviderCachingMISOM}
+	 * Mainly used for internal stuffs like
+	 * {@link MultiISOMRetangularMap#addMap(MatrixInSpaceObjectsManager, Point)} and
+	 * to {@link NodeIsomProviderCachingMISOM}
 	 * <p>
-	 * NOTE: each matrix's coordinates are relative to them, so a point like
-	 * <code>{x:5, y:10}</code> of a map located at <code>{x:1, y:3}</code> is
-	 * translated (using a notation abuse) to
+	 * NOTE: as like as it's said in
+	 * {@link MultiISOMRetangularMap#getNodeAt(int, int)}, each matrix's coordinates
+	 * are relative to it, so a point like <code>{x:5, y:10}</code> of a map located
+	 * at <code>{x:1, y:3}</code> is translated (using a notation abuse) to
 	 * <code>{x:5, y:10} - {x:1, y:3} = {x:4, y:7}</code>, so the {@link NodeIsom}
 	 * located at <code>{x:4, y:7}</code> will be taken into account.
 	 */
 	public static class MISOMWrapper<Dd extends Number> extends Rectangle {
 		private static final long serialVersionUID = 560804524L;
 
+		/** See calls the constructor considering */
 		public MISOMWrapper(MultiISOMRetangularMap<Dd> multi, MatrixInSpaceObjectsManager<Dd> misom, int x, int y,
 				int width, int height) {
 			super(x, y, width, height);
@@ -541,6 +669,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			this.IDInteger = (this.ID = this.multi.idProg++);
 		}
 
+		/** See {@link MISOMWrapper} for informations about the given {@link Point}. */
 		public MISOMWrapper(MultiISOMRetangularMap<Dd> multi, MatrixInSpaceObjectsManager<Dd> misom, Point p,
 				Dimension d) {
 			super(p, d);
@@ -569,8 +698,27 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 		public boolean isLeaf() { return submaps != null; }
 
+		/** Beware of <code>null</code>s! */
+		public void forEachSubsection(Consumer<NodeMultiISOMRectangular> action) {
+			action.accept(snw);
+			action.accept(sne);
+			action.accept(ssw);
+			action.accept(sse);
+		}
+
+		public void recalculateEachSubsection(Function<NodeMultiISOMRectangular, NodeMultiISOMRectangular> action) {
+			snw = action.apply(snw);
+			sne = action.apply(sne);
+			ssw = action.apply(ssw);
+			sse = action.apply(sse);
+		}
+
 		@Override
 		public String toString() { return "Node--[x=" + x + ", y=" + y + ", w=" + w + ", h=" + h + "]"; }
+
+		public boolean intersectsWithMap(MISOMWrapper<Distance> map) {
+			return MathUtilities.intersects(x, y, w, h, map.x, map.y, map.width, map.height);
+		}
 
 		@Override
 		public void toString(StringBuilder sb, int tabLevel) {
@@ -618,6 +766,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 * TODO 12/06/2020 questa classe andrebbe astratta (previa astrazione di
 	 * "multi misom dotata di getMisomWrapperContaining")
 	 */
+	// 21/06 .. ma è usata questa classe?
 	public static class NodeIsomProviderCachingMISOM<Dd extends Number> implements NodeIsomProvider {
 		private static final long serialVersionUID = 1L;
 

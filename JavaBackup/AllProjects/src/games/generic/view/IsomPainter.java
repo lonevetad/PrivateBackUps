@@ -17,8 +17,6 @@ import geometry.implementations.shapes.ShapeRectangle;
  */
 public abstract class IsomPainter extends GuiComponent {
 
-//	public IsomPainter(GameView view) { this(view, new DrawableObjProviderListeningInOutEvents(new ObjLocatedProviderAreaScanning(view))); }
-
 	public IsomPainter(GameView view, DrawableObjProvider drawableProvider) {
 		super(view);
 		this.drawableProvider = drawableProvider;
@@ -113,7 +111,10 @@ public abstract class IsomPainter extends GuiComponent {
 	 * Should uses {@link #getDrawer()} to paint this single object, which is
 	 * located in the provided center's {@link Point}.
 	 */
-	protected abstract void paintObject(Point locationCenterToPaint, DrawableObj d);
+	protected void paintObject(Point locationCenterToPaint, DrawableObj d) {
+		drawer.drawDrawable(d, locationCenterToPaint.x - this.cameraView.getXCenter(),
+				locationCenterToPaint.y - this.cameraView.getYCenter());
+	}
 
 	/** Single painting iteration */
 	protected void paintCycleIteration() {

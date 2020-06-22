@@ -58,6 +58,9 @@ public class GEventManagerSimple extends GEventManager {
 	}
 
 	@Override
+	public int objectsHeldCount() { return this.observers.size(); }
+
+	@Override
 	public Set<ObjectWithID> getObjects() { return this.observersSet; }
 
 	@Override

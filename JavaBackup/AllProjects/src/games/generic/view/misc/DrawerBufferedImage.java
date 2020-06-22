@@ -51,4 +51,10 @@ public class DrawerBufferedImage implements Drawer {
 		if (dg != null)
 			dg.drawLine(x1, y1, x2, y2);
 	}
+
+	@Override
+	public void drawRectangle(Rectangle rect, int x, int y) {
+		if (dg != null)
+			dg.drawRectangle(rect, x, y);
+	}
 }

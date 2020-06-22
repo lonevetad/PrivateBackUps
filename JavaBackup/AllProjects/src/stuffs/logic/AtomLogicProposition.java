@@ -47,10 +47,36 @@ public class AtomLogicProposition {
 
 	public AtomLogicProposition(boolean isPositive, int i) {
 		this.isPositive = isPositive;
+		setIDAndName(i);
+	}
+
+	protected AtomLogicProposition(boolean p, Integer i, String n) {
+		this.isPositive = p;
 		this.ID = i;
+		this.name = n;
+	}
+
+	public final boolean isPositive;
+	protected Integer ID;
+	protected String name;
+
+	public AtomLogicProposition negate() {
+		return new AtomLogicProposition(!this.isPositive, ID, //
+				(this.isPositive) ? ('~' + this.name) : this.name.substring(1)//
+		);
+	}
+
+	public boolean isPositive() { return isPositive; }
+
+	public Integer getID() { return ID; }
+
+	public String getName() { return name; }
+
+	public AtomLogicProposition setIDAndName(int i) {
 		int remainder;
 		StringBuilder sb;
 		if ((idProg >= 0 && i >= idProg) || (idProg < 0 && i <= idProg)) { idProg = i + 1; }
+		this.ID = i;
 		sb = new StringBuilder(4);
 		if (i == 0)
 			sb.append('a');
@@ -62,22 +88,7 @@ public class AtomLogicProposition {
 		if (!isPositive)
 			sb.append('~');
 		name = sb.reverse().toString();
-	}
-
-	protected AtomLogicProposition(boolean p, Integer i, String n) {
-		this.isPositive = p;
-		this.ID = i;
-		this.name = n;
-	}
-
-	public final boolean isPositive;
-	public final Integer ID;
-	public final String name;
-
-	public AtomLogicProposition negate() {
-		return new AtomLogicProposition(!this.isPositive, ID, //
-				(this.isPositive) ? ('~' + this.name) : this.name.substring(1)//
-		);
+		return this;
 	}
 
 	@Override

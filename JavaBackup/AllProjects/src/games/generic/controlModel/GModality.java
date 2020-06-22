@@ -113,9 +113,7 @@ public abstract class GModality {
 	 * Get the HUGE delegate of almost everything. See {@link GameObjectsManager} to
 	 * understand what it hold.
 	 */
-	public GameObjectsManager getGameObjectsManager() {
-		return gomDelegated;
-	}
+	public GameObjectsManager getGameObjectsManager() { return gomDelegated; }
 
 	/**
 	 * Delegates the results to {@link GameObjectsManager} returned by
@@ -222,8 +220,7 @@ public abstract class GModality {
 		if (gm != null) {
 			boolean added;
 			added = gm.add(o);
-			if (added)
-				o.onAddedToGame(this);
+			if (added) { o.onAddedToGame(this); }
 			return added;
 		}
 		return false;

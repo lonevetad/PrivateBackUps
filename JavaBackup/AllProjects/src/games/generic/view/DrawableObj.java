@@ -20,7 +20,10 @@ public interface DrawableObj {
 	 */
 	public BufferedImage getCurrentImage();
 
-	/** This object is located somewhere in space. */
+	/**
+	 * Returns the location of this object in space, as described by
+	 * {@link ObjectLocated} (obtained through {@link #getRelatedObject()}).
+	 */
 	public default Point getLocation() {
 		ObjectLocated ol;
 		ol = getRelatedObject();

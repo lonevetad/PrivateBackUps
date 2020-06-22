@@ -12,5 +12,4 @@ public class GObjectsInSpaceManagerTRAn extends GObjectsInSpaceManagerImpl {
 	public int getSpaceSubunitsEachMacrounits() { // TODO Auto-generated method stub
 		return GModalityTRAn.SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN;
 	}
-
 }

@@ -185,6 +185,10 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		}
 	}
 
+	/**
+	 * The point is relative to this map (i.e.: negative values will cause an
+	 * {@link Exception}).
+	 */
 	@Override
 	public NodeIsom getNodeAt(Point p) {
 		int x, y;
@@ -194,6 +198,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		return n;
 	}
 
+	/** See {@link #getNodeAt(Point)}. */
 	@Override
 	public NodeIsom getNodeAt(int x, int y) {
 		NodeIsom n;

@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import dataStructures.MapTreeAVL;
+import stuffs.logic.AtomLogicProposition;
 import tools.Comparators;
 import tools.MathUtilities;
 import tools.Stringable;
@@ -32,9 +35,6 @@ import tools.Stringable;
 public class Test_MultiISOMRetangularMap_V1 {
 	public static final int MAXIMUM_SUBMAPS_EACH_SECTION = 4, MINIMUM_DIMENSION_MAP = 4;
 
-	/**
-	 * Construct a
-	 */
 	public Test_MultiISOMRetangularMap_V1(int maximumSubmapsEachSection) {
 		if (maximumSubmapsEachSection < 1)
 			throw new IllegalArgumentException(
@@ -106,10 +106,10 @@ public class Test_MultiISOMRetangularMap_V1 {
 		if (c < 0)
 			return;
 		maps.put(r.ID, r);
-//		if (c > 0)
-		rebuild();
-//		else
-//			addNotRebuilding(r);
+		if (c > 0)
+			rebuild();
+		else
+			addNotRebuilding(r);
 	}
 
 	public void addMaps(Collection<MyRectangle> mapsList) {
@@ -125,21 +125,101 @@ public class Test_MultiISOMRetangularMap_V1 {
 				}
 			}
 		});
-//		if (cc[0] > 0)
-		rebuild();
-//		else
-//			mapsList.forEach(this::addNotRebuilding);
+		if (cc[0] > 0)
+			rebuild();
+		else
+			mapsList.forEach(this::addNotRebuilding);
 	}
 
-	/**
-	 * EMPTY METHOD
-	 * <P>
-	 * Should be a method to add a map without a full rebuild, but I don't know how
-	 * to do it in a smart way.
-	 */
-	protected void addNotRebuilding(MyRectangle r) {
+	protected void addNotRebuilding(MyRectangle map) {
 		// TODO
-		throw new UnsupportedOperationException("Too lazy to think a so-variable scenario");
+//		throw new UnsupportedOperationException("Too lazy to think a so-variable scenario");
+		if (root == null)
+			rebuild();
+		else
+			root = addNotRebuilding(map, root);
+	}
+
+	protected NodeMultiISOMRectangular newNodeWith(MyRectangle map, NodeMultiISOMRectangular currentNode) {
+		NodeMultiISOMRectangular newNode;
+		newNode = new NodeMultiISOMRectangular(currentNode);
+		newNode.submaps = new ArrayList<>(maximumSubmapsEachSection);
+		newNode.submaps.add(map);
+		return newNode;
+	}
+
+	// the recursive part
+	// returns the node given or a newly created one
+	protected NodeMultiISOMRectangular addNotRebuilding(MyRectangle map, NodeMultiISOMRectangular currentNode) {
+		if (currentNode.isLeaf()) {
+			if (currentNode.submaps.size() < this.maximumSubmapsEachSection) {
+				// just add and nothing more
+				currentNode.submaps.add(map);
+			} else {
+				// else, build ricoursively
+				currentNode.submaps.add(map);
+				currentNode = rebuild(currentNode.father, currentNode.submaps, currentNode.x, currentNode.y,
+						currentNode.x + currentNode.w, currentNode.y + currentNode.w, currentNode.w, currentNode.h,
+						currentNode.xm, currentNode.ym);
+			}
+
+			// V2, later discarded
+//			List<MISOMWrapper<Distance>> newSetSubmaps;
+//			if (currentNode.isLeaf()) {
+//				newSetSubmaps = currentNode.submaps;
+//				if (newSetSubmaps.size() >= this.maximumSubmapsEachSection) {
+//					final List<MISOMWrapper<Distance>> tempSubmaps; // a final field is required
+//					tempSubmaps = new LinkedList<>();
+//					newSetSubmaps.forEach(mw_ -> tempSubmaps.add(mw_));
+//					newSetSubmaps = tempSubmaps;
+//				} // else just add and nothing more
+//				newSetSubmaps.add(r);
+//				// rebuild if necessary
+//				currentNode = rebuild(currentNode.father, newSetSubmaps, currentNode.x, currentNode.y,
+//						currentNode.x + currentNode.w, currentNode.y + currentNode.w, currentNode.w, currentNode.h,
+//						currentNode.xm, currentNode.ym);
+//			} else		{
+		} else {
+			int hw, hh, x_w_1, y_h_1;
+			hw = currentNode.w >> 1;
+			hh = currentNode.h >> 1;
+			x_w_1 = currentNode.x + hw + 1;
+			y_h_1 = currentNode.y + hh + 1;
+			// for each subsection ..
+			if ((currentNode.snw != null && currentNode.snw.intersectsWithMap(map)) //
+					|| // or that area does NOT exists BUT could hold the new map
+					(currentNode.snw == null && //
+							MathUtilities.intersects(currentNode.x, currentNode.y, hw, hh, map.x, map.y, map.width,
+									map.height))) {
+				currentNode.snw = (currentNode.snw == null) ? newNodeWith(map, currentNode)
+						: addNotRebuilding(map, currentNode.snw);
+			}
+			if ((currentNode.sne != null && currentNode.sne.intersectsWithMap(map)) //
+					|| // or that area does NOT exists BUT could hold the new map
+					(currentNode.sne == null && //
+							MathUtilities.intersects(x_w_1, currentNode.y, currentNode.w - hw, hh, map.x, map.y,
+									map.width, map.height))) {
+				currentNode.sne = (currentNode.sne == null) ? newNodeWith(map, currentNode)
+						: addNotRebuilding(map, currentNode.sne);
+			}
+			if ((currentNode.ssw != null && currentNode.ssw.intersectsWithMap(map)) //
+					|| // or that area does NOT exists BUT could hold the new map
+					(currentNode.ssw == null && //
+							MathUtilities.intersects(currentNode.x, y_h_1, hw, currentNode.h - hh, map.x, map.y,
+									map.width, map.height))) {
+				currentNode.ssw = (currentNode.ssw == null) ? newNodeWith(map, currentNode)
+						: addNotRebuilding(map, currentNode.ssw);
+			}
+			if ((currentNode.sse != null && currentNode.sse.intersectsWithMap(map)) //
+					|| // or that area does NOT exists BUT could hold the new map
+					(currentNode.sse == null && //
+							MathUtilities.intersects(x_w_1, y_h_1, currentNode.w - hw, currentNode.h - hh, map.x, map.y,
+									map.width, map.height))) {
+				currentNode.sse = (currentNode.sse == null) ? newNodeWith(map, currentNode)
+						: addNotRebuilding(map, currentNode.sse);
+			}
+		}
+		return currentNode;
 	}
 
 	public void removeMap(MyRectangle r) {
@@ -323,6 +403,10 @@ public class Test_MultiISOMRetangularMap_V1 {
 
 		public boolean isLeaf() { return submaps != null; }
 
+		public boolean intersectsWithMap(MyRectangle map) {
+			return MathUtilities.intersects(x, y, w, h, map.x, map.y, map.width, map.height);
+		}
+
 		@Override
 		public String toString() { return "Node--[x=" + x + ", y=" + y + ", w=" + w + ", h=" + h + "]"; }
 
@@ -456,11 +540,15 @@ public class Test_MultiISOMRetangularMap_V1 {
 
 	//
 	static class T_MISOM_GUI {
+		static int idProgNewRect = 100;
+//		boolean isRectangleDrawning;
 		JFrame win;
 		JPanel jp;
 		JScrollPane jsp;
 		List<MyRectangle> rects = null;
 		Test_MultiISOMRetangularMap_V1 t;
+		Point pStartDrawningRect = null, pEndDrawningRect = null;
+		MyRectangle newRect = null;
 
 		public T_MISOM_GUI(Test_MultiISOMRetangularMap_V1 t) {
 			super();
@@ -468,6 +556,7 @@ public class Test_MultiISOMRetangularMap_V1 {
 		}
 
 		void rebuildGUI() {
+			MouseAdapter ma;
 			win = new JFrame("Test Multi ISOM");
 			win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			jp = new JPanel() {
@@ -486,11 +575,41 @@ public class Test_MultiISOMRetangularMap_V1 {
 					Dimension d;
 					d = win.getSize();
 					d.width -= 10;
-					d.height -= 10;
+					d.height -= 25;
 					jsp.setSize(d);
 					jsp.setPreferredSize(d);
 				}
 			});
+			ma = new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) { onMouseClick(e); }
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					System.out.println("____ pressed on " + e.getPoint());
+					onStartDrawningNewRectangle(e.getPoint());
+					jp.repaint();
+				}
+
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					pEndDrawningRect = e.getPoint();
+//					System.out.println("°°°°dragged on " + pEndDrawningRect);
+					if (t.xLeftTop < 0) { pEndDrawningRect.x += t.xLeftTop; }
+					if (t.yLeftTop < 0) { pEndDrawningRect.y += t.yLeftTop; }
+					updateStartEndPoinNewRectangle();
+					jp.repaint();
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					System.out.println("____ released on " + e.getPoint());
+					onEndDrawningNewRectangle(e.getPoint());
+					jp.repaint();
+				}
+			};
+			jp.addMouseListener(ma);
+			jp.addMouseMotionListener(ma);
 			win.setSize(500, 500);
 			win.setVisible(true);
 		}
@@ -501,15 +620,26 @@ public class Test_MultiISOMRetangularMap_V1 {
 			minx = t.xLeftTop - 1;
 			miny = t.yLeftTop - 1;
 			c = Color.GREEN.darker();
-			if (rects != null) {
-				for (MyRectangle r : rects) {
+			if (t != null && t.maps != null) {
+//				for (MyRectangle r : rects) {
+				t.maps.forEach((id, r) -> {
 					g.setColor(c);
 //					g.drawRect(r.x - minx, r.y - miny, r.width, r.height);
 					g.fillRect(r.x - minx, r.y - miny, r.width, r.height);
 					g.setColor(Color.BLACK);
 					g.drawString(r.name, ((r.x - minx) + (r.width >> 1)), ((r.y - miny) + (r.height >> 1)));
 					g.drawString(r.name, (r.x - minx), (r.y - miny));
-				}
+				}//
+				);
+			}
+			if (this.newRect != null) {
+				g.setColor(Color.RED);
+				g.drawRect(//
+						(t.xLeftTop >= 0) ? this.newRect.x : //
+								this.newRect.x - t.xLeftTop,
+						(t.yLeftTop >= 0) ? this.newRect.y : //
+								this.newRect.y - t.yLeftTop, //
+						this.newRect.width, this.newRect.height);
 			}
 			if (t != null && t.root != null) { paintSubdivision(g); }
 		}
@@ -546,8 +676,87 @@ public class Test_MultiISOMRetangularMap_V1 {
 			this.rects = r;
 			t.clear();
 			t.addMaps(rects);
-			jp.setSize(t.width, t.height);
+			jp.setSize(t.width + 200, t.height + 200);
 			jp.setPreferredSize(jp.getSize());
+		}
+
+		void onMouseClick(MouseEvent me) {
+			Point whereClicked;
+			MyRectangle mapFound;
+			whereClicked = me.getPoint();
+			// consider the offset
+			if (t.xLeftTop < 0) { whereClicked.x += t.xLeftTop; }
+			if (t.yLeftTop < 0) { whereClicked.y += t.yLeftTop; }
+			System.out.println("finding a map on " + whereClicked + " ..");
+			mapFound = t.getMapContaining(whereClicked);
+			System.out.println(".. map found: " + mapFound);
+			System.out.println("me.getButton(): " + me.getButton());
+			if (mapFound != null && me.getButton() == MouseEvent.BUTTON3) { t.removeMap(mapFound); }
+		}
+
+		void updateStartEndPoinNewRectangle() {
+			int temp;
+			Point ps, pe;
+			if (this.pStartDrawningRect.x == this.pEndDrawningRect.x
+					|| this.pStartDrawningRect.y == this.pEndDrawningRect.y)
+				return;
+			ps = new Point(this.pStartDrawningRect);
+			pe = new Point(this.pEndDrawningRect);
+			if (ps.x > pe.x) {
+				temp = ps.x;
+				ps.x = pe.x;
+				pe.x = temp;
+			}
+			if (ps.y > pe.y) {
+				temp = ps.y;
+				ps.y = pe.y;
+				pe.y = temp;
+			}
+			if (newRect == null) {
+				this.newRect = new MyRectangle(ps, new Dimension( //
+						pe.x - ps.x, //
+						pe.y - ps.y));
+				this.newRect.setName( // use the atom to make the name cool
+						(new AtomLogicProposition(true, idProgNewRect++)).getName());
+			} else {
+				this.newRect.x = ps.x;
+				this.newRect.y = ps.y;
+				this.newRect.width = pe.x - ps.x;
+				this.newRect.height = pe.y - ps.y;
+			}
+		}
+
+		void onStartDrawningNewRectangle(Point pointEnd) {
+//			this.isRectangleDrawning = true;
+			this.newRect = null;
+			this.pEndDrawningRect = null;
+			this.pStartDrawningRect = pointEnd;
+			// consider the offset
+			if (t.xLeftTop < 0) { pointEnd.x += t.xLeftTop; }
+			if (t.yLeftTop < 0) { pointEnd.y += t.yLeftTop; }
+		}
+
+		void onEndDrawningNewRectangle(Point pointEnd) {
+			this.pEndDrawningRect = pointEnd;
+			// consider the offset
+			if (t.xLeftTop < 0) { pointEnd.x += t.xLeftTop; }
+			if (t.yLeftTop < 0) { pointEnd.y += t.yLeftTop; }
+			updateStartEndPoinNewRectangle();
+//			this.isRectangleDrawning = false;
+			buildAndAddMap();
+			this.pStartDrawningRect = null;
+			this.pEndDrawningRect = null;
+		}
+
+		void buildAndAddMap() {
+			if (this.newRect == null)
+				return;
+			System.out.println("\n\n adding new map: " + newRect);
+			t.addMap(newRect);
+			this.newRect = null;
+			jp.setSize(t.width + 200, t.height + 200);
+			jp.setPreferredSize(jp.getSize());
+			jp.repaint();
 		}
 	}
 }

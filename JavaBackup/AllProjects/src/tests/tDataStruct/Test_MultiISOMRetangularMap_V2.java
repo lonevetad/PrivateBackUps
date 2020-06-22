@@ -1,3 +1,4 @@
+package tests.tDataStruct;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -11,6 +12,7 @@ import dataStructures.MapTreeAVL;
 import tools.Comparators;
 import tools.Stringable;
 
+// perchè esiste?
 public class Test_MultiISOMRetangularMap_V2 {
 	public static final int MAXIMUM_SUBMAPS_EACH_SECTION = 4, MINIMUM_DIMENSION_MAP = 4;
 

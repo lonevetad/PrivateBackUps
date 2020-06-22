@@ -45,6 +45,9 @@ public abstract class GObjectsInSpaceManagerImpl implements GObjectsInSpaceManag
 	public void setGameModality(GModality gameModality) { this.gameModality = gameModality; }
 
 	@Override
+	public int objectsHeldCount() { return this.objWID.size(); }
+
+	@Override
 	public boolean contains(ObjectWithID o) { return (o == null) ? false : this.getObjects().contains(o); }
 
 	@Override
