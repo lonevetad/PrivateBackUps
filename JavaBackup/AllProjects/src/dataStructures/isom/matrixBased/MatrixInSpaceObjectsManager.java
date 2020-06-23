@@ -19,11 +19,14 @@ import geometry.ObjectLocated;
 import geometry.ObjectShaped;
 import geometry.ProviderShapeRunner;
 import geometry.ProviderShapesIntersectionDetector;
+import geometry.implementations.PathOptimizerPoint;
+import geometry.implementations.ProviderShapeRunnerImpl;
 import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.PointConsumer;
 import tools.Comparators;
 import tools.LoggerMessages;
 import tools.NumberManager;
+import tools.UniqueIDProvider;
 
 /** Rectangular matrix-based implementation */
 public abstract class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpaceObjectsManagerImpl<Distance> {
@@ -31,6 +34,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	protected static final Double justOne = 1.0, sqrtTwo = /* Math.max(justOne + 0.5, */Math.sqrt(2);
 	public static final CoordinatesDeltaForAdjacentNodes[] VALUES_CoordinatesDeltaForAdjacentNodes = CoordinatesDeltaForAdjacentNodes
 			.values();
+	protected static final UniqueIDProvider idProvider = UniqueIDProvider.newBasicIDProvider();
 //	public static enum OperationOnShape {Add, Remove, Replace, Collect;}
 
 	public static enum CoordinatesDeltaForAdjacentNodes {
@@ -51,11 +55,17 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 	public MatrixInSpaceObjectsManager(boolean isLazyNodeInstancing, int width, int height,
 			NumberManager<Distance> weightManager) {
+		this(idProvider.getNewID(), isLazyNodeInstancing, width, height, weightManager);
+	}
+
+	public MatrixInSpaceObjectsManager(Integer ID, boolean isLazyNodeInstancing, int width, int height,
+			NumberManager<Distance> weightManager) {
 		super();
 		this.isLazyNodeInstancing = isLazyNodeInstancing;
 		this.height = height;
 		this.width = width;
 		this.weightManager = weightManager;
+		this.id = ID;
 		onCreate();
 		// TODO create intersectors and runners
 //		ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
@@ -65,6 +75,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 //	protected Comparator IDOwidComparator;
 	protected final boolean isLazyNodeInstancing;
 	protected int width, height;
+	protected Integer id;
 	protected NodeIsom[][] matrix;
 	protected AbstractShape2D shape;
 	protected ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
@@ -77,10 +88,15 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	protected void onCreate() {
 		this.shape = new ShapeRectangle(0, width >> 1, height >> 1, true, width, height);
 		setObjectsAdded(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR));
+		setProviderShapeRunner(ProviderShapeRunnerImpl.getInstance());
+		setProviderShapesIntersectionDetector(ProviderShapesIntersectionDetector.getInstance());
+		setPathOptimizer(PathOptimizerPoint.getInstance());
 		reinstanceMatrix();
 	}
 
 	//
+
+	public Integer getId() { return id; }
 
 	@Override
 	public AbstractShape2D getBoundingShape() { return shape; }
@@ -112,6 +128,8 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	//
 
 	// TODO SETTER
+
+	public void setId(Integer id) { this.id = id; }
 
 	@Override
 	public void setProviderShapesIntersectionDetector(

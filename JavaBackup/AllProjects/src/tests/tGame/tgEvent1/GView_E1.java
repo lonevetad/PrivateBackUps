@@ -13,7 +13,6 @@ import javax.swing.JProgressBar;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurableResourceType;
-import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.misc.GThread.GTRunnable;
 import games.generic.controlModel.misc.HealingTypeExample;
 import games.generic.view.GameView;
@@ -187,16 +186,26 @@ public class GView_E1 extends GameView {
 		// TODO
 	}
 
-	void addRepainterThread() {
-		GModality_E1 gmodalitye1;
-		GThread t;
-		gmodalitye1 = (GModality_E1) super.gc.getCurrentGameModality();
-		t = new GThread(new PlayerInfoRepainter(gmodalitye1));
-		gmodalitye1.addGameThread(t);
-		t.start();
+	void singleRepaintCycle() {
+		repaintPlayerInfo();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
-	class PlayerInfoRepainter implements GTRunnable {
+	void addRepainterThread() {
+		GModality_E1 gmodalitye1;
+//		GThread t;
+		gmodalitye1 = (GModality_E1) super.gc.getCurrentGameModality();
+//		t = new GThread(new PlayerInfoRepainter(gmodalitye1));
+//		gmodalitye1.addGameThread(t);
+//		t.start();
+		gmodalitye1.addGameThreadSimplyStoppable(this::singleRepaintCycle);
+	}
+
+	protected class PlayerInfoRepainter implements GTRunnable {
 		final GModality_E1 gmodalitye1;
 
 		public PlayerInfoRepainter(GModality_E1 gmodalitye1) {
@@ -208,12 +217,7 @@ public class GView_E1 extends GameView {
 		public void run() {
 			while (gmodalitye1.isAlive()) {
 				while (gmodalitye1.isRunningOrSleep()) {
-					repaintPlayerInfo();
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					singleRepaintCycle();
 				}
 			}
 			System.out.println("END view repainter");
@@ -221,6 +225,9 @@ public class GView_E1 extends GameView {
 
 		@Override
 		public void stopAndDie() {}
+
+		@Override
+		public void restart() {}
 
 	}
 

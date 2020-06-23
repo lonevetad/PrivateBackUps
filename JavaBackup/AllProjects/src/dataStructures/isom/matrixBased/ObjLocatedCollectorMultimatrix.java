@@ -5,14 +5,16 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import dataStructures.isom.MultiISOMRetangularMap;
+import dataStructures.isom.MultiISOMRetangularMap.MISOMLocatedInSpace;
 import dataStructures.isom.MultiISOMRetangularMap.NodeIsomProviderCachingMISOM;
-import dataStructures.isom.MultiISOMRetangularMap.NodeIsomProviderCachingMISOM.MISOMAndLocation;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.NodeIsomProvider;
 import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.ObjectLocated;
 
 /**
+ * Not advised to be used.
+ * <p>
  * An {@link ObjLocatedCollectorIsom} that benefits from 2 types of caches:
  * <ul>
  * <li>{@link MatrixInSpaceObjectsManager} in case of use under multi-"misom"
@@ -22,13 +24,16 @@ import geometry.ObjectLocated;
  * (it's a inner instance, not a superclass).</li>
  * </ul>
  */
-public class ObjLocatedCollectorMultimatrix<Distance extends Number> implements ObjLocatedCollectorIsom {
+public class ObjLocatedCollectorMultimatrix<Distance extends Number> implements ObjLocatedCollectorIsom<Distance> {
 	private static final long serialVersionUID = 43L;
 
 	public ObjLocatedCollectorMultimatrix(NodeIsomProviderCachingMISOM<Distance> multiMatrix,
 			Predicate<ObjectLocated> targetFilter) {
 		this.isomProvider = multiMatrix;
-		this.olcm = new ObjLocatedCollectorMatrix<Distance>(null, targetFilter);
+		this.olcm = new ObjLocatedCollectorMatrix<Distance>(null, targetFilter) {
+			@Override
+			public NodeIsomProvider<Distance> getNodeIsomProvider() { return isomProvider; }
+		};
 	}
 
 	protected NodeIsomProviderCachingMISOM<Distance> isomProvider;
@@ -36,7 +41,7 @@ public class ObjLocatedCollectorMultimatrix<Distance extends Number> implements 
 
 	@Override
 	public void accept(Point location) {
-		MISOMAndLocation<Distance> ml;
+		MISOMLocatedInSpace<Distance> ml;
 		ml = isomProvider.getMisomAt(location);
 		if (ml == null)
 			return; // no null allowed here!
@@ -45,8 +50,9 @@ public class ObjLocatedCollectorMultimatrix<Distance extends Number> implements 
 			olcm.setMisom(ml.misom);
 		}
 		// shift the point to the offset
-		location = new Point(location.x - ml.locationMisom.x, location.y - ml.locationMisom.y);
+		location = new Point(location.x - ml.x, location.y - ml.y);
 		olcm.accept(location);
+//		consume(isomProvider.getNodeAt(location));
 	}
 
 	// proxies
@@ -58,11 +64,11 @@ public class ObjLocatedCollectorMultimatrix<Distance extends Number> implements 
 	public Set<ObjectLocated> getCollectedObjects() { return olcm.getCollectedObjects(); }
 
 	@Override
-	public NodeIsomProvider getNodeIsomProvider() { return isomProvider; }
+	public NodeIsomProvider<Distance> getNodeIsomProvider() { return isomProvider; }
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void setNodeIsomProvider(NodeIsomProvider nodeIsomProvider) {
+	public void setNodeIsomProvider(NodeIsomProvider<Distance> nodeIsomProvider) {
 		if (nodeIsomProvider instanceof NodeIsomProviderCachingMISOM<?>)
 			this.isomProvider = (NodeIsomProviderCachingMISOM<Distance>) nodeIsomProvider;
 	}

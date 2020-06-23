@@ -10,6 +10,7 @@ import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.subimpl.GModelTimeBased;
 import tools.ObjectWithID;
 
+@Deprecated
 public class TestGModel {
 
 	public static void main(String[] args) {

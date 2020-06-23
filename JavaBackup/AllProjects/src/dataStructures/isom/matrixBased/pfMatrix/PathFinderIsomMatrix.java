@@ -21,7 +21,6 @@ public abstract class PathFinderIsomMatrix<Distance extends Number> implements P
 
 //public boolean isSynchronized() {return isSynchronized;}
 
-	@Override
 	public InSpaceObjectsManager<Distance> getSpaceToRunThrough() { return isom; }
 
 //

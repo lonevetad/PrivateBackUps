@@ -19,7 +19,7 @@ import tools.Comparators;
  * instance of it.
  */
 public class ObjLocatedCollectorMatrix<Distance extends Number> extends PointConsumerRowOptimizer<Distance>
-		implements ObjLocatedCollectorIsom {
+		implements ObjLocatedCollectorIsom<Distance> {
 	private static final long serialVersionUID = 1L;
 
 	public ObjLocatedCollectorMatrix(MatrixInSpaceObjectsManager<Distance> misom,
@@ -58,14 +58,10 @@ public class ObjLocatedCollectorMatrix<Distance extends Number> extends PointCon
 	}
 
 	@Override
-	public NodeIsomProvider getNodeIsomProvider() { // TODO Auto-generated method stub
-		return this.getMisom();
-	}
+	public NodeIsomProvider<Distance> getNodeIsomProvider() { return this.getMisom(); }
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void setNodeIsomProvider(NodeIsomProvider nodeIsomProvider) {
+	public void setNodeIsomProvider(NodeIsomProvider<Distance> nodeIsomProvider) {
 		setMisom((MatrixInSpaceObjectsManager<Distance>) nodeIsomProvider);
 	}
-
 }

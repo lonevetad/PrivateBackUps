@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 import dataStructures.ListMapped;
@@ -16,6 +15,7 @@ import geometry.ObjectLocated;
 import geometry.ObjectShaped;
 import geometry.PathOptimizer;
 import geometry.implementations.shapes.ShapeLine;
+import geometry.pointTools.PointConsumer;
 import geometry.pointTools.impl.ObjCollector;
 import tools.LoggerMessages;
 import tools.NumberManager;
@@ -23,7 +23,7 @@ import tools.PathFinder;
 
 public interface InSpaceObjectsManager<Distance extends Number>
 //extends dataStructures.graph.GraphSimple<NodeIsom, D>
-		extends NodeIsomProvider, AbstractObjectsInSpaceManager {
+		extends AbstractObjectsInSpaceManager, NodeIsomProvider<Distance> {
 
 	//
 
@@ -61,12 +61,15 @@ public interface InSpaceObjectsManager<Distance extends Number>
 		return true;
 	}
 
-	/**
-	 * Perform an action to each adjacent of a given node. That action should take
-	 * into account not only the adjacent node, but also the distance from the given
-	 * node and the specific adjacent.
-	 */
-	public abstract void forEachAdjacents(NodeIsom node, BiConsumer<NodeIsom, Distance> adjacentDistanceConsumer);
+	@Override
+	public default void runOnShape(AbstractShape2D shape, PointConsumer action) {
+		AbstractObjectsInSpaceManager.super.runOnShape(shape, action);
+	}
+
+	@Override
+	public default void runOnShape(AbstractShape2D shape, NodeIsomConsumer<Distance> action) {
+		AbstractObjectsInSpaceManager.super.runOnShape(shape, action);
+	}
 
 	//
 
@@ -85,6 +88,7 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	}
 
 	/**
+	 * Simplified version of path finding. <br>
 	 * See
 	 * {@link PathFinder#getPath(ObjectShaped, Object, NumberManager, Predicate)}.
 	 */
@@ -99,13 +103,15 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	}
 
 	/**
-	 * See {@link #getPath(ObjectShaped, Point, Predicate)}.
+	 * Simplified version of path finding. <br>
+	 * See {@link #getPath(Point, Point, Predicate)}.
 	 */
 	public default List<Point> getPath(Point start, Point destination) {
 		return this.getPath(start, destination, null);
 	}
 
 	/**
+	 * Simplified version of path finding. <br>
 	 * See
 	 * {@link PathFinder#getPath(ObjectShaped, Object, NumberManager, Predicate)}.
 	 */

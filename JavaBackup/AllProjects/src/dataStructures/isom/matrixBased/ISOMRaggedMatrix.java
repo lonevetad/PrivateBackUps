@@ -13,6 +13,7 @@ import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.isom.InSpaceObjectsManagerImpl;
+import dataStructures.isom.MultiISOMRetangularMap;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.AbstractShape2D;
@@ -27,7 +28,7 @@ import tools.NumberManager;
  * non-rectangular, i.e. non-simple shaped.
  * <p>
  * 
- * @deprecated because it's replaced
+ * @deprecated because it's replaced by {@link MultiISOMRetangularMap}
  */
 @Deprecated
 public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceObjectsManagerImpl<Distance> {

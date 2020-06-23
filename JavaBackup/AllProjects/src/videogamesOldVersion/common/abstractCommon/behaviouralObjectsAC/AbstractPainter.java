@@ -9,18 +9,18 @@ public interface AbstractPainter extends AbstractPainterSimple {
 		Color pc;
 		if (g == null) return;
 		if (x < 0) {
-			w += x;
+			widthw += x;
 			x = 0;
 		}
 		if (y < 0) {
 			h += y;
 			y = 0;
 		}
-		if (w < 1 || h < 1) return;
+		if (widthw < 1 || h < 1) return;
 		pc = g.getColor();
 		g.setColor(Color.BLACK);
 		// g.drawLine(x++, y, x, y);
-		g.fillRect(x, y, w, h);
+		g.fillRect(x, y, widthw, h);
 		g.setColor(pc);
 	};
 

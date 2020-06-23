@@ -3,7 +3,7 @@ package dataStructures.isom.pathFinders;
 import java.awt.Point;
 import java.util.function.Predicate;
 
-import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.NodeIsomProvider;
 import dataStructures.isom.PathFinderIsom;
 import dataStructures.isom.PathFinderIsomFrontierBased;
 import geometry.AbstractShape2D;
@@ -12,21 +12,26 @@ import tools.NumberManager;
 
 public abstract class PathFinderIsomBaseImpl<Distance extends Number> implements PathFinderIsomFrontierBased<Distance> {
 
-	public PathFinderIsomBaseImpl(
-			// MatrixInSpaceObjectsManager<Distance>
-			InSpaceObjectsManager<Distance> isom) {
-//this.isSynchronized = isSynchronized;boolean isSynchronized,
-		this.isom = isom;
+	protected PathFinderIsomBaseImpl(NodeIsomProvider<Distance> nodeIsomProvider) {
+		super();
+		this.nodeIsomProvider = nodeIsomProvider;
 	}
 
-//protected final boolean isSynchronized;
+	protected PathFinderIsomBaseImpl() { super(); }
 
-	protected final InSpaceObjectsManager<Distance> isom; // MatrixInSpaceObjectsManager<Distance> matrix;
-
-//public boolean isSynchronized() {return isSynchronized;}
+//	protected final boolean isSynchronized;
+	protected NodeIsomProvider<Distance> nodeIsomProvider;
 
 	@Override
-	public InSpaceObjectsManager<Distance> getSpaceToRunThrough() { return isom; }
+	public NodeIsomProvider<Distance> getNodeIsomProvider() { return nodeIsomProvider; }
+
+	public void setNodeIsomProvider(NodeIsomProvider<Distance> nodeIsomProvider) {
+		this.nodeIsomProvider = nodeIsomProvider;
+	}
+
+	//
+
+	//
 
 	//
 
@@ -42,10 +47,11 @@ public abstract class PathFinderIsomBaseImpl<Distance extends Number> implements
 			extends AbstractShapedAdjacentForEacher<Point, ObjectLocated, Distance> {
 
 		protected ShapedAdjacentForEacherBaseImpl(PathFinderIsom<Point, ObjectLocated, Distance> pathFinderIsom,
-				AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
+				NodeIsomProvider<Distance> m, AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
-			super(pathFinderIsom, shape, isWalkableTester, distanceManager);
+			super(pathFinderIsom, m, shape, isWalkableTester, distanceManager);
 		}
+
 		/*
 		 * @Override public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) {
 		 * shapeWalkableChecker.restart(); shape.setCenter(adjacentNode.x,

@@ -9,6 +9,8 @@ import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.isom.NodeIsom;
+import dataStructures.isom.NodeIsomProvider;
+import dataStructures.isom.PathFinderIsom;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
@@ -20,8 +22,9 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 	public PathFinderIsomBFS(MatrixInSpaceObjectsManager<Distance> matrix) { super(matrix); }
 
 	@Override
-	public List<Point> getPathGeneralized(NodeIsom start, NodeIsom dest, NumberManager<Distance> distanceManager,
-			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher<Distance> forAdjacents) {
+	public List<Point> getPathGeneralized(final NodeIsomProvider<Distance> nodeProvider,
+			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
+			AbstractAdjacentForEacher<Distance> forAdjacents, NodeIsom start, NodeIsom dest) {
 		Map<Integer, NodeInfoFrontierBased<Distance>> nodes;
 		Queue<NodeInfoFrontierBased<Distance>> queue;
 		NodeInfoFrontierBased<Distance> ss, ee, niCurrent;
@@ -43,23 +46,24 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 				// found
 				queue.clear();
 			} else {
-				this.isom.forEachAdjacents(niCurrent.thisNode, fa);
+				this.getNodeIsomProvider().forEachAdjacents(niCurrent.thisNode, fa);
 				niCurrent.color = NodePositionInFrontier.Closed;
 			}
 		}
-		return extractPath(ss, ee);
+		return PathFinderIsom.extractPath(ss, ee);
 	}
 
 	@Override
-	public AbstractAdjacentForEacher<Distance> newAdjacentConsumer(Predicate<ObjectLocated> isWalkableTester,
-			NumberManager<Distance> distanceManager) {
+	public AbstractAdjacentForEacher<Distance> newAdjacentConsumer(final NodeIsomProvider<Distance> nodeProvider,
+			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
 		return new AAFE_BFS(isWalkableTester, distanceManager);
 	}
 
 	@Override
-	public AbstractAdjacentForEacher<Distance> newAdjacentConsumerForObjectShaped(AbstractShape2D shape,
-			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
-		return new Shaped_AAFE_BFS(shape, isWalkableTester, distanceManager);
+	public AbstractAdjacentForEacher<Distance> newAdjacentConsumerForObjectShaped(
+			final NodeIsomProvider<Distance> nodeProvider, Predicate<ObjectLocated> isWalkableTester,
+			NumberManager<Distance> distanceManager, AbstractShape2D shape) {
+		return new Shaped_AAFE_BFS(this, nodeIsomProvider, shape, isWalkableTester, distanceManager);
 	}
 
 	//
@@ -95,16 +99,17 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 
 	protected class Shaped_AAFE_BFS extends ShapedAdjacentForEacherBaseImpl {
 
-		public Shaped_AAFE_BFS(AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
+		protected final AAFE_BFS afed;
+
+		protected Shaped_AAFE_BFS(PathFinderIsom<Point, ObjectLocated, Distance> pathFinderIsom,
+				NodeIsomProvider<Distance> m, AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
-			super(PathFinderIsomBFS.this, shape, isWalkableTester, distanceManager);
+			super(pathFinderIsom, m, shape, isWalkableTester, distanceManager);
 			this.afed = new AAFE_BFS(isWalkableTester, distanceManager) {
 				@Override
 				public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) { return ianw(adjacentNode); }
 			};
 		}
-
-		protected final AAFE_BFS afed;
 
 		protected boolean ianw(NodeIsom adjacentNode) { return isAdjacentNodeWalkable(adjacentNode); }
 

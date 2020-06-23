@@ -118,9 +118,11 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 
 	public default void runOnShape(AbstractShape2D shape, PointConsumer action) {
 		AbstractShapeRunner runner;
+		ProviderShapeRunner psr;
 		if (shape == null || action == null)
 			return;
-		runner = this.getProviderShapeRunner().getShapeRunner(shape);
+		psr = this.getProviderShapeRunner();
+		runner = psr.getShapeRunner(shape);
 		if (runner == null)
 			return;
 		runner.runShape(shape, action);

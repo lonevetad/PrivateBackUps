@@ -4,11 +4,11 @@ import java.awt.Point;
 
 import geometry.pointTools.PointConsumer;
 
-public interface NodeIsomConsumer extends PointConsumer {
+public interface NodeIsomConsumer<Distance extends Number> extends PointConsumer {
 
-	public NodeIsomProvider getNodeIsomProvider();
+	public NodeIsomProvider<Distance> getNodeIsomProvider();
 
-	public void setNodeIsomProvider(NodeIsomProvider nodeIsomProvider);
+	public void setNodeIsomProvider(NodeIsomProvider<Distance> nodeIsomProvider);
 
 	//
 
@@ -20,14 +20,14 @@ public interface NodeIsomConsumer extends PointConsumer {
 
 	/** Proxy method that uses {@link NodeIsomProvider}. */
 	public default NodeIsom getNodeAt(Point location) {
-		NodeIsomProvider nip;
+		NodeIsomProvider<Distance> nip;
 		nip = getNodeIsomProvider();
 		return (nip == null) ? null : nip.getNodeAt(location);
 	}
 
 	/** Proxy method that uses {@link NodeIsomProvider}. */
 	public default NodeIsom getNodeAt(int x, int y) {
-		NodeIsomProvider nip;
+		NodeIsomProvider<Distance> nip;
 		nip = getNodeIsomProvider();
 		return (nip == null) ? null : nip.getNodeAt(x, y);
 	}

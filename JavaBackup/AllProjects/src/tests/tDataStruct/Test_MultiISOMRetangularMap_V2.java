@@ -1,8 +1,5 @@
 package tests.tDataStruct;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -13,6 +10,7 @@ import tools.Comparators;
 import tools.Stringable;
 
 // perchè esiste?
+@Deprecated
 public class Test_MultiISOMRetangularMap_V2 {
 	public static final int MAXIMUM_SUBMAPS_EACH_SECTION = 4, MINIMUM_DIMENSION_MAP = 4;
 
@@ -243,25 +241,6 @@ public class Test_MultiISOMRetangularMap_V2 {
 					sse.toString(sb, tabLevel);
 				}
 			}
-		}
-	}
-
-	static class MyRectangle extends Rectangle {
-		private static final long serialVersionUID = 1L;
-		private static int idProg = 0;
-		final Integer ID;
-
-		public MyRectangle(int x, int y, int width, int height) { super(x, y, width, height); }
-
-		public MyRectangle(Point p, Dimension d) { super(p, d); }
-
-		{ // initializer
-			ID = idProg++;
-		}
-
-		@Override
-		public String toString() {
-			return "MyRectangle [ID=" + ID + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]";
 		}
 	}
 

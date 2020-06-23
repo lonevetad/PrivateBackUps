@@ -2,80 +2,76 @@ package geometry;
 
 import java.awt.Point;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
 
-import dataStructures.isom.ObjLocatedCollectorIsom;
-import geometry.pointTools.impl.ObjCollector;
+import dataStructures.isom.PathFinderIsom;
+import geometry.implementations.PathOptimizerPoint;
+import geometry.implementations.ProviderShapeRunnerImpl;
 import tests.tDataStruct.Test_MultiISOMRetangularMap_V1;
+import tools.LoggerMessages;
+import tools.NumberManager;
 
 /** Refers to {@link Test_MultiISOMRetangularMap_V1}. */
-public abstract class AbstractMultiOISMRectangular implements AbstractObjectsInSpaceManager {
+public abstract class AbstractMultiOISMRectangular<Distance extends Number> implements AbstractObjectsInSpaceManager {
 	private static final long serialVersionUID = 1L;
 
 	public AbstractMultiOISMRectangular() {
-		// TODO Auto-generated constructor stub }
+		log = LoggerMessages.LOGGER_DEFAULT;
+		setProviderShapeRunner(ProviderShapeRunnerImpl.getInstance());
+		setProviderShapesIntersectionDetector(ProviderShapesIntersectionDetector.getInstance());
+		setPathOptimizer(PathOptimizerPoint.getInstance());
+	}
+
+	protected LoggerMessages log;
+	protected NumberManager<Distance> numberManager;
+	protected PathOptimizer<Point> pathOptimizer;
+	protected PathFinderIsom<Point, ObjectLocated, Distance> pathFinder;
+	protected ProviderShapeRunner providerShapeRunner;
+	protected ProviderShapesIntersectionDetector providerShapesIntersectionDetector;
+
+	public LoggerMessages getLog() { return log; }
+
+	public PathFinderIsom<Point, ObjectLocated, Distance> getPathFinder() { return pathFinder; }
+
+	public NumberManager<Distance> getWeightManager() { return numberManager; }
+
+	public PathOptimizer<Point> getPathOptimizer() { return pathOptimizer; }
+
+	@Override
+	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector() { // TODO Auto-generated method
+																						// stub
+		return providerShapesIntersectionDetector;
 	}
 
 	@Override
-	public Iterator<ObjectLocated> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+	public ProviderShapeRunner getProviderShapeRunner() { // TODO Auto-generated method stub
+		return providerShapeRunner;
 	}
 
-	@Override
-	public AbstractShape2D getBoundingShape() {
-		// TODO Auto-generated method stub
-		return null;
+	//
+
+	public void setLog(LoggerMessages log) { this.log = log; }
+
+	public void setPathFinder(PathFinderIsom<Point, ObjectLocated, Distance> pathFinder) {
+		this.pathFinder = pathFinder;
 	}
 
-	@Override
-	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public void setWeightManager(NumberManager<Distance> numberManager) { this.numberManager = numberManager; }
 
-	@Override
-	public ProviderShapeRunner getProviderShapeRunner() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public void setPathOptimizer(PathOptimizer<Point> pathOptimizer) { this.pathOptimizer = pathOptimizer; }
 
 	@Override
 	public void setProviderShapesIntersectionDetector(
 			ProviderShapesIntersectionDetector providerShapesIntersectionDetector) {
-		// TODO Auto-generated method stub
-
+		this.providerShapesIntersectionDetector = providerShapesIntersectionDetector;
 	}
 
 	@Override
 	public void setProviderShapeRunner(ProviderShapeRunner providerShapeRunner) { // TODO Auto-generated method stub
+		this.providerShapeRunner = providerShapeRunner;
 	}
 
 	@Override
-	public boolean add(ObjectLocated o) { // TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean contains(ObjectLocated o) { // TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean remove(ObjectLocated o) { // TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ObjLocatedCollectorIsom newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) { return null; }
-
-	@Override
-	public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, ObjCollector<ObjectLocated> collector,
-			List<Point> path) {
-		// TODO Auto-generated method stub
+	public Iterator<ObjectLocated> iterator() { // TODO Auto-generated method stub
 		return null;
 	}
-
 }

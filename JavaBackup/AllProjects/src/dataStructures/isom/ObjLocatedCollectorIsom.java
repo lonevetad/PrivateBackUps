@@ -6,7 +6,8 @@ import java.util.Set;
 import geometry.ObjectLocated;
 import geometry.pointTools.impl.ObjCollector;
 
-public interface ObjLocatedCollectorIsom extends ObjCollector<ObjectLocated>, NodeIsomConsumer {
+public interface ObjLocatedCollectorIsom<Distance extends Number>
+		extends ObjCollector<ObjectLocated>, NodeIsomConsumer<Distance> {
 
 	@Override
 	public default ObjectLocated getAt(Point location) {

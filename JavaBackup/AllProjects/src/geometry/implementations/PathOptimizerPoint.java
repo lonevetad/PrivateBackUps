@@ -1,6 +1,6 @@
 package geometry.implementations;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,20 +8,20 @@ import java.util.List;
 import geometry.PathOptimizer;
 import tools.MathUtilities;
 
-public class PathOptimizerSimple implements PathOptimizer<Point2D> {
-	public static final CollinearCalculator<Point2D> COLLINEAR_POINT = MathUtilities::areCollinear;
-//	public static final CollinearCalculator<Point2D> COLLINEAR_POINT = (p1,p2,p3)->MathUtilities.areCollinear(pfirst, psecond, pthird);
-	protected static final PathOptimizerSimple singleton = new PathOptimizerSimple();
+public class PathOptimizerPoint implements PathOptimizer<Point> {
+	public static final CollinearCalculator<Point> COLLINEAR_POINT = MathUtilities::areCollinear;
+//	public static final CollinearCalculator<Point> COLLINEAR_POINT = (p1,p2,p3)->MathUtilities.areCollinear(pfirst, psecond, pthird);
+	protected static final PathOptimizerPoint singleton = new PathOptimizerPoint();
 
-	public static PathOptimizerSimple getInstance() { return singleton; }
+	public static PathOptimizerPoint getInstance() { return singleton; }
 
-	private PathOptimizerSimple() {}
+	private PathOptimizerPoint() {}
 
 	@Override
-	public List<Point2D> optimizePath(List<Point2D> pathList) {
-		LinkedList<Point2D> lr;
-		Iterator<Point2D> iter;
-		Point2D pfirst, psecond, pnext;
+	public List<Point> optimizePath(List<Point> pathList) {
+		LinkedList<Point> lr;
+		Iterator<Point> iter;
+		Point pfirst, psecond, pnext;
 		if (pathList == null)
 			return null;
 		if (pathList.size() <= 2)
