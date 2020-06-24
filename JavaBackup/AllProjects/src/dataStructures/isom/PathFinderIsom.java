@@ -7,7 +7,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import dataStructures.isom.PathFinderIsomFrontierBased.NodeInfoFrontierBased;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
@@ -16,8 +15,8 @@ import geometry.pointTools.impl.PointConsumerRestartable;
 import tools.NumberManager;
 import tools.PathFinder;
 
-public interface PathFinderIsom<NodeType, NodeContent, Distance extends Number>
-		extends PathFinder<NodeType, NodeContent, Distance> { // NodeContent extends Point2D not needed
+public interface PathFinderIsom<Distance extends Number> extends PathFinder<Point, ObjectLocated, Distance> {
+	// NodeContent extends Point2D not needed
 
 //	public InSpaceObjectsManager<Distance> getSpaceToRunThrough();
 //	public default NodeIsomProvider getNodeIsomProvider() { return getSpaceToRunThrough(); }
@@ -27,21 +26,26 @@ public interface PathFinderIsom<NodeType, NodeContent, Distance extends Number>
 
 	// override from super interface
 
+	@Override
 	public default List<Point> getPath(Point start, Point dest, NumberManager<Distance> distanceManager,
-			Predicate<ObjectLocated> isWalkableTester) {
-		return getPath(getNodeIsomProvider(), distanceManager, isWalkableTester, start, dest);
+			Predicate<ObjectLocated> isWalkableTester, boolean returnPathToClosestNodeIfNotFound) {
+		return getPath(getNodeIsomProvider(), distanceManager, isWalkableTester, returnPathToClosestNodeIfNotFound,
+				start, dest);
 	}
 
+	@Override
 	public default List<Point> getPath(ObjectShaped objPlanningToMove, Point dest,
-			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester) {
-		return getPath(getNodeIsomProvider(), distanceManager, isWalkableTester, objPlanningToMove, dest);
+			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
+			boolean returnPathToClosestNodeIfNotFound) {
+		return getPath(getNodeIsomProvider(), distanceManager, isWalkableTester, returnPathToClosestNodeIfNotFound,
+				objPlanningToMove, dest);
 	}
 
 	// here defined
 
 	public default List<Point> getPath(final NodeIsomProvider<Distance> nodeProvider,
 			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
-			ObjectShaped objPlanningToMove, Point destination) {
+			boolean returnPathToClosestNodeIfNotFound, ObjectShaped objPlanningToMove, Point destination) {
 		boolean prevFilled, isFillable;
 		NodeIsom start, dest;
 		AbstractShape2D shape, sOnlyBorder;
@@ -68,8 +72,8 @@ public interface PathFinderIsom<NodeType, NodeContent, Distance extends Number>
 	}
 
 	public default List<Point> getPath(final NodeIsomProvider<Distance> nodeProvider,
-			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester, Point startingPoint,
-			Point destination) {
+			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
+			boolean returnPathToClosestNodeIfNotFound, Point startingPoint, Point destination) {
 		NodeIsom start, dest;
 		AbstractAdjacentForEacher<Distance> forAdjacents;
 		start = nodeProvider.getNodeAt(startingPoint);
@@ -138,8 +142,7 @@ public interface PathFinderIsom<NodeType, NodeContent, Distance extends Number>
 		}
 	}
 
-	public static class DistanceKeyAlterator<NIF extends NodeInfoFrontierBased<D>, D extends Number>
-			implements Consumer<NIF> {
+	public static class DistanceKeyAlterator<NIF extends NodeInfo<D>, D extends Number> implements Consumer<NIF> {
 		public D distToNo;
 
 		@Override
@@ -174,12 +177,11 @@ public interface PathFinderIsom<NodeType, NodeContent, Distance extends Number>
 
 	//
 
-	public static abstract class AbstractShapedAdjacentForEacher<NodeType, NodeContent, D extends Number>
+	public static abstract class AbstractShapedAdjacentForEacher<D extends Number>
 			extends AbstractAdjacentForEacher<D> {
 
-		public AbstractShapedAdjacentForEacher(PathFinderIsom<NodeType, NodeContent, D> pathFinderIsom,
-				final NodeIsomProvider<D> m, AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
-				NumberManager<D> distanceManager) {
+		public AbstractShapedAdjacentForEacher(PathFinderIsom<D> pathFinderIsom, final NodeIsomProvider<D> m,
+				AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester, NumberManager<D> distanceManager) {
 			super(isWalkableTester, distanceManager);
 			this.m = m;
 			this.pathFinderIsom = pathFinderIsom;
@@ -188,7 +190,7 @@ public interface PathFinderIsom<NodeType, NodeContent, Distance extends Number>
 		}
 
 		protected final NodeIsomProvider<D> m;
-		protected final PathFinderIsom<NodeType, NodeContent, D> pathFinderIsom;
+		protected final PathFinderIsom<D> pathFinderIsom;
 		protected final AbstractShape2D shape;
 		protected final WholeShapeWalkableChecker<D> shapeWalkableChecker;
 

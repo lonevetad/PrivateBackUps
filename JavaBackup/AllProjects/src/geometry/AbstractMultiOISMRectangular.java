@@ -11,7 +11,8 @@ import tools.LoggerMessages;
 import tools.NumberManager;
 
 /** Refers to {@link Test_MultiISOMRetangularMap_V1}. */
-public abstract class AbstractMultiOISMRectangular<Distance extends Number> implements AbstractObjectsInSpaceManager {
+public abstract class AbstractMultiOISMRectangular<Distance extends Number>
+		implements AbstractObjectsInSpaceManager<Distance> {
 	private static final long serialVersionUID = 1L;
 
 	public AbstractMultiOISMRectangular() {
@@ -24,13 +25,13 @@ public abstract class AbstractMultiOISMRectangular<Distance extends Number> impl
 	protected LoggerMessages log;
 	protected NumberManager<Distance> numberManager;
 	protected PathOptimizer<Point> pathOptimizer;
-	protected PathFinderIsom<Point, ObjectLocated, Distance> pathFinder;
+	protected PathFinderIsom<Distance> pathFinder;
 	protected ProviderShapeRunner providerShapeRunner;
 	protected ProviderShapesIntersectionDetector providerShapesIntersectionDetector;
 
 	public LoggerMessages getLog() { return log; }
 
-	public PathFinderIsom<Point, ObjectLocated, Distance> getPathFinder() { return pathFinder; }
+	public PathFinderIsom<Distance> getPathFinder() { return pathFinder; }
 
 	public NumberManager<Distance> getWeightManager() { return numberManager; }
 
@@ -51,9 +52,7 @@ public abstract class AbstractMultiOISMRectangular<Distance extends Number> impl
 
 	public void setLog(LoggerMessages log) { this.log = log; }
 
-	public void setPathFinder(PathFinderIsom<Point, ObjectLocated, Distance> pathFinder) {
-		this.pathFinder = pathFinder;
-	}
+	public void setPathFinder(PathFinderIsom<Distance> pathFinder) { this.pathFinder = pathFinder; }
 
 	public void setWeightManager(NumberManager<Distance> numberManager) { this.numberManager = numberManager; }
 

@@ -4,9 +4,9 @@ import java.awt.Point;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import dataStructures.isom.MultiISOMRetangularCaching;
 import dataStructures.isom.MultiISOMRetangularMap;
 import dataStructures.isom.MultiISOMRetangularMap.MISOMLocatedInSpace;
-import dataStructures.isom.MultiISOMRetangularMap.NodeIsomProviderCachingMISOM;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.NodeIsomProvider;
 import dataStructures.isom.ObjLocatedCollectorIsom;
@@ -27,22 +27,24 @@ import geometry.ObjectLocated;
 public class ObjLocatedCollectorMultimatrix<Distance extends Number> implements ObjLocatedCollectorIsom<Distance> {
 	private static final long serialVersionUID = 43L;
 
-	public ObjLocatedCollectorMultimatrix(NodeIsomProviderCachingMISOM<Distance> multiMatrix,
+	public ObjLocatedCollectorMultimatrix(MultiISOMRetangularMap<Distance> multiMatrix,
 			Predicate<ObjectLocated> targetFilter) {
 		this.isomProvider = multiMatrix;
-		this.olcm = new ObjLocatedCollectorMatrix<Distance>(null, targetFilter) {
+		this.olcm = new ObjLocatedCollectorMatrix<>(null, targetFilter) {
+			private static final long serialVersionUID = 6390384107528L;
+
 			@Override
 			public NodeIsomProvider<Distance> getNodeIsomProvider() { return isomProvider; }
 		};
 	}
 
-	protected NodeIsomProviderCachingMISOM<Distance> isomProvider;
+	protected MultiISOMRetangularMap<Distance> isomProvider;
 	protected ObjLocatedCollectorMatrix<Distance> olcm; // this is the implementation for SINGLE matrix!!
 
 	@Override
 	public void accept(Point location) {
 		MISOMLocatedInSpace<Distance> ml;
-		ml = isomProvider.getMisomAt(location);
+		ml = isomProvider.getMapLocatedContaining(location);
 		if (ml == null)
 			return; // no null allowed here!
 		if (ml.misom != olcm.getMisom()) {
@@ -66,11 +68,10 @@ public class ObjLocatedCollectorMultimatrix<Distance extends Number> implements 
 	@Override
 	public NodeIsomProvider<Distance> getNodeIsomProvider() { return isomProvider; }
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void setNodeIsomProvider(NodeIsomProvider<Distance> nodeIsomProvider) {
-		if (nodeIsomProvider instanceof NodeIsomProviderCachingMISOM<?>)
-			this.isomProvider = (NodeIsomProviderCachingMISOM<Distance>) nodeIsomProvider;
+		if (nodeIsomProvider instanceof MultiISOMRetangularCaching<?>)
+			this.isomProvider = (MultiISOMRetangularCaching<Distance>) nodeIsomProvider;
 	}
 
 }

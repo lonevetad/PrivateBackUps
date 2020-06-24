@@ -164,8 +164,8 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 	}
 
 	protected class ShapedAdjacentForEacherDijkstra extends ShapedAdjacentForEacherBaseImpl {
-		protected ShapedAdjacentForEacherDijkstra(PathFinderIsom<Point, ObjectLocated, Distance> pathFinderIsom,
-				NodeIsomProvider<Distance> m, AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
+		protected ShapedAdjacentForEacherDijkstra(PathFinderIsom<Distance> pathFinderIsom, NodeIsomProvider<Distance> m,
+				AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
 			super(pathFinderIsom, m, shape, isWalkableTester, distanceManager);
 			this.afed = new UsynchronizedAdjacentForEacherDijkstra(isWalkableTester, distanceManager) {

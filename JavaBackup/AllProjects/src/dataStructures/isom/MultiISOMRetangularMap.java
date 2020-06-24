@@ -1,15 +1,12 @@
 package dataStructures.isom;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -23,21 +20,11 @@ import dataStructures.isom.matrixBased.ObjLocatedCollectorMultimatrix;
 import dataStructures.isom.pathFinders.PathFinderIsomDijkstra;
 import geometry.AbstractMultiOISMRectangular;
 import geometry.AbstractShape2D;
-import geometry.AbstractShapeRunner;
 import geometry.ObjectLocated;
-import geometry.ObjectShaped;
-import geometry.PathOptimizer;
-import geometry.ProviderShapeRunner;
-import geometry.ProviderShapesIntersectionDetector;
 import geometry.implementations.shapes.ShapeRectangle;
-import geometry.pointTools.PointConsumer;
-import geometry.pointTools.impl.ObjCollector;
 import tests.tDataStruct.Test_MultiISOMRetangularMap_V1;
 import tools.Comparators;
-import tools.LoggerMessages;
 import tools.MathUtilities;
-import tools.NumberManager;
-import tools.PathFinder;
 import tools.Stringable;
 
 /**
@@ -48,7 +35,10 @@ import tools.Stringable;
  * implement {@link AbstractMultiOISMRectangular}.
  * <p>
  * To implement {@link NodeIsomProvider#getNodeAt(Point)}, use the
- * {@link Test_MultiISOMRetangularMap_V1#getMapContaining(Point)} code.
+ * {@link Test_MultiISOMRetangularMap_V1
+ * 
+ * 
+ * #getMapContaining(Point)} code.
  */
 public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMultiOISMRectangular<Distance>
 		implements InSpaceObjectsManager<Distance> {
@@ -72,7 +62,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		setObjectsAddedMap(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR));
 		shapeRect = null;// new ShapeRectangle()
 		clear();
-		setPathFinder(new PathFinderIsomDijkstra<Distance>(this.newIsomCachingMISOM()));
+		setPathFinder(new PathFinderIsomDijkstra<>(this));
 //		this.pathOptimizer = new PathOptimizer<Point>() 
 	}
 
@@ -85,7 +75,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	// protected boolean neverBuilt;
 	protected int maximumSubmapsEachSection;
 	protected int maxDepth, xLeftTop, yLeftTop, xRightBottom, yRightBottom, width, height;
-	protected NodeMultiISOMRectangular root;
+	protected NodeQuadtreeMultiISOMRectangular root;
 	protected final MapTreeAVL<Integer, MISOMLocatedInSpace<Distance>> mapsLocatedInSpace;
 	protected final Set<MatrixInSpaceObjectsManager<Distance>> misomsHeld;
 	protected final List<MISOMLocatedInSpace<Distance>> mapsAsList;
@@ -104,9 +94,16 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 	public int getxLeftTop() { return xLeftTop; }
 
+	/**
+	 * Returns the maximum amount of {@link MatrixInSpaceObjectsManager} contained
+	 * in each quadtree's sub-nodes allowed before the node is splitted into smaller
+	 * areas.
+	 */
+	public int getMaximumSubmapsEachSection() { return maximumSubmapsEachSection; }
+
 	public int getyLeftTop() { return yLeftTop; }
 
-	public NodeMultiISOMRectangular getRoot() { return root; }
+	public NodeQuadtreeMultiISOMRectangular getRoot() { return root; }
 
 	public int getMaxDepth() { return maxDepth; }
 
@@ -146,26 +143,20 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	//
 
 	/**
-	 * Return an instance of {@link NodeIsomProviderCachingMISOM}, which is an
-	 * instance of {@link NodeIsomProvider} with a optimization (see its
-	 * documentation).
+	 * Calls {@link #toCachingMatrixes(int)} passing the
+	 * {@link #getMaximumSubmapsEachSection()}.
 	 */
-	public NodeIsomProviderCachingMISOM<Distance> newNodeIsomProviderCaching() {
-		return new NodeIsomProviderCachingMISOM<Distance>(this);
+	public MultiISOMRetangularCaching<Distance> toCachingMatrixes() {
+		return toCachingMatrixes(maximumSubmapsEachSection);
 	}
 
 	/**
-	 * Returns a wrapper of this class optimized as described in
-	 * {@link NodeIsomProviderCachingMISOM}
+	 * Returns an instance of {@link MultiISOMRetangularCaching}, see its
+	 * documentation for further informations.
 	 */
-	public ISOMCachingMISOM<Distance> newIsomCachingMISOM() { return new ISOMCachingMISOM<Distance>(this); }
-
-	/**
-	 * Returns a version of this instance that caches its held instances of
-	 * {@link MatrixInSpaceObjectsManager} (added via
-	 * {@link #addMap(MatrixInSpaceObjectsManager, Point, Dimension)})
-	 */
-	public InSpaceObjectsManager<Distance> asCachingMatrixISOM() { return newIsomCachingMISOM(); }
+	public MultiISOMRetangularCaching<Distance> toCachingMatrixes(int maximumSubmapsEachSection) {
+		return new MultiISOMRetangularCaching<>(maximumSubmapsEachSection);
+	}
 
 	/**
 	 * See {@link #getNodeAt(int, int)}.
@@ -187,14 +178,12 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 */
 	@Override
 	public NodeIsom getNodeAt(int x, int y) {
-		MatrixInSpaceObjectsManager<Distance> misom;
-		MISOMLocatedInSpace<Distance> mw;
-		mw = getMapLocatedContaining(x, y);
-		misom = mw.misom;
-		if (misom == null)
+		MISOMLocatedInSpace<Distance> ml;
+		ml = getMapLocatedContaining(x, y);
+		if (ml == null)
 			return null;
 		// consider the offset
-		return misom.getNodeAt(x - mw.x, y - mw.y);
+		return ml.misom.getNodeAt(x - ml.x, y - ml.y);
 	}
 
 	@Override
@@ -239,7 +228,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 	@Override
 	public ObjLocatedCollectorIsom<Distance> newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) {
-		return new ObjLocatedCollectorMultimatrix<Distance>(this.newNodeIsomProviderCaching(), objectFilter);
+		return new ObjLocatedCollectorMultimatrix<Distance>(this, objectFilter);
 	}
 
 	@Override
@@ -326,7 +315,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 * space represented).
 	 */
 	public MISOMLocatedInSpace<Distance> getMapLocatedContaining(int x, int y) {
-		NodeMultiISOMRectangular n, prev;
+		NodeQuadtreeMultiISOMRectangular n, prev;
 		List<MISOMLocatedInSpace<Distance>> submaps;
 		if (getRoot() == null)
 			return null;
@@ -502,14 +491,14 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 				, getyLeftTop() + (height >> 1)); // clear all
 	}
 
-	protected NodeMultiISOMRectangular rebuild(NodeMultiISOMRectangular father,
+	protected NodeQuadtreeMultiISOMRectangular rebuild(NodeQuadtreeMultiISOMRectangular father,
 			List<MISOMLocatedInSpace<Distance>> submaps, //
 			int xLeftTop, int yLeftTop, int xRightBottom, int yRightBottom, int width, int height, //
 			int xMiddle, int yMiddle) {
 		final int mxw, mxe, myn, mys, widthWest, widthEst, heightNorth, heightSouth, yMiddlemmmm, xMiddlemmmm;
-		NodeMultiISOMRectangular n;
+		NodeQuadtreeMultiISOMRectangular n;
 		List<MISOMLocatedInSpace<Distance>> snw, sne, ssw, sse;
-		n = new NodeMultiISOMRectangular(father);
+		n = new NodeQuadtreeMultiISOMRectangular(father);
 		if (this.getMaxDepth() < n.depth) { this.maxDepth = n.depth; }
 		n.x = xLeftTop;
 		n.y = yLeftTop;
@@ -587,10 +576,10 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			root = addNotRebuilding(map, getRoot());
 	}
 
-	protected NodeMultiISOMRectangular newNodeWith(MISOMLocatedInSpace<Distance> map,
-			NodeMultiISOMRectangular currentNode) {
-		NodeMultiISOMRectangular newNode;
-		newNode = new NodeMultiISOMRectangular(currentNode);
+	protected NodeQuadtreeMultiISOMRectangular newNodeWith(MISOMLocatedInSpace<Distance> map,
+			NodeQuadtreeMultiISOMRectangular currentNode) {
+		NodeQuadtreeMultiISOMRectangular newNode;
+		newNode = new NodeQuadtreeMultiISOMRectangular(currentNode);
 		if (this.getMaxDepth() < newNode.depth) { this.maxDepth = newNode.depth; }
 		newNode.submaps = new ArrayList<>(maximumSubmapsEachSection);
 		newNode.submaps.add(map);
@@ -599,8 +588,8 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 	// the recursive part
 	// returns the node given or a newly created one
-	protected NodeMultiISOMRectangular addNotRebuilding(MISOMLocatedInSpace<Distance> map,
-			NodeMultiISOMRectangular currentNode) {
+	protected NodeQuadtreeMultiISOMRectangular addNotRebuilding(MISOMLocatedInSpace<Distance> map,
+			NodeQuadtreeMultiISOMRectangular currentNode) {
 		if (currentNode.isLeaf()) {
 			if (currentNode.submaps.size() < this.maximumSubmapsEachSection) {
 				// just add and nothing more
@@ -740,13 +729,13 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 * Node subsection of this quad-tree like class.<br>
 	 * Public just for test stuffs
 	 */
-	public class NodeMultiISOMRectangular implements Stringable {
+	public class NodeQuadtreeMultiISOMRectangular implements Stringable {
 		private static final long serialVersionUID = 1L;
 		protected int x, y, width, height, xMiddle, yMiddle, depth;
 		List<MISOMLocatedInSpace<Distance>> submaps;
-		NodeMultiISOMRectangular father, snw, sne, ssw, sse;
+		NodeQuadtreeMultiISOMRectangular father, snw, sne, ssw, sse;
 
-		NodeMultiISOMRectangular(NodeMultiISOMRectangular father) {
+		NodeQuadtreeMultiISOMRectangular(NodeQuadtreeMultiISOMRectangular father) {
 			this.father = father;
 			submaps = null;
 			depth = (father == null) ? 1 : (father.depth + 1);
@@ -776,14 +765,15 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		public boolean isLeaf() { return submaps != null; }
 
 		/** Beware of <code>null</code>s! */
-		public void forEachSubsection(Consumer<NodeMultiISOMRectangular> action) {
+		public void forEachSubsection(Consumer<NodeQuadtreeMultiISOMRectangular> action) {
 			action.accept(snw);
 			action.accept(sne);
 			action.accept(ssw);
 			action.accept(sse);
 		}
 
-		public void recalculateEachSubsection(Function<NodeMultiISOMRectangular, NodeMultiISOMRectangular> action) {
+		public void recalculateEachSubsection(
+				Function<NodeQuadtreeMultiISOMRectangular, NodeQuadtreeMultiISOMRectangular> action) {
 			snw = action.apply(snw);
 			sne = action.apply(sne);
 			ssw = action.apply(ssw);
@@ -824,399 +814,5 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 				if (sse != null) { sse.toString(sb, tabLevel); }
 			}
 		}
-	}
-
-	//
-
-	// TODO NodeIsomProviderCachingMISOM
-
-	//
-
-	/**
-	 * Implementation of {@link NodeIsomProvider} optimized for iterating (as
-	 * {@link AbstractShapeRunner} subclasses does) over sets of {@link Point} (used
-	 * to obtain {@link NodeIsom}).<br>
-	 * It's optimized because it caches the instances of
-	 * {@link MatrixInSpaceObjectsManager}
-	 */
-	/*
-	 * TODO 12/06/2020 questa classe andrebbe astratta (previa astrazione di
-	 * "multi misom dotata di getMisomWrapperContaining")
-	 */
-	// 21/06 .. ma è usata questa classe?
-	public static class NodeIsomProviderCachingMISOM<Dd extends Number> implements NodeIsomProvider<Dd> {
-		private static final long serialVersionUID = 1L;
-
-		public NodeIsomProviderCachingMISOM(MultiISOMRetangularMap<Dd> delegator) {
-			super();
-			this.delegator = delegator;
-//			this.cachedMisom = null;
-			this.cachedMW = null;
-		}
-
-		protected final MultiISOMRetangularMap<Dd> delegator;
-//		protected MatrixInSpaceObjectsManager<Dd> cachedMisom;
-		protected MISOMLocatedInSpace<Dd> cachedMW;
-
-		public MatrixInSpaceObjectsManager<Dd> getCachedMisom() { return cachedMW == null ? null : cachedMW.misom; }
-
-		///
-
-		/** Calls {@link #getMisomAt(int, int)} */
-		public MISOMLocatedInSpace<Dd> getMisomAt(Point location) {
-			return getMisomAt(location.x, location.y);
-		}
-
-		/**
-		 * Returns a pair holding the desired {@link MatrixInSpaceObjectsManager} and a
-		 * {@link Point} representing its location in space (in
-		 * {@link MultiISOMRetangularMap}, to be precise).
-		 */
-		public MISOMLocatedInSpace<Dd> getMisomAt(int x, int y) {
-			if (cachedMW == null || (!cachedMW.contains(x, y))) {
-				cachedMW = delegator.getMapLocatedContaining(x, y);
-//				misomLocCache = mw; // (mw == null) ? null : new MISOMLocatedInSpace<Dd>(mw.misom, mw.x, mw.y);
-			} // else {}
-			return cachedMW;
-		}
-
-		@Override
-		public NodeIsom getNodeAt(Point location) { return this.getNodeAt(location.x, location.y); }
-
-		@Override
-		public NodeIsom getNodeAt(int x, int y) {
-			MISOMLocatedInSpace<Dd> ml;
-			ml = getMisomAt(x, y);
-			if (ml == null)
-				return null;
-			// consider the offset
-			return ml.misom.getNodeAt(x - ml.x, y - ml.y);
-		}
-
-		@Override
-		public void forEachNode(Consumer<NodeIsom> action) { delegator.forEachNode(action); }
-
-		public MatrixInSpaceObjectsManager<Dd> getMISOMContaining(Point p) {
-			// return delegator.getMISOMContaining(p);
-			MISOMLocatedInSpace<Dd> ml;
-			ml = this.getMisomAt(p);
-			if (ml == null)
-				return null;
-			return ml.misom;
-		}
-
-		@Override
-		public void runOnShape(AbstractShape2D shape, NodeIsomConsumer<Dd> action) {
-			delegator.runOnShape(shape, action);
-		}
-
-		public ProviderShapeRunner getProviderShapeRunner() { return delegator.getProviderShapeRunner(); }
-
-//		@Override
-		public void runOnShape(AbstractShape2D shape, PointConsumer action) { delegator.runOnShape(shape, action); }
-
-		@Override
-		public void forEachAdjacents(NodeIsom node, BiConsumer<NodeIsom, Dd> adjacentDistanceConsumer) {
-//			delegator.forEachAdjacents(node, adjacentDistanceConsumer);
-			MatrixInSpaceObjectsManager<Dd> misom;
-			Point p;
-			p = new Point();
-			for (CoordinatesDeltaForAdjacentNodes c : MatrixInSpaceObjectsManager.VALUES_CoordinatesDeltaForAdjacentNodes) {
-				p.x = node.x + c.dx;
-				p.y = node.y + c.dy;
-				misom = this.getMISOMContaining(p);
-				if (misom != null) {
-//					adjacentDistanceConsumer.accept(misom.getNodeAt(p), misom.getWeightManager().fromDouble(c.weight));
-					// it's using "this.getNodeAt" because the point could exceed the containing map
-					adjacentDistanceConsumer.accept(this.getNodeAt(p), misom.getWeightManager().fromDouble(c.weight));
-				}
-			}
-		}
-
-		@Override
-		public void clearAllNodes() { delegator.clearAllNodes(); }
-
-		public boolean removeAllObjects() { return delegator.removeAllObjects(); }
-
-		public boolean clearArea(AbstractShape2D areaToClear) { return delegator.clearArea(areaToClear); }
-
-		public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, ObjCollector<ObjectLocated> collector,
-				List<Point> path) {
-			return delegator.findInPath(areaToLookInto, collector, path);
-		}
-
-		public List<Point> getPath(Point start, Point destination, Predicate<ObjectLocated> isWalkableTester) {
-			return delegator.getPath(start, destination, isWalkableTester);
-		}
-
-		public Set<ObjectLocated> fetch(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter) {
-			return delegator.fetch(areaToLookInto, objectFilter);
-		}
-
-		public List<Point> getPath(Point start, Point destination) { return delegator.getPath(start, destination); }
-
-		public List<Point> getPath(ObjectShaped objRequiringTo, Point destination,
-				Predicate<ObjectLocated> isWalkableTester) {
-			return delegator.getPath(objRequiringTo, destination, isWalkableTester);
-		}
-
-		public Set<ObjectLocated> fetch(AbstractShape2D areaToLookInto) { return delegator.fetch(areaToLookInto); }
-
-		public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, List<Point> path) {
-			return delegator.findInPath(areaToLookInto, path);
-		}
-
-		public List<Point> getPath(ObjectShaped objRequiringTo, Point destination) {
-			return delegator.getPath(objRequiringTo, destination);
-		}
-
-		public AbstractShape2D getBoundingShape() { return delegator.getBoundingShape(); }
-
-		public void runOnWholeMap(PointConsumer action) { delegator.runOnWholeMap(action); }
-
-		public <NodeType extends Point, NodeContent, D extends Number> List<NodeType> getPath(NodeType start,
-				NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder, NumberManager<D> numManager,
-				Predicate<NodeContent> isWalkableTester) {
-			return delegator.getPath(start, destination, pathFinder, numManager, isWalkableTester);
-		}
-
-		public <NodeType extends Point, NodeContent, D extends Number> List<NodeType> getPath(NodeType start,
-				NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder, NumberManager<D> numManager) {
-			return delegator.getPath(start, destination, pathFinder, numManager);
-		}
-
-		public <NodeType extends Point, NodeContent, D extends Number> List<NodeType> getPath(
-				ObjectShaped objRequiringToMove, NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder,
-				NumberManager<D> numManager, Predicate<NodeContent> isWalkableTester) {
-			return delegator.getPath(objRequiringToMove, destination, pathFinder, numManager, isWalkableTester);
-		}
-
-		public <NodeType extends Point, NodeContent, D extends Number> List<NodeType> getPath(
-				ObjectShaped objRequiringToMove, NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder,
-				NumberManager<D> numManager) {
-			return delegator.getPath(objRequiringToMove, destination, pathFinder, numManager);
-		}
-
-		public Set<ObjectLocated> getAllObjectLocated() { return delegator.getAllObjectLocated(); }
-
-		public ObjectLocated getObjectLocated(Integer ID) { return delegator.getObjectLocated(ID); }
-
-		public void forEachMap(BiConsumer<MatrixInSpaceObjectsManager<Dd>, Point> action) {
-			delegator.forEachMap(action);
-		}
-
-		public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter,
-				List<Point> path) {
-			return delegator.findInPath(areaToLookInto, objectFilter, path);
-		}
-
-		public boolean add(ObjectLocated o) { return delegator.add(o); }
-
-		public boolean remove(ObjectLocated o) { return delegator.remove(o); }
-
-		public void removeAllMaps() { delegator.removeAllMaps(); }
-
-		public void clear() { delegator.clear(); }
-
-		public void addMap(MatrixInSpaceObjectsManager<Dd> map, int x, int y) { delegator.addMap(map, x, y); }
-
-		public void addMap(MatrixInSpaceObjectsManager<Dd> map, Point locationLeftTop) {
-			delegator.addMap(map, locationLeftTop);
-		}
-	}
-
-	//
-
-	//
-
-	/**
-	 * An {@link InSpaceObjectsManager} implementation that use this external class
-	 * as a delegate and caching instances of {@link MatrixInSpaceObjectsManager}
-	 * for core methods like {@link #getNodeAt(Point)}.
-	 */
-	protected static class ISOMCachingMISOM<Dd extends Number> extends NodeIsomProviderCachingMISOM<Dd>
-			implements InSpaceObjectsManager<Dd> {
-		private static final long serialVersionUID = 1L;
-
-		public ISOMCachingMISOM(MultiISOMRetangularMap<Dd> delegator) { super(delegator); }
-
-		//
-
-		// getter
-
-		@Override
-		public LoggerMessages getLog() { return delegator.getLog(); }
-
-		@Override
-		public AbstractShape2D getBoundingShape() { return delegator.getBoundingShape(); }
-
-		@Override
-		public PathFinderIsom<Point, ObjectLocated, Dd> getPathFinder() { return delegator.getPathFinder(); }
-
-		@Override
-		public NumberManager<Dd> getWeightManager() { return delegator.getWeightManager(); }
-
-		@Override
-		public PathOptimizer<Point> getPathOptimizer() { return delegator.getPathOptimizer(); }
-
-		@Override
-		public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector() {
-			return delegator.getProviderShapesIntersectionDetector();
-		}
-
-		@Override
-		public ProviderShapeRunner getProviderShapeRunner() { return delegator.getProviderShapeRunner(); }
-
-		// setter
-
-		@Override
-		public void setProviderShapesIntersectionDetector(
-				ProviderShapesIntersectionDetector providerShapesIntersectionDetector) {
-			delegator.setProviderShapesIntersectionDetector(providerShapesIntersectionDetector);
-		}
-
-		@Override
-		public void setProviderShapeRunner(ProviderShapeRunner providerShapeRunner) {
-			delegator.setProviderShapeRunner(providerShapeRunner);
-		}
-
-		@Override
-		public void setLog(LoggerMessages log) { delegator.setLog(log); }
-
-		@Override
-		public void setPathFinder(PathFinderIsom<Point, ObjectLocated, Dd> pathFinder) {
-			delegator.setPathFinder(pathFinder);
-		}
-
-		@Override
-		public void setWeightManager(NumberManager<Dd> numberManager) { delegator.setWeightManager(numberManager); }
-
-		@Override
-		public void setPathOptimizer(PathOptimizer<Point> pathOptimizer) { delegator.setPathOptimizer(pathOptimizer); }
-
-		// other
-
-		@Override
-		public void clearAllNodes() { delegator.clearAllNodes(); }
-
-		@Override
-		public boolean removeAllObjects() { return delegator.removeAllObjects(); }
-
-		@Override
-		public boolean clearArea(AbstractShape2D areaToClear) { return delegator.clearArea(areaToClear); }
-
-		@Override
-		public boolean remove(AbstractShape2D areaToClear, Predicate<ObjectLocated> objectFilter) {
-			return delegator.remove(areaToClear, objectFilter);
-		}
-
-		@Override
-		public void forEach(Consumer<? super ObjectLocated> action) { delegator.forEach(action); }
-
-		@Override
-		public List<Point> getPath(Point start, Point destination, Predicate<ObjectLocated> isWalkableTester) {
-			return delegator.getPath(start, destination, isWalkableTester);
-		}
-
-		@Override
-		public List<Point> getPath(ObjectShaped objRequiringTo, Point destination,
-				Predicate<ObjectLocated> isWalkableTester) {
-			return delegator.getPath(objRequiringTo, destination, isWalkableTester);
-		}
-
-		@Override
-		public List<Point> getPath(ObjectShaped objRequiringTo, Point destination) {
-			return delegator.getPath(objRequiringTo, destination);
-		}
-
-		@Override
-		public Set<ObjectLocated> fetch(AbstractShape2D areaToLookInto) { return delegator.fetch(areaToLookInto); }
-
-		@Override
-		public Set<ObjectLocated> fetch(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter) {
-			return delegator.fetch(areaToLookInto, objectFilter);
-		}
-
-		@Override
-		public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, List<Point> path) {
-			return delegator.findInPath(areaToLookInto, path);
-		}
-
-		@Override
-		public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, ObjCollector<ObjectLocated> collector,
-				List<Point> path) {
-			return delegator.findInPath(areaToLookInto, collector, path);
-		}
-
-		@Override
-		public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter,
-				List<Point> path) {
-			return delegator.findInPath(areaToLookInto, objectFilter, path);
-		}
-
-		@Override
-		public void runOnWholeMap(PointConsumer action) { delegator.runOnWholeMap(action); }
-
-		@Override
-		public void runOnShape(AbstractShape2D shape, PointConsumer action) { delegator.runOnShape(shape, action); }
-
-		@Override
-		public void forEachAdjacents(NodeIsom node, BiConsumer<NodeIsom, Dd> adjacentDistanceConsumer) {
-			delegator.forEachAdjacents(node, adjacentDistanceConsumer);
-		}
-
-		@Override
-		public ObjLocatedCollectorIsom<Dd> newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) {
-			return delegator.newObjLocatedCollector(objectFilter);
-		}
-
-		@Override
-		public Set<ObjectLocated> getAllObjectLocated() { return delegator.getAllObjectLocated(); }
-
-		@Override
-		public ObjectLocated getObjectLocated(Integer ID) { return delegator.getObjectLocated(ID); }
-
-		@Override
-		public Iterator<ObjectLocated> iterator() { return delegator.iterator(); }
-
-		@Override
-		public Spliterator<ObjectLocated> spliterator() { return delegator.spliterator(); }
-
-		@Override
-		public boolean add(ObjectLocated o) { return delegator.add(o); }
-
-		@Override
-		public boolean contains(ObjectLocated o) { return delegator.contains(o); }
-
-		@Override
-		public boolean remove(ObjectLocated o) { return delegator.remove(o); }
-
-		@Override
-		public void removeAllMaps() { delegator.removeAllMaps(); }
-
-		@Override
-		public void clear() { delegator.clear(); }
-
-		@Override
-		public MatrixInSpaceObjectsManager<Dd> getMISOMContaining(Point p) { return delegator.getMISOMContaining(p); }
-
-//		public void addMap(MISOMWrapper<Dd> r) { delegator.addMap(r); }
-
-		@Override
-		public void addMap(MatrixInSpaceObjectsManager<Dd> map, int x, int y) { delegator.addMap(map, x, y); }
-
-		@Override
-		public void addMap(MatrixInSpaceObjectsManager<Dd> map, Point locationLeftTop) {
-			delegator.addMap(map, locationLeftTop);
-		}
-
-		public void addMaps(Collection<MISOMLocatedInSpace<Dd>> mapsList) { delegator.addMaps(mapsList); }
-
-		@Override
-		public String toString() { return delegator.toString(); }
-
-		public void removeMap(MISOMLocatedInSpace<Dd> r) { delegator.removeMap(r); }
-
-		public void removeMaps(Collection<MISOMLocatedInSpace<Dd>> mapsList) { delegator.removeMaps(mapsList); }
-	}
+	} // end NodeQuadtreeMultiISOMRectangular
 }

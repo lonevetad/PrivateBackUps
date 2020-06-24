@@ -1,6 +1,5 @@
 package dataStructures.isom.pathFinders;
 
-import java.awt.Point;
 import java.util.function.Predicate;
 
 import dataStructures.isom.NodeIsomProvider;
@@ -43,11 +42,10 @@ public abstract class PathFinderIsomBaseImpl<Distance extends Number> implements
 		}
 	}
 
-	protected abstract class ShapedAdjacentForEacherBaseImpl
-			extends AbstractShapedAdjacentForEacher<Point, ObjectLocated, Distance> {
+	protected abstract class ShapedAdjacentForEacherBaseImpl extends AbstractShapedAdjacentForEacher<Distance> {
 
-		protected ShapedAdjacentForEacherBaseImpl(PathFinderIsom<Point, ObjectLocated, Distance> pathFinderIsom,
-				NodeIsomProvider<Distance> m, AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
+		protected ShapedAdjacentForEacherBaseImpl(PathFinderIsom<Distance> pathFinderIsom, NodeIsomProvider<Distance> m,
+				AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
 			super(pathFinderIsom, m, shape, isWalkableTester, distanceManager);
 		}

@@ -1,11 +1,6 @@
 package dataStructures.isom;
 
-import java.awt.Point;
-
-import geometry.ObjectLocated;
-
-public interface PathFinderIsomFrontierBased<Distance extends Number>
-		extends PathFinderIsom<Point, ObjectLocated, Distance> {
+public interface PathFinderIsomFrontierBased<Distance extends Number> extends PathFinderIsom<Distance> {
 
 	public static enum NodePositionInFrontier {
 		NeverAdded, InFrontier, Closed;
@@ -19,6 +14,5 @@ public interface PathFinderIsomFrontierBased<Distance extends Number>
 			super(thisNode);
 			this.color = NodePositionInFrontier.NeverAdded;
 		}
-
 	}
 }

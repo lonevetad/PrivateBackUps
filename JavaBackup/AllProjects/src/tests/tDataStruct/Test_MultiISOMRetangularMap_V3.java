@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -18,13 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import dataStructures.MapTreeAVL;
+import dataStructures.isom.MultiISOMRetangularCaching;
 import dataStructures.isom.MultiISOMRetangularMap;
 import dataStructures.isom.MultiISOMRetangularMap.MISOMLocatedInSpace;
-import dataStructures.isom.MultiISOMRetangularMap.NodeIsomProviderCachingMISOM;
-import dataStructures.isom.NodeIsom;
 import dataStructures.isom.ObjLocatedCollectorIsom;
+import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
-import dataStructures.isom.matrixBased.NodeIsomSingleObj;
 import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.impl.ObjCollector;
 import stuffs.logic.AtomLogicProposition;
@@ -90,7 +90,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 		}
 		t =
 				// new Test_MultiISOMRetangularMap_V3(MAXIMUM_SUBMAPS_EACH_SECTION);
-				new MultiISOMRetangularMap<Double>(MAXIMUM_SUBMAPS_EACH_SECTION);
+				new MultiISOMRetangularCaching<Double>(MAXIMUM_SUBMAPS_EACH_SECTION);
 //		t.addMaps(rects.stream().map(r->{
 //			new MatrixInSpaceObjectsManager<Double>() {
 //			};
@@ -113,18 +113,25 @@ public class Test_MultiISOMRetangularMap_V3 {
 	//
 	static class T_MISOM_GUI {
 		static int idProgNewRect = 100;
-//		boolean isRectangleDrawning;
+		boolean isStartPathfind;
 		JFrame win;
 		JPanel jp;
 		JScrollPane jsp;
 		Map<Integer, MyRectangle> rects = null;
 		MultiISOMRetangularMap<Double> t;
-		Point pStartDrawningRect = null, pEndDrawningRect = null;
 		MyRectangle newRect = null;
+		Point pStartDrawningRect = null, pEndDrawningRect = null;
+		Point startPathfind, endPathfind;
+//		List<Point > pathFound;
+		int[] xPath, yPath;
 
 		public T_MISOM_GUI(MultiISOMRetangularMap<Double> t) {
 			super();
 			this.t = t;
+			isStartPathfind = true;
+			startPathfind = endPathfind = null;
+//			pathFound=null;
+			xPath = yPath = null;
 		}
 
 		void rebuildGUI() {
@@ -132,6 +139,11 @@ public class Test_MultiISOMRetangularMap_V3 {
 			win = new JFrame("Test Multi ISOM");
 			win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			jp = new JPanel() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void paintComponent(Graphics g) {
 					super.paintComponent(g);
@@ -195,10 +207,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 				rects = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 						Comparators.INTEGER_COMPARATOR);
 			}
-			map = new MatrixInSpaceObjectsManager<Double>(true, r.width, r.height, NumberManager.getDoubleManager()) {
-				@Override
-				public NodeIsom newNodeMatrix(int x, int y) { return new NodeIsomSingleObj(x, y); }
-			};
+			map = new MISOM_SingleObjInNode<Double>(true, r.width, r.height, NumberManager.getDoubleManager());
 			map.setWeightManager(NumberManager.getDoubleManager());
 //			map.setProviderShapeRunner(ProviderShapeRunnerImpl.getInstance());
 //			map.setProviderShapesIntersectionDetector(ProviderShapesIntersectionDetector.getInstance());
@@ -252,6 +261,8 @@ public class Test_MultiISOMRetangularMap_V3 {
 						this.newRect.width, this.newRect.height);
 			}
 			if (t != null && t.getRoot() != null) { paintSubdivision(g); }
+
+			if (xPath != null && xPath.length > 0) { g.drawPolyline(xPath, yPath, xPath.length); }
 		}
 
 		void paintSubdivision(Graphics g) {
@@ -259,8 +270,8 @@ public class Test_MultiISOMRetangularMap_V3 {
 			minx = t.getxLeftTop() - 1;
 			miny = t.getyLeftTop() - 1;
 //			NodeMultiISOMRectangular n;
-			MultiISOMRetangularMap<Double>.NodeMultiISOMRectangular n;
-			LinkedList<MultiISOMRetangularMap<Double>.NodeMultiISOMRectangular> nodes;
+			MultiISOMRetangularMap<Double>.NodeQuadtreeMultiISOMRectangular n;
+			LinkedList<MultiISOMRetangularMap<Double>.NodeQuadtreeMultiISOMRectangular> nodes;
 			nodes = new LinkedList<>();
 			n = t.getRoot();
 			nodes.add(n);
@@ -286,6 +297,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 		}
 
 		void onMouseClick(MouseEvent me) {
+			int mouseButton;
 			Point whereClicked;
 //			MyRectangle mapFound;
 			MISOMLocatedInSpace<Double> mapWrapper;
@@ -298,10 +310,15 @@ public class Test_MultiISOMRetangularMap_V3 {
 //			map = t.getMISOMContaining(whereClicked);
 			mapWrapper = t.getMapLocatedContaining(whereClicked);
 			System.out.println(".. map found: " + (mapWrapper == null ? "null" : rects.get(mapWrapper.IDInteger)));
-			System.out.println("me.getButton(): " + me.getButton());
-			if (mapWrapper != null && me.getButton() == MouseEvent.BUTTON3) {
-				t.removeMap(mapWrapper);
-				rects.remove(mapWrapper.IDInteger);
+			mouseButton = me.getButton();
+			System.out.println("me.getButton(): " + mouseButton);
+			if (mouseButton == MouseEvent.BUTTON1 || mouseButton == MouseEvent.BUTTON2) {
+				performPathfind(whereClicked);
+			} else if (mouseButton == MouseEvent.BUTTON3) {
+				if (mapWrapper != null) {
+					t.removeMap(mapWrapper);
+					rects.remove(mapWrapper.IDInteger);
+				}
 			}
 //			mapFound =    rects.get(map.id);
 		}
@@ -397,7 +414,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 				return;
 			shape = new ShapeRectangle(0, (int) newRect.getCenterX(), (int) newRect.getCenterY(), true,
 					(int) newRect.getWidth(), (int) newRect.getHeight());
-			mr = new MapRemover(t.newNodeIsomProviderCaching());
+			mr = new MapRemover(t);
 			t.// newNodeIsomProviderCaching().//
 					runOnShape(shape, mr);
 			if (mr.mapsCollected.isEmpty()) {
@@ -435,11 +452,42 @@ public class Test_MultiISOMRetangularMap_V3 {
 			jp.repaint();
 		}
 
+		// TODO OOOOOOOOOOOOOOOOOOO
+		// FARE PATH FINDING CHE IL CLICK SINISTRO IMPOSTA, IN MODO ALTERNATO,
+		// INIZIO E FINE DEL PERCORSO .. E POI DISEGNA IL POLILINE
+
+		void performPathfind(Point whereClicked) {
+			int len;
+			List<Point> pathFound;
+			if (this.isStartPathfind)
+				this.startPathfind = whereClicked;
+			else
+				this.endPathfind = whereClicked;
+			if (this.startPathfind != null && this.endPathfind != null) {
+				final int[] i = { 0 };
+				pathFound = t.getPath(startPathfind, endPathfind);
+				if (pathFound == null)
+					return;
+				len = pathFound.size();
+				xPath = new int[len];
+				yPath = new int[len];
+				pathFound.forEach(p -> {
+					xPath[i[0]] = p.x;
+					yPath[i[0]++] = p.x;
+				});
+			}
+		}
+
 		//
 
 		protected class MapRemover implements ObjCollector<MISOMLocatedInSpace<Double>> {
 
-			protected MapRemover(NodeIsomProviderCachingMISOM<Double> nodeIsomProvider) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			protected MapRemover(MultiISOMRetangularMap<Double> nodeIsomProvider) {
 				super();
 				this.nodeIsomProvider = nodeIsomProvider;
 				this.mapBackMapsCollected = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
@@ -448,16 +496,16 @@ public class Test_MultiISOMRetangularMap_V3 {
 				filter = m -> m != null;
 			}
 
-			protected NodeIsomProviderCachingMISOM<Double> nodeIsomProvider;
+			protected MultiISOMRetangularMap<Double> nodeIsomProvider;
 			protected Set<MISOMLocatedInSpace<Double>> mapsCollected;
 			protected MapTreeAVL<Integer, MISOMLocatedInSpace<Double>> mapBackMapsCollected;
 			protected Predicate<MISOMLocatedInSpace<Double>> filter;
 
 			// @Override
-			public NodeIsomProviderCachingMISOM<Double> getNodeIsomProvider() { return nodeIsomProvider; }
+			public MultiISOMRetangularMap<Double> getNodeIsomProvider() { return nodeIsomProvider; }
 
 //			@Override
-			public void setNodeIsomProvider(NodeIsomProviderCachingMISOM<Double> nodeIsomProvider) {
+			public void setNodeIsomProvider(MultiISOMRetangularMap<Double> nodeIsomProvider) {
 				this.nodeIsomProvider = nodeIsomProvider;
 			}
 
@@ -469,8 +517,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 
 			@Override
 			public MISOMLocatedInSpace<Double> getAt(Point location) {
-				return nodeIsomProvider.getMisomAt(location);
-//				return nodeIsomProvider.getMISOMContaining(location);
+				return nodeIsomProvider.getMapLocatedContaining(location);
 			}
 		}
 	}
