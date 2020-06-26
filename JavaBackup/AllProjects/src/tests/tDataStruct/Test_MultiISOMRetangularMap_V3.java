@@ -222,7 +222,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 			w = t.addMap(map, r.x, r.y);
 			System.out.println("adding: " + r.name + ", and id: " + w.ID);
 			rects.put(//
-					w.IDInteger, r);
+					w.ID, r);
 		}
 
 		void resetRects(MyRectangle[] recs) {
@@ -320,7 +320,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 			System.out.println("finding a map on " + whereClicked + " ..");
 //			map = t.getMISOMContaining(whereClicked);
 			mapWrapper = t.getMapLocatedContaining(whereClicked);
-			System.out.println(".. map found: " + (mapWrapper == null ? "null" : rects.get(mapWrapper.IDInteger)));
+			System.out.println(".. map found: " + (mapWrapper == null ? "null" : rects.get(mapWrapper.ID)));
 			mouseButton = me.getButton();
 			System.out.println("me.getButton(): " + mouseButton);
 			if (mouseButton == MouseEvent.BUTTON1 || mouseButton == MouseEvent.BUTTON2) {
@@ -328,7 +328,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 			} else if (mouseButton == MouseEvent.BUTTON3) {
 				if (mapWrapper != null) {
 					t.removeMap(mapWrapper);
-					rects.remove(mapWrapper.IDInteger);
+					rects.remove(mapWrapper.ID);
 				}
 			}
 //			mapFound =    rects.get(map.id);
@@ -416,14 +416,14 @@ public class Test_MultiISOMRetangularMap_V3 {
 		}
 
 		void collectAndDeleteMaps() {
-			MapRemover mr;
+			MapRemover_V3 mr;
 			ShapeRectangle shape;
 //			c = t.newObjLocatedCollector(null);
 			if (newRect == null)
 				return;
 			shape = new ShapeRectangle(0, (int) newRect.getCenterX(), (int) newRect.getCenterY(), true,
 					(int) newRect.getWidth(), (int) newRect.getHeight());
-			mr = new MapRemover(t);
+			mr = new MapRemover_V3(t);
 			t.// newNodeIsomProviderCaching().//
 					runOnShape(shape, mr);
 			if (mr.mapsCollected.isEmpty()) {
@@ -432,7 +432,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 				System.out.println("collected " + mr.mapsCollected.size() + " maps:");
 				mr.mapsCollected.forEach(mlis -> {
 					t.removeMap(mlis);
-					this.rects.remove(mlis.IDInteger);
+					this.rects.remove(mlis.ID);
 				});
 			}
 //			if (c.getCollectedObjects().size() > 0)
@@ -483,7 +483,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 				final int[] i = { 0 };
 				ObjectShaped os;
 //				pathFound = t.getPath(startPathfind, endPathfind);
-				os = new ObjectShapedBase();
+				os = new ObjectShapedBase_V3();
 				os.setShape(new ShapeRectangle(0, startPathfind.x + 10, startPathfind.y + 10, true, 20, 20));
 				pathFound = t.getPath(os, endPathfind);
 				if (pathFound == null)
@@ -509,7 +509,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 
 		//
 
-		protected static class ObjectShapedBase implements ObjectShaped {
+		protected static class ObjectShapedBase_V3 implements ObjectShaped {
 			AbstractShape2D shape;
 
 			@Override
@@ -522,10 +522,10 @@ public class Test_MultiISOMRetangularMap_V3 {
 			public AbstractShape2D getShape() { return shape; }
 		}
 
-		protected class MapRemover implements ObjCollector<MISOMLocatedInSpace<Double>> {
+		protected class MapRemover_V3 implements ObjCollector<MISOMLocatedInSpace<Double>> {
 			private static final long serialVersionUID = 1L;
 
-			protected MapRemover(MultiISOMRetangularMap<Double> nodeIsomProvider) {
+			protected MapRemover_V3(MultiISOMRetangularMap<Double> nodeIsomProvider) {
 				super();
 				this.nodeIsomProvider = nodeIsomProvider;
 				this.mapBackMapsCollected = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,

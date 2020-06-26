@@ -39,9 +39,10 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 	// TODO
 
 	@Override
-	public List<Point> getPathGeneralized(final NodeIsomProvider<Distance> m, NumberManager<Distance> distanceManager,
-			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher<Distance> forAdjacents,
-			boolean returnPathToClosestNodeIfNotFound, NodeIsom<Distance> start, NodeIsom<Distance> dest) {
+	public List<Point> getPathGeneralized(final NodeIsomProvider<Distance> nodeProvider,
+			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
+			AbstractAdjacentForEacher<Distance> forAdjacents, boolean returnPathToClosestNodeIfNotFound,
+			NodeIsom<Distance> start, NodeIsom<Distance> dest) {
 		// NodeIsomProvider m; // MatrixInSpaceObjectsManager<Distance> m;
 		NodeInfoFrontierBased<Distance> ss, dd;
 		final Map<NodeIsom<Distance>, NodeInfoFrontierBased<Distance>> nodeInfos;
@@ -70,7 +71,6 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 		dd = new NodeInfoFrontierBased<Distance>(dest);
 		nodeInfos.put(dest, dd);
 		absoluteDestPoint = dest.getLocationAbsolute();
-		System.out.println("DIJIKSTRAAAA");
 
 		// set non-final parameters
 		if (AbstractAdjacentForEacherDijkstra.class.isAssignableFrom(fa.getClass())) {
@@ -85,7 +85,7 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 			ssssss.afed.frontier = frontier;
 		}
 
-		while (!frontier.isEmpty()) {
+		while ((!frontier.isEmpty()) && dd.father == null) {
 			final NodeInfoFrontierBased<Distance> n;
 			n = frontier.removeMinimum().getKey();
 			/*
@@ -115,7 +115,7 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 				}
 
 				fa.setCurrentNode(n);
-				m.forEachAdjacents(n.thisNode, fa);
+				nodeProvider.forEachAdjacents(n.thisNode, fa);
 //				n.thisNode.forEachAdjacents(forAdjacents);
 			} else
 				/*

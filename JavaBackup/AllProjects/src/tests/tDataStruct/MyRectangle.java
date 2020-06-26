@@ -5,12 +5,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import stuffs.logic.AtomLogicProposition;
+import tools.ObjectNamedID;
 
-public class MyRectangle extends Rectangle {
+public class MyRectangle extends Rectangle implements ObjectNamedID {
 	private static final long serialVersionUID = 1L;
 	private static int idProg = 0;
-	final Integer ID;
-	String name = "";
+	protected final Integer ID;
+	protected String name = "";
 
 	public MyRectangle(int x, int y, int width, int height) { super(x, y, width, height); }
 
@@ -20,6 +21,10 @@ public class MyRectangle extends Rectangle {
 		ID = idProg++;
 	}
 
+	@Override
+	public Integer getID() { return ID; }
+
+	@Override
 	public String getName() { return name; }
 
 	public MyRectangle setName(String name) {

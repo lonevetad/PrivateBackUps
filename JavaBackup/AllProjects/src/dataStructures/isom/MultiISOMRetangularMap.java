@@ -60,8 +60,8 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		this.maximumSubmapsEachSection = maximumSubmapsEachSection;
 		mapsLocatedInSpace = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				Comparators.INTEGER_COMPARATOR);
-		mapsAsList = mapsLocatedInSpace.toListValue(r -> r.IDInteger);
-		misomsHeld = new SetMapped<>(mapsLocatedInSpace.toSetValue(w -> w.IDInteger), w -> w.misom);
+		mapsAsList = mapsLocatedInSpace.toListValue(r -> r.ID);
+		misomsHeld = new SetMapped<>(mapsLocatedInSpace.toSetValue(w -> w.ID), w -> w.misom);
 		setObjectsAddedMap(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR));
 		shapeRect = null;// new ShapeRectangle()
 		clear();
@@ -381,7 +381,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		map.setTopLetCornerAbsolute(x, y);
 		r = new MISOMLocatedInSpace<Distance>(this, map, x, y);
 		c = updateBoundingBox(r);
-		mapsLocatedInSpace.put(r.IDInteger, r);
+		mapsLocatedInSpace.put(r.ID, r);
 		if (c > 0)
 			rebuild();
 		else
@@ -405,7 +405,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 				if (c >= 0) {
 					if (cc[0] < c)
 						cc[0] = c;
-					mapsLocatedInSpace.put(r.IDInteger, r);
+					mapsLocatedInSpace.put(r.ID, r);
 				}
 			}
 		});
@@ -416,8 +416,8 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	}
 
 	public void removeMap(MISOMLocatedInSpace<Distance> r) {
-		if (mapsLocatedInSpace.containsKey(r.IDInteger)) {
-			mapsLocatedInSpace.remove(r.IDInteger);
+		if (mapsLocatedInSpace.containsKey(r.ID)) {
+			mapsLocatedInSpace.remove(r.ID);
 			recalculateBoundingBox();
 			/*
 			 * TODO should perform a more fine action like adding maps
@@ -440,9 +440,9 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	public void removeMaps(Collection<MISOMLocatedInSpace<Distance>> mapsList) {
 		boolean[] cc = { false };
 		mapsList.forEach(r -> {
-			if (mapsLocatedInSpace.containsKey(r.IDInteger)) {
+			if (mapsLocatedInSpace.containsKey(r.ID)) {
 				cc[0] = true;
-				mapsLocatedInSpace.remove(r.IDInteger);
+				mapsLocatedInSpace.remove(r.ID);
 			}
 		});
 		if (cc[0]) {
@@ -506,7 +506,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		return 0;
 	}
 
-	protected void rebuild() {
+	public void rebuild() {
 		this.maxDepth = 0;
 		this.root = rebuild(null, mapsAsList, //
 				getxLeftTop(), getyLeftTop(), xRightBottom, yRightBottom, width, height//
@@ -715,7 +715,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 */
 	public static class MISOMLocatedInSpace<Dd extends Number> extends Rectangle implements ObjectLocated {
 		private static final long serialVersionUID = 560804524L;
-		public static final Function<MISOMLocatedInSpace<?>, Integer> ID_EXTRACTOR = w -> w.IDInteger;
+		public static final Function<MISOMLocatedInSpace<?>, Integer> ID_EXTRACTOR = w -> w.ID;
 		public static final Function<MISOMLocatedInSpace<?>, MatrixInSpaceObjectsManager<?>> MISOM_EXTRACTOR = w -> w.misom;
 
 		/** See calls the constructor considering */
@@ -724,7 +724,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			super(x, y, misom.getWidth(), misom.getHeight());
 			this.misom = misom;
 			this.multi = multi;
-			this.IDInteger = (this.ID = this.multi.idProg++);
+			this.ID = this.multi.idProg++;
 		}
 
 		/**
@@ -735,13 +735,12 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			this(multi, misom, p.x, p.y);
 		}
 
-		public final int ID;
-		public final Integer IDInteger;
+		public final Integer ID;
 		protected final MultiISOMRetangularMap<Dd> multi;
 		public final MatrixInSpaceObjectsManager<Dd> misom;
 
 		@Override
-		public Integer getID() { return IDInteger; }
+		public Integer getID() { return ID; }
 
 		public MatrixInSpaceObjectsManager<Dd> getMatrix() { return misom; }
 

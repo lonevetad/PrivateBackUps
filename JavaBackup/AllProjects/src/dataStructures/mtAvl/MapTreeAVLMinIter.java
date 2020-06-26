@@ -2,10 +2,12 @@ package dataStructures.mtAvl;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
+import tools.Comparators;
 
 public class MapTreeAVLMinIter<K, V> extends MapTreeAVLIndexable<K, V> {
 	private static final long serialVersionUID = 477874447L;
@@ -172,15 +174,11 @@ public class MapTreeAVLMinIter<K, V> extends MapTreeAVLIndexable<K, V> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected NodeAVL successorSorted(NodeAVL n) {
-		return ((NodeAVL_MinIter) n).nextInOrder;
-	}
+	protected NodeAVL successorSorted(NodeAVL n) { return ((NodeAVL_MinIter) n).nextInOrder; }
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected NodeAVL predecessorSorted(NodeAVL n) {
-		return ((NodeAVL_MinIter) n).nextInOrder;
-	}
+	protected NodeAVL predecessorSorted(NodeAVL n) { return ((NodeAVL_MinIter) n).nextInOrder; }
 
 	/**
 	 * Use with care
@@ -282,7 +280,7 @@ public class MapTreeAVLMinIter<K, V> extends MapTreeAVLIndexable<K, V> {
 	@Override
 	public void forEach(BiConsumer<? super K, ? super V> action) {
 		NodeAVL_MinIter start, current;
-		if (size != 0 && action != NIL) {
+		if (root != NIL && action != null) {
 			start = current = minValue;
 			do {
 				action.accept(current.k, current.v);
@@ -370,21 +368,13 @@ public class MapTreeAVLMinIter<K, V> extends MapTreeAVLIndexable<K, V> {
 
 	public class Iterator_MinIter<E> extends IteratorAVLGeneric<E> {
 
-		public Iterator_MinIter() {
-			this(true);
-		}
+		public Iterator_MinIter() { this(true); }
 
-		public Iterator_MinIter(boolean normalOrder) {
-			super(normalOrder);
-		}
+		public Iterator_MinIter(boolean normalOrder) { super(normalOrder); }
 
-		public Iterator_MinIter(IteratorReturnType irt) {
-			super(irt);
-		}
+		public Iterator_MinIter(IteratorReturnType irt) { super(irt); }
 
-		public Iterator_MinIter(IteratorReturnType irt, boolean normalOrder) {
-			super(irt, normalOrder);
-		}
+		public Iterator_MinIter(IteratorReturnType irt, boolean normalOrder) { super(irt, normalOrder); }
 
 		@Override
 		protected void restart() {
@@ -394,8 +384,19 @@ public class MapTreeAVLMinIter<K, V> extends MapTreeAVLIndexable<K, V> {
 		}
 
 		@Override
-		public boolean hasNext() {
-			return (size > 0) && (current != end || jumps == 0);
-		}
+		public boolean hasNext() { return (size > 0) && (current != end || jumps == 0); }
+	}
+
+	public static void main(String[] args) {
+		MapTreeAVL<Integer, Integer> m;
+		Set<Integer> s;
+		m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration, Comparators.INTEGER_COMPARATOR);
+		s = m.toSetValue(i -> i);
+		s.add(1);
+		System.out.println("forEach of map");
+		m.forEach((k, v) -> { System.out.println(v); });
+		System.out.println("start forEach");
+		s.forEach(v -> { System.out.println(v); });
+		System.out.println("end forEach");
 	}
 }

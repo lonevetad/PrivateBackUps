@@ -112,7 +112,6 @@ public interface InSpaceObjectsManager<Distance extends Number>
 //				getPathFinder(), getWeightManager(), isWalkableTester, returnPathToClosestNodeIfNotFound),
 //				ni -> ni.getLocation());
 		po = this.getPathOptimizer();
-		System.out.println(" iiiis ISOM'path null? " + (po == null));
 		if (po != null)
 			path = po.optimizePath(path);
 		return path;
@@ -123,7 +122,6 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	 * See {@link #getPath(Point, Point, Predicate, boolean)}.
 	 */
 	public default List<Point> getPath(Point start, Point destination) {
-		System.out.println("SIIIMPLE PATH");
 		return this.getPath(start, destination, null, true);
 	}
 

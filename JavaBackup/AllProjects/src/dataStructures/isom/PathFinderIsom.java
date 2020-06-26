@@ -126,6 +126,7 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 		}
 		l.addFirst(start.thisNode.getLocationAbsolute());
 		System.out.println("path have " + l.size() + " substeps");
+		l.forEach(p -> System.out.println(p));
 		return l;
 	}
 

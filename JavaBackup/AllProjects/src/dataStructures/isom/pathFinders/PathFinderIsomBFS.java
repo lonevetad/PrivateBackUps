@@ -13,7 +13,6 @@ import dataStructures.isom.NodeIsomProvider;
 import dataStructures.isom.PathFinderIsom;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
-import tools.Comparators;
 import tools.NumberManager;
 
 public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBaseImpl<Distance> {
@@ -25,7 +24,7 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
 			AbstractAdjacentForEacher<Distance> forAdjacents, boolean returnPathToClosestNodeIfNotFound,
 			NodeIsom<Distance> start, NodeIsom<Distance> dest) {
-		Map<Integer, NodeInfoFrontierBased<Distance>> nodes;
+		Map<NodeIsom<Distance>, NodeInfoFrontierBased<Distance>> nodes;
 		Queue<NodeInfoFrontierBased<Distance>> queue;
 		NodeInfoFrontierBased<Distance> ss, ee, niCurrent;
 		AAFE_BFS fa;
@@ -35,23 +34,27 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 		Point absoluteDestPoint;
 		//
 		queue = new LinkedList<>();
-		nodes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
+		nodes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
+				(n1, n2) -> NodeIsom.COMPARATOR_NODE_ISOM_POINT.compare(n1, n2));
 		fa = (AAFE_BFS) forAdjacents;
 		fa.queue = queue;
 		fa.nodes = nodes;
 		ss = new NodeInfoFrontierBased<Distance>(start);
-		ee = null; // new NodeInfoFrontierBased<Distance>(dest);
-		nodes.put(start.getID(), ss);
-//		nodes.put(dest.getID(), ee);
+		ee = new NodeInfoFrontierBased<Distance>(dest);
+		nodes.put(start, ss);
+		nodes.put(dest, ee);
+		ee.color = NodePositionInFrontier.NeverAdded;
+		ee.father = null;
 		queue.add(ss);
 		ss.color = NodePositionInFrontier.InFrontier;
 		absoluteDestPoint = dest.getLocationAbsolute();
 		while (!queue.isEmpty()) {
 			niCurrent = queue.poll();
-			if (niCurrent.thisNode == dest) {
+			if (ee.father != null || niCurrent.thisNode == dest) {
 				// found
 				queue.clear();
-				ee = niCurrent;
+				if (ee.father == null)
+					ee = niCurrent;
 			} else {
 				// added for the boolean parameter
 				if (returnPathToClosestNodeIfNotFound) {
@@ -65,7 +68,8 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 					}
 				}
 				fa.setCurrentNode(niCurrent);
-				this.getNodeIsomProvider().forEachAdjacents(niCurrent.thisNode, fa);
+				// this.getNodeIsomProvider()
+				nodeProvider.forEachAdjacents(niCurrent.thisNode, fa);
 				niCurrent.color = NodePositionInFrontier.Closed;
 			}
 		}
@@ -89,7 +93,7 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 	//
 
 	protected class AAFE_BFS extends AbstractAdjacentForEacher<Distance> {
-		protected Map<Integer, NodeInfoFrontierBased<Distance>> nodes;
+		protected Map<NodeIsom<Distance>, NodeInfoFrontierBased<Distance>> nodes;
 		protected Queue<NodeInfoFrontierBased<Distance>> queue;
 
 		public AAFE_BFS(Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
@@ -97,23 +101,32 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 		}
 
 		@Override
-		public void accept(NodeIsom<Distance> adjacent, Distance u) {
+		public void accept(NodeIsom<Distance> adjacent, Distance distToAdjacent) {
 			NodeInfoFrontierBased<Distance> niAdj;
-			Integer adjID;
+//			Distance distStartToNeighbour;
+//			Integer adjID;
 			if (!isAdjacentNodeWalkable(adjacent))
 				return;
-			adjID = adjacent.getID();
+//			adjID = adjacent.getID();
 			niAdj = null;
-			if (nodes.containsKey(adjID) && (niAdj = nodes.get(adjID)).color != NodePositionInFrontier.NeverAdded)
-				return; // unable to handle this adjacent
+//			distStartToNeighbour = this.distanceManager.getAdder().apply(distToAdjacent, currentNode.distFromStart);
+			niAdj = nodes.get(adjacent);
+//			if ( niAdj != null// nodes.containsKey(adjID) 
+//					&& niAdj.color != NodePositionInFrontier.NeverAdded)
+//				return; // unable to handle this adjacent
 			if (niAdj == null) {
 				// not contained
 				niAdj = new NodeInfoFrontierBased<Distance>(adjacent);
+				niAdj.color = NodePositionInFrontier.NeverAdded;
+			} // else: discard it, i has been yet used
+			if (niAdj.color == NodePositionInFrontier.NeverAdded) {
 				niAdj.color = NodePositionInFrontier.InFrontier;
 				niAdj.father = currentNode;
-				nodes.put(adjID, niAdj);
+//				niAdj.distFromFather = distToAdjacent;
+//				niAdj.distFromStart = distStartToNeighbour;
+				nodes.put(adjacent, niAdj);
 				queue.add(niAdj);
-			} // else: discard it
+			}
 		}
 	}
 
