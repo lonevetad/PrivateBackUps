@@ -19,7 +19,6 @@ public class MultiISOMRetangularCaching<Dd extends Number> extends MultiISOMReta
 	public MultiISOMRetangularCaching() {
 		super();
 		this.cachedMW = null;
-		setPathFinder(new PathFinderIsomDijkstra<>(this));
 	}
 
 	public MultiISOMRetangularCaching(int maximumSubmapsEachSection) {
@@ -37,5 +36,27 @@ public class MultiISOMRetangularCaching<Dd extends Number> extends MultiISOMReta
 	public MISOMLocatedInSpace<Dd> getMapLocatedContaining(int x, int y) {
 		if (cachedMW == null || (!cachedMW.contains(x, y))) { cachedMW = super.getMapLocatedContaining(x, y); }
 		return cachedMW;
+	}
+
+	//
+
+	@Override
+	protected PathFinderIsom<Dd> newPathFinder() {
+//		return new PathFinderIsomBFS<>(this);
+		return new PathFinderIsomDijkstra<>(this);
+//		return new PathFinderIsomAStar<>(this, new AStarHeuristicManhattan<>(getWeightManager()));
+	}
+
+//	// override because of the NumberManager-dependancy of heuristic
+//	@Override
+//	public void setWeightManager(NumberManager<Dd> numberManager) {
+//		this.weightManager = numberManager;
+//		this.setPathFinder(newPathFinder());
+//	}
+
+	@Override
+	public String toString() {
+		return "MultiISOMRetangularCaching [\n\t idProg=" + idProg + ", maxDepth=" + maxDepth + ",\n\t xLeftTop="
+				+ xLeftTop + ", yLeftTop=" + yLeftTop + ", width=" + width + ", height=" + height + "\n]";
 	}
 }

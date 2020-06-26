@@ -21,16 +21,6 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 
 	public PathFinderIsomDijkstra(NodeIsomProvider<Distance> nodeIsomProvider) { super(nodeIsomProvider); }
 
-	protected final Comparator<NodeInfoFrontierBased<Distance>> COMPARATOR_NINFO = (ni1, ni2) -> {
-		if (ni1 == ni2)
-			return 0;
-		if (ni1 == null)
-			return -1;
-		if (ni2 == null)
-			return 1;
-		return NodeIsom.COMPARATOR_NODE_ISOM_POINT.compare(ni1.thisNode, ni2.thisNode);
-	};
-
 	@Override
 	public AbstractAdjacentForEacher<Distance> newAdjacentConsumer(final NodeIsomProvider<Distance> nodeProvider,
 			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
@@ -44,24 +34,32 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 		return new ShapedAdjacentForEacherDijkstra(this, nodeProvider, shape, isWalkableTester, distanceManager);
 	}
 
+	//
+
 	// TODO
 
 	@Override
 	public List<Point> getPathGeneralized(final NodeIsomProvider<Distance> m, NumberManager<Distance> distanceManager,
-			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher<Distance> forAdjacents, NodeIsom start,
-			NodeIsom dest) {
+			Predicate<ObjectLocated> isWalkableTester, AbstractAdjacentForEacher<Distance> forAdjacents,
+			boolean returnPathToClosestNodeIfNotFound, NodeIsom<Distance> start, NodeIsom<Distance> dest) {
 		// NodeIsomProvider m; // MatrixInSpaceObjectsManager<Distance> m;
 		NodeInfoFrontierBased<Distance> ss, dd;
-		final Map<NodeIsom, NodeInfoFrontierBased<Distance>> nodeInfos;
+		final Map<NodeIsom<Distance>, NodeInfoFrontierBased<Distance>> nodeInfos;
 		final PriorityQueueKey<NodeInfoFrontierBased<Distance>, Distance> frontier;
 		final Comparator<Distance> comp;
-		AbstractAdjacentForEacherDijkstra fa;
-//		m = isom;
+//		AbstractAdjacentForEacherDijkstra fa;
+		AbstractAdjacentForEacher<Distance> fa;
+		// added for the boolean parameter
+		NodeInfoFrontierBased<Distance> closestPointToDest = null;
+		Distance lowestDistance = null;
+		Point absoluteDestPoint;
+		//
 		comp = distanceManager.getComparator();
-		fa = (AbstractAdjacentForEacherDijkstra) forAdjacents;
+		fa = forAdjacents;
 		//
 		nodeInfos = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
-				MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, NodeIsom.COMPARATOR_NODE_ISOM_POINT);
+				MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, //
+				(n1, n2) -> NodeIsom.COMPARATOR_NODE_ISOM_POINT.compare(n1, n2));
 		frontier = new PriorityQueueKey<>(COMPARATOR_NINFO, comp, MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious,
 				(NodeInfoFrontierBased<Distance> no) -> no.distFromStart);
 		ss = new NodeInfoFrontierBased<Distance>(start);
@@ -71,10 +69,21 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 		nodeInfos.put(start, ss);
 		dd = new NodeInfoFrontierBased<Distance>(dest);
 		nodeInfos.put(dest, dd);
+		absoluteDestPoint = dest.getLocationAbsolute();
+		System.out.println("DIJIKSTRAAAA");
 
 		// set non-final parameters
-		fa.nodeInfos = nodeInfos;
-		fa.frontier = frontier;
+		if (AbstractAdjacentForEacherDijkstra.class.isAssignableFrom(fa.getClass())) {
+			AbstractAdjacentForEacherDijkstra ad;
+			ad = (AbstractAdjacentForEacherDijkstra) fa;
+			ad.nodeInfos = nodeInfos;
+			ad.frontier = frontier;
+		} else if (ShapedAdjacentForEacherDijkstra.class.isAssignableFrom(fa.getClass())) {
+			ShapedAdjacentForEacherDijkstra ssssss;
+			ssssss = (ShapedAdjacentForEacherDijkstra) fa;
+			ssssss.afed.nodeInfos = nodeInfos;
+			ssssss.afed.frontier = frontier;
+		}
 
 		while (!frontier.isEmpty()) {
 			final NodeInfoFrontierBased<Distance> n;
@@ -86,6 +95,25 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 			if (dd.father == null ||
 			// dd.distFromStart > n.distFromStart
 					comp.compare(dd.distFromStart, n.distFromStart) > 0) {
+
+//				if (this.getNodeIsomProvider().getNodeAt(n.thisNode.getLocationAbsolute()) == null) {
+//					System.out.println("\t " + n.thisNode.getLocationAbsolute() + " is out of space !!");
+////					throw new RuntimeException("\t " + n.thisNode.getLocationAbsolute() + " is out of space !!");
+//					continue;
+//				}
+
+				// added for the boolean parameter
+				if (returnPathToClosestNodeIfNotFound) {
+					Distance newDistance;
+					newDistance = distanceBetweenPoints(n.thisNode.getLocationAbsolute(), absoluteDestPoint,
+							distanceManager);
+					if (closestPointToDest == null || //
+							distanceManager.getComparator().compare(newDistance, lowestDistance) < 0) {
+						lowestDistance = newDistance;
+						closestPointToDest = n;
+					}
+				}
+
 				fa.setCurrentNode(n);
 				m.forEachAdjacents(n.thisNode, fa);
 //				n.thisNode.forEachAdjacents(forAdjacents);
@@ -99,7 +127,8 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 			n.color = NodePositionInFrontier.Closed;
 		}
 		nodeInfos.clear();
-		return PathFinderIsom.extractPath(ss, dd);
+		return PathFinderIsom.extractPathFromEndOrClosest(ss, dd, returnPathToClosestNodeIfNotFound,
+				closestPointToDest);
 	}
 
 	//
@@ -108,7 +137,7 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 
 	protected abstract class AbstractAdjacentForEacherDijkstra extends AbstractAdjacentForEacher<Distance> {
 
-		protected Map<NodeIsom, NodeInfoFrontierBased<Distance>> nodeInfos;
+		protected Map<NodeIsom<Distance>, NodeInfoFrontierBased<Distance>> nodeInfos;
 		protected PriorityQueueKey<NodeInfoFrontierBased<Distance>, Distance> frontier;
 		protected final DistanceKeyAlterator<NodeInfoFrontierBased<Distance>, Distance> alterator;
 
@@ -119,37 +148,42 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 		}
 
 		@Override
-		public void accept(NodeIsom adjacent, Distance distToAdj) {
-			Distance distToNo;
-			NodeInfoFrontierBased<Distance> noInfo;
+		public void accept(NodeIsom<Distance> adjacent, Distance distToAdjacent) {
+			Distance distStartToNeighbour;
+			NodeInfoFrontierBased<Distance> noInfoAdj;
 			if (!isAdjacentNodeWalkable(adjacent))
 				return;
 			if (nodeInfos.containsKey(adjacent))
-				noInfo = nodeInfos.get(adjacent);
+				noInfoAdj = nodeInfos.get(adjacent);
 			else
-				nodeInfos.put(adjacent, noInfo = new NodeInfoFrontierBased<>(adjacent));
+				nodeInfos.put(adjacent, noInfoAdj = new NodeInfoFrontierBased<>(adjacent));
 
-			if (noInfo.color == NodePositionInFrontier.Closed)
+			Point adjAbsol = adjacent.getLocationAbsolute();
+			Point currAbsol = currentNode.thisNode.getLocationAbsolute();
+			if (Math.abs(adjAbsol.x - currAbsol.x) > 1 || Math.abs(adjAbsol.y - currAbsol.y) > 1)
+				throw new RuntimeException("--- wrong delta: (dx:" + (adjAbsol.x - currAbsol.x) + ", dy:"
+						+ (adjAbsol.y - currAbsol.y) + ")");
+
+			if (noInfoAdj.color == NodePositionInFrontier.Closed)
 				return;
-			distToNo = // distToAdj + currentNode.distFromStart;
-					this.distanceManager.getAdder().apply(distToAdj,
-							((NodeInfoFrontierBased<Distance>) currentNode).distFromStart);
-			if (noInfo.father == null ||
+			distStartToNeighbour = // distToAdj + currentNode.distFromStart;
+					this.distanceManager.getAdder().apply(distToAdjacent, currentNode.distFromStart);
+			if (noInfoAdj.father == null ||
 			// distToNo < noInfo.distFromStart
-					distanceManager.getComparator().compare(distToNo, noInfo.distFromStart) < 0) {
+					distanceManager.getComparator().compare(distStartToNeighbour, noInfoAdj.distFromStart) < 0) {
 				// update
-				noInfo.father = currentNode;
-				noInfo.distFromFather = distToAdj; // Double.valueOf(distToAdj);
-				if (noInfo.color == NodePositionInFrontier.NeverAdded) {
+				noInfoAdj.father = currentNode;
+				noInfoAdj.distFromFather = distToAdjacent; // Double.valueOf(distToAdj);
+				if (noInfoAdj.color == NodePositionInFrontier.NeverAdded) {
 					// add on queue
-					noInfo.color = NodePositionInFrontier.InFrontier;
-					noInfo.distFromStart = distToNo;
-					frontier.put(noInfo);
+					noInfoAdj.color = NodePositionInFrontier.InFrontier;
+					noInfoAdj.distFromStart = distStartToNeighbour;
+					frontier.put(noInfoAdj);
 				} else {
 					// it's grey, it's actually in the queue
 //					frontier.alterKey(noInfo, nodd -> (nodd).distFromStart = distToNo);
-					alterator.distToNo = distToNo;
-					frontier.alterKey(noInfo, alterator);
+					alterator.newDistFromStart = distStartToNeighbour;
+					frontier.alterKey(noInfoAdj, alterator);
 				}
 			}
 		}
@@ -170,16 +204,16 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 			super(pathFinderIsom, m, shape, isWalkableTester, distanceManager);
 			this.afed = new UsynchronizedAdjacentForEacherDijkstra(isWalkableTester, distanceManager) {
 				@Override
-				public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) { return ianw(adjacentNode); }
+				public boolean isAdjacentNodeWalkable(NodeIsom<Distance> adjacentNode) { return ianw(adjacentNode); }
 			};
 		}
 
 		protected final AbstractAdjacentForEacherDijkstra afed;
 
-		protected boolean ianw(NodeIsom adjacentNode) { return isAdjacentNodeWalkable(adjacentNode); }
+		protected boolean ianw(NodeIsom<Distance> adjacentNode) { return isAdjacentNodeWalkable(adjacentNode); }
 
 		@Override
-		public void accept(NodeIsom adjacent, Distance distToAdj) { afed.accept(adjacent, distToAdj); }
+		public void accept(NodeIsom<Distance> adjacent, Distance distToAdj) { afed.accept(adjacent, distToAdj); }
 	}
 
 }

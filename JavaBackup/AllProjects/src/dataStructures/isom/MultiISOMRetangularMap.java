@@ -26,6 +26,7 @@ import tests.tDataStruct.Test_MultiISOMRetangularMap_V1;
 import tools.Comparators;
 import tools.MathUtilities;
 import tools.Stringable;
+import tools.UniqueIDProvider;
 
 /**
  * TODO of 10/06/2020
@@ -44,6 +45,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		implements InSpaceObjectsManager<Distance> {
 	private static final long serialVersionUID = -879653210489L;
 	public static final int MAXIMUM_SUBMAPS_EACH_SECTION = 4, MINIMUM_DIMENSION_MAP = 4;
+	protected static final UniqueIDProvider ID_PROV_MULTIISOM = UniqueIDProvider.newBasicIDProvider();
 
 	public MultiISOMRetangularMap() { this(MAXIMUM_SUBMAPS_EACH_SECTION); }
 
@@ -54,6 +56,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			throw new IllegalArgumentException(
 					"Incorrect number of maximum submaps on each section: " + maximumSubmapsEachSection);
 		}
+		this.ID = ID_PROV_MULTIISOM.getNewID();
 		this.maximumSubmapsEachSection = maximumSubmapsEachSection;
 		mapsLocatedInSpace = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				Comparators.INTEGER_COMPARATOR);
@@ -62,15 +65,12 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		setObjectsAddedMap(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR));
 		shapeRect = null;// new ShapeRectangle()
 		clear();
-		setPathFinder(new PathFinderIsomDijkstra<>(this));
+		setPathFinder(newPathFinder());
 //		this.pathOptimizer = new PathOptimizer<Point>() 
 	}
 
 	protected int idProg = 0;
 //	protected PathFinderIsomAdapter<NodeIsom, D> pathFinder;
-	// from isom
-	protected Map<Integer, ObjectLocated> objectsAddedMap;
-	protected Set<ObjectLocated> objectsAddedSet;
 	// multi-misom stuffs
 	// protected boolean neverBuilt;
 	protected int maximumSubmapsEachSection;
@@ -80,10 +80,16 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	protected final Set<MatrixInSpaceObjectsManager<Distance>> misomsHeld;
 	protected final List<MISOMLocatedInSpace<Distance>> mapsAsList;
 	protected ShapeRectangle shapeRect;
+	// from isom
+	protected final Integer ID;
+	protected Map<Integer, ObjectLocated> objectsAddedMap;
+	protected Set<ObjectLocated> objectsAddedSet;
 
 	//
 
 	// GETTER
+	@Override
+	public Integer getID() { return ID; }
 
 	@Override
 	public AbstractShape2D getBoundingShape() { return shapeRect; }
@@ -122,6 +128,9 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	//
 
 	// SETTER
+
+	@Override
+	public void setShape(AbstractShape2D shape) { throw new UnsupportedOperationException("Shape is self-defined"); }
 
 	/** Sets the map holding all objects in this space. */
 	protected void setObjectsAddedMap(Map<Integer, ObjectLocated> objectsAdded) {
@@ -164,7 +173,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 * {@inheritDoc}
 	 */
 	@Override
-	public NodeIsom getNodeAt(Point location) { return getNodeAt(location.x, location.y); }
+	public NodeIsom<Distance> getNodeAt(Point location) { return getNodeAt(location.x, location.y); }
 
 	/**
 	 * Get the {@link NodeIsom} at the specific coordinates.<br>
@@ -177,7 +186,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 * located at <code>{x:4, y:7}</code> on that map will be returned.
 	 */
 	@Override
-	public NodeIsom getNodeAt(int x, int y) {
+	public NodeIsom<Distance> getNodeAt(int x, int y) {
 		MISOMLocatedInSpace<Distance> ml;
 		ml = getMapLocatedContaining(x, y);
 		if (ml == null)
@@ -186,8 +195,10 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		return ml.misom.getNodeAt(x - ml.x, y - ml.y);
 	}
 
+	protected PathFinderIsom<Distance> newPathFinder() { return new PathFinderIsomDijkstra<>(this); }
+
 	@Override
-	public void forEachNode(Consumer<NodeIsom> action) {
+	public void forEachNode(Consumer<NodeIsom<Distance>> action) {
 		this.mapsLocatedInSpace.forEach((i, mw) -> mw.misom.forEachNode(action));
 	}
 
@@ -198,16 +209,27 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	public ObjectLocated getObjectLocated(Integer ID) { return this.objectsAddedMap.get(ID); }
 
 	@Override
-	public void forEachAdjacents(NodeIsom node, BiConsumer<NodeIsom, Distance> adjacentDistanceConsumer) {
-		MatrixInSpaceObjectsManager<Distance> misom;
-		Point p;
+	public void forEachAdjacents(NodeIsom<Distance> node,
+			BiConsumer<NodeIsom<Distance>, Distance> adjacentDistanceConsumer) {
+//		MatrixInSpaceObjectsManager<Distance> misom;
+		MISOMLocatedInSpace<Distance> mlis;
+		Point p, absoluteNodeLocation;
+		NodeIsom<Distance> adj;
 		p = new Point();
+		absoluteNodeLocation = node.getLocationAbsolute();
 		for (CoordinatesDeltaForAdjacentNodes c : MatrixInSpaceObjectsManager.VALUES_CoordinatesDeltaForAdjacentNodes) {
-			p.x = node.x + c.dx;
-			p.y = node.y + c.dy;
-			misom = getMISOMContaining(p);
-			if (misom != null) {
-				adjacentDistanceConsumer.accept(misom.getNodeAt(p), misom.getWeightManager().fromDouble(c.weight));
+			p.x = absoluteNodeLocation.x + c.dx;
+			p.y = absoluteNodeLocation.y + c.dy;
+			adj = null;
+//			misom = getMISOMContaining(p);
+			mlis = getMapLocatedContaining(p);
+//			if (misom != null) {
+			if (mlis != null) {
+				adj = this.getNodeAt(p); // changed to "this" to let considering the misom's offset
+				if (adj != null && mlis.contains(p))
+					adjacentDistanceConsumer.accept(
+							// misom
+							adj, mlis.misom.getWeightManager().fromDouble(c.weight));
 			}
 		}
 	}
@@ -317,9 +339,9 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	public MISOMLocatedInSpace<Distance> getMapLocatedContaining(int x, int y) {
 		NodeQuadtreeMultiISOMRectangular n, prev;
 		List<MISOMLocatedInSpace<Distance>> submaps;
-		if (getRoot() == null)
-			return null;
 		n = prev = getRoot();
+		if (n == null)
+			return null;
 		// traverse the tree
 		while (!(n == null || n.isLeaf())) {
 			prev = n;
@@ -356,6 +378,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		MISOMLocatedInSpace<Distance> r;
 		if (map == null || map.getWidth() < 1 || map.getWidth() < 1)
 			return null;
+		map.setTopLetCornerAbsolute(x, y);
 		r = new MISOMLocatedInSpace<Distance>(this, map, x, y);
 		c = updateBoundingBox(r);
 		mapsLocatedInSpace.put(r.IDInteger, r);

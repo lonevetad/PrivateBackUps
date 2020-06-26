@@ -1,4 +1,4 @@
-package dataStructures.isom.matrixBased;
+package oldToBeDeleted;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -16,6 +16,7 @@ import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.MultiISOMRetangularMap;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.ObjLocatedCollectorIsom;
+import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ProviderShapeRunner;
@@ -59,7 +60,7 @@ public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceO
 		// no smarter way right now than iterating through all chunks
 		for (Entry<Integer, ChunkMISOM> e : chunks) {
 			c = e.getValue();
-			if (c.shape.contains(x, y))
+			if (c.getBoundingShape().contains(x, y))
 				return c;
 		}
 		return null; // TODO
@@ -84,7 +85,7 @@ public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceO
 		if (r == null)
 			return;
 		c = new ChunkMISOM(false, w = r.width, h = r.height, weightManager);
-		c.getBoundingShape().setCenter(r.x + (h >> 1), r.y + (h >> 1));
+		c.getBoundingShape().setCenter(r.x + (w >> 1), r.y + (h >> 1));
 		chunks.put(c.IDChunk, c);
 	}
 
@@ -96,9 +97,9 @@ public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceO
 	}
 
 	@Override
-	public NodeIsom getNodeAt(Point location) { return null; }
+	public NodeIsom<Distance> getNodeAt(Point location) { return null; }
 
-	public abstract NodeIsom newNodeMatrix(int x, int y);
+	public abstract NodeIsom<Distance> newNodeMatrix(int x, int y);
 
 	@Override
 	public AbstractShape2D getBoundingShape() { // TODO Auto-generated method stub
@@ -141,9 +142,7 @@ public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceO
 	}
 
 	@Override
-	public ObjLocatedCollectorIsom newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) { // TODO
-																									// Auto-generated
-																									// method stub
+	public ObjLocatedCollectorIsom<Distance> newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) {
 		return null;
 	}
 
@@ -168,11 +167,8 @@ public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceO
 	}
 
 	@Override
-	public void forEachAdjacents(NodeIsom node, BiConsumer<NodeIsom, Distance> adjacentDistanceConsumer) { // TODO
-																											// Auto-generated
-																											// method
-																											// stub
-	}
+	public void forEachAdjacents(NodeIsom<Distance> node,
+			BiConsumer<NodeIsom<Distance>, Distance> adjacentDistanceConsumer) {}
 
 	@Override
 	public Set<ObjectLocated> findInPath(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter,
@@ -198,7 +194,7 @@ public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceO
 		}
 
 		@Override
-		public NodeIsom newNodeMatrix(int x, int y) { return ISOMRaggedMatrix.this.newNodeMatrix(x, y); }
+		public NodeIsom<Distance> newNodeMatrix(int x, int y) { return ISOMRaggedMatrix.this.newNodeMatrix(x, y); }
 
 		public void addAdjacent(ChunkMISOM c) {
 			if (c == null || c == this)
@@ -209,7 +205,7 @@ public abstract class ISOMRaggedMatrix<Distance extends Number> extends InSpaceO
 		}
 
 		@Override
-		public void forEachNode(Consumer<NodeIsom> action) { // TODO Auto-generated method stub
+		public void forEachNode(Consumer<NodeIsom<Distance>> action) { // TODO Auto-generated method stub
 		}
 	}
 

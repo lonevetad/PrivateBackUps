@@ -2,11 +2,9 @@ package dataStructures.isom;
 
 import java.awt.Point;
 
-import geometry.ObjectLocated;
 import geometry.PathOptimizer;
 import tools.LoggerMessages;
 import tools.NumberManager;
-import tools.PathFinder;
 
 /**
  * This interface denotes a huge object managing a set of object placed in space
@@ -51,7 +49,7 @@ public abstract class InSpaceObjectsManagerImpl<Distance extends Number> impleme
 	public PathOptimizer<Point> getPathOptimizer() { return pathOptimizer; }
 
 	@Override
-	public PathFinder<Point, ObjectLocated, Distance> getPathFinder() { return pathFinder; }
+	public PathFinderIsom<Distance> getPathFinder() { return pathFinder; }
 
 	//
 

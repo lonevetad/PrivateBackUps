@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import dataStructures.MapTreeAVL;
-import dataStructures.isom.matrixBased.MISOMImpl;
+import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.ObjectInSpace;
@@ -117,7 +117,7 @@ public abstract class TestIsomGeneric {
 		public void setShapeSelected(AbstractShape2D shapeSelected) { this.shapeSelected = shapeSelected; }
 
 		public void recreateMISOM() {
-			misom = new MISOMImpl(false, width, height, NumberManager.getDoubleManager());
+			misom = new MISOM_SingleObjInNode<>(false, width, height, NumberManager.getDoubleManager());
 			objectsInMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
 		}
 	}

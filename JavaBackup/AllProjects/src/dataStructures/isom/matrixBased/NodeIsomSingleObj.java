@@ -4,15 +4,16 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.NodeIsom;
 import geometry.ObjectLocated;
 
-public class NodeIsomSingleObj extends NodeIsom {
+public class NodeIsomSingleObj<Distance extends Number> extends NodeIsom<Distance> {
 	private static final long serialVersionUID = 4052487990441744L;
 
-	public NodeIsomSingleObj() { super(); }
+	protected NodeIsomSingleObj(InSpaceObjectsManager<Distance> isom, int x, int y) { super(isom, x, y); }
 
-	public NodeIsomSingleObj(int x, int y) { super(x, y); }
+	protected NodeIsomSingleObj(InSpaceObjectsManager<Distance> isom) { super(isom); }
 
 	protected ObjectLocated objectLying;
 

@@ -11,7 +11,7 @@ public interface ObjLocatedCollectorIsom<Distance extends Number>
 
 	@Override
 	public default ObjectLocated getAt(Point location) {
-		NodeIsom n;
+		NodeIsom<Distance> n;
 		n = getNodeAt(location);
 		return (n == null) ? null : n.getObject(0); // just a random object
 	}
@@ -19,7 +19,7 @@ public interface ObjLocatedCollectorIsom<Distance extends Number>
 //	public NodeIsom getNodeAt(Point location);
 
 	@Override
-	public default void consume(NodeIsom n) {
+	public default void consume(NodeIsom<Distance> n) {
 		final Set<ObjectLocated> co;
 		if (n == null)
 			return;

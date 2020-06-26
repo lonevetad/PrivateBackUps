@@ -65,6 +65,12 @@ public interface ObjectLocated extends ObjectWithID {
 	public static class PointWrapper extends Point implements ObjectLocated {
 		private static final long serialVersionUID = 84458516150L;
 
+		protected PointWrapper() { super(); }
+
+		protected PointWrapper(int x, int y) { super(x, y); }
+
+		protected PointWrapper(Point p) { super(p); }
+
 		@Override
 		public Integer getID() { return null; }
 

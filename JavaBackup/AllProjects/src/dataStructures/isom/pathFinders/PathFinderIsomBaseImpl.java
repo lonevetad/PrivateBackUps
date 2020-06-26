@@ -1,5 +1,6 @@
 package dataStructures.isom.pathFinders;
 
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import dataStructures.isom.NodeIsomProvider;
@@ -10,6 +11,8 @@ import geometry.ObjectLocated;
 import tools.NumberManager;
 
 public abstract class PathFinderIsomBaseImpl<Distance extends Number> implements PathFinderIsomFrontierBased<Distance> {
+//cannot be static
+	protected final Comparator<NodeInfoFrontierBased<Distance>> COMPARATOR_NINFO = newComparatorNodeInfo();
 
 	protected PathFinderIsomBaseImpl(NodeIsomProvider<Distance> nodeIsomProvider) {
 		super();

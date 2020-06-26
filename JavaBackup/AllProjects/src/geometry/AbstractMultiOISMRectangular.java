@@ -1,17 +1,16 @@
 package geometry;
 
-import java.awt.Point;
 import java.util.Iterator;
 
+import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.PathFinderIsom;
 import geometry.implementations.PathOptimizerPoint;
 import geometry.implementations.ProviderShapeRunnerImpl;
 import tests.tDataStruct.Test_MultiISOMRetangularMap_V1;
 import tools.LoggerMessages;
-import tools.NumberManager;
 
 /** Refers to {@link Test_MultiISOMRetangularMap_V1}. */
-public abstract class AbstractMultiOISMRectangular<Distance extends Number>
+public abstract class AbstractMultiOISMRectangular<Distance extends Number> extends InSpaceObjectsManagerImpl<Distance>
 		implements AbstractObjectsInSpaceManager<Distance> {
 	private static final long serialVersionUID = 1L;
 
@@ -22,41 +21,21 @@ public abstract class AbstractMultiOISMRectangular<Distance extends Number>
 		setPathOptimizer(PathOptimizerPoint.getInstance());
 	}
 
-	protected LoggerMessages log;
-	protected NumberManager<Distance> numberManager;
-	protected PathOptimizer<Point> pathOptimizer;
-	protected PathFinderIsom<Distance> pathFinder;
 	protected ProviderShapeRunner providerShapeRunner;
 	protected ProviderShapesIntersectionDetector providerShapesIntersectionDetector;
 
-	public LoggerMessages getLog() { return log; }
-
+	@Override
 	public PathFinderIsom<Distance> getPathFinder() { return pathFinder; }
 
-	public NumberManager<Distance> getWeightManager() { return numberManager; }
-
-	public PathOptimizer<Point> getPathOptimizer() { return pathOptimizer; }
-
 	@Override
-	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector() { // TODO Auto-generated method
-																						// stub
+	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector() {
 		return providerShapesIntersectionDetector;
 	}
 
 	@Override
-	public ProviderShapeRunner getProviderShapeRunner() { // TODO Auto-generated method stub
-		return providerShapeRunner;
-	}
+	public ProviderShapeRunner getProviderShapeRunner() { return providerShapeRunner; }
 
 	//
-
-	public void setLog(LoggerMessages log) { this.log = log; }
-
-	public void setPathFinder(PathFinderIsom<Distance> pathFinder) { this.pathFinder = pathFinder; }
-
-	public void setWeightManager(NumberManager<Distance> numberManager) { this.numberManager = numberManager; }
-
-	public void setPathOptimizer(PathOptimizer<Point> pathOptimizer) { this.pathOptimizer = pathOptimizer; }
 
 	@Override
 	public void setProviderShapesIntersectionDetector(

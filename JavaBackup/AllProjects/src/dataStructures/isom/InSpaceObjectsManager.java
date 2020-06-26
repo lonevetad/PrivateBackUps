@@ -23,7 +23,7 @@ import tools.PathFinder;
 
 public interface InSpaceObjectsManager<Distance extends Number>
 //extends dataStructures.graph.GraphSimple<NodeIsom, D>
-		extends AbstractObjectsInSpaceManager<Distance>, NodeIsomProvider<Distance> {
+		extends AbstractObjectsInSpaceManager<Distance>, NodeIsomProvider<Distance>, ObjectShaped {
 
 	//
 
@@ -34,9 +34,13 @@ public interface InSpaceObjectsManager<Distance extends Number>
 
 	public PathOptimizer<Point> getPathOptimizer();
 
-	public PathFinder<Point, ObjectLocated, Distance> getPathFinder();
+//	public PathFinder<Point, ObjectLocated, Distance> getPathFinder();
+	public PathFinderIsom<Distance> getPathFinder();
 
 	public Set<ObjectLocated> getAllObjectLocated();
+
+	@Override
+	public default AbstractShape2D getShape() { return getBoundingShape(); }
 
 	//
 
@@ -96,13 +100,22 @@ public interface InSpaceObjectsManager<Distance extends Number>
 			boolean returnPathToClosestNodeIfNotFound) {
 		List<Point> path;
 		PathOptimizer<Point> po;
-		path = this.getPath(getNodeAt(start), getNodeAt(destination), getPathFinder(), getWeightManager(),
-				isWalkableTester, returnPathToClosestNodeIfNotFound);
+		if (getWeightManager() == null)
+			throw new RuntimeException("getWeightManager() is null");
+		if (getWeightManager().getComparator() == null)
+			throw new RuntimeException("getWeightManager().getComparator() is null");
+		path = this.getPath(
+				// getNodeAt(start), getNodeAt(destination)
+				start, destination//
+				, getPathFinder(), getWeightManager(), isWalkableTester, returnPathToClosestNodeIfNotFound);
 //		path = new ListMapped<ObjectLocated, Point>(this.getPath(getNodeAt(start), getNodeAt(destination),
 //				getPathFinder(), getWeightManager(), isWalkableTester, returnPathToClosestNodeIfNotFound),
 //				ni -> ni.getLocation());
 		po = this.getPathOptimizer();
-		return (po == null) ? path : po.optimizePath(path);
+		System.out.println(" iiiis ISOM'path null? " + (po == null));
+		if (po != null)
+			path = po.optimizePath(path);
+		return path;
 	}
 
 	/**
@@ -110,7 +123,8 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	 * See {@link #getPath(Point, Point, Predicate, boolean)}.
 	 */
 	public default List<Point> getPath(Point start, Point destination) {
-		return this.getPath(start, destination, null, false);
+		System.out.println("SIIIMPLE PATH");
+		return this.getPath(start, destination, null, true);
 	}
 
 	/**
@@ -121,8 +135,9 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	public default List<Point> getPath(ObjectShaped objRequiringTo, Point destination,
 			Predicate<ObjectLocated> isWalkableTester, boolean returnPathToClosestNodeIfNotFound) {
 		List<Point> path;
-		path = this.getPath(objRequiringTo, getNodeAt(destination), getPathFinder(), getWeightManager(),
-				isWalkableTester, returnPathToClosestNodeIfNotFound);
+		path = this.getPath(// objRequiringTo, getNodeAt(destination)
+				objRequiringTo, destination//
+				, getPathFinder(), getWeightManager(), isWalkableTester, returnPathToClosestNodeIfNotFound);
 //		path = new ListMapped<ObjectLocated, Point>(
 //				this.getPath(objRequiringTo, (Point) getNodeAt(destination), getPathFinder(),
 //						getWeightManager(), isWalkableTester, returnPathToClosestNodeIfNotFound),

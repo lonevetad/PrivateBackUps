@@ -3,7 +3,7 @@ package dataStructures.spaceSubdivisionTree;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-import dataStructures.isom.MultiISOMRetangularMap;
+import dataStructures.isom.MultiISOMRetangularCaching;
 import dataStructures.spaceSubdivisionTree.impl.utils.SubsectionDivisionRuler;
 import geometry.AbstractShape2D;
 
@@ -31,8 +31,9 @@ import geometry.AbstractShape2D;
 // TODO
 /**
  * TODO NOTE of 13/06/2020 <br>
- * Use {@link MultiISOMRetangularMap} to build a {@link AbstractShape2D}-based
- * implementation (and not just a {@link Rectangle}-based only).
+ * Use {@link MultiISOMRetangularCaching} to build a
+ * {@link AbstractShape2D}-based implementation (and not just a
+ * {@link Rectangle}-based only).
  */
 public abstract class SpaceSubdivisionsManagerTree implements Serializable {
 	private static final long serialVersionUID = -9982665230577L;

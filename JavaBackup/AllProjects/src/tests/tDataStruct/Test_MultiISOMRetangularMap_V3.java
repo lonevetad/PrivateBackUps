@@ -25,6 +25,8 @@ import dataStructures.isom.MultiISOMRetangularMap.MISOMLocatedInSpace;
 import dataStructures.isom.ObjLocatedCollectorIsom;
 import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
+import geometry.AbstractShape2D;
+import geometry.ObjectShaped;
 import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.impl.ObjCollector;
 import stuffs.logic.AtomLogicProposition;
@@ -91,7 +93,8 @@ public class Test_MultiISOMRetangularMap_V3 {
 		t =
 				// new Test_MultiISOMRetangularMap_V3(MAXIMUM_SUBMAPS_EACH_SECTION);
 				new MultiISOMRetangularCaching<Double>(MAXIMUM_SUBMAPS_EACH_SECTION);
-//		t.addMaps(rects.stream().map(r->{
+		t.setWeightManager(NumberManager.getDoubleManager());
+		// t.addMaps(rects.stream().map(r->{
 //			new MatrixInSpaceObjectsManager<Double>() {
 //			};
 
@@ -178,9 +181,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 				@Override
 				public void mouseDragged(MouseEvent e) {
 					pEndDrawningRect = e.getPoint();
-//					System.out.println("°°°°dragged on " + pEndDrawningRect);
-					if (t.getxLeftTop() < 0) { pEndDrawningRect.x += t.getxLeftTop(); }
-					if (t.getyLeftTop() < 0) { pEndDrawningRect.y += t.getyLeftTop(); }
+					applyMultiMapOffset(pEndDrawningRect);
 					updateStartEndPoinNewRectangle();
 					jp.repaint();
 				}
@@ -191,6 +192,13 @@ public class Test_MultiISOMRetangularMap_V3 {
 					onEndDrawningNewRectangle(e.getPoint(), e.getButton() == 1);
 					jp.repaint();
 				}
+
+				@Override
+				public void mouseMoved(MouseEvent e) {
+					Point p;
+					p = e.getPoint();
+					win.setTitle("Mouse at: (x: " + p.x + ", y: " + p.y + ")");
+				}
 			};
 			jp.addMouseListener(ma);
 			jp.addMouseMotionListener(ma);
@@ -200,7 +208,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 
 		//
 
-		void addRects(MyRectangle r) {
+		void addRect(MyRectangle r) {
 			MatrixInSpaceObjectsManager<Double> map;
 			MISOMLocatedInSpace<Double> w;
 			if (rects == null) {
@@ -208,10 +216,9 @@ public class Test_MultiISOMRetangularMap_V3 {
 						Comparators.INTEGER_COMPARATOR);
 			}
 			map = new MISOM_SingleObjInNode<Double>(true, r.width, r.height, NumberManager.getDoubleManager());
-			map.setWeightManager(NumberManager.getDoubleManager());
 //			map.setProviderShapeRunner(ProviderShapeRunnerImpl.getInstance());
 //			map.setProviderShapesIntersectionDetector(ProviderShapesIntersectionDetector.getInstance());
-			map.setPathFinder(t.getPathFinder());
+//			map.setPathFinder(t.getPathFinder());
 			w = t.addMap(map, r.x, r.y);
 			System.out.println("adding: " + r.name + ", and id: " + w.ID);
 			rects.put(//
@@ -221,10 +228,15 @@ public class Test_MultiISOMRetangularMap_V3 {
 		void resetRects(MyRectangle[] recs) {
 			t.clear();
 			for (MyRectangle r : recs) {
-				addRects(r);
+				addRect(r);
 			}
 			jp.setSize(t.getWidth() + 200, t.getHeight() + 200);
 			jp.setPreferredSize(jp.getSize());
+		}
+
+		void applyMultiMapOffset(Point p) {
+			if (t.getxLeftTop() < 0) { p.x += t.getxLeftTop(); }
+			if (t.getyLeftTop() < 0) { p.y += t.getyLeftTop(); }
 		}
 
 		void paintRectsAndSections(Graphics g) {
@@ -304,8 +316,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 //			MatrixInSpaceObjectsManager<Double> map;
 			whereClicked = me.getPoint();
 			// consider the offset
-			if (t.getxLeftTop() < 0) { whereClicked.x += t.getxLeftTop(); }
-			if (t.getyLeftTop() < 0) { whereClicked.y += t.getyLeftTop(); }
+			applyMultiMapOffset(whereClicked);
 			System.out.println("finding a map on " + whereClicked + " ..");
 //			map = t.getMISOMContaining(whereClicked);
 			mapWrapper = t.getMapLocatedContaining(whereClicked);
@@ -355,21 +366,19 @@ public class Test_MultiISOMRetangularMap_V3 {
 			}
 		}
 
-		void onStartDrawningNewRectangle(Point pointEnd) {
+		void onStartDrawningNewRectangle(Point pointStart) {
 //			this.isRectangleDrawning = true;
 			this.newRect = null;
 			this.pEndDrawningRect = null;
-			this.pStartDrawningRect = pointEnd;
+			this.pStartDrawningRect = pointStart;
 			// consider the offset
-			if (t.getxLeftTop() < 0) { pointEnd.x += t.getxLeftTop(); }
-			if (t.getyLeftTop() < 0) { pointEnd.y += t.getyLeftTop(); }
+			applyMultiMapOffset(pointStart);
 		}
 
 		void onEndDrawningNewRectangle(Point pointEnd, boolean isLeftClick) {
 			this.pEndDrawningRect = pointEnd;
 			// consider the offset
-			if (t.getxLeftTop() < 0) { pointEnd.x += t.getxLeftTop(); }
-			if (t.getyLeftTop() < 0) { pointEnd.y += t.getyLeftTop(); }
+			applyMultiMapOffset(pointEnd);
 			updateStartEndPoinNewRectangle();
 //			this.isRectangleDrawning = false;
 			if (isLeftClick)
@@ -445,7 +454,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 				return;
 			System.out.println("\n\n adding new map: " + newRect);
 //			t.addMap(newRect);
-			addRects(newRect);
+			addRect(newRect);
 			this.newRect = null;
 			jp.setSize(t.getWidth() + 200, t.getHeight() + 200);
 			jp.setPreferredSize(jp.getSize());
@@ -459,32 +468,61 @@ public class Test_MultiISOMRetangularMap_V3 {
 		void performPathfind(Point whereClicked) {
 			int len;
 			List<Point> pathFound;
-			if (this.isStartPathfind)
+			// consider the multi-map offset
+//			applyMultiMapOffset(whereClicked); // YET APPLIED
+			if (this.isStartPathfind) {
+				isStartPathfind = false;
 				this.startPathfind = whereClicked;
-			else
+			} else {
+				isStartPathfind = true;
 				this.endPathfind = whereClicked;
+			}
+			System.out.println("_____start path finding");
 			if (this.startPathfind != null && this.endPathfind != null) {
+				int dx, dy;
 				final int[] i = { 0 };
-				pathFound = t.getPath(startPathfind, endPathfind);
+				ObjectShaped os;
+//				pathFound = t.getPath(startPathfind, endPathfind);
+				os = new ObjectShapedBase();
+				os.setShape(new ShapeRectangle(0, startPathfind.x + 10, startPathfind.y + 10, true, 20, 20));
+				pathFound = t.getPath(os, endPathfind);
 				if (pathFound == null)
 					return;
 				len = pathFound.size();
+				if (len == 0) {
+					xPath = yPath = null;
+					return;
+				}
+				System.out.println("----- found path with " + len + " steps");
 				xPath = new int[len];
 				yPath = new int[len];
+				dx = t.getxLeftTop();
+				dy = t.getyLeftTop();
 				pathFound.forEach(p -> {
-					xPath[i[0]] = p.x;
-					yPath[i[0]++] = p.x;
+					xPath[i[0]] = p.x - dx;
+					yPath[i[0]++] = p.y - dy;
+					System.out.println("\t p: (x:" + p.x + ", y:" + p.y + ")");
 				});
-			}
+			} else
+				System.out.println("no Path found: (from: " + this.startPathfind + ", to: " + this.endPathfind + ")");
 		}
 
 		//
 
-		protected class MapRemover implements ObjCollector<MISOMLocatedInSpace<Double>> {
+		protected static class ObjectShapedBase implements ObjectShaped {
+			AbstractShape2D shape;
 
-			/**
-			 * 
-			 */
+			@Override
+			public Integer getID() { return null; }
+
+			@Override
+			public void setShape(AbstractShape2D shape) { this.shape = shape; }
+
+			@Override
+			public AbstractShape2D getShape() { return shape; }
+		}
+
+		protected class MapRemover implements ObjCollector<MISOMLocatedInSpace<Double>> {
 			private static final long serialVersionUID = 1L;
 
 			protected MapRemover(MultiISOMRetangularMap<Double> nodeIsomProvider) {

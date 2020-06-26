@@ -17,5 +17,5 @@ public class MISOM_SingleObjInNode<Distance extends Number> extends MatrixInSpac
 	}
 
 	@Override
-	public NodeIsom newNodeMatrix(int x, int y) { return new NodeIsomSingleObj(x, y); }
+	public NodeIsom<Distance> newNodeMatrix(int x, int y) { return new NodeIsomSingleObj<>(this, x, y); }
 }

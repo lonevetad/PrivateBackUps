@@ -197,14 +197,14 @@ public class ShapeRectangle extends ShapeFillableImpl {
 
 	/**
 	 * NOTE: again, no cache is performed, as like as for
-	 * {@link #getLeftTopCorner()}.
+	 * {@link #getTopLeftCorner()}.
 	 * <p>
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Rectangle getBoundingBox() {
 		Point2D ltc;
-		ltc = getLeftTopCorner();
+		ltc = getTopLeftCorner();
 		if (ltc == null)
 			return null;
 		return new Rectangle((int) ltc.getX(), (int) ltc.getY(), width, height);

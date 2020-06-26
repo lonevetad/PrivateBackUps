@@ -1,12 +1,17 @@
 package dataStructures.isom;
 
 import java.awt.Point;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import dataStructures.isom.pathFinders.AStarHeuristicEuclidean;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
@@ -47,7 +52,7 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
 			boolean returnPathToClosestNodeIfNotFound, ObjectShaped objPlanningToMove, Point destination) {
 		boolean prevFilled, isFillable;
-		NodeIsom start, dest;
+		NodeIsom<Distance> start, dest;
 		AbstractShape2D shape, sOnlyBorder;
 		Point originalLocation;
 		AbstractAdjacentForEacher<Distance> forAdjacents;
@@ -64,7 +69,8 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 		sOnlyBorder = shape.toBorder();
 		// perform the algorithm
 		forAdjacents = newAdjacentConsumerForObjectShaped(nodeProvider, isWalkableTester, distanceManager, sOnlyBorder);
-		l = getPathGeneralized(nodeProvider, distanceManager, isWalkableTester, forAdjacents, start, dest);
+		l = getPathGeneralized(nodeProvider, distanceManager, isWalkableTester, forAdjacents,
+				returnPathToClosestNodeIfNotFound, start, dest);
 		/// restore previous state
 		if (isFillable) { ((ShapeFillable) shape).setFilled(prevFilled); }
 		shape.setCenter(originalLocation);
@@ -74,26 +80,52 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 	public default List<Point> getPath(final NodeIsomProvider<Distance> nodeProvider,
 			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
 			boolean returnPathToClosestNodeIfNotFound, Point startingPoint, Point destination) {
-		NodeIsom start, dest;
+		NodeIsom<Distance> start, dest;
 		AbstractAdjacentForEacher<Distance> forAdjacents;
+		System.out.println("Path Finder Isom .. nodeProvider class: " + nodeProvider.getClass().getName());
+		System.out.println(nodeProvider);
+		System.out.println("start: " + startingPoint);
+		System.out.println("end: " + destination);
 		start = nodeProvider.getNodeAt(startingPoint);
 		dest = nodeProvider.getNodeAt(destination);
 		if (start == null || dest == null || dest == start)
 			return null;
 		forAdjacents = newAdjacentConsumer(nodeProvider, isWalkableTester, distanceManager);
-		return getPathGeneralized(nodeProvider, distanceManager, isWalkableTester, forAdjacents, start, dest);
+		return getPathGeneralized(nodeProvider, distanceManager, isWalkableTester, forAdjacents,
+				returnPathToClosestNodeIfNotFound, start, dest);
+	}
+
+	/**
+	 * Extract the path, if any, from the second parameter (the end node) back to
+	 * the first parameter (the start node). If no path is available
+	 */
+	public static <D extends Number> List<Point> extractPathFromEndOrClosest(NodeInfo<D> start, NodeInfo<D> end,
+			boolean returnPathToClosestNodeIfNotFound, NodeInfo<D> closest) {
+		if (end == null || end.father == null) {
+			if (returnPathToClosestNodeIfNotFound) {
+				end = closest;
+				if (end == null || end.father == null) { // again? no closest found? -> ERROR
+					System.out.println("AAAAAAAAAAAAH not even the closest has a father");
+					return null;
+				}
+				System.out.println("BBBBBBJ cant' use end, use the closest");
+			}
+		}
+		return extractPath(start, end);
 	}
 
 	public static <D extends Number> List<Point> extractPath(NodeInfo<D> start, NodeInfo<D> end) {
-		List<Point> l;
+		LinkedList<Point> l;
 		if (end.father == null)
 			return null;
 		l = new LinkedList<>();
-		while (end != start) {
-			l.add(end.thisNode.getLocation());
+		while (end != start && end != null) {
+			l.addFirst(end.thisNode.getLocationAbsolute());
+//			System.out.println("extracting " + end.thisNode.getLocationAbsolute() + " with dist " + end.distFromStart);
 			end = end.father;
 		}
-		((LinkedList<Point>) l).addFirst(start.thisNode.getLocation());
+		l.addFirst(start.thisNode.getLocationAbsolute());
+		System.out.println("path have " + l.size() + " substeps");
 		return l;
 	}
 
@@ -106,7 +138,8 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 	 */
 	public abstract List<Point> getPathGeneralized(final NodeIsomProvider<Distance> m,
 			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
-			AbstractAdjacentForEacher<Distance> forAdjacents, NodeIsom start, NodeIsom dest);
+			AbstractAdjacentForEacher<Distance> forAdjacents, boolean returnPathToClosestNodeIfNotFound,
+			NodeIsom<Distance> start, NodeIsom<Distance> dest);
 
 //
 
@@ -122,20 +155,82 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 			final NodeIsomProvider<Distance> m, Predicate<ObjectLocated> isWalkableTester,
 			NumberManager<Distance> distanceManager, AbstractShape2D shape);
 
-	//
+	@SuppressWarnings("unchecked")
+	public default Distance distanceBetweenPoints_OLD1(Point pStart, Point pEnd,
+			NumberManager<Distance> distanceManager) {
+		double distance;
+		var pt = distanceManager.getClass().getTypeParameters()[0];
+		Class<?> dmClass = pt.getGenericDeclaration();
+		distance = Math.hypot(pStart.x - pEnd.x, pStart.y - pEnd.y);
+		if (Double.class.isAssignableFrom(dmClass)) {
+			return (Distance) Double.valueOf(distance);
+		} else if (Integer.class.isAssignableFrom(dmClass)) {
+			return (Distance) Integer.valueOf((int) distance);
+		} else {
+			return distanceManager.fromDouble(distance);
+		}
+	}
 
-	//
+	@SuppressWarnings("unchecked")
+	public default Distance distanceBetweenPoints_OLD2(Point pStart, Point pEnd,
+			NumberManager<Distance> distanceManager) {
+		double distance;
+		try {
+			Method thisMethod = PathFinderIsom.class.getMethod("distanceBetweenPoints",
+					new Class<?>[] { Point.class, Point.class, NumberManager.class });
+			Parameter distManagerParam = thisMethod.getParameters()[2];
+			ParameterizedType pt = null;
+			Type typeParameter = distManagerParam.getParameterizedType();
+			distance = Math.hypot(pStart.x - pEnd.x, pStart.y - pEnd.y);
+			if (typeParameter instanceof ParameterizedType) {
+				pt = (ParameterizedType) typeParameter;
+				Type[] typeArguments = pt.getActualTypeArguments();
+				Type thatDistanceType = typeArguments[0];
+				System.out.println("EHEHEHE typeArguments: ");
+				for (Type t : typeArguments) {
+					System.out.println("\t t.getTypeName():" + t.getTypeName());
+				}
+				String distanceClassName = thatDistanceType.getTypeName();
+				if (distanceClassName.equals(Double.class.getName())) {
+					return (Distance) Double.valueOf(distance);
+				} else if (distanceClassName.equals(Double.class.getName())) {
+					return (Distance) Integer.valueOf((int) distance);
+				} else {
+					return distanceManager.fromDouble(distance);
+				}
+			} else
+				return distanceManager.fromDouble(distance);
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
-	//
+	public default Distance distanceBetweenPoints(NodeIsom<Distance> pStart, NodeIsom<Distance> pEnd,
+			NumberManager<Distance> distanceManager) {
+		return distanceBetweenPoints(pStart.getLocationAbsolute(), pEnd.getLocationAbsolute(), distanceManager);
+	}
+
+	public default Distance distanceBetweenPoints(Point pStart, Point pEnd, NumberManager<Distance> distanceManager) {
+		return (new AStarHeuristicEuclidean<>(distanceManager)).apply(pStart, pEnd);
+	}
+
+//
+
+//
+
+//
+
+//
 
 	public static class NodeInfo<D extends Number> {
 		// Compiler Error: "cannot make a static reference to the non-static type
 		// Distance" .. so I redefine it
 		public D distFromStart, distFromFather;
-		public NodeIsom thisNode;
+		public NodeIsom<D> thisNode;
 		public NodeInfo<D> father;
 
-		public NodeInfo(NodeIsom thisNode) {
+		public NodeInfo(NodeIsom<D> thisNode) {
 			this.thisNode = thisNode;
 			this.father = null;
 			this.distFromStart = this.distFromFather = null;
@@ -143,15 +238,15 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 	}
 
 	public static class DistanceKeyAlterator<NIF extends NodeInfo<D>, D extends Number> implements Consumer<NIF> {
-		public D distToNo;
+		public D newDistFromStart;
 
 		@Override
-		public void accept(NIF nodd) { nodd.distFromStart = distToNo; }
+		public void accept(NIF nodd) { nodd.distFromStart = newDistFromStart; }
 	}
 
-	//
+//
 
-	public static abstract class AbstractAdjacentForEacher<D extends Number> implements BiConsumer<NodeIsom, D> {
+	public static abstract class AbstractAdjacentForEacher<D extends Number> implements BiConsumer<NodeIsom<D>, D> {
 		protected final Predicate<ObjectLocated> isWalkableTester;
 		protected final NumberManager<D> distanceManager;
 		protected NodeInfo<D> currentNode;
@@ -170,12 +265,12 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 
 		public void setCurrentNode(NodeInfo<D> currentNode) { this.currentNode = currentNode; }
 
-		public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) {
-			return adjacentNode.isWalkable(isWalkableTester);
+		public boolean isAdjacentNodeWalkable(NodeIsom<D> adjacentNode) {
+			return adjacentNode != null && adjacentNode.isWalkable(isWalkableTester);
 		}
 	}
 
-	//
+//
 
 	public static abstract class AbstractShapedAdjacentForEacher<D extends Number>
 			extends AbstractAdjacentForEacher<D> {
@@ -195,9 +290,10 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 		protected final WholeShapeWalkableChecker<D> shapeWalkableChecker;
 
 		@Override
-		public boolean isAdjacentNodeWalkable(NodeIsom adjacentNode) {
+		public boolean isAdjacentNodeWalkable(NodeIsom<D> adjacentNode) {
 			shapeWalkableChecker.restart();
-			shape.setCenter(adjacentNode.x, adjacentNode.y);
+//			shape.setCenter(adjacentNode.x, adjacentNode.y);
+			shape.setCenter(adjacentNode.getLocationAbsolute());
 //			pathFinderIsom.getSpaceToRunThrough()
 			m.runOnShape(shape, shapeWalkableChecker);
 			return shapeWalkableChecker.isWalkable();
@@ -244,7 +340,7 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 		public NodeIsomProvider<D> getNodeIsomProvider() { return m; }
 
 		@Override
-		public void consume(NodeIsom n) { this.isWalkable &= n.isWalkable(isWalkableTester); }
+		public void consume(NodeIsom<D> n) { this.isWalkable &= n != null && n.isWalkable(isWalkableTester); }
 
 		@Override
 		public void setNodeIsomProvider(NodeIsomProvider<D> nodeIsomProvider) {

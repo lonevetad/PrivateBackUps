@@ -13,20 +13,20 @@ public interface NodeIsomConsumer<Distance extends Number> extends PointConsumer
 	//
 
 	/** Beware of nulls. */
-	public void consume(NodeIsom n);
+	public void consume(NodeIsom<Distance> n);
 
 	@Override
 	public default void accept(Point location) { consume(getNodeAt(location)); }
 
 	/** Proxy method that uses {@link NodeIsomProvider}. */
-	public default NodeIsom getNodeAt(Point location) {
+	public default NodeIsom<Distance> getNodeAt(Point location) {
 		NodeIsomProvider<Distance> nip;
 		nip = getNodeIsomProvider();
 		return (nip == null) ? null : nip.getNodeAt(location);
 	}
 
 	/** Proxy method that uses {@link NodeIsomProvider}. */
-	public default NodeIsom getNodeAt(int x, int y) {
+	public default NodeIsom<Distance> getNodeAt(int x, int y) {
 		NodeIsomProvider<Distance> nip;
 		nip = getNodeIsomProvider();
 		return (nip == null) ? null : nip.getNodeAt(x, y);

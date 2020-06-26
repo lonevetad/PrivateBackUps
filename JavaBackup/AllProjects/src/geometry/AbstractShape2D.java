@@ -50,10 +50,10 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	public Integer getID() { return ID; }
 
 	/** The x-component of {@link #getCenter()}. */
-	public abstract int getXCenter();
+	public int getXCenter() { return getx(); }
 
 	/** The y-component of {@link #getCenter()}. */
-	public abstract int getYCenter();
+	public int getYCenter() { return gety(); }
 
 	/**
 	 * It's meant to be the centre of the mass, the centroid, not the bounding
@@ -61,6 +61,41 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * See {@link #getBoundingBox()}.
 	 */
 	public Point getCenter() { return new Point(getXCenter(), getYCenter()); }
+
+	/**
+	 * Get the top-left corner of the bounding box, not of the shape. This must
+	 * include the shape's rotation in the calculus( (i.e. if a rectangle is rotated
+	 * in the center by 22°, then the point is a bit higher and a bit
+	 * on-the-left).<br>
+	 * See
+	 * <p>
+	 * NOTE: a "higher" y-coordinate is meant to have "lower" values, as the origin
+	 * (0,0) lies at the left-top corner
+	 * <p>
+	 * NOTE: no cache is performed to calculate this point!
+	 */
+	public Point2D getTopLeftCorner() {
+		// return getLeftTopCorner(getBoundingBoxCorners());
+		return new Point(getXTopLeft(), getYTopLeft());
+	}
+
+	/**
+	 * Get the x-component of the of the {@link Point} returned by
+	 * {@link #getTopLeftCorner()}.
+	 */
+	public int getXTopLeft() {
+		// return (int) getLeftTopCorner().getX();
+		return getXCenter() - (getWidth() >> 1);
+	}
+
+	/**
+	 * Get the y-component of the of the {@link Point} returned by
+	 * {@link #getTopLeftCorner()}.
+	 */
+	public int getYTopLeft() {
+//		return (int) getLeftTopCorner().getY();
+		return getYCenter() - (getHeight() >> 1);
+	}
 
 	public ShapeRunnersImplemented getShapeImplementing() { return shapeImplementing; }
 
@@ -239,32 +274,6 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	public Dimension getDimension() {
 		return getDimension(getBoundingBoxCorners());
 	}
-
-	/**
-	 * Get the top-left corner of the bounding box, not of the shape. This must
-	 * include the shape's rotation in the calculus( (i.e. if a rectangle is rotated
-	 * in the center by 22°, then the point is a bit higher and a bit
-	 * on-the-left).<br>
-	 * See
-	 * <p>
-	 * NOTE: a "higher" y-coordinate is meant to have "lower" values, as the origin
-	 * (0,0) lies at the left-top corner
-	 * <p>
-	 * NOTE: no cache is performed to calculate this point!
-	 */
-	public Point2D getLeftTopCorner() { return getLeftTopCorner(getBoundingBoxCorners()); }
-
-	/**
-	 * Get the x-component of the of the {@link Point} returned by
-	 * {@link #getLeftTopCorner()}.
-	 */
-	public int getXLeftTop() { return (int) getLeftTopCorner().getX(); }
-
-	/**
-	 * Get the y-component of the of the {@link Point} returned by
-	 * {@link #getLeftTopCorner()}.
-	 */
-	public int getYLeftTop() { return (int) getLeftTopCorner().getY(); }
 
 	//
 
