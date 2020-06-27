@@ -52,7 +52,12 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 		Point absoluteDestPoint;
 		//
 		comp = distanceManager.getComparator();
-		forAdjacents = (AbstractAdjacentForEacherAstar) fa;
+		forAdjacents = null;
+		if (AFEAStar_Shape.class.isAssignableFrom(fa.getClass())) {
+			forAdjacents = ((AFEAStar_Shape) fa).afed;
+		} else if (AbstractAdjacentForEacherAstar.class.isAssignableFrom(fa.getClass())) {
+			forAdjacents = (AbstractAdjacentForEacherAstar) fa;
+		}
 		//
 		nodeInfos = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, //
@@ -217,6 +222,12 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 		protected final AFEAStar_Point afed;
 
 		protected boolean ianw(NodeIsom<Distance> adjacentNode) { return isAdjacentNodeWalkable(adjacentNode); }
+
+		@Override
+		public void setCurrentNode(NodeInfo<Distance> currentNode) {
+			super.setCurrentNode(currentNode);
+			afed.setCurrentNode(currentNode);
+		}
 
 		@Override
 		public void accept(NodeIsom<Distance> adjacent, Distance distToAdj) { afed.accept(adjacent, distToAdj); }

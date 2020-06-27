@@ -27,16 +27,19 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 		Map<NodeIsom<Distance>, NodeInfoFrontierBased<Distance>> nodes;
 		Queue<NodeInfoFrontierBased<Distance>> queue;
 		NodeInfoFrontierBased<Distance> ss, ee, niCurrent;
-		AAFE_BFS fa;
 		// added for the boolean parameter
 		NodeInfoFrontierBased<Distance> closestPointToDest = null;
 		Distance lowestDistance = null;
 		Point absoluteDestPoint;
+		AAFE_BFS fa;
 		//
+		fa = null;
 		queue = new LinkedList<>();
 		nodes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				(n1, n2) -> NodeIsom.COMPARATOR_NODE_ISOM_POINT.compare(n1, n2));
-		fa = (AAFE_BFS) forAdjacents;
+		if (Shaped_AAFE_BFS.class.isAssignableFrom(forAdjacents.getClass())) {
+			fa = ((Shaped_AAFE_BFS) forAdjacents).afed;
+		} else if (AAFE_BFS.class.isAssignableFrom(forAdjacents.getClass())) { fa = (AAFE_BFS) forAdjacents; }
 		fa.queue = queue;
 		fa.nodes = nodes;
 		ss = new NodeInfoFrontierBased<Distance>(start);
@@ -87,7 +90,7 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 	public AbstractAdjacentForEacher<Distance> newAdjacentConsumerForObjectShaped(
 			final NodeIsomProvider<Distance> nodeProvider, Predicate<ObjectLocated> isWalkableTester,
 			NumberManager<Distance> distanceManager, AbstractShape2D shape) {
-		return new Shaped_AAFE_BFS(this, nodeIsomProvider, shape, isWalkableTester, distanceManager);
+		return new Shaped_AAFE_BFS(this, nodeProvider, shape, isWalkableTester, distanceManager);
 	}
 
 	//
@@ -142,6 +145,12 @@ public class PathFinderIsomBFS<Distance extends Number> extends PathFinderIsomBa
 				@Override
 				public boolean isAdjacentNodeWalkable(NodeIsom<Distance> adjacentNode) { return ianw(adjacentNode); }
 			};
+		}
+
+		@Override
+		public void setCurrentNode(NodeInfo<Distance> currentNode) {
+			super.setCurrentNode(currentNode);
+			afed.setCurrentNode(currentNode);
 		}
 
 		protected boolean ianw(NodeIsom<Distance> adjacentNode) { return isAdjacentNodeWalkable(adjacentNode); }

@@ -81,6 +81,7 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 		} else if (ShapedAdjacentForEacherDijkstra.class.isAssignableFrom(fa.getClass())) {
 			ShapedAdjacentForEacherDijkstra ssssss;
 			ssssss = (ShapedAdjacentForEacherDijkstra) fa;
+			System.out.println("eheh");
 			ssssss.afed.nodeInfos = nodeInfos;
 			ssssss.afed.frontier = frontier;
 		}
@@ -213,7 +214,17 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 		protected boolean ianw(NodeIsom<Distance> adjacentNode) { return isAdjacentNodeWalkable(adjacentNode); }
 
 		@Override
-		public void accept(NodeIsom<Distance> adjacent, Distance distToAdj) { afed.accept(adjacent, distToAdj); }
+		public void setCurrentNode(NodeInfo<Distance> currentNode) {
+			super.setCurrentNode(currentNode);
+			afed.setCurrentNode(currentNode);
+		}
+
+		@Override
+		public void accept(NodeIsom<Distance> adjacent, Distance distToAdj) {
+			if (adjacent == null)
+				throw new RuntimeException("WHAT THE HELL");
+			afed.accept(adjacent, distToAdj);
+		}
 	}
 
 }

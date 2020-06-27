@@ -39,16 +39,11 @@ public class ProviderShapeRunnerImpl extends ProviderShapeRunner {
 		return SINGLETON;
 	}
 
-	private ProviderShapeRunnerImpl() {
-	}
+	private ProviderShapeRunnerImpl() {}
 
 	@Override
-	public AbstractShapeRunner getShapeRunner(ShapeRunnersImplemented sri) {
-		return RUNNERS[sri.ordinal()];
-	}
+	public AbstractShapeRunner getShapeRunner(ShapeRunnersImplemented sri) { return RUNNERS[sri.ordinal()]; }
 
 	@Override
-	public ShapeRunnersImplemented getShapeRunnersImplemented() {
-		return null;
-	}
+	public ShapeRunnersImplemented getShapeRunnersImplemented() { return null; }
 }

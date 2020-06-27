@@ -105,10 +105,8 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 			if (returnPathToClosestNodeIfNotFound) {
 				end = closest;
 				if (end == null || end.father == null) { // again? no closest found? -> ERROR
-					System.out.println("AAAAAAAAAAAAH not even the closest has a father");
 					return null;
 				}
-				System.out.println("BBBBBBJ cant' use end, use the closest");
 			}
 		}
 		return extractPath(start, end);
@@ -125,8 +123,6 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 			end = end.father;
 		}
 		l.addFirst(start.thisNode.getLocationAbsolute());
-		System.out.println("path have " + l.size() + " substeps");
-		l.forEach(p -> System.out.println(p));
 		return l;
 	}
 
@@ -282,6 +278,7 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 			this.m = m;
 			this.pathFinderIsom = pathFinderIsom;
 			this.shape = shape;
+			System.out.println("shape: " + shape);
 			this.shapeWalkableChecker = new WholeShapeWalkableChecker<D>(m, isWalkableTester);
 		}
 
@@ -296,6 +293,7 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 //			shape.setCenter(adjacentNode.x, adjacentNode.y);
 			shape.setCenter(adjacentNode.getLocationAbsolute());
 //			pathFinderIsom.getSpaceToRunThrough()
+//			System.out.println("shape isAdjacentNodeWalkable adjacent of " + adjacentNode.getLocationAbsolute());
 			m.runOnShape(shape, shapeWalkableChecker);
 			return shapeWalkableChecker.isWalkable();
 		}
@@ -341,7 +339,10 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 		public NodeIsomProvider<D> getNodeIsomProvider() { return m; }
 
 		@Override
-		public void consume(NodeIsom<D> n) { this.isWalkable &= n != null && n.isWalkable(isWalkableTester); }
+		public void consume(NodeIsom<D> n) {
+//			System.out.println("\t ehh " + (n == null ? "null" : n.getLocationAbsolute()));
+			this.isWalkable &= n != null && n.isWalkable(isWalkableTester);
+		}
 
 		@Override
 		public void setNodeIsomProvider(NodeIsomProvider<D> nodeIsomProvider) {

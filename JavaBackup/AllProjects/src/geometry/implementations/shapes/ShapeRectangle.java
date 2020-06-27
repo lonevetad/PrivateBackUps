@@ -38,7 +38,6 @@ public class ShapeRectangle extends ShapeFillableImpl {
 	}
 
 	protected int width, height, diameterCache;
-	protected Polygon polygonCache;
 
 	//
 	@Override
