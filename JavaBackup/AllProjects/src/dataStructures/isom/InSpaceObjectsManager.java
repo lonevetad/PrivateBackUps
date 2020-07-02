@@ -147,7 +147,7 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	 * See {@link #getPath(ObjectShaped, Point, Predicate)}.
 	 */
 	public default List<Point> getPath(ObjectShaped objRequiringTo, Point destination) {
-		return this.getPath(objRequiringTo, destination, null, false);
+		return this.getPath(objRequiringTo, destination, null, true);
 	}
 
 	// TODO todo add getPath with predicate filter

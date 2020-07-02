@@ -3,8 +3,6 @@ package games.generic.controlModel.subimpl;
 import java.util.Set;
 
 import dataStructures.isom.InSpaceObjectsManager;
-import dataStructures.isom.MultiISOMRetangularMap;
-import dataStructures.isom.matrixBased.MISOMImpl;
 import dataStructures.isom.pathFinders.PathFinderIsomAStar;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
@@ -13,9 +11,7 @@ import geometry.pointTools.HeuristicManhattan;
 import tools.ObjectWithID;
 
 /**
- * Based on a single {@link MISOMImpl}.<br>
- * Will be refactored receiving the {@link InSpaceObjectsManager}, maybe a
- * {@link MultiISOMRetangularMap}.
+ * Based on a {@link InSpaceObjectsManager}.
  */
 public abstract class GObjectsInSpaceManagerImpl implements GObjectsInSpaceManager {
 
