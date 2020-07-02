@@ -1,6 +1,7 @@
 package dataStructures.mtAvl;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -1017,6 +1018,45 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		return a;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> T[] toArray(T[] aOrig) {
+		final int s;
+		final T[] a;
+		if (aOrig == null)
+			throw new NullPointerException("Cannot provide a null array, gives at least an 0-size array");
+		s = size;
+		if (s == 0)
+			return (new ArrayList<T>(s)).toArray(aOrig);
+		if (s != aOrig.length) {
+			a = (T[]) Array.newInstance(aOrig.getClass().getComponentType(), s);
+		} else
+			a = aOrig;
+		var ct = aOrig.getClass().getComponentType();
+		if (ct.isAssignableFrom(Entry.class)) {
+			this.forEach(new Consumer<Entry<K, V>>() {
+				int ss = s;
+
+				@Override
+				public void accept(Entry<K, V> e) { a[--ss] = (T) e; }
+			});
+		} else {
+			this.forEach(new BiConsumer<K, V>() {
+				int ss = s;
+
+				@Override
+				public void accept(K k, V v) {
+					if (k != null) {
+						a[--ss] = ct.isAssignableFrom(k.getClass()) ? ((T) k) : null;
+					} else if (v != null) {
+						a[--ss] = ct.isAssignableFrom(v.getClass()) ? ((T) v) : null;
+					} else
+						a[--ss] = null;
+				}
+			});
+		}
+		return a;
+	}
+
 	// public void forEach(BiFunction<K,V> f) {}
 
 	// minor methods
@@ -1897,7 +1937,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public void forEach(Consumer<? super E> action) { super.forEach(ForEachMode.Queue, action); }
 
 		@Override
-		public <T> T[] toArray(T[] a) { throw new UnsupportedOperationException("Too lazy to implement"); }
+		public <T> T[] toArray(T[] a) { return MapTreeAVLLightweight.this.toArray(a); }
 
 		@Override
 		public boolean containsAll(Collection<?> c) {
@@ -1989,7 +2029,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public boolean contains(Object o) { return MapTreeAVLLightweight.this.containsKey(getKeyFromObject(o)); }
 
 		@Override
-		public <T> T[] toArray(T[] a) { throw new UnsupportedOperationException("Too lazy to implement"); }
+		public <T> T[] toArray(T[] a) { return MapTreeAVLLightweight.this.toArray(a); }
 
 		@Override
 		public boolean containsAll(Collection<?> c) {
@@ -2117,7 +2157,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public Object[] toArray() { return MapTreeAVLLightweight.this.toArray(); }
 
 		@Override
-		public <T> T[] toArray(T[] a) { throw new UnsupportedOperationException("Too lazy to implement"); }
+		public <T> T[] toArray(T[] a) { return MapTreeAVLLightweight.this.toArray(a); }
 
 		@Override
 		public boolean containsAll(Collection<?> c) { return MapTreeAVLLightweight.this.containsAll(c); }
