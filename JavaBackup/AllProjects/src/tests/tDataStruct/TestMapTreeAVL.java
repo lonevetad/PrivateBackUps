@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
+import tools.Comparators;
 
 public class TestMapTreeAVL {
 
@@ -14,25 +15,29 @@ public class TestMapTreeAVL {
 	}
 
 	public static void main(String[] args) {
-		int[] vals;
-		MapTreeAVL<Integer, Integer> t;
 		Comparator<Integer> c;
-		Integer x;
-		Consumer<Entry<? extends Integer, ? extends Integer>> printer;
+		c = Comparators.INTEGER_COMPARATOR;
+		Consumer<Entry<Integer, Integer>> printer;
+		printer = e -> {
+			if (e == null || e.getKey() == null)
+				throw new RuntimeException("NULL KEY");
+			System.out.println(e);
+		};
+		for (MapTreeAVL.Optimizations o : MapTreeAVL.Optimizations.values()) {
+			testMapWithOptimization(o, printer, c);
+//		testMapWithOptimization(MapTreeAVL.Optimizations.ToQueueFIFOIterating, printer, c);
+		}
+	}
 
-		c = Integer::compareTo;
-//		c = (i1, i2) -> {
-//			if (i1 == i2)
-//				return 0;
-//			if (i1 == null)
-//				return -1;
-//			if (i2 == null)
-//				return 1;
-//			return Integer.compare(i1, i2);
-//		};
-		printer = e -> System.out.println(e);
-		t = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration, MapTreeAVL.BehaviourOnKeyCollision.Replace,
-				c);
+	public static void testMapWithOptimization(MapTreeAVL.Optimizations optimization,
+			Consumer<Entry<Integer, Integer>> printer, Comparator<Integer> c) {
+		int[] vals;
+		Integer x;
+		MapTreeAVL<Integer, Integer> t;
+		//
+		System.out.println("#\n#\n# ------------------------------------------------------------------"
+				+ optimization.name() + "\n#\n#\n#\n\n");
+		t = MapTreeAVL.newMap(optimization, MapTreeAVL.BehaviourOnKeyCollision.Replace, c);
 		System.out.println(t.getClass());
 		System.out.println(t);
 		vals = new int[] { 2, -2, -3, 0, -2, 5, 4, -4, 10, 0, 3, 100 };
@@ -43,6 +48,7 @@ public class TestMapTreeAVL {
 		System.out.println("\n\n\n\n++++++++++++++++++++");
 		System.out.println("added " + vals.length + " values");
 		vals = null;
+		System.out.println(t);
 		t.forEach(printer);
 
 		System.out.println("\n\n remove root: ");
@@ -87,6 +93,7 @@ public class TestMapTreeAVL {
 		System.out.println(t);
 		t.remove(101);
 		System.out.println(t);
+		t.forEach(printer);
 
 		//
 
@@ -206,6 +213,20 @@ public class TestMapTreeAVL {
 			System.out.println("\n after removing " + i + "we get:");
 			System.out.println(t);
 		}
+		System.out.println("\n\n in the end, for each: ");
+		t.forEach(printer);
+		System.out.println("reversed: ");
+
+		t.forEach(optimization == MapTreeAVL.Optimizations.ToQueueFIFOIterating ? MapTreeAVL.ForEachMode.Stack
+				: MapTreeAVL.ForEachMode.SortedDecreasing//
+				, //
+//				e -> {
+//					if (e == null || e.getKey() == null)
+//						throw new RuntimeException("NULL KEY");
+//					System.out.println(e);
+				printer// .accept(e);
+//				}//
+		);
 	}
 
 	static void ap(MapTreeAVL<Integer, Integer> t, Integer x) {
@@ -213,6 +234,6 @@ public class TestMapTreeAVL {
 		System.out.println("adding: " + x);
 		t.put(x, x);
 		System.out.println(t);
-		System.out.println(t.peekMinimum() + " - " + t.peekMaximum());
+		System.out.println("MIN: " + t.peekMinimum() + " - MAX: " + t.peekMaximum());
 	}
 }

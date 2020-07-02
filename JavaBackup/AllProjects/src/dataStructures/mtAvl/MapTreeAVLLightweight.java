@@ -642,6 +642,17 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	// TODO ITERATORS and FOR-EACH
 
 	@Override
+	public void forEach(BiConsumer<? super K, ? super V> action) {
+		forEach(ForEachMode.SortedGrowing, e -> action.accept(e.getKey(), e.getValue()));
+	}
+
+	@Override
+	public void forEach(Consumer<? super Entry<K, V>> action) {
+		forEach(ForEachMode.SortedGrowing, e -> action.accept(e));
+//		forEach(ForEachMode.SortedGrowing,  action );
+	}
+
+	@Override
 	public void forEach(ForEachMode mode, Consumer<Entry<K, V>> action) {
 		NodeAVL n;
 		QueueLightweight<NodeAVL> q;
@@ -655,7 +666,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				case SortedDecreasing:
 					n = root;
 					if (n.right != NIL)// descend to maximum
-						while ((n = n.right) != NIL)
+						while ((n = n.right).right != NIL)
 							;
 					action.accept(n);
 					while ((n = predecessorSorted(n)) != NIL)
@@ -664,7 +675,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				case SortedGrowing:
 					n = root;
 					if (n.left != NIL)// descend to minimum
-						while ((n = n.left) != NIL)
+						while ((n = n.left).left != NIL)
 							;
 					action.accept(n);
 					while ((n = successorSorted(n)) != NIL)
@@ -1209,14 +1220,26 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 	@Override
 	public SortedMap<K, V> subMap(K fromKey, K toKey) {
-		throw new UnsupportedOperationException("Operation forbidden");
+		subMapUnsupportedExc();
+		return null;
 	}
 
 	@Override
-	public SortedMap<K, V> headMap(K toKey) { throw new UnsupportedOperationException("Operation forbidden"); }
+	public SortedMap<K, V> headMap(K toKey) {
+		subMapUnsupportedExc();
+		return null;
+	}
 
 	@Override
-	public SortedMap<K, V> tailMap(K fromKey) { throw new UnsupportedOperationException("Operation forbidden"); }
+	public SortedMap<K, V> tailMap(K fromKey) {
+		subMapUnsupportedExc();
+		return null;
+	}
+
+	protected void subMapUnsupportedExc() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException(
+				"Operation forbidden: no way to keep track of original Map AND filter fields so that they will not appear there.\n Make your own wrapper checking, with a comparator, what to insert, delete, etc, also for iteration");
+	}
 
 	@Override
 	public K firstKey() {
@@ -1639,6 +1662,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			moveToNext();
 //					normalOrder ? current.nextInOrder : current.prevInOrder;
 			canRemove = true;
+			if (e == NIL)
+				throw new NullPointerException("WTF WHY I'M NIL??");
 			return e;
 		}
 
@@ -2220,7 +2245,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public void forEach(Consumer<? super K> action) {
 			MapTreeAVLLightweight.this.forEach(e -> action.accept(e.getKey()));
-//			throw new UnsupportedOperationException("TODO DA FAREEEE");
 		}
 
 		@Override
@@ -2338,7 +2362,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public void forEach(Consumer<? super V> action) {
 			MapTreeAVLLightweight.this.forEach(e -> action.accept(e.getValue()));
-//			throw new UnsupportedOperationException("TODO DA FAREEEE");
 		}
 
 		@Override
@@ -2350,6 +2373,36 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public V last() { return MapTreeAVLLightweight.this.peekMaximum().getValue(); }
 	}
+
+	// TODO submaps
+
+//	protected class AbstractSubMap implements SortedMap<K, V>, TreeAVLDelegator<K, V> {
+//
+//		@Override
+//		public MapTreeAVLLightweight<K, V> getBackTree() { return MapTreeAVLLightweight.this; }
+//
+//		@Override
+//		public int size() {
+//			int s;
+//			Iterator<Entry<K, V>> iter;
+//			s = 0;
+//			iter = this.iterator();
+//			while (iter.hasNext()) {
+//				s++;
+//				iter.next();
+//			}
+//			return s;
+//		}
+//
+//		@Override
+//		public void clear() { MapTreeAVLLightweight.this.clear(); }
+//
+//		@Override
+//		public boolean isEmpty() { return this.size() == 0; }
+
+//	protected class TailMap extends AbstractSubMap {	}
+
+	//
 
 //	protected class StreamTreeAVL<T> implements Stream<Entry<K, V>> {
 //		protected StreamTreeAVL(Iterator<Entry<K, V>> iter) {
