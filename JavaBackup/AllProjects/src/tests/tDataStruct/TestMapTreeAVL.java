@@ -9,6 +9,7 @@ import dataStructures.MapTreeAVL;
 import tools.Comparators;
 
 public class TestMapTreeAVL {
+	private static final boolean whattest = true;
 
 	public TestMapTreeAVL() {
 		// TODO Auto-generated constructor stub
@@ -23,9 +24,12 @@ public class TestMapTreeAVL {
 				throw new RuntimeException("NULL KEY");
 			System.out.println(e);
 		};
-		for (MapTreeAVL.Optimizations o : MapTreeAVL.Optimizations.values()) {
-			testMapWithOptimization(o, printer, c);
-//		testMapWithOptimization(MapTreeAVL.Optimizations.ToQueueFIFOIterating, printer, c);
+		if (whattest) {
+			for (MapTreeAVL.Optimizations o : MapTreeAVL.Optimizations.values()) {
+				testMapWithOptimization(o, printer, c);
+			}
+		} else {
+			testMapWithOptimization(MapTreeAVL.Optimizations.ToQueueFIFOIterating, printer, c);
 		}
 	}
 
@@ -40,6 +44,13 @@ public class TestMapTreeAVL {
 		t = MapTreeAVL.newMap(optimization, MapTreeAVL.BehaviourOnKeyCollision.Replace, c);
 		System.out.println(t.getClass());
 		System.out.println(t);
+		x = 7;
+		System.out.println("\n\n just add a single value: " + x);
+		t.put(x, x);
+		System.out.println(t);
+		t.forEach(printer);
+		System.out.println("\n\n now start it");
+		t.clear();
 		vals = new int[] { 2, -2, -3, 0, -2, 5, 4, -4, 10, 0, 3, 100 };
 		for (int i : vals) {
 			x = i;
@@ -227,6 +238,22 @@ public class TestMapTreeAVL {
 				printer// .accept(e);
 //				}//
 		);
+		System.out.println("last test");
+		t.clear();
+		vals = new int[] { 10, 15, 5, 12, 7, 6, 2 };
+		for (int i : vals) {
+			x = i;
+			t.put(x, x);
+		}
+		System.out.println("removing stuffs");
+		vals = new int[] { 6, 5, 7, 12, 10, 15, 2 };
+		for (int i : vals) {
+			x = i;
+			System.out.println("\nremoving: " + x);
+			t.remove(x);
+			System.out.println(t);
+			t.forEach(printer);
+		}
 	}
 
 	static void ap(MapTreeAVL<Integer, Integer> t, Integer x) {

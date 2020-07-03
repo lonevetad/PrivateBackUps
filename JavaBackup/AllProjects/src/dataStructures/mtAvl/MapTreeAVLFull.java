@@ -112,7 +112,7 @@ public class MapTreeAVLFull<K, V> extends MapTreeAVLMinIter<K, V> {
 		// adjust connections
 		if (hasLeft && hasRight) { nToBeDeleted = succMaybeDeleted; }
 		if (nToBeDeleted == firstInserted)
-			firstInserted = nToBeDeleted;
+			firstInserted = nToBeDeleted.nextInserted;
 		nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
 		nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
 
