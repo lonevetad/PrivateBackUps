@@ -46,7 +46,7 @@ public class MultiISOMRetangularCaching<Dd extends Number> extends MultiISOMReta
 // faster than Dijkstra thanks to 8-connectivity and unary neighbor's step's weight
 //		return new PathFinderIsomBFS<>(this);
 		return new PathFinderIsomDijkstra<>(this);
-//		return new PathFinderIsomAStar<>(this, new AStarHeuristicManhattan<>(getWeightManager()));
+//		return new PathFinderIsomAStar<>(this, new Heuristic8GridMovement<>(getWeightManager()));
 	}
 
 	// override because of the NumberManager-dependency of heuristic for AStar

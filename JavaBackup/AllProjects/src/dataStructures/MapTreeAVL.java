@@ -17,7 +17,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-//import dataStructures.MapTreeAVL.MapTreeAVLFactory;
 import dataStructures.mtAvl.MapTreeAVLFull;
 import dataStructures.mtAvl.MapTreeAVLLightweight;
 import dataStructures.mtAvl.MapTreeAVLMinIter;
@@ -53,10 +52,9 @@ import dataStructures.mtAvl.MapTreeAVLQueuable;
  * constructor to define key's order. If not, a {@link IllegalArgumentException}
  * will be thrown.
  * <p>
- * Specifying a value of {@link MapTreeAVLFactory.BehaviourOnKeyCollision}
- * enumeration on constructor, the map can behave differently on trying to add
- * yet existing keys: the old pair key-value could be conserved or fully
- * replaced.
+ * Specifying a value of {@link MapTreeAVL.BehaviourOnKeyCollision} enumeration
+ * on constructor, the map can behave differently on trying to add yet existing
+ * keys: the old pair key-value could be conserved or fully replaced.
  * <p>
  * This implementation provides a enhanced iteration: it's performed in linear
  * time, so it takes {@code O(n)} (where {@code n} is {@link #size()}}), at a
@@ -198,9 +196,7 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 		//
 
 		//
-		Optimizations(MapTreeAVLFactory delegator) {
-			this.delegator = delegator;
-		}
+		Optimizations(MapTreeAVLFactory delegator) { this.delegator = delegator; }
 
 		final MapTreeAVLFactory delegator;
 
@@ -251,31 +247,21 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	public enum IteratorReturnType implements ExtracterValueFromNodeByIRT {
 		Key(new ExtracterValueFromNodeByIRT() {
 			@Override
-			public <Kk, Vv> Object extract(Entry<Kk, Vv> n) {
-				return n.getKey();
-			}
+			public <Kk, Vv> Object extract(Entry<Kk, Vv> n) { return n.getKey(); }
 		}), Value(new ExtracterValueFromNodeByIRT() {
 			@Override
-			public <Kk, Vv> Object extract(Entry<Kk, Vv> n) {
-				return n.getValue();
-			}
+			public <Kk, Vv> Object extract(Entry<Kk, Vv> n) { return n.getValue(); }
 		}), Entry(new ExtracterValueFromNodeByIRT() {
 			@Override
-			public <Kk, Vv> Object extract(Entry<Kk, Vv> n) {
-				return n;
-			}
+			public <Kk, Vv> Object extract(Entry<Kk, Vv> n) { return n; }
 		});
 
-		IteratorReturnType(ExtracterValueFromNodeByIRT e) {
-			this.delegate = e;
-		}
+		IteratorReturnType(ExtracterValueFromNodeByIRT e) { this.delegate = e; }
 
 		final ExtracterValueFromNodeByIRT delegate;
 
 		@Override
-		public <Kk, Vv> Object extract(Entry<Kk, Vv> n) {
-			return delegate.extract(n);
-		}
+		public <Kk, Vv> Object extract(Entry<Kk, Vv> n) { return delegate.extract(n); }
 
 		/*
 		 * @SuppressWarnings("unchecked") protected static <E, Kk, Vv> E
@@ -492,9 +478,7 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	public default void putAll(Map<? extends K, ? extends V> m) {
 		MapTreeAVL<K, V> thisMap;
 		thisMap = this;
-		m.forEach((k, v) -> {
-			thisMap.put(k, v);
-		});
+		m.forEach((k, v) -> { thisMap.put(k, v); });
 	}
 
 	public default boolean containsAll(Collection<?> c) {

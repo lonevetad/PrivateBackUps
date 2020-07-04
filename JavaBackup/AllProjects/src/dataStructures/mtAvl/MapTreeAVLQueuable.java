@@ -64,19 +64,32 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 		if (size == 0) {
 			super.put(n);
 			firstInserted = n;
+			System.out.println("ROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOT " + n.k + "- id.hash: "
+					+ System.identityHashCode(root));
 			n.nextInserted = n.prevInserted = n;// self linking
 			return null;
 		}
 		prevSize = this.size;
 		v = super.put(n);
 		if (prevSize != Integer.MAX_VALUE && prevSize != size) {
+			NodeAVL_Queuable fi;
+			fi = firstInserted;
+
 			// node really added
-			n.prevInserted = firstInserted.prevInserted;
-			n.nextInserted = firstInserted;
-			firstInserted.prevInserted.nextInserted = n;
-			firstInserted.prevInserted = n;
+			n.prevInserted = fi.prevInserted;
+			n.nextInserted = fi;
+			fi.prevInserted.nextInserted = n;
+			fi.prevInserted = n;
+//			if (size == 3) {
+//				SYSTEM.OUT.PRINTLN(
+//						"\N\N\N\N\N\N\N\NAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
+//				SYSTEM.OUT.PRINTLN("N: " + N + ",,, PREV: " + N.PREVINSERTED.K + ",,, NEXT: " + N.NEXTINSERTED.K);
+//				SYSTEM.OUT.PRINTLN("FIRSTINSERTED: " + FIRSTINSERTED + ",,, PREV: " + FIRSTINSERTED.PREVINSERTED.K
+//						+ ",,, NEXT: " + FIRSTINSERTED.NEXTINSERTED.K);
+//			}
 		}
-		((NodeAVL_Queuable) NIL).nextInserted = ((NodeAVL_Queuable) NIL).prevInserted = (NodeAVL_Queuable) NIL;
+		n = ((NodeAVL_Queuable) NIL);
+		n.nextInserted = n.prevInserted = n;
 		return v;
 	}
 
@@ -90,6 +103,8 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 	protected V delete(NodeAVL nnn) {
 		boolean hasLeft, hasRight;
 		V v;
+		K k;
+		k = nnn.k;
 		NodeAVL_Queuable nToBeDeleted, succMaybeDeleted;
 		if (root == NIL || nnn == NIL)
 			return null;
@@ -108,7 +123,12 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 		succMaybeDeleted = (MapTreeAVLQueuable<K, V>.NodeAVL_Queuable) successorSorted(nnn);
 		v = super.delete(nnn);
 		// adjust connections
-		if (hasLeft && hasRight) { nToBeDeleted = succMaybeDeleted; }
+		if (hasLeft && hasRight) {
+			System.out.println("Upon deleting k:" + k + ", I had nToBeDel (" + nToBeDeleted.k + " - hash:"
+					+ System.identityHashCode(nToBeDeleted) + ") but i choose YOU: k:" + succMaybeDeleted.k
+					+ " - hash: " + System.identityHashCode(succMaybeDeleted));
+			nToBeDeleted = succMaybeDeleted;
+		}
 		if (nToBeDeleted == firstInserted)
 			firstInserted = nToBeDeleted.nextInserted;
 		nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;

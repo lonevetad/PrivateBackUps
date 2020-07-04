@@ -1,13 +1,13 @@
 package dataStructures.isom.pathFinders;
 
 import java.awt.Point;
-import java.util.function.BiFunction;
 
+import geometry.IHeuristic;
 import tools.NumberManager;
 
-public class AStarHeuristicManhattan<Distance extends Number> implements BiFunction<Point, Point, Distance> {
+public class HeuristicManhattan<Distance extends Number> implements IHeuristic<Distance> {
 
-	public AStarHeuristicManhattan(NumberManager<Distance> distanceManager) {
+	public HeuristicManhattan(NumberManager<Distance> distanceManager) {
 		super();
 		this.distanceManager = distanceManager;
 	}

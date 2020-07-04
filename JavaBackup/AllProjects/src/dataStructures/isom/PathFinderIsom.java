@@ -11,7 +11,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import dataStructures.isom.pathFinders.AStarHeuristicEuclidean;
+import dataStructures.isom.pathFinders.HeuristicEuclidean;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
@@ -209,7 +209,7 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 	}
 
 	public default Distance distanceBetweenPoints(Point pStart, Point pEnd, NumberManager<Distance> distanceManager) {
-		return (new AStarHeuristicEuclidean<>(distanceManager)).apply(pStart, pEnd);
+		return (new HeuristicEuclidean<>(distanceManager)).apply(pStart, pEnd);
 	}
 
 //

@@ -306,29 +306,24 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		n = root;
 		while (notFound && n != NIL) {
 			c = comp.compare(k, n.k);
-			if (notFound = c != 0) {
-				if (c > 0) {
-					n = n.right;
-				} else {
-					n = n.left;
-				}
-			} /**
-				 * else { // <br>
-				 * if (behavior == BehaviourOnKeyCollision.AddItsNotASet) { // <br>
-				 * // c == 0 .. perche'? se la chiave non fosse uguale, allora non si ha ancora
-				 * // trovato il nodo // <br>
-				 * if (k != n.k || ( // <br>
-				 * // not equals .. // <br>
-				 * (k == null // && n.k != null // <br>
-				 * )// // <br>
-				 * || (!k.equals(n.k)))// // <br>
-				 * ) { // <br>
-				 * n = n.left; // <br>
-				 * notFound = true; // <br>
-				 * } // <br>
-				 * } // <br>
-				 * }
-				 */
+			if (notFound = c != 0) { n = (c > 0) ? n.right : n.left; }
+			/**
+			 * else { // <br>
+			 * if (behavior == BehaviourOnKeyCollision.AddItsNotASet) { // <br>
+			 * // c == 0 .. perche'? se la chiave non fosse uguale, allora non si ha ancora
+			 * // trovato il nodo // <br>
+			 * if (k != n.k || ( // <br>
+			 * // not equals .. // <br>
+			 * (k == null // && n.k != null // <br>
+			 * )// // <br>
+			 * || (!k.equals(n.k)))// // <br>
+			 * ) { // <br>
+			 * n = n.left; // <br>
+			 * notFound = true; // <br>
+			 * } // <br>
+			 * } // <br>
+			 * }
+			 */
 		}
 		return n; // == NIL ? null : n;
 	}
@@ -377,6 +372,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	// TODO insertFixup
 	protected void insertFixup(NodeAVL n) {
 		int hl, hr, delta;
+		NodeAVL father;
+
 		while (n != NIL) {
 			// lh= ;rh=;
 			// recalculate, just to be sure
@@ -388,8 +385,10 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				n = n.father;
 			} else {
 //				if(delta >=2)n.rotate(true);else
+				father = n.father;
 				n.rotate(delta >= 2);
-				n = n.father.father;
+//				n = n.father.father;
+				n = father;
 			}
 		}
 		NIL.height = DEPTH_INITIAL;
@@ -434,14 +433,14 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			}
 			next = (c > 0) ? x.right : x.left;
 		}
-		if (next == NIL) {
-			// end of tree reached: x is a leaf
-			if (c > 0)
-				x.right = n;
-			else
-				x.left = n;
-			n.father = x;
-		}
+//		if (next == NIL) {
+		// end of tree reached: x is a leaf
+		if (c > 0)
+			x.right = n;
+		else
+			x.left = n;
+		n.father = x;
+//		}
 		if (size != Integer.MAX_VALUE)
 			size++;
 
@@ -527,7 +526,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				succFather.right = succ.right;
 			succ.father = NIL;
 			// if successor is not a leaf
-			if (succ.right != NIL)
+			if (succ.right != NIL) // because successor is always a leaf or has a leaf at right
 				(succ.right.father = succFather).height = 0;
 			succ.right = NIL;
 		} else if (hasLeft || hasRight) { // or "^" or "!="
@@ -1555,7 +1554,14 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public String toString() {
-			return String.valueOf(k) + "-" + String.valueOf(v) + ",h:" + height + ",f:" + String.valueOf(father.k);
+			if (this != NIL && this != root && father == NIL) {
+				throw new RuntimeException("Me (" + k + ") i'm not root(" + root.k + ") but father nil?\nI'm #"
+						+ System.identityHashCode(this) + " with hash code: " + this.hashCode() + ",\n while root #"
+						+ System.identityHashCode(root) + " with hash code: " + root.hashCode());
+			}
+			return String.valueOf(k) + "-" + String.valueOf(v) + ",h:" + height + ",f:" + String.valueOf(father.k)//
+					+ (father == NIL ? "NIL" : " ")//
+			;
 		}
 	}
 
