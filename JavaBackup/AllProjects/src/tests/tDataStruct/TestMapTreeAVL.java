@@ -78,8 +78,18 @@ public class TestMapTreeAVL {
 		t.forEach(printer);
 		System.out.println("min is: " + t.peekMinimum().getKey() + ", max:" + t.peekMaximum().getKey() + "\n\n");
 
+		System.out.println("adding 1 and removig 0, just for fun");
+		x = 1;
+		t.put(x, x);
+		System.out.println(t);
+		t.forEach(printer);
+		System.out.println("////");
+		t.remove(0);
+		System.out.println(t);
+		t.forEach(printer);
+
 		// 1-child
-		System.out.println("now add two numbers to create a single-child, one left and one right");
+		System.out.println("\n\n\n now add two numbers (4 and 101) to create a single-child, one left and one right");
 		x = 4;
 		t.put(x, x);
 		x = 101;
@@ -88,6 +98,7 @@ public class TestMapTreeAVL {
 		System.out.println("now remove their father: 5 and 100");
 		t.remove(5);
 		System.out.println(t);
+		t.forEach(printer);
 		t.remove(100);
 		System.out.println(t);
 		t.forEach(printer);
@@ -164,6 +175,7 @@ public class TestMapTreeAVL {
 			t.put(x, x);
 		}
 		System.out.println(t);
+		t.forEach(printer);
 		System.out.println("now remove the root");
 		t.remove(1);
 		System.out.println(t);
@@ -173,18 +185,20 @@ public class TestMapTreeAVL {
 		System.out.println("refill 5 elements and then remove min, max and root");
 		for (int i = 0; i < 5; i++) {
 			x = i;
+			System.out.println("adding: " + x);
 			t.put(x, x);
+			System.out.println(t);
 		}
 		System.out.println(t);
-		System.out.println(t.removeMinimum());
+		System.out.println(t.removeMinimum().getKey());
 		System.out.println(t);
-		System.out.println(t.removeMaximum());
+		System.out.println(t.removeMaximum().getKey());
 		System.out.println(t);
 		System.out.println(t.remove(2));
 		System.out.println(t);
 		System.out.println("there are 2 elements now, remove those elements by removing minimum");
-		System.out.println(t.removeMinimum());
-		System.out.println(t.removeMinimum());
+		System.out.println(t.removeMinimum().getKey());
+		System.out.println(t.removeMinimum().getKey());
 		System.out.println(t);
 		System.out.println("now min is? " + t.peekMinimum());
 		System.out.println("now max is? " + t.peekMaximum());

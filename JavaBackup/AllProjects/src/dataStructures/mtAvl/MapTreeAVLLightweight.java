@@ -336,6 +336,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	public void clear() {
 		size = 0;
 		root = NIL;
+		NIL.father = NIL.left = NIL.right = NIL;
+		NIL.height = DEPTH_INITIAL;
 	}
 
 	@Override
@@ -372,7 +374,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	// TODO insertFixup
 	protected void insertFixup(NodeAVL n) {
 		int hl, hr, delta;
-		NodeAVL father;
+//		NodeAVL father;
 
 		while (n != NIL) {
 			// lh= ;rh=;
@@ -385,10 +387,10 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				n = n.father;
 			} else {
 //				if(delta >=2)n.rotate(true);else
-				father = n.father;
+//				father = n.father;
 				n.rotate(delta >= 2);
-//				n = n.father.father;
-				n = father;
+				n = n.father.father;
+//				n = father;
 			}
 		}
 		NIL.height = DEPTH_INITIAL;
@@ -1430,13 +1432,13 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 					a = this;
 					b = nSide;
 					c = b.right;
-					if (oldFather != NIL) {
-						if (oldFather.left == a)
-							oldFather.left = c;
-						else
-							oldFather.right = c;
-						c.father = oldFather;
-					}
+//					if (oldFather != NIL) {
+					if (oldFather.left == a)
+						oldFather.left = c;
+					else
+						oldFather.right = c;
+					c.father = oldFather;
+//					}
 					a.father = c;
 					a.left = c.right;
 					if (c.right != NIL)
@@ -1554,14 +1556,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public String toString() {
-			if (this != NIL && this != root && father == NIL) {
-				throw new RuntimeException("Me (" + k + ") i'm not root(" + root.k + ") but father nil?\nI'm #"
-						+ System.identityHashCode(this) + " with hash code: " + this.hashCode() + ",\n while root #"
-						+ System.identityHashCode(root) + " with hash code: " + root.hashCode());
-			}
-			return String.valueOf(k) + "-" + String.valueOf(v) + ",h:" + height + ",f:" + String.valueOf(father.k)//
-					+ (father == NIL ? "NIL" : " ")//
-			;
+			return String.valueOf(k) + "-" + String.valueOf(v) + ",h:" + height + ",f:" + String.valueOf(father.k);
 		}
 	}
 

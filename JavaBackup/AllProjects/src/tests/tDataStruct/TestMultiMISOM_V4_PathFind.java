@@ -432,7 +432,7 @@ public class TestMultiMISOM_V4_PathFind {
 			startPathfind = endPathfind = null;
 //			pathFound=null;
 			xPath = yPath = null;
-			isPointwisePathfind = false;
+			isPointwisePathfind = true;
 		}
 
 		void rebuildGUI() {

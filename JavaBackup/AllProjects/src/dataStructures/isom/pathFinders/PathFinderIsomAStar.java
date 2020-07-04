@@ -46,6 +46,7 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 		final PriorityQueueKey<NodeInfoAstar, Distance> frontier;
 		final Comparator<Distance> comp;
 		AbstractAdjacentForEacherAstar forAdjacents;
+		AbstractAdjacentForEacher<Distance> forAdjToBeUsed;
 		// added for the boolean parameter
 		NodeInfoFrontierBased<Distance> closestPointToDest = null;
 		Distance lowestDistance = null;
@@ -53,6 +54,7 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 		//
 		comp = distanceManager.getComparator();
 		forAdjacents = null;
+		forAdjToBeUsed = fa;
 		if (AFEAStar_Shape.class.isAssignableFrom(fa.getClass())) {
 			forAdjacents = ((AFEAStar_Shape) fa).afed;
 		} else if (AbstractAdjacentForEacherAstar.class.isAssignableFrom(fa.getClass())) {
@@ -64,10 +66,11 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 				(n1, n2) -> NodeIsom.COMPARATOR_NODE_ISOM_POINT.compare(n1, n2));
 		frontier = new PriorityQueueKey<>(//
 				(p1as, p2as) -> COMPARATOR_NINFO.compare(p1as, p2as), //
-				comp, MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, (NodeInfoAstar no) -> no.distFromStart);
+				comp, MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, (NodeInfoAstar no) -> no.fScore);
 		ss = new NodeInfoAstar(start);
 		ss.father = ss;
 		ss.distFromFather = ss.distFromStart = null;
+		System.out.println("start: " + start.getLocationAbsolute());
 		frontier.put(ss);
 		nodeInfos.put(start, ss);
 		dd = new NodeInfoAstar(dest);
@@ -76,12 +79,14 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 		// set non-final parameters
 		forAdjacents.nodeInfos = nodeInfos;
 		forAdjacents.frontier = frontier;
+		System.out.println("EEEEEEEEEEEEENDd: " + dest.getLocationAbsolute());
 
 		while ((!frontier.isEmpty()) && dd.father == null) {
 			final NodeInfoAstar n;
 			n = frontier.removeMinimum().getKey();
+			System.out.println("computing " + n.thisNode.getLocationAbsolute());
 			/*
-			 * do not waste time computing nodes that have longer path of the alredy
+			 * do not waste time computing nodes that have longer path of the already
 			 * discovered ones
 			 */
 			if (dd.father == null ||
@@ -98,8 +103,8 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 						closestPointToDest = n;
 					}
 				}
-				forAdjacents.setCurrentNode(n);
-				getNodeIsomProvider().forEachAdjacents(n.thisNode, forAdjacents);
+				forAdjToBeUsed.setCurrentNode(n);
+				getNodeIsomProvider().forEachAdjacents(n.thisNode, forAdjToBeUsed);
 //				n.thisNode.forEachAdjacents(forAdjacents);
 			} else
 				/*
@@ -173,6 +178,7 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 			if (noInfo.color == NodePositionInFrontier.Closed)
 				return;
 			distStartToNeighbour = this.distanceManager.getAdder().apply(distToAdjacent, currentNode.distFromStart);
+			System.out.println("adjacent: " + nnn.getLocationAbsolute());
 			if (noInfo.father == null
 					|| distanceManager.getComparator().compare(distStartToNeighbour, noInfo.distFromStart) < 0) {
 				// update
@@ -189,11 +195,16 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 					noInfo.fScore = fScore;
 					//
 					frontier.put(noInfo);
+					System.out.println("\t put");
 				} else {
 					// it's grey, it's actually in the queue
+					System.out.println("\t altering");
 					alterator.fScore = fScore;
 					frontier.alterKey(noInfo, alterator);
+					System.out.println("\t altered");
 				}
+			} else {
+				System.out.println("\t discarded");
 			}
 		}
 	}

@@ -107,14 +107,42 @@ public class MapTreeAVLFull<K, V> extends MapTreeAVLMinIter<K, V> {
 		// real deletion starts here:
 		hasLeft = nToBeDeleted.left != NIL;
 		hasRight = nToBeDeleted.right != NIL;
-		succMaybeDeleted = (MapTreeAVLFull<K, V>.NodeAVL_Full) successorSorted(nnn);
+		succMaybeDeleted = hasRight ? (MapTreeAVLFull<K, V>.NodeAVL_Full) successorSorted(nnn) : //
+				(MapTreeAVLFull<K, V>.NodeAVL_Full) (hasLeft ? predecessorSorted(nnn) : NIL)//
+		;
 		v = super.delete(nnn);
 		// adjust connections
-		if (hasLeft && hasRight) { nToBeDeleted = succMaybeDeleted; }
-		if (nToBeDeleted == firstInserted)
-			firstInserted = nToBeDeleted.nextInserted;
-		nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
-		nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
+		if (hasLeft || hasRight) {
+			if (size == 1) {
+				firstInserted = nToBeDeleted;
+				nToBeDeleted.nextInserted = nToBeDeleted.prevInserted = nToBeDeleted;
+			} else {
+				// nnn wasn't the removed node ...
+				// 1) unlink myself (nnn: nToBeDeleted) because that's me that should be removed
+				// 2) then I re-link myself because I took the data held by the
+				// node that has been removed in the end (succMaybeDeleted)
+				// ..1) unlink myself
+				nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
+				nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
+				// 2) then adjust my links to the really-removed-nodes ..
+				nToBeDeleted.nextInserted = succMaybeDeleted.nextInserted;
+				nToBeDeleted.prevInserted = succMaybeDeleted.prevInserted;
+				// .. and the adjacent's nodes to point towards me
+				nToBeDeleted.nextInserted.prevInserted = nToBeDeleted;
+				nToBeDeleted.prevInserted.nextInserted = nToBeDeleted;
+				if (succMaybeDeleted == firstInserted) { firstInserted = succMaybeDeleted.nextInserted; }
+			}
+		} else {
+			if (size == 1) {
+				firstInserted = nToBeDeleted;
+				nToBeDeleted.nextInserted = nToBeDeleted.prevInserted = nToBeDeleted;
+			} else {
+				if (nToBeDeleted == firstInserted)
+					firstInserted = nToBeDeleted.nextInserted;
+				nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
+				nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
+			}
+		}
 
 		((NodeAVL_Full) NIL).nextInserted = ((NodeAVL_Full) NIL).prevInserted = (NodeAVL_Full) NIL;
 		if (root == NIL) {

@@ -3,7 +3,8 @@ package dataStructures.isom;
 import java.awt.Point;
 
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
-import dataStructures.isom.pathFinders.PathFinderIsomDijkstra;
+import dataStructures.isom.pathFinders.Heuristic8GridMovement;
+import dataStructures.isom.pathFinders.PathFinderIsomAStar;
 import geometry.AbstractShapeRunner;
 import tools.NumberManager;
 
@@ -45,8 +46,8 @@ public class MultiISOMRetangularCaching<Dd extends Number> extends MultiISOMReta
 	protected PathFinderIsom<Dd> newPathFinder() {
 // faster than Dijkstra thanks to 8-connectivity and unary neighbor's step's weight
 //		return new PathFinderIsomBFS<>(this);
-		return new PathFinderIsomDijkstra<>(this);
-//		return new PathFinderIsomAStar<>(this, new Heuristic8GridMovement<>(getWeightManager()));
+//		return new PathFinderIsomDijkstra<>(this);
+		return new PathFinderIsomAStar<>(this, new Heuristic8GridMovement<>(getWeightManager()));
 	}
 
 	// override because of the NumberManager-dependency of heuristic for AStar

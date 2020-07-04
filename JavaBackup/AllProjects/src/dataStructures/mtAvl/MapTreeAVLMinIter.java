@@ -126,7 +126,8 @@ public class MapTreeAVLMinIter<K, V> extends MapTreeAVLIndexable<K, V> {
 			else
 				x.left = n;
 			n.father = x;
-		}
+		} else
+			throw new RuntimeException("NOT A END?");
 		if (size != Integer.MAX_VALUE)
 			size++;
 

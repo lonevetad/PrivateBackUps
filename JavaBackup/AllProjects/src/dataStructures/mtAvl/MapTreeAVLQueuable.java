@@ -64,8 +64,6 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 		if (size == 0) {
 			super.put(n);
 			firstInserted = n;
-			System.out.println("ROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOT " + n.k + "- id.hash: "
-					+ System.identityHashCode(root));
 			n.nextInserted = n.prevInserted = n;// self linking
 			return null;
 		}
@@ -74,19 +72,11 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 		if (prevSize != Integer.MAX_VALUE && prevSize != size) {
 			NodeAVL_Queuable fi;
 			fi = firstInserted;
-
 			// node really added
 			n.prevInserted = fi.prevInserted;
 			n.nextInserted = fi;
 			fi.prevInserted.nextInserted = n;
 			fi.prevInserted = n;
-//			if (size == 3) {
-//				SYSTEM.OUT.PRINTLN(
-//						"\N\N\N\N\N\N\N\NAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
-//				SYSTEM.OUT.PRINTLN("N: " + N + ",,, PREV: " + N.PREVINSERTED.K + ",,, NEXT: " + N.NEXTINSERTED.K);
-//				SYSTEM.OUT.PRINTLN("FIRSTINSERTED: " + FIRSTINSERTED + ",,, PREV: " + FIRSTINSERTED.PREVINSERTED.K
-//						+ ",,, NEXT: " + FIRSTINSERTED.NEXTINSERTED.K);
-//			}
 		}
 		n = ((NodeAVL_Queuable) NIL);
 		n.nextInserted = n.prevInserted = n;
@@ -103,8 +93,6 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 	protected V delete(NodeAVL nnn) {
 		boolean hasLeft, hasRight;
 		V v;
-		K k;
-		k = nnn.k;
 		NodeAVL_Queuable nToBeDeleted, succMaybeDeleted;
 		if (root == NIL || nnn == NIL)
 			return null;
@@ -120,20 +108,42 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 		// real deletion starts here:
 		hasLeft = nToBeDeleted.left != NIL;
 		hasRight = nToBeDeleted.right != NIL;
-		succMaybeDeleted = (MapTreeAVLQueuable<K, V>.NodeAVL_Queuable) successorSorted(nnn);
+		succMaybeDeleted = hasRight ? (MapTreeAVLQueuable<K, V>.NodeAVL_Queuable) successorSorted(nnn) : //
+				(MapTreeAVLQueuable<K, V>.NodeAVL_Queuable) (hasLeft ? predecessorSorted(nnn) : NIL)//
+		;
 		v = super.delete(nnn);
 		// adjust connections
-		if (hasLeft && hasRight) {
-			System.out.println("Upon deleting k:" + k + ", I had nToBeDel (" + nToBeDeleted.k + " - hash:"
-					+ System.identityHashCode(nToBeDeleted) + ") but i choose YOU: k:" + succMaybeDeleted.k
-					+ " - hash: " + System.identityHashCode(succMaybeDeleted));
-			nToBeDeleted = succMaybeDeleted;
+		if (hasLeft || hasRight) {
+			if (size == 1) {
+				firstInserted = nToBeDeleted;
+				nToBeDeleted.nextInserted = nToBeDeleted.prevInserted = nToBeDeleted;
+			} else {
+				// nnn wasn't the removed node ...
+				// 1) unlink myself (nnn: nToBeDeleted) because that's me that should be removed
+				// 2) then I re-link myself because I took the data held by the
+				// node that has been removed in the end (succMaybeDeleted)
+				// ..1) unlink myself
+				nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
+				nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
+				// 2) then adjust my links to the really-removed-nodes ..
+				nToBeDeleted.nextInserted = succMaybeDeleted.nextInserted;
+				nToBeDeleted.prevInserted = succMaybeDeleted.prevInserted;
+				// .. and the adjacent's nodes to point towards me
+				nToBeDeleted.nextInserted.prevInserted = nToBeDeleted;
+				nToBeDeleted.prevInserted.nextInserted = nToBeDeleted;
+				if (succMaybeDeleted == firstInserted) { firstInserted = succMaybeDeleted.nextInserted; }
+			}
+		} else {
+			if (size == 1) {
+				firstInserted = nToBeDeleted;
+				nToBeDeleted.nextInserted = nToBeDeleted.prevInserted = nToBeDeleted;
+			} else {
+				if (nToBeDeleted == firstInserted)
+					firstInserted = nToBeDeleted.nextInserted;
+				nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
+				nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
+			}
 		}
-		if (nToBeDeleted == firstInserted)
-			firstInserted = nToBeDeleted.nextInserted;
-		nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
-		nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
-
 		//
 		((NodeAVL_Queuable) NIL).nextInserted = ((NodeAVL_Queuable) NIL).prevInserted = (NodeAVL_Queuable) NIL;
 		if (root == NIL) { firstInserted = (NodeAVL_Queuable) NIL; }
