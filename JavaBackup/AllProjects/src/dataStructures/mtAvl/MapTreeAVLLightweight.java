@@ -1474,13 +1474,13 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 					b = nSide;
 					c = b.left;
 					// then
-					if (oldFather != NIL) {
-						if (oldFather.left == a)
-							oldFather.left = c;
-						else
-							oldFather.right = c;
-						c.father = oldFather;
-					}
+//					if (oldFather != NIL) {
+					if (oldFather.left == a)
+						oldFather.left = c;
+					else
+						oldFather.right = c;
+					c.father = oldFather;
+//					}
 					a.father = c;
 					a.right = c.left;
 					if (c.left != NIL)
