@@ -1,27 +1,36 @@
 package dataStructures.isom;
 
 import java.awt.Point;
+import java.util.Set;
 
 import geometry.ObjectLocated;
 import geometry.pointTools.impl.ObjCollector;
 
-public interface ObjLocatedCollectorIsom extends ObjCollector<ObjectLocated> {
+public interface ObjLocatedCollectorIsom<Distance extends Number>
+		extends ObjCollector<ObjectLocated>, NodeIsomConsumer<Distance> {
 
 	@Override
 	public default ObjectLocated getAt(Point location) {
-		return getNodeAt(location).getObject(0); // jus a randonm object
+		NodeIsom<Distance> n;
+		n = getNodeAt(location);
+		return (n == null) ? null : n.getObject(0); // just a random object
 	}
 
-	public NodeIsom getNodeAt(Point location);
+//	public NodeIsom getNodeAt(Point location);
 
 	@Override
-	public default void accept(Point location) {
-		NodeIsom n;
-		n = this.getNodeAt(location);
+	public default void consume(NodeIsom<Distance> n) {
+		final Set<ObjectLocated> co;
+		if (n == null)
+			return;
+		co = getCollectedObjects();
 		n.forEachAcceptableObject(getTargetsFilter(), o -> {
 			if (o == null)
 				return;
-			getCollectedObjects().add(o);
+			co.add(o);
 		});
 	}
+
+	@Override
+	default void accept(Point location) { NodeIsomConsumer.super.accept(location); }
 }

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import games.generic.controlModel.ObjectNamed;
 import games.generic.controlModel.misc.AttributeIdentifier;
+import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.RarityHolder;
 
 /**
@@ -19,6 +20,16 @@ import games.generic.controlModel.misc.RarityHolder;
  */
 public interface AttributesUpgrade extends RarityHolder, ObjectNamed {
 	public Set<AttributeModification> getAttributeModifiers();
+
+	/**
+	 * Any attributes could apply a bonus or a malus to the price of everything it's
+	 * applied on.
+	 */
+	public CurrencySet getPricesModifications();
+
+	public void setPricesModifications(CurrencySet priceModifications);
+
+	//
 
 	public default AttributesUpgrade addAttributeModifier(AttributeModification am) {
 		if (am == null)

@@ -252,7 +252,7 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	 * <p>
 	 * REMEMBER to reset {@link #eventsReceivedBeweenUpdateds}.
 	 */
-	public void updateModAttributesDuringActiveEffect() {
+	public void updateModAttributesDuringActivationEffect() {
 		int n;
 		AttributeModification am;
 		n = this.attributesToModify.length;
@@ -276,8 +276,8 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 
 	/**
 	 * Override designed.<br>
-	 * Similar to {@link #updateModAttributesDuringActiveEffect()} about the main
-	 * idea, but related to "vanishing phase"
+	 * Similar to {@link #updateModAttributesDuringActivationEffect()} about the
+	 * main idea, but related to "vanishing phase"
 	 * ({@link PhaseAbilityVanishing#Vanishing}).<br>
 	 * This method could apply the results of the {@link #vanishEffect(int)} calls,
 	 * which is called during {@link #evolveAbilityStatus(GModality, int)}, or just
@@ -288,6 +288,12 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 		s = this.attributesToModify.length;
 		while (--s >= 0) {
 			this.attributesToModify[s].setValue(this.newModifiersAmountOnVanishing[s]);
+		}
+	}
+
+	public void clearModAttributesUponFinishedOrInactivated() {
+		for (AttributeModification am : this.attributesToModify) {
+			am.setValue(0);
 		}
 	}
 
@@ -327,13 +333,11 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 		PhaseAbilityVanishing phaseAbility;
 		phaseAbility = phaseAbilityCurrent;
 		if (phaseAbility == PhaseAbilityVanishing.Active) {
-			updateModAttributesDuringActiveEffect();
+			updateModAttributesDuringActivationEffect();
 		} else if (phaseAbility == PhaseAbilityVanishing.Vanishing) {
 			updateModAttributesDuringVanishing();
 		} else { // if (phaseAbility == PhaseAbilityVanishing.Endend) {}
-			for (AttributeModification am : this.attributesToModify) {
-				am.setValue(0);
-			}
+			clearModAttributesUponFinishedOrInactivated();
 		}
 //		switch (phaseAbilityCurrent) {
 //		case Active:

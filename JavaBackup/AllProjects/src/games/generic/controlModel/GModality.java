@@ -102,12 +102,18 @@ public abstract class GModality {
 
 	public GMap getMapCurrent() { return model.getMapCurrent(); }
 
+	/**
+	 * Returns an instance of a holder of "providers", classes that are able to
+	 * provide (and probably instantiating as a new object) kinds of objects,
+	 * depending on the provider required.
+	 */
 	public GameObjectsProvidersHolder getGameObjectsProvider() { return gameObjectsProviderHolder; }
 
-	/** Get the HUGE delegate of almost everything. */
-	public GameObjectsManager getGameObjectsManager() {
-		return gomDelegated;
-	}
+	/**
+	 * Get the HUGE delegate of almost everything. See {@link GameObjectsManager} to
+	 * understand what it hold.
+	 */
+	public GameObjectsManager getGameObjectsManager() { return gomDelegated; }
 
 	/**
 	 * Delegates the results to {@link GameObjectsManager} returned by
@@ -127,6 +133,7 @@ public abstract class GModality {
 
 	public void setPlayer(PlayerGeneric player) {
 		this.player = player;
+		if (this.player != null) { this.removeGameObject(this.player); }
 		if (player != null) {
 			this.addGameObject(player);
 //			player.setGameModality(this);
@@ -198,6 +205,11 @@ public abstract class GModality {
 
 	// TODO CONCRETE METHODS
 
+	/** See {@link GObjectsInSpaceManager#getSpaceSubunitsEachMacrounits()}. */
+	public int getSpaceSubunitsEachMacrounits() {
+		return getGameObjectsManager().getGObjectInSpaceManager().getSpaceSubunitsEachMacrounits();
+	}
+
 	/** Add a {@link ObjectWithID} to the {@link GModel}. */
 	public boolean addGameObject(GameObjectGeneric o) {
 		GModel gm;
@@ -208,8 +220,7 @@ public abstract class GModality {
 		if (gm != null) {
 			boolean added;
 			added = gm.add(o);
-			if (added)
-				o.onAddedToGame(this);
+			if (added) { o.onAddedToGame(this); }
 			return added;
 		}
 		return false;

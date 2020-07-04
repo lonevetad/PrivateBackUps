@@ -1,13 +1,13 @@
 package games.generic.controlModel.gEvents;
 
 import games.generic.controlModel.ObjectNamed;
-import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.controlModel.subimpl.GEvent;
+import geometry.ObjectLocated;
 
 public abstract class EventOnMap extends GEvent {
 	private static final long serialVersionUID = 562151896502L;
 
-	public EventOnMap(ObjectInSpace objectInvolved, ObjectNamed eventType) {
+	public EventOnMap(ObjectLocated objectInvolved, ObjectNamed eventType) {
 		super();
 		this.objectInvolved = objectInvolved;
 		if (!isOnMapEventType(eventType))
@@ -17,16 +17,12 @@ public abstract class EventOnMap extends GEvent {
 	}
 
 	protected ObjectNamed eventType;
-	protected ObjectInSpace objectInvolved;
+	protected ObjectLocated objectInvolved;
 
-	public ObjectInSpace getObjectInvolved() {
-		return objectInvolved;
-	}
+	public ObjectLocated getObjectInvolved() { return objectInvolved; }
 
 	public abstract boolean isOnMapEventType(ObjectNamed eventType);
 
 	@Override
-	public String getName() {
-		return eventType.getName();
-	}
+	public String getName() { return eventType.getName(); }
 }

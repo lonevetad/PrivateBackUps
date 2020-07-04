@@ -46,9 +46,7 @@ public abstract class LoaderGeneric {
 		}
 
 		@Override
-		public boolean hasNext() {
-			return line != null && (!"}".equals(line)) && (!"]".equals(line));
-		}
+		public boolean hasNext() { return line != null && (!"}".equals(line)) && (!"]".equals(line)); }
 
 		@Override
 		public String next() {
@@ -87,9 +85,7 @@ public abstract class LoaderGeneric {
 
 		protected abstract void readAllFileImpl(String line);
 
-		public JSONLineReader getLineReader() {
-			return lr;
-		}
+		public JSONLineReader getLineReader() { return lr; }
 	}
 
 	//

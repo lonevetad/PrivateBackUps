@@ -22,21 +22,19 @@ public abstract class PointConsumerRowOptimizer<Distance extends Number> impleme
 
 //
 
-	public int getY() {
-		return y;
-	}
+	public int getY() { return y; }
 
-	public NodeIsom[] getRowCache() {
-		return rowCache;
-	}
+	public NodeIsom[] getRowCache() { return rowCache; }
 
-	public MatrixInSpaceObjectsManager<Distance> getMisom() {
-		return misom;
-	}
+	public MatrixInSpaceObjectsManager<Distance> getMisom() { return misom; }
 
 	//
 
 	public PointConsumerRowOptimizer<Distance> setMisom(MatrixInSpaceObjectsManager<Distance> misom) {
+		if (this.misom != misom) {
+			rowCache = null; // empty the cache
+			y = -1;
+		}
 		this.misom = misom;
 		return this;
 	}

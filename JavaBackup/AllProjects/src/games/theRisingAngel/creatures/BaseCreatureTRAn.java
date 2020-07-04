@@ -17,7 +17,7 @@ import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.inventory.EquipmentSetTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
-import games.theRisingAngel.misc.CreatureAttributesBonusesCalculatorTRAn;
+import games.theRisingAngel.misc.CreatureAttributesTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
 
 public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
@@ -40,9 +40,11 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	protected CreatureAttributes newAttributes() {
 		CreatureAttributes ca;
 		ca = newAttributes(AttributesTRAn.VALUES.length);
-		ca.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAn());
 		return ca;
 	}
+
+	@Override
+	protected CreatureAttributes newAttributes(int attributesAmount) { return new CreatureAttributesTRAn(); }
 
 	@Override
 	public void defineAllCurableResources() {
@@ -124,7 +126,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	public int getShieldRegenation() { return this.getAttributes().getValue(AttributesTRAn.RegenShield); }
 
 	@Override
-	public int getHealingRegenerationAmount(CurableResourceType healType) {
+	public int getCurableResourceRegeneration(CurableResourceType healType) {
 		if (healType == HealingTypeExample.Life)
 			return getLifeRegenation();
 		else if (healType == HealingTypeExample.Mana)

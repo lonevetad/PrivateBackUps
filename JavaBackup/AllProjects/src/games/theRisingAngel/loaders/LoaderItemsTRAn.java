@@ -14,9 +14,7 @@ import games.theRisingAngel.inventory.InventoryItemBaseTRAn;
 
 public class LoaderItemsTRAn extends LoaderItems {
 
-	public LoaderItemsTRAn(GameObjectsProvider<InventoryItem> objProvider) {
-		super(objProvider);
-	}
+	public LoaderItemsTRAn(GameObjectsProvider<InventoryItem> objProvider) { super(objProvider); }
 
 	@Override
 	public void loadInto(GController gm) {
@@ -58,10 +56,10 @@ public class LoaderItemsTRAn extends LoaderItems {
 				int n;
 				CurrencySet cs;
 				cs = gm.newCurrencyHolder();
-				cs.setGameModaliy(null); // not needed
+				cs.setGameModaliy(gm); // not needed
 				n = price.length;
 				while (--n >= 0)
-					cs.setMoneyAmount(n, price[n]);
+					cs.setCurrencyAmount(n, price[n]);
 				ii.setSellPrice(cs);
 			}
 		}

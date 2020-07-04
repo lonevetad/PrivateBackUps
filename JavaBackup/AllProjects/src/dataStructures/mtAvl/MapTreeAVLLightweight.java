@@ -1,6 +1,7 @@
 package dataStructures.mtAvl;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -305,29 +306,24 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		n = root;
 		while (notFound && n != NIL) {
 			c = comp.compare(k, n.k);
-			if (notFound = c != 0) {
-				if (c > 0) {
-					n = n.right;
-				} else {
-					n = n.left;
-				}
-			} /**
-				 * else { // <br>
-				 * if (behavior == BehaviourOnKeyCollision.AddItsNotASet) { // <br>
-				 * // c == 0 .. perche'? se la chiave non fosse uguale, allora non si ha ancora
-				 * // trovato il nodo // <br>
-				 * if (k != n.k || ( // <br>
-				 * // not equals .. // <br>
-				 * (k == null // && n.k != null // <br>
-				 * )// // <br>
-				 * || (!k.equals(n.k)))// // <br>
-				 * ) { // <br>
-				 * n = n.left; // <br>
-				 * notFound = true; // <br>
-				 * } // <br>
-				 * } // <br>
-				 * }
-				 */
+			if (notFound = c != 0) { n = (c > 0) ? n.right : n.left; }
+			/**
+			 * else { // <br>
+			 * if (behavior == BehaviourOnKeyCollision.AddItsNotASet) { // <br>
+			 * // c == 0 .. perche'? se la chiave non fosse uguale, allora non si ha ancora
+			 * // trovato il nodo // <br>
+			 * if (k != n.k || ( // <br>
+			 * // not equals .. // <br>
+			 * (k == null // && n.k != null // <br>
+			 * )// // <br>
+			 * || (!k.equals(n.k)))// // <br>
+			 * ) { // <br>
+			 * n = n.left; // <br>
+			 * notFound = true; // <br>
+			 * } // <br>
+			 * } // <br>
+			 * }
+			 */
 		}
 		return n; // == NIL ? null : n;
 	}
@@ -340,6 +336,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	public void clear() {
 		size = 0;
 		root = NIL;
+		NIL.father = NIL.left = NIL.right = NIL;
+		NIL.height = DEPTH_INITIAL;
 	}
 
 	@Override
@@ -376,6 +374,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	// TODO insertFixup
 	protected void insertFixup(NodeAVL n) {
 		int hl, hr, delta;
+//		NodeAVL father;
+
 		while (n != NIL) {
 			// lh= ;rh=;
 			// recalculate, just to be sure
@@ -387,8 +387,10 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				n = n.father;
 			} else {
 //				if(delta >=2)n.rotate(true);else
+//				father = n.father;
 				n.rotate(delta >= 2);
 				n = n.father.father;
+//				n = father;
 			}
 		}
 		NIL.height = DEPTH_INITIAL;
@@ -433,14 +435,14 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			}
 			next = (c > 0) ? x.right : x.left;
 		}
-		if (next == NIL) {
-			// end of tree reached: x is a leaf
-			if (c > 0)
-				x.right = n;
-			else
-				x.left = n;
-			n.father = x;
-		}
+//		if (next == NIL) {
+		// end of tree reached: x is a leaf
+		if (c > 0)
+			x.right = n;
+		else
+			x.left = n;
+		n.father = x;
+//		}
 		if (size != Integer.MAX_VALUE)
 			size++;
 
@@ -526,7 +528,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				succFather.right = succ.right;
 			succ.father = NIL;
 			// if successor is not a leaf
-			if (succ.right != NIL)
+			if (succ.right != NIL) // because successor is always a leaf or has a leaf at right
 				(succ.right.father = succFather).height = 0;
 			succ.right = NIL;
 		} else if (hasLeft || hasRight) { // or "^" or "!="
@@ -641,6 +643,17 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	// TODO ITERATORS and FOR-EACH
 
 	@Override
+	public void forEach(BiConsumer<? super K, ? super V> action) {
+		forEach(ForEachMode.SortedGrowing, e -> action.accept(e.getKey(), e.getValue()));
+	}
+
+	@Override
+	public void forEach(Consumer<? super Entry<K, V>> action) {
+		forEach(ForEachMode.SortedGrowing, e -> action.accept(e));
+//		forEach(ForEachMode.SortedGrowing,  action );
+	}
+
+	@Override
 	public void forEach(ForEachMode mode, Consumer<Entry<K, V>> action) {
 		NodeAVL n;
 		QueueLightweight<NodeAVL> q;
@@ -654,7 +667,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				case SortedDecreasing:
 					n = root;
 					if (n.right != NIL)// descend to maximum
-						while ((n = n.right) != NIL)
+						while ((n = n.right).right != NIL)
 							;
 					action.accept(n);
 					while ((n = predecessorSorted(n)) != NIL)
@@ -663,7 +676,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				case SortedGrowing:
 					n = root;
 					if (n.left != NIL)// descend to minimum
-						while ((n = n.left) != NIL)
+						while ((n = n.left).left != NIL)
 							;
 					action.accept(n);
 					while ((n = successorSorted(n)) != NIL)
@@ -1017,6 +1030,45 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		return a;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> T[] toArray(T[] aOrig) {
+		final int s;
+		final T[] a;
+		if (aOrig == null)
+			throw new NullPointerException("Cannot provide a null array, gives at least an 0-size array");
+		s = size;
+		if (s == 0)
+			return (new ArrayList<T>(s)).toArray(aOrig);
+		if (s != aOrig.length) {
+			a = (T[]) Array.newInstance(aOrig.getClass().getComponentType(), s);
+		} else
+			a = aOrig;
+		var ct = aOrig.getClass().getComponentType();
+		if (ct.isAssignableFrom(Entry.class)) {
+			this.forEach(new Consumer<Entry<K, V>>() {
+				int ss = s;
+
+				@Override
+				public void accept(Entry<K, V> e) { a[--ss] = (T) e; }
+			});
+		} else {
+			this.forEach(new BiConsumer<K, V>() {
+				int ss = s;
+
+				@Override
+				public void accept(K k, V v) {
+					if (k != null) {
+						a[--ss] = ct.isAssignableFrom(k.getClass()) ? ((T) k) : null;
+					} else if (v != null) {
+						a[--ss] = ct.isAssignableFrom(v.getClass()) ? ((T) v) : null;
+					} else
+						a[--ss] = null;
+				}
+			});
+		}
+		return a;
+	}
+
 	// public void forEach(BiFunction<K,V> f) {}
 
 	// minor methods
@@ -1169,14 +1221,26 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 	@Override
 	public SortedMap<K, V> subMap(K fromKey, K toKey) {
-		throw new UnsupportedOperationException("Operation forbidden");
+		subMapUnsupportedExc();
+		return null;
 	}
 
 	@Override
-	public SortedMap<K, V> headMap(K toKey) { throw new UnsupportedOperationException("Operation forbidden"); }
+	public SortedMap<K, V> headMap(K toKey) {
+		subMapUnsupportedExc();
+		return null;
+	}
 
 	@Override
-	public SortedMap<K, V> tailMap(K fromKey) { throw new UnsupportedOperationException("Operation forbidden"); }
+	public SortedMap<K, V> tailMap(K fromKey) {
+		subMapUnsupportedExc();
+		return null;
+	}
+
+	protected void subMapUnsupportedExc() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException(
+				"Operation forbidden: no way to keep track of original Map AND filter fields so that they will not appear there.\n Make your own wrapper checking, with a comparator, what to insert, delete, etc, also for iteration");
+	}
 
 	@Override
 	public K firstKey() {
@@ -1368,13 +1432,13 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 					a = this;
 					b = nSide;
 					c = b.right;
-					if (oldFather != NIL) {
-						if (oldFather.left == a)
-							oldFather.left = c;
-						else
-							oldFather.right = c;
-						c.father = oldFather;
-					}
+//					if (oldFather != NIL) {
+					if (oldFather.left == a)
+						oldFather.left = c;
+					else
+						oldFather.right = c;
+					c.father = oldFather;
+//					}
 					a.father = c;
 					a.left = c.right;
 					if (c.right != NIL)
@@ -1599,6 +1663,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			moveToNext();
 //					normalOrder ? current.nextInOrder : current.prevInOrder;
 			canRemove = true;
+			if (e == NIL)
+				throw new NullPointerException("WTF WHY I'M NIL??");
 			return e;
 		}
 
@@ -1778,7 +1844,9 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		 */
 		@SuppressWarnings("unchecked")
 		public void forEach(ForEachMode iterMode, Consumer<? super E> action) {
-			forEach(iterMode, (entry) -> { action.accept((E) irt.extract((NodeAVL) entry)); });
+//			this.getBackTree().
+			MapTreeAVLLightweight.this.forEach(iterMode,
+					(entry) -> { action.accept((E) irt.extract((NodeAVL) entry)); });
 		}
 
 		@SuppressWarnings("unchecked")
@@ -1895,7 +1963,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public void forEach(Consumer<? super E> action) { super.forEach(ForEachMode.Queue, action); }
 
 		@Override
-		public <T> T[] toArray(T[] a) { throw new UnsupportedOperationException("Too lazy to implement"); }
+		public <T> T[] toArray(T[] a) { return MapTreeAVLLightweight.this.toArray(a); }
 
 		@Override
 		public boolean containsAll(Collection<?> c) {
@@ -1934,7 +2002,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public boolean isEmpty() { return MapTreeAVLLightweight.this.isEmpty(); }
 
 		@Override
-		public void forEach(Consumer<? super E> action) { super.forEach(ForEachMode.Queue, action); }
+		public void forEach(Consumer<? super E> action) { super.forEach(ForEachMode.SortedGrowing, action); }
 
 		@Override
 		public boolean remove(Object key) {
@@ -1987,7 +2055,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public boolean contains(Object o) { return MapTreeAVLLightweight.this.containsKey(getKeyFromObject(o)); }
 
 		@Override
-		public <T> T[] toArray(T[] a) { throw new UnsupportedOperationException("Too lazy to implement"); }
+		public <T> T[] toArray(T[] a) { return MapTreeAVLLightweight.this.toArray(a); }
 
 		@Override
 		public boolean containsAll(Collection<?> c) {
@@ -2115,7 +2183,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public Object[] toArray() { return MapTreeAVLLightweight.this.toArray(); }
 
 		@Override
-		public <T> T[] toArray(T[] a) { throw new UnsupportedOperationException("Too lazy to implement"); }
+		public <T> T[] toArray(T[] a) { return MapTreeAVLLightweight.this.toArray(a); }
 
 		@Override
 		public boolean containsAll(Collection<?> c) { return MapTreeAVLLightweight.this.containsAll(c); }
@@ -2178,7 +2246,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public void forEach(Consumer<? super K> action) {
 			MapTreeAVLLightweight.this.forEach(e -> action.accept(e.getKey()));
-//			throw new UnsupportedOperationException("TODO DA FAREEEE");
 		}
 
 		@Override
@@ -2296,7 +2363,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public void forEach(Consumer<? super V> action) {
 			MapTreeAVLLightweight.this.forEach(e -> action.accept(e.getValue()));
-//			throw new UnsupportedOperationException("TODO DA FAREEEE");
 		}
 
 		@Override
@@ -2308,6 +2374,36 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public V last() { return MapTreeAVLLightweight.this.peekMaximum().getValue(); }
 	}
+
+	// TODO submaps
+
+//	protected class AbstractSubMap implements SortedMap<K, V>, TreeAVLDelegator<K, V> {
+//
+//		@Override
+//		public MapTreeAVLLightweight<K, V> getBackTree() { return MapTreeAVLLightweight.this; }
+//
+//		@Override
+//		public int size() {
+//			int s;
+//			Iterator<Entry<K, V>> iter;
+//			s = 0;
+//			iter = this.iterator();
+//			while (iter.hasNext()) {
+//				s++;
+//				iter.next();
+//			}
+//			return s;
+//		}
+//
+//		@Override
+//		public void clear() { MapTreeAVLLightweight.this.clear(); }
+//
+//		@Override
+//		public boolean isEmpty() { return this.size() == 0; }
+
+//	protected class TailMap extends AbstractSubMap {	}
+
+	//
 
 //	protected class StreamTreeAVL<T> implements Stream<Entry<K, V>> {
 //		protected StreamTreeAVL(Iterator<Entry<K, V>> iter) {

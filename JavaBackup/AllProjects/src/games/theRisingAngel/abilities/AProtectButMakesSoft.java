@@ -11,12 +11,12 @@ import games.theRisingAngel.misc.AttributesTRAn;
 /**
  * Upon receiving a damage, it is halved, but at the cost of a similar amount of
  * malus of "damage reduction". This malus, after {@link #DURATION_EFFECT} it
- * vanish, halving at every update.
+ * vanish, reduced by the 25% (previously it halves) at every update.
  */
 public class AProtectButMakesSoft extends ASimpleFixedBufferVanishingTRAn {
 	private static final long serialVersionUID = -58986254522086021L;
 	public static final String NAME = "Crystal Glass";
-	public static final int RARITY = 2, DURATION_EFFECT = 2000, DURATION_VANISH = 10000;
+	public static final int RARITY = 2, DURATION_EFFECT = 500/* 2000 */, DURATION_VANISH = 5000;
 	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] {
 			AttributesTRAn.DamageReductionPhysical, AttributesTRAn.DamageReductionMagical };
 
@@ -24,27 +24,27 @@ public class AProtectButMakesSoft extends ASimpleFixedBufferVanishingTRAn {
 		super(NAME, AttributeModification.newEmptyArray(WHAT_TO_MODIFY));
 		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
 		this.setCumulative(false);
+		super.setVanishingEffectDuration(DURATION_VANISH);
+		super.setAbilityEffectDuration(DURATION_EFFECT);
 		setRarityIndex(RARITY);
 		malusVanishing = 0;
 	}
 
+	/**
+	 * Upon receiving the second successive damage (before the activated ability
+	 * fades out), force me to deactivate.<br>
+	 * NOT USED: mechanism already exists because before firing the damage event,
+	 * the damage amount is reduced by the appropriate creature's attribute
+	 * "reduction damage of XYZ".
+	 */
+//	protected boolean isForcingDeactivation = false;
+	/**
+	 * The amount of damage reduced, equal but opposite to the reduction malus to be
+	 * applied.
+	 */
 	protected int malusVanishing;
 
 //		public CreatureSimple getCreatureReferred() {return creatureReferred;}
-
-	@Override
-	public int getAbilityEffectDuration() { return DURATION_EFFECT; }
-
-	@Override
-	public int getVanishingEffectDuration() { return DURATION_VANISH; }
-
-	//
-
-	@Override
-	public void setAbilityEffectDuration(int abilityEffectDuration) {}
-
-	@Override
-	public void setVanishingEffectDuration(int vanishingEffectDuration) {}
 
 //
 
@@ -75,6 +75,7 @@ public class AProtectButMakesSoft extends ASimpleFixedBufferVanishingTRAn {
 				d = de.getDamageReducedByTargetArmors() >> 1;
 				de.setDamageAmountToBeApplied(de.getDamageAmountToBeApplied() - d);
 				malusVanishing = -d; // NEGATIVE
+				setPhaseAbilityCurrent(PhaseAbilityVanishing.Active);
 //				this.attributesToModify[0].setValue(-d);
 //				this.attributesToModify[1].setValue(-d);
 			}
@@ -84,11 +85,28 @@ public class AProtectButMakesSoft extends ASimpleFixedBufferVanishingTRAn {
 //	public void doUponAbilityRefreshed() { setPhaseTo(PhaseAbilityVanishing.Finished); }
 
 	@Override
-	public void updateModAttributesDuringActiveEffect() {
+	public void updateModAttributesDuringActivationEffect() {
 		int d;
+//		super.updateModAttributesDuringActiveEffect();
 		d = malusVanishing;
 		this.attributesToModify[0].setValue(d);
 		this.attributesToModify[1].setValue(d);
+//		malusVanishing = 0;
+//		this.newModifiersAmountOnVanishing[0] = malusVanishing;
+//		this.newModifiersAmountOnVanishing[1] = malusVanishing;
+	}
+
+	@Override
+	public void updateModAttributesDuringVanishing() {
+		super.updateModAttributesDuringVanishing();
 		malusVanishing = 0;
+	}
+
+	@Override
+	protected int computeNewAmountOnVanishing(AttributeModification am) {
+		int av;
+		av = am.getValue();
+		av -= (av >> 2); // returns the 75%;
+		return av;
 	}
 }

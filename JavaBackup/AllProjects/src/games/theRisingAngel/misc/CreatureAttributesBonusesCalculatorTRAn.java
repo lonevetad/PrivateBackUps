@@ -50,8 +50,6 @@ import tools.minorTools.RandomWeightedIndexes;
  */
 public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttributesBonusesCalculator {
 
-	protected boolean isCacheDirty;
-	protected int[] cache;
 	protected CreatureAttributes creatureAttributesSet;
 
 	@Override
@@ -59,135 +57,154 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 
 	@Override
 	public void setCreatureAttributesSet(CreatureAttributes creatureAttributesSet) {
-		int n, c[];
 		this.creatureAttributesSet = creatureAttributesSet;
-		if (creatureAttributesSet == null)
-			throw new IllegalArgumentException("Creaure Attribute Set is null");
-		c = cache = new int[n = creatureAttributesSet.getAttributesCount()];
-		while (n-- > 0)// clean memory
-			c[n] = 0;
 	}
 
 	@Override
-	public void markCacheAsDirty() { isCacheDirty = true; }
+	public void markCacheAsDirty() {}
 
 	@Override
-	public int getBonusForValue(int index) {
-		if (isCacheDirty)
-			recalculateCache();
-		return cache[index];
-	}
-
-	public void recalculateCache() {
+	public int getBonusFor(int index) {
+		int v;
+		AttributesTRAn a;
 		CreatureAttributes c;
-		c = getCreatureAttributesSet();
-		if (c == null)
-			throw new IllegalStateException("Creaure Attribute Set is null");
-		isCacheDirty = false;
-		cache[AttributesTRAn.Luck.ordinal()] = // TODO to be continued
+		a = AttributesTRAn.VALUES[index];
+		c = creatureAttributesSet;
+		switch (a) {
+		case Luck: {
+			v =
 //				+(c.getValue(AttributesTRAn.Health.getIndex()) >> 3)
 //						+ (c.getValue(AttributesTRAn.Wisdom.getIndex()) >> 3)
 //						+ (c.getValue(AttributesTRAn.Faith.getIndex()) >> 3)
 //						+ (c.getValue(AttributesTRAn.Intelligence.getIndex()) >> 3)
 //						+ (c.getValue(AttributesTRAn.Dexterity) >> 3);
-				(c.getValue(AttributesTRAn.Health) + c.getValue(AttributesTRAn.Wisdom)
-						+ c.getValue(AttributesTRAn.Faith) + c.getValue(AttributesTRAn.Dexterity)
-						+ c.getValue(AttributesTRAn.Intelligence)) >> 3;
-
-		cache[AttributesTRAn.LifeMax.ordinal()] = c.getValue(AttributesTRAn.Constitution)
-				+ (c.getValue(AttributesTRAn.Strength) >> 1) + (c.getValue(AttributesTRAn.Health) << 1);
-
-		cache[AttributesTRAn.RegenLife.ordinal()] = //
-				+((c.getValue(AttributesTRAn.Health) + (c.getValue(AttributesTRAn.Constitution) >> 1)
-						+ (c.getValue(AttributesTRAn.Strength) / 3) // >> 2)
-				) >> 2)//
-						+ ((c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Faith)) >> 5);
-//			v >>= 1; // to high
-
-		cache[AttributesTRAn.DamageReductionPhysical.ordinal()] = ( //
-		+c.getValue(AttributesTRAn.Defense) //
-				+ (((c.getValue(AttributesTRAn.Strength) >> 1) + c.getValue(AttributesTRAn.Constitution)
-						+ (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)
-				+ (c.getValue(AttributesTRAn.Dexterity) / 5)//
-		) >> 1;
-
-		//
-
-		cache[AttributesTRAn.DamageBonusPhysical.ordinal()] = ( //
-		+((c.getValue(AttributesTRAn.Strength) + c.getValue(AttributesTRAn.Constitution)) >> 1)
-				+ ((c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Intelligence)) / 5)
-				+ (c.getValue(AttributesTRAn.Wisdom) >> 3)//
-		) >> 1;
-
-		cache[AttributesTRAn.ManaMax.ordinal()] = (c.getValue(AttributesTRAn.Intelligence) >> 1) //
-				+ (c.getValue(AttributesTRAn.Wisdom)) + (c.getValue(AttributesTRAn.Faith) << 1);
-//			v >>= 1; // too high, make it half
-
-		cache[AttributesTRAn.RegenMana.ordinal()] = //
-				+(c.getValue(AttributesTRAn.Faith) + (c.getValue(AttributesTRAn.Intelligence) / 3)// >>
-																									// 2)
-						+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)//
-				) >> 2;
-//		cache[AttributesTRAn.RigenMana.ordinal()] = ((c.getValue(AttributesTRAn.Faith))
+					(+((c.getValue(AttributesTRAn.Dexterity) + c.getValue(AttributesTRAn.Faith)
+							+ c.getValue(AttributesTRAn.Health)) >> 1) + c.getValue(AttributesTRAn.Wisdom)
+							+ c.getValue(AttributesTRAn.Intelligence)) >> 3;
+			break;
+		}
+		case LifeMax: {
+			v = c.getValue(AttributesTRAn.Constitution) + (c.getValue(AttributesTRAn.Strength) >> 1)
+					+ (c.getValue(AttributesTRAn.Health) << 1);
+			break;
+		}
+		case RegenLife: {
+			v = +((c.getValue(AttributesTRAn.Health) + (c.getValue(AttributesTRAn.Constitution) >> 1)
+					+ (c.getValue(AttributesTRAn.Strength) / 3) // >> 2)
+					+ ((c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Faith)) >> 3)) >> 3);
+//			v >>= 1; // to highbreak;
+		}
+		case DamageReductionPhysical: {
+			v = ( //
+			+c.getValue(AttributesTRAn.Defense) //
+					+ (((c.getValue(AttributesTRAn.Strength) >> 1) + c.getValue(AttributesTRAn.Constitution)
+							+ (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)
+					+ (c.getValue(AttributesTRAn.Dexterity) / 5)//
+			) >> 1;
+			break;
+		}
+		case DamageBonusPhysical: {
+			v = ( //
+			+((c.getValue(AttributesTRAn.Strength) + c.getValue(AttributesTRAn.Constitution)) >> 1)
+					+ ((c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Intelligence)) / 5)
+					+ (c.getValue(AttributesTRAn.Wisdom) >> 3)//
+			) >> 1;
+			break;
+		}
+		case ManaMax: {
+			v = (c.getValue(AttributesTRAn.Intelligence) >> 1) //
+					+ (c.getValue(AttributesTRAn.Wisdom)) + (c.getValue(AttributesTRAn.Faith) << 1);
+//			v >>= 1; // too high, make it halfbreak;
+		}
+		case RegenMana: {
+			v = //
+					+(c.getValue(AttributesTRAn.Faith) + //
+							(c.getValue(AttributesTRAn.Intelligence) / 3)// >> 2)
+							+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Health) >> 2)) >> 1)//
+					) >> 3;
+//		break;}case RigenMana : {v= ((c.getValue(AttributesTRAn.Faith))
 //				+ (c.getValue(AttributesTRAn.Wisdom) >> 1)
 //				+ (c.getValue(AttributesTRAn.Intelligence) >> 2)
-//				+ (c.getValue(AttributesTRAn.Health) >> 3)) / 10;
-
-		cache[AttributesTRAn.DamageBonusMagical.ordinal()] = ( //
-		(c.getValue(AttributesTRAn.Precision) / 5) + c.getValue(AttributesTRAn.Intelligence)
-				+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Faith) >> 1)) >> 1)//
-		) >> 1;
-
-		cache[AttributesTRAn.DamageReductionMagical.ordinal()] = ( //
-		+(c.getValue(AttributesTRAn.Dexterity) / 5) + c.getValue(AttributesTRAn.Intelligence)
-				+ c.getValue(AttributesTRAn.Wisdom) //
-				+ ((c.getValue(AttributesTRAn.Defense) >> 2) + (c.getValue(AttributesTRAn.Faith)) >> 1)//
-		) >> 1;
-
-		cache[AttributesTRAn.CriticalMultiplierPercentage.ordinal()] = (c.getValue(AttributesTRAn.Strength) << 1)
-				+ c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Wisdom)
-				+ c.getValue(AttributesTRAn.Luck);
-
-		cache[AttributesTRAn.CriticalProbabilityPerThousand.ordinal()] = //
-				((c.getValue(AttributesTRAn.Precision) << 1) + c.getValue(AttributesTRAn.Dexterity)
-						+ c.getValue(AttributesTRAn.Faith)//
-						+ ((+c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Wisdom)) >> 1)//
-				) + c.getValue(AttributesTRAn.Luck);
-
-		cache[AttributesTRAn.CriticalMultiplierPercentageReduction.ordinal()] = ( //
-		+c.getValue(AttributesTRAn.Defense) + c.getValue(AttributesTRAn.Constitution) //
-				+ ((+(c.getValue(AttributesTRAn.Strength) >> 1) + (c.getValue(AttributesTRAn.Dexterity) >> 2)) >> 1)//
-		) >> 3;
-
-		cache[AttributesTRAn.CriticalProbabilityPerThousandAvoid.ordinal()] = (+c.getValue(AttributesTRAn.Constitution) //
-				+ ((+c.getValue(AttributesTRAn.Dexterity)//
-						+ ((c.getValue(AttributesTRAn.Defense) + ((c.getValue(AttributesTRAn.Precision)
-								+ c.getValue(AttributesTRAn.Intelligence)) >> 1)) >> 1)) >> 1)//
-		);
-
-		cache[AttributesTRAn.ProbabilityPerThousandHitPhysical.ordinal()] = //
-
-				+c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Luck)
-						+ ((c.getValue(AttributesTRAn.Dexterity) + (c.getValue(AttributesTRAn.Strength) >> 1)
-								+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
-
-		cache[AttributesTRAn.ProbabilityPerThousandAvoidPhysical.ordinal()] = //
-				+c.getValue(AttributesTRAn.Dexterity) + c.getValue(AttributesTRAn.Luck)
-						+ ((c.getValue(AttributesTRAn.Precision) + (c.getValue(AttributesTRAn.Strength) >> 1)
-								+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
-
-		cache[AttributesTRAn.ProbabilityPerThousandHitMagical.ordinal()] = //
-
-				+c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Luck)
-						+ ((c.getValue(AttributesTRAn.Intelligence) + (c.getValue(AttributesTRAn.Faith) >> 1)
-								+ (c.getValue(AttributesTRAn.Precision) >> 2)) >> 1);
-
-		cache[AttributesTRAn.ProbabilityPerThousandAvoidMagical.ordinal()] = +c.getValue(AttributesTRAn.Luck)
-
-				+ c.getValue(AttributesTRAn.Intelligence) + ((c.getValue(AttributesTRAn.Wisdom)
-						+ (c.getValue(AttributesTRAn.Faith) >> 1) + (c.getValue(AttributesTRAn.Dexterity) >> 3)) >> 1);
-
-		cache[AttributesTRAn.Velocity.ordinal()] = ((c.getValue(AttributesTRAn.Dexterity) << 1) / 5) //
-				+ (((c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Strength)) << 1) / 15);
+//				+ (c.getValue(AttributesTRAn.Health) >> 3)) / 10;break;
+		}
+		case DamageBonusMagical: {
+			v = ( //
+			(c.getValue(AttributesTRAn.Precision) / 5) + c.getValue(AttributesTRAn.Intelligence)
+					+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Faith) >> 1)) >> 1)//
+			) >> 1;
+			break;
+		}
+		case DamageReductionMagical: {
+			v = ( //
+			+(c.getValue(AttributesTRAn.Dexterity) / 5) + c.getValue(AttributesTRAn.Intelligence)
+					+ c.getValue(AttributesTRAn.Wisdom) //
+					+ ((c.getValue(AttributesTRAn.Defense) >> 2) + (c.getValue(AttributesTRAn.Faith)) >> 1)//
+			) >> 1;
+			break;
+		}
+		case CriticalMultiplierPercentage: {
+			v = (c.getValue(AttributesTRAn.Strength) << 1) + c.getValue(AttributesTRAn.Intelligence)
+					+ c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Luck);
+			break;
+		}
+		case CriticalProbabilityPerThousand: {
+			v = //
+					((c.getValue(AttributesTRAn.Precision) << 1) + c.getValue(AttributesTRAn.Dexterity)
+							+ c.getValue(AttributesTRAn.Faith)//
+							+ ((+c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Wisdom)) >> 1)//
+					) + c.getValue(AttributesTRAn.Luck);
+			break;
+		}
+		case CriticalMultiplierPercentageReduction: {
+			v = ( //
+			+c.getValue(AttributesTRAn.Defense) + c.getValue(AttributesTRAn.Constitution) //
+					+ ((+(c.getValue(AttributesTRAn.Strength) >> 1) + (c.getValue(AttributesTRAn.Dexterity) >> 2)) >> 1)//
+			) >> 3;
+			break;
+		}
+		case CriticalProbabilityPerThousandAvoid: {
+			v = (+c.getValue(AttributesTRAn.Constitution) //
+					+ ((+c.getValue(AttributesTRAn.Dexterity)//
+							+ ((c.getValue(AttributesTRAn.Defense) + ((c.getValue(AttributesTRAn.Precision)
+									+ c.getValue(AttributesTRAn.Intelligence)) >> 1)) >> 1)) >> 1)//
+			);
+			break;
+		}
+		case ProbabilityPerThousandHitPhysical: {
+			v = //
+					+c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Luck)
+							+ ((c.getValue(AttributesTRAn.Dexterity) + (c.getValue(AttributesTRAn.Strength) >> 1)
+									+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
+			break;
+		}
+		case ProbabilityPerThousandAvoidPhysical: {
+			v = //
+					+c.getValue(AttributesTRAn.Dexterity) + c.getValue(AttributesTRAn.Luck)
+							+ ((c.getValue(AttributesTRAn.Precision) + (c.getValue(AttributesTRAn.Strength) >> 1)
+									+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
+			break;
+		}
+		case ProbabilityPerThousandHitMagical: {
+			v = //
+					+c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Luck)
+							+ ((c.getValue(AttributesTRAn.Intelligence) + (c.getValue(AttributesTRAn.Faith) >> 1)
+									+ (c.getValue(AttributesTRAn.Precision) >> 2)) >> 1);
+			break;
+		}
+		case ProbabilityPerThousandAvoidMagical: {
+			v = +c.getValue(AttributesTRAn.Luck) + c.getValue(AttributesTRAn.Intelligence)
+					+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Faith) >> 1)
+							+ (c.getValue(AttributesTRAn.Dexterity) >> 3)) >> 1);
+			break;
+		}
+		case Velocity: {
+			v = ((c.getValue(AttributesTRAn.Dexterity) << 1) / 5) //
+					+ (((c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Strength)) << 1) / 15);
+			break;
+		}
+		default:
+			v = 0;
+		}
+		return v;
 	}
 }

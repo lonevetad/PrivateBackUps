@@ -81,7 +81,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	}
 
 	@Override
-	public void updateModAttributesDuringActiveEffect() {
+	public void updateModAttributesDuringActivationEffect() {
 		// no kind of updated
 	}
 

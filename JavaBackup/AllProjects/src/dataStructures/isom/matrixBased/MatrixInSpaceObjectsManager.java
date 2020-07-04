@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.SetMapped;
-import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.AbstractShape2D;
@@ -18,16 +19,22 @@ import geometry.ObjectLocated;
 import geometry.ObjectShaped;
 import geometry.ProviderShapeRunner;
 import geometry.ProviderShapesIntersectionDetector;
+import geometry.implementations.PathOptimizerPoint;
+import geometry.implementations.ProviderShapeRunnerImpl;
 import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.PointConsumer;
 import tools.Comparators;
 import tools.LoggerMessages;
 import tools.NumberManager;
+import tools.UniqueIDProvider;
 
 /** Rectangular matrix-based implementation */
-public abstract class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpaceObjectsManager<Distance> {
+public abstract class MatrixInSpaceObjectsManager<Distance extends Number> extends InSpaceObjectsManagerImpl<Distance> {
 	private static final long serialVersionUID = 6663104159265L;
 	protected static final Double justOne = 1.0, sqrtTwo = /* Math.max(justOne + 0.5, */Math.sqrt(2);
+	public static final CoordinatesDeltaForAdjacentNodes[] VALUES_CoordinatesDeltaForAdjacentNodes = CoordinatesDeltaForAdjacentNodes
+			.values();
+	protected static final UniqueIDProvider idProvider = UniqueIDProvider.newBasicIDProvider();
 //	public static enum OperationOnShape {Add, Remove, Replace, Collect;}
 
 	public static enum CoordinatesDeltaForAdjacentNodes {
@@ -36,8 +43,8 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		, NORD_EST(1, -1, sqrtTwo), SUD_EST(1, 1, sqrtTwo), SUD_OVEST(-1, 1, sqrtTwo), NORD_OVEST(-1, -1, sqrtTwo)//
 		;
 
-		final int dx, dy;
-		final Double weight;
+		public final int dx, dy;
+		public final Double weight;
 
 		CoordinatesDeltaForAdjacentNodes(int dxx, int dyy, double w) {
 			dx = dxx;
@@ -48,11 +55,18 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 	public MatrixInSpaceObjectsManager(boolean isLazyNodeInstancing, int width, int height,
 			NumberManager<Distance> weightManager) {
+		this(idProvider.getNewID(), isLazyNodeInstancing, width, height, weightManager);
+	}
+
+	public MatrixInSpaceObjectsManager(Integer ID, boolean isLazyNodeInstancing, int width, int height,
+			NumberManager<Distance> weightManager) {
+		super();
 		this.isLazyNodeInstancing = isLazyNodeInstancing;
-		this.height = height;
-		this.width = width;
+//		this.height = height;
+//		this.width = width;
 		this.weightManager = weightManager;
-		onCreate();
+		this.id = ID;
+		onCreate(width, height);
 		// TODO create intersectors and runners
 //		ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
 //		ProviderShapeRunner shapeRunnerProvider = new ProviderShapeRunnerImpl() ???? e quello che fa cache dei cerchi?
@@ -60,9 +74,9 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 //	protected Comparator IDOwidComparator;
 	protected final boolean isLazyNodeInstancing;
-	protected int width, height;
-	protected NodeIsom[][] matrix;
-	protected final NumberManager<Distance> weightManager;
+//	protected int width, height;
+	protected Integer id;
+	protected NodeIsom<Distance>[][] matrix;
 	protected AbstractShape2D shape;
 	protected ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
 	protected ProviderShapeRunner shapeRunnerProvider;
@@ -71,18 +85,24 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 	//
 
-	protected void onCreate() {
+	protected void onCreate(int width, int height) {
 		this.shape = new ShapeRectangle(0, width >> 1, height >> 1, true, width, height);
 		setObjectsAdded(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR));
+		setProviderShapeRunner(ProviderShapeRunnerImpl.getInstance());
+		setProviderShapesIntersectionDetector(ProviderShapesIntersectionDetector.getInstance());
+		setPathOptimizer(PathOptimizerPoint.getInstance());
 		reinstanceMatrix();
 	}
 
 	//
 
+	public Integer getId() { return id; }
+
 	@Override
-	public AbstractShape2D getBoundingShape() {
-		return shape;
-	}
+	public Integer getID() { return id; }
+
+	@Override
+	public AbstractShape2D getBoundingShape() { return shape; }
 
 	@Override
 	public ProviderShapesIntersectionDetector getProviderShapesIntersectionDetector() {
@@ -90,43 +110,50 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public ProviderShapeRunner getProviderShapeRunner() {
-		return shapeRunnerProvider;
+	public ProviderShapeRunner getProviderShapeRunner() { return shapeRunnerProvider; }
+
+	public boolean isLazyNodeInstancing() { return isLazyNodeInstancing; }
+
+	public int getWidth() { return shape.getWidth(); }
+
+	public int getHeight() { return shape.getHeight(); }
+
+	public Point getLocationAbsolute() { return shape.getCenter(); }
+
+	public Point getTopLetCornerAbsolute() {
+		Point c;
+		c = shape.getCenter();
+		return new Point(c.x - (getWidth() >> 1), c.y - (getHeight() >> 1));
 	}
 
-	public boolean isLazyNodeInstancing() {
-		return isLazyNodeInstancing;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public ProviderShapeRunner getShapeRunnerProvider() {
-		return shapeRunnerProvider;
-	}
+	public ProviderShapeRunner getShapeRunnerProvider() { return shapeRunnerProvider; }
 
 	/** Use with caution. */
-	public Map<Integer, ObjectLocated> getObjectsAdded() {
-		return objectsAdded;
-	}
+	public Map<Integer, ObjectLocated> getObjectsAdded() { return objectsAdded; }
 
 	@Override
-	public Set<ObjectLocated> getAllObjectLocated() {
-		return objectsAddedSet;
-	}
+	public Set<ObjectLocated> getAllObjectLocated() { return objectsAddedSet; }
 
-	public NodeIsom[] getRow(int y) {
-		return matrix[y];
-	}
+	public NodeIsom<Distance>[] getRow(int y) { return matrix[y]; }
 
 	//
 
 	// TODO SETTER
+
+	public void setId(Integer id) { this.id = id; }
+
+	@Override
+	public void setShape(AbstractShape2D shape) {}
+
+	public void setLocationAbsolute(Point p) { shape.setCenter(p); }
+
+	public void setLocationAbsolute(int x, int y) { shape.setCenter(x, y); }
+
+	public void setTopLetCornerAbsolute(Point lc) { setTopLetCornerAbsolute(lc.x, lc.y); }
+
+	public void setTopLetCornerAbsolute(int x, int y) {
+		setLocationAbsolute(x + (getWidth() >> 1), y + (getHeight() >> 1));
+	}
 
 	@Override
 	public void setProviderShapesIntersectionDetector(
@@ -152,9 +179,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public void setLog(LoggerMessages log) {
-		this.log = LoggerMessages.loggerOrDefault(log);
-	}
+	public void setLog(LoggerMessages log) { this.log = LoggerMessages.loggerOrDefault(log); }
 
 	@Override
 	public void setProviderShapeRunner(ProviderShapeRunner providerShapeRunner) {
@@ -165,41 +190,64 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 	//
 
-	public abstract NodeIsom newNodeMatrix(int x, int y);
+	public abstract NodeIsom<Distance> newNodeMatrix(int x, int y);
 
+	@Override
+	public void forEachNode(Consumer<NodeIsom<Distance>> action) {
+		int r, c, w, h;
+		NodeIsom<Distance>[] row, m[];
+		m = this.matrix;
+		if (action == null || m == null)
+			return;
+		h = this.getHeight();
+		w = this.getWidth();
+		r = -1;
+		while (++r < h) {
+			row = m[r];
+			c = -1;
+			while (++c < w) {
+				action.accept(row[c]);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	public void reinstanceMatrix() {
 		int r, c, w, h;
-		NodeIsom[] row, m[];
-		m = this.matrix = new NodeIsom[h = this.height][w = this.width];
+		NodeIsom<Distance>[] row, m[];
+		m = this.matrix = new NodeIsom[h = this.getHeight()][w = this.getWidth()];
 		if (isLazyNodeInstancing)
 			return;
 		r = -1;
-		while(++r < h) {
+		while (++r < h) {
 			row = m[r];
 			c = -1;
-			while(++c < w) {
+			while (++c < w) {
 				row[c] = newNodeMatrix(c, r);
 			}
 		}
 	}
 
+	/**
+	 * The point is relative to this map (i.e.: negative values will cause an
+	 * {@link Exception}).
+	 */
 	@Override
-	public NodeIsom getNodeAt(Point p) {
+	public NodeIsom<Distance> getNodeAt(Point p) {
 		int x, y;
-		NodeIsom n;
-		n = matrix[y = (int) p.getY()][x = (int) p.getX()];
-		if (isLazyNodeInstancing && n == null) {
-			n = matrix[y][x] = newNodeMatrix(x, y);
-		}
+		NodeIsom<Distance> n;
+//		n = matrix[y = (int) p.getY()][x = (int) p.getX()];
+		n = matrix[y = p.y][x = p.x];
+		if (isLazyNodeInstancing && n == null) { n = matrix[y][x] = newNodeMatrix(x, y); }
 		return n;
 	}
 
-	public NodeIsom getNodeAt(int x, int y) {
-		NodeIsom n;
+	/** See {@link #getNodeAt(Point)}. */
+	@Override
+	public NodeIsom<Distance> getNodeAt(int x, int y) {
+		NodeIsom<Distance> n;
 		n = matrix[y][x];
-		if (isLazyNodeInstancing && n == null) {
-			n = matrix[y][x] = newNodeMatrix(x, y);
-		}
+		if (isLazyNodeInstancing && n == null) { n = matrix[y][x] = newNodeMatrix(x, y); }
 		return n;
 	}
 
@@ -208,17 +256,17 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		Point p;
 		p = new Point();
 		int r, c, w, h;
-		NodeIsom[] row, m[];
+		NodeIsom<Distance>[] row, m[];
 //		NodeIsom node;
 		m = this.matrix;
-		h = this.height;
-		w = this.width;
+		h = this.getHeight();
+		w = this.getWidth();
 		r = -1;
-		while(++r < h) {
+		while (++r < h) {
 			row = m[r];
 			c = -1;
 			p.y = r;
-			while(++c < w) {
+			while (++c < w) {
 				if (row[c] != null) {
 //				if ((node = row[c]) != null) {
 					p.x = c;
@@ -229,7 +277,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public ObjLocatedCollectorIsom newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) {
+	public ObjLocatedCollectorIsom<Distance> newObjLocatedCollector(Predicate<ObjectLocated> objectFilter) {
 		return new ObjLocatedCollectorMatrix<>(this, objectFilter);
 	}
 
@@ -251,14 +299,10 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public ObjectLocated getObjectLocated(Integer ID) {
-		return this.objectsAdded.get(ID);
-	}
+	public ObjectLocated getObjectLocated(Integer ID) { return this.objectsAdded.get(ID); }
 
 	@Override
-	public boolean contains(ObjectLocated o) {
-		return o != null && this.getObjectsAdded().containsKey(o.getID());
-	}
+	public boolean contains(ObjectLocated o) { return o != null && this.getObjectsAdded().containsKey(o.getID()); }
 
 	@Override
 	public boolean remove(ObjectLocated o) {
@@ -284,7 +328,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		this.getObjectsAdded().clear();
 		tClearer = new Thread(() -> {
 			runOnWholeMap(p -> {
-				NodeIsom n;
+				NodeIsom<Distance> n;
 				n = getNodeAt(p);
 				if (n != null)
 					n.removeAllObjects();
@@ -295,10 +339,11 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public void forEachAdjacents(NodeIsom node, BiConsumer<NodeIsom, Distance> adjacentDistanceConsumer) {
+	public void forEachAdjacents(NodeIsom<Distance> node,
+			BiConsumer<NodeIsom<Distance>, Distance> adjacentDistanceConsumer) {
 		boolean xNotTooOnRight, xStrictlyPositive;
 		int x;
-		NodeIsom row[];
+		NodeIsom<Distance> row[];
 		x = node.x;
 		xStrictlyPositive = x > 0;
 		xNotTooOnRight = x < (matrix[0].length - 1);
@@ -334,9 +379,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
-	public Iterator<ObjectLocated> iterator() {
-		return new IteratorNodeIsom();
-	}
+	public Iterator<ObjectLocated> iterator() { return new IteratorNodeIsom(); }
 
 	//
 
@@ -360,9 +403,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public void acceptImpl(Point p) {
-			this.misom.getNodeAt(p).addObject(oToManipulate);
-		}
+		public void acceptImpl(Point p) { this.misom.getNodeAt(p).addObject(oToManipulate); }
 	}
 
 	protected static class RemoverObjLocated<D extends Number> extends ActionOnPointWithObj<D> {
@@ -373,36 +414,32 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public void acceptImpl(Point p) {
-			this.misom.getNodeAt(p).removeObject(oToManipulate);
-		}
+		public void acceptImpl(Point p) { this.misom.getNodeAt(p).removeObject(oToManipulate); }
 	}
 
 	protected class IteratorNodeIsom implements Iterator<ObjectLocated> {
 		int r, c, w, h;
 		Iterator<ObjectLocated> nodeIteratingIterator;
-		NodeIsom nodeIterating;
+		NodeIsom<Distance> nodeIterating;
 
 		protected IteratorNodeIsom() {
 			r = c = 0;
-			h = height;
-			w = width;
+			h = getHeight();
+			w = getWidth();
 			nodeIteratingIterator = null;
 			nodeIterating = null;
 		}
 
 		@Override
-		public boolean hasNext() {
-			return r < h;
-		}
+		public boolean hasNext() { return r < h; }
 
 		@Override
 		public ObjectLocated next() {
-			NodeIsom n;
+			NodeIsom<Distance> n;
 			n = null;
 			// find the first available
 			if (nodeIteratingIterator == null || (!nodeIteratingIterator.hasNext())) {
-				while(hasNext() && ((n = getNodeAt(c, r)) == null || n.countObjectAdded() == 0)) {
+				while (hasNext() && ((n = getNodeAt(c, r)) == null || n.countObjectAdded() == 0)) {
 					toNext();
 				}
 			}

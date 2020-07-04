@@ -1,6 +1,6 @@
 package games.generic.controlModel.subimpl;
 
-import dataStructures.isom.InSpaceObjectsManager;
+import dataStructures.isom.InSpaceObjectsManagerImpl;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GObjectsInSpaceManager;
@@ -47,7 +47,7 @@ public abstract class GModalityRPG extends GModalityET {
 	 * {@link MovingObject}.<br>
 	 * Each "space unit" (like <i>meters</i>) are composed by some "sub-units" (like
 	 * <i>centimeters</i>) which could be used to build up
-	 * {@link InSpaceObjectsManager} instances and to calculate object movements.
+	 * {@link InSpaceObjectsManagerImpl} instances and to calculate object movements.
 	 * <p>
 	 * Defalut implementation returns {@link #SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE}
 	 */

@@ -9,9 +9,7 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 		super(b, comp);
 	}
 
-	public MapTreeAVLIndexable(Comparator<K> comp) throws IllegalArgumentException {
-		super(comp);
-	}
+	public MapTreeAVLIndexable(Comparator<K> comp) throws IllegalArgumentException { super(comp); }
 
 	//
 
@@ -48,8 +46,13 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 		int hl, hr, delta;
 		NodeAVL_Indexable n, temp;
 		n = (MapTreeAVLIndexable<K, V>.NodeAVL_Indexable) nnn;
+		int s = size;
+//		System.out.println("fixing up indexable with " + nnn.k);
 		while (n != NIL) {
+//			System.out.println("\t n is " + nnn.k);
 			// recalculate, just to be sure
+			if (--s < 0)
+				throw new RuntimeException("WASDAFSD");
 			n.height = (((hl = n.left.height) > (hr = n.right.height)) ? hl : hr) + 1;
 			delta = hl - hr;
 			// adjust sizes
@@ -64,6 +67,7 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 			}
 			if (delta < 2 && delta > -2) {
 				// no rotation
+//				System.out.println("this is <<" + n.k + ">> and father is: " + n.father.k);
 				n = (NodeAVL_Indexable) n.father;
 			} else {
 //				if(delta >=2)n.rotate(true);else
@@ -72,12 +76,20 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 //				temp.rotate(delta >= 2);
 
 				// copied from Lightweight
+//				System.out.println("rotating - " + n.k);
+////				temp = (MapTreeAVLIndexable<K, V>.NodeAVL_Indexable) n.father;
+//				System.out.println("BEFORE ROTATION I'M LIKE THIS");
+//				System.out.println(MapTreeAVLIndexable.this);
 				n.rotate(delta >= 2);
-				n = (NodeAVL_Indexable) n.father.father;
+//				System.out.println("AFTER ROTATION I'M LIKE THIS");
+//				System.out.println(MapTreeAVLIndexable.this);
+////				n = temp; // 
+//				System.out.println("n.father: " + n.father.k + ", grandad: " + n.father.father.k);
+				n = (MapTreeAVLIndexable<K, V>.NodeAVL_Indexable) n.father.father;
 			}
 		}
 		((NodeAVL_Indexable) NIL).sizeLeft = ((NodeAVL_Indexable) NIL).sizeRight = -1;
-		NIL.height = -1;
+		NIL.height = DEPTH_INITIAL;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -125,13 +137,13 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 					a = this;
 					b = nSide;
 					c = (NodeAVL_Indexable) b.right;
-					if (oldFather != NIL) {
-						if (oldFather.left == a)
-							oldFather.left = c;
-						else
-							oldFather.right = c;
-						c.father = oldFather;
-					}
+//					if (oldFather != NIL) {
+					if (oldFather.left == a)
+						oldFather.left = c;
+					else
+						oldFather.right = c;
+					c.father = oldFather;
+//					}
 					a.father = c;
 					a.left = c.right;
 					if (c.right != NIL)
@@ -204,7 +216,7 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 					NIL.left = NIL.right = NIL.father = NIL;
 					if (a == root) {
 						root = c;
-						c.father = NIL; // not necessary, but done to be sure
+//						c.father = NIL; // not necessary, but done to be sure
 					}
 					// adjust sizes
 //					if (c.right == NIL) c.sizeRight = 0;
@@ -255,8 +267,6 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 		}
 
 		@Override
-		public String toString() {
-			return super.toString() + ", sl:" + sizeLeft + ",sr:" + sizeRight;
-		}
+		public String toString() { return super.toString() + ", sl:" + sizeLeft + ",sr:" + sizeRight; }
 	}
 }

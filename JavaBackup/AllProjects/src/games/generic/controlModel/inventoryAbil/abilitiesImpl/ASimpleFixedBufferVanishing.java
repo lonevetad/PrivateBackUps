@@ -20,6 +20,8 @@ public class ASimpleFixedBufferVanishing extends AbilityAttributesModsVanishingO
 
 	protected int abilityEffectDuration, vanishingEffectDuration;
 
+	//
+
 	@Override
 	public int getAbilityEffectDuration() { return abilityEffectDuration; }
 

@@ -71,6 +71,17 @@ public abstract class AbilityModifyingAttributesRealTime extends AbilityBaseImpl
 		}
 	}
 
+	protected void removeAndNullifyModifyingEffecs() {
+		CreatureAttributes ca;
+		ca = getAttributesOfOwner();
+		if (ca == null)
+			return;
+		for (AttributeModification am : this.attributesToModify) {
+			ca.removeAttributeModifier(am);
+			am.setValue(0);
+		}
+	}
+
 	@Override
 	public void onAddingToOwner(GModality gm) {
 //		super.onEquip(gm);

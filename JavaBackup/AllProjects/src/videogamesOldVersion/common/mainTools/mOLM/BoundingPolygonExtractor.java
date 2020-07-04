@@ -1,12 +1,11 @@
-package common.mainTools.mOLM;
+package videogamesOldVersion.common.mainTools.mOLM;
 
 import java.awt.Polygon;
 import java.io.Serializable;
 
-import common.abstractCommon.shapedObject.AbstractObjectRectangleBoxed;
-import common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
-import common.mainTools.mOLM.abstractClassesMOLM.ObjectWithID;
-import common.mainTools.mOLM.abstractClassesMOLM.ShapeSpecification;
+import tools.ObjectWithID;
+import videogamesOldVersion.common.abstractCommon.shapedObject.AbstractObjectRectangleBoxed;
+import videogamesOldVersion.common.mainTools.mOLM.abstractClassesMOLM.AbstractMatrixObjectLocationManager;
 
 public class BoundingPolygonExtractor implements Serializable {
 	private static final long serialVersionUID = -4708606026144643L;
@@ -14,12 +13,13 @@ public class BoundingPolygonExtractor implements Serializable {
 	// instanceBuoundingPolygonExtractor;
 
 	/**
-	 * An enumeration enumerating a simple set of direction where the
-	 * CrossWalker can move.<br>
+	 * An enumeration enumerating a simple set of direction where the CrossWalker
+	 * can move.<br>
 	 * Their parameter are the delta of the x and y axes.
 	 */
 	public static enum CrossDirections implements Serializable {
 		RIGHT(1, 0), DOWN(0, 1), LEFT(-1, 0), UP(0, -1);
+
 		final int dx, dy, index;
 
 		CrossDirections(int dx, int dy) {
@@ -36,14 +36,13 @@ public class BoundingPolygonExtractor implements Serializable {
 	/** Just for a fast use. */
 	private static final CrossDirections[] valuesCrossDirections = CrossDirections.values();
 
-	private BoundingPolygonExtractor() {
-	}
+	private BoundingPolygonExtractor() {}
 
 	/*
 	 * public static BuoundingPolygonExtractor getInstance() { if
-	 * (instanceBuoundingPolygonExtractor == null)
-	 * instanceBuoundingPolygonExtractor = new BuoundingPolygonExtractor();
-	 * return instanceBuoundingPolygonExtractor; }
+	 * (instanceBuoundingPolygonExtractor == null) instanceBuoundingPolygonExtractor
+	 * = new BuoundingPolygonExtractor(); return instanceBuoundingPolygonExtractor;
+	 * }
 	 */
 
 	//
@@ -79,10 +78,13 @@ public class BoundingPolygonExtractor implements Serializable {
 		Direction d;
 		int[] xx, yy, mat[];
 
-		if (molm == null) return null;
+		if (molm == null)
+			return null;
 		matrix = molm.getMatrix();
-		if (w > molm.getWidthMicropixel()) w = molm.getWidthMicropixel();
-		if (h > molm.getHeightMicropixel()) w = molm.getHeightMicropixel();
+		if (w > molm.getWidthMicropixel())
+			w = molm.getWidthMicropixel();
+		if (h > molm.getHeightMicropixel())
+			w = molm.getHeightMicropixel();
 		if (xStart < 0) {
 			w += xStart;
 			xStart = 0;
@@ -94,8 +96,8 @@ public class BoundingPolygonExtractor implements Serializable {
 
 		if (w > 0 && h > 0 /* && boundsTrasparent(molm, xStart, yStart, w, h) */) {
 			/*
-			 * firstly, checks the borders : if they are non empty, then the
-			 * bounding polygon inside this area is just the border
+			 * firstly, checks the borders : if they are non empty, then the bounding
+			 * polygon inside this area is just the border
 			 */
 			if (boundsNotTrasparent(molm, xStart, yStart, w, h)) {
 				xx = new int[] { xStart, xStart + w, xStart, xStart + w };
@@ -104,8 +106,8 @@ public class BoundingPolygonExtractor implements Serializable {
 			}
 
 			/*
-			 * looks for the starting point : the leftmost and lowest (nearest
-			 * to zero) point that is opaque.
+			 * looks for the starting point : the leftmost and lowest (nearest to zero)
+			 * point that is opaque.
 			 */
 			y = x = -1;
 			pointStartNotFound = true;
@@ -124,8 +126,7 @@ public class BoundingPolygonExtractor implements Serializable {
 					// se sono l'unico punto in circolazione, ho finito
 					if (isTrasparent(matrix, x + 1, y) == 1 && isTrasparent(molm, x, y + 1) == 1) {
 						/*
-						 * questo controllo è ridondante : è stato fatto nei
-						 * while
+						 * questo controllo è ridondante : è stato fatto nei while
 						 */
 						// && isTrasparent(m ,x, y - 1)==1
 						ret = new Polygon(new int[] { x }, new int[] { y }, 1);
@@ -143,11 +144,9 @@ public class BoundingPolygonExtractor implements Serializable {
 							case (-1): {
 								// out of bounds
 								/*
-								 * considerando che mi muovo sguendo
-								 * l'invariante, incontrando il "baratro" della
-								 * matrice/immagine, devo svoltare .. in senso
-								 * orario (è difficile da spiegare,
-								 * l'immaginazione aiuta)
+								 * considerando che mi muovo sguendo l'invariante, incontrando il "baratro"
+								 * della matrice/immagine, devo svoltare .. in senso orario (è difficile da
+								 * spiegare, l'immaginazione aiuta)
 								 */
 								tempPoint = p.illusionMoving(d.setToClockWise());
 								peekPoint.set(tempPoint);
@@ -179,8 +178,7 @@ public class BoundingPolygonExtractor implements Serializable {
 									// mi giro e muovo p
 									peekPoint.move(d.setToCounterclockWise());
 									/*
-									 * mi muovo verso tempPoint in quanto,
-									 * essendo opaco, è sicuramente un punto
+									 * mi muovo verso tempPoint in quanto, essendo opaco, è sicuramente un punto
 									 * valido
 									 */
 									p.set(tempPoint);
@@ -209,9 +207,8 @@ public class BoundingPolygonExtractor implements Serializable {
 								case (-1):// out of bounds
 								case (1): {
 									/*
-									 * cerco in senso orario da p .. se è opaco,
-									 * nuovo angolo, altrimenti p era una corna
-									 * e sto tornando indietro (ma è tutto ok)
+									 * cerco in senso orario da p .. se è opaco, nuovo angolo, altrimenti p era una
+									 * corna e sto tornando indietro (ma è tutto ok)
 									 */
 									tempPoint = p.illusionMoving(d.getClockWise());
 									switch (isTrasparent(molm, tempPoint)) {
@@ -252,8 +249,7 @@ public class BoundingPolygonExtractor implements Serializable {
 						pl = null; // let the GC do its work
 						matrix = null;
 						/*
-						 * share the array because they will be useless inside
-						 * this method
+						 * share the array because they will be useless inside this method
 						 */
 						ret = new Polygon(xx, yy, yy.length);
 					}
@@ -324,44 +320,38 @@ public class BoundingPolygonExtractor implements Serializable {
 	}
 
 	/**
-	 * See {@link #isTrasparent(NodeMatrix[][], int, int)} for further
-	 * informations.
+	 * See {@link #isTrasparent(NodeMatrix[][], int, int)} for further informations.
 	 */
 	protected static int isTrasparent(NodeMatrix[][] matrix, LightWeightPoint p) {
 		return isTrasparent(matrix, p.x, p.y);
 	}
 
 	/**
-	 * See {@link #isTrasparent(MatrixObjectLocationManager, int, int)} for
-	 * further informations.
+	 * See {@link #isTrasparent(MatrixObjectLocationManager, int, int)} for further
+	 * informations.
 	 */
 	protected static int isTrasparent(AbstractMatrixObjectLocationManager matrix, LightWeightPoint p) {
 		return isTrasparent(matrix, p.x, p.y);
 	}
 
 	/**
-	 * @param matrix
-	 *            : the matrix to extract and test the pixel
-	 * @param x
-	 *            : the x-coordinate of the pixel to be tested
-	 * @param y
-	 *            : the y-coordinate of the pixel to be tested
+	 * @param matrix : the matrix to extract and test the pixel
+	 * @param x      : the x-coordinate of the pixel to be tested
+	 * @param y      : the y-coordinate of the pixel to be tested
 	 * @return
 	 *         <ul>
 	 *         <li>1 if the given pixel is transparent (see
 	 *         {@link #isTrasparent(int)} for further information)</li>
 	 *         <li>0 if the given pixel is NOT transparent</li>
-	 *         <li>-1 if the matrix (or the y-row) is NULL or the given pixel is
-	 *         OUT OF BOUNDS</li>
+	 *         <li>-1 if the matrix (or the y-row) is NULL or the given pixel is OUT
+	 *         OF BOUNDS</li>
 	 *         </ul>
 	 */
 	public static int isTrasparent(NodeMatrix[][] matrix, int x, int y) {
 		NodeMatrix[] r;
 		if (matrix != null && x >= 0 && y >= 0 && y < matrix.length) {
 			r = matrix[y];
-			if (r != null && x < r.length) {
-				return isTrasparent(r[x]) ? 1 : 0;
-			}
+			if (r != null && x < r.length) { return isTrasparent(r[x]) ? 1 : 0; }
 		}
 		return -1;
 	}
@@ -374,16 +364,12 @@ public class BoundingPolygonExtractor implements Serializable {
 	}
 
 	/**
-	 * Return TRUE if the color, expressed in ARGB value, has the alpha (8
-	 * leftmost bit) equals to zero.
+	 * Return TRUE if the color, expressed in ARGB value, has the alpha (8 leftmost
+	 * bit) equals to zero.
 	 */
-	public static boolean isTrasparent(NodeMatrix n) {
-		return n == null ? true : isTrasparent(n.item);
-	}
+	public static boolean isTrasparent(NodeMatrix n) { return n == null ? true : isTrasparent(n.item); }
 
-	public static boolean isTrasparent(ObjectWithID o) {
-		return o == null || o.isNotSolid();
-	}
+	public static boolean isTrasparent(ObjectWithID o) { return o == null || o.isNotSolid(); }
 
 	protected static int isTrasparent(AbstractMatrixObjectLocationManager matrix, LightWeightPoint p, int x, int y,
 			int w, int h) {
@@ -402,18 +388,14 @@ public class BoundingPolygonExtractor implements Serializable {
 		Node head, tail;
 		int size;
 
-		PointStack(LightWeightPoint p) {
-			this(p.x, p.y);
-		}
+		PointStack(LightWeightPoint p) { this(p.x, p.y); }
 
 		PointStack(int x, int y) {
 			tail = head = new Node(x, y);
 			size = 1;
 		}
 
-		void add(LightWeightPoint p) {
-			add(p.x, p.y);
-		}
+		void add(LightWeightPoint p) { add(p.x, p.y); }
 
 		void add(int x, int y) {
 			tail.next = new Node(x, y);
@@ -457,44 +439,32 @@ public class BoundingPolygonExtractor implements Serializable {
 		private static final long serialVersionUID = 640654870800000004L;
 		CrossDirections direction;
 
-		Direction() {
-			direction = CrossDirections.RIGHT;
-		}
+		Direction() { direction = CrossDirections.RIGHT; }
 
 		CrossDirections getCounterclockWise() {
 			int i = direction.index - 1;
-			if (i < 0) {
-				i = valuesCrossDirections.length - 1;
-			}
+			if (i < 0) { i = valuesCrossDirections.length - 1; }
 			return valuesCrossDirections[i];
 		}
 
 		CrossDirections getClockWise() {
 			int i = direction.index + 1;
-			if (i >= valuesCrossDirections.length) {
-				i = 0;
-			}
+			if (i >= valuesCrossDirections.length) { i = 0; }
 			return valuesCrossDirections[i];
 		}
 
 		// setter
-		CrossDirections setDirection(CrossDirections di) {
-			return direction = di;
-		}
+		CrossDirections setDirection(CrossDirections di) { return direction = di; }
 
 		/** Set the current direction to their counter clockwise ones. */
 		CrossDirections setToCounterclockWise() {
 			return setDirection(getCounterclockWise());
 		}
 
-		CrossDirections setToClockWise() {
-			return setDirection(getClockWise());
-		}
+		CrossDirections setToClockWise() { return setDirection(getClockWise()); }
 
 		@Override
-		public String toString() {
-			return direction.name();
-		}
+		public String toString() { return direction.name(); }
 	}
 
 	private static final class LightWeightPoint implements Serializable {
@@ -506,9 +476,7 @@ public class BoundingPolygonExtractor implements Serializable {
 			this.y = y;
 		}
 
-		LightWeightPoint(LightWeightPoint p) {
-			set(p);
-		}
+		LightWeightPoint(LightWeightPoint p) { set(p); }
 
 		void set(LightWeightPoint p) {
 			// set(p.x, p.y);
@@ -529,19 +497,13 @@ public class BoundingPolygonExtractor implements Serializable {
 			return this.clone().move(d);
 		}
 
-		public boolean equals(LightWeightPoint p) {
-			return x == p.x && y == p.y;
-		}
+		public boolean equals(LightWeightPoint p) { return x == p.x && y == p.y; }
 
 		@Override
-		public String toString() {
-			return "LightWeightPoint [x=" + x + ", y=" + y + ']';
-		}
+		public String toString() { return "LightWeightPoint [x=" + x + ", y=" + y + ']'; }
 
 		@Override
-		public LightWeightPoint clone() {
-			return new LightWeightPoint(this);
-		}
+		public LightWeightPoint clone() { return new LightWeightPoint(this); }
 	}
 
 }

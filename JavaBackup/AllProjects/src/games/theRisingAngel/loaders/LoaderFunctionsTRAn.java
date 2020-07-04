@@ -59,9 +59,7 @@ public class LoaderFunctionsTRAn {
 			temp = splitted[i];
 			if (temp.contains("width")) {
 				d.width = LoaderGeneric.extractIntValue(temp.split(":")[1].trim());
-			} else if (temp.contains("height")) {
-				d.height = LoaderGeneric.extractIntValue(temp.split(":")[1].trim());
-			}
+			} else if (temp.contains("height")) { d.height = LoaderGeneric.extractIntValue(temp.split(":")[1].trim()); }
 		}
 		return d;
 	}
@@ -79,7 +77,7 @@ public class LoaderFunctionsTRAn {
 		List<AttributeModification> attrMods;
 		String splitted[], temp;
 		attrMods = new LinkedList<>();
-		while((temp = lr.next().trim()).contains("{")) { // read the line and
+		while ((temp = lr.next().trim()).contains("{")) { // read the line and
 			splitted = temp.split(",");
 			LoaderGeneric.trimAll(splitted);
 			temp = LoaderGeneric.trimAll(splitted[0].split(":"))[1].trim();// name of attribute
@@ -88,6 +86,11 @@ public class LoaderFunctionsTRAn {
 			temp = LoaderGeneric.trimAll(splitted[1].split(":"))[1].trim();// value of attribute
 			v = LoaderGeneric.extractIntValue(temp);
 			attrMods.add(new AttributeModification(attr, v));
+		}
+		if (!attrMods.isEmpty()) {
+			AttributeModification[] a;
+			a = new AttributeModification[attrMods.size()];
+			attrMods = Arrays.asList(attrMods.toArray(a));
 		}
 		return attrMods;
 	}

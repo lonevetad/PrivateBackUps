@@ -4,9 +4,13 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.function.BiFunction;
 
-import tools.Comparators;
-
 public interface NumberManager<T> extends Serializable {
+	/**
+	 * Returns the {@link Class} of this class's generic parameter type used to
+	 * parameterize this instance.
+	 */
+	public Class<T> getNumberClass();
+
 	public Comparator<T> getComparator();
 
 	public BiFunction<T, T, T> getAdder();
@@ -18,13 +22,9 @@ public interface NumberManager<T> extends Serializable {
 	 * Provides a standardized way to convert, if possible, a value to a Double
 	 * representation. In fact, it's a mapping.
 	 */
-	public default Double toDouble(T value) {
-		return DoubleManager.ZERO;
-	}
+	public default Double toDouble(T value) { return DoubleManager.ZERO; }
 
-	public default T fromDouble(Double value) {
-		return null;
-	}
+	public default T fromDouble(Double value) { return null; }
 
 	//
 
@@ -43,64 +43,64 @@ public interface NumberManager<T> extends Serializable {
 	public static final class IntegerManager implements NumberManager<Integer> {
 		private static final long serialVersionUID = 1L;
 		static final Integer ZERO = 0;
-		static final BiFunction<Integer, Integer, Integer> ADDER = (a, b) -> a + b;
+		static final BiFunction<Integer, Integer, Integer> ADDER = (a, b) -> {
+			if (a == null) {
+				return (b == null) ? ZERO : b;
+			} else {
+				return (b == null) ? a : a + b;
+			}
+		};
 		private static IntegerManager singleton = null;
 
 		@Override
-		public Comparator<Integer> getComparator() {
-			return Comparators.INTEGER_COMPARATOR;
-		}
+		public Class<Integer> getNumberClass() { return Integer.class; }
 
 		@Override
-		public BiFunction<Integer, Integer, Integer> getAdder() {
-			return ADDER;
-		}
+		public Comparator<Integer> getComparator() { return Comparators.INTEGER_COMPARATOR; }
 
 		@Override
-		public Integer getZeroValue() {
-			return ZERO;
-		}
+		public BiFunction<Integer, Integer, Integer> getAdder() { return ADDER; }
 
 		@Override
-		public Double toDouble(Integer value) {
-			return value.doubleValue();
-		}
+		public Integer getZeroValue() { return ZERO; }
 
 		@Override
-		public Integer fromDouble(Double value) {
-			return value.intValue();
-		}
+		public Double toDouble(Integer value) { return value.doubleValue(); }
+
+		@Override
+		public Integer fromDouble(Double value) { return value.intValue(); }
+
 	}
 
 	public static final class DoubleManager implements NumberManager<Double> {
 		private static final long serialVersionUID = 777L;
 		static final Double ZERO = 0.0;
-		static final BiFunction<Double, Double, Double> ADDER = (a, b) -> a + b;
+		static final BiFunction<Double, Double, Double> ADDER = (a, b) -> {
+			if (a == null) {
+				return (b == null) ? ZERO : b;
+			} else {
+				return (b == null) ? a : a + b;
+			}
+		};
 		private static DoubleManager singleton = null;
 
 		@Override
-		public Comparator<Double> getComparator() {
-			return Comparators.DOUBLE_COMPARATOR;
-		}
+		public Class<Double> getNumberClass() { return Double.class; }
 
 		@Override
-		public BiFunction<Double, Double, Double> getAdder() {
-			return ADDER;
-		}
+		public Comparator<Double> getComparator() { return Comparators.DOUBLE_COMPARATOR; }
 
 		@Override
-		public Double getZeroValue() {
-			return ZERO;
-		}
+		public BiFunction<Double, Double, Double> getAdder() { return ADDER; }
 
 		@Override
-		public Double toDouble(Double value) {
-			return value;
-		}
+		public Double getZeroValue() { return ZERO; }
 
 		@Override
-		public Double fromDouble(Double value) {
-			return value;
-		}
+		public Double toDouble(Double value) { return value; }
+
+		@Override
+		public Double fromDouble(Double value) { return value; }
+
 	}
 }

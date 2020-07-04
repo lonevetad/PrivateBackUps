@@ -2,6 +2,7 @@ package dataStructures.mtAvl;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
@@ -13,11 +14,11 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 	public MapTreeAVLQueuable(MapTreeAVL.BehaviourOnKeyCollision b, Comparator<K> comp)
 			throws IllegalArgumentException {
 		super(b, comp);
-		lastInserted = (NodeAVL_Queuable) NIL;
+		firstInserted = (NodeAVL_Queuable) NIL;
 		((NodeAVL_Queuable) NIL).nextInserted = ((NodeAVL_Queuable) NIL).prevInserted = (NodeAVL_Queuable) NIL;
 	}
 
-	protected NodeAVL_Queuable lastInserted; // stack-like
+	protected NodeAVL_Queuable firstInserted; // stack-like
 
 	//
 
@@ -36,26 +37,25 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 	@Override
 	public Entry<K, V> getLastInserted() {
 		// if (size == 0) return null;
-		return lastInserted;
+		return firstInserted.prevInserted;
 	}
 
 	@Override
 	public Entry<K, V> getFirstInserted() {
 		// if (size == 0) return null;
-		return lastInserted.prevInserted;
+		return firstInserted;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public void clear() {
 		super.clear();
-		lastInserted = (NodeAVL_Queuable) NIL;
+		firstInserted = (NodeAVL_Queuable) NIL;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	protected V put(NodeAVL nnn) {
-//		boolean notAdded, side;
 		int prevSize;
 		V v;
 		NodeAVL_Queuable n;
@@ -63,21 +63,23 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 		v = n.v;
 		if (size == 0) {
 			super.put(n);
-			lastInserted = n;
+			firstInserted = n;
 			n.nextInserted = n.prevInserted = n;// self linking
 			return null;
 		}
 		prevSize = this.size;
 		v = super.put(n);
 		if (prevSize != Integer.MAX_VALUE && prevSize != size) {
+			NodeAVL_Queuable fi;
+			fi = firstInserted;
 			// node really added
-			n.nextInserted = lastInserted;
-			lastInserted.prevInserted.nextInserted = n;
-			n.prevInserted = lastInserted.prevInserted;
-			lastInserted.prevInserted = n;
-			lastInserted = n;
+			n.prevInserted = fi.prevInserted;
+			n.nextInserted = fi;
+			fi.prevInserted.nextInserted = n;
+			fi.prevInserted = n;
 		}
-		((NodeAVL_Queuable) NIL).nextInserted = ((NodeAVL_Queuable) NIL).prevInserted = (NodeAVL_Queuable) NIL;
+		n = ((NodeAVL_Queuable) NIL);
+		n.nextInserted = n.prevInserted = n;
 		return v;
 	}
 
@@ -91,7 +93,7 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 	protected V delete(NodeAVL nnn) {
 		boolean hasLeft, hasRight;
 		V v;
-		NodeAVL_Queuable nToBeDeleted;
+		NodeAVL_Queuable nToBeDeleted, succMaybeDeleted;
 		if (root == NIL || nnn == NIL)
 			return null;
 		v = null;
@@ -99,51 +101,52 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 		v = nToBeDeleted.v;
 		if (size == 1 && comp.compare(root.k, nToBeDeleted.k) == 0) {
 			v = super.delete(nToBeDeleted);
-			lastInserted = (NodeAVL_Queuable) NIL;
+			firstInserted = (NodeAVL_Queuable) NIL;
 			((NodeAVL_Queuable) NIL).prevInserted = ((NodeAVL_Queuable) NIL).nextInserted = (NodeAVL_Queuable) NIL;
 			return v;
 		}
 		// real deletion starts here:
 		hasLeft = nToBeDeleted.left != NIL;
 		hasRight = nToBeDeleted.right != NIL;
+		succMaybeDeleted = hasRight ? (MapTreeAVLQueuable<K, V>.NodeAVL_Queuable) successorSorted(nnn) : //
+				(MapTreeAVLQueuable<K, V>.NodeAVL_Queuable) (hasLeft ? predecessorSorted(nnn) : NIL)//
+		;
 		v = super.delete(nnn);
+		// adjust connections
 		if (hasLeft || hasRight) {
-			NodeAVL_Queuable temp, nodeDeleted;
-			nodeDeleted = hasRight ? (MapTreeAVLQueuable<K, V>.NodeAVL_Queuable) successorSorted(nToBeDeleted)
-					: (MapTreeAVLQueuable<K, V>.NodeAVL_Queuable) predecessorSorted(nToBeDeleted);
-			/*
-			 * during the deletion, the value of "nnn" and "nodeDeleted" are swapped. Also
-			 * the links must be swapped. But before update "lastInserted" if needed
-			 */
-			if (lastInserted == nodeDeleted)
-				lastInserted = nodeDeleted.nextInserted;
-			// swap
-			temp = nodeDeleted.nextInserted;
-			nodeDeleted.nextInserted = nToBeDeleted.nextInserted;
-			nToBeDeleted.nextInserted = temp;
-			temp = nodeDeleted.prevInserted;
-			nodeDeleted.prevInserted = nToBeDeleted.prevInserted;
-			nToBeDeleted.prevInserted = temp;
-
-			// then remove the effectively node
-			nodeDeleted.nextInserted.prevInserted = nodeDeleted.prevInserted;
-			nodeDeleted.prevInserted.nextInserted = nodeDeleted.nextInserted;
-
-			nodeDeleted.nextInserted = nodeDeleted.prevInserted = (NodeAVL_Queuable) NIL; // break links
+			if (size == 1) {
+				firstInserted = nToBeDeleted;
+				nToBeDeleted.nextInserted = nToBeDeleted.prevInserted = nToBeDeleted;
+			} else {
+				// nnn wasn't the removed node ...
+				// 1) unlink myself (nnn: nToBeDeleted) because that's me that should be removed
+				// 2) then I re-link myself because I took the data held by the
+				// node that has been removed in the end (succMaybeDeleted)
+				// ..1) unlink myself
+				nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
+				nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
+				// 2) then adjust my links to the really-removed-nodes ..
+				nToBeDeleted.nextInserted = succMaybeDeleted.nextInserted;
+				nToBeDeleted.prevInserted = succMaybeDeleted.prevInserted;
+				// .. and the adjacent's nodes to point towards me
+				nToBeDeleted.nextInserted.prevInserted = nToBeDeleted;
+				nToBeDeleted.prevInserted.nextInserted = nToBeDeleted;
+				if (succMaybeDeleted == firstInserted) { firstInserted = succMaybeDeleted.nextInserted; }
+			}
 		} else {
-			// remember: the removed node is "nnn" itself
-			if (lastInserted == nToBeDeleted)
-				lastInserted = nToBeDeleted.nextInserted;
-			nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
-			nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
-			nToBeDeleted.nextInserted = nToBeDeleted.prevInserted = (NodeAVL_Queuable) NIL; // break links
+			if (size == 1) {
+				firstInserted = nToBeDeleted;
+				nToBeDeleted.nextInserted = nToBeDeleted.prevInserted = nToBeDeleted;
+			} else {
+				if (nToBeDeleted == firstInserted)
+					firstInserted = nToBeDeleted.nextInserted;
+				nToBeDeleted.nextInserted.prevInserted = nToBeDeleted.prevInserted;
+				nToBeDeleted.prevInserted.nextInserted = nToBeDeleted.nextInserted;
+			}
 		}
-
+		//
 		((NodeAVL_Queuable) NIL).nextInserted = ((NodeAVL_Queuable) NIL).prevInserted = (NodeAVL_Queuable) NIL;
-		if (root == NIL) {
-			lastInserted = (NodeAVL_Queuable) NIL;
-			return v;
-		}
+		if (root == NIL) { firstInserted = (NodeAVL_Queuable) NIL; }
 		return v;
 	}
 
@@ -156,7 +159,7 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 			return null;
 		if (size == 1)
 			return root;
-		n = lastInserted;
+		n = firstInserted;
 		// if(i == 0) return n;
 		while ((--i >= 0) && ((n = n.nextInserted) != NIL))
 			;
@@ -165,21 +168,17 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected NodeAVL successorForIterator(NodeAVL n) {
-		return n == NIL ? NIL : ((NodeAVL_Queuable) n).nextInserted;
-	}
+	protected NodeAVL successorForIterator(NodeAVL n) { return n == NIL ? NIL : ((NodeAVL_Queuable) n).nextInserted; }
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected NodeAVL predecessorForIterator(NodeAVL n) {
-		return n == NIL ? NIL : ((NodeAVL_Queuable) n).prevInserted;
-	}
+	protected NodeAVL predecessorForIterator(NodeAVL n) { return n == NIL ? NIL : ((NodeAVL_Queuable) n).prevInserted; }
 
 	@Override
 	public boolean containsValue(Object value) {
 		boolean valueNull;
 		NodeAVL_Queuable n;
-		n = lastInserted;
+		n = firstInserted;
 		valueNull = value == null;
 		if (n != NIL)
 			do {
@@ -190,9 +189,20 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 	}
 
 	@Override
+	public void forEach(BiConsumer<? super K, ? super V> action) {
+		forEach(ForEachMode.Queue, e -> action.accept(e.getKey(), e.getValue()));
+	}
+
+	@Override
+	public void forEach(Consumer<? super Entry<K, V>> action) {
+		forEach(ForEachMode.Queue, e -> action.accept(e));
+//		forEach(ForEachMode.Queue,  action );
+	}
+
+	@Override
 	public void forEach(ForEachMode mode, Consumer<Entry<K, V>> action) {
 		NodeAVL_Queuable start, current;
-		NodeAVL n;
+//		NodeAVL n;
 		if (root != NIL && action != null) {
 			switch (mode) {
 			/*
@@ -201,37 +211,21 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 			 * is due to avoid the dynamic binding to call this class's overrides.
 			 */
 			case SortedDecreasing:
-				n = root;
-				if (n.right != NIL)// descend to maximum
-					while ((n = n.right) != NIL)
-						;
-				action.accept(n);
-				while ((n = super.predecessorSorted(n)) != NIL)
-					action.accept(n);
-				break;
 			case SortedGrowing:
-				n = root;
-				if (n.left != NIL)// descend to minimum
-					while ((n = n.left) != NIL)
-						;
-				action.accept(n);
-				while ((n = super.successorSorted(n)) != NIL)
-					action.accept(n);
-				break;
 			case BreadthGrowing:
 			case BreadthDecreasing:
 				super.forEach(mode, action);
 				return;
-			case Stack:
-				start = current = lastInserted;
+			case Queue:
+				start = current = firstInserted;
 				do {
 					action.accept(current);
 				} while ((current = current.nextInserted) != start);
 				return;
-			case Queue:
+			case Stack:
 			default:
 //				forEach(action);
-				start = current = (lastInserted.prevInserted);
+				start = current = (firstInserted.prevInserted);
 				do {
 					action.accept(current);
 				} while ((current = current.prevInserted) != start);
@@ -280,32 +274,22 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 
 	public class Iterator_Queuable<E> extends IteratorAVLGeneric<E> {
 
-		public Iterator_Queuable() {
-			this(true);
-		}
+		public Iterator_Queuable() { this(true); }
 
-		public Iterator_Queuable(boolean normalOrder) {
-			super(normalOrder);
-		}
+		public Iterator_Queuable(boolean normalOrder) { super(normalOrder); }
 
-		public Iterator_Queuable(IteratorReturnType irt) {
-			super(irt);
-		}
+		public Iterator_Queuable(IteratorReturnType irt) { super(irt); }
 
-		public Iterator_Queuable(IteratorReturnType irt, boolean normalOrder) {
-			super(irt, normalOrder);
-		}
+		public Iterator_Queuable(IteratorReturnType irt, boolean normalOrder) { super(irt, normalOrder); }
 
 		@Override
 		protected void restart() {
 			jumps = 0;
 			canRemove = false;
-			current = end = normalOrder ? lastInserted : lastInserted.prevInserted;
+			current = end = normalOrder ? firstInserted : firstInserted.prevInserted;
 		}
 
 		@Override
-		public boolean hasNext() {
-			return (size > 0) && (current != end || jumps == 0);
-		}
+		public boolean hasNext() { return (size > 0) && (current != end || jumps == 0); }
 	}
 }

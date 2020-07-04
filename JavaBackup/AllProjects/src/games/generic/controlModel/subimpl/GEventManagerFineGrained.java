@@ -47,8 +47,10 @@ public class GEventManagerFineGrained extends GEventManager {
 		this.notifierGeneric = new EventNotifier(this);
 //		this.notifier = new EventNotifierPQ(this);
 		this.notifierPQHelper = new EventNotifierE_PQ_ID(this);
+		this.objCount = 0;
 	}
 
+	protected int objCount;
 	protected Set<ObjectWithID> observersSet;
 	protected MapTreeAVL<Integer, ObjectWithID> allObsMap;
 	/** id observer -> observer */
@@ -60,6 +62,9 @@ public class GEventManagerFineGrained extends GEventManager {
 	protected EventNotifierE_PQ_ID notifierPQHelper;
 
 	//
+
+	@Override
+	public int objectsHeldCount() { return this.objCount; }
 
 	@Override
 	public boolean addEventObserver(GEventObserver geo) {
@@ -89,6 +94,7 @@ public class GEventManagerFineGrained extends GEventManager {
 			if (!fl[0])
 				return false;
 		}
+		this.objCount++;
 		return true;
 	}
 
@@ -102,6 +108,7 @@ public class GEventManagerFineGrained extends GEventManager {
 		if (l == null || l.isEmpty()) {
 			if (genericObservers.containsKey(idGeo)) {
 				genericObservers.remove(idGeo);
+				this.objCount--;
 				return true;
 			}
 		} else {
@@ -114,8 +121,10 @@ public class GEventManagerFineGrained extends GEventManager {
 					pq.remove(geo);
 				}
 			});
-			if (fl[0])
+			if (fl[0]) {
+				this.objCount--;
 				return true;
+			}
 		}
 		return false;
 	}
@@ -134,6 +143,7 @@ public class GEventManagerFineGrained extends GEventManager {
 		this.observersByTypes.clear();
 		this.genericObservers.clear();
 		this.allObsMap.clear();
+		this.objCount = 0;
 	}
 
 	@Override

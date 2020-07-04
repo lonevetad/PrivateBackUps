@@ -37,9 +37,10 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 	private static final long serialVersionUID = -55232021L;
 	protected final EquipmentType equipmentType;
 	protected EquipmentSet belongingEquipmentSet;
+	protected final List<AttributeModification> baseAttributeModifiers;
 	protected MapTreeAVL<String, AbilityGeneric> backMapAbilities;
 	protected Set<AbilityGeneric> abilities;
-	protected final List<AttributeModification> baseAttributeModifiers;
+	protected MapTreeAVL<String, EquipmentUpgrade> backMapEquipUpgrades;
 	protected Set<EquipmentUpgrade> upgrades;
 
 	public EquipmentItem(GModalityRPG gmrpg, EquipmentType equipmentType, String name) {
@@ -53,15 +54,14 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 
 	//
 
-	@Override
-	public Map<String, AbilityGeneric> getAbilities() {
-		checkAbilitiesSet();
-		return this.backMapAbilities;
-	}
-
 	public EquipmentType getEquipmentType() { return this.equipmentType; }
 
 	public EquipmentSet getBelongingEquipmentSet() { return this.belongingEquipmentSet; }
+
+	/** Modifiers related to this equipment, that defines it. */
+	public List<AttributeModification> getBaseAttributeModifiers() {
+		return this.baseAttributeModifiers;
+	}
 
 	/** Beware: could return null if this item has no abilities. */
 	public Set<AbilityGeneric> getAbilitiesSet() {
@@ -69,7 +69,13 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 		return this.abilities;
 	}
 
-	public List<AttributeModification> getBaseAttributeModifiers() { return this.baseAttributeModifiers; }
+	@Override
+	public Map<String, AbilityGeneric> getAbilities() {
+		checkAbilitiesSet();
+		return this.backMapAbilities;
+	}
+
+	public Map<String, EquipmentUpgrade> getUpgradesMap() { return backMapEquipUpgrades; }
 
 	public Set<EquipmentUpgrade> getUpgrades() { return this.upgrades; }
 
@@ -101,9 +107,9 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 
 	protected void checkUpgradeSet() {
 		if (this.upgrades == null) {
-			MapTreeAVL<String, EquipmentUpgrade> mapEquipUpgrades;
-			mapEquipUpgrades = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
-			this.upgrades = mapEquipUpgrades.toSetValue(EquipmentUpgrade.KEY_EXTRACTOR);
+			this.backMapEquipUpgrades = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
+					Comparators.STRING_COMPARATOR);
+			this.upgrades = this.backMapEquipUpgrades.toSetValue(EquipmentUpgrade.KEY_EXTRACTOR);
 		}
 	}
 
@@ -132,9 +138,10 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 		es.setCreatureWearingEquipments((BaseCreatureRPG) owner);
 	}
 
+	//
+
 	public EquipmentItem addAttributeModifier(AttributeModification am) {
-		if (am != null)
-			this.baseAttributeModifiers.add(am);
+		if (am != null) { this.baseAttributeModifiers.add(am); }
 		return this;
 	}
 
@@ -187,10 +194,15 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 			checkUpgradeSet();
 			this.upgrades.add(up);
 			up.setEquipmentAssigned(this);
+			// apply currency monus/malus
+			up.getPricesModifications()
+					.forEachTypeAmount((i, amount) -> { this.sellPrice.alterCurrencyAmount(i, amount); });
 			// apply modifications
 			ah = this.getCreatureWearingEquipments(); // assumed to be true
-			ca = ah.getAttributes();
-			up.getAttributeModifiers().forEach(eam -> ca.applyAttributeModifier(eam));
+			if (ah != null) {
+				ca = ah.getAttributes();
+				up.getAttributeModifiers().forEach(eam -> ca.applyAttributeModifier(eam));
+			}
 		}
 		return this;
 	}
@@ -202,10 +214,14 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 			checkUpgradeSet();
 			if (this.upgrades.remove(up))
 				up.setEquipmentAssigned(null);
+			up.getPricesModifications()
+					.forEachTypeAmount((i, amount) -> { this.sellPrice.alterCurrencyAmount(i, -amount); });
 			// apply modifications
 			ah = this.getCreatureWearingEquipments(); // assumed to be true
-			ca = ah.getAttributes();
-			up.getAttributeModifiers().forEach(eam -> ca.removeAttributeModifier(eam));
+			if (ah != null) {
+				ca = ah.getAttributes();
+				up.getAttributeModifiers().forEach(eam -> ca.removeAttributeModifier(eam));
+			}
 		}
 		return this;
 	}
@@ -317,8 +333,9 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " [name=" + name + ", ID=" + getID() + ",\n\t rarityIndex, ="
-				+ rarityIndex + ", equipmentType=" + equipmentType + ",\n\tbaseAttributeModifiers="
-				+ baseAttributeModifiers + ",\n\t upgrades=" + upgrades + ",\n\t abilities=" + //
+				+ rarityIndex + ", equipmentType=" + equipmentType + ",\n\t prices to sell: " + this.sellPrice
+				+ ",\n\tbaseAttributeModifiers=" + baseAttributeModifiers + ",\n\t upgrades=[" + upgradesToString()
+				+ "],\n\t abilities=" + //
 				abilitiesToString() + "]";
 	}
 
@@ -328,6 +345,18 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 			return "null";
 		sb = new StringBuilder(16);
 		abilities.forEach(ea -> sb.append(ea));
+		return sb.toString();
+	}
+
+	protected String upgradesToString() {
+		StringBuilder sb;
+		if (upgrades == null)
+			return "null";
+		if (upgrades.isEmpty())
+			return "";
+		sb = new StringBuilder(16);
+		sb.append('\n');
+		upgrades.forEach(eu -> sb.append('\t').append(eu).append('\n'));
 		return sb.toString();
 	}
 }

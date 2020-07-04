@@ -3,6 +3,7 @@ package games.theRisingAngel.abilities;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
+import games.generic.controlModel.subimpl.CreatureAttributesBaseAndDerivedCaching;
 import games.theRisingAngel.misc.AttributesTRAn;
 
 /**
@@ -14,17 +15,19 @@ public class AAttrSingleBonusMalusRandomPercentage extends AAttrSingleBonusMalus
 	private static final long serialVersionUID = -2154186081264778L;
 	public static final String NAME = AAttrSingleBonusMalusRandom.NAME + " relative";
 
-	public AAttrSingleBonusMalusRandomPercentage() {
-		super(NAME);
-	}
+	public AAttrSingleBonusMalusRandomPercentage() { super(NAME); }
 
 	@Override
 	public int getAttributesBonusValue(GModality gm, CreatureAttributes ca, AttributesTRAn attr) {
-		return ca.getBonusCalculator().getBonusForValue(attr.getIndex()) >> 2;
+		CreatureAttributesBaseAndDerivedCaching cab;
+		cab = (CreatureAttributesBaseAndDerivedCaching) ca;
+		return cab.getBonusCalculator().getBonusFor(attr.getIndex()) >> 2;
 	}
 
 	@Override
 	public int getAttributesMalusValue(GModality gm, CreatureAttributes ca, AttributesTRAn attr) {
-		return -(ca.getBonusCalculator().getBonusForValue(attr.getIndex()) >> 3);
+		CreatureAttributesBaseAndDerivedCaching cab;
+		cab = (CreatureAttributesBaseAndDerivedCaching) ca;
+		return -(cab.getBonusCalculator().getBonusFor(attr.getIndex()) >> 3);
 	}
 }

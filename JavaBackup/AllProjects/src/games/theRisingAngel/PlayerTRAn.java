@@ -53,7 +53,10 @@ public class PlayerTRAn extends BaseCreatureTRAn implements BasePlayerRPG {
 	//
 
 	@Override
-	public void setCurrencies(CurrencySet currencies) { this.currencies = currencies; }
+	public void setCurrencies(CurrencySet currencies) {
+		this.currencies = currencies;
+		if (currencies != null) { currencies.setCanFireCurrencyChangeEvent(true); }
+	}
 
 	@Override
 	public void setExpLevelHolder(ExperienceLevelHolder expLevelHolder) { this.experienceLevelHolder = expLevelHolder; }

@@ -13,12 +13,9 @@ public class PathOptimizerSimple implements PathOptimizer<Point2D> {
 //	public static final CollinearCalculator<Point2D> COLLINEAR_POINT = (p1,p2,p3)->MathUtilities.areCollinear(pfirst, psecond, pthird);
 	protected static final PathOptimizerSimple singleton = new PathOptimizerSimple();
 
-	public static PathOptimizerSimple getInstance() {
-		return singleton;
-	}
+	public static PathOptimizerSimple getInstance() { return singleton; }
 
-	protected PathOptimizerSimple() {
-	}
+	private PathOptimizerSimple() {}
 
 	@Override
 	public List<Point2D> optimizePath(List<Point2D> pathList) {
@@ -55,10 +52,9 @@ public class PathOptimizerSimple implements PathOptimizer<Point2D> {
 				pfirst = psecond;
 				psecond = pnext;
 			}
-		} while(iter.hasNext());
+		} while (iter.hasNext());
 		// the end
 		lr.add(pnext);
 		return lr;
 	}
-
 }

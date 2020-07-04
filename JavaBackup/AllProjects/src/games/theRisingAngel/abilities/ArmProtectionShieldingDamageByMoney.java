@@ -7,7 +7,6 @@ import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 import games.theRisingAngel.inventory.EINotJewelry;
 import games.theRisingAngel.inventory.EquipmentTypesTRAn;
-import games.theRisingAngel.misc.DamageTypesTRAn;
 
 /**
  * See {@link ADamageReductionCurrencyBased} , grants 10% of money as damage
@@ -25,11 +24,11 @@ public class ArmProtectionShieldingDamageByMoney extends EINotJewelry {
 		AbilitiesProvider ap;
 		ap = ((GameObjectsProvidersHolderRPG) providersHolder).getAbilitiesProvider();
 		this.abilityDamageReductionByPaying = (ADamageReductionCurrencyBased) ap.getAbilityByName(gm,
-				ADamageReductionCurrencyBased.NAME + DamageTypesTRAn.Physical.getName());
-		this.abilityDamageReductionByPaying.setPerThousandFraction(50);
-		this.abilityDamageReductionByPaying.setMaximumReduction(50);
+				ADamageReductionCurrencyBased.NAME // + DamageTypesTRAn.Physical.getName()
+						+ ADamageReductionCurrencyBased.RARITY);
+//		this.abilityDamageReductionByPaying.setPerThousandFraction(100);
+//		this.abilityDamageReductionByPaying.setMaximumReduction(50);
 		this.abilityDamageReductionByPaying.setOwner(this);
 		super.addAbility(this.abilityDamageReductionByPaying);
-
 	}
 }

@@ -60,7 +60,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	 * For example, those could be life regeneration and mana regeneration.<br>
 	 */
 	// delegated to the implementor
-	public int getHealingRegenerationAmount(CurableResourceType healType);
+	public int getCurableResourceRegeneration(CurableResourceType healType);
 
 	//
 
@@ -69,7 +69,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 		getCurableResourcesHolders().setCurableResourceAmount(healType, value);
 	}
 
-	/** See {@link #getHealingRegenerationAmount(CurableResourceType)}. */
+	/** See {@link #getCurableResourceRegeneration(CurableResourceType)}. */
 	public void setHealingRegenerationAmount(CurableResourceType healType, int value);
 
 	/** See {@link #getCurableResourcesHolders()}. */

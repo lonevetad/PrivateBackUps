@@ -38,6 +38,8 @@ public interface GObjectsHolder {
 	 */
 	public Set<ObjectWithID> getObjects();
 
+	public int objectsHeldCount();
+
 	public boolean add(ObjectWithID o);
 
 	public boolean remove(ObjectWithID o);

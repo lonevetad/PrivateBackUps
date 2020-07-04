@@ -35,10 +35,11 @@ public class ProviderShapesIntersectionDetector implements ShapesIntersectionDet
 	private ProviderShapesIntersectionDetector() {
 		int len;
 		len = ShapesImplemented.values().length;
+		System.out.println("ShapesImplemented.values().length " + len);
 		this.intersectionDetectorsImplemented =
 //				MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 //				PairShape.COMPARATOR_PAIR_SHAPE);
-				new ShapesIntersectionDetector[len][];
+				new ShapesIntersectionDetector[len][len];
 
 		registerIntersectionDetectors();
 	}
@@ -69,9 +70,10 @@ public class ProviderShapesIntersectionDetector implements ShapesIntersectionDet
 				this.intersectionDetectorsImplemented[ShapesImplemented.Polygon
 						.ordinal()] = new ShapesIntersectionDetector[] { this.polygonsIntersectionManager };
 				i++;
-			} else {
-				this.intersectionDetectorsImplemented[si.ordinal()] = new ShapesIntersectionDetector[vals.length - i++];
-			}
+			} /*
+				 * else { this.intersectionDetectorsImplemented[si.ordinal()] = new
+				 * ShapesIntersectionDetector[vals.length - i++]; }
+				 */
 		}
 		// point
 		row = this.intersectionDetectorsImplemented[ShapesImplemented.Point.ordinal()];
