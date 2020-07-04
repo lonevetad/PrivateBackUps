@@ -191,13 +191,13 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 					b = nSide;
 					c = (NodeAVL_Indexable) b.left;
 					// then
-					if (oldFather != NIL) {
-						if (oldFather.left == a)
-							oldFather.left = c;
-						else
-							oldFather.right = c;
-						c.father = oldFather;
-					}
+//					if (oldFather != NIL) {
+					if (oldFather.left == a)
+						oldFather.left = c;
+					else
+						oldFather.right = c;
+					c.father = oldFather;
+//					}
 					a.father = c;
 					a.right = c.left;
 					if (c.left != NIL)
@@ -216,7 +216,7 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 					NIL.left = NIL.right = NIL.father = NIL;
 					if (a == root) {
 						root = c;
-//						c.father = NIL; // not necessary, but done to be sure
+						c.father = NIL; // not necessary, but done to be sure
 					}
 					// adjust sizes
 //					if (c.right == NIL) c.sizeRight = 0;
