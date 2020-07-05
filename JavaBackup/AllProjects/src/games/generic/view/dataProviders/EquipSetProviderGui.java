@@ -4,23 +4,11 @@ import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.inventoryAbil.EquipmentsHolder;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.view.GameView;
+import games.generic.view.GuiComponent;
 
-public class EquipSetProviderGui {
+public class EquipSetProviderGui extends GuiComponent {
 
-	public EquipSetProviderGui(GameView view) {
-		super();
-		this.view = view;
-	}
-
-	protected GameView view;
-
-	public GameView getView() {
-		return view;
-	}
-
-	public void setView(GameView view) {
-		this.view = view;
-	}
+	public EquipSetProviderGui(GameView view) { super(view); }
 
 	public EquipmentSet getEquipSet() {
 		PlayerGeneric p;
@@ -30,5 +18,13 @@ public class EquipSetProviderGui {
 			return null;
 		eh = (EquipmentsHolder) p;
 		return eh.getEquipmentSet();
+	}
+
+	@Override
+	public void onAddingOnView(GameView view) { // TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onRemovingOnView(GameView view) { // TODO Auto-generated method stub
 	}
 }

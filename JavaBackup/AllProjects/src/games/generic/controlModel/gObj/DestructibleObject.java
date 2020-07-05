@@ -5,14 +5,13 @@ import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
-import tools.ObjectNamedID;
 
 /**
  * Denotes an object that could be destroyed and removed from the game(i.e. has
  * a kind of "state", which one of its value is "destroyed") and could fire
  * events accordingly.
  */
-public interface DestructibleObject extends ObjectNamedID, GModalityHolder, GEventObserver {
+public interface DestructibleObject extends GameObjectGeneric, GModalityHolder, GEventObserver {
 
 	/**
 	 * Flag-like method to check if this has been destroyed (and hopefully removed
@@ -44,9 +43,7 @@ public interface DestructibleObject extends ObjectNamedID, GModalityHolder, GEve
 	//
 
 	@Override
-	public default int getObserverPriority() {
-		return GEventObserver.MIN_PRIORITY;
-	}
+	public default int getObserverPriority() { return GEventObserver.MIN_PRIORITY; }
 
 	/**
 	 * Simply checks if the given é{@link IGEvent} is a destruction event.<<br>
@@ -70,8 +67,12 @@ public interface DestructibleObject extends ObjectNamedID, GModalityHolder, GEve
 	 * <p>
 	 * Note: Originally, the parameter was an instance of {@link GEventManager}, now
 	 * it's generalized to allow simpler event notification systems.
+	 * 
+	 * @return an instance of {@link DestructionObjEvent} that indicates if
+	 *         <code>this</code> object should really call {@link #destroy()} or not
+	 *         (through {@link DestructionObjEvent#isDestructionValid()}).
 	 */
-	public void fireDestructionEvent(GModality gm);
+	public DestructionObjEvent fireDestructionEvent(GModality gm);
 
 	/**
 	 * Check if this instance should be destroyed, fire the destruction's event by
@@ -108,7 +109,5 @@ public interface DestructibleObject extends ObjectNamedID, GModalityHolder, GEve
 
 	// workaround
 	@Override
-	public default Integer getObserverID() {
-		return getID();
-	}
+	public default Integer getObserverID() { return getID(); }
 }

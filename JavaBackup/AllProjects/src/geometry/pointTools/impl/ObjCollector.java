@@ -13,15 +13,15 @@ public interface ObjCollector<E> extends PointConsumerRestartable {
 	public Set<E> getCollectedObjects();
 
 	@Override
-	public default void restart() {
-		this.getCollectedObjects().clear();
-	}
+	public default void restart() { this.getCollectedObjects().clear(); }
 
 	@Override
 	public default void accept(Point location) {
+		Predicate<E> p;
 		E n;
 		n = this.getAt(location);
-		if (getTargetsFilter().test(n))
+		p = getTargetsFilter();
+		if (p == null || p.test(n))
 			getCollectedObjects().add(n);
 	}
 }

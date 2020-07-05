@@ -20,35 +20,30 @@ public class ObjPrinterTO implements TimedObjectSimpleImpl {
 	}
 
 	@Override
-	public Integer getID() {
-		return ID;
-	}
+	public Integer getID() { return ID; }
 
-	public String getText() {
-		return text;
-	}
+	public String getText() { return text; }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+	public void setText(String text) { this.text = text; }
 
 	@Override
-	public long getAccumulatedTimeElapsed() {
-		return accumulatedTimeElapsed;
-	}
+	public long getAccumulatedTimeElapsed() { return accumulatedTimeElapsed; }
 
 	@Override
-	public void setAccumulatedTimeElapsed(long newAccumulated) {
-		this.accumulatedTimeElapsed = newAccumulated;
-	}
+	public void setAccumulatedTimeElapsed(long newAccumulated) { this.accumulatedTimeElapsed = newAccumulated; }
 
 	@Override
-	public long getTimeThreshold() {
-		return timeThreshold;
-	}
+	public long getTimeThreshold() { return timeThreshold; }
 
 	@Override
-	public void executeAction(GModality modality) {
-		System.out.println(text);
-	}
+	public void executeAction(GModality modality) { System.out.println(text); }
+
+	@Override
+	public void onAddedToGame(GModality gm) {}
+
+	@Override
+	public void onRemovedFromGame(GModality gm) {}
+
+	@Override
+	public String getName() { return "PRINTEEEEEEEEEEEEEEEEEEER"; }
 }

@@ -9,11 +9,11 @@ import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.gObj.ManaHavingObject;
-import games.generic.controlModel.inventoryAbil.abilitiesImpl.EquipmentAbilityBaseImpl;
+import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityBaseImpl;
 import games.generic.controlModel.misc.AttributesHolder;
 import games.theRisingAngel.events.EventsTRAn;
 
-public class ALoseManaBeforeLife extends EquipmentAbilityBaseImpl implements GEventObserver {
+public class ALoseManaBeforeLife extends AbilityBaseImpl implements GEventObserver {
 	private static final long serialVersionUID = -451558465L;
 	public static final String NAME = "Shielding the Temple";
 	public static final int RARITY = 3, PRIORITY_OBSERVER_SHIELDING_THE_TEMPLE = 1;
@@ -27,14 +27,10 @@ public class ALoseManaBeforeLife extends EquipmentAbilityBaseImpl implements GEv
 	protected List<String> eventsWatching;
 
 	@Override
-	public List<String> getEventsWatching() {
-		return eventsWatching;
-	}
+	public List<String> getEventsWatching() { return eventsWatching; }
 
 	@Override
-	public int getObserverPriority() {
-		return PRIORITY_OBSERVER_SHIELDING_THE_TEMPLE;
-	}
+	public int getObserverPriority() { return PRIORITY_OBSERVER_SHIELDING_THE_TEMPLE; }
 
 	@Override
 	public void notifyEvent(GModality modality, IGEvent ge) {
@@ -54,18 +50,16 @@ public class ALoseManaBeforeLife extends EquipmentAbilityBaseImpl implements GEv
 		manaAmount = mho.getMana();
 		if (manaAmount <= 0)
 			return; // no mana to sacrifice
-		damageAmount = ed.getDamage().getDamageAmount(); // get the original damage
+		damageAmount = ed.getDamageReducedByTargetArmors(); // get the damage (TODO not the AmountToBeApplied?)
 		min = damageAmount > manaAmount ? manaAmount : damageAmount;
 		mho.setMana(mho.getMana() - min);
 		ed.setDamageAmountToBeApplied(ed.getDamageAmountToBeApplied() - min);
+		// TODO sicuro che non sia getDamageReducedByTargetArmors ?
 	}
 
 	@Override
-	public void performAbility(GModality gm) {
-	}
+	public void performAbility(GModality gm) {}
 
 	@Override
-	public void resetAbility() {
-	}
-
+	public void resetAbility() {}
 }

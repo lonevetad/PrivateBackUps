@@ -17,14 +17,12 @@ import games.generic.controlModel.inventoryAbil.EquipmentSet;
 public abstract class CreatureAttributes {
 	protected final int attributesCount;
 	protected final int[] originalValues;
-	protected CreatureAttributesBonusesCalculator bonusCalculator;
 
 	public CreatureAttributes(int attributesCount) {
 		if (attributesCount < 1) {
 			throw new IllegalArgumentException("Cannot have less than 1 attributes: " + attributesCount);
 		}
 		this.originalValues = new int[this.attributesCount = attributesCount];
-		this.bonusCalculator = null;
 	}
 
 	//
@@ -33,9 +31,7 @@ public abstract class CreatureAttributes {
 //		return originalValues;
 //	}
 
-	public int getAttributesCount() {
-		return attributesCount;
-	}
+	public int getAttributesCount() { return attributesCount; }
 
 	/**
 	 * Get the value of a specific attribute, identified by its index.<br>
@@ -47,9 +43,7 @@ public abstract class CreatureAttributes {
 	 * into account {@link EquipmentItem}'s {@link AttributeModification},
 	 * abilities, spells, auras, etc.
 	 */
-	public int getOriginalValue(int index) {
-		return this.originalValues[index];
-	}
+	public int getOriginalValue(int index) { return this.originalValues[index]; }
 
 	/**
 	 * Get the value of a specific attribute, identified by its index.<br>
@@ -63,9 +57,7 @@ public abstract class CreatureAttributes {
 	 * (i.e.: {@link EquipmentItem} and their {@link AttributeModification}),
 	 * effects, auras, magics, abilities, battlefield's influences, etc.
 	 */
-	protected int getValue(int index) {
-		return this.originalValues[index];
-	}
+	protected int getValue(int index) { return this.originalValues[index]; }
 
 	/**
 	 * Calls {@link #getValue(int)} passing, as parameter, the value returned by the
@@ -78,26 +70,11 @@ public abstract class CreatureAttributes {
 		return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
 	}
 
-	public CreatureAttributesBonusesCalculator getBonusCalculator() {
-		return bonusCalculator;
-	}
-
-	//
-
-	public void setBonusCalculator(CreatureAttributesBonusesCalculator bonusCalculator) {
-		this.bonusCalculator = bonusCalculator;
-		if (bonusCalculator != null) {
-			bonusCalculator.setCreatureAttributesSet(this);
-		}
-	}
-
 	/**
 	 * Set the attribute's (identified by the index: first parameter) value (second
 	 * parameter).
 	 */
-	public void setOriginalValue(int index, int value) {
-		this.originalValues[index] = value;
-	}
+	public void setOriginalValue(int index, int value) { this.originalValues[index] = value; }
 
 	//
 
@@ -123,7 +100,5 @@ public abstract class CreatureAttributes {
 	public abstract void removeAttributeModifier(AttributeModification eam);
 
 	@Override
-	public String toString() {
-		return "CreatureAttributes [originalValues=" + Arrays.toString(originalValues) + "]";
-	}
+	public String toString() { return "CreatureAttributes [originalValues=" + Arrays.toString(originalValues) + "]"; }
 }

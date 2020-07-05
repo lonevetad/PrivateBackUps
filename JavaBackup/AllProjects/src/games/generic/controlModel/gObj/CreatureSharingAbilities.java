@@ -35,9 +35,7 @@ public interface CreatureSharingAbilities extends BaseCreatureRPG, GEventObserve
 		return event instanceof EventEnteringOnMap;
 	}
 
-	public default boolean isEventCreatureLeavingMap(IGEvent event) {
-		return event instanceof EventLeavingMap;
-	}
+	public default boolean isEventCreatureLeavingMap(IGEvent event) { return event instanceof EventLeavingMap; }
 
 	public String getAbilityToShare();
 
@@ -82,7 +80,7 @@ public interface CreatureSharingAbilities extends BaseCreatureRPG, GEventObserve
 			sharedAbl.remove(abilSharedByObj);
 			ability = this.getAbilities().get(abilSharedByObj);
 			if (ability != null) {
-				ability.onRemoving(modality);
+				ability.onRemovingFromOwner(modality);
 				// then remove it
 				this.getAbilities().remove(abilSharedByObj);
 			}

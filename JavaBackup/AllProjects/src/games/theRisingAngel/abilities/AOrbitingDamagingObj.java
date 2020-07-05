@@ -30,25 +30,17 @@ public abstract class AOrbitingDamagingObj extends AOrbitingSpawningBlobs {
 	protected DamageGeneric damageToDeal;
 	protected UniqueIDProvider idProvOrbs;
 
-	public DamageGeneric getDamageToDeal() {
-		return damageToDeal;
-	}
+	public DamageGeneric getDamageToDeal() { return damageToDeal; }
 
-	public void setDamageToDeal(DamageGeneric damageToDeal) {
-		this.damageToDeal = damageToDeal;
-	}
+	public void setDamageToDeal(DamageGeneric damageToDeal) { this.damageToDeal = damageToDeal; }
 
 	//
 
 	@Override
-	protected ObjectShaped newOrbitingObj() {
-		return new OrbDamaging();
-	}
+	protected ObjectShaped newOrbitingObj() { return new OrbDamaging(); }
 
 	@Override
-	protected boolean isValidTarget(ObjectShaped possibleTarget) {
-		return possibleTarget instanceof CreatureSimple;
-	}
+	protected boolean isValidTarget(ObjectShaped possibleTarget) { return possibleTarget instanceof CreatureSimple; }
 
 	@Override
 	protected void interactWith(GModality modality, int index, ObjectShaped os, ObjectShaped target) {
@@ -60,6 +52,7 @@ public abstract class AOrbitingDamagingObj extends AOrbitingSpawningBlobs {
 	}
 
 	protected class OrbDamaging implements ObjectShaped, DamageDealerGeneric {
+		private static final long serialVersionUID = 1L;
 		Integer ID;
 		AbstractShape2D shape;
 
@@ -70,14 +63,10 @@ public abstract class AOrbitingDamagingObj extends AOrbitingSpawningBlobs {
 		}
 
 		@Override
-		public Integer getID() {
-			return ID;
-		}
+		public Integer getID() { return ID; }
 
 		@Override
-		public String getName() {
-			return null;
-		}
+		public String getName() { return null; }
 
 		@Override
 		public int getProbabilityPerThousandHit(DamageTypeGeneric damageType) {
@@ -92,19 +81,13 @@ public abstract class AOrbitingDamagingObj extends AOrbitingSpawningBlobs {
 		}
 
 		@Override
-		public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) {
-			return 0;
-		}
+		public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType) { return 0; }
 
 		@Override
-		public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) {
-			return 0;
-		}
+		public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType) { return 0; }
 
 		@Override
-		public AbstractShape2D getShape() {
-			return null;
-		}
+		public AbstractShape2D getShape() { return null; }
 
 		@Override
 		public void setShape(AbstractShape2D shape) {

@@ -6,9 +6,11 @@ import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityAttributesModsVanishingOverTime;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
+import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
+import tools.ObjectWithID;
 
 /**
  * Upon taking damage, reduce it by
@@ -42,9 +44,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 //	public CreatureSimple getCreatureReferred() {return creatureReferred;}
 
 	@Override
-	public int getAbilityEffectDuration() {
-		return DURATION_EFFECT;
-	}
+	public int getAbilityEffectDuration() { return DURATION_EFFECT; }
 
 	@Override
 	public int getVanishingEffectDuration() {
@@ -52,12 +52,10 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	}
 
 	@Override
-	public void setAbilityEffectDuration(int abilityEffectDuration) {
-	}
+	public void setAbilityEffectDuration(int abilityEffectDuration) {}
 
 	@Override
-	public void setVanishingEffectDuration(int vanishingEffectDuration) {
-	}
+	public void setVanishingEffectDuration(int vanishingEffectDuration) {}
 
 	//
 
@@ -73,9 +71,9 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 		EventDamageTRAn dEvent;
 		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 			dEvent = (EventDamageTRAn) ge;
-			if (dEvent.getTarget() == this.getEquipItem().getCreatureWearingEquipments()
+			if (dEvent.getTarget() == this.getOwner() // this.getEquipItem().getCreatureWearingEquipments()
 					// check equality because it's bounded to the "wearer"
-					&& dEvent.getDamage().getDamageAmount() > 0) {
+					&& dEvent.getDamageReducedByTargetArmors() > 0) {
 				return true;
 			}
 		}
@@ -83,7 +81,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	}
 
 	@Override
-	public void updateActiveEffectModAttributes() {
+	public void updateModAttributesDuringActivationEffect() {
 		// no kind of updated
 	}
 
@@ -93,7 +91,9 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 		BaseCreatureRPG creatureWearing;
 		CreatureAttributes cAttr;
 		AttributeModification am;
-		creatureWearing = this.getEquipItem().getCreatureWearingEquipments();
+		ObjectWithID o;
+		o = getOwner();
+		creatureWearing = (o instanceof BaseCreatureRPG) ? ((BaseCreatureRPG) o) : null; // this.getEquipItem().getCreatureWearingEquipments();
 		cAttr = creatureWearing.getAttributes();
 		// lifeRegenAmount = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); //
 		// Original
@@ -108,18 +108,29 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	}
 
 	@Override
-	public void doUponAbilityStartsVanishing() {
-		removeAndNullifyEffects();
-	}
+	public void doUponAbilityStartsVanishing() { setPhaseTo(PhaseAbilityVanishing.Finished); }
+
+	// TODO verificare se tali "corpi dei metodi" devono essere questi, in vista
+	// delle modifiche apportate alle sopraclassi e soprainterfacce
 
 	@Override
-	public void vanishEffect() {
+	public void vanishEffect(int timeUnits) {
 		// override as a safe guard
 		setPhaseTo(PhaseAbilityVanishing.Finished);
 	}
 
 	@Override
-	public void doUponAbilityRefreshed() {
-
+	public void doUponAbilityEffectEnds() {
+		super.doUponAbilityEffectEnds();
+		removeAndNullifyEffects();
 	}
+
+	@Override
+	public void doUponAbilityRefreshed() {}
+
+	@Override
+	public void updateModAttributesDuringVanishing() { setPhaseTo(PhaseAbilityVanishing.Finished); }
+
+	@Override
+	public int getVanishingTimeThresholdUpdate() { return GModalityTRAn.TIME_SUBUNITS_EACH_TIME_UNIT_TRAn; }
 }

@@ -1,7 +1,6 @@
 package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GModality;
-import tools.ObjectWithID;
 
 /**
  * Mark an object as having a "status" (or at least a non empty set of actions)
@@ -19,7 +18,7 @@ import tools.ObjectWithID;
  * it would have been heavily inefficient. It's a "hard-code / embedded"
  * solution for listening the time progression, but it's enough fast.
  */
-public interface TimedObject extends ObjectWithID {
+public interface TimedObject extends GameObjectGeneric {
 
 	/**
 	 * Evolve the status of this object depending on the elapsed time denoted by the
@@ -44,8 +43,6 @@ public interface TimedObject extends ObjectWithID {
 	 * </ul>
 	 * By default, it returns <i>1000 milliseconds</i>.
 	 */
-	// {@link}
-	public default int getTimeUnitSuperscale() {
-		return 1000;
-	}
+		// {@link}
+	public default int getTimeUnitSuperscale() { return 1000; }
 }

@@ -40,10 +40,9 @@ import geometry.pointTools.PointConsumer;
 import tools.GraphicTools;
 
 public class TestShapeRunners extends TestGeneric {
-	static final int PIXEL_SQUARE_POINT = 5, MAX_SQUARE_PIXEL = 800; //
+	static final int PIXEL_SQUARE_POINT = 15, MAX_SQUARE_PIXEL = 800; //
 
-	public TestShapeRunners() {
-	}
+	public TestShapeRunners() {}
 
 	protected class ShapeRunnersModel extends ShapeModel {
 		protected ShapeRunnersModel() {
@@ -104,22 +103,16 @@ public class TestShapeRunners extends TestGeneric {
 //			setDiameter(1);
 		}
 
-		public void setShapeObserver(MyObserver<AbstractShape2D> shapeObserver) {
-			this.shapeObserver = shapeObserver;
-		}
+		public void setShapeObserver(MyObserver<AbstractShape2D> shapeObserver) { this.shapeObserver = shapeObserver; }
 
 		public void setShapeRunnersImplementedObserver(
 				MyObserver<ShapeRunnersImplemented> shapeRunnersImplementedObserver) {
 			this.shapeRunnersImplementedObserver = shapeRunnersImplementedObserver;
 		}
 
-		void setImageObserver(MyObserver<ColorToPaintOnImage> imageObserver) {
-			this.imageObserver = imageObserver;
-		}
+		void setImageObserver(MyObserver<ColorToPaintOnImage> imageObserver) { this.imageObserver = imageObserver; }
 
-		public AbstractShapeRunner gerRunner() {
-			return runner;
-		}
+		public AbstractShapeRunner gerRunner() { return runner; }
 
 		public void setSelectedShape(ShapeRunnersImplemented selectedShape) {
 			int rr;
@@ -136,9 +129,7 @@ public class TestShapeRunners extends TestGeneric {
 				System.out.println("S1 null with " + selectedShape);
 				return;
 			}
-			if (s1 instanceof ShapeRectangle) {
-				((ShapeRectangle) s1).setWidth(diameter).setHeight(diameter);
-			}
+			if (s1 instanceof ShapeRectangle) { ((ShapeRectangle) s1).setWidth(diameter).setHeight(diameter); }
 			//
 			this.runner = this.providerShapeRunner.getShapeRunner(selectedShape);
 			// rr = 1 + (diameter >> 1);
@@ -174,14 +165,10 @@ public class TestShapeRunners extends TestGeneric {
 		}
 
 		public void setCenter(int x, int y) {
-			updateShapeAfterChanges(sh -> {
-				s1.setCenter(x / PIXEL_SQUARE_POINT, y / PIXEL_SQUARE_POINT);
-			});
+			updateShapeAfterChanges(sh -> { s1.setCenter(x / PIXEL_SQUARE_POINT, y / PIXEL_SQUARE_POINT); });
 		}
 
-		public void updateShapeAfterChanges() {
-			updateShapeAfterChanges(null);
-		}
+		public void updateShapeAfterChanges() { updateShapeAfterChanges(null); }
 
 		public void updateShapeAfterChanges(Consumer<AbstractShape2D> shapeUpdater) {
 			ctpoi.c = Color.LIGHT_GRAY;
@@ -397,19 +384,13 @@ public class TestShapeRunners extends TestGeneric {
 				}
 
 				@Override
-				public Dimension getSize() {
-					return new Dimension(getWidth(), getHeight());
-				}
+				public Dimension getSize() { return new Dimension(getWidth(), getHeight()); }
 
 				@Override
-				public int getWidth() {
-					return JPANEL_DIMENSION;
-				}
+				public int getWidth() { return JPANEL_DIMENSION; }
 
 				@Override
-				public int getHeight() {
-					return JPANEL_DIMENSION;
-				}
+				public int getHeight() { return JPANEL_DIMENSION; }
 				/*
 				 * @Override public int getX() { return 0; }
 				 * 
@@ -432,14 +413,10 @@ public class TestShapeRunners extends TestGeneric {
 //				if (m.s1 instanceof AbstractFillable)
 //					((AbstractFillable) m.s1).setFilled(jcb.isSelected());
 //			});
-			jsAngle.addChangeListener(e -> {
-				m.setAngle(((Integer) jsAngle.getValue()).doubleValue());
-			});
+			jsAngle.addChangeListener(e -> { m.setAngle(((Integer) jsAngle.getValue()).doubleValue()); });
 			jpGridViewer.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent e) {
-					m.setCenter(e.getX(), e.getY());
-				}
+				public void mouseClicked(MouseEvent e) { m.setCenter(e.getX(), e.getY()); }
 			});
 
 			// compose the end
@@ -472,9 +449,7 @@ public class TestShapeRunners extends TestGeneric {
 	} // end View
 
 	protected abstract class DiameterDefyningShapeManager extends ShapeFieldsManager {
-		protected DiameterDefyningShapeManager(ShapeRunnersModel m) {
-			super(m);
-		}
+		protected DiameterDefyningShapeManager(ShapeRunnersModel m) { super(m); }
 
 		TextField tfDiameter;
 		JButton jbDiameter;
@@ -498,39 +473,27 @@ public class TestShapeRunners extends TestGeneric {
 			jsDiameter = new JSpinner(new SpinnerNumberModel(16, 1, 1000, 1));
 			super.jpShapeFieldContainer.add(jsDiameter, c);
 			//
-			jbDiameter.addActionListener(l -> {
-				m.setDiameter(Integer.parseInt(tfDiameter.getText()));
-			});
-			jsDiameter.addChangeListener(e -> {
-				m.setDiameter((Integer) jsDiameter.getValue());
-			});
+			jbDiameter.addActionListener(l -> { m.setDiameter(Integer.parseInt(tfDiameter.getText())); });
+			jsDiameter.addChangeListener(e -> { m.setDiameter((Integer) jsDiameter.getValue()); });
 		}
 	}
 
 	protected class CircleDiskManager extends DiameterDefyningShapeManager {
 
-		protected CircleDiskManager(ShapeRunnersModel m) {
-			super(m);
-		}
+		protected CircleDiskManager(ShapeRunnersModel m) { super(m); }
 
 		ShapeCircle shape;
 
 		@Override
-		public AbstractShape2D getShape() {
-			return shape;
-		}
+		public AbstractShape2D getShape() { return shape; }
 
 		@Override
-		public void setShape(AbstractShape2D shape) {
-			this.shape = (ShapeCircle) shape;
-		}
+		public void setShape(AbstractShape2D shape) { this.shape = (ShapeCircle) shape; }
 	}
 
 	protected class StarDiskManager extends DiameterDefyningShapeManager {
 
-		protected StarDiskManager(ShapeRunnersModel m) {
-			super(m);
-		}
+		protected StarDiskManager(ShapeRunnersModel m) { super(m); }
 
 //		StarCircle shape;
 
@@ -547,41 +510,29 @@ public class TestShapeRunners extends TestGeneric {
 
 	protected class LineManager extends DiameterDefyningShapeManager {
 
-		protected LineManager(ShapeRunnersModel m) {
-			super(m);
-		}
+		protected LineManager(ShapeRunnersModel m) { super(m); }
 
 		ShapeLine shape;
 
 		@Override
-		public AbstractShape2D getShape() {
-			return shape;
-		}
+		public AbstractShape2D getShape() { return shape; }
 
 		@Override
-		public void setShape(AbstractShape2D shape) {
-			this.shape = (ShapeLine) shape;
-		}
+		public void setShape(AbstractShape2D shape) { this.shape = (ShapeLine) shape; }
 	}
 
 	protected class RectangleManager extends ShapeFieldsManager {
 
-		protected RectangleManager(ShapeRunnersModel m) {
-			super(m);
-		}
+		protected RectangleManager(ShapeRunnersModel m) { super(m); }
 
 		ShapeRectangle shape;
 		JSpinner jsWidth, jsHeight;
 
 		@Override
-		public AbstractShape2D getShape() {
-			return shape;
-		}
+		public AbstractShape2D getShape() { return shape; }
 
 		@Override
-		public void setShape(AbstractShape2D shape) {
-			this.shape = (ShapeRectangle) shape;
-		}
+		public void setShape(AbstractShape2D shape) { this.shape = (ShapeRectangle) shape; }
 
 		@Override
 		public void init() {
@@ -619,18 +570,13 @@ public class TestShapeRunners extends TestGeneric {
 	// TODO END CLASSES
 
 	@Override
-	ShapeModel newModel() {
-		return new ShapeRunnersModel();
-	}
+	ShapeModel newModel() { return new ShapeRunnersModel(); }
 
 	@Override
-	ShapeView newView() {
-		return new ShapeRunnersView();
-	}
+	ShapeView newView() { return new ShapeRunnersView(); }
 
 	@Override
-	void init() {
-	}
+	void init() {}
 
 	public static void main(String[] args) {
 		TestShapeRunners t;

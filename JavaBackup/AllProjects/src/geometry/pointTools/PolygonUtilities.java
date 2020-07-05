@@ -2,6 +2,7 @@ package geometry.pointTools;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -12,20 +13,72 @@ import tools.MathUtilities.PointRelativeToLine;
 public final class PolygonUtilities {
 	static final double PI_2 = Math.PI * 2.0;
 
-	public static void forEachPoint(Polygon p, Consumer<Point> action) {
+	public static void forEachPoint(Polygon poly, Consumer<Point> action) {
 		int i, len;
-		len = p.npoints;
+		int[] xx, yy;
+		Point p;
+		len = poly.npoints;
 		i = -1;
-		while(++i < len)
-			action.accept(new Point(p.xpoints[i], p.ypoints[i]));
+		p = new Point();
+		xx = poly.xpoints;
+		yy = poly.xpoints;
+		while (++i < len) {
+			p.x = xx[i];
+			p.y = yy[i];
+			action.accept(p);
+		}
 	}
 
-	public static void forEachPoint(Polygon p, BiConsumer<Integer, Integer> action) {
+	public static void forEachPoint(Polygon poly, BiConsumer<Integer, Integer> action) {
 		int i, len;
-		len = p.npoints;
+		int[] xx, yy;
+		len = poly.npoints;
 		i = -1;
-		while(++i < len)
-			action.accept(p.xpoints[i], p.ypoints[i]);
+		xx = poly.xpoints;
+		yy = poly.xpoints;
+		while (++i < len)
+			action.accept(xx[i], yy[i]);
+	}
+
+	public static void forEachEdge(Polygon poly, BiConsumer<Point, Point> action) {
+		int i, len, previ, px, py;
+		int[] xx, yy;
+		Point p1, p2;
+		len = poly.npoints;
+		i = -1;
+		previ = len - 1;
+		xx = poly.xpoints;
+		yy = poly.xpoints;
+		p1 = new Point(xx[previ], yy[previ]);
+		p2 = new Point();
+		while (++i < len) {
+			p2.x = px = xx[i];
+			p2.y = py = yy[i];
+			previ = i;
+			action.accept(p1, p2);
+			p1.x = px; // xx[previ];
+			p1.y = py; // yy[previ];
+		}
+	}
+
+	public static void forEachEdge(Polygon poly, Consumer<Line2D> action) {
+		int i, len, px, py, previ;
+		int[] xx, yy;
+		Line2D line;
+		len = poly.npoints;
+		i = -1;
+		xx = poly.xpoints;
+		yy = poly.xpoints;
+		px = xx[previ = len - 1];
+		py = yy[previ];
+		line = new Line2D.Double();
+		while (++i < len) {
+//			line.setLine(xx[previ], yy[previ], xx[i], yy[i]);
+			// knowing that parameters are left-computed, the above is an optimization
+			line.setLine(px, py, px = xx[i], py = yy[i]);
+//			previ = i;
+			action.accept(line);
+		}
 	}
 
 	public static String polygonToString(Polygon p) {
@@ -42,9 +95,7 @@ public final class PolygonUtilities {
 
 	/** Copied from {@link java.awt.Polygon} because it's a beautyfull method. */
 	protected static boolean contains_FromPolygonClass(Polygon p, double x, double y) {
-		if (p.npoints <= 2 /* || !p.getBoundingBox().contains(x, y) */) {
-			return false;
-		}
+		if (p.npoints <= 2 /* || !p.getBoundingBox().contains(x, y) */) { return false; }
 		// use the ray-casting-algorithm
 		int hits = 0;
 		int lastx = p.xpoints[p.npoints - 1];
@@ -56,28 +107,20 @@ public final class PolygonUtilities {
 			curx = p.xpoints[i];
 			cury = p.ypoints[i];
 
-			if (cury == lasty) {
-				continue;
-			}
+			if (cury == lasty) { continue; }
 
 			int leftx;
 			if (curx < lastx) {
-				if (x >= lastx) {
-					continue;
-				}
+				if (x >= lastx) { continue; }
 				leftx = curx;
 			} else {
-				if (x >= curx) {
-					continue;
-				}
+				if (x >= curx) { continue; }
 				leftx = lastx;
 			}
 
 			double test1, test2;
 			if (cury < lasty) {
-				if (y < cury || y >= lasty) {
-					continue;
-				}
+				if (y < cury || y >= lasty) { continue; }
 				if (x < leftx) {
 					hits++;
 					continue;
@@ -85,9 +128,7 @@ public final class PolygonUtilities {
 				test1 = x - curx;
 				test2 = y - cury;
 			} else {
-				if (y < lasty || y >= cury) {
-					continue;
-				}
+				if (y < lasty || y >= cury) { continue; }
 				if (x < leftx) {
 					hits++;
 					continue;
@@ -254,7 +295,7 @@ public final class PolygonUtilities {
 		orientation = 1.0;
 		i = -1;
 		pointsCalculated = 0;
-		while(++i < n) {
+		while (++i < n) {
 			oldx = newx;
 			oldy = newy;
 			olddir = newdir;
@@ -296,7 +337,7 @@ public final class PolygonUtilities {
 		i = 1;
 		j = 2;
 		k = 0;
-		while(i < n)
+		while (i < n)
 			area += xx[i++] * (yy[j++] - yy[k++]);
 		area += xx[n] * (yy[1] - yy[n - 1]); // wrap-around term
 		return area / 2.0;

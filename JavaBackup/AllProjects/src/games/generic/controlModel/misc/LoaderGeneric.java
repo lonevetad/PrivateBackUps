@@ -46,9 +46,7 @@ public abstract class LoaderGeneric {
 		}
 
 		@Override
-		public boolean hasNext() {
-			return line != null && (!"}".equals(line)) && (!"]".equals(line));
-		}
+		public boolean hasNext() { return line != null && (!"}".equals(line)) && (!"]".equals(line)); }
 
 		@Override
 		public String next() {
@@ -61,7 +59,7 @@ public abstract class LoaderGeneric {
 		}
 	}
 
-	protected abstract static class JSONFileConsumer {
+	public abstract static class JSONFileConsumer {
 		protected JSONLineReader lr;
 
 		/**
@@ -79,13 +77,15 @@ public abstract class LoaderGeneric {
 
 		public void readAllFile() {
 			String line;// , splitted[];
-			while(lr.hasNext()) {
-				line = lr.next();
+			while (getLineReader().hasNext()) {
+				line = getLineReader().next();
 				readAllFileImpl(line);
 			}
 		}
 
 		protected abstract void readAllFileImpl(String line);
+
+		public JSONLineReader getLineReader() { return lr; }
 	}
 
 	//
@@ -97,7 +97,7 @@ public abstract class LoaderGeneric {
 	public static String[] trimAll(String[] a) {
 		int i;
 		i = a.length;
-		while(--i >= 0)
+		while (--i >= 0)
 			a[i] = a[i].trim();
 		return a;
 	}
@@ -120,9 +120,9 @@ public abstract class LoaderGeneric {
 		isNeg = (c = s.charAt(0)) == '-';
 		if (isNeg || c == '+') {
 			i = 0;
-			while(++i < len && ((c = s.charAt(i)) >= '0') && c <= '9')
+			while (++i < len && ((c = s.charAt(i)) >= '0') && c <= '9')
 				;
-			while(--i >= 1) {
+			while (--i >= 1) {
 				res += (s.charAt(i) - '0') * pow;
 				pow *= 10;
 			}
@@ -130,9 +130,9 @@ public abstract class LoaderGeneric {
 				res = -res;
 		} else {
 			i = -1;
-			while(++i < len && ((c = s.charAt(i)) >= '0') && c <= '9')
+			while (++i < len && ((c = s.charAt(i)) >= '0') && c <= '9')
 				;
-			while(--i >= 0) {
+			while (--i >= 0) {
 				res += (s.charAt(i) - '0') * pow;
 				pow *= 10;
 			}

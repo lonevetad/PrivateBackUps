@@ -9,8 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import dataStructures.MapTreeAVL;
-import dataStructures.isom.matrixBased.MISOMImpl;
+import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.ObjectInSpace;
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
@@ -67,18 +68,25 @@ public abstract class TestIsomGeneric {
 		protected Integer ID;
 
 		@Override
-		public AbstractShape2D getShape() {
-			return shape;
+		public AbstractShape2D getShape() { return shape; }
+
+		@Override
+		public Integer getID() { return ID; }
+
+		@Override
+		public void setShape(AbstractShape2D shape) { this.shape = shape; }
+
+		@Override
+		public void onAddedToGame(GModality gm) { // TODO Auto-generated method stub
 		}
 
 		@Override
-		public Integer getID() {
-			return ID;
+		public void onRemovedFromGame(GModality gm) { // TODO Auto-generated method stub
 		}
 
 		@Override
-		public void setShape(AbstractShape2D shape) {
-			this.shape = shape;
+		public String getName() { // TODO Auto-generated method stub
+			return null;
 		}
 	}
 
@@ -88,44 +96,28 @@ public abstract class TestIsomGeneric {
 		protected Map<Integer, NodeShaped> objectsInMap;
 		protected AbstractShape2D shapeSelected;
 
-		protected ControllerTestIsom_Generic() {
-			shapeSelected = null;
-		}
+		protected ControllerTestIsom_Generic() { shapeSelected = null; }
 
 		protected abstract void init();
 
 		protected abstract void addNewShapedObjectToMap();
 
-		public int getWidth() {
-			return width;
-		}
+		public int getWidth() { return width; }
 
-		public int getHeight() {
-			return height;
-		}
+		public int getHeight() { return height; }
 
-		public MatrixInSpaceObjectsManager<Double> getMisom() {
-			return misom;
-		}
+		public MatrixInSpaceObjectsManager<Double> getMisom() { return misom; }
 
-		public void setWidth(int width) {
-			this.width = width;
-		}
+		public void setWidth(int width) { this.width = width; }
 
-		public void setHeight(int height) {
-			this.height = height;
-		}
+		public void setHeight(int height) { this.height = height; }
 
-		public AbstractShape2D getShapeSelected() {
-			return shapeSelected;
-		}
+		public AbstractShape2D getShapeSelected() { return shapeSelected; }
 
-		public void setShapeSelected(AbstractShape2D shapeSelected) {
-			this.shapeSelected = shapeSelected;
-		}
+		public void setShapeSelected(AbstractShape2D shapeSelected) { this.shapeSelected = shapeSelected; }
 
 		public void recreateMISOM() {
-			misom = new MISOMImpl(false, width, height, NumberManager.getDoubleManager());
+			misom = new MISOM_SingleObjInNode<>(false, width, height, NumberManager.getDoubleManager());
 			objectsInMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
 		}
 	}
@@ -139,8 +131,7 @@ public abstract class TestIsomGeneric {
 	protected abstract class GUI_TestIsom_Generic {
 //		BufferedImage bi;
 
-		GUI_TestIsom_Generic() {
-		}
+		GUI_TestIsom_Generic() {}
 
 		protected JFrame window;
 
@@ -163,16 +154,12 @@ public abstract class TestIsomGeneric {
 			jpShapeFieldContainer.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
 		}
 
-		public S getShape() {
-			return shape;
-		}
+		public S getShape() { return shape; }
 
 		public abstract S newShape();
 
 		/** Invoke super.doOnShow() */
-		public void doOnShow() {
-			controller.setShapeSelected(getShape());
-		}
+		public void doOnShow() { controller.setShapeSelected(getShape()); }
 
 		public abstract void init();
 	}

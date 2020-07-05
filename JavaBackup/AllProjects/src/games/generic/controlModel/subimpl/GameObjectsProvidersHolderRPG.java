@@ -16,9 +16,9 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgradesProvider;
 import games.generic.controlModel.inventoryAbil.InventoryItem;
 import games.generic.controlModel.inventoryAbil.InventoryItemNotEquippable;
+import games.generic.controlModel.misc.GMapProvider;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import tools.Comparators;
-import tools.minorTools.RandomWeightedIndexes;
 
 /**
  * One of the core classes.
@@ -49,63 +49,52 @@ import tools.minorTools.RandomWeightedIndexes;
  */
 public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvidersHolder {
 
-	public GameObjectsProvidersHolderRPG() {
+	public GameObjectsProvidersHolderRPG(GModalityRPG gModality) {
+		this.gModality = gModality;
 		this.providers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
 		this.abilitiesProvider = newAbilitiesProvider();
 		this.equipmentsProvider = newEquipItemProvider();
 		this.creaturesProvider = newCreatureProvider();
 		this.equipUpgradesProvider = newEquipUpgradesProvider();
+		this.mapsProvider = newMapsProvider();
 		this.providers.put(AbilitiesProvider.NAME, abilitiesProvider);
 		this.providers.put(EquipItemProvider.NAME, equipmentsProvider);
 		this.providers.put(EquipmentUpgradesProvider.NAME, equipUpgradesProvider);
 		this.providers.put(CreaturesProvider.NAME, creaturesProvider);
-		this.random = new Random();
+		this.providers.put(GMapProvider.NAME_FOR_GOPROVIDER, mapsProvider);
+//		this.random = new Random();
 	}
 
+	protected GModalityRPG gModality;
 	protected Map<String, GameObjectsProvider<? extends ObjectNamed>> providers;
 	protected AbilitiesProvider abilitiesProvider;
 	protected EquipItemProvider equipmentsProvider;
 	protected EquipmentUpgradesProvider equipUpgradesProvider;
 	protected CreaturesProvider<BaseCreatureRPG> creaturesProvider;
+	protected GMapProvider mapsProvider;
 	// for random stuffs
-	protected RandomWeightedIndexes equipItemsWeights;
-	protected Random random;
+//	protected RandomWeightedIndexes equipItemsWeights;
+//	protected Random random;
 
 	//
 	@Override
-	public Map<String, GameObjectsProvider<? extends ObjectNamed>> getProviders() {
-		return providers;
-	}
+	public Map<String, GameObjectsProvider<? extends ObjectNamed>> getProviders() { return providers; }
 
-	public AbilitiesProvider getAbilitiesProvider() {
-		return abilitiesProvider;
-	}
+	public GModalityRPG getgModality() { return gModality; }
 
-	public EquipItemProvider getEquipmentsProvider() {
-		return equipmentsProvider;
-	}
+	public AbilitiesProvider getAbilitiesProvider() { return abilitiesProvider; }
 
-	public EquipmentUpgradesProvider getEquipUpgradesProvider() {
-		return equipUpgradesProvider;
-	}
+	public EquipItemProvider getEquipmentsProvider() { return equipmentsProvider; }
 
-	public CreaturesProvider<BaseCreatureRPG> getCreaturesProvider() {
-		return creaturesProvider;
-	}
+	public EquipmentUpgradesProvider getEquipUpgradesProvider() { return equipUpgradesProvider; }
 
-	public RandomWeightedIndexes getEquipItemsWeights() {
-		return equipItemsWeights;
-	}
+	public CreaturesProvider<BaseCreatureRPG> getCreaturesProvider() { return creaturesProvider; }
 
-	public Random getRandom() {
-		return random;
-	}
+	public Random getRandom() { return gModality.getRandom(); }
 
 //
 
-	public void setAbilitiesProvider(AbilitiesProvider ap) {
-		this.abilitiesProvider = ap;
-	}
+	public void setAbilitiesProvider(AbilitiesProvider ap) { this.abilitiesProvider = ap; }
 
 	public void setEquipmentsProvider(EquipItemProvider equipmentsProvider) {
 		this.equipmentsProvider = equipmentsProvider;
@@ -119,15 +108,13 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 		this.creaturesProvider = creaturesProvider;
 	}
 
-	public void setEquipItemsWeights(RandomWeightedIndexes equipItemsWeights) {
-		this.equipItemsWeights = equipItemsWeights;
-	}
+//	public void setEquipItemsWeights(RandomWeightedIndexes equipItemsWeights) {this.equipItemsWeights = equipItemsWeights;}
 
 	//
 
-	public AbilitiesProvider newAbilitiesProvider() {
-		return new AbilitiesProvider();
-	}
+	public void setgModality(GModalityRPG gModality) { this.gModality = gModality; }
+
+	public AbilitiesProvider newAbilitiesProvider() { return new AbilitiesProvider(); }
 
 	public abstract EquipItemProvider newEquipItemProvider();
 
@@ -138,4 +125,6 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 	 */
 	public abstract CreaturesProvider<BaseCreatureRPG> newCreatureProvider();
 //	public abstract CreaturesProvider<? extends CreatureSimple> newCreatureProvider();
+
+	public abstract GMapProvider newMapsProvider();
 }

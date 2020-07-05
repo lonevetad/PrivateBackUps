@@ -27,47 +27,39 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	Intelligence(true), Wisdom(true), Faith(true),
 	//
 	Luck, //
-	LifeMax(true), ManaMax(true), RegenLife, RegenMana, //
+	LifeMax(true), RegenLife, ManaMax(true), RegenMana, ShieldMax(true), RegenShield, //
 	Velocity(true),
 	//
 	DamageBonusPhysical, DamageReductionPhysical, //
-	ProbabilityHitPhysical, ProbabilityAvoidPhysical, //
+	ProbabilityPerThousandHitPhysical, ProbabilityPerThousandAvoidPhysical, //
 	DamageBonusMagical, DamageReductionMagical, //
-	ProbabilityHitMagical, ProbabilityAvoidMagical, //
+	ProbabilityPerThousandHitMagical, ProbabilityPerThousandAvoidMagical, //
 	//
-	CriticalProbability(true), CriticalMultiplier(true), //
-	CriticalProbabilityAvoid(true), CriticalMultiplierReduction(true), //
-	LifeLeechPercentage, ManaLeechPercentage//
+	CriticalProbabilityPerThousand(true), CriticalMultiplierPercentage(true), //
+	CriticalProbabilityPerThousandAvoid(true), CriticalMultiplierPercentageReduction(true), //
+	LifeLeechPercentage, ManaLeechPercentage, ShieldLeechPercentage//
 	;
 
 	public final boolean isStrictlyPositive;
 
-	AttributesTRAn() {
-		this(false);
-	}
+	AttributesTRAn() { this(false); }
 
-	AttributesTRAn(boolean flag) {
-		this.isStrictlyPositive = flag;
-	}
+	AttributesTRAn(boolean flag) { this.isStrictlyPositive = flag; }
 
 	@Override
-	public int getIndex() {
-		return ordinal();
-	}
+	public int getIndex() { return ordinal(); }
 
 	@Override
-	public String getName() {
-		return name();
-	}
+	public String getName() { return name(); }
 
 	@Override
-	public Integer getID() {
-		return ordinal();
-	}
+	public Integer getID() { return ordinal(); }
 
 	//
 
-	public static final int ATTRIBUTES_UPGRADABLE_COUNT = 9, FIRST_INDEX_ATTRIBUTE_UPGRADABLE = Strength.getIndex();
+	public static final int FIRST_INDEX_ATTRIBUTE_UPGRADABLE = Strength.getIndex(),
+			LAST_INDEX_ATTRIBUTE_UPGRADABLE = Faith.getIndex(),
+			ATTRIBUTES_UPGRADABLE_COUNT = 1 + (LAST_INDEX_ATTRIBUTE_UPGRADABLE - FIRST_INDEX_ATTRIBUTE_UPGRADABLE);;
 	public static final AttributesTRAn[] VALUES = AttributesTRAn.values();
 	private static Map<String, AttributesTRAn> attTRArByName = null;
 
@@ -88,9 +80,7 @@ public enum AttributesTRAn implements AttributeIdentifier {
 		return a;
 	}
 
-	public static AttributesTRAn getAttributeTRArByIndex(int index) {
-		return VALUES[index];
-	}
+	public static AttributesTRAn getAttributeTRArByIndex(int index) { return VALUES[index]; }
 
 	public static AttributesTRAn damageReductionByType(DamageTypesTRAn dt) {
 		return (dt == DamageTypesTRAn.Physical) ? AttributesTRAn.DamageReductionPhysical

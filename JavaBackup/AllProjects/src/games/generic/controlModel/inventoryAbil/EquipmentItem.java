@@ -2,6 +2,7 @@ package games.generic.controlModel.inventoryAbil;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -9,11 +10,14 @@ import dataStructures.MapTreeAVL;
 import dataStructures.mtAvl.MapTreeAVLLightweight.TreeAVLDelegator;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsProvidersHolder;
+import games.generic.controlModel.gObj.AbilitiesHolder;
+import games.generic.controlModel.gObj.AssignableObject;
 import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.misc.AttributesHolder;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import tools.Comparators;
+import tools.ObjectWithID;
 
 /**
  * Top class for equippable object.<br>
@@ -29,17 +33,20 @@ import tools.Comparators;
  * (into {@link #getBaseAttributeModifiers()} and {@link #getUpgrades()} that
  * provides a set of {@link AttributeModification}) and apply them one by one.
  */
-public abstract class EquipmentItem extends InventoryItem {
+public abstract class EquipmentItem extends InventoryItem implements AbilitiesHolder, AssignableObject {
 	private static final long serialVersionUID = -55232021L;
 	protected final EquipmentType equipmentType;
 	protected EquipmentSet belongingEquipmentSet;
-	protected Set<EquipItemAbility> abilities;
 	protected final List<AttributeModification> baseAttributeModifiers;
+	protected MapTreeAVL<String, AbilityGeneric> backMapAbilities;
+	protected Set<AbilityGeneric> abilities;
+	protected MapTreeAVL<String, EquipmentUpgrade> backMapEquipUpgrades;
 	protected Set<EquipmentUpgrade> upgrades;
 
 	public EquipmentItem(GModalityRPG gmrpg, EquipmentType equipmentType, String name) {
 		super(name);
 		this.belongingEquipmentSet = null;
+		this.abilities = null;
 		this.equipmentType = equipmentType;
 		this.baseAttributeModifiers = new LinkedList<>();
 		onCreate(gmrpg);
@@ -47,27 +54,30 @@ public abstract class EquipmentItem extends InventoryItem {
 
 	//
 
-	public EquipmentType getEquipmentType() {
-		return this.equipmentType;
-	}
+	public EquipmentType getEquipmentType() { return this.equipmentType; }
 
-	public EquipmentSet getBelongingEquipmentSet() {
-		return belongingEquipmentSet;
+	public EquipmentSet getBelongingEquipmentSet() { return this.belongingEquipmentSet; }
+
+	/** Modifiers related to this equipment, that defines it. */
+	public List<AttributeModification> getBaseAttributeModifiers() {
+		return this.baseAttributeModifiers;
 	}
 
 	/** Beware: could return null if this item has no abilities. */
-	public Set<EquipItemAbility> getAbilities() {
+	public Set<AbilityGeneric> getAbilitiesSet() {
 		checkAbilitiesSet();
 		return this.abilities;
 	}
 
-	public List<AttributeModification> getBaseAttributeModifiers() {
-		return baseAttributeModifiers;
+	@Override
+	public Map<String, AbilityGeneric> getAbilities() {
+		checkAbilitiesSet();
+		return this.backMapAbilities;
 	}
 
-	public Set<EquipmentUpgrade> getUpgrades() {
-		return upgrades;
-	}
+	public Map<String, EquipmentUpgrade> getUpgradesMap() { return backMapEquipUpgrades; }
+
+	public Set<EquipmentUpgrade> getUpgrades() { return this.upgrades; }
 
 	//
 
@@ -85,28 +95,30 @@ public abstract class EquipmentItem extends InventoryItem {
 	 */
 	protected abstract void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder);
 
-	protected void onCreate(GModality gm) {
-		enrichEquipment(gm, gm.getGameObjectsProvider());
-	}
+	protected void onCreate(GModality gm) { enrichEquipment(gm, gm.getGameObjectsProvider()); }
 
 	protected void checkAbilitiesSet() {
 		if (this.abilities == null) {
-			MapTreeAVL<String, EquipItemAbility> m;
-			m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, MapTreeAVL.BehaviourOnKeyCollision.Replace,
-					Comparators.STRING_COMPARATOR);
-			this.abilities = m.toSetValue(EquipItemAbility.NAME_EXTRACTOR);
+			this.backMapAbilities = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
+					MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, Comparators.STRING_COMPARATOR);
+			this.abilities = this.backMapAbilities.toSetValue(AbilityGeneric.NAME_EXTRACTOR);
 		}
 	}
 
 	protected void checkUpgradeSet() {
 		if (this.upgrades == null) {
-			MapTreeAVL<String, EquipmentUpgrade> mapEquipUpgrades;
-			mapEquipUpgrades = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
-			this.upgrades = mapEquipUpgrades.toSetValue(EquipmentUpgrade.KEY_EXTRACTOR);
+			this.backMapEquipUpgrades = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
+					Comparators.STRING_COMPARATOR);
+			this.upgrades = this.backMapEquipUpgrades.toSetValue(EquipmentUpgrade.KEY_EXTRACTOR);
 		}
 	}
 
 	//
+
+	@Override
+	public void resetStuffs() {
+		// nothing to do here, right now
+	}
 
 	public BaseCreatureRPG getCreatureWearingEquipments() {
 		EquipmentSet es;
@@ -114,26 +126,44 @@ public abstract class EquipmentItem extends InventoryItem {
 		return (es == null) ? null : es.getCreatureWearingEquipments();
 	}
 
+	@Override
+	public ObjectWithID getOwner() { return getCreatureWearingEquipments(); }
+
+	@Override
+	public void setOwner(ObjectWithID owner) {
+		EquipmentSet es;
+		es = this.getBelongingEquipmentSet();
+		if (es == null || (!(owner instanceof BaseCreatureRPG)))
+			return;
+		es.setCreatureWearingEquipments((BaseCreatureRPG) owner);
+	}
+
+	//
+
 	public EquipmentItem addAttributeModifier(AttributeModification am) {
-		if (am != null)
-			this.baseAttributeModifiers.add(am);
+		if (am != null) { this.baseAttributeModifiers.add(am); }
 		return this;
 	}
 
-	public EquipmentItem addAbility(EquipItemAbility am) {
+	public GModality getGameModality() { return getCreatureWearingEquipments().getGameModality(); }
+
+	public EquipmentItem addAbility(AbilityGeneric am) {
 		if (am != null) {
 			checkAbilitiesSet();
 			this.abilities.add(am);
-			am.setEquipItem(this);
+//			am.setEquipItem(this);
+			if (getCreatureWearingEquipments() != null) { am.onAddingToOwner(getGameModality()); }
 		}
 		return this;
 	}
 
-	public EquipmentItem removeAbility(EquipItemAbility am) {
+	public EquipmentItem removeAbility(AbilityGeneric am) {
 		if (am != null) {
 			checkAbilitiesSet();
-			if (this.abilities.remove(am))
-				am.setEquipItem(null);
+			if (this.abilities.remove(am)) {
+//				am.setEquipItem(null);
+				if (getCreatureWearingEquipments() != null) { am.onRemovingFromOwner(getGameModality()); }
+			}
 		}
 		return this;
 	}
@@ -141,35 +171,57 @@ public abstract class EquipmentItem extends InventoryItem {
 	@SuppressWarnings("unchecked")
 	public EquipmentItem removeAbilityByName(String name) {
 		if (name != null) {
-			TreeAVLDelegator<String, EquipItemAbility> backMapDeleg;
-			MapTreeAVL<String, EquipItemAbility> backMap;
-			EquipItemAbility am;
+			TreeAVLDelegator<String, AbilityGeneric> backMapDeleg;
+			MapTreeAVL<String, AbilityGeneric> backMap;
+			AbilityGeneric am;
 			checkAbilitiesSet();
-			backMapDeleg = (TreeAVLDelegator<String, EquipItemAbility>) this.abilities;
+			backMapDeleg = (TreeAVLDelegator<String, AbilityGeneric>) this.abilities;
 			backMap = backMapDeleg.getBackTree();
 			am = backMap.get(name);
 			if (am != null) {
 				backMap.remove(name);
-				am.setEquipItem(null);
+//				am.setEquipItem(null);
+				am.onRemovingFromOwner(getGameModality());
 			}
 		}
 		return this;
 	}
 
-	public EquipmentItem addUpgrade(EquipmentUpgrade am) {
-		if (am != null) {
+	public EquipmentItem addUpgrade(EquipmentUpgrade up) {
+		final AttributesHolder ah;
+		final CreatureAttributes ca;
+		if (up != null) {
 			checkUpgradeSet();
-			this.upgrades.add(am);
-			am.setEquipmentAssigned(this);
+			this.upgrades.add(up);
+			up.setEquipmentAssigned(this);
+			// apply currency monus/malus
+			up.getPricesModifications()
+					.forEachTypeAmount((i, amount) -> { this.sellPrice.alterCurrencyAmount(i, amount); });
+			// apply modifications
+			ah = this.getCreatureWearingEquipments(); // assumed to be true
+			if (ah != null) {
+				ca = ah.getAttributes();
+				up.getAttributeModifiers().forEach(eam -> ca.applyAttributeModifier(eam));
+			}
 		}
 		return this;
 	}
 
-	public EquipmentItem removeUpgrade(EquipmentUpgrade eu) {
-		if (eu != null) {
+	public EquipmentItem removeUpgrade(EquipmentUpgrade up) {
+		final AttributesHolder ah;
+		final CreatureAttributes ca;
+		if (up != null) {
 			checkUpgradeSet();
-			if (this.upgrades.remove(eu))
-				eu.setEquipmentAssigned(null);
+			if (this.upgrades.remove(up))
+				up.setEquipmentAssigned(null);
+			up.getPricesModifications()
+					.forEachTypeAmount((i, amount) -> { this.sellPrice.alterCurrencyAmount(i, -amount); });
+			// apply modifications
+			ah = this.getCreatureWearingEquipments(); // assumed to be true
+			if (ah != null) {
+				ca = ah.getAttributes();
+				up.getAttributeModifiers().forEach(eam -> ca.removeAttributeModifier(eam));
+			}
 		}
 		return this;
 	}
@@ -184,35 +236,26 @@ public abstract class EquipmentItem extends InventoryItem {
 			backMapDeleg = (TreeAVLDelegator<String, EquipmentUpgrade>) this.upgrades;
 			backMap = backMapDeleg.getBackTree();
 			eu = backMap.get(name);
-			if (eu != null) {
-				backMap.remove(name);
-				eu.setEquipmentAssigned(null);
-			}
+			if (eu != null) { removeUpgrade(eu); }
 		}
 		return this;
 	}
 
 	/**
-	 * Should apply ({@link AttributeModification}) and activate this optional
-	 * {@link EquipItemAbility}.
-	 * <p>
-	 * See {@link EquipItemAbility#onEquip(GModality)} for further informations.
+	 * The opposite of {@link #onUnEquip(GModality)}.
 	 */
 	public void onEquip(final GModality gm) {
 		final AttributesHolder ah;
 		final CreatureAttributes ca;
-		Set<EquipItemAbility> abl;
 		List<AttributeModification> attmod;
 		Set<EquipmentUpgrade> upg;
 		Consumer<AttributeModification> modifierApplier;
-		gm.addGameObject(this); // add me to the game, especially if i'm a event-listener, a timed-object, etc
 		ah = this.getCreatureWearingEquipments(); // assumed to be true
 		ca = ah.getAttributes();
 		modifierApplier = eam -> ca.applyAttributeModifier(eam);
 		attmod = this.getBaseAttributeModifiers();
-		if (attmod != null) {
-			attmod.forEach(modifierApplier);
-		}
+		this.onAddingToOwner(gm);
+		if (attmod != null) { attmod.forEach(modifierApplier); }
 		upg = this.getUpgrades();
 		if (upg != null) {
 			upg.forEach(up -> {
@@ -220,22 +263,14 @@ public abstract class EquipmentItem extends InventoryItem {
 				up.getAttributeModifiers().forEach(modifierApplier);
 			});
 		}
-		abl = this.getAbilities();
-		if (abl != null) {
-			abl.forEach(ea -> ea.onEquip(gm));
-		}
 	}
 
 	/**
 	 * The opposite of {@link #onEquip(GModality)}.
-	 * <p>
-	 * See {@link EquipItemAbility#onUEquipping(GModality)} for further
-	 * informations.
 	 */
 	public void onUnEquipping(final GModality gm) {
 		final AttributesHolder ah;
 		final CreatureAttributes ca;
-		Set<EquipItemAbility> abl;
 		List<AttributeModification> attmod;
 		Set<EquipmentUpgrade> upg;
 		Consumer<AttributeModification> modifierRemover;
@@ -245,9 +280,8 @@ public abstract class EquipmentItem extends InventoryItem {
 		attmod = this.getBaseAttributeModifiers();
 		modifierRemover = eam -> ca.removeAttributeModifier(eam);
 		attmod = this.getBaseAttributeModifiers();
-		if (attmod != null) {
-			attmod.forEach(modifierRemover);
-		}
+		this.onRemovingFromOwner(gm);
+		if (attmod != null) { attmod.forEach(modifierRemover); }
 		upg = this.getUpgrades();
 		if (upg != null) {
 			upg.forEach(up -> {
@@ -255,17 +289,53 @@ public abstract class EquipmentItem extends InventoryItem {
 				up.getAttributeModifiers().forEach(modifierRemover);
 			});
 		}
-		abl = this.getAbilities();
+	}
+
+	@Override
+	public void onAddingToOwner(GModality gm) {
+		Set<AbilityGeneric> abl;
+		ObjectWithID o;
+		o = getOwner();
+		AssignableObject.super.onAddingToOwner(gm);
+		abl = this.getAbilitiesSet();
 		if (abl != null) {
-			abl.forEach(ea -> ea.onUnEquipping(gm));
+//			abl.forEach(ea -> ea.onEquip(gm));
+			abl.forEach(ea -> {
+				ea.setOwner(o);
+				ea.onAddingToOwner(gm);
+			});
 		}
+	}
+
+	@Override
+	public void onAddedToGame(GModality gm) {
+		AbilitiesHolder.super.onAddedToGame(gm);
+		AssignableObject.super.onAddedToGame(gm);
+	}
+
+	@Override
+	public void onRemovingFromOwner(GModality gm) {
+		Set<AbilityGeneric> abl;
+		AssignableObject.super.onRemovingFromOwner(gm);
+		abl = this.getAbilitiesSet();
+		if (abl != null) {
+//			abl.forEach(ea -> ea.onUnEquipping(gm));
+			abl.forEach(ea -> { ea.onRemovingFromOwner(gm); });
+		}
+	}
+
+	@Override
+	public void onRemovedFromGame(GModality gm) { //
+		AbilitiesHolder.super.onRemovedFromGame(gm);
+		AssignableObject.super.onRemovedFromGame(gm);
 	}
 
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " [name=" + name + ", ID=" + getID() + ",\n\t rarityIndex, ="
-				+ rarityIndex + ", equipmentType=" + equipmentType + ",\n\tbaseAttributeModifiers="
-				+ baseAttributeModifiers + ",\n\t upgrades=" + upgrades + ",\n\t abilities=" + //
+				+ rarityIndex + ", equipmentType=" + equipmentType + ",\n\t prices to sell: " + this.sellPrice
+				+ ",\n\tbaseAttributeModifiers=" + baseAttributeModifiers + ",\n\t upgrades=[" + upgradesToString()
+				+ "],\n\t abilities=" + //
 				abilitiesToString() + "]";
 	}
 
@@ -275,6 +345,18 @@ public abstract class EquipmentItem extends InventoryItem {
 			return "null";
 		sb = new StringBuilder(16);
 		abilities.forEach(ea -> sb.append(ea));
+		return sb.toString();
+	}
+
+	protected String upgradesToString() {
+		StringBuilder sb;
+		if (upgrades == null)
+			return "null";
+		if (upgrades.isEmpty())
+			return "";
+		sb = new StringBuilder(16);
+		sb.append('\n');
+		upgrades.forEach(eu -> sb.append('\t').append(eu).append('\n'));
 		return sb.toString();
 	}
 }

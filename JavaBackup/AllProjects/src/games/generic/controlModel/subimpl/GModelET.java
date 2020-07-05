@@ -13,9 +13,7 @@ import games.generic.controlModel.GObjectsHolder;
 public class GModelET extends GModelTimeBased {
 	public static final String EVENT_MANAGER_OBSERVERS_HOLDER_NAME = "emo"; // event manager observers
 
-	public GModelET() {
-		super();
-	}
+	public GModelET() { super(); }
 
 	/** used as fast cache AND to put it to the list of {@link GObjectsHolder}. */
 	protected GEventManager eventManager;
@@ -29,4 +27,7 @@ public class GModelET extends GModelTimeBased {
 		this.eventManager = eventManager;
 		super.addObjHolder(EVENT_MANAGER_OBSERVERS_HOLDER_NAME, eventManager);
 	}
+
+	@Override
+	public int objectsHeldCount() { return this.eventManager.objectsHeldCount(); }
 }

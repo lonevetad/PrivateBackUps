@@ -3,14 +3,12 @@ package games.theRisingAngel.abilities;
 import java.awt.Point;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.inventoryAbil.EquipItemAbility;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import geometry.AbstractShape2D;
 import geometry.ObjectShaped;
 import geometry.implementations.shapes.ShapeCircle;
 
 // TODO to be completed
-public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipItemAbility {
+public class AFireShpereOrbiting extends AOrbitingDamagingObj {
 	private static final long serialVersionUID = 1L;
 	public static final int RARITY = 4, BLOB_RADIUS = 3, BLOB_RADIUS_FROM_CENTRE = 7;
 	public static final String NAME = "Planetary Fire Spheres";
@@ -20,7 +18,7 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 		setRarityIndex(RARITY);
 	}
 
-	protected EquipmentItem eqipItem; // related to this ability
+//	protected EquipmentItem eqipItem; // related to this ability
 
 	@Override
 	public void move(GModality gm, int milliseconds) {
@@ -28,15 +26,8 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 
 	}
 
-	@Override
-	public EquipmentItem getEquipItem() {
-		return eqipItem;
-	}
-
-	@Override
-	public void setEquipItem(EquipmentItem equipmentItem) {
-		this.eqipItem = equipmentItem;
-	}
+//	public EquipmentItem getEquipItem() { return eqipItem; }
+//	public void setEquipItem(EquipmentItem equipmentItem) { this.eqipItem = equipmentItem; }
 
 	@Override
 	public void setShape(AbstractShape2D shape) {
@@ -45,9 +36,7 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 	}
 
 	@Override
-	public ObjectShaped newOrbitingObj() {
-		return new FlamingOrb();
-	}
+	public ObjectShaped newOrbitingObj() { return new FlamingOrb(); }
 
 	@Override
 	protected void updateCenterPosition(GModality modality) {
@@ -56,9 +45,7 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 	}
 
 	@Override
-	public int getOrbitingObjectRadius(int index, ObjectShaped os) {
-		return orbitingObjectRadius;
-	}
+	public int getOrbitingObjectRadius(int index, ObjectShaped os) { return orbitingObjectRadius; }
 
 	//
 
@@ -80,14 +67,10 @@ public class AFireShpereOrbiting extends AOrbitingDamagingObj implements EquipIt
 		}
 
 		@Override
-		public AbstractShape2D getShape() {
-			return shape;
-		}
+		public AbstractShape2D getShape() { return shape; }
 
 		@Override
-		public void setShape(AbstractShape2D shape) {
-			this.shape = (ShapeCircle) shape;
-		}
+		public void setShape(AbstractShape2D shape) { this.shape = (ShapeCircle) shape; }
 
 	}
 }

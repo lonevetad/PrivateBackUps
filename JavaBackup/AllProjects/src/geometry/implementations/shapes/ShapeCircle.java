@@ -81,7 +81,7 @@ public class ShapeCircle extends ShapeFillableImpl {
 	}
 
 	@Override
-	public Point getLeftTopCorner() {
+	public Point getTopLeftCorner() {
 		int radius;
 		radius = diameter >> 1;
 		return new Point(xCenter - radius, yCenter - radius);

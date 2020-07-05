@@ -14,7 +14,7 @@ public interface CreatureAttributesBonusesCalculator {
 	}
 
 	/** Calculate the bonus for a given index's value */
-	public default int getBonusForValue(int index) {
+	public default int getBonusFor(int index) {
 		return 0;
 	}
 }

@@ -38,9 +38,7 @@ public class EquipmentSetTRAn extends EquipmentSet {
 	}
 
 	@Override
-	public EquipmentItem[] getEquippedItems() {
-		return equippedItems;
-	}
+	public EquipmentItem[] getEquippedItems() { return equippedItems; }
 
 	/**
 	 * Configuration-like setting for setting the way to displace rings upon
@@ -51,14 +49,10 @@ public class EquipmentSetTRAn extends EquipmentSet {
 	 * available</li>
 	 * </ul>
 	 */
-	public boolean isNiceEquippingRings() {
-		return isNiceEquippingRings;
-	}
+	public boolean isNiceEquippingRings() { return isNiceEquippingRings; }
 
 	@Override
-	public EquipmentItem getEquippedItemAt(int index) {
-		return equippedItems[index];
-	}
+	public EquipmentItem getEquippedItemAt(int index) { return equippedItems[index]; }
 
 	public void setNiceEquippingRings(boolean isNiceEquippingRings) {
 		this.isNiceEquippingRings = isNiceEquippingRings;
@@ -121,7 +115,6 @@ public class EquipmentSetTRAn extends EquipmentSet {
 
 	protected void performEquipAt(GModality gm, EquipmentItem ei, int index) {
 		equippedItems[index] = ei;
-		System.out.println("E_Set_TRAr at index " + index + " EQUIPPING " + ei.getName());
 		ei.setBelongingEquipmentSet(this);
 		ei.setLocationInInventory(new Point(index, index)); // just to use it in some way ...
 		ei.onEquip(gm);
@@ -142,9 +135,7 @@ public class EquipmentSetTRAn extends EquipmentSet {
 			equipItemSlotToCheck++;
 			index++;
 		}
-		if (notAdded) {
-			swapEquipmentItem(gm, ei, equippedItems[firstIndex]);
-		}
+		if (notAdded) { swapEquipmentItem(gm, ei, equippedItems[firstIndex]); }
 	}
 
 	protected void addRing(GModality gm, EIRing ring) {

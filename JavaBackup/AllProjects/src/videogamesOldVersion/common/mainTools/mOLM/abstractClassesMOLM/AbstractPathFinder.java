@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import geometry.PathFinderIsom;
+import dataStructures.isom.PathFinderIsom;
 import videogamesOldVersion.common.mainTools.mOLM.MatrixObjectLocationManager;
 import videogamesOldVersion.common.mainTools.mOLM.NodeMatrix;
 

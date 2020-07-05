@@ -20,16 +20,16 @@ public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
 	}
 
 	@Override
-	public Set<ObjectWithID> getObjects() {
-		return timedObjects_Set;
-	}
+	public Set<ObjectWithID> getObjects() { return timedObjects_Set; }
+
+	@Override
+	public int objectsHeldCount() { return this.timedObjects.size(); }
 
 	@Override
 	public boolean add(ObjectWithID o) {
 		if (o == null || (!(o instanceof TimedObject)))
 			return false;
-		if (timedObjects.containsKey(o.getID()))
-			return false;
+		if (timedObjects.containsKey(o.getID())) { return false; }
 		timedObjects.put(o.getID(), o);
 		return true;
 	}
@@ -50,17 +50,12 @@ public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
 	}
 
 	@Override
-	public boolean contains(ObjectWithID o) {
-		return timedObjects.containsKey(o.getID());
-	}
+	public boolean contains(ObjectWithID o) { return timedObjects.containsKey(o.getID()); }
 
 	@Override
-	public ObjectWithID get(Integer id) {
-		return timedObjects.get(id);
-	}
+	public ObjectWithID get(Integer id) { return timedObjects.get(id); }
 
 	@Override
-	public void forEach(Consumer<ObjectWithID> action) {
-		timedObjects.forEach((id, to) -> action.accept(to));
-	}
+	public void forEach(Consumer<ObjectWithID> action) { timedObjects.forEach((id, to) -> action.accept(to)); }
+
 }

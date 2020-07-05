@@ -9,16 +9,14 @@ import tools.ObjectNamedID;
 public class HealGeneric extends AmountNamed {
 	private static final long serialVersionUID = 894363018L;
 
-	public HealGeneric(HealingType healType, int healAmount) {
-		super(healType, healAmount);
-	}
+	public HealGeneric(CurableResourceType healType, int healAmount) { super(healType, healAmount); }
 
 	public int getHealAmount() {
 		return super.value; // super.getValue();
 	}
 
-	public HealingType getHealType() {
-		return (HealingType) super.type;// super.getType();
+	public CurableResourceType getHealType() {
+		return (CurableResourceType) super.type;// super.getType();
 	}
 
 	public void setHealAmount(int healAmount) {

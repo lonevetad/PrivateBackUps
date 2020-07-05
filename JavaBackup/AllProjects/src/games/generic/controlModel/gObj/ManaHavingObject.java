@@ -33,5 +33,4 @@ public interface ManaHavingObject extends ObjectNamedID {
 		amount = getMana() - amount;
 		setMana(amount > 0 ? amount : 0);
 	}
-
 }

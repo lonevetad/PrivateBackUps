@@ -24,13 +24,10 @@ public class ShapeRunnerRectangleBorder extends AbstractShapeRunnerImpl {
 		return SINGLETON;
 	}
 
-	private ShapeRunnerRectangleBorder() {
-	}
+	private ShapeRunnerRectangleBorder() {}
 
 	@Override
-	public ShapeRunnersImplemented getShapeRunnersImplemented() {
-		return ShapeRunnersImplemented.RectangleBorder;
-	}
+	public ShapeRunnersImplemented getShapeRunnersImplemented() { return ShapeRunnersImplemented.RectangleBorder; }
 
 	@Override
 	protected boolean runShapeImpl(AbstractShape2D shape, PointConsumer action, boolean shouldPerformEarlyStops) {
@@ -48,34 +45,48 @@ public class ShapeRunnerRectangleBorder extends AbstractShapeRunnerImpl {
 		yy = poly.ypoints;
 		corner = new Point();
 		if (angDeg == 0.0 || angDeg == 180.0) {
-			corner.x = xx[0];
-			corner.y = yy[0];
+//			corner.x = xx[0];
+//			corner.y = yy[0];
+			corner.x = sr.getXTopLeft();
+			corner.y = sr.getYTopLeft();
 			ShapeRunnerLine.runHorizontalSpan(action, corner, sr.getWidth(), shouldPerformEarlyStops);
-			corner.x = xx[1]; // the same as 0
+//			corner.x = xx[1]; // the same as 0
+			corner.x = sr.getXTopLeft() + sr.getWidth(); // the same as 0
 //			corner.y = yy[1]; // same as 0
 //			corner.y++;
 			ShapeRunnerLine.runVerticalSpan(action, corner, sr.getHeight(), shouldPerformEarlyStops);
 			// the 3 is needed instead of 2 because of it runs from left to right
-			corner.x = xx[3]; // same as 0
-			corner.y = yy[3];
+//			corner.x = xx[3]; // same as 0
+//			corner.y = yy[3];
+			corner.x = sr.getXTopLeft();
+			corner.y = sr.getYTopLeft() + sr.getHeight();
 			ShapeRunnerLine.runHorizontalSpan(action, corner, sr.getWidth(), shouldPerformEarlyStops);
 			// same as 3: runs from lower y to higher y
-			corner.x = xx[0];
-			corner.y = yy[0];
+//			corner.x = xx[0];
+//			corner.y = yy[0];
+			corner.x = sr.getXTopLeft();
+			corner.y = sr.getYTopLeft();
 //			corner.y = yy[3]; //same as 2
 			ShapeRunnerLine.runVerticalSpan(action, corner, sr.getHeight(), shouldPerformEarlyStops);
 		} else if (angDeg == 90.0 || angDeg == 270.0) {
 			// specular to upper one
-			corner.x = xx[0];
-			corner.y = yy[0];
+//			corner.x = xx[0];
+//			corner.y = yy[0];
+			corner.x = sr.getXTopLeft();
+			corner.y = sr.getYTopLeft();
 			ShapeRunnerLine.runHorizontalSpan(action, corner, sr.getHeight(), shouldPerformEarlyStops);
-			corner.x = xx[1];
+//			corner.x = xx[1];
+			corner.x = sr.getXTopLeft() + sr.getHeight(); // the same as 0
 			ShapeRunnerLine.runVerticalSpan(action, corner, sr.getWidth(), shouldPerformEarlyStops);
-			corner.x = xx[3];
-			corner.y = yy[3];
+//			corner.x = xx[3];
+//			corner.y = yy[3];
+			corner.x = sr.getXTopLeft();
+			corner.y = sr.getYTopLeft() + sr.getWidth();
 			ShapeRunnerLine.runHorizontalSpan(action, corner, sr.getHeight(), shouldPerformEarlyStops);
-			corner.x = xx[0];
-			corner.y = yy[0];
+//			corner.x = xx[0];
+//			corner.y = yy[0];
+			corner.x = sr.getXTopLeft() + sr.getHeight(); // the same as 0
+			corner.y = sr.getYTopLeft();
 			ShapeRunnerLine.runVerticalSpan(action, corner, sr.getWidth(), shouldPerformEarlyStops);
 		} else {
 			System.out.println("POLYGON: " + PolygonUtilities.polygonToString(poly));
@@ -192,7 +203,7 @@ public class ShapeRunnerRectangleBorder extends AbstractShapeRunnerImpl {
 //			}
 //		} else {
 
-		while(++y < lasty) {
+		while (++y < lasty) {
 			if (y == y2 && action.canContinue()) {
 				slopeLeft = MathUtilities.slope(p2, p4);
 				ql = p2.getY() - slopeLeft * p2.getX();

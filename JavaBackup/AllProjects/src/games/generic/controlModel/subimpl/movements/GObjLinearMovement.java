@@ -20,31 +20,19 @@ public class GObjLinearMovement extends GObjMovement {
 	protected Point startingPoint, destination;
 
 	@Override
-	public int getDistanceTraveled() {
-		return distanceTraveled;
-	}
+	public int getDistanceTraveled() { return distanceTraveled; }
 
 	@Override
-	public Integer getID() {
-		return null;
-	}
+	public Integer getID() { return null; }
 
 	@Override
-	public int getVelocity() {
-		return velocity;
-	}
+	public int getVelocity() { return velocity; }
 
-	public int getDistanceToDestination() {
-		return distanceToDestination;
-	}
+	public int getDistanceToDestination() { return distanceToDestination; }
 
-	public Point getDestination() {
-		return destination;
-	}
+	public Point getDestination() { return destination; }
 
-	public Point getStartingPoint() {
-		return startingPoint;
-	}
+	public Point getStartingPoint() { return startingPoint; }
 
 	//
 
@@ -57,9 +45,7 @@ public class GObjLinearMovement extends GObjMovement {
 		updateDest();
 	}
 
-	public void setVelocity(int velocity) {
-		this.velocity = velocity > 0 ? velocity : 0;
-	}
+	public void setVelocity(int velocity) { this.velocity = velocity > 0 ? velocity : 0; }
 
 	@Override
 	public void setObjectToMove(MovingObject objectToMove) {
@@ -73,9 +59,7 @@ public class GObjLinearMovement extends GObjMovement {
 	public void resetStartingPoint() {
 		Point otml;
 		otml = this.objectToMove.getLocation();
-		if (this.startingPoint == null) {
-			this.startingPoint = otml;
-		}
+		if (this.startingPoint == null) { this.startingPoint = otml; }
 		this.startingPoint.x = otml.x;
 		this.startingPoint.y = otml.y;
 		this.tempTimeUnit = 0;
@@ -96,9 +80,9 @@ public class GObjLinearMovement extends GObjMovement {
 		dy = startingPoint.y - destination.y;
 		distanceToDestination = (int) Math.hypot(dx, dy);
 		angRad = MathUtilities.angleRadiants(dx, dy);
-		sin = Math.sin(angRad);
+		angRad = sin = Math.sin(angRad); // recycle "angRad" as "sin" for higher efficiency
 //		cos=Math.cos(angRad);
-		cos = 1 - sin * sin;// from the fundamental equality (or Phytagorean Theorem)
+		cos = 1.0 - angRad * angRad;// from the fundamental equality (or Phytagorean Theorem)
 	}
 
 	protected void updateObjToMovePosition(int totalDistTraveled) {
@@ -137,4 +121,13 @@ public class GObjLinearMovement extends GObjMovement {
 			updateObjToMovePosition(totalDistTraveled);
 		}
 	}
+
+	@Override
+	public void onAddedToGame(GModality gm) {}
+
+	@Override
+	public void onRemovedFromGame(GModality gm) {}
+
+	@Override
+	public String getName() { return "linear movement implementation"; }
 }

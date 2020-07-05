@@ -37,9 +37,7 @@ public abstract class GEventManager implements GObjectsHolder {
 
 	//
 
-	public GModality getGameModality() {
-		return gameModality;
-	}
+	public GModality getGameModality() { return gameModality; }
 
 	/**
 	 * Use with caution.
@@ -53,17 +51,15 @@ public abstract class GEventManager implements GObjectsHolder {
 	//
 
 	/***/
-	public void setGameModality(GModalityET gameModality) {
-		this.gameModality = gameModality;
-	}
+	public void setGameModality(GModalityET gameModality) { this.gameModality = gameModality; }
 
 	//
 
 	// TODO ABSTRACT
 
-	public abstract void addEventObserver(GEventObserver geo);
+	public abstract boolean addEventObserver(GEventObserver geo);
 
-	public abstract void removeEventObserver(GEventObserver geo);
+	public abstract boolean removeEventObserver(GEventObserver geo);
 
 	public abstract void removeAllEventObserver();
 
@@ -83,24 +79,20 @@ public abstract class GEventManager implements GObjectsHolder {
 	}
 
 	@Override
-	public void forEach(Consumer<ObjectWithID> action) {
-		forEachEventObservers(geo -> action.accept(geo));
-	}
+	public void forEach(Consumer<ObjectWithID> action) { forEachEventObservers(geo -> action.accept(geo)); }
 
 	@Override
 	public boolean add(ObjectWithID o) {
 		if (o == null || (!(o instanceof GEventObserver)))
 			return false;
-		addEventObserver((GEventObserver) o);
-		return true;
+		return addEventObserver((GEventObserver) o);
 	}
 
 	@Override
 	public boolean remove(ObjectWithID o) {
 		if (o == null || (!(o instanceof GEventObserver)))
 			return false;
-		removeEventObserver((GEventObserver) o);
-		return true;
+		return removeEventObserver((GEventObserver) o);
 	}
 
 	/**
@@ -109,20 +101,10 @@ public abstract class GEventManager implements GObjectsHolder {
 	 * notify the {@link GEventObserver}s that the event has been occurred.
 	 */
 	public void fireEvent(IGEvent ge) {
-		/**
-		 * Integer id; Queue<IGEvent> l; // <br>
-		 * if (ge == null) return; // <br>
-		 * id = ge.getID(); // <br>
-		 * l = this.eventsQueued.get(id); // <br>
-		 * if (l == null) { // <br>
-		 * l = new LinkedList<>(); // <br>
-		 * this.eventsQueued.put(id, l); // <br>
-		 * }
-		 */
 		if (ge.isRequirigImmediateProcessing()) {
 			this.notifyEventObservers(ge);
 		} else {
-			eventsQueued.add(ge); // like offer
+			eventsQueued.add(ge); // like "offer"
 		}
 	}
 
@@ -134,6 +116,7 @@ public abstract class GEventManager implements GObjectsHolder {
 	public void performAllEvents() {
 		final GModalityET gm;
 		Queue<IGEvent> q;
+		IGEvent event;
 		gm = this.gameModality;
 		q = this.eventsQueued;
 //		this.eventsQueued.forEach((id, q) -> {
@@ -150,7 +133,8 @@ public abstract class GEventManager implements GObjectsHolder {
 			 */
 			while ((!q.isEmpty()) && gm.isRunningOrSleep()) {
 //					l.remove(0).performEvent(gm);
-				notifyEventObservers(q.poll()); // remove the first event
+				this.notifyEventObservers(event = q.poll()); // remove the first event
+				event.onProcessingEnded();
 			}
 		}
 //		});

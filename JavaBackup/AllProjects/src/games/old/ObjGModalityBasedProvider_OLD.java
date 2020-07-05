@@ -9,9 +9,7 @@ public class ObjGModalityBasedProvider_OLD<DesiredType>
 		extends ObjNamedIDProvider<FactoryObjGModalityBased<DesiredType>> {
 //	extends ObjNamedIDProvider<FactoryObjGModalityBased<DesiredType>>
 
-	public void addAbility(FactoryObjGModalityBased<DesiredType> a) {
-		addObjIdentified(a);
-	}
+	public void addAbility(FactoryObjGModalityBased<DesiredType> a) { addObjIdentified(a); }
 
 	/**
 	 * Should be avoided, should then prefer
@@ -30,11 +28,7 @@ public class ObjGModalityBasedProvider_OLD<DesiredType>
 		return getObjIdentifiedByName(name).newInstance(gm);
 	}
 
-	public Set<FactoryObjGModalityBased<DesiredType>> getObjects() {
-		return getObjectsIdentified();
-	}
+	public Set<FactoryObjGModalityBased<DesiredType>> getObjects() { return getObjectsIdentified(); }
 
-	public int getAbilitiesCount() {
-		return getObjectsIdentifiedCount();
-	}
+	public int getAbilitiesCount() { return getObjectsIdentifiedCount(); }
 }

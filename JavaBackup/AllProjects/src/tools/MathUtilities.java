@@ -12,8 +12,7 @@ import java.util.Objects;
 
 public final class MathUtilities {
 
-	private MathUtilities() {
-	}
+	private MathUtilities() {}
 
 	public static final double justOne = 1.0, sqrtTwo = Math.sqrt(2.0)//
 			, RHO = 2.0 * Math.PI, HALF_PI = Math.PI / 2.0, PI_3_4 = Math.PI * 1.5
@@ -142,17 +141,13 @@ public final class MathUtilities {
 	 * @return {@link #areCollinear(int, int, int, int, int, int)}.
 	 */
 	public static boolean areCollinear(Point pfirst, Point psecond, Point pthird) {
-		if (pfirst == null || psecond == null || pthird == null) {
-			return false;
-		}
+		if (pfirst == null || psecond == null || pthird == null) { return false; }
 		return areCollinear(pfirst.x, pfirst.y, psecond.x, psecond.y, pthird.x, pthird.y);
 	}
 
 	/** See {@link #areCollinear(Point, Point, Point)}. */
 	public static boolean areCollinear(Point2D pfirst, Point2D psecond, Point2D pthird) {
-		if (pfirst == null || psecond == null || pthird == null) {
-			return false;
-		}
+		if (pfirst == null || psecond == null || pthird == null) { return false; }
 		return areCollinear(pfirst.getX(), pfirst.getY(), psecond.getX(), psecond.getY(), pthird.getX(), pthird.getY());
 	}
 
@@ -204,9 +199,7 @@ public final class MathUtilities {
 		return orientation2DTriangle(p0.getX(), p0.getY(), p1.getX(), p1.getY(), p2.getX(), p2.getY());
 	}
 
-	public static double slope(Point2D a, Point2D b) {
-		return slope(a.getX(), a.getY(), b.getX(), b.getY());
-	}
+	public static double slope(Point2D a, Point2D b) { return slope(a.getX(), a.getY(), b.getX(), b.getY()); }
 
 	public static double slope(double xa, double ya, double xb, double yb) {
 		if (xb == xa)
@@ -336,9 +329,7 @@ public final class MathUtilities {
 			px1 = px2;//
 		if (py1 > py2)
 			py1 = py2;//
-		if (pxToTest < px1 || pyToTest < py1) {
-			return false;
-		}
+		if (pxToTest < px1 || pyToTest < py1) { return false; }
 		w += px1;
 		h += py1;
 		// overflow || intersect
@@ -378,9 +369,7 @@ public final class MathUtilities {
 	 * Returns the distance from a point to the line described as
 	 * <code>y = m*x + q</code>
 	 */
-	public static double distanceLinePoint(double m, double q, Point2D p) {
-		return distanceLinePoint(1, -m, -q, p);
-	}
+	public static double distanceLinePoint(double m, double q, Point2D p) { return distanceLinePoint(1, -m, -q, p); }
 
 	/**
 	 * Returns the distance from a point to the line described as
@@ -411,7 +400,7 @@ public final class MathUtilities {
 			b = a;
 			a = t;
 		}
-		while(b != 0) {
+		while (b != 0) {
 			t = b;
 			b = a % b;
 			a = t;
@@ -451,40 +440,20 @@ public final class MathUtilities {
 			} else {
 				tanAlpha = 90.0;
 			}
-			if (quadranteUno) {
-				if (alphaGrad < 0) {
-					alphaGrad = -alphaGrad;
-				}
-			}
-			if (quadranteDue || quadranteTre) {
-				alphaGrad = 180.0 - alphaGrad;
-			}
-			if (quadranteQuattro) {
-				alphaGrad = 360.0 - alphaGrad;
-			} // quadranteDue
+			if (quadranteUno) { if (alphaGrad < 0) { alphaGrad = -alphaGrad; } }
+			if (quadranteDue || quadranteTre) { alphaGrad = 180.0 - alphaGrad; }
+			if (quadranteQuattro) { alphaGrad = 360.0 - alphaGrad; } // quadranteDue
 			if (denom == 0) {
-				if (numerat < 0) {
-					alphaGrad = 90.0D;
-				}
-				if (numerat > 0) {
-					alphaGrad = 270.0D;
-				}
+				if (numerat < 0) { alphaGrad = 90.0D; }
+				if (numerat > 0) { alphaGrad = 270.0D; }
 			}
 			if (numerat == 0) {
-				if (denom < 0) {
-					alphaGrad = 180.0D;
-				}
-				if (denom > 0) {
-					alphaGrad = 0.0D;
-				}
+				if (denom < 0) { alphaGrad = 180.0D; }
+				if (denom > 0) { alphaGrad = 0.0D; }
 			}
 		} catch (ArithmeticException ex) {
-			if (numerat > 0) {
-				alphaGrad = 90.0D;
-			}
-			if (numerat < 0) {
-				alphaGrad = 270.0D;
-			}
+			if (numerat > 0) { alphaGrad = 90.0D; }
+			if (numerat < 0) { alphaGrad = 270.0D; }
 		}
 		return alphaGrad;
 	}
@@ -492,12 +461,8 @@ public final class MathUtilities {
 	public static double deviaAngoloModulare(double angoloOriginale, double angoloObiettivo, double deviazioneMassima) {
 		double ret = angoloOriginale;
 		if (angoloObiettivo != angoloOriginale) {
-			if ((angoloObiettivo %= 360.0) < 0.0) {
-				angoloObiettivo += 360.0;
-			}
-			if ((ret %= 360.0) < 0.0) {
-				ret += 360.0;
-			}
+			if ((angoloObiettivo %= 360.0) < 0.0) { angoloObiettivo += 360.0; }
+			if ((ret %= 360.0) < 0.0) { ret += 360.0; }
 			if (angoloObiettivo > angoloOriginale) {
 				if ((angoloObiettivo - angoloOriginale) > 180.0) {
 					if (Math.abs(angoloObiettivo - angoloOriginale) > deviazioneMassima) {
@@ -530,9 +495,7 @@ public final class MathUtilities {
 		} else {
 			ret = angoloObiettivo;
 		}
-		if (ret < 0.0) {
-			ret = ret + 360.0;
-		}
+		if (ret < 0.0) { ret = ret + 360.0; }
 		return ret;
 	}
 
@@ -814,7 +777,7 @@ public final class MathUtilities {
 		lasty = yy[otherIndex];
 		list = null;
 		linePolygon = new Line2D.Double(0, 0, lastx, lasty);
-		while(--len >= 0) {
+		while (--len >= 0) {
 			pointIntersection = null;
 			thisx = xx[len];
 			thisy = yy[len];
@@ -847,7 +810,7 @@ public final class MathUtilities {
 		lasty = yy[otherIndex];
 		list = null;
 		linePolygon = new Line2D.Double(0, 0, lastx, lasty);
-		while(--len >= 0) {
+		while (--len >= 0) {
 			thisx = xx[len];
 			thisy = yy[len];
 			linePolygon.setLine(thisx, thisy, lastx, lasty);
@@ -882,7 +845,7 @@ public final class MathUtilities {
 		thisPoint = new Point();
 		list = null;
 //		linePolygon = new Line2D.Double(0, 0, lastx, lasty);
-		while(--len >= 0) {
+		while (--len >= 0) {
 			thisPoint.x = xx[len];
 			thisPoint.y = yy[len];
 //			linePolygon.setLine(thisx, thisy, lastx, lasty);
@@ -1141,9 +1104,7 @@ public final class MathUtilities {
 		return l;
 	}
 
-	public static boolean isInside(Rectangle r, Point p) {
-		return isInside(r, p.x, p.y);
-	}
+	public static boolean isInside(Rectangle r, Point p) { return isInside(r, p.x, p.y); }
 
 	public static boolean isInside(Rectangle r, int x, int y) {
 		int w, h, rx, ry;
@@ -1160,6 +1121,23 @@ public final class MathUtilities {
 		// intersect || overflow
 		// overflow: the
 		return (x <= rx || rx <= (x + w)) && (y <= ry || ry <= (y + h));
+	}
+
+	public static boolean intersects(Rectangle r1, Rectangle r2) {
+		return intersects(r1.x, r1.y, r1.width, r1.height, r2.x, r2.y, r2.width, r2.height);
+	}
+
+	/** Taken from {@link Rectangle#intersects(Rectangle)}. */
+	public static boolean intersects(//
+			int tx, int ty, int tw, int th, //
+			int rx, int ry, int rw, int rh) {
+		if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) { return false; }
+		rw += rx;
+		rh += ry;
+		tw += tx;
+		th += ty;
+		// overflow || intersect
+		return ((rw < rx || rw >= tx) && (rh < ry || rh >= ty) && (tw < tx || tw >= rx) && (th < ty || th >= ry));
 	}
 
 	//
@@ -1186,9 +1164,7 @@ public final class MathUtilities {
 		return xx >= 0 && xx < width && yy >= 0 && yy < height;
 	}
 
-	public static boolean isAtMostPositive(int n, int max) {
-		return n >= 0 && n < max;
-	}
+	public static boolean isAtMostPositive(int n, int max) { return n >= 0 && n < max; }
 
 	/**
 	 * If mod is equals or less than zero, 0 is returned.<br>
@@ -1219,9 +1195,7 @@ public final class MathUtilities {
 		return ((d > 180.0) ? (360.0 - d) : d);
 	}
 
-	public static int negateInt(int n) {
-		return n ^ 0xFFFFFFFF;
-	}
+	public static int negateInt(int n) { return n ^ 0xFFFFFFFF; }
 
 	//
 
@@ -1260,9 +1234,7 @@ public final class MathUtilities {
 			if (m > (modul / 2.0)) {
 				if (ret > 0.0) {
 					ret = (ret - m) + modul;
-				} else if (ret < 0.0) {
-					ret = (ret + m) - modul;
-				}
+				} else if (ret < 0.0) { ret = (ret + m) - modul; }
 			}
 			return ret;
 		}

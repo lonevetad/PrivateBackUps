@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import dataStructures.isom.IsomConsumer;
 import dataStructures.isom.ObjLocatedCollectorIsom;
 import geometry.pointTools.PointConsumer;
 import geometry.pointTools.impl.ObjCollector;
@@ -15,10 +14,9 @@ import tools.PathFinder;
 
 /**
  * Abstract definition of a handler and manager for objects related to a "space"
- * concept. <br>
- * I
+ * concept (i.e. {@link ObjectLocated} and {@link ObjectShaped}).
  */
-public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, Serializable {
+public interface AbstractObjectsInSpaceManager<Distance extends Number> extends Iterable<ObjectLocated>, Serializable {
 
 	/**
 	 * Representation of the space managed by this instance. Could be something
@@ -53,9 +51,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 
 	public boolean remove(ObjectLocated o);
 
-	public default boolean clearArea(AbstractShape2D areaToClear) {
-		return remove(areaToClear, null);
-	}
+	public default boolean clearArea(AbstractShape2D areaToClear) { return remove(areaToClear, null); }
 
 	public default boolean remove(AbstractShape2D areaToClear, Predicate<ObjectLocated> objectFilter) {
 		Set<ObjectLocated> objToRemove;
@@ -64,9 +60,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 		if (objToRemove == null || objToRemove.isEmpty())
 			return false;
 //		objToRemove.forEach(this::remove);
-		objToRemove.forEach(o -> {
-			removed[0] = remove(o);
-		});
+		objToRemove.forEach(o -> { removed[0] = remove(o); });
 		return removed[0];
 	}
 
@@ -79,7 +73,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 //	public default Set<ObjectLocated> fetch(Point whereToLookFor) {
 //		return this.fetch(whereToLookFor.getX(), whereToLookFor.getY());}
 
-	public ObjLocatedCollectorIsom newObjLocatedCollector(Predicate<ObjectLocated> objectFilter);
+	public ObjLocatedCollectorIsom<Distance> newObjLocatedCollector(Predicate<ObjectLocated> objectFilter);
 
 	/**
 	 * Like {@link #fetch(AbstractShape2D)}, but providing a filtering over the
@@ -87,7 +81,7 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 	 * objects found".
 	 */
 	public default Set<ObjectLocated> fetch(AbstractShape2D areaToLookInto, Predicate<ObjectLocated> objectFilter) {
-		ObjLocatedCollectorIsom c;
+		ObjLocatedCollectorIsom<Distance> c;
 		c = newObjLocatedCollector(objectFilter);
 		this.runOnShape(areaToLookInto, c);
 		return c.getCollectedObjects();
@@ -120,15 +114,15 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 	 * As for {@link #runOnShape(AbstractShape2D, IsomConsumer)}, but giving the
 	 * {@link AbstractShape2D} returned by {@link #getSpaceShape()}.
 	 */
-	public default void runOnWholeMap(PointConsumer action) {
-		runOnShape(getBoundingShape(), action);
-	}
+	public default void runOnWholeMap(PointConsumer action) { runOnShape(getBoundingShape(), action); }
 
 	public default void runOnShape(AbstractShape2D shape, PointConsumer action) {
 		AbstractShapeRunner runner;
+		ProviderShapeRunner psr;
 		if (shape == null || action == null)
 			return;
-		runner = this.getProviderShapeRunner().getShapeRunner(shape);
+		psr = this.getProviderShapeRunner();
+		runner = psr.getShapeRunner(shape);
 		if (runner == null)
 			return;
 		runner.runShape(shape, action);
@@ -137,39 +131,45 @@ public interface AbstractObjectsInSpaceManager extends Iterable<ObjectLocated>, 
 	/**
 	 * Find a path from the starting point (first parameter) to the end (second
 	 * parameter).<br>
-	 * See {@link PathFinder#getPath(Object, Object, NumberManager, Predicate)}.
+	 * See
+	 * {@link PathFinder#getPath(Object, Object, NumberManager, Predicate, boolean)}.
 	 */
-	public default <NodeType extends Point, NodeContent, D extends Number> List<NodeType> getPath(NodeType start,
-			NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder, NumberManager<D> numManager,
-			Predicate<NodeContent> isWalkableTester) {
-		return pathFinder.getPath(start, destination, numManager, isWalkableTester);
+	public default <NoteType, NodeContent extends ObjectLocated, D extends Number> List<NoteType> getPath(
+			NoteType start, NoteType destination, PathFinder<NoteType, NodeContent, D> pathFinder,
+			NumberManager<D> numManager, Predicate<NodeContent> isWalkableTester,
+			boolean returnPathToClosestNodeIfNotFound) {
+		return pathFinder.getPath(start, destination, numManager, isWalkableTester, returnPathToClosestNodeIfNotFound);
 	}
 
 	/**
 	 * See {@link #getPath(Point, Point, PathFinder, NumberManager, Predicate)}.
 	 */
-	public default <NodeType extends Point, NodeContent, D extends Number> List<NodeType> getPath(NodeType start,
-			NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder, NumberManager<D> numManager) {
-		return this.getPath(start, destination, pathFinder, numManager, null);
+	public default <NoteType extends Point, NodeContent extends ObjectLocated, D extends Number> List<NoteType> getPath(
+			NoteType start, NoteType destination, PathFinder<NoteType, NodeContent, D> pathFinder,
+			NumberManager<D> numManager, boolean returnPathToClosestNodeIfNotFound) {
+		return this.getPath(start, destination, pathFinder, numManager, null, returnPathToClosestNodeIfNotFound);
 	}
 
 	/**
 	 * See
 	 * {@link PathFinder#getPath(ObjectShaped, Object, NumberManager, Predicate)}.
 	 */
-	public default <NodeType extends Point, NodeContent, D extends Number> List<NodeType> getPath(
-			ObjectShaped objRequiringToMove, NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder,
-			NumberManager<D> numManager, Predicate<NodeContent> isWalkableTester) {
-		return pathFinder.getPath(objRequiringToMove, destination, numManager, isWalkableTester);
+	public default <NodeContent extends ObjectLocated, D extends Number> List<Point> getPath(
+			ObjectShaped objRequiringToMove, Point destination, PathFinder<Point, NodeContent, D> pathFinder,
+			NumberManager<D> numManager, Predicate<NodeContent> isWalkableTester,
+			boolean returnPathToClosestNodeIfNotFound) {
+		return pathFinder.getPath(objRequiringToMove, destination, numManager, isWalkableTester,
+				returnPathToClosestNodeIfNotFound);
 	}
 
 	/**
 	 * See {@link PathFinder#getPath(ObjectShaped, Object, NumberManager)}.
 	 */
-	public default <NodeType extends Point, NodeContent, D extends Number> List<NodeType> getPath(
-			ObjectShaped objRequiringToMove, NodeType destination, PathFinder<NodeType, NodeContent, D> pathFinder,
-			NumberManager<D> numManager) {
-		return this.getPath(objRequiringToMove, destination, pathFinder, numManager, null);
+	public default <NodeContent extends ObjectLocated, D extends Number> List<Point> getPath(
+			ObjectShaped objRequiringToMove, Point destination, PathFinder<Point, NodeContent, D> pathFinder,
+			NumberManager<D> numManager, boolean returnPathToClosestNodeIfNotFound) {
+		return this.getPath(objRequiringToMove, destination, pathFinder, numManager, null,
+				returnPathToClosestNodeIfNotFound);
 	}
 
 	//

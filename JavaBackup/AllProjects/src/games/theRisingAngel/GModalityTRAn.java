@@ -11,6 +11,7 @@ import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.events.GEventInterfaceTRAn;
 import games.theRisingAngel.misc.CurrencySetTRAn;
+import games.theRisingAngel.misc.EssenceExtractorTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 import tools.ObjectNamedID;
 
@@ -19,36 +20,38 @@ public class GModalityTRAn extends GModalityRPG {
 	public static final int ATTRIBUTES_POINTS_GAINED_ON_LEVELING = 5;
 	/** See {@link GModalityRPG#SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE} */
 	public static final int SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN = 20;
+	/** Milliseconds :D */
+	public static final int TIME_SUBUNITS_EACH_TIME_UNIT_TRAn = 1000;
 
 	public GModalityTRAn(GController controller, String modalityName) {
 		super(controller, modalityName);
+		essenceExtractor = new EssenceExtractorTRAn();
 	}
 
-	@Override
-	public int getAttributesPointGainedOnLevelingUp(BasePlayerRPG p) {
-		return ATTRIBUTES_POINTS_GAINED_ON_LEVELING;
-	}
+	protected final EssenceExtractorTRAn essenceExtractor;
+
+	//
+
+	public EssenceExtractorTRAn getEssenceExtractor() { return essenceExtractor; }
 
 	@Override
-	public GEventInterface newEventInterface() {
-		return new GEventInterfaceTRAn();
-	}
+	public int getAttributesPointGainedOnLevelingUp(BasePlayerRPG p) { return ATTRIBUTES_POINTS_GAINED_ON_LEVELING; }
 
 	@Override
-	protected GameObjectsManager newGameObjectsManager(GEventInterface gei) {
-		return new GameObjectsManagerTRAn(this);
-	}
+	public GEventInterface newEventInterface() { return new GEventInterfaceTRAn(); }
 
 	@Override
-	public CurrencySet newCurrencyHolder() {
-		return new CurrencySetTRAn(this, 0);
-	}
+	protected GameObjectsManager newGameObjectsManager(GEventInterface gei) { return new GameObjectsManagerTRAn(this); }
+
+	@Override
+	public CurrencySet newCurrencyHolder() { return new CurrencySetTRAn(this, 1); }
 
 	@Override
 	protected PlayerGeneric newPlayerInGame(UserAccountGeneric superPlayer, ObjectNamedID characterType) {
 		PlayerTRAn p;
 		p = new PlayerTRAn(this, (PlayerCharacterTypes) characterType);
 		setStartingBaseAttributes(p);
+		p.setCurrencies(newCurrencyHolder());
 		return p;
 	}
 
@@ -67,6 +70,7 @@ public class GModalityTRAn extends GModalityRPG {
 
 	@Override
 	public void startGame() {
+		this.getGameObjectsProviderHolderRPG().setgModality(this);
 		super.startGame();
 		// and then? TODO
 	}
@@ -77,5 +81,9 @@ public class GModalityTRAn extends GModalityRPG {
 //
 
 	// TODO DAMAGE CALCULATION
+
+	//
+
+	// TODO class
 
 }

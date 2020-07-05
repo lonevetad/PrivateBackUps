@@ -4,19 +4,16 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.NodeIsom;
 import geometry.ObjectLocated;
 
-public class NodeIsomSingleObj extends NodeIsom {
+public class NodeIsomSingleObj<Distance extends Number> extends NodeIsom<Distance> {
 	private static final long serialVersionUID = 4052487990441744L;
 
-	public NodeIsomSingleObj() {
-		super();
-	}
+	protected NodeIsomSingleObj(InSpaceObjectsManager<Distance> isom, int x, int y) { super(isom, x, y); }
 
-	public NodeIsomSingleObj(int x, int y) {
-		super(x, y);
-	}
+	protected NodeIsomSingleObj(InSpaceObjectsManager<Distance> isom) { super(isom); }
 
 	protected ObjectLocated objectLying;
 
@@ -24,13 +21,9 @@ public class NodeIsomSingleObj extends NodeIsom {
 
 //
 
-	public ObjectLocated getObjectLying() {
-		return objectLying;
-	}
+	public ObjectLocated getObjectLying() { return objectLying; }
 
-	public void setObjectLying(ObjectLocated objectLying) {
-		this.objectLying = objectLying;
-	}
+	public void setObjectLying(ObjectLocated objectLying) { this.objectLying = objectLying; }
 
 	@Override
 	public boolean addObject(ObjectLocated o) {
@@ -40,34 +33,31 @@ public class NodeIsomSingleObj extends NodeIsom {
 	}
 
 	@Override
-	public int countObjectAdded() {
-		return objectLying == null ? 0 : 1;
-	}
+	public int countObjectAdded() { return objectLying == null ? 0 : 1; }
 
 	@Override
-	public ObjectLocated getObject(int i) {
-		return objectLying;
-	}
+	public ObjectLocated getObject(int i) { return objectLying; }
 
 	@Override
-	public ObjectLocated getObject(Integer ID) {
-		return objectLying;
+	public ObjectLocated getObject(Integer ID) { return objectLying; }
+
+	@Override
+	public ObjectLocated getObject(Predicate<ObjectLocated> filter) {
+		if (filter == null)
+			return null;
+		return filter.test(objectLying) ? objectLying : null;
 	}
 
 	@Override
 	public boolean removeObject(Integer ID) {
-		if (ID == null || this.objectLying == null || (!ID.equals(this.objectLying.getID()))) {
-			return false;
-		}
+		if (ID == null || this.objectLying == null || (!ID.equals(this.objectLying.getID()))) { return false; }
 		this.objectLying = null;
 		return true;
 	}
 
 	@Override
 	public boolean removeObject(ObjectLocated o) {
-		if (this.objectLying != o) {
-			return false;
-		}
+		if (this.objectLying != o) { return false; }
 		this.objectLying = null;
 		return true;
 	}
@@ -79,31 +69,34 @@ public class NodeIsomSingleObj extends NodeIsom {
 	}
 
 	@Override
+	public boolean removeObject(Predicate<ObjectLocated> filter) {
+		if (filter == null)
+			return false;
+		if (filter.test(objectLying)) {
+			objectLying = null;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean isWalkable(Predicate<ObjectLocated> isWalkableTester) {
 		return isWalkableTester == null || isWalkableTester.test(objectLying);
 	}
 
 	@Override
-	public void forEachHeldObject(Consumer<ObjectLocated> action) {
-		action.accept(objectLying);
-	}
+	public void forEachHeldObject(Consumer<ObjectLocated> action) { action.accept(objectLying); }
 
 	@Override
-	public Iterator<ObjectLocated> iterator() {
-		return new IteratorNodeIsom();
-	}
+	public Iterator<ObjectLocated> iterator() { return new IteratorNodeIsom(); }
 
 	protected class IteratorNodeIsom implements Iterator<ObjectLocated> {
 		ObjectLocated temp;
 
-		protected IteratorNodeIsom() {
-			temp = objectLying;
-		}
+		protected IteratorNodeIsom() { temp = objectLying; }
 
 		@Override
-		public boolean hasNext() {
-			return temp != null;
-		}
+		public boolean hasNext() { return temp != null; }
 
 		@Override
 		public ObjectLocated next() {

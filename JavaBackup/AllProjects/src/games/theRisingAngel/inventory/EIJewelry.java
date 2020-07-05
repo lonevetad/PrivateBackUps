@@ -15,13 +15,13 @@ public class EIJewelry extends EquipmentItem {
 	public EIJewelry(GModalityRPG gmrpg, EquipmentTypesTRAn et, String name) {
 		super(gmrpg, et, name);
 		if (et == null || (et != EquipmentTypesTRAn.Earrings && et != EquipmentTypesTRAn.Necklace
-				&& et != EquipmentTypesTRAn.Ring)) {
-			throw new IllegalArgumentException("Not a really jewelry");
+				&& et != EquipmentTypesTRAn.Bracelet && et != EquipmentTypesTRAn.Ring)) {
+			throw new IllegalArgumentException("Not a really jewelry: " + (et == null ? "Null" : et.getName()));
 		}
 	}
 
 	@Override
 	protected void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder) {
-		// do nothing
+		// do nothing, yet done in loading time
 	}
 }

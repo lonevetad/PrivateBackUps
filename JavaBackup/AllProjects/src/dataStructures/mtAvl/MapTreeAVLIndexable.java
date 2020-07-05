@@ -9,9 +9,7 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 		super(b, comp);
 	}
 
-	public MapTreeAVLIndexable(Comparator<K> comp) throws IllegalArgumentException {
-		super(comp);
-	}
+	public MapTreeAVLIndexable(Comparator<K> comp) throws IllegalArgumentException { super(comp); }
 
 	//
 
@@ -48,8 +46,8 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 		int hl, hr, delta;
 		NodeAVL_Indexable n, temp;
 		n = (MapTreeAVLIndexable<K, V>.NodeAVL_Indexable) nnn;
+//		System.out.println("fixing up indexable with " + nnn.k);
 		while (n != NIL) {
-			// recalculate, just to be sure
 			n.height = (((hl = n.left.height) > (hr = n.right.height)) ? hl : hr) + 1;
 			delta = hl - hr;
 			// adjust sizes
@@ -64,20 +62,15 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 			}
 			if (delta < 2 && delta > -2) {
 				// no rotation
-				n = (NodeAVL_Indexable) n.father;
-			} else {
-//				if(delta >=2)n.rotate(true);else
-//				temp = n;
 //				n = (NodeAVL_Indexable) n.father;
-//				temp.rotate(delta >= 2);
-
+			} else {
 				// copied from Lightweight
 				n.rotate(delta >= 2);
-				n = (NodeAVL_Indexable) n.father.father;
+				n = (MapTreeAVLIndexable<K, V>.NodeAVL_Indexable) n.father.father;
 			}
 		}
 		((NodeAVL_Indexable) NIL).sizeLeft = ((NodeAVL_Indexable) NIL).sizeRight = -1;
-		NIL.height = -1;
+		NIL.height = DEPTH_INITIAL;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -125,13 +118,13 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 					a = this;
 					b = nSide;
 					c = (NodeAVL_Indexable) b.right;
-					if (oldFather != NIL) {
-						if (oldFather.left == a)
-							oldFather.left = c;
-						else
-							oldFather.right = c;
-						c.father = oldFather;
-					}
+//					if (oldFather != NIL) {
+					if (oldFather.left == a)
+						oldFather.left = c;
+					else
+						oldFather.right = c;
+					c.father = oldFather;
+//					}
 					a.father = c;
 					a.left = c.right;
 					if (c.right != NIL)
@@ -179,13 +172,13 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 					b = nSide;
 					c = (NodeAVL_Indexable) b.left;
 					// then
-					if (oldFather != NIL) {
-						if (oldFather.left == a)
-							oldFather.left = c;
-						else
-							oldFather.right = c;
-						c.father = oldFather;
-					}
+//					if (oldFather != NIL) {
+					if (oldFather.left == a)
+						oldFather.left = c;
+					else
+						oldFather.right = c;
+					c.father = oldFather;
+//					}
 					a.father = c;
 					a.right = c.left;
 					if (c.left != NIL)
@@ -204,7 +197,7 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 					NIL.left = NIL.right = NIL.father = NIL;
 					if (a == root) {
 						root = c;
-						c.father = NIL; // not necessary, but done to be sure
+//						c.father = NIL; // not necessary, but done to be sure
 					}
 					// adjust sizes
 //					if (c.right == NIL) c.sizeRight = 0;
@@ -255,8 +248,6 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 		}
 
 		@Override
-		public String toString() {
-			return super.toString() + ", sl:" + sizeLeft + ",sr:" + sizeRight;
-		}
+		public String toString() { return super.toString() + ", sl:" + sizeLeft + ",sr:" + sizeRight; }
 	}
 }

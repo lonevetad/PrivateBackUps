@@ -12,27 +12,32 @@ import javax.swing.JProgressBar;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.GThread;
+import games.generic.controlModel.misc.CurableResourceType;
 import games.generic.controlModel.misc.GThread.GTRunnable;
+import games.generic.controlModel.misc.HealingTypeExample;
 import games.generic.view.GameView;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CurrencySetTRAn;
 
 public class GView_E1 extends GameView {
 
-	public GView_E1(GController gc) {
-		super(gc);
-	}
+	public GView_E1(GController gc) { super(gc); }
 
 	JFrame fin;
 	JButton jbCloseAll, jbStartPause;
 	JPanel jpBigContainer;
 	JPanel jpStartStop, jpPlayerStats;
+<<<<<<< HEAD
 	JProgressBar jpbPlayerLife, jpbPlayerMana;
+=======
+	JProgressBar[] jpbCurableResources; // jpbPlayerLife, jpbPlayerMana;
+>>>>>>> develop
 //	JTextArea jtaPlayerStats;
 //	JScrollPane jspPlayerAttributes;
 	JLabel jlMoneyText, jlMoneyValue;
 	JLabel[] jlPlayerStatText, jlPlayerStatValue;
+	CurableResourceType[] curableResource = { HealingTypeExample.Life, HealingTypeExample.Mana,
+			HealingTypeExample.Shield };
 
 	@Override
 	public void initAndShow() {
@@ -91,14 +96,18 @@ public class GView_E1 extends GameView {
 		jpPlayerStats = new JPanel(new GridBagLayout());
 		jpBigContainer.add(jpPlayerStats, BorderLayout.EAST);
 
+<<<<<<< HEAD
 		jpbPlayerMana = new JProgressBar(0, 100);
 		jpbPlayerMana.setStringPainted(true);
 //		jpbPlayerLife.setMaximum(100);
+=======
+		jpbCurableResources = new JProgressBar[curableResource.length];
+>>>>>>> develop
 		constr.gridx = 0;
-		constr.gridy = 0;
 		constr.gridwidth = 2;
 		constr.gridheight = 1;
 		constr.weightx = constr.weighty = 1;
+<<<<<<< HEAD
 		jpPlayerStats.add(jpbPlayerMana, constr);
 		//
 		jpbPlayerLife = new JProgressBar(0, 100);
@@ -107,6 +116,15 @@ public class GView_E1 extends GameView {
 		jpPlayerStats.add(jpbPlayerLife, constr);
 		constr.gridy = 2;
 		constr.gridwidth = 1;
+=======
+		for (int i = 0; i < curableResource.length; i++) {
+			JProgressBar jpb;
+			jpbCurableResources[i] = jpb = new JProgressBar(0, 100);
+			jpb.setStringPainted(true);
+			constr.gridy = i;
+			jpPlayerStats.add(jpb, constr);
+		}
+>>>>>>> develop
 //		constr.gridheight = 9;
 //		constr.weighty = 9;
 //		jtaPlayerStats = new JTextArea();
@@ -114,9 +132,13 @@ public class GView_E1 extends GameView {
 //		jspPlayerAttributes.setViewportView(jtaPlayerStats);
 //		jspPlayerAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 //		jpPlayerStats.add(jspPlayerAttributes, constr);
-//		jtaPlayerStats.setLineWrap(false);
+//		jtaPlayerStats.setLineWrap(false); 
+		constr.gridy++;
 		constr.gridwidth = 1;
+<<<<<<< HEAD
 		constr.gridy = 2;
+=======
+>>>>>>> develop
 		jlMoneyText = new JLabel("Currency: ");
 		jpPlayerStats.add(jlMoneyText, constr);
 		constr.gridx = 1;
@@ -142,7 +164,7 @@ public class GView_E1 extends GameView {
 		 * stats
 		 */
 
-		fin.setSize(500, 500);
+		fin.setSize(500, 700);
 		jpBigContainer.setSize(fin.getSize());
 		fin.setVisible(true);
 //		fin.pack();
@@ -155,10 +177,13 @@ public class GView_E1 extends GameView {
 		String textDisplayed;
 //		StringBuilder sb;
 		CreatureAttributes ca;
+		JProgressBar jpb;
+		CurableResourceType curRes;
 		gmodalitye1 = (GModality_E1) super.gc.getCurrentGameModality();
 		if (gmodalitye1 == null)
 			return;
 		p = gmodalitye1.getPlayerRPG();
+<<<<<<< HEAD
 		jpbPlayerLife.setMaximum(max = p.getLifeMax());
 		jpbPlayerLife.setValue(v = p.getLife());
 		jpbPlayerLife.repaint();
@@ -172,13 +197,28 @@ public class GView_E1 extends GameView {
 		textDisplayed = "Mana: " + v + " / " + max;
 		jpbPlayerMana.setToolTipText(textDisplayed);
 		jpbPlayerMana.setString(textDisplayed);
+=======
+
+		for (int i = 0; i < curableResource.length; i++) {
+			jpb = jpbCurableResources[i];
+			curRes = curableResource[i];
+			jpb.setMaximum(max = p.getCurableResourceMax(curRes));
+			jpb.setValue(v = p.getCurableResourceAmount(curRes));
+			textDisplayed = curRes.getName() + ": " + v + " / " + max;
+			jpb.setToolTipText(textDisplayed);
+			jpb.setString(textDisplayed);
+			jpb.repaint();
+		}
+
+>>>>>>> develop
 		ca = p.getAttributes();
 //		sb = new StringBuilder(128);
 //		for (int i = 0, n = ca.getAttributesCount(); i < n; i++) {
 //			sb.append(AttributesTRAr.VALUES[i].name()).append("\t: ").append(ca.getValue(i)).append('\n');
 //		}
 //		jtaPlayerStats.setText(sb.toString());
-		jlMoneyValue.setText(Integer.toString(p.getCurrencies().getMoneyAmount(CurrencySetTRAn.BASE_CURRENCY_INDEX)));
+		jlMoneyValue
+				.setText(Integer.toString(p.getCurrencies().getCurrencyAmount(CurrencySetTRAn.BASE_CURRENCY_INDEX)));
 		n = AttributesTRAn.VALUES.length;
 		while (--n >= 0) {
 			jlPlayerStatValue[n].setText(Integer.toString(ca.getValue(AttributesTRAn.VALUES[n])));
@@ -187,16 +227,26 @@ public class GView_E1 extends GameView {
 		// TODO
 	}
 
-	void addRepainterThread() {
-		GModality_E1 gmodalitye1;
-		GThread t;
-		gmodalitye1 = (GModality_E1) super.gc.getCurrentGameModality();
-		t = new GThread(new PlayerInfoRepainter(gmodalitye1));
-		gmodalitye1.addGameThread(t);
-		t.start();
+	void singleRepaintCycle() {
+		repaintPlayerInfo();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
-	class PlayerInfoRepainter implements GTRunnable {
+	void addRepainterThread() {
+		GModality_E1 gmodalitye1;
+//		GThread t;
+		gmodalitye1 = (GModality_E1) super.gc.getCurrentGameModality();
+//		t = new GThread(new PlayerInfoRepainter(gmodalitye1));
+//		gmodalitye1.addGameThread(t);
+//		t.start();
+		gmodalitye1.addGameThreadSimplyStoppable(this::singleRepaintCycle);
+	}
+
+	protected class PlayerInfoRepainter implements GTRunnable {
 		final GModality_E1 gmodalitye1;
 
 		public PlayerInfoRepainter(GModality_E1 gmodalitye1) {
@@ -208,20 +258,17 @@ public class GView_E1 extends GameView {
 		public void run() {
 			while (gmodalitye1.isAlive()) {
 				while (gmodalitye1.isRunningOrSleep()) {
-					repaintPlayerInfo();
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					singleRepaintCycle();
 				}
 			}
 			System.out.println("END view repainter");
 		}
 
 		@Override
-		public void stopAndDie() {
-		}
+		public void stopAndDie() {}
+
+		@Override
+		public void restart() {}
 
 	}
 

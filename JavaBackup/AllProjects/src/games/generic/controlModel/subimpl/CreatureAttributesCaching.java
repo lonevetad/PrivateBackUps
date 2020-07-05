@@ -3,7 +3,6 @@ package games.generic.controlModel.subimpl;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
 
 /**
  * Caches all attribute's modifications (as like {@link AttributeModification})
@@ -22,45 +21,36 @@ public class CreatureAttributesCaching extends CreatureAttributes {
 	protected transient boolean isCacheAvailable = false;
 //	protected transient int attributesCountLeftToUpdate;
 //	protected final boolean[] attributesUpdated;
-	protected final int[] attributesModificationsApplied, cacheValues;
+	protected int[] attributesModificationsApplied, cacheValues;
+
+	@Override
+	public int getValue(int index) {
+		throw new UnsupportedOperationException(
+				"Cannot invoke on integer index because it cannot perform \"AttributeIdentifier#isStrictlyPositive()\" check");
+	}
 
 	@Override
 	public int getValue(AttributeIdentifier identifier) {
-		boolean bcNotNull;
-		int v, i, index;
-		CreatureAttributesBonusesCalculator bc;
+		int v, index;
 		index = identifier.getIndex();
-		if (isCacheAvailable) {
-			v = this.cacheValues[index];
-			return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
-		}
-		isCacheAvailable = true;
-		i = attributesCount;
-		if (bcNotNull = (bc = this.bonusCalculator) != null)
-			bc.markCacheAsDirty();
-
-		while (--i >= 0) {// update the values
-			v = super.originalValues[i] + this.attributesModificationsApplied[i];
-			if (bcNotNull)
-				v += bc.getBonusForValue(i);
-			this.cacheValues[i] = v;
-		}
-//		if (bcNotNull) {
-//			i = attributesCount;
-//			while (--i >= 0) // update the values
-//				this.cacheValues[i] += bc.getBonusForValue(i);
-//		}
+		if (!isCacheAvailable) { recalculateCache(); }
 		v = this.cacheValues[index];
 		return (identifier.isStrictlyPositive() && v < 0) ? 0 : v;
 	}
 
-//	public int[] getComputedAttributesModifications() {
-//		return attributesModifications;
-//	}
-	@Override
-	public void setBonusCalculator(CreatureAttributesBonusesCalculator bonusCalculator) {
-		this.isCacheAvailable = false;
-		super.setBonusCalculator(bonusCalculator);
+	protected void recalculateCache() {
+		int i, ac;
+		final int[] cv, ov, ama;
+		isCacheAvailable = true;
+		cv = this.cacheValues;
+		ov = super.originalValues;
+		ama = this.attributesModificationsApplied;
+		ac = attributesCount;
+		// then others
+		i = ac;
+		while (--i >= 0) {// update the values
+			cv[i] = ov[i] + ama[i];
+		}
 	}
 
 	/**

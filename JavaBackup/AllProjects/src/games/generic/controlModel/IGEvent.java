@@ -21,9 +21,7 @@ public interface IGEvent extends ObjectNamedID {
 	public String getName();
 
 	/** This event's description, useful for logging. */
-	public default String getDescription() {
-		return null;
-	}
+	public default String getDescription() { return null; }
 
 	/**
 	 * Long explanation:<br>
@@ -49,12 +47,16 @@ public interface IGEvent extends ObjectNamedID {
 	 * @return <code>true</code> if the event is urgent, <code>false</code>
 	 *         otherwise
 	 */
-	public default boolean isRequirigImmediateProcessing() {
-		return false;
-	}
+	public default boolean isRequirigImmediateProcessing() { return false; }
 
 	/** Alias for {@link #isRequirigImmediateProcessing()}. */
 	public default boolean isUrgent() {
 		return isRequirigImmediateProcessing();
 	}
+
+	/**
+	 * Used by someone like {@link GEventManager} to perform operations upon
+	 * processing finished.
+	 */
+	public default void onProcessingEnded() {}
 }

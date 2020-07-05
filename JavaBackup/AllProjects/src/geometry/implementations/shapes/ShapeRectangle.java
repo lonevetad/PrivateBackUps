@@ -6,17 +6,14 @@ import java.awt.geom.Point2D;
 
 import geometry.AbstractShape2D;
 import geometry.ShapeRunnersImplemented;
-import geometry.implementations.shapes.subHierarchy.ShapeFillableImpl;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeRotated;
-import geometry.pointTools.PolygonUtilities;
+import geometry.implementations.shapes.subHierarchy.ShapeFillableImpl;
 import tools.MathUtilities;
 
 public class ShapeRectangle extends ShapeFillableImpl {
 	private static final long serialVersionUID = 716984256106843689L;
 
-	public ShapeRectangle() {
-		this(true);
-	}
+	public ShapeRectangle() { this(true); }
 
 	public ShapeRectangle(boolean isFilled) {
 		super((isFilled ? ShapeRunnersImplemented.Rectangle : ShapeRunnersImplemented.RectangleBorder));
@@ -41,7 +38,6 @@ public class ShapeRectangle extends ShapeFillableImpl {
 	}
 
 	protected int width, height, diameterCache;
-	protected Polygon polygonCache;
 
 	//
 	@Override
@@ -50,19 +46,13 @@ public class ShapeRectangle extends ShapeFillableImpl {
 	}
 
 	@Override
-	public int getWidth() {
-		return width;
-	}
+	public int getWidth() { return width; }
 
 	@Override
-	public int getHeight() {
-		return height;
-	}
+	public int getHeight() { return height; }
 
 	@Override
-	public boolean isRegular() {
-		return width == height;
-	}
+	public boolean isRegular() { return width == height; }
 
 	@Override
 	public int getDiameter() {
@@ -79,9 +69,7 @@ public class ShapeRectangle extends ShapeFillableImpl {
 	}
 
 	@Override
-	public final int getCornersAmounts() {
-		return 4;
-	}
+	public final int getCornersAmounts() { return 4; }
 
 	//
 
@@ -104,14 +92,10 @@ public class ShapeRectangle extends ShapeFillableImpl {
 	}
 
 	@Override
-	public AbstractShape2D setCornersAmounts(int cornersAmounts) {
-		return this;
-	}
+	public AbstractShape2D setCornersAmounts(int cornersAmounts) { return this; }
 
 	@Override
-	public AbstractShape2D setRadius(int radius) {
-		return setDiameter(radius << 1);
-	}
+	public AbstractShape2D setRadius(int radius) { return setDiameter(radius << 1); }
 
 	@Override
 	public AbstractShape2D setDiameter(int diameter) {
@@ -159,10 +143,10 @@ public class ShapeRectangle extends ShapeFillableImpl {
 		angRotation = this.getAngleRotation();
 		{
 			int minusw, plusw, minush, plush;
-			minusw = width >> 1;
-			minush = height >> 1;
-			plusw = minusw + (width & 1);
-			plush = minush + (height & 1);
+			minusw = (width - 1) >> 1;
+			minush = (height - 1) >> 1;
+			plusw = minusw + ((width & 0x1) == 1 ? 0 : 1);
+			plush = minush + ((height & 0x1) == 1 ? 0 : 1);
 			p = null;
 			if (angRotation == 0.0 | angRotation == 180.0)
 				p = polygonCache = new Polygon(//
@@ -212,14 +196,14 @@ public class ShapeRectangle extends ShapeFillableImpl {
 
 	/**
 	 * NOTE: again, no cache is performed, as like as for
-	 * {@link #getLeftTopCorner()}.
+	 * {@link #getTopLeftCorner()}.
 	 * <p>
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Rectangle getBoundingBox() {
 		Point2D ltc;
-		ltc = getLeftTopCorner();
+		ltc = getTopLeftCorner();
 		if (ltc == null)
 			return null;
 		return new Rectangle((int) ltc.getX(), (int) ltc.getY(), width, height);
@@ -233,9 +217,7 @@ public class ShapeRectangle extends ShapeFillableImpl {
 	}
 
 	@Override
-	public AbstractShape2D clone() {
-		return new ShapeRectangle(this);
-	}
+	public AbstractShape2D clone() { return new ShapeRectangle(this); }
 
 	//
 

@@ -16,8 +16,17 @@ import games.theRisingAngel.events.EventDamageTRAn;
 <<<<<<< HEAD
 import games.theRisingAngel.events.EventsTRAn;
 =======
+<<<<<<< HEAD
 import games.theRisingAngel.events.EventsTRAr;
 >>>>>>> master
+=======
+<<<<<<< HEAD
+import games.theRisingAngel.events.EventsTRAn;
+=======
+import games.theRisingAngel.events.EventsTRAr;
+>>>>>>> master
+>>>>>>> develop
+>>>>>>> develop
 import games.theRisingAngel.misc.AttributesTRAn;
 import tools.ObjectWithID;
 

@@ -9,7 +9,7 @@ import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gEvents.EventHealing;
 import games.generic.controlModel.gObj.CurrencyHolder;
 import games.generic.controlModel.gObj.LivingObject;
-import games.generic.controlModel.inventoryAbil.abilitiesImpl.EquipmentAbilityBaseImpl;
+import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityBaseImpl;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.events.EventsTRAn;
@@ -21,7 +21,7 @@ import tools.ObjectWithID;
  * <p>
  * N = 50.
  */
-public class ALifeHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl implements GEventObserver {
+public class ALifeHealingMakesEarnBaseCurrency extends AbilityBaseImpl implements GEventObserver {
 	private static final long serialVersionUID = -5898625452208602147L;
 	public static final String NAME = "Healthy wallet in healthy body";
 	public static final int RARITY = 4;
@@ -40,18 +40,13 @@ public class ALifeHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl 
 //	public CreatureSimple getCreatureReferred() {return creatureReferred;}
 
 	@Override
-	public List<String> getEventsWatching() {
-		return eventsWatching;
-	}
+	public List<String> getEventsWatching() { return eventsWatching; }
 
 	@Override
-	public void performAbility(GModality gm) {
-	}
+	public void performAbility(GModality gm) {}
 
 	@Override
-	public void resetAbility() {
-		this.hasReceivedOddReneration = false;
-	}
+	public void resetAbility() { this.hasReceivedOddReneration = false; }
 
 	@Override
 	public void notifyEvent(GModality modality, IGEvent ge) {
@@ -84,8 +79,7 @@ public class ALifeHealingMakesEarnBaseCurrency extends EquipmentAbilityBaseImpl 
 					// apply only if the regeneration has really happened
 					ch = (CurrencyHolder) owid;
 					cs = ch.getCurrencies();
-					cs.setMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX,
-							cs.getMoneyAmount(CurrencySet.BASE_CURRENCY_INDEX) + (amoutHealed >> 1));
+					cs.alterCurrencyAmount(CurrencySet.BASE_CURRENCY_INDEX, (amoutHealed >> 1));
 				}
 			}
 		}

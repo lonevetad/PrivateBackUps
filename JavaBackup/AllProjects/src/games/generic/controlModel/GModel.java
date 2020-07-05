@@ -17,6 +17,7 @@ public abstract class GModel implements GObjectsHolder {
 	protected MapTreeAVL<Integer, ObjectWithID> allObjects_BackMap;
 	protected Set<ObjectWithID> allObjects;
 	protected MapTreeAVL<String, GObjectsHolder> objectsHoldersSpecialized;
+	protected GMap mapCurrent;
 
 	public GModel() {
 		this.allObjects_BackMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
@@ -31,7 +32,9 @@ public abstract class GModel implements GObjectsHolder {
 
 	//
 
-	public abstract void onCreate();
+	public GMap getMapCurrent() { return mapCurrent; }
+
+	public void setMapCurrent(GMap mapCurrent) { this.mapCurrent = mapCurrent; }
 
 	/**
 	 * BEWARE: returns just the object NOT held by some {@link GObjectsHolder} added
@@ -43,25 +46,29 @@ public abstract class GModel implements GObjectsHolder {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Set<ObjectWithID> getObjects() {
-		return allObjects;
-	}
+	public Set<ObjectWithID> getObjects() { return allObjects; }
+
+	//
+
+	//
+
+	public abstract void onCreate();
 
 	@Override
 	public boolean add(ObjectWithID o) {
 		boolean added[];
 		if (o == null)
 			return false;
-		System.out.println("############################################# ADDING OWID to model: " + o);
 		/*
-		 * to bypass the forEach restriction to non-pointers (i.e. non-final variables)
+		 * Using an array to bypass the forEach restriction to non-pointers (i.e.
+		 * non-final variables)
 		 */
 		added = new boolean[] { false };
-		this.objectsHoldersSpecialized.forEach((s, h) -> {
-			added[0] |= h.add(o);
-		});
+		this.objectsHoldersSpecialized.forEach((s, h) -> { added[0] |= h.add(o); });
 		if (!added[0]) {
 			// no one has added it: so I add it
+			if (this.allObjects.contains(o))
+				return false;
 			this.allObjects.add(o);
 		}
 		return true;
@@ -82,9 +89,14 @@ public abstract class GModel implements GObjectsHolder {
 
 	@Override
 	public boolean removeAll() {
+		boolean[] someoneRemoved;
+		someoneRemoved = new boolean[] { this.allObjects_BackMap.size() != 0 };
 		this.allObjects_BackMap.clear();
-		this.objectsHoldersSpecialized.forEach((s, goh) -> goh.removeAll());
-		return true;
+		this.objectsHoldersSpecialized.forEach((s, goh) -> {
+			someoneRemoved[0] |= goh.objectsHeldCount() != 0;
+			goh.removeAll();
+		});
+		return someoneRemoved[0];
 	}
 
 	@Override
@@ -135,9 +147,7 @@ public abstract class GModel implements GObjectsHolder {
 				action.accept(owid);
 			}
 		};
-		this.objectsHoldersSpecialized.forEach((str, goh) -> {
-			goh.forEach(innerConsumer);
-		});
+		this.objectsHoldersSpecialized.forEach((str, goh) -> { goh.forEach(innerConsumer); });
 	}
 
 	/**
@@ -197,8 +207,6 @@ public abstract class GModel implements GObjectsHolder {
 		}
 
 		@Override
-		public void accept(String t, GObjectsHolder goh) {
-			removed |= goh.remove(target);
-		}
+		public void accept(String t, GObjectsHolder goh) { removed |= goh.remove(target); }
 	}
 }

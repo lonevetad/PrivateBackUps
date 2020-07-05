@@ -1,12 +1,12 @@
 package games.generic.controlModel.gEvents;
 
 import games.generic.controlModel.ObjectNamed;
-import games.generic.controlModel.gObj.ObjectInSpace;
+import geometry.ObjectLocated;
 
 public class EventEnteringOnMap extends EventOnMap {
 	private static final long serialVersionUID = 562151896502L;
 
-	public EventEnteringOnMap(ObjectInSpace objectInvolved, ObjectNamed eventType) {
+	public EventEnteringOnMap(ObjectLocated objectInvolved, ObjectNamed eventType) {
 		super(objectInvolved, eventType != null ? eventType : ExampleGameEvents.ObjectAdded);
 		this.objectInvolved = objectInvolved;
 	}

@@ -23,13 +23,10 @@ public class ShapeRunnerRectangleFilled extends AbstractShapeRunnerImpl {
 		return SINGLETON;
 	}
 
-	private ShapeRunnerRectangleFilled() {
-	}
+	private ShapeRunnerRectangleFilled() {}
 
 	@Override
-	public ShapeRunnersImplemented getShapeRunnersImplemented() {
-		return ShapeRunnersImplemented.Rectangle;
-	}
+	public ShapeRunnersImplemented getShapeRunnersImplemented() { return ShapeRunnersImplemented.Rectangle; }
 
 	//
 
@@ -175,9 +172,7 @@ public class ShapeRunnerRectangleFilled extends AbstractShapeRunnerImpl {
 					p.y = y;
 					p.x = x;
 					if (slopeRight == Double.POSITIVE_INFINITY || slopeRight == Double.NEGATIVE_INFINITY) {
-						if (widthCache < 0) {
-							widthCache = (int) Math.round(p3.getX() - x);
-						}
+						if (widthCache < 0) { widthCache = (int) Math.round(p3.getX() - x); }
 						ShapeRunnerLine.runHorizontalSpan(action, p, //
 								widthCache, shouldPerformEarlyStops);
 					} else

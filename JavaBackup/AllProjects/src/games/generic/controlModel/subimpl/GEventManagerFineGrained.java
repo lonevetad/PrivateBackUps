@@ -47,8 +47,10 @@ public class GEventManagerFineGrained extends GEventManager {
 		this.notifierGeneric = new EventNotifier(this);
 //		this.notifier = new EventNotifierPQ(this);
 		this.notifierPQHelper = new EventNotifierE_PQ_ID(this);
+		this.objCount = 0;
 	}
 
+	protected int objCount;
 	protected Set<ObjectWithID> observersSet;
 	protected MapTreeAVL<Integer, ObjectWithID> allObsMap;
 	/** id observer -> observer */
@@ -62,7 +64,10 @@ public class GEventManagerFineGrained extends GEventManager {
 	//
 
 	@Override
-	public void addEventObserver(GEventObserver geo) {
+	public int objectsHeldCount() { return this.objCount; }
+
+	@Override
+	public boolean addEventObserver(GEventObserver geo) {
 		Integer idGeo;
 		List<String> l;
 		idGeo = geo.getObserverID();
@@ -70,8 +75,11 @@ public class GEventManagerFineGrained extends GEventManager {
 		l = geo.getEventsWatching();
 		if (l == null || l.isEmpty()) {
 			// no specialization found, just add it to the "generic bin"
+			if (genericObservers.containsKey(idGeo))
+				return false;
 			genericObservers.put(idGeo, geo);
 		} else {
+			boolean[] fl = { false };
 			// some specialization found: add the observer to all queues
 			l.forEach(idEvent -> {
 				PriorityQueueKey<GEventObserver, Integer> pq;
@@ -80,52 +88,62 @@ public class GEventManagerFineGrained extends GEventManager {
 					pq = new PriorityQueueKey<>(GEventObserver.COMPARATOR_GameEventObserver,
 							Comparators.INTEGER_COMPARATOR, KEY_EXTRACTOR_Embedded);
 					observersByTypes.put(idEvent, pq);
-				}
+				} else if (pq.containsKey(geo)) { fl[0] = false; }
 				pq.put(geo);
 			});
+			if (!fl[0])
+				return false;
 		}
+		this.objCount++;
+		return true;
 	}
 
 	@Override
-	public void removeEventObserver(GEventObserver geo) {
+	public boolean removeEventObserver(GEventObserver geo) {
 		Integer idGeo;
 		List<String> l;
 		idGeo = geo.getObserverID();
 		observersSet.remove(geo);
 		l = geo.getEventsWatching();
 		if (l == null || l.isEmpty()) {
-			genericObservers.remove(idGeo);
+			if (genericObservers.containsKey(idGeo)) {
+				genericObservers.remove(idGeo);
+				this.objCount--;
+				return true;
+			}
 		} else {
+			boolean[] fl = { false };
 			l.forEach(idEvent -> {
 				PriorityQueueKey<GEventObserver, Integer> pq;
 				pq = observersByTypes.get(idEvent);
 				if (pq != null) {
+					if (pq.containsKey(geo)) { fl[0] = true; }
 					pq.remove(geo);
 				}
 			});
+			if (fl[0]) {
+				this.objCount--;
+				return true;
+			}
 		}
+		return false;
 	}
 
 	@Override
-	public Set<ObjectWithID> getObjects() {
-		return observersSet;
-	}
+	public Set<ObjectWithID> getObjects() { return observersSet; }
 
 	@Override
-	public ObjectWithID get(Integer id) {
-		return this.allObsMap.get(id);
-	}
+	public ObjectWithID get(Integer id) { return this.allObsMap.get(id); }
 
 	@Override
-	public boolean contains(ObjectWithID o) {
-		return observersSet.contains(o);
-	}
+	public boolean contains(ObjectWithID o) { return observersSet.contains(o); }
 
 	@Override
 	public void removeAllEventObserver() {
 		this.observersByTypes.clear();
 		this.genericObservers.clear();
 		this.allObsMap.clear();
+		this.objCount = 0;
 	}
 
 	@Override
@@ -200,8 +218,6 @@ public class GEventManagerFineGrained extends GEventManager {
 		}
 
 		@Override
-		public void accept(Entry<GEventObserver, Integer> e) {
-			e.getKey().notifyEvent(gem.getGameModality(), ge);
-		}
+		public void accept(Entry<GEventObserver, Integer> e) { e.getKey().notifyEvent(gem.getGameModality(), ge); }
 	}
 }

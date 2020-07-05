@@ -29,14 +29,21 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingAttributesRealTime;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.theRisingAngel.abilities.AShiedlingButWeakining;
+import games.theRisingAngel.abilities.AShieldingButWeakining;
 import games.theRisingAngel.events.EventDamageTRAn;
-import games.theRisingAngel.events.EventsTRAr;
+import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
 
 /**
+<<<<<<< HEAD
+ * See {@link AShieldingButWeakining}.
+=======
  * See {@link AShiedlingButWeakining}.
 >>>>>>> master
+<<<<<<< HEAD
+=======
+>>>>>>> develop
+>>>>>>> develop
  */
 public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealTime implements GEventObserver {
 	private static final long serialVersionUID = -5898625452208602145L;
@@ -46,8 +53,17 @@ public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealT
 <<<<<<< HEAD
 	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RegenLife,
 =======
+<<<<<<< HEAD
 	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RigenLife,
 >>>>>>> master
+=======
+<<<<<<< HEAD
+	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RegenLife,
+=======
+	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RigenLife,
+>>>>>>> master
+>>>>>>> develop
+>>>>>>> develop
 			AttributesTRAn.DamageReductionPhysical, AttributesTRAn.DamageReductionMagical };
 
 	public AShiedlingButWeakining_OLD2() {
@@ -55,6 +71,12 @@ public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealT
 		this.eventsWatching = new ArrayList<>(2);
 <<<<<<< HEAD
 		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
+>>>>>>> develop
 		ticks = 0;
 		timeThreshold = DURATION_EFFECT;
 		isAbilityActive = false;
@@ -119,6 +141,7 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 		super.resetAbility();
 =======
 		this.eventsWatching.add(EventsTRAr.DamageReceived.getName());
+>>>>>>> develop
 		ticks = 0;
 		timeThreshold = DURATION_EFFECT;
 		isAbilityActive = false;
@@ -208,8 +231,17 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 <<<<<<< HEAD
 		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 =======
+<<<<<<< HEAD
 		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
 >>>>>>> master
+=======
+<<<<<<< HEAD
+		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
+=======
+		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
+>>>>>>> master
+>>>>>>> develop
+>>>>>>> develop
 			dEvent = (EventDamageTRAn) ge;
 			if (dEvent.getTarget() ==
 			// check equality because it's bounded to the "wearer"
@@ -223,8 +255,17 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 <<<<<<< HEAD
 					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RegenLife.getIndex()); // Original
 =======
+<<<<<<< HEAD
 					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); // Original
 >>>>>>> master
+=======
+<<<<<<< HEAD
+					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RegenLife.getIndex()); // Original
+=======
+					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); // Original
+>>>>>>> master
+>>>>>>> develop
+>>>>>>> develop
 					(am = this.attributesToModify[0]).setValue(-(lifeRegenOriginal >> 1)); // the half
 					cAttr.applyAttributeModifier(am);
 					lifeRegenOriginal >>= 2; // recycle as a temp
