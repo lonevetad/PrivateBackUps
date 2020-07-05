@@ -38,8 +38,6 @@ public class ASimpleFixedBufferVanishing extends AbilityAttributesModsVanishingO
 		this.vanishingEffectDuration = vanishingEffectDuration;
 	}
 
-//
-
 	@Override
 	public ASimpleFixedBufferVanishing addEventWatched(ObjectNamed objNamed) {
 		this.eventsWatching.add(objNamed.getName());

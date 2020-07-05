@@ -21,8 +21,7 @@ public interface LivingObject extends DestructibleObject, DamageReceiverGeneric,
 //	@Override
 //	public default void act(GModality modality, int timeUnits) {
 //		// override required to sub-instances to call the super implementation
-//		ObjectHealing.super.act(modality, timeUnits);
-//	}
+//		ObjectHealing.super.act(modality, timeUnits);}
 
 	/**
 	 * Similar to {@link #fireDestructionEvent(GModality)}, upon receiving damage
@@ -54,7 +53,5 @@ public interface LivingObject extends DestructibleObject, DamageReceiverGeneric,
 	//
 
 	@Override
-	public default boolean shouldBeDestroyed() {
-		return this.getLife() <= 0;
-	}
+	public default boolean shouldBeDestroyed() { return this.getLife() <= 0; }
 }

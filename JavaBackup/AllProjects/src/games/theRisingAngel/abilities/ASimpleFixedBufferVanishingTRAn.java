@@ -6,6 +6,8 @@ import games.theRisingAngel.GModalityTRAn;
 
 public class ASimpleFixedBufferVanishingTRAn extends ASimpleFixedBufferVanishing {
 	private static final long serialVersionUID = -5605240560L;
+	public static final String NAME = "Wounded Berseker";
+	public static final int RARITY = 2;
 
 	public static ASimpleFixedBufferVanishingTRAn newInstanceTRAn(String name, boolean isCumulative,
 			AttributeModification[] attributesMods) {

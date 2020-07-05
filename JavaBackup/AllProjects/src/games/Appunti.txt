@@ -1,21 +1,19 @@
 TODO 28/05/2020
 Il ISOM potrebbe essere formata da un insieme di sotto-isom-matrix, ciascuno avente una lista di adiacenza di altre matrix (inserite a mano)
-tale ISOM-WRAPPER è anch'esso un "point provider", esattamente come le sotto-matrici, con la differenza che la prima fa cose del tipo
+tale ISOM-WRAPPER ï¿½ anch'esso un "point provider", esattamente come le sotto-matrici, con la differenza che la prima fa cose del tipo
+
 public NodeIsom getAt(int x, int y){
 	ISOM matrix = getMatrixHolding(x,y);
 	return matrix.getAt(x,y);
 }
 Per fare RunShape sulla ISOM si fa
 - dato il centro della Shape, identificare quale matrix M la contiene
-- se la Shape è interamente contenuta in M, allora eseguire il runner in tale M (ossia fornire al runner M come istanza di "point provider"
+- se la Shape ï¿½ interamente contenuta in M, allora eseguire il runner in tale M (ossia fornire al runner M come istanza di "point provider"
 - altrimenti usare "this" come "point provider" da fornire al runner
 
-
-
-
 TODO 10/05/2020
--) cambiare TRAn LoaderGeneric così che il JSON abbia un oggetto (il ProbabilityOfContextesHolders appunto)
-	avente un array di oggetti: di coppie <nome, arraiDiProbabilità> (ossia RandomWeightedIndexes)
+-) cambiare TRAn LoaderGeneric cosï¿½ che il JSON abbia un oggetto (il ProbabilityOfContextesHolders appunto)
+	avente un array di oggetti: di coppie <nome, arraiDiProbabilitï¿½> (ossia RandomWeightedIndexes)
 -) utilizzare in modo decente questa mappa in GModalityTRAn
 
 
@@ -39,7 +37,7 @@ Le spell devono essere un po' personalizzabili ed un po' specifiche:
 - - quello di skill apprese (tramite libri e non solo), che possono essere TUTTE le magie esistenti, inizialmente quelle di cui sopra E sbloccate
 - - quello di skill attualmente equipaggiae ed utilizzabili in battaglia
 
-Il GameController dovrà poi definire i metodi di "caricamento dei salvataggi" (oltre a quello delle mappe)
+Il GameController dovrï¿½ poi definire i metodi di "caricamento dei salvataggi" (oltre a quello delle mappe)
 tra cui caricare un Player, col suo livello, inventario, etc. Saranno necessari dei loader apposa
 
 Definire poi gli altri CharacterType
@@ -58,7 +56,7 @@ aggiungere "edit distance" in Comparators come STRING_COMPARATOR_EDIT_DISTANCE
 
 
 22/03/2020
-come scrissi, l'equipaggiamento è complesso e diviso in 9 pezzi + 10 anelli + 3 collane
+come scrissi, l'equipaggiamento ï¿½ complesso e diviso in 9 pezzi + 10 anelli + 3 collane
 orecchini	|	testa	|	mantello
 mani		|	busto	|	braccia
 piedi		|	cintura	|	gambe(pantaloni)
@@ -67,13 +65,14 @@ originariamente al posto degli orecchini c'erano le spalle .. le incorporo in "b
 poi una colonna per ciascuna mano, le 3 collane in colonna
 aggiungere i braccialetti alle due mani? troppo incasinato, ma ci sta: con le collane si otterrebbe una colonna completa alta 5
 magari al posto di "vuoto" metterci un "famiglio"
-per ogni mano, se il numero di anelli supera il 2 allora si ha un progressivo malus in agilità, forza, destrezza, precisione
+per ogni mano, se il numero di anelli supera il 2 allora si ha un progressivo malus in agilitï¿½, forza, destrezza, precisione
 (tienila te una spada facendo presa con migliaia di anelli)
 originariamente ciascun dito poteva tenere 2 anelli (aveva 2 slot) e gli anelli erano divisi in "slot singolo" e "doppio slot"
 (un po' come le armi a due mani) e la regola di cui sopra si applicava per un numero di slot superiore a 3.
-Si potrebbe implementare, con l'accortezza però che gli anelli "singoli" siano più deboli dei "doppi".
+Si potrebbe implementare, con l'accortezza perï¿½ che gli anelli "singoli" siano piï¿½ deboli dei "doppi".
 In tal caso, per calcolare il malus sopra, gli anelli doppi contano come 1.5 per tutto il dito
-(mentre due anelli singoli contano come 1 ciascuno, quindi 2), perchè per essere indossati hanno delle prese ergonomiche.
+(mentre due anelli singoli contano come 1 ciascuno, quindi 2), perchï¿½ per essere indossati hanno delle prese ergonomiche.
+
 
 
 

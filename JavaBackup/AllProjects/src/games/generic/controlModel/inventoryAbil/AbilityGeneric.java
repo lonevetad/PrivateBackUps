@@ -99,8 +99,7 @@ public interface AbilityGeneric extends AssignableObject, RarityHolder, GameObje
 	 * Override designed.<br>
 	 * Perform clean-up actions, by default by calling {@link #resetAbility()}, in
 	 * certain moments, like the death of the owner, the un-equipment of the
-	 * belonging {@link EquipmentItem} (especially in case of this instance is also
-	 * an instance of the subclass {@link EquipItemAbility}), etc.
+	 * belonging {@link EquipmentItem}, etc.
 	 */
 	public default void onRemoving(GModality gm) {
 		resetAbility();

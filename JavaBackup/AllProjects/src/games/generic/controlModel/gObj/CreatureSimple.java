@@ -44,5 +44,4 @@ public interface CreatureSimple
 		LivingObject.super.act(modality, timeUnits); // this is the same of the below :
 //		ObjectHealing.super.act(modality, timeUnits);
 	}
-
 }

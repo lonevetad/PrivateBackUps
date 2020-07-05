@@ -115,52 +115,6 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public CurableResourcesHolders getCurableResourcesHolders() { return this.curableResourcesHolders; }
-
-	@Override
-	public AbstractShape2D getShape() { return shape; }
-
-	@Override
-	public EquipmentSet getEquipmentSet() { return equipmentSet; }
-
-	@Override
-	public boolean isDestroyed() { return isDestroyed; }
-
-	public GObjMovement getMovementImplementation() { return movementImplementation; }
-
-	@Override
-	public int getTicksHealing() { return ticksHealing; }
-
-	@Override
-	public int getAccumulatedTimeRegen() { return accumulatedTimeLifeRegen; }
-	// SETTER
-
-	public void setgModalityRPG(GModalityRPG gModalityRPG) { this.gModalityRPG = gModalityRPG; }
-
-	@Override
-	public void setGameModality(GModality gameModality) { this.gModalityRPG = (GModalityRPG) gameModality; }
-
-	public void setID(Integer iD) { ID = iD; }
-
-	public void setName(String name) { this.name = name; }
-
-	@Override
-	public void setEquipmentSet(EquipmentSet equips) {
-		this.equipmentSet = equips;
-		if (equips != null) { equips.setCreatureWearingEquipments(this); }
-	}
-
-	public void setEventsWatching(List<String> eventsWatching) { this.eventsWatching = eventsWatching; }
-
-	@Override
-	public void setAttributes(CreatureAttributes attributes) { this.attributes = attributes; }
-
-	@Override
-	public void setCurableResourcesHolders(CurableResourcesHolders curableResourcesHolders) {
-		this.curableResourcesHolders = curableResourcesHolders;
-	}
-
-	@Override
 	public void setShape(AbstractShape2D shape) { this.shape = shape; }
 
 	public void setDestroyed(boolean isDestroyed) { this.isDestroyed = isDestroyed; }
@@ -169,7 +123,6 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		this.movementImplementation = movementImplementation;
 	}
 
-	@Override
 	public void setTicksHealing(int ticks) { this.ticksHealing = ticks; }
 
 	@Override

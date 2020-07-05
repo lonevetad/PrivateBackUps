@@ -70,7 +70,7 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 		ss = new NodeInfoAstar(start);
 		ss.father = ss;
 		ss.distFromFather = ss.distFromStart = null;
-		System.out.println("start: " + start.getLocationAbsolute());
+//		System.out.println("start: " + start.getLocationAbsolute());
 		frontier.put(ss);
 		nodeInfos.put(start, ss);
 		dd = new NodeInfoAstar(dest);
@@ -79,12 +79,12 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 		// set non-final parameters
 		forAdjacents.nodeInfos = nodeInfos;
 		forAdjacents.frontier = frontier;
-		System.out.println("EEEEEEEEEEEEENDd: " + dest.getLocationAbsolute());
+//		System.out.println("EEEEEEEEEEEEENDd: " + dest.getLocationAbsolute());
 
 		while ((!frontier.isEmpty()) && dd.father == null) {
 			final NodeInfoAstar n;
 			n = frontier.removeMinimum().getKey();
-			System.out.println("computing " + n.thisNode.getLocationAbsolute());
+//			System.out.println("computing " + n.thisNode.getLocationAbsolute());
 			/*
 			 * do not waste time computing nodes that have longer path of the already
 			 * discovered ones
@@ -178,7 +178,7 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 			if (noInfo.color == NodePositionInFrontier.Closed)
 				return;
 			distStartToNeighbour = this.distanceManager.getAdder().apply(distToAdjacent, currentNode.distFromStart);
-			System.out.println("adjacent: " + nnn.getLocationAbsolute());
+//			System.out.println("adjacent: " + nnn.getLocationAbsolute());
 			if (noInfo.father == null
 					|| distanceManager.getComparator().compare(distStartToNeighbour, noInfo.distFromStart) < 0) {
 				// update
@@ -195,17 +195,18 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 					noInfo.fScore = fScore;
 					//
 					frontier.put(noInfo);
-					System.out.println("\t put");
+//					System.out.println("\t put");
 				} else {
 					// it's grey, it's actually in the queue
-					System.out.println("\t altering");
+//					System.out.println("\t altering");
 					alterator.fScore = fScore;
 					frontier.alterKey(noInfo, alterator);
-					System.out.println("\t altered");
+//					System.out.println("\t altered");
 				}
-			} else {
-				System.out.println("\t discarded");
 			}
+			/*
+			 * else { System.out.println("\t discarded"); }
+			 */
 		}
 	}
 

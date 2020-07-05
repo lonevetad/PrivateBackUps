@@ -5,6 +5,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import tools.ObjectWithID;
 
+/** And be assigned to an owner. */
 public interface AssignableObject extends GameObjectGeneric {
 
 	public ObjectWithID getOwner();

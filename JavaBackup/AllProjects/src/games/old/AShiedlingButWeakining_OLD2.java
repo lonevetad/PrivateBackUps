@@ -40,6 +40,9 @@ import games.theRisingAngel.misc.AttributesTRAn;
 =======
  * See {@link AShiedlingButWeakining}.
 >>>>>>> master
+<<<<<<< HEAD
+=======
+>>>>>>> develop
 >>>>>>> develop
  */
 public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealTime implements GEventObserver {
@@ -51,10 +54,15 @@ public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealT
 	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RegenLife,
 =======
 <<<<<<< HEAD
+	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RigenLife,
+>>>>>>> master
+=======
+<<<<<<< HEAD
 	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RegenLife,
 =======
 	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.RigenLife,
 >>>>>>> master
+>>>>>>> develop
 >>>>>>> develop
 			AttributesTRAn.DamageReductionPhysical, AttributesTRAn.DamageReductionMagical };
 
@@ -63,9 +71,12 @@ public class AShiedlingButWeakining_OLD2 extends AbilityModifyingAttributesRealT
 		this.eventsWatching = new ArrayList<>(2);
 <<<<<<< HEAD
 		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
+<<<<<<< HEAD
+=======
 =======
 <<<<<<< HEAD
 		this.eventsWatching.add(EventsTRAn.DamageReceived.getName());
+>>>>>>> develop
 		ticks = 0;
 		timeThreshold = DURATION_EFFECT;
 		isAbilityActive = false;
@@ -221,10 +232,15 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 =======
 <<<<<<< HEAD
+		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
+>>>>>>> master
+=======
+<<<<<<< HEAD
 		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 =======
 		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
 >>>>>>> master
+>>>>>>> develop
 >>>>>>> develop
 			dEvent = (EventDamageTRAn) ge;
 			if (dEvent.getTarget() ==
@@ -240,10 +256,15 @@ public class AShiedlingButWeakining extends AbilityAttributesModsVanishingOverTi
 					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RegenLife.getIndex()); // Original
 =======
 <<<<<<< HEAD
+					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); // Original
+>>>>>>> master
+=======
+<<<<<<< HEAD
 					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RegenLife.getIndex()); // Original
 =======
 					lifeRegenOriginal = cAttr.getValue(AttributesTRAn.RigenLife.getIndex()); // Original
 >>>>>>> master
+>>>>>>> develop
 >>>>>>> develop
 					(am = this.attributesToModify[0]).setValue(-(lifeRegenOriginal >> 1)); // the half
 					cAttr.applyAttributeModifier(am);

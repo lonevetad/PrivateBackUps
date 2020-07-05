@@ -77,7 +77,6 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 		this.vanishUpdateTimeMacrounits = 0;
 //		this.modificationsAppliedAtLeastOnce = false;
 		this.maxAmountStackedTriggerCharges = this.stackedTriggerCharges = 0;
-
 	}
 
 	//
@@ -237,7 +236,6 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 	@Override
 	public void doUponAbilityEffectEnds() {
 		this.stackedTriggerCharges = 0;
-		this.accumulatedTimePhaseAbililty = 0;
 		// nullify modifications
 		// finished or Inactive, don't care, it's ended
 		setPhaseAbilityCurrent(PhaseAbilityVanishing.Inactive);
@@ -370,5 +368,14 @@ public abstract class AbilityAttributesModsVanishingOverTime extends AbilityModi
 				}
 			}
 		}
+//		switch (phaseAbilityCurrent) {
+//		case Active:
+//			updateActiveEffectModAttributes();
+//			break;
+//		case Vanishing:
+//			vanishEffect();
+//			break;
+//		default:
+//		}
 	}
 }
