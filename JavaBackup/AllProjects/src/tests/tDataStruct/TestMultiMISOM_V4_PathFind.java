@@ -432,7 +432,7 @@ public class TestMultiMISOM_V4_PathFind {
 			startPathfind = endPathfind = null;
 //			pathFound=null;
 			xPath = yPath = null;
-			isPointwisePathfind = true;
+			isPointwisePathfind = false;
 		}
 
 		void rebuildGUI() {
@@ -822,7 +822,7 @@ public class TestMultiMISOM_V4_PathFind {
 		// TODO OOOOOOOOOOOOOOOOOOO
 		// FARE PATH FINDING CHE IL CLICK SINISTRO IMPOSTA, IN MODO ALTERNATO,
 		// INIZIO E FINE DEL PERCORSO .. E POI DISEGNA IL POLILINE
-
+		// TODO PATHFIND
 		void performPathfind(Point whereClicked) {
 			List<Point> pathFound;
 // consider the multi-map offset

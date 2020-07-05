@@ -194,8 +194,7 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 					noInfo.distFromStart = distStartToNeighbour;
 					noInfo.fScore = fScore;
 					//
-//					frontier.put(noInfo);
-					System.out.println("\t put");
+					frontier.put(noInfo);
 				} else {
 					// it's grey, it's actually in the queue
 //					System.out.println("\t altering");
