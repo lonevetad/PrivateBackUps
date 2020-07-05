@@ -23,7 +23,9 @@ import games.theRisingAngel.abilities.AProtectButMakesSoft;
 import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
+
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
+
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 import geometry.implementations.shapes.ShapeRectangle;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
@@ -80,7 +82,7 @@ public class GModality_E1 extends GModalityTRAn {
 		gmodel = (GModel_E1) this.getModel();
 		goph = (GameObjectsProvidersHolderTRAn) this.getGameObjectsProvider();
 
-		// TODO add all stuffs .. qui è il posto in cui dovrebbero stare gli oggetti
+		// TODO add all stuffs .. qui Ã¨ il posto in cui dovrebbero stare gli oggetti
 		// strani che inserisco
 		p = (Player_E1) newPlayerInGame(null, PlayerCharacterTypes.Human); // new Player_E1(this);
 		p.setName("Lonevetad");
@@ -192,6 +194,11 @@ public class GModality_E1 extends GModalityTRAn {
 //		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, "Mag(ic)netic Dynamo"));
 //		equip.addUpgrade(goph.getEquipUpgradesProvider().getNewObjByName(this, "Of Diet"));
 //		p.equip(equip);
+
+		equipmentName = "Snake Belt";
+		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, AProtectButMakesSoft.NAME));
+		p.equip(equip);
 
 		equipmentName = "Snake Belt";
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);

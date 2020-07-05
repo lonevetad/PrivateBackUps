@@ -1642,10 +1642,10 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Strength", "value": 3},
-			{"attribute": "Constitution", "value": 3},
-			{"attribute": "Health", "value": 3},
-			{"attribute": "Luck", "value": 2}
+			{"attribute": "ManaMax", "value": -10},
+			{"attribute": "DamageReductionMagical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 5},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 15}
 		],
 		"abilities": []
 	}, {
@@ -1657,10 +1657,12 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Defense", "value": 3},
-			{"attribute": "Dexterity", "value": 3},
-			{"attribute": "Precision", "value": 3},
-			{"attribute": "Luck", "value": 2}
+			{"attribute": "ManaMax", "value": 15},
+			{"attribute": "RegenMana", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 8},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "Luck", "value": 2},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 15}
 		],
 		"abilities": []
 	}, {
@@ -1672,10 +1674,10 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": 15},
-			{"attribute": "ManaMax", "value": 10},
-			{"attribute": "Health", "value": 2},
-			{"attribute": "Faith", "value": 2}
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Faith", "value": 1},
+			{"attribute": "DamageBonusMagical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 1}
 		],
 		"abilities": []
 	}, {
@@ -1736,8 +1738,8 @@
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Dexterity", "value": 6},
 			{"attribute": "Precision", "value": 6},
-			{"attribute": "CriticalMultiplierPercentage", "value": 4},
-			{"attribute": "CriticalProbabilityPerThousand", "value": 20}
+			{"attribute": "CriticalMultiplier", "value": 4},
+			{"attribute": "CriticalProbability", "value": 20}
 		],
 		"abilities": []
 	}, {
@@ -1778,6 +1780,9 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2},
+			{"attribute": "Luck", "value": -1}
 			{"attribute": "Health", "value": 5},
 			{"attribute": "RegenLife", "value": -2}
 		],
@@ -1791,8 +1796,12 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "Health", "value": 5},
-			{"attribute": "RegenLife", "value": -2}
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "DamageReductionMagical", "value": -1}
 		],
 		"abilities": []
 	}, {
@@ -1837,8 +1846,9 @@
 			"width": 1, "height": 1
 		},
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": 30},
-			{"attribute": "Dexterity", "value": 4}
+			{"attribute": "LifeMax", "value": 25},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Health", "value": 3}
 		],
 		"abilities": []
 	}, {
@@ -1973,14 +1983,17 @@
 			"width": 1, "height": 2
 		},
 		"attributeMods": [
-			{"attribute": "LifeMax", "value": -40},
-			{"attribute": "ManaMax", "value": -50},
+			{"attribute": "LifeMax", "value": -30},
+			{"attribute": "ManaMax", "value": -30},
 			{"attribute": "RegenMana", "value": -7},
+			{"attribute": "RegenLife", "value": -2},
 			{"attribute": "Strength", "value": 4},
-			{"attribute": "Intelligence", "value": 5},
-			{"attribute": "Wisdom", "value": 8},
+			{"attribute": "Intelligence", "value": 4},
+			{"attribute": "Wisdom", "value": 6},
 			{"attribute": "Dexterity", "value": 5},
 			{"attribute": "Precision", "value": 7},
+			{"attribute": "ShieldMax", "value": 12},
+			{"attribute": "RegenShield", "value": 2},
 			{"attribute": "DamageBonusPhysical", "value": 4},
 			{"attribute": "DamageBonusMagical", "value": 4},
 			{"attribute": "CriticalMultiplierPercentage", "value": 5}
@@ -2013,6 +2026,9 @@
 			"width": 2, "height": 3
 		},
 		"attributeMods": [
+			{"attribute": "Health", "value": -5},
+			{"attribute": "RegenLife", "value": -2},
+			{"attribute": "Defense", "value": 3},
 			{"attribute": "Precision", "value": 10},
 			{"attribute": "Dexterity", "value": 6},
 			{"attribute": "Wisdom", "value": 4},
@@ -2303,6 +2319,7 @@
 			"width": 2, "height": 2
 		},
 		"attributeMods": [
+			{"attribute": "RigenLife", "value": -2}
 			{"attribute": "Strength", "value": 2},
 			{"attribute": "Intelligence", "value": 2},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 35},
@@ -2314,5 +2331,38 @@
 			{"attribute": "Luck", "value": -7}
 		],
 		"abilities": []
+	}, {
+		"name": "Gloves of the mad hunter",
+		"description": "Gloves belonged to a bloody madman, who always became crazy and frenzy if he cannot satisfy his cruelty upon missing the target.",
+		"type": "Hands",
+		"rarity": 3,
+		"sellPrice": [5],
+		"dimensInvent": {
+			"width": 2, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Defense", "value": 3},
+			{"attribute": "Strength", "value": 4},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Dexterity", "value": 2}
+		],
+		"abilities": ["Frenzy for a miss"]
+	}, {
+		"name": "Necklace of devoted vampire",
+		"type": "Necklace",
+		"rarity": 3,
+		"sellPrice": [76],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Faith", "value": 4},
+			{"attribute": "LifeLeechPercentage", "value": 10},
+			{"attribute": "Precision", "value": 7},
+			{"attribute": "Luck", "value": -3},
+			{"attribute": "Constitution", "value": -12},
+			{"attribute": "Strength", "value": -4}
+		],
+		"abilities": ["Bloodlust"]
 	}
 ]

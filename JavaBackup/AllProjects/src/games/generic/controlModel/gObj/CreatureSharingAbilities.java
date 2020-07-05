@@ -35,9 +35,7 @@ public interface CreatureSharingAbilities extends BaseCreatureRPG, GEventObserve
 		return event instanceof EventEnteringOnMap;
 	}
 
-	public default boolean isEventCreatureLeavingMap(IGEvent event) {
-		return event instanceof EventLeavingMap;
-	}
+	public default boolean isEventCreatureLeavingMap(IGEvent event) { return event instanceof EventLeavingMap; }
 
 	public String getAbilityToShare();
 

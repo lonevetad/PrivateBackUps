@@ -83,10 +83,33 @@ public interface EquipItemAbility extends AbilityGeneric {
 	public default void onAddingToOwner(GModality gm) { AbilityGeneric.super.onAddingToOwner(gm); }
 
 	/**
+	 * IMPORTANT NOTE: By default, this method calls {@link #onEquip(GModality)},
+	 * then override THAT method instead.
+	 * <p>
+	 * {@inheritDoc}
+	 */
+	@Override
+	public default void onAddingToOwner(GModality gm) {
+		onEquip(gm);
+	}
+
+	/**
 	 * The opposite work of {@link #onEquip(GModality)}, stopping every acting work
 	 * AND resetting to the original state: it also calls
+<<<<<<< HEAD:JavaBackup/AllProjects/src/games/generic/controlModel/inventoryAbil/EquipItemAbility.java
+	 * {@link #onRemoving(GModality)}.
+	 */
+	public default void onUnEquipping(GModality gm) {
+		if (gm == null)
+			return;
+		gm.removeGameObject(this);
+		onRemoving(gm);
+	}
+
+=======
 	 * {@link #onRemovingFromOwner(GModality)}.
 	 */
 	@Override
 	public default void onRemovingFromOwner(GModality gm) { AbilityGeneric.super.onRemovingFromOwner(gm); }
+>>>>>>> develop:JavaBackup/AllProjects/src/games/old/EquipItemAbility.java
 }

@@ -86,14 +86,6 @@ public class ADamageReductionCurrencyBased extends AbilityModifyingAttributesRea
 		if (maximumReduction > 0 && reduct > maximumReduction) { reduct = maximumReduction; }
 		am = super.getAttributesToModify()[0];
 		am.setValue(reduct);
-//		System.out.println(";;ADamagRedCurrBas... attri to mod " + am.getAttributeModified().getName() + " has value "
-//				+ am.getValue() + ", creature's value : " + //
-//				// this.getEquipItem().getCreatureWearingEquipments().getAttributes()
-//				this.getAttributesOfOwner()//
-//						.getValue(am.getAttributeModified()));
-//		System.out.println("MoNeY: " + //
-//				((BasePlayerRPG) this.getOwner() // this.getEquipItem().getCreatureWearingEquipments()
-//				).getCurrencies().getMoneyAmount(0));
 	}
 
 	@Override

@@ -18,10 +18,15 @@ import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventsTRAn;
 =======
 <<<<<<< HEAD
+import games.theRisingAngel.events.EventsTRAr;
+>>>>>>> master
+=======
+<<<<<<< HEAD
 import games.theRisingAngel.events.EventsTRAn;
 =======
 import games.theRisingAngel.events.EventsTRAr;
 >>>>>>> master
+>>>>>>> develop
 >>>>>>> develop
 import games.theRisingAngel.misc.AttributesTRAn;
 import tools.ObjectWithID;
@@ -113,10 +118,15 @@ public class AShiedlingButWeakining_OLD extends AbilityModifyingAttributesRealTi
 		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 =======
 <<<<<<< HEAD
+		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
+>>>>>>> master
+=======
+<<<<<<< HEAD
 		if (EventsTRAn.DamageReceived.getName() == ge.getName()) {
 =======
 		if (EventsTRAr.DamageReceived.getName() == ge.getName()) {
 >>>>>>> master
+>>>>>>> develop
 >>>>>>> develop
 			dEvent = (EventDamageTRAn<?>) ge;
 			if (dEvent.getTarget() ==

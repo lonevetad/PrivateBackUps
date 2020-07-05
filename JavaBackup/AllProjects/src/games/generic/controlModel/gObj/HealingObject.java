@@ -6,6 +6,7 @@ import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.CurableResourceType;
 import games.generic.controlModel.misc.HealGeneric;
+import games.generic.controlModel.misc.HealingTypeExample;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import tools.ObjectWithID;
@@ -40,17 +41,17 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 		getCurableResourcesHolders().addCurableResource(healType);
 	}
 
+	public default int getCurableResourceMax(CurableResourceType healType) {
+		return getCurableResourcesHolders().mapCurableResources.get(healType).getResourceAmountMax();
+	}
+
+	public default int getCurableResourceAmount(HealingTypeExample shield) {
+		return getCurableResourcesHolders().getCurableResourceAmount(shield);
+	}
+
 //	public void removeHealingType(HealingType healType);
 
 	//
-
-	/** Something that could be healed (gained) and lost, like life and mana. */
-	public default int getCurableResourceAmount(CurableResourceType healType) {
-		return getCurableResourcesHolders().getCurableResourceAmount(healType);
-	}
-
-	public int getCurableResourceMax(CurableResourceType healType);
-
 	/**
 	 * Differently from {@link #getCurableResourceAmount(CurableResourceType)}, this
 	 * method (and the setter) relies on the implementor, not the helper class
@@ -60,6 +61,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	 * For example, those could be life regeneration and mana regeneration.<br>
 	 */
 	// delegated to the implementor
+
 	public int getCurableResourceRegeneration(CurableResourceType healType);
 
 	//
@@ -97,9 +99,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	/**
 	 * Returns {@link #TICKS_PER_TIME_UNIT}, see {@link #getTicksHealing()}.
 	 */
-	public default int getTicksPerTimeUnit() {
-		return TICKS_PER_TIME_UNIT;
-	}
+	public default int getTicksPerTimeUnit() { return TICKS_PER_TIME_UNIT; }
 
 	/**
 	 * Each "time unit" could be composed by smaller units, as described in
@@ -113,9 +113,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	 * Just calls
 	 * <code>{@link #getTimeSubunitsEachTimeUnits()}/{@link #getTicksPerTimeUnit()}</code>.
 	 */
-	public default int getTimeSubunitsEachTicks() {
-		return getTimeSubunitsEachTimeUnits() / getTicksPerTimeUnit();
-	}
+	public default int getTimeSubunitsEachTicks() { return getTimeSubunitsEachTimeUnits() / getTicksPerTimeUnit(); }
 
 	/**
 	 * Protected method, do NOT override.
@@ -210,6 +208,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 	 * Make this object receiving a non-negative amount of healing, in a context
 	 * expressed by {@link GModality}, which could be used to fire events.
 	 */
+
 	public default <SourceHealing extends ObjectWithID> void receiveHealing(GModality gm, SourceHealing source,
 			HealGeneric healingInstance) {
 		int healingAmount;
@@ -250,44 +249,30 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 
 		public void setResourceRegen(int resourceRegen);
 
-		public default void alterResourceAmount(int delta) {
-			setResourceAmount(this.getResourceAmount() + delta);
-		}
+		public default void alterResourceAmount(int delta) { setResourceAmount(this.getResourceAmount() + delta); }
 	}
 
 	public static class CurableResourceImpl implements CurableResource {
-		public CurableResourceImpl(CurableResourceType ht) {
-			this.resourceType = ht;
-		}
+		public CurableResourceImpl(CurableResourceType ht) { this.resourceType = ht; }
 
 		protected final CurableResourceType resourceType;
 		protected int resourceAmount, resourceAmountMax, resourceRegen;
 
 		@Override
-		public CurableResourceType getResourceType() {
-			return resourceType;
-		}
+		public CurableResourceType getResourceType() { return resourceType; }
 
 		@Override
-		public int getResourceAmount() {
-			return resourceAmount;
-		}
+		public int getResourceAmount() { return resourceAmount; }
 
 		@Override
-		public int getResourceAmountMax() {
-			return resourceAmountMax;
-		}
+		public int getResourceAmountMax() { return resourceAmountMax; }
 
 		@Override
-		public int getResourceRegen() {
-			return resourceRegen;
-		}
+		public int getResourceRegen() { return resourceRegen; }
 
 		@Override
 		public void setResourceAmount(int resourceAmount) {
-			if (resourceAmount < 0 && (!this.resourceType.acceptsNegative())) {
-				resourceAmount = 0;
-			}
+			if (resourceAmount < 0 && (!this.resourceType.acceptsNegative())) { resourceAmount = 0; }
 			if ((resourceAmount > 0 && resourceAmount > resourceAmountMax)
 					|| (resourceAmount < 0 && resourceAmount < resourceAmountMax)) {
 				resourceAmount = resourceAmountMax;
@@ -299,9 +284,7 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 		public void setResourceAmountMax(int resourceAmountMax) {
 			if (resourceAmountMax < 0 && (!this.resourceType.acceptsNegative())) {
 				resourceAmountMax = this.resourceType.acceptsZeroAsMaximum() ? 0 : 1;
-			} else if (resourceAmountMax == 0 && (!this.resourceType.acceptsZeroAsMaximum())) {
-				resourceAmountMax = 1;
-			}
+			} else if (resourceAmountMax == 0 && (!this.resourceType.acceptsZeroAsMaximum())) { resourceAmountMax = 1; }
 			this.resourceAmountMax = resourceAmountMax;
 			// set bounds
 			if ((resourceAmountMax > 0 && resourceAmountMax < resourceAmount)
@@ -311,14 +294,10 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 		}
 
 		@Override
-		public void setResourceRegen(int resourceRegen) {
-			this.resourceRegen = resourceRegen;
-		}
+		public void setResourceRegen(int resourceRegen) { this.resourceRegen = resourceRegen; }
 
 		@Override
-		public void alterResourceAmount(int delta) {
-			setResourceAmount(resourceAmount + delta);
-		}
+		public void alterResourceAmount(int delta) { setResourceAmount(resourceAmount + delta); }
 	}
 
 	public static class CurableResourcesHolders {
@@ -356,11 +335,9 @@ public interface HealingObject extends TimedObject, GModalityHolder { //
 			addCurableResource(new CurableResourceImpl(healType));
 		}
 
-		public void addCurableResource(CurableResource cr) {
-			this.mapCurableResources.put(cr.getResourceType(), cr);
-		}
+		public void addCurableResource(CurableResource cr) { this.mapCurableResources.put(cr.getResourceType(), cr); }
 
 //		public void removeHealingType(HealingType healType) {		}
-
 	}
+
 }

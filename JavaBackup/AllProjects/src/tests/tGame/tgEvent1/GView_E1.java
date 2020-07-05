@@ -93,6 +93,7 @@ public class GView_E1 extends GameView {
 		jpBigContainer.add(jpPlayerStats, BorderLayout.EAST);
 
 		jpbCurableResources = new JProgressBar[curableResource.length];
+
 		constr.gridx = 0;
 		constr.gridwidth = 2;
 		constr.gridheight = 1;
@@ -104,6 +105,7 @@ public class GView_E1 extends GameView {
 			constr.gridy = i;
 			jpPlayerStats.add(jpb, constr);
 		}
+
 //		constr.gridheight = 9;
 //		constr.weighty = 9;
 //		jtaPlayerStats = new JTextArea();
