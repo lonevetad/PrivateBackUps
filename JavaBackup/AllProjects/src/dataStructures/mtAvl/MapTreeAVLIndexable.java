@@ -63,10 +63,6 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 				// no rotation
 				n = (NodeAVL_Indexable) n.father;
 			} else {
-//				if(delta >=2)n.rotate(true);else
-//				temp = n;
-//				n = (NodeAVL_Indexable) n.father;
-			} else {
 				// copied from Lightweight
 				n.rotate(delta >= 2);
 				n = (MapTreeAVLIndexable<K, V>.NodeAVL_Indexable) n.father.father;
