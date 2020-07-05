@@ -374,6 +374,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	// TODO insertFixup
 	protected void insertFixup(NodeAVL n) {
 		int hl, hr, delta;
+//		NodeAVL father;
+
 		while (n != NIL) {
 			// lh= ;rh=;
 			// recalculate, just to be sure

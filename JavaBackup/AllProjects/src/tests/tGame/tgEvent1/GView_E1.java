@@ -27,11 +27,7 @@ public class GView_E1 extends GameView {
 	JButton jbCloseAll, jbStartPause;
 	JPanel jpBigContainer;
 	JPanel jpStartStop, jpPlayerStats;
-<<<<<<< HEAD
-	JProgressBar jpbPlayerLife, jpbPlayerMana;
-=======
 	JProgressBar[] jpbCurableResources; // jpbPlayerLife, jpbPlayerMana;
->>>>>>> develop
 //	JTextArea jtaPlayerStats;
 //	JScrollPane jspPlayerAttributes;
 	JLabel jlMoneyText, jlMoneyValue;
@@ -96,27 +92,12 @@ public class GView_E1 extends GameView {
 		jpPlayerStats = new JPanel(new GridBagLayout());
 		jpBigContainer.add(jpPlayerStats, BorderLayout.EAST);
 
-<<<<<<< HEAD
-		jpbPlayerMana = new JProgressBar(0, 100);
-		jpbPlayerMana.setStringPainted(true);
-//		jpbPlayerLife.setMaximum(100);
-=======
 		jpbCurableResources = new JProgressBar[curableResource.length];
->>>>>>> develop
+
 		constr.gridx = 0;
 		constr.gridwidth = 2;
 		constr.gridheight = 1;
 		constr.weightx = constr.weighty = 1;
-<<<<<<< HEAD
-		jpPlayerStats.add(jpbPlayerMana, constr);
-		//
-		jpbPlayerLife = new JProgressBar(0, 100);
-		jpbPlayerLife.setStringPainted(true);
-		constr.gridy = 1;
-		jpPlayerStats.add(jpbPlayerLife, constr);
-		constr.gridy = 2;
-		constr.gridwidth = 1;
-=======
 		for (int i = 0; i < curableResource.length; i++) {
 			JProgressBar jpb;
 			jpbCurableResources[i] = jpb = new JProgressBar(0, 100);
@@ -124,7 +105,7 @@ public class GView_E1 extends GameView {
 			constr.gridy = i;
 			jpPlayerStats.add(jpb, constr);
 		}
->>>>>>> develop
+
 //		constr.gridheight = 9;
 //		constr.weighty = 9;
 //		jtaPlayerStats = new JTextArea();
@@ -135,10 +116,6 @@ public class GView_E1 extends GameView {
 //		jtaPlayerStats.setLineWrap(false); 
 		constr.gridy++;
 		constr.gridwidth = 1;
-<<<<<<< HEAD
-		constr.gridy = 2;
-=======
->>>>>>> develop
 		jlMoneyText = new JLabel("Currency: ");
 		jpPlayerStats.add(jlMoneyText, constr);
 		constr.gridx = 1;
@@ -183,21 +160,6 @@ public class GView_E1 extends GameView {
 		if (gmodalitye1 == null)
 			return;
 		p = gmodalitye1.getPlayerRPG();
-<<<<<<< HEAD
-		jpbPlayerLife.setMaximum(max = p.getLifeMax());
-		jpbPlayerLife.setValue(v = p.getLife());
-		jpbPlayerLife.repaint();
-		textDisplayed = "Life: " + v + " / " + max;
-		jpbPlayerLife.setToolTipText(textDisplayed);
-		jpbPlayerLife.setString(textDisplayed);
-		//
-		jpbPlayerMana.setMaximum(max = p.getManaMax());
-		jpbPlayerMana.setValue(v = p.getMana());
-		jpbPlayerMana.repaint();
-		textDisplayed = "Mana: " + v + " / " + max;
-		jpbPlayerMana.setToolTipText(textDisplayed);
-		jpbPlayerMana.setString(textDisplayed);
-=======
 
 		for (int i = 0; i < curableResource.length; i++) {
 			jpb = jpbCurableResources[i];
@@ -210,7 +172,6 @@ public class GView_E1 extends GameView {
 			jpb.repaint();
 		}
 
->>>>>>> develop
 		ca = p.getAttributes();
 //		sb = new StringBuilder(128);
 //		for (int i = 0, n = ca.getAttributesCount(); i < n; i++) {

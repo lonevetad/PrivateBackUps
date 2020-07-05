@@ -46,7 +46,6 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 		int hl, hr, delta;
 		NodeAVL_Indexable n, temp;
 		n = (MapTreeAVLIndexable<K, V>.NodeAVL_Indexable) nnn;
-//		System.out.println("fixing up indexable with " + nnn.k);
 		while (n != NIL) {
 			n.height = (((hl = n.left.height) > (hr = n.right.height)) ? hl : hr) + 1;
 			delta = hl - hr;
@@ -62,6 +61,10 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 			}
 			if (delta < 2 && delta > -2) {
 				// no rotation
+				n = (NodeAVL_Indexable) n.father;
+			} else {
+//				if(delta >=2)n.rotate(true);else
+//				temp = n;
 //				n = (NodeAVL_Indexable) n.father;
 			} else {
 				// copied from Lightweight

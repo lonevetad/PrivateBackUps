@@ -23,10 +23,9 @@ import games.theRisingAngel.abilities.AProtectButMakesSoft;
 import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
-<<<<<<< HEAD
-=======
+
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
->>>>>>> develop
+
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 import geometry.implementations.shapes.ShapeRectangle;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
@@ -83,7 +82,7 @@ public class GModality_E1 extends GModalityTRAn {
 		gmodel = (GModel_E1) this.getModel();
 		goph = (GameObjectsProvidersHolderTRAn) this.getGameObjectsProvider();
 
-		// TODO add all stuffs .. qui è il posto in cui dovrebbero stare gli oggetti
+		// TODO add all stuffs .. qui Ã¨ il posto in cui dovrebbero stare gli oggetti
 		// strani che inserisco
 		p = (Player_E1) newPlayerInGame(null, PlayerCharacterTypes.Human); // new Player_E1(this);
 		p.setName("Lonevetad");
@@ -140,17 +139,6 @@ public class GModality_E1 extends GModalityTRAn {
 
 		odd = new ObjDamageDeliverE1(6000);
 		odd.setTarget(p);
-<<<<<<< HEAD
-		odd.setDamageAmount(125);
-		odd.setAccumulatedTimeElapsed(5000);
-		this.addGameObject(odd);
-
-//		odd = new ObjDamageDeliverE1(4000);
-//		odd.setTarget(p);
-//		odd.setDamageAmount(75);
-//		odd.setAccumulatedTimeElapsed(2500);
-//		this.addGameObject(odd);
-=======
 		odd.setDamageAmount(300);
 		odd.setAccumulatedTimeElapsed(5000);
 		this.addGameObject(odd);
@@ -160,7 +148,6 @@ public class GModality_E1 extends GModalityTRAn {
 		odd.setDamageAmount(125);
 		odd.setAccumulatedTimeElapsed(2500);
 		this.addGameObject(odd);
->>>>>>> develop
 
 		//
 
@@ -213,8 +200,9 @@ public class GModality_E1 extends GModalityTRAn {
 		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, AProtectButMakesSoft.NAME));
 		p.equip(equip);
 
-		equipmentName = "Gloves of the mad hunter";
+		equipmentName = "Snake Belt";
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, AProtectButMakesSoft.NAME));
 		p.equip(equip);
 
 		//
