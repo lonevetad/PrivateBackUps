@@ -1,11 +1,15 @@
 package tests.tDataStruct;
 
+import java.awt.BorderLayout;
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -16,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -366,7 +371,7 @@ public class TestMultiMISOM_V4_PathFind {
 		Point ps, pe;
 		List<Point> path;
 		RectanglesAndPathfindingPoints rapf;
-		rapf = MyRectangle_TEST_PRODUCERS[MyRectangle_TEST_PRODUCERS.length - 1].produceTestSet();
+		rapf = MyRectangle_TEST_PRODUCERS[MyRectangle_TEST_PRODUCERS.length - 3].produceTestSet();
 		rects = rapf.rects;
 		ps = rapf.ps;
 		pe = rapf.pe;
@@ -415,9 +420,11 @@ public class TestMultiMISOM_V4_PathFind {
 		static int idProgNewRect = 100;
 		boolean isStartPathfind, isPointwisePathfind;
 		JFrame win;
-		JPanel jp;
+		JPanel jp, jpNorthPart, jpDrawMultimap;
 		JScrollPane jsp;
+		JComboBox<Integer> mapsToLoad;
 		Map<Integer, MyRectangle> rects = null;
+		Checkbox cbIsPointwise;
 		MultiISOMRetangularMap<Double> t;
 		MyRectangle newRect = null;
 		Point pStartDrawningRect = null, pEndDrawningRect = null;
@@ -440,7 +447,11 @@ public class TestMultiMISOM_V4_PathFind {
 			KeyAdapter ka;
 			win = new JFrame("Test Multi ISOM");
 			win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			jp = new JPanel() {
+			jp = new JPanel(new BorderLayout());
+			win.add(jp);
+			jpNorthPart = new JPanel(new FlowLayout());
+			jp.add(jpNorthPart, BorderLayout.NORTH);
+			jpDrawMultimap = new JPanel() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -449,9 +460,26 @@ public class TestMultiMISOM_V4_PathFind {
 					paintRectsAndSections(g);
 				}
 			};
-			jsp = new JScrollPane(jp);
-			jsp.setViewportView(jp);
-			win.add(jsp);
+			Integer[] indexes;
+			indexes = new Integer[MyRectangle_TEST_PRODUCERS.length];
+			for (int s = MyRectangle_TEST_PRODUCERS.length - 1; s >= 0; s--)
+				indexes[s] = s;
+			mapsToLoad = new JComboBox<Integer>(indexes);
+			mapsToLoad.addItemListener(e -> {
+				RectanglesAndPathfindingPoints rapf;
+				Integer index;
+				index = (Integer) e.getItem();
+				rapf = MyRectangle_TEST_PRODUCERS[index].produceTestSet();
+				resetRects(rapf.rects);
+			});
+			indexes = null;
+			jpNorthPart.add(mapsToLoad);
+			cbIsPointwise = new Checkbox("Is pointwise pathfinding?");
+			jpNorthPart.add(cbIsPointwise);
+			cbIsPointwise.addItemListener(e -> { isPointwisePathfind = e.getStateChange() == ItemEvent.SELECTED; });
+			jsp = new JScrollPane(jpDrawMultimap);
+			jsp.setViewportView(jpDrawMultimap);
+			jp.add(jsp, BorderLayout.CENTER);
 			win.addComponentListener(new ComponentAdapter() {
 				@Override
 				public void componentResized(ComponentEvent e) {
@@ -459,8 +487,8 @@ public class TestMultiMISOM_V4_PathFind {
 					d = win.getSize();
 					d.width -= 10;
 					d.height -= 35;
-					jsp.setSize(d);
-					jsp.setPreferredSize(d);
+					jp.setSize(d);
+					jp.setPreferredSize(d);
 				}
 			});
 			ma = new MouseAdapter() {
@@ -470,7 +498,7 @@ public class TestMultiMISOM_V4_PathFind {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					onStartDrawningNewRectangle(e.getPoint());
-					jp.repaint();
+					jpDrawMultimap.repaint();
 				}
 
 				@Override
@@ -480,7 +508,7 @@ public class TestMultiMISOM_V4_PathFind {
 					pEndDrawningRect.y /= PIXEL_EACH_CELL;
 					applyMultiMapOffset(pEndDrawningRect);
 					updateStartEndPoinNewRectangle();
-					jp.repaint();
+					jpDrawMultimap.repaint();
 				}
 
 				@Override
@@ -490,7 +518,7 @@ public class TestMultiMISOM_V4_PathFind {
 					p.x /= PIXEL_EACH_CELL;
 					p.y /= PIXEL_EACH_CELL;
 					onEndDrawningNewRectangle(p, e.getButton() == 1);
-					jp.repaint();
+					jpDrawMultimap.repaint();
 				}
 
 				@Override
@@ -503,8 +531,8 @@ public class TestMultiMISOM_V4_PathFind {
 					win.setTitle("Mouse at: (x: " + p.x + ", y: " + p.y + ")");
 				}
 			};
-			jp.addMouseListener(ma);
-			jp.addMouseMotionListener(ma);
+			jpDrawMultimap.addMouseListener(ma);
+			jpDrawMultimap.addMouseMotionListener(ma);
 			ka = new KeyAdapter() {
 //				@Override
 //				public void keyTyped(KeyEvent e) { printRects(); }
@@ -512,7 +540,7 @@ public class TestMultiMISOM_V4_PathFind {
 				@Override
 				public void keyReleased(KeyEvent e) { printRects(); }
 			};
-			jp.addKeyListener(ka);
+			jpDrawMultimap.addKeyListener(ka);
 			jsp.addKeyListener(ka);
 			win.addKeyListener(ka);
 			win.setSize(500, 500);
@@ -550,8 +578,8 @@ public class TestMultiMISOM_V4_PathFind {
 				addRect(r);
 			}
 			t.rebuild();
-			jp.setSize(t.getWidth() * PIXEL_EACH_CELL + 200, t.getHeight() * PIXEL_EACH_CELL + 200);
-			jp.setPreferredSize(jp.getSize());
+			jpDrawMultimap.setSize(t.getWidth() * PIXEL_EACH_CELL + 200, t.getHeight() * PIXEL_EACH_CELL + 200);
+			jpDrawMultimap.setPreferredSize(jpDrawMultimap.getSize());
 		}
 
 		void applyMultiMapOffset(Point p) {
@@ -814,9 +842,9 @@ public class TestMultiMISOM_V4_PathFind {
 //			t.addMap(newRect);
 			addRect(newRect);
 			this.newRect = null;
-			jp.setSize(t.getWidth() * PIXEL_EACH_CELL + 200, t.getHeight() * PIXEL_EACH_CELL + 200);
-			jp.setPreferredSize(jp.getSize());
-			jp.repaint();
+			jpDrawMultimap.setSize(t.getWidth() * PIXEL_EACH_CELL + 200, t.getHeight() * PIXEL_EACH_CELL + 200);
+			jpDrawMultimap.setPreferredSize(jpDrawMultimap.getSize());
+			jpDrawMultimap.repaint();
 		}
 
 		// TODO OOOOOOOOOOOOOOOOOOO
