@@ -485,6 +485,10 @@ public class TestMultiMISOM_V4_PathFind {
 					new MyRectangle(52, 0, 22, 4).setName("ky"), //
 					new MyRectangle(33, -1, 19, 3).setName("kz"), //
 					new MyRectangle(37, 2, 5, 3).setName("la"), //
+					new MyRectangle(13, 13, 3, 6).setName("xx"), //
+					new MyRectangle(10, 15, 3, 3).setName("xc"), //
+					new MyRectangle(14, 19, 2, 5).setName("xd"), //
+					new MyRectangle(13, 21, 1, 2).setName("xe"), //
 			}, new Point(0, 0), new Point(11, 11)), //
 	};
 
@@ -572,6 +576,7 @@ public class TestMultiMISOM_V4_PathFind {
 			isPointwisePathfind = false;
 			this.ta = new TextArea();
 			this.log = new LoggerMessages() {
+				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void clearLog() { ta.setText(""); }

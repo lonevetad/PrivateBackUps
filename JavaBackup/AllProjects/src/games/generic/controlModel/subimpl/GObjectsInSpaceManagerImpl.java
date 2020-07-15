@@ -3,7 +3,7 @@ package games.generic.controlModel.subimpl;
 import java.util.Set;
 
 import dataStructures.isom.InSpaceObjectsManager;
-import dataStructures.isom.pathFinders.PathFinderIsomAStar;
+import dataStructures.isom.pathFinders.PathFinderIsomAStar_Naive;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
 import games.generic.controlModel.gObj.ObjectInSpace;
@@ -18,7 +18,7 @@ public abstract class GObjectsInSpaceManagerImpl implements GObjectsInSpaceManag
 	public GObjectsInSpaceManagerImpl(InSpaceObjectsManager<Double> isom) {
 		objWID = null;
 		this.isom = isom;
-		this.isom.setPathFinder(new PathFinderIsomAStar<Double>(this.isom, HeuristicManhattan.SINGLETON));
+		this.isom.setPathFinder(new PathFinderIsomAStar_Naive<Double>(this.isom, HeuristicManhattan.SINGLETON));
 	}
 
 	protected Set<ObjectWithID> objWID;

@@ -211,10 +211,8 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 				entryFetcher.put(e.getKey(), prev);
 				keys.remove(prevVal);
 				keys.put(e, this.keyExtractor.apply(e.getKey()));
-
 				assert (entryFetcher.size() == keys.size()) : "After replacing size inconsistent: entries: "
 						+ entryFetcher.size() + ", keys: " + keys.size();
-
 				return prevVal;
 			} else
 				return null;
@@ -222,37 +220,10 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		entryFetcher.put(e.getKey(), e);
 		keys.put(e, e.getValue());
 		if (entryFetcher.size() != keys.size()) {
-			System.err.println("BUG");
-			megaprint();
-			System.out.println("entry forached");
-			entryFetcher.forEach((v, ee) -> System.out.println(ee.getValue()));
-			if (keys.size() < entryFetcher.size()) {
-				entryFetcher.forEach((vhk, ent) -> {
-					if (!keys.containsKey(ent)) {
-						System.out.println("\n@@@@@@ FOUND MISSING KEY: " + ent);
-						System.out.println();
-					}
-				});
-			} else {
-				System.out.println("\nkeys foreached");
-				keys.forEach((ent, k) -> {
-					System.out.println(k);
-					if (!entryFetcher.containsKey(ent.getKey())) {
-						System.out.println("\n@@@@@@ FOUND MISSING entry-key: " + ent.getKey());
-						System.out.println();
-					}
-				});
-			}
-			System.exit(-1);
+			throw new IllegalStateException("Mapping of keys and values have different sizes: <" + keys.size() + "; "
+					+ entryFetcher.size() + ">\n\tOne or more comparators are build in a wrong way");
 		}
 		return null;
-	}
-
-	public void megaprint() {
-		System.out.println("\n\nkeys:");
-		System.out.println(keys);
-		System.out.println("ef:");
-		System.out.println(entryFetcher);
 	}
 
 	public Entry<ValueHoldingKey, Key> remove(Object valueHolding) {

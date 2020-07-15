@@ -41,11 +41,12 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,
 			AbstractAdjacentForEacher<Distance> fa, boolean returnPathToClosestNodeIfNotFound, NodeIsom<Distance> start,
 			NodeIsom<Distance> dest) {
-		NodeInfoAstar ss, dd;
-		final Map<NodeIsom<Distance>, NodeInfoAstar> nodeInfos;
-		final PriorityQueueKey<NodeInfoAstar, Distance> frontier;
+		NodeInfoAstar_V2 ss, dd;
+		final Map<NodeIsom<Distance>, NodeInfoAstar_V2> nodeInfos;
+		final PriorityQueueKey<NodeInfoAstar_V2, NodeInfoAstar_V2> frontier;
 		final Comparator<Distance> comp;
-		AbstractAdjacentForEacherAstar forAdjacents;
+		final Comparator<NodeInfoAstar_V2> nodeInfoComp;
+		AbstractAdjacentForEacherAstar_V2 forAdjacents;
 		AbstractAdjacentForEacher<Distance> forAdjToBeUsed;
 		// added for the boolean parameter
 		NodeInfoFrontierBased<Distance> closestPointToDest = null;
@@ -55,43 +56,52 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 		comp = distanceManager.getComparator();
 		forAdjacents = null;
 		forAdjToBeUsed = fa;
-		if (AFEAStar_Shape.class.isAssignableFrom(fa.getClass())) {
-			forAdjacents = ((AFEAStar_Shape) fa).afed;
-		} else if (AbstractAdjacentForEacherAstar.class.isAssignableFrom(fa.getClass())) {
-			forAdjacents = (AbstractAdjacentForEacherAstar) fa;
+		if (AFEAStar_Shape_V2.class.isAssignableFrom(fa.getClass())) {
+			forAdjacents = ((AFEAStar_Shape_V2) fa).afed;
+		} else if (AbstractAdjacentForEacherAstar_V2.class.isAssignableFrom(fa.getClass())) {
+			forAdjacents = (AbstractAdjacentForEacherAstar_V2) fa;
 		}
 		//
-		nodeInfos = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
-				MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, //
+		nodeInfoComp = (p1as, p2as) -> COMPARATOR_NINFO_AS_POINT.compare(p1as, p2as);
+		nodeInfos = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, MapTreeAVL.BehaviourOnKeyCollision.Replace, //
 				(n1, n2) -> NodeIsom.COMPARATOR_NODE_ISOM_POINT.compare(n1, n2));
 		frontier = new PriorityQueueKey<>(//
-				(p1as, p2as) -> COMPARATOR_NINFO_AS_POINT.compare(p1as, p2as), //
-				comp, MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, (NodeInfoAstar no) -> no.fScore);
-		ss = new NodeInfoAstar(start);
+				nodeInfoComp, //
+				(n1, n2) -> {
+					int c, cPointBased;
+					cPointBased = nodeInfoComp.compare(n1, n2); // first of all, no equal nodes allowed
+					if (cPointBased == 0)
+						return 0;
+					c = comp.compare(n1.fScore, n2.fScore);
+					if (c == 0) {
+						// don't know WHY this causes bugs, so i comment it out
+//						c = comp.compare(n1.distFromStart, n2.distFromStart);
+						// this already works (other than having a sense to be used)
+						c = cPointBased;
+					}
+					return c;
+				}, MapTreeAVL.BehaviourOnKeyCollision.Replace, (NodeInfoAstar_V2 no) -> no);
+		ss = new NodeInfoAstar_V2(start);
 		ss.father = ss;
-		ss.distFromFather = ss.distFromStart = null;
-//		System.out.println("start: " + start.getLocationAbsolute());
+		ss.distFromFather = ss.distFromStart = distanceManager.getZeroValue();
 		frontier.put(ss);
 		nodeInfos.put(start, ss);
-		dd = new NodeInfoAstar(dest);
+		dd = new NodeInfoAstar_V2(dest);
 		nodeInfos.put(dest, dd);
 		absoluteDestPoint = dest.getLocationAbsolute();
 		// set non-final parameters
 		forAdjacents.nodeInfos = nodeInfos;
 		forAdjacents.frontier = frontier;
-//		System.out.println("EEEEEEEEEEEEENDd: " + dest.getLocationAbsolute());
 
 		while ((!frontier.isEmpty()) && dd.father == null) {
-			final NodeInfoAstar n;
+			final NodeInfoAstar_V2 n;
 			n = frontier.removeMinimum().getKey();
-//			System.out.println("computing " + n.thisNode.getLocationAbsolute());
 			/*
 			 * do not waste time computing nodes that have longer path of the already
 			 * discovered ones
 			 */
-			if (dd.father == null ||
-			// dd.distFromStart > n.distFromStart
-					comp.compare(dd.fScore, n.fScore) > 0) {
+			n.color = NodePositionInFrontier.Closed;
+			if (dd.father == null || comp.compare(dd.fScore, n.fScore) > 0) {
 				// added for the boolean parameter
 				if (returnPathToClosestNodeIfNotFound) {
 					Distance newDistance;
@@ -105,7 +115,6 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 				}
 				forAdjToBeUsed.setCurrentNode(n);
 				getNodeIsomProvider().forEachAdjacents(n.thisNode, forAdjToBeUsed);
-//				n.thisNode.forEachAdjacents(forAdjacents);
 			} else
 				/*
 				 * destination has got a father and the nodes in the queue with MINIMUM
@@ -113,7 +122,6 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 				 * iterating is useless -> exit: empty the frontier
 				 */
 				frontier.clear();
-			n.color = NodePositionInFrontier.Closed;
 		}
 		nodeInfos.clear();
 		return PathFinderIsom.extractPathFromEndOrClosest(ss, dd, returnPathToClosestNodeIfNotFound,
@@ -123,62 +131,69 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 	@Override
 	public AbstractAdjacentForEacher<Distance> newAdjacentConsumer(final NodeIsomProvider<Distance> nodeProvider,
 			Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
-		return new AFEAStar_Point(isWalkableTester, distanceManager);
+		return new AFEAStar_Point_V2(isWalkableTester, distanceManager);
 	}
 
 	@Override
 	public AbstractAdjacentForEacher<Distance> newAdjacentConsumerForObjectShaped(
 			final NodeIsomProvider<Distance> nodeProvider, Predicate<ObjectLocated> isWalkableTester,
 			NumberManager<Distance> distanceManager, AbstractShape2D shape) {
-		return new AFEAStar_Shape(this, nodeIsomProvider, shape, isWalkableTester, distanceManager);
+		return new AFEAStar_Shape_V2(this, nodeIsomProvider, shape, isWalkableTester, distanceManager);
 	}
 
 	//
 
 	//
 
-	protected class NodeInfoAstar extends NodeInfoFrontierBased<Distance> {
+	protected class NodeInfoAstar_V2 extends NodeInfoFrontierBased<Distance> {
 		protected Distance fScore;
 
-		protected NodeInfoAstar(NodeIsom<Distance> thisNode) {
+		protected NodeInfoAstar_V2(NodeIsom<Distance> thisNode) {
 			super(thisNode);
 			fScore = null;
 		}
-	}
-
-	protected class DistanceKeyAlteratorAStar extends DistanceKeyAlterator<NodeInfoAstar, Distance> {
-		Distance fScore;
 
 		@Override
-		public void accept(NodeInfoAstar nodd) { nodd.fScore = fScore; }
+		public String toString() {
+			Point p;
+			p = thisNode.getLocationAbsolute();
+			return "[FS=" + fScore + ", LOC= (x=" + p.x + ",y=" + p.y + ")" + ", COL=" + color + ", DFS="
+					+ distFromStart + "]";
+		}
 	}
 
-	protected abstract class AbstractAdjacentForEacherAstar extends AbstractAdjacentForEacher<Distance> {
-		public AbstractAdjacentForEacherAstar(Predicate<ObjectLocated> isWalkableTester,
+	protected class DistanceKeyAlteratorAStar extends DistanceKeyAlterator<NodeInfoAstar_V2, Distance> {
+		protected Distance fScore;
+
+		@Override
+		public void accept(NodeInfoAstar_V2 nodd) { nodd.fScore = fScore; }
+	}
+
+	protected abstract class AbstractAdjacentForEacherAstar_V2 extends AbstractAdjacentForEacher<Distance> {
+		public AbstractAdjacentForEacherAstar_V2(Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
 			super(isWalkableTester, distanceManager);
 			this.alterator = new DistanceKeyAlteratorAStar();
 		}
 
-		protected Map<NodeIsom<Distance>, NodeInfoAstar> nodeInfos;
-		protected PriorityQueueKey<NodeInfoAstar, Distance> frontier;
+		protected Map<NodeIsom<Distance>, NodeInfoAstar_V2> nodeInfos;
+		protected PriorityQueueKey<NodeInfoAstar_V2, NodeInfoAstar_V2> frontier;
 		protected final DistanceKeyAlteratorAStar alterator;
 
 		@Override
 		public void accept(NodeIsom<Distance> nnn, Distance distToAdjacent) {
 			Distance distStartToNeighbour, fScore;
-			NodeInfoAstar noInfo;
+			NodeInfoAstar_V2 noInfo;
 			if (!isAdjacentNodeWalkable(nnn))
 				return;
 			if (nodeInfos.containsKey(nnn))
 				noInfo = nodeInfos.get(nnn);
 			else
-				nodeInfos.put(nnn, noInfo = new NodeInfoAstar(nnn));
+				nodeInfos.put(nnn, noInfo = new NodeInfoAstar_V2(nnn));
 
 			if (noInfo.color == NodePositionInFrontier.Closed)
 				return;
 			distStartToNeighbour = this.distanceManager.getAdder().apply(distToAdjacent, currentNode.distFromStart);
-//			System.out.println("adjacent: " + nnn.getLocationAbsolute());
 			if (noInfo.father == null
 					|| distanceManager.getComparator().compare(distStartToNeighbour, noInfo.distFromStart) < 0) {
 				// update
@@ -188,50 +203,43 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 				fScore = this.distanceManager.getAdder().apply(distStartToNeighbour, heuristic
 						.apply(currentNode.thisNode.getLocationAbsolute(), noInfo.thisNode.getLocationAbsolute()));
 
-				if (noInfo.color == NodePositionInFrontier.NeverAdded) {
+				if (noInfo.color == NodePositionInFrontier.NeverAdded//
+						&& (!frontier.containsKey(noInfo))//
+				) {
 					// add on queue
 					noInfo.color = NodePositionInFrontier.InFrontier;
 					noInfo.distFromStart = distStartToNeighbour;
 					noInfo.fScore = fScore;
-					//
 					frontier.put(noInfo);
-//					System.out.println("\t put");
 				} else {
 					// it's grey, it's actually in the queue
-//					System.out.println("\t altering");
+					noInfo.color = NodePositionInFrontier.InFrontier;
 					alterator.fScore = fScore;
 					frontier.alterKey(noInfo, alterator);
-//					System.out.println("\t altered");
 				}
 			}
-			/*
-			 * else { System.out.println("\t discarded"); }
-			 */
 		}
 	}
 
-	protected class AFEAStar_Point extends AbstractAdjacentForEacherAstar {
+	protected class AFEAStar_Point_V2 extends AbstractAdjacentForEacherAstar_V2 {
 
-		public AFEAStar_Point(
-//				PathFInderAStar<Distance> pathFInderAStar_Matrix,
-				Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
-//			pathFInderAStar_Matrix.
+		public AFEAStar_Point_V2(Predicate<ObjectLocated> isWalkableTester, NumberManager<Distance> distanceManager) {
 			super(isWalkableTester, distanceManager);
 		}
 	}
 
-	protected class AFEAStar_Shape extends ShapedAdjacentForEacherBaseImpl {
-		protected AFEAStar_Shape(PathFinderIsom<Distance> pathFinderIsom, NodeIsomProvider<Distance> m,
+	protected class AFEAStar_Shape_V2 extends ShapedAdjacentForEacherBaseImpl {
+		protected AFEAStar_Shape_V2(PathFinderIsom<Distance> pathFinderIsom, NodeIsomProvider<Distance> m,
 				AbstractShape2D shape, Predicate<ObjectLocated> isWalkableTester,
 				NumberManager<Distance> distanceManager) {
 			super(pathFinderIsom, m, shape, isWalkableTester, distanceManager);
-			this.afed = new AFEAStar_Point(isWalkableTester, distanceManager) {
+			this.afed = new AFEAStar_Point_V2(isWalkableTester, distanceManager) {
 				@Override
 				public boolean isAdjacentNodeWalkable(NodeIsom<Distance> adjacentNode) { return ianw(adjacentNode); }
 			};
 		}
 
-		protected final AFEAStar_Point afed;
+		protected final AFEAStar_Point_V2 afed;
 
 		protected boolean ianw(NodeIsom<Distance> adjacentNode) { return isAdjacentNodeWalkable(adjacentNode); }
 
