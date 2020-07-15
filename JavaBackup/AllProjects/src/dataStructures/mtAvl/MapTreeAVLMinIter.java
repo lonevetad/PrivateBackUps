@@ -145,26 +145,26 @@ public class MapTreeAVLMinIter<K, V> extends MapTreeAVLIndexable<K, V> {
 			x.prevInOrder = n;
 			if (x == minValue)
 				minValue = n;// in the end
-			if (comp.compare(n.k, minValue.k) < 0) {
-				/*
-				 * all of the following assignement (except for the last one) should not be
-				 * necessary, but tests show off a kind of bug, so that's the hotfix, a
-				 * workaround: simply redo assignements to minValue
-				 */
-				n.nextInOrder = minValue;
-				n.prevInOrder = minValue.prevInOrder;
-				minValue.prevInOrder.nextInOrder = n;
-				minValue.prevInOrder = n;
-				minValue = n;
-			} // else
+//			if (comp.compare(n.k, minValue.k) < 0) {
+//				/*
+//				 * all of the following assignement (except for the last one) should not be
+//				 * necessary, but tests show off a kind of bug, so that's the hotfix, a
+//				 * workaround: simply redo assignements to minValue
+//				 */
+//				n.nextInOrder = minValue;
+//				n.prevInOrder = minValue.prevInOrder;
+//				minValue.prevInOrder.nextInOrder = n;
+//				minValue.prevInOrder = n;
+//				minValue = n;
+//			} // else
 		}
-		if (comp.compare(n.k, minValue.prevInOrder.k) > 0) {
-			// similary kind of bug for maximum
-			n.nextInOrder = minValue;
-			n.prevInOrder = minValue.prevInOrder;
-			minValue.prevInOrder.nextInOrder = n; // it was minValue, now is n
-			minValue.prevInOrder = n;
-		}
+//		if (comp.compare(n.k, minValue.prevInOrder.k) > 0) {
+//			// similary kind of bug for maximum
+//			n.nextInOrder = minValue;
+//			n.prevInOrder = minValue.prevInOrder;
+//			minValue.prevInOrder.nextInOrder = n; // it was minValue, now is n
+//			minValue.prevInOrder = n;
+//		}
 
 		// don't use n: it's height is 0 and it's connected only to NIL -> is balanced
 		insertFixup(x);

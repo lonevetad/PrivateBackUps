@@ -20,12 +20,13 @@ import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
 
-public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl {
+public // abstract
+class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	private static final long serialVersionUID = -34551879021102L;
 
 	public BaseCreatureTRAn(GModalityRPG gModRPG, String name) {
 		super(gModRPG, name);
-		this.equipmentSet = newEquipmentSet();
+		this.setEquipmentSet(newEquipmentSet());
 		this.equipmentSet.setCreatureWearingEquipments(this);
 	}
 

@@ -643,6 +643,21 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	// TODO ITERATORS and FOR-EACH
 
 	@Override
+	public void forEachAndDepth(EntryDepthConsumer<K, V> action) {
+		if (root == NIL || action == null)
+			return;
+		inOrderVisit(action, 0, root);
+	}
+
+	protected void inOrderVisit(EntryDepthConsumer<K, V> action, int depth, NodeAVL node) {
+		if (node.left != NIL)
+			inOrderVisit(action, depth + 1, node.left);
+		action.accept(node, depth);
+		if (node.right != NIL)
+			inOrderVisit(action, depth + 1, node.right);
+	}
+
+	@Override
 	public void forEach(BiConsumer<? super K, ? super V> action) {
 		forEach(ForEachMode.SortedGrowing, e -> action.accept(e.getKey(), e.getValue()));
 	}
@@ -1261,13 +1276,12 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	public String toString() {
 		StringBuilder sb;
 		sb = new StringBuilder(128);
-		toString(sb, 0);
+//		toString(sb, 0);
+		toString(sb);
 		return sb.toString();
 	}
 
-	public void toString(StringBuilder sb) { toString(sb, 0); }
-
-	protected void toString(StringBuilder sb, int tabLevel) {
+	public void toString(StringBuilder sb) {
 		Entry<K, V> m;
 		sb.append("size: ");
 		sb.append(this.size);
@@ -1288,25 +1302,36 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		sb.append(m.getValue()).append(')');
 
 		sb.append('\n');
-		toString(sb, root, tabLevel);
+//		toString(sb, root, 0);
+		forEachAndDepth((nnn, level) -> {
+			NodeAVL node = (MapTreeAVLLightweight<K, V>.NodeAVL) nnn;
+			if (isNotNullNIL(node)) {
+				sb.ensureCapacity(sb.length() + level << 2);
+				while (level-- > 0) {
+					sb.append('\t');
+				}
+				sb.append(String.valueOf(node));
+				sb.append('\n');
+			}
+		});
 	}
 
-	protected void toString(StringBuilder sb, NodeAVL node, int level) {
-		int tabLevel;
-		if (isNotNullNIL(node)) {
-			level++;
-			toString(sb, node.left, level);
-//			addTab(sb, level - 1, false);
-			tabLevel = level - 1;
-			sb.ensureCapacity(sb.length() + tabLevel << 2);
-			while (tabLevel-- > 0) {
-				sb.append('\t');
-			}
-			sb.append(String.valueOf(node));
-			sb.append('\n');
-			toString(sb, node.right, level);
-		}
-	}
+//	protected void toString(StringBuilder sb, NodeAVL node, int level) {
+//		int tabLevel;
+//		if (isNotNullNIL(node)) {
+//			level++;
+//			toString(sb, node.left, level);
+////			addTab(sb, level - 1, false);
+//			tabLevel = level - 1;
+//			sb.ensureCapacity(sb.length() + tabLevel << 2);
+//			while (tabLevel-- > 0) {
+//				sb.append('\t');
+//			}
+//			sb.append(String.valueOf(node));
+//			sb.append('\n');
+//			toString(sb, node.right, level);
+//		}
+//	}
 
 	@Override
 	public void compact() {

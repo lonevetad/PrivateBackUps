@@ -61,7 +61,7 @@ public class PathFinderIsomDijkstra<Distance extends Number> extends PathFinderI
 		nodeInfos = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, //
 				(n1, n2) -> NodeIsom.COMPARATOR_NODE_ISOM_POINT.compare(n1, n2));
-		frontier = new PriorityQueueKey<>(COMPARATOR_NINFO, comp, MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious,
+		frontier = new PriorityQueueKey<>(COMPARATOR_NINFO_AS_POINT, comp, MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious,
 				(NodeInfoFrontierBased<Distance> no) -> no.distFromStart);
 		ss = new NodeInfoFrontierBased<Distance>(start);
 		ss.father = ss;
