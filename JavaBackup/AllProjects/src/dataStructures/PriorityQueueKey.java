@@ -136,8 +136,7 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		this.compKey = keyComparator;
 		this.compValueHoldingKey = valueHoldingKeyComparator;
 		this.behaviour = b;
-
-		compEntry_KeySorter = (e1, e2) -> {
+		this.compEntry_KeySorter = (e1, e2) -> {
 			int ck;
 			ValueHoldingKey vhk1, vhk2;
 			Key k1, k2;
@@ -151,13 +150,13 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 			k2 = e2.getValue();
 			vhk1 = e1.getKey();
 			vhk2 = e2.getKey();
-
 			if (k1 == null && k2 == null && vhk1 == null && vhk2 == null)
 				return 0;
 			ck = this.compKey.compare(k1, k2);
 			if (ck != 0)
 				return ck;
-			return this.comparator().compare(vhk1, vhk2);
+			return // this.comparator()
+			this.compValueHoldingKey.compare(vhk1, vhk2);
 		};
 
 		this.entryFetcher = MapTreeAVL.newMap(//
@@ -180,28 +179,23 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 //private final Function<ValueHoldingKey, Key> keyExtractor;
 	private final Comparator<Entry<ValueHoldingKey, Key>> compEntry_KeySorter; // compEntry
 
+	/** Debug only */
+	public MapTreeAVL<Entry<ValueHoldingKey, Key>, Key> getKeys() { return keys; }
+
 	//
 
-	public int size() {
-		return entryFetcher.size();
-	}
+	public int size() { return entryFetcher.size(); }
 
-	public boolean isEmpty() {
-		return entryFetcher.isEmpty();
-	}
+	public boolean isEmpty() { return entryFetcher.isEmpty(); }
 
 	public void clear() {
 		entryFetcher.clear();
 		keys.clear();
 	}
 
-	public Entry<ValueHoldingKey, Key> get(Object key) {
-		return entryFetcher.get(key);
-	}
+	public Entry<ValueHoldingKey, Key> get(Object key) { return entryFetcher.get(key); }
 
-	public Key put(ValueHoldingKey key) {
-		return put(new EntryReturned(key, this.keyExtractor.apply(key)));
-	}
+	public Key put(ValueHoldingKey key) { return put(new EntryReturned(key, this.keyExtractor.apply(key))); }
 
 	protected Key put(Entry<ValueHoldingKey, Key> e) {
 		Key prevVal;
@@ -213,21 +207,22 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		if (prev != null) {
 			if (this.behaviour == MapTreeAVL.BehaviourOnKeyCollision.Replace) {
 				prevVal = prev.getValue();
+				entryFetcher.remove(e.getKey());
 				entryFetcher.put(e.getKey(), prev);
-				// keys.remove(prev);
-				keys.put(e, this.keyExtractor.apply(e.getKey())
-				// e.getValue()//
-				);
-
-				assert (entryFetcher.size() != keys.size()) : "After replacingm size inconsistent: entries: "
+				keys.remove(prevVal);
+				keys.put(e, this.keyExtractor.apply(e.getKey()));
+				assert (entryFetcher.size() == keys.size()) : "After replacing size inconsistent: entries: "
 						+ entryFetcher.size() + ", keys: " + keys.size();
-
 				return prevVal;
 			} else
 				return null;
 		}
 		entryFetcher.put(e.getKey(), e);
 		keys.put(e, e.getValue());
+		if (entryFetcher.size() != keys.size()) {
+			throw new IllegalStateException("Mapping of keys and values have different sizes: <" + keys.size() + "; "
+					+ entryFetcher.size() + ">\n\tOne or more comparators are build in a wrong way");
+		}
 		return null;
 	}
 
@@ -246,9 +241,7 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		return this.keys.iteratorKey(); // new IteratorEntryPQK();
 	}
 
-	public Comparator<? super ValueHoldingKey> comparator() {
-		return compValueHoldingKey;
-	}
+	public Comparator<? super ValueHoldingKey> comparator() { return compValueHoldingKey; }
 
 //
 
@@ -263,9 +256,7 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 	 * This method does not alter the collection, rather than
 	 * {@link #removeMinimum()}.
 	 */
-	public Entry<ValueHoldingKey, Key> peekMinimum() {
-		return keys.isEmpty() ? null : keys.peekMinimum().getKey();
-	}
+	public Entry<ValueHoldingKey, Key> peekMinimum() { return keys.isEmpty() ? null : keys.peekMinimum().getKey(); }
 
 	/**
 	 * Retrieves but not removes the maximum value in this priority.<br>
@@ -276,9 +267,7 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 	 * queue.<br>
 	 * By defaults it returns {@code null}.
 	 */
-	public Entry<ValueHoldingKey, Key> peekMaximum() {
-		return keys.isEmpty() ? null : keys.peekMaximum().getKey();
-	}
+	public Entry<ValueHoldingKey, Key> peekMaximum() { return keys.isEmpty() ? null : keys.peekMaximum().getKey(); }
 
 	/**
 	 * Retrieves but not removes the maximum value in this priority.<br>
@@ -292,6 +281,8 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 	public Entry<ValueHoldingKey, Key> removeMinimum() {
 		Entry<ValueHoldingKey, Key> e;
 		e = this.peekMinimum();
+		if (e == null)
+			return null;
 		this.keys.remove(e);
 		this.entryFetcher.remove(e.getKey());
 		return e;
@@ -309,6 +300,8 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 	public Entry<ValueHoldingKey, Key> removeMaximum() {
 		Entry<ValueHoldingKey, Key> e;
 		e = this.peekMaximum();
+		if (e == null)
+			return null;
 		this.keys.remove(e);
 		this.entryFetcher.remove(e.getKey());
 		return e;
@@ -336,34 +329,24 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		 */
 		a = new Object[this.size()];
 		index = new int[] { 0 };
-		this.keys.forEach(e -> {
-			a[index[0]++] = e;
-		});
+		this.keys.forEach(e -> { a[index[0]++] = e; });
 		return a;
 	}
 
 	@Override
-	public String toString() {
-		return keys.toString();
-	}
+	public String toString() { return keys.toString(); }
 
 	// TODO METHOD FROM ABSTRACT PRIORITY QUEUE
 
-	public Comparator<ValueHoldingKey> getComparatorValueHoldingKey() {
-		return this.compValueHoldingKey;
-	}
+	public Comparator<ValueHoldingKey> getComparatorValueHoldingKey() { return this.compValueHoldingKey; }
 
-	public Comparator<Key> getComparatorKey() {
-		return this.compKey;
-	}
+	public Comparator<Key> getComparatorKey() { return this.compKey; }
 
 	/**
 	 * A function calculating the priority queue's "Key" given a "ValueHoldingKey".
 	 * Used in methods like {@link #put(Object)}.
 	 */
-	public Function<ValueHoldingKey, Key> getKeyExtractor() {
-		return this.keyExtractor;
-	}
+	public Function<ValueHoldingKey, Key> getKeyExtractor() { return this.keyExtractor; }
 
 	public Entry<ValueHoldingKey, Key> alterKey(ValueHoldingKey key, Consumer<ValueHoldingKey> alterator) {
 		Entry<ValueHoldingKey, Key> e, newe;
@@ -383,17 +366,11 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 
 	//
 
-	public Set<Entry<ValueHoldingKey, Key>> entrySet() {
-		return new SortedSetPQK();
-	}
+	public Set<Entry<ValueHoldingKey, Key>> entrySet() { return new SortedSetPQK(); }
 
-	public boolean containsKey(Object key) {
-		return this.entryFetcher.containsKey(key);
-	}
+	public boolean containsKey(Object key) { return this.entryFetcher.containsKey(key); }
 
-	public boolean containsValue(Object value) {
-		return this.keys.containsValue(value);
-	}
+	public boolean containsValue(Object value) { return this.keys.containsValue(value); }
 
 	public void putAll(Map<? extends ValueHoldingKey, ? extends Key> m) {
 		if (m != null)
@@ -412,13 +389,9 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		throw new UnsupportedOperationException("Operation not allowed");
 	}
 
-	public Set<ValueHoldingKey> keySet() {
-		throw new UnsupportedOperationException("Operation not allowed");
-	}
+	public Set<ValueHoldingKey> keySet() { throw new UnsupportedOperationException("Operation not allowed"); }
 
-	public Collection<Key> values() {
-		throw new UnsupportedOperationException("Operation not allowed");
-	}
+	public Collection<Key> values() { throw new UnsupportedOperationException("Operation not allowed"); }
 
 	public boolean containsAll(Collection<?> c) {
 		for (Entry<ValueHoldingKey, Key> e : this)
@@ -477,14 +450,10 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		}
 
 		@Override
-		public ValueHoldingKey getKey() {
-			return value;
-		}
+		public ValueHoldingKey getKey() { return value; }
 
 		@Override
-		public Key getValue() {
-			return key;
-		}
+		public Key getValue() { return key; }
 
 		@Override
 		public Key setValue(Key key) {
@@ -495,37 +464,25 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		}
 
 		@Override
-		public String toString() {
-			return "[k: " + key + " -> vhk: " + value + "]";
-		}
+		public String toString() { return "[k: " + key + " -> vhk: " + value + "]"; }
 	}
 
 	protected class SortedSetPQK implements SortedSet<Entry<ValueHoldingKey, Key>> {
 
 		@Override
-		public int size() {
-			return PriorityQueueKey.this.size();
-		}
+		public int size() { return PriorityQueueKey.this.size(); }
 
 		@Override
-		public void clear() {
-			PriorityQueueKey.this.clear();
-		}
+		public void clear() { PriorityQueueKey.this.clear(); }
 
 		@Override
-		public boolean isEmpty() {
-			return PriorityQueueKey.this.isEmpty();
-		}
+		public boolean isEmpty() { return PriorityQueueKey.this.isEmpty(); }
 
 		@Override
-		public boolean contains(Object o) {
-			return PriorityQueueKey.this.containsKey(o);
-		}
+		public boolean contains(Object o) { return PriorityQueueKey.this.containsKey(o); }
 
 		@Override
-		public Iterator<Entry<ValueHoldingKey, Key>> iterator() {
-			return PriorityQueueKey.this.iterator();
-		}
+		public Iterator<Entry<ValueHoldingKey, Key>> iterator() { return PriorityQueueKey.this.iterator(); }
 
 		@Override
 		public boolean add(Entry<ValueHoldingKey, Key> e) {
@@ -540,29 +497,19 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		}
 
 		@Override
-		public Entry<ValueHoldingKey, Key> first() {
-			return PriorityQueueKey.this.peekMinimum();
-		}
+		public Entry<ValueHoldingKey, Key> first() { return PriorityQueueKey.this.peekMinimum(); }
 
 		@Override
-		public Entry<ValueHoldingKey, Key> last() {
-			return PriorityQueueKey.this.peekMaximum();
-		}
+		public Entry<ValueHoldingKey, Key> last() { return PriorityQueueKey.this.peekMaximum(); }
 
 		@Override
-		public Object[] toArray() {
-			return PriorityQueueKey.this.toArray();
-		}
+		public Object[] toArray() { return PriorityQueueKey.this.toArray(); }
 
 		@Override
-		public <T> T[] toArray(T[] a) {
-			throw new UnsupportedOperationException("Operation not allowed");
-		}
+		public <T> T[] toArray(T[] a) { throw new UnsupportedOperationException("Operation not allowed"); }
 
 		@Override
-		public boolean containsAll(Collection<?> c) {
-			return PriorityQueueKey.this.containsAll(c);
-		}
+		public boolean containsAll(Collection<?> c) { return PriorityQueueKey.this.containsAll(c); }
 
 		@Override
 		public boolean addAll(Collection<? extends Entry<ValueHoldingKey, Key>> c) {
@@ -570,14 +517,10 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 		}
 
 		@Override
-		public boolean retainAll(Collection<?> c) {
-			return PriorityQueueKey.this.retainAll(c);
-		}
+		public boolean retainAll(Collection<?> c) { return PriorityQueueKey.this.retainAll(c); }
 
 		@Override
-		public boolean removeAll(Collection<?> c) {
-			return PriorityQueueKey.this.removeAll(c);
-		}
+		public boolean removeAll(Collection<?> c) { return PriorityQueueKey.this.removeAll(c); }
 
 		@Override
 		public Comparator<? super Entry<ValueHoldingKey, Key>> comparator() {

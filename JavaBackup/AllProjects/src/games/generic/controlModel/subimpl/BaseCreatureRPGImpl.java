@@ -115,6 +115,39 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
+	public boolean isDestroyed() { return this.isDestroyed; }
+
+	@Override
+	public EquipmentSet getEquipmentSet() { return equipmentSet; }
+
+	@Override
+	public int getTicksHealing() { return ticksHealing; }
+
+	@Override
+	public int getAccumulatedTimeRegen() { return accumulatedTimeLifeRegen; }
+
+	@Override
+	public AbstractShape2D getShape() { return shape; }
+
+	@Override
+	public CurableResourcesHolders getCurableResourcesHolders() { return curableResourcesHolders; }
+
+	//
+
+	@Override
+	public void setGameModality(GModality gameModality) { this.gModalityRPG = (GModalityRPG) gameModality; }
+
+	@Override
+	public void setEquipmentSet(EquipmentSet equips) {
+		if (this.equipmentSet != null) { this.equipmentSet.setCreatureWearingEquipments(null); }
+		this.equipmentSet = equips;
+		if (equips != null) { equips.setCreatureWearingEquipments(this); }
+	}
+
+	@Override
+	public void setAttributes(CreatureAttributes attributes) { this.attributes = attributes; }
+
+	@Override
 	public void setShape(AbstractShape2D shape) { this.shape = shape; }
 
 	public void setDestroyed(boolean isDestroyed) { this.isDestroyed = isDestroyed; }
@@ -123,11 +156,17 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		this.movementImplementation = movementImplementation;
 	}
 
+	@Override
 	public void setTicksHealing(int ticks) { this.ticksHealing = ticks; }
 
 	@Override
 	public void setAccumulatedTimeRegen(int accumulatedTimeLifeRegen) {
 		this.accumulatedTimeLifeRegen = accumulatedTimeLifeRegen;
+	}
+
+	@Override
+	public void setCurableResourcesHolders(CurableResourcesHolders curableResourcesHolders) {
+		this.curableResourcesHolders = curableResourcesHolders;
 	}
 
 	/*

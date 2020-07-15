@@ -12,7 +12,7 @@ import tools.NumberManager;
 
 public abstract class PathFinderIsomBaseImpl<Distance extends Number> implements PathFinderIsomFrontierBased<Distance> {
 //cannot be static
-	protected final Comparator<NodeInfoFrontierBased<Distance>> COMPARATOR_NINFO = newComparatorNodeInfo();
+	protected final Comparator<NodeInfoFrontierBased<Distance>> COMPARATOR_NINFO_AS_POINT = newComparatorNodeInfo();
 
 	protected PathFinderIsomBaseImpl(NodeIsomProvider<Distance> nodeIsomProvider) {
 		super();

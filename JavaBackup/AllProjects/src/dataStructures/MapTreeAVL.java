@@ -65,6 +65,10 @@ import dataStructures.mtAvl.MapTreeAVLQueuable;
  */
 public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Function<K, V>, Iterable<Entry<K, V>> {
 
+	public static interface EntryDepthConsumer<Kk, Vv> {
+		public void accept(Entry<Kk, Vv> entry, int depth);
+	}
+
 	public static interface MapTreeAVLFactory {
 		public default <Key, Val> MapTreeAVL<Key, Val> newMap(Comparator<Key> comp) {
 			return newMap(DEFAULT_BEHAVIOUR, comp);
@@ -322,6 +326,8 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	 * If the mode is null, the natural iteration should be provided
 	 */
 	public void forEach(ForEachMode mode, Consumer<Entry<K, V>> action);
+
+	public void forEachAndDepth(EntryDepthConsumer<K, V> action);
 
 	/**
 	 * Same as {@link #iterator()}, but iterating entries in decreasing order

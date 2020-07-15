@@ -1,4 +1,4 @@
-package old;
+package oldToBeDeleted;
 
 import dataStructures.isom.InSpaceObjectsManagerImpl;
 import geometry.pointTools.PointConsumer;

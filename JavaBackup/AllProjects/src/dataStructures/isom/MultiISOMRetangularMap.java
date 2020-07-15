@@ -191,8 +191,8 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		ml = getMapLocatedContaining(x, y);
 		if (ml == null)
 			return null;
-		// consider the offset
-		return ml.misom.getNodeAt(x - ml.x, y - ml.y);
+//		return ml.misom.getNodeAt(x - ml.x, y - ml.y);
+		return ml.getNodeAt(x, y); // offset is moved here
 	}
 
 	protected PathFinderIsom<Distance> newPathFinder() { return new PathFinderIsomDijkstra<>(this); }
@@ -374,12 +374,17 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 * meaning of <i>offset</i> and <i>coordinates</i> both relative and absolute.
 	 */
 	public MISOMLocatedInSpace<Distance> addMap(MatrixInSpaceObjectsManager<Distance> map, int x, int y) {
+		return addMap(map, x, y, 0.0);
+	}
+
+	public MISOMLocatedInSpace<Distance> addMap(MatrixInSpaceObjectsManager<Distance> map, int x, int y,
+			double angleRotationDegrees) {
 		int c;
 		MISOMLocatedInSpace<Distance> r;
 		if (map == null || map.getWidth() < 1 || map.getWidth() < 1)
 			return null;
 		map.setTopLetCornerAbsolute(x, y);
-		r = new MISOMLocatedInSpace<Distance>(this, map, x, y);
+		r = new MISOMLocatedInSpace<Distance>(this, map, x, y, angleRotationDegrees);
 		c = updateBoundingBox(r);
 		mapsLocatedInSpace.put(r.ID, r);
 		if (c > 0)
@@ -391,9 +396,14 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 	/** See {@link #addMap(MatrixInSpaceObjectsManager, int, int)}. */
 	public MISOMLocatedInSpace<Distance> addMap(MatrixInSpaceObjectsManager<Distance> map, Point locationLeftTop) {
+		return addMap(map, locationLeftTop, 0.0);
+	}
+
+	public MISOMLocatedInSpace<Distance> addMap(MatrixInSpaceObjectsManager<Distance> map, Point locationLeftTop,
+			double angleRotationDegrees) {
 		if (map == null || map.getWidth() < 1 || map.getWidth() < 1)
 			return null;
-		return addMap(map, locationLeftTop.x, locationLeftTop.y);
+		return addMap(map, locationLeftTop.x, locationLeftTop.y, angleRotationDegrees);
 	}
 
 	public void addMaps(Collection<MISOMLocatedInSpace<Distance>> mapsList) {
@@ -721,10 +731,16 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		/** See calls the constructor considering */
 		public MISOMLocatedInSpace(MultiISOMRetangularMap<Dd> multi, MatrixInSpaceObjectsManager<Dd> misom, int x,
 				int y) {
+			this(multi, misom, x, y, 0.0);
+		}
+
+		public MISOMLocatedInSpace(MultiISOMRetangularMap<Dd> multi, MatrixInSpaceObjectsManager<Dd> misom, int x,
+				int y, double angleRotation) {
 			super(x, y, misom.getWidth(), misom.getHeight());
-			this.misom = misom;
 			this.multi = multi;
 			this.ID = this.multi.idProg++;
+			this.angleRotationDegrees = angleRotation;
+			this.misom = misom;
 		}
 
 		/**
@@ -735,6 +751,8 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			this(multi, misom, p.x, p.y);
 		}
 
+		/** In Degreed */
+		protected double angleRotationDegrees;
 		public final Integer ID;
 		protected final MultiISOMRetangularMap<Dd> multi;
 		public final MatrixInSpaceObjectsManager<Dd> misom;
@@ -742,9 +760,61 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		@Override
 		public Integer getID() { return ID; }
 
+		public double getAngleRotationDegrees() { return angleRotationDegrees; }
+
 		public MatrixInSpaceObjectsManager<Dd> getMatrix() { return misom; }
 
 		public MatrixInSpaceObjectsManager<Dd> getISOM() { return misom; }
+
+		public void setAngleRotationDegrees(double angleRotationDegrees) {
+			this.angleRotationDegrees = angleRotationDegrees % 360.0;
+			if (this.angleRotationDegrees < 0.0)
+				this.angleRotationDegrees += 360.0;
+		}
+
+		/** Absolute coordinates. */
+		public NodeIsom<Dd> getNodeAt(int x, int y) {
+			boolean isNinety;
+			if (angleRotationDegrees == 0.0) {
+				// consider the offset
+				return misom.getNodeAt(x - this.x, y - this.y);
+			} else if (angleRotationDegrees == 180.0) {
+				int xx, yy;
+				xx = ((this.x + width) - x);
+				yy = ((this.y + height) - y);
+				if ((width & 0x1) == 0) // even
+					xx++; // because of "rounding"
+				if ((height & 0x1) == 0) // even
+					yy++; // because of "rounding"
+				// consider the offset
+				return misom.getNodeAt(xx, yy);
+			} else if ((isNinety = angleRotationDegrees == 90.0) || (angleRotationDegrees == 270.0)) {
+				int xx, yy; // centre
+				xx = this.x + (width >> 1);
+//				if((width&0x1)==0)xx--;
+//				if((height&0x1)==0)yy--;
+				yy = this.y + (height >> 1);
+
+				// top left corner, but rotated
+				// consider the offset
+				// it's rotated, so the coordinates are swapped
+//				return misom.getNodeAt(y-yy,x-xx);
+				throw new UnsupportedOperationException("Not still done");
+			} else if (angleRotationDegrees == 270.0) {
+				int xx, yy; // top left corner, but rotated
+				xx = this.x + (width >> 1);
+				yy = this.y + (height >> 1);
+				// consider the offset
+				// TODO rotate
+				// it's rotated, so the coordinates are swapped
+//				return misom.getNodeAt(y-yy,x-xx);
+				throw new UnsupportedOperationException("Not still done");
+			}
+
+			// rotate it
+//			x-this.x, y-this.y
+			throw new UnsupportedOperationException("Not still done");
+		}
 	}
 
 	/**
