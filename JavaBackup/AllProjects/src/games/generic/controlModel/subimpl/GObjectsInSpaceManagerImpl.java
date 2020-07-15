@@ -3,11 +3,11 @@ package games.generic.controlModel.subimpl;
 import java.util.Set;
 
 import dataStructures.isom.InSpaceObjectsManager;
-import dataStructures.isom.pathFinders.PathFinderIsomAStar_Naive;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
 import games.generic.controlModel.gObj.ObjectInSpace;
 import geometry.pointTools.HeuristicManhattan;
+import oldToBeDeleted.PathFinderIsomAStar_Naive;
 import tools.ObjectWithID;
 
 /**

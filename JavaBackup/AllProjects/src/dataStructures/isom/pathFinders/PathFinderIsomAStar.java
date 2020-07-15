@@ -68,18 +68,9 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 		frontier = new PriorityQueueKey<>(//
 				nodeInfoComp, //
 				(n1, n2) -> {
-					int c, cPointBased;
-					cPointBased = nodeInfoComp.compare(n1, n2); // first of all, no equal nodes allowed
-					if (cPointBased == 0)
-						return 0;
+					int c;
 					c = comp.compare(n1.fScore, n2.fScore);
-					if (c == 0) {
-						// don't know WHY this causes bugs, so i comment it out
-//						c = comp.compare(n1.distFromStart, n2.distFromStart);
-						// this already works (other than having a sense to be used)
-						c = cPointBased;
-					}
-					return c;
+					return (c != 0) ? c : comp.compare(n1.distFromStart, n2.distFromStart);
 				}, MapTreeAVL.BehaviourOnKeyCollision.Replace, (NodeInfoAstar_V2 no) -> no);
 		ss = new NodeInfoAstar_V2(start);
 		ss.father = ss;
@@ -163,10 +154,18 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 	}
 
 	protected class DistanceKeyAlteratorAStar extends DistanceKeyAlterator<NodeInfoAstar_V2, Distance> {
-		protected Distance fScore;
+		protected Distance fScore, distFromStart;
+
+		protected DistanceKeyAlteratorAStar() {
+			super();
+			fScore = distFromStart = null;
+		}
 
 		@Override
-		public void accept(NodeInfoAstar_V2 nodd) { nodd.fScore = fScore; }
+		public void accept(NodeInfoAstar_V2 nodd) {
+			nodd.fScore = fScore;
+			nodd.distFromStart = distFromStart;
+		}
 	}
 
 	protected abstract class AbstractAdjacentForEacherAstar_V2 extends AbstractAdjacentForEacher<Distance> {
@@ -199,7 +198,6 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 				// update
 				noInfo.father = currentNode;
 				noInfo.distFromFather = distToAdjacent;
-				noInfo.distFromStart = distStartToNeighbour;
 				fScore = this.distanceManager.getAdder().apply(distStartToNeighbour, heuristic
 						.apply(currentNode.thisNode.getLocationAbsolute(), noInfo.thisNode.getLocationAbsolute()));
 
@@ -215,6 +213,7 @@ public class PathFinderIsomAStar<Distance extends Number> extends PathFinderIsom
 					// it's grey, it's actually in the queue
 					noInfo.color = NodePositionInFrontier.InFrontier;
 					alterator.fScore = fScore;
+					alterator.distFromStart = distStartToNeighbour;
 					frontier.alterKey(noInfo, alterator);
 				}
 			}

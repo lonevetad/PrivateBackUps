@@ -79,38 +79,6 @@ public class TestMultiMISOM_V4_PathFind {
 					new MyRectangle(2, 1, 4, 3).setName("b"), //
 					new MyRectangle(-3, 5, 3, 5).setName("c"), //
 					new MyRectangle(0, 7, 4, 2).setName("d"), //
-					new MyRectangle(4, 4, 3, 8).setName("e"), //
-					new MyRectangle(-1, 11, 5, 1).setName("f"), //
-					new MyRectangle(1, 5, 2, 1).setName("g"), //
-					new MyRectangle(7, 0, 2, 6).setName("h"), //
-					new MyRectangle(-5, 8, 2, 6).setName("dx"), //
-					new MyRectangle(10, -2, 5, 2).setName("dy"), //
-					new MyRectangle(11, 0, 2, 4).setName("dz"), //
-					new MyRectangle(13, 2, 3, 3).setName("ea"), //
-					new MyRectangle(8, 8, 2, 5).setName("ed"), //
-					new MyRectangle(10, 10, 2, 2).setName("ee"), //
-					new MyRectangle(10, 7, 4, 2).setName("eg"), //
-					new MyRectangle(13, 9, 3, 5).setName("eh"), //
-					new MyRectangle(-3, 13, 5, 2).setName("ei"), //
-					new MyRectangle(2, 13, 3, 1).setName("ej"), //
-					new MyRectangle(5, 13, 2, 2).setName("ek"), //
-					new MyRectangle(7, 14, 4, 1).setName("el"), //
-					new MyRectangle(11, 13, 2, 2).setName("em"), //
-					new MyRectangle(2, -5, 5, 4).setName("en"), //
-					new MyRectangle(7, -5, 17, 2).setName("eo"), //
-					new MyRectangle(19, -3, 2, 6).setName("ep"), //
-					new MyRectangle(21, 1, 3, 8).setName("eq"), //
-					new MyRectangle(18, 7, 3, 5).setName("er"), //
-					new MyRectangle(16, 12, 4, 3).setName("es"), //
-					new MyRectangle(13, 11, 1, 1).setName("et"), //
-					new MyRectangle(21, 10, 2, 3).setName("eu"), //
-					new MyRectangle(18, 4, 2, 2).setName("ev"), //
-			}, new Point(5, 9), new Point(17, 13)), //
-			() -> new RectanglesAndPathfindingPoints(new MyRectangle[] { //
-					new MyRectangle(-4, -2, 6, 7).setName("a"), //
-					new MyRectangle(2, 1, 4, 3).setName("b"), //
-					new MyRectangle(-3, 5, 3, 5).setName("c"), //
-					new MyRectangle(0, 7, 4, 2).setName("d"), //
 					new MyRectangle(-1, 11, 5, 1).setName("f"), //
 					new MyRectangle(1, 5, 2, 1).setName("g"), //
 					new MyRectangle(7, 0, 2, 6).setName("h"), //

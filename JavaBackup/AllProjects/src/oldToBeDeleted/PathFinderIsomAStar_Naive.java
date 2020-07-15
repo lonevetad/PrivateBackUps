@@ -1,4 +1,4 @@
-package dataStructures.isom.pathFinders;
+package oldToBeDeleted;
 
 import java.awt.Point;
 import java.util.Comparator;
@@ -12,6 +12,7 @@ import dataStructures.PriorityQueueKey;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.NodeIsomProvider;
 import dataStructures.isom.PathFinderIsom;
+import dataStructures.isom.pathFinders.PathFinderIsomBaseImpl;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import tools.NumberManager;
