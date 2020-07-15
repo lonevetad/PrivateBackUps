@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.TextArea;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -38,6 +40,7 @@ import geometry.implementations.shapes.ShapeRectangle;
 import geometry.pointTools.impl.ObjCollector;
 import stuffs.logic.AtomLogicProposition;
 import tools.Comparators;
+import tools.LoggerMessages;
 import tools.NumberManager;
 
 public class TestMultiMISOM_V4_PathFind {
@@ -361,6 +364,128 @@ public class TestMultiMISOM_V4_PathFind {
 					new MyRectangle(39, 44, 4, 6).setName("ey"), //
 					new MyRectangle(32, 36, 7, 30).setName("ez"), //
 			}, new Point(0, 0), new Point(11, 11)), //
+			() -> new RectanglesAndPathfindingPoints(new MyRectangle[] { //
+					new MyRectangle(18, 9, 14, 20).setName("c"), //
+					new MyRectangle(74, 2, 3, 7).setName("dx"), //
+					new MyRectangle(33, 6, 41, 2).setName("eb"), //
+					new MyRectangle(33, 8, 1, 3).setName("ed"), //
+					new MyRectangle(34, 10, 40, 2).setName("ee"), //
+					new MyRectangle(74, 11, 1, 3).setName("ef"), //
+					new MyRectangle(33, 13, 41, 2).setName("eg"), //
+					new MyRectangle(33, 15, 1, 3).setName("eh"), //
+					new MyRectangle(74, 16, 1, 3).setName("ej"), //
+					new MyRectangle(34, 16, 40, 1).setName("en"), //
+					new MyRectangle(36, 18, 38, 1).setName("ep"), //
+					new MyRectangle(35, 18, 1, 3).setName("er"), //
+					new MyRectangle(36, 20, 38, 2).setName("es"), //
+					new MyRectangle(74, 21, 1, 3).setName("et"), //
+					new MyRectangle(23, 39, 10, 1).setName("ex"), //
+					new MyRectangle(23, 41, 13, 1).setName("ez"), //
+					new MyRectangle(21, 38, 2, 5).setName("fa"), //
+					new MyRectangle(33, 36, 1, 4).setName("fb"), //
+					new MyRectangle(19, 36, 14, 1).setName("fd"), //
+					new MyRectangle(35, 34, 1, 7).setName("fe"), //
+					new MyRectangle(19, 37, 1, 8).setName("ff"), //
+					new MyRectangle(17, 34, 18, 1).setName("fg"), //
+					new MyRectangle(17, 35, 1, 12).setName("fh"), //
+					new MyRectangle(20, 44, 17, 1).setName("fj"), //
+					new MyRectangle(37, 32, 1, 13).setName("fk"), //
+					new MyRectangle(18, 46, 21, 1).setName("fl"), //
+					new MyRectangle(16, 32, 21, 1).setName("fp"), //
+					new MyRectangle(39, 31, 1, 16).setName("fq"), //
+					new MyRectangle(16, 30, 24, 1).setName("fs"), //
+					new MyRectangle(15, 32, 1, 17).setName("ft"), //
+					new MyRectangle(16, 48, 25, 1).setName("fv"), //
+					new MyRectangle(32, 26, 2, 2).setName("fw"), //
+					new MyRectangle(34, 27, 7, 2).setName("fy"), //
+					new MyRectangle(41, 28, 2, 21).setName("fz"), //
+					new MyRectangle(10, 32, 2, 3).setName("ga"), //
+					new MyRectangle(12, 33, 2, 4).setName("gb"), //
+					new MyRectangle(10, 36, 2, 3).setName("gc"), //
+					new MyRectangle(13, 50, 36, 1).setName("ge"), //
+					new MyRectangle(14, 27, 2, 4).setName("gf"), //
+					new MyRectangle(11, 29, 2, 2).setName("gg"), //
+					new MyRectangle(9, 30, 2, 2).setName("gh"), //
+					new MyRectangle(11, 27, 1, 1).setName("gi"), //
+					new MyRectangle(9, 27, 1, 3).setName("go"), //
+					new MyRectangle(37, 23, 37, 1).setName("gq"), //
+					new MyRectangle(35, 23, 2, 3).setName("gr"), //
+					new MyRectangle(37, 25, 37, 1).setName("gs"), //
+					new MyRectangle(74, 25, 2, 3).setName("gt"), //
+					new MyRectangle(76, 11, 1, 15).setName("gw"), //
+					new MyRectangle(49, 49, 27, 2).setName("gy"), //
+					new MyRectangle(10, 6, 13, 3).setName("hc"), //
+					new MyRectangle(23, 5, 4, 3).setName("hd"), //
+					new MyRectangle(13, 1, 8, 2).setName("he"), //
+					new MyRectangle(15, 3, 3, 3).setName("hf"), //
+					new MyRectangle(58, 35, 3, 2).setName("hg"), //
+					new MyRectangle(56, 32, 3, 3).setName("hh"), //
+					new MyRectangle(53, 33, 3, 3).setName("hi"), //
+					new MyRectangle(51, 35, 2, 5).setName("hl"), //
+					new MyRectangle(53, 38, 2, 5).setName("ho"), //
+					new MyRectangle(55, 41, 2, 4).setName("hp"), //
+					new MyRectangle(57, 43, 2, 3).setName("hq"), //
+					new MyRectangle(59, 45, 1, 2).setName("hr"), //
+					new MyRectangle(60, 43, 2, 3).setName("hs"), //
+					new MyRectangle(62, 41, 2, 4).setName("ht"), //
+					new MyRectangle(64, 38, 2, 6).setName("hu"), //
+					new MyRectangle(56, 47, 7, 2).setName("hv"), //
+					new MyRectangle(66, 35, 2, 6).setName("hw"), //
+					new MyRectangle(63, 33, 3, 3).setName("hx"), //
+					new MyRectangle(60, 32, 3, 3).setName("hz"), //
+					new MyRectangle(44, 27, 30, 1).setName("ia"), //
+					new MyRectangle(44, 28, 1, 2).setName("ib"), //
+					new MyRectangle(45, 29, 29, 1).setName("ic"), //
+					new MyRectangle(9, 26, 4, 1).setName("ig"), //
+					new MyRectangle(13, 25, 3, 2).setName("ih"), //
+					new MyRectangle(2, 24, 9, 1).setName("ii"), //
+					new MyRectangle(11, 39, 1, 9).setName("ij"), //
+					new MyRectangle(0, -1, 9, 21).setName("il"), //
+					new MyRectangle(9, 2, 3, 4).setName("im"), //
+					new MyRectangle(10, 20, 2, 4).setName("in"), //
+					new MyRectangle(0, 21, 10, 2).setName("io"), //
+					new MyRectangle(4, 26, 4, 1).setName("it"), //
+					new MyRectangle(7, 27, 1, 2).setName("iw"), //
+					new MyRectangle(7, 30, 1, 5).setName("ix"), //
+					new MyRectangle(6, 28, 1, 3).setName("iz"), //
+					new MyRectangle(7, 49, 6, 2).setName("jb"), //
+					new MyRectangle(2, 36, 1, 5).setName("jc"), //
+					new MyRectangle(3, 40, 6, 1).setName("jd"), //
+					new MyRectangle(8, 41, 1, 7).setName("je"), //
+					new MyRectangle(9, 44, 2, 2).setName("jf"), //
+					new MyRectangle(3, 46, 2, 2).setName("jg"), //
+					new MyRectangle(4, 48, 2, 2).setName("jh"), //
+					new MyRectangle(5, 50, 2, 1).setName("ji"), //
+					new MyRectangle(5, 44, 2, 3).setName("jj"), //
+					new MyRectangle(0, 23, 1, 20).setName("jl"), //
+					new MyRectangle(1, 42, 3, 1).setName("jm"), //
+					new MyRectangle(3, 43, 1, 2).setName("jn"), //
+					new MyRectangle(0, 44, 3, 1).setName("jo"), //
+					new MyRectangle(0, 45, 1, 6).setName("jp"), //
+					new MyRectangle(1, 49, 1, 1).setName("jq"), //
+					new MyRectangle(2, 46, 1, 4).setName("jr"), //
+					new MyRectangle(74, 29, 1, 17).setName("js"), //
+					new MyRectangle(67, 46, 8, 1).setName("jv"), //
+					new MyRectangle(67, 44, 1, 2).setName("jw"), //
+					new MyRectangle(68, 44, 5, 1).setName("jx"), //
+					new MyRectangle(72, 31, 1, 13).setName("jz"), //
+					new MyRectangle(69, 31, 3, 1).setName("ka"), //
+					new MyRectangle(70, 32, 1, 10).setName("ke"), //
+					new MyRectangle(68, 37, 2, 2).setName("kf"), //
+					new MyRectangle(3, 38, 5, 1).setName("kg"), //
+					new MyRectangle(7, 36, 2, 2).setName("kk"), //
+					new MyRectangle(4, 36, 3, 1).setName("km"), //
+					new MyRectangle(4, 34, 1, 2).setName("kn"), //
+					new MyRectangle(4, 27, 1, 5).setName("ko"), //
+					new MyRectangle(2, 25, 1, 6).setName("kp"), //
+					new MyRectangle(2, 31, 2, 1).setName("kq"), //
+					new MyRectangle(2, 33, 5, 1).setName("kr"), //
+					new MyRectangle(76, 43, 3, 8).setName("ks"), //
+					new MyRectangle(25, 1, 8, 4).setName("kw"), //
+					new MyRectangle(52, 0, 22, 4).setName("ky"), //
+					new MyRectangle(33, -1, 19, 3).setName("kz"), //
+					new MyRectangle(37, 2, 5, 3).setName("la"), //
+			}, new Point(0, 0), new Point(11, 11)), //
 	};
 
 	public static void main(String[] args) {
@@ -419,20 +544,25 @@ public class TestMultiMISOM_V4_PathFind {
 	static class T_MISOM_GUI_V4 {
 		static int idProgNewRect = 100;
 		boolean isStartPathfind, isPointwisePathfind;
+		LoggerMessages log;
 		JFrame win;
 		JPanel jp, jpNorthPart, jpDrawMultimap;
 		JScrollPane jsp;
 		JComboBox<Integer> mapsToLoad;
+		JButton jbPrintMap;
 		Map<Integer, MyRectangle> rects = null;
 		Checkbox cbIsPointwise;
 		MultiISOMRetangularMap<Double> t;
 		MyRectangle newRect = null;
+		TextArea ta;
 		Point pStartDrawningRect = null, pEndDrawningRect = null;
 		Point startPathfind, endPathfind;
 //		List<Point > pathFound;
 		int[] xPath, yPath;
 
-		public T_MISOM_GUI_V4(MultiISOMRetangularMap<Double> t) {
+		public T_MISOM_GUI_V4(MultiISOMRetangularMap<Double> t) { this(null, t); }
+
+		public T_MISOM_GUI_V4(LoggerMessages logger, MultiISOMRetangularMap<Double> t) {
 			super();
 			this.t = t;
 			isStartPathfind = true;
@@ -440,6 +570,21 @@ public class TestMultiMISOM_V4_PathFind {
 //			pathFound=null;
 			xPath = yPath = null;
 			isPointwisePathfind = false;
+			this.ta = new TextArea();
+			this.log = new LoggerMessages() {
+
+				@Override
+				public void clearLog() { ta.setText(""); }
+
+				@Override
+				public boolean log(String s, boolean b) {
+					LoggerMessages.loggerOrDefault(logger).log(s, b);
+					ta.append(s);
+					if (b)
+						ta.append("\n");
+					return b;
+				}
+			};
 		}
 
 		void rebuildGUI() {
@@ -464,6 +609,9 @@ public class TestMultiMISOM_V4_PathFind {
 			indexes = new Integer[MyRectangle_TEST_PRODUCERS.length];
 			for (int s = MyRectangle_TEST_PRODUCERS.length - 1; s >= 0; s--)
 				indexes[s] = s;
+			jbPrintMap = new JButton("Print the map");
+			jbPrintMap.addActionListener(l -> printRects());
+			jpNorthPart.add(jbPrintMap);
 			mapsToLoad = new JComboBox<Integer>(indexes);
 			mapsToLoad.addItemListener(e -> {
 				RectanglesAndPathfindingPoints rapf;
@@ -543,6 +691,11 @@ public class TestMultiMISOM_V4_PathFind {
 			jpDrawMultimap.addKeyListener(ka);
 			jsp.addKeyListener(ka);
 			win.addKeyListener(ka);
+			cbIsPointwise.addKeyListener(ka);
+			this.mapsToLoad.addKeyListener(ka);
+			ta.setPreferredSize(new Dimension(200, 500));
+			ta.setMaximumSize(ta.getPreferredSize());
+			jp.add(ta, BorderLayout.EAST);
 			win.setSize(500, 500);
 			win.setVisible(true);
 		}
@@ -550,21 +703,28 @@ public class TestMultiMISOM_V4_PathFind {
 		//
 
 		void printRects() {
-			System.out.println("print rect:\n ()->new RectanglesAndPathfindingPoints(new MyRectangle[] {//");
+			log.clearLog();
+			System.out.println("print rect:\n");
+			log.log("()->new RectanglesAndPathfindingPoints(new MyRectangle[] {//");
 			rects.forEach((i, r) -> {
-				System.out.println(" new MyRectangle(" + r.x + ", " + r.y + ", " + r.width + ", " + r.height
-						+ ").setName(\"" + r.name + "\"), //");
+				log.log(" new MyRectangle(" + r.x + ", " + r.y + ", " + r.width + ", " + r.height + ").setName(\""
+						+ r.name + "\"), //");
 			});
-			System.out.println("}, new Point(0,0), new Point(11,11)), //");
+			log.log("}, new Point(0,0), new Point(11,11)), //");
+			System.out.println(rects.size());
+		}
+
+		void checkAndResetRects() {
+			if (rects == null) {
+				rects = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
+						Comparators.INTEGER_COMPARATOR);
+			}
 		}
 
 		void addRect(MyRectangle r) {
 			MatrixInSpaceObjectsManager<Double> map;
 			MISOMLocatedInSpace<Double> w;
-			if (rects == null) {
-				rects = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
-						Comparators.INTEGER_COMPARATOR);
-			}
+			checkAndResetRects();
 			map = new MISOM_SingleObjInNode<Double>(true, r.width, r.height, NumberManager.getDoubleManager());
 //			map.setPathFinder(t.getPathFinder());
 			w = t.addMap(map, r.x, r.y);
@@ -574,6 +734,8 @@ public class TestMultiMISOM_V4_PathFind {
 
 		void resetRects(MyRectangle[] recs) {
 			t.clear();
+			checkAndResetRects();
+			rects.clear();
 			for (MyRectangle r : recs) {
 				addRect(r);
 			}
