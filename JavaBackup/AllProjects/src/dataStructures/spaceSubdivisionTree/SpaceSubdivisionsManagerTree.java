@@ -30,11 +30,18 @@ import geometry.AbstractShape2D;
  */
 // TODO
 /**
+ * 
  * TODO NOTE of 13/06/2020 <br>
- * Use {@link MultiISOMRetangularCaching} to build a
- * {@link AbstractShape2D}-based implementation (and not just a
- * {@link Rectangle}-based only).
+ *
+ * 16/07/2020: SPIEGAZIONE: la pensai ai tempi di Isabella-Losanna,
+ * 
+ * @deprecated Use {@link MultiISOMRetangularCaching} to build a
+ *             {@link AbstractShape2D}-based implementation (and not just a
+ *             {@link Rectangle}-based only).
+ * 
+ * 
  */
+@Deprecated
 public abstract class SpaceSubdivisionsManagerTree implements Serializable {
 	private static final long serialVersionUID = -9982665230577L;
 

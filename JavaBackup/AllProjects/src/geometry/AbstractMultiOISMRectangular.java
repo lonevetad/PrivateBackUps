@@ -24,6 +24,9 @@ public abstract class AbstractMultiOISMRectangular<Distance extends Number> exte
 	protected ProviderShapeRunner providerShapeRunner;
 	protected ProviderShapesIntersectionDetector providerShapesIntersectionDetector;
 
+	//
+	//
+
 	@Override
 	public PathFinderIsom<Distance> getPathFinder() { return pathFinder; }
 

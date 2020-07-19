@@ -21,8 +21,8 @@ import javax.swing.JScrollPane;
 import dataStructures.MapTreeAVL;
 import dataStructures.isom.MultiISOMRetangularCaching;
 import dataStructures.isom.MultiISOMRetangularMap;
-import dataStructures.isom.MultiISOMRetangularMap.MISOMLocatedInSpace;
 import dataStructures.isom.ObjLocatedCollectorIsom;
+import dataStructures.isom.MultiISOMRetangularMap.MatrixISOMLocatedInSpace;
 import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import geometry.AbstractShape2D;
@@ -210,7 +210,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 
 		void addRect(MyRectangle r) {
 			MatrixInSpaceObjectsManager<Double> map;
-			MISOMLocatedInSpace<Double> w;
+			MatrixISOMLocatedInSpace<Double> w;
 			if (rects == null) {
 				rects = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 						Comparators.INTEGER_COMPARATOR);
@@ -312,7 +312,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 			int mouseButton;
 			Point whereClicked;
 //			MyRectangle mapFound;
-			MISOMLocatedInSpace<Double> mapWrapper;
+			MatrixISOMLocatedInSpace<Double> mapWrapper;
 //			MatrixInSpaceObjectsManager<Double> map;
 			whereClicked = me.getPoint();
 			// consider the offset
@@ -402,7 +402,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 
 			if (c.getCollectedObjects().size() > 0)
 				c.getCollectedObjects().forEach(ol -> {
-					MISOMLocatedInSpace<Double> w;
+					MatrixISOMLocatedInSpace<Double> w;
 					System.out.println("\n\n got ol: " + ol);
 					w = t.getMapLocatedContaining(ol.getLocation());
 					System.out.println("and then removing object into map: " + (w == null ? "null" : w.ID));
@@ -522,7 +522,7 @@ public class Test_MultiISOMRetangularMap_V3 {
 			public AbstractShape2D getShape() { return shape; }
 		}
 
-		protected class MapRemover_V3 implements ObjCollector<MISOMLocatedInSpace<Double>> {
+		protected class MapRemover_V3 implements ObjCollector<MatrixISOMLocatedInSpace<Double>> {
 			private static final long serialVersionUID = 1L;
 
 			protected MapRemover_V3(MultiISOMRetangularMap<Double> nodeIsomProvider) {
@@ -535,9 +535,9 @@ public class Test_MultiISOMRetangularMap_V3 {
 			}
 
 			protected MultiISOMRetangularMap<Double> nodeIsomProvider;
-			protected Set<MISOMLocatedInSpace<Double>> mapsCollected;
-			protected MapTreeAVL<Integer, MISOMLocatedInSpace<Double>> mapBackMapsCollected;
-			protected Predicate<MISOMLocatedInSpace<Double>> filter;
+			protected Set<MatrixISOMLocatedInSpace<Double>> mapsCollected;
+			protected MapTreeAVL<Integer, MatrixISOMLocatedInSpace<Double>> mapBackMapsCollected;
+			protected Predicate<MatrixISOMLocatedInSpace<Double>> filter;
 
 			// @Override
 			public MultiISOMRetangularMap<Double> getNodeIsomProvider() { return nodeIsomProvider; }
@@ -548,13 +548,13 @@ public class Test_MultiISOMRetangularMap_V3 {
 			}
 
 			@Override
-			public Set<MISOMLocatedInSpace<Double>> getCollectedObjects() { return mapsCollected; }
+			public Set<MatrixISOMLocatedInSpace<Double>> getCollectedObjects() { return mapsCollected; }
 
 			@Override
-			public Predicate<MISOMLocatedInSpace<Double>> getTargetsFilter() { return filter; }
+			public Predicate<MatrixISOMLocatedInSpace<Double>> getTargetsFilter() { return filter; }
 
 			@Override
-			public MISOMLocatedInSpace<Double> getAt(Point location) {
+			public MatrixISOMLocatedInSpace<Double> getAt(Point location) {
 				return nodeIsomProvider.getMapLocatedContaining(location);
 			}
 		}

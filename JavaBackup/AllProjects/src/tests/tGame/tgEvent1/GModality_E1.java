@@ -3,7 +3,8 @@ package tests.tGame.tgEvent1;
 import java.util.function.Consumer;
 
 import dataStructures.isom.MultiISOMRetangularMap;
-import dataStructures.isom.matrixBased.MISOMImpl;
+import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
+import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModel;
@@ -23,15 +24,14 @@ import games.theRisingAngel.abilities.AProtectButMakesSoft;
 import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
-
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
-
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 import geometry.implementations.shapes.ShapeRectangle;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinterTO;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjPrinter_EventDeliver;
 import tests.tGame.tgEvent1.oggettiDesempio.ObserverPrinterEvent;
+import tools.NumberManager;
 import tools.ObjectNamedID;
 
 public class GModality_E1 extends GModalityTRAn {
@@ -64,7 +64,7 @@ public class GModality_E1 extends GModalityTRAn {
 		String equipmentName;
 		GObjectsInSpaceManager goism;
 		MultiISOMRetangularMap<Double> isom;
-		MISOMImpl matrix;
+		MatrixInSpaceObjectsManager<Double> matrix;
 
 		super.onCreate();
 		super.setRandomSeed(0);
@@ -74,7 +74,7 @@ public class GModality_E1 extends GModalityTRAn {
 		// create a fake ISOMMatrix to add the player in
 		goism = this.getGameObjectsManager().getGObjectInSpaceManager();
 		isom = (MultiISOMRetangularMap<Double>) goism.getOIMManager();
-		matrix = new MISOMImpl(false, 20, 20);
+		matrix = new MISOM_SingleObjInNode<>(false, 20, 20, NumberManager.getDoubleManager());
 		isom.addMap(matrix, 0, 0);
 
 		//
