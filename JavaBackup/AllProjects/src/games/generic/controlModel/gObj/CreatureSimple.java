@@ -5,6 +5,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.misc.AttributesHolder;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.RarityHolder;
+import tools.ObjectNamedID;
 
 /**
  * Base interface for a "creature" for almost ALL games (RPG, RTS, etc).
@@ -25,7 +26,7 @@ import games.generic.controlModel.misc.RarityHolder;
  */
 public interface CreatureSimple
 		extends AttributesHolder, LivingObject, MovingObject, DamageDealerGeneric, AbilitiesHolder, ShieldHavingObject, //
-		RarityHolder, GModalityHolder, GameObjectGeneric {
+		RarityHolder, GModalityHolder, GameObjectGeneric, ObjectNamedID {
 
 	public static final int TICKS_PER_SECONDS = 4, LOG_TICKS_PER_SECONDS = 2;
 	public static final int MILLIS_REGEN_LIFE_MANA = 1000 / TICKS_PER_SECONDS;

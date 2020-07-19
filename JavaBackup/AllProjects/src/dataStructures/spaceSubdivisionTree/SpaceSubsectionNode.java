@@ -6,6 +6,7 @@ import java.util.Map;
 import dataStructures.spaceSubdivisionTree.SpaceSubdivisions.SingleSpaceSubdivision;
 import geometry.ObjectLocated;
 
+/** A section node of the N-tree like structure. */
 public abstract class SpaceSubsectionNode {
 
 	public SpaceSubsectionNode(int level, SpaceSubsectionNode father, SingleSpaceSubdivision spaceSectionFromFather,
@@ -30,31 +31,19 @@ public abstract class SpaceSubsectionNode {
 
 	public abstract int getMaxDepth();
 
-	public int getLevel() {
-		return level;
-	}
+	public int getLevel() { return level; }
 
-	public double getXCenter() {
-		return xCenter;
-	}
+	public double getXCenter() { return xCenter; }
 
-	public double getYCenter() {
-		return yCenter;
-	}
+	public double getYCenter() { return yCenter; }
 
-	public SpaceSubsectionNode getFather() {
-		return father;
-	}
+	public SpaceSubsectionNode getFather() { return father; }
 
-	public SingleSpaceSubdivision getSpaceSectionFromFather() {
-		return spaceSectionFromFather;
-	}
+	public SingleSpaceSubdivision getSpaceSectionFromFather() { return spaceSectionFromFather; }
 
 	public abstract void setChild(SingleSpaceSubdivision where, SpaceSubsectionNode child);
 
 	public abstract Map<Point2D, ObjectLocated> getObjectsInSection();
 
-	public int getObjectsCount() {
-		return getObjectsInSection().size();
-	}
+	public int getObjectsCount() { return getObjectsInSection().size(); }
 }

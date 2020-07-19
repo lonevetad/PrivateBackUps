@@ -1,8 +1,10 @@
 package dataStructures;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class SetMapped<OriginalType, T> implements Set<T> {
@@ -16,17 +18,11 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 	protected final Function<OriginalType, T> newTypeExtractor;
 	protected Function<T, OriginalType> reverseMapper;
 
-	public Set<OriginalType> getBackSet() {
-		return backSet;
-	}
+	public Set<OriginalType> getBackSet() { return backSet; }
 
-	public Function<OriginalType, T> getNewTypeExtractor() {
-		return newTypeExtractor;
-	}
+	public Function<OriginalType, T> getNewTypeExtractor() { return newTypeExtractor; }
 
-	public Function<T, OriginalType> getReverseMapper() {
-		return reverseMapper;
-	}
+	public Function<T, OriginalType> getReverseMapper() { return reverseMapper; }
 
 	public SetMapped<OriginalType, T> setReverseMapper(Function<T, OriginalType> reverseMapper) {
 		this.reverseMapper = reverseMapper;
@@ -34,29 +30,19 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 	}
 
 	@Override
-	public int size() {
-		return backSet.size();
-	}
+	public int size() { return backSet.size(); }
 
 	@Override
-	public void clear() {
-		backSet.clear();
-	}
+	public void clear() { backSet.clear(); }
 
 	@Override
-	public boolean isEmpty() {
-		return backSet.isEmpty();
-	}
+	public boolean isEmpty() { return backSet.isEmpty(); }
 
 	@Override
-	public boolean contains(Object o) {
-		return backSet.contains(o);
-	}
+	public boolean contains(Object o) { return backSet.contains(o); }
 
 	@Override
-	public Iterator<T> iterator() {
-		return new IteratorMapped(backSet.iterator());
-	}
+	public Iterator<T> iterator() { return new IteratorMapped(backSet.iterator()); }
 
 	@Override
 	public Object[] toArray() {
@@ -69,8 +55,33 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 	}
 
 	@Override
-	public <Tt> Tt[] toArray(Tt[] a) {
-		throw new UnsupportedOperationException("Too lazy to implement");
+	public void forEach(Consumer<? super T> action) {
+		this.backSet.forEach(oldTypeElem -> action.accept(newTypeExtractor.apply(oldTypeElem)));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <Tt> Tt[] toArray(final Tt[] a) {
+		int len;
+//		throw new UnsupportedOperationException("Too lazy to implement");
+//        return backSet.toArray(a);
+		if (a == null)
+			return null;
+		if (a.length >= (len = size())) {
+			int[] i = { 0 };
+			this.forEach(elem -> { a[i[0]++] = (Tt) elem; });
+			return a;
+		} else {
+			int i = 0;
+			Tt[] newArray;
+			Iterator<T> iter = this.iterator();
+			newArray = (Tt[]) Array.newInstance(a.getClass(), len);
+//			
+			while (i < len && iter.hasNext()) {
+				newArray[i++] = (Tt) iter.next();
+			}
+			return newArray;
+		}
 	}
 
 	@Override
@@ -89,9 +100,7 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> c) {
-		return backSet.containsAll(c);
-	}
+	public boolean containsAll(Collection<?> c) { return backSet.containsAll(c); }
 
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
@@ -119,13 +128,9 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 		}
 
 		@Override
-		public boolean hasNext() {
-			return iter.hasNext();
-		}
+		public boolean hasNext() { return iter.hasNext(); }
 
 		@Override
-		public T next() {
-			return newTypeExtractor.apply(iter.next());
-		}
+		public T next() { return newTypeExtractor.apply(iter.next()); }
 	}
 }

@@ -30,17 +30,11 @@ public class ObjectsSubdivision implements Serializable {
 
 	//
 
-	public boolean isForceSpread() {
-		return forceSpread;
-	}
+	public boolean isForceSpread() { return forceSpread; }
 
-	public void setForceSpread(boolean forceSpread) {
-		this.forceSpread = forceSpread;
-	}
+	public void setForceSpread(boolean forceSpread) { this.forceSpread = forceSpread; }
 
-	public boolean isEnoughSpreaded() {
-		return isForceSpread() || getObsjSpreaded() != null;
-	}
+	public boolean isEnoughSpreaded() { return isForceSpread() || getObsjSpreaded() != null; }
 
 	public boolean requireCalculculation() {
 		return neverTryiedToSpread
@@ -104,8 +98,9 @@ public class ObjectsSubdivision implements Serializable {
 			if (mostDenseSubdivision != null && (forceSpread
 					|| (mostDenseSubdivision.objectsInSection.size() < SubsectionDivisionRulerImpl.MIN_THRESHOLD
 							&& mostDenseSubdivision.objectsInSection
-									.size() >= SubsectionDivisionRulerImpl.MIN_THRESHOLD_TO_SPREAD)))
+									.size() >= SubsectionDivisionRulerImpl.MIN_THRESHOLD_TO_SPREAD))) {
 				obsjSpreadedEachSpaceSections = oSED;
+			}
 			neverTryiedToSpread = false;
 		}
 	}
