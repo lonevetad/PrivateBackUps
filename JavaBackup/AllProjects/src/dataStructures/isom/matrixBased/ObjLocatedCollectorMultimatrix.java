@@ -6,10 +6,10 @@ import java.util.function.Predicate;
 
 import dataStructures.isom.MultiISOMRetangularCaching;
 import dataStructures.isom.MultiISOMRetangularMap;
-import dataStructures.isom.MultiISOMRetangularMap.MISOMLocatedInSpace;
 import dataStructures.isom.NodeIsom;
 import dataStructures.isom.NodeIsomProvider;
 import dataStructures.isom.ObjLocatedCollectorIsom;
+import dataStructures.isom.MultiISOMRetangularMap.MatrixISOMLocatedInSpace;
 import geometry.ObjectLocated;
 
 /**
@@ -43,7 +43,7 @@ public class ObjLocatedCollectorMultimatrix<Distance extends Number> implements 
 
 	@Override
 	public void accept(Point location) {
-		MISOMLocatedInSpace<Distance> ml;
+		MatrixISOMLocatedInSpace<Distance> ml;
 		ml = isomProvider.getMapLocatedContaining(location);
 		if (ml == null)
 			return; // no null allowed here!

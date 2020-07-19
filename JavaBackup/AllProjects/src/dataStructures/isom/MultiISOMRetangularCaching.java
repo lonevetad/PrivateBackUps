@@ -28,14 +28,14 @@ public class MultiISOMRetangularCaching<Dd extends Number> extends MultiISOMReta
 		this.cachedMW = null;
 	}
 
-	protected MISOMLocatedInSpace<Dd> cachedMW;
+	protected MatrixISOMLocatedInSpace<Dd> cachedMW;
 
 	public MatrixInSpaceObjectsManager<Dd> getCachedMisom() { return cachedMW == null ? null : cachedMW.misom; }
 
 	///
 
 	@Override
-	public MISOMLocatedInSpace<Dd> getMapLocatedContaining(int x, int y) {
+	public MatrixISOMLocatedInSpace<Dd> getMapLocatedContaining(int x, int y) {
 		if (cachedMW == null || (!cachedMW.contains(x, y))) { cachedMW = super.getMapLocatedContaining(x, y); }
 		return cachedMW;
 	}

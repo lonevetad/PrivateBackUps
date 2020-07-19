@@ -137,6 +137,8 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	@Override
 	public void setGameModality(GModality gameModality) { this.gModalityRPG = (GModalityRPG) gameModality; }
 
+	public void setName(String name) { this.name = name; }
+
 	@Override
 	public void setEquipmentSet(EquipmentSet equips) {
 		if (this.equipmentSet != null) { this.equipmentSet.setCreatureWearingEquipments(null); }

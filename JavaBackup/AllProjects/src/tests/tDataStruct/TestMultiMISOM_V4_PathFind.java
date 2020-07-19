@@ -30,8 +30,8 @@ import javax.swing.JScrollPane;
 import dataStructures.MapTreeAVL;
 import dataStructures.isom.MultiISOMRetangularCaching;
 import dataStructures.isom.MultiISOMRetangularMap;
-import dataStructures.isom.MultiISOMRetangularMap.MISOMLocatedInSpace;
 import dataStructures.isom.ObjLocatedCollectorIsom;
+import dataStructures.isom.MultiISOMRetangularMap.MatrixISOMLocatedInSpace;
 import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import geometry.AbstractShape2D;
@@ -498,7 +498,7 @@ public class TestMultiMISOM_V4_PathFind {
 
 	static String nameRectContaining(MultiISOMRetangularMap<Double> t, Point p,
 			Map<Integer, MyRectangle> mapIdToMyrect) {
-		MISOMLocatedInSpace<Double> m;
+		MatrixISOMLocatedInSpace<Double> m;
 		m = t.getMapLocatedContaining(p);
 		if (m == null)
 			return "null";
@@ -696,7 +696,7 @@ public class TestMultiMISOM_V4_PathFind {
 
 		void addRect(MyRectangle r) {
 			MatrixInSpaceObjectsManager<Double> map;
-			MISOMLocatedInSpace<Double> w;
+			MatrixISOMLocatedInSpace<Double> w;
 			checkAndResetRects();
 			map = new MISOM_SingleObjInNode<Double>(true, r.width, r.height, NumberManager.getDoubleManager());
 //			map.setPathFinder(t.getPathFinder());
@@ -828,7 +828,7 @@ public class TestMultiMISOM_V4_PathFind {
 			int mouseButton;
 			Point whereClicked;
 //			MyRectangle mapFound;
-			MISOMLocatedInSpace<Double> mapWrapper;
+			MatrixISOMLocatedInSpace<Double> mapWrapper;
 //			MatrixInSpaceObjectsManager<Double> map;
 			whereClicked = me.getPoint();
 			whereClicked.x /= PIXEL_EACH_CELL;
@@ -922,7 +922,7 @@ public class TestMultiMISOM_V4_PathFind {
 
 			if (c.getCollectedObjects().size() > 0)
 				c.getCollectedObjects().forEach(ol -> {
-					MISOMLocatedInSpace<Double> w;
+					MatrixISOMLocatedInSpace<Double> w;
 					System.out.println("\n\n got ol: " + ol);
 					w = t.getMapLocatedContaining(ol.getLocation());
 					System.out.println("and then removing object into map: " + (w == null ? "null" : w.ID));
@@ -1057,7 +1057,7 @@ public class TestMultiMISOM_V4_PathFind {
 			public AbstractShape2D getShape() { return shape; }
 		}
 
-		protected class MapRemover implements ObjCollector<MISOMLocatedInSpace<Double>> {
+		protected class MapRemover implements ObjCollector<MatrixISOMLocatedInSpace<Double>> {
 			private static final long serialVersionUID = 1L;
 
 			protected MapRemover(MultiISOMRetangularMap<Double> nodeIsomProvider) {
@@ -1070,9 +1070,9 @@ public class TestMultiMISOM_V4_PathFind {
 			}
 
 			protected MultiISOMRetangularMap<Double> nodeIsomProvider;
-			protected Set<MISOMLocatedInSpace<Double>> mapsCollected;
-			protected MapTreeAVL<Integer, MISOMLocatedInSpace<Double>> mapBackMapsCollected;
-			protected Predicate<MISOMLocatedInSpace<Double>> filter;
+			protected Set<MatrixISOMLocatedInSpace<Double>> mapsCollected;
+			protected MapTreeAVL<Integer, MatrixISOMLocatedInSpace<Double>> mapBackMapsCollected;
+			protected Predicate<MatrixISOMLocatedInSpace<Double>> filter;
 
 			// @Override
 			public MultiISOMRetangularMap<Double> getNodeIsomProvider() { return nodeIsomProvider; }
@@ -1083,13 +1083,13 @@ public class TestMultiMISOM_V4_PathFind {
 			}
 
 			@Override
-			public Set<MISOMLocatedInSpace<Double>> getCollectedObjects() { return mapsCollected; }
+			public Set<MatrixISOMLocatedInSpace<Double>> getCollectedObjects() { return mapsCollected; }
 
 			@Override
-			public Predicate<MISOMLocatedInSpace<Double>> getTargetsFilter() { return filter; }
+			public Predicate<MatrixISOMLocatedInSpace<Double>> getTargetsFilter() { return filter; }
 
 			@Override
-			public MISOMLocatedInSpace<Double> getAt(Point location) {
+			public MatrixISOMLocatedInSpace<Double> getAt(Point location) {
 				return nodeIsomProvider.getMapLocatedContaining(location);
 			}
 		}
