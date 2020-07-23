@@ -91,6 +91,29 @@ public class ShapeRectangle extends ShapeFillableImpl {
 		return this;
 	}
 
+	public AbstractShape2D setRectangle(Rectangle r) { return setRectangle(r.x, r.y, r.width, r.height); }
+
+	public AbstractShape2D setRectangle(int xLeftTop, int yLeftTop, int width, int height) {
+		int xCOrig, yCOrig;
+		Polygon p;
+		if (width < 1 || height < 1)
+			return null;
+		this.width = width;
+		this.height = height;
+		xCOrig = this.xCenter;
+		yCOrig = this.yCenter;
+		this.xCenter = xLeftTop + (width >> 1);
+		this.yCenter = yLeftTop + (height >> 1);
+		p = this.polygonCache;
+		this.polygonCache = null;// force not to move the polygon
+		xCOrig = this.xCenter - xCOrig; // recycle for deltas
+		yCOrig = this.yCenter - yCOrig; // recycle for deltas
+//		setCenterImpl(xCOrig, yCOrig, this.xCenter, this.yCenter); // already done
+		this.polygonCache = p;
+		movePolygon(xCOrig, yCOrig, true, true);
+		return this;
+	}
+
 	@Override
 	public AbstractShape2D setCornersAmounts(int cornersAmounts) { return this; }
 

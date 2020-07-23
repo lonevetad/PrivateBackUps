@@ -50,7 +50,7 @@ public class ProviderShapesIntersectionDetector implements ShapesIntersectionDet
 	ShapesIntersectionDetector[][] intersectionDetectorsImplemented;
 
 	protected void registerIntersectionDetectors() {
-		int i;
+//		int i;
 		ShapesImplemented[] vals;
 		ShapesIntersectionDetector[] row;
 //TODO
@@ -63,13 +63,13 @@ public class ProviderShapesIntersectionDetector implements ShapesIntersectionDet
 		// last row will be a 1-element: ItselfToItself) (reminding to PolygonToPolygon
 		// example)
 		this.polygonsIntersectionManager = new PolygonToPolygonIntersection();
-		i = 0;
+//		i = 0;
 		vals = ShapesImplemented.values();
 		for (ShapesImplemented si : vals) {
 			if (si == ShapesImplemented.Polygon) {
 				this.intersectionDetectorsImplemented[ShapesImplemented.Polygon
 						.ordinal()] = new ShapesIntersectionDetector[] { this.polygonsIntersectionManager };
-				i++;
+//				i++;
 			} /*
 				 * else { this.intersectionDetectorsImplemented[si.ordinal()] = new
 				 * ShapesIntersectionDetector[vals.length - i++]; }
@@ -101,6 +101,11 @@ public class ProviderShapesIntersectionDetector implements ShapesIntersectionDet
 //		row[ShapesImplemented.Polygon.ordinal()] = new PolygonToRectangleIntersection();
 		row[ShapesImplemented.Circle.ordinal()] = new CircleToCircleIntersectionDetector();
 
+	}
+
+	public ShapesIntersectionDetector getShapesIntersectionDetector(AbstractShape2D si1, AbstractShape2D si2) {
+		return getShapesIntersectionDetector(si1.getShapeImplementing().getShapeAbstract(),
+				si2.getShapeImplementing().getShapeAbstract());
 	}
 
 	public ShapesIntersectionDetector getShapesIntersectionDetector(ShapesImplemented si1, ShapesImplemented si2) {

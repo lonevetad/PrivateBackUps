@@ -42,6 +42,18 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	@Override
 	public default AbstractShape2D getShape() { return getBoundingShape(); }
 
+	public default int getWidth() { return getShape().getWidth(); }
+
+	public default int getHeight() { return getShape().getHeight(); }
+
+	public default Point getLocationAbsolute() { return getShape().getCenter(); }
+
+	public default Point getTopLetCornerAbsolute() {
+		Point c;
+		c = getLocationAbsolute();
+		return new Point(c.x - (getWidth() >> 1), c.y - (getHeight() >> 1));
+	}
+
 	//
 
 	// TODO SETTER
@@ -53,6 +65,16 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	public void setPathOptimizer(PathOptimizer<Point> pathOptimizer);
 
 	public void setPathFinder(PathFinderIsom<Distance> pathFinder);
+
+	public default void setLocationAbsolute(Point p) { getShape().setCenter(p); }
+
+	public default void setLocationAbsolute(int x, int y) { getShape().setCenter(x, y); }
+
+	public default void setTopLetCornerAbsolute(Point lc) { setTopLetCornerAbsolute(lc.x, lc.y); }
+
+	public default void setTopLetCornerAbsolute(int x, int y) {
+		setLocationAbsolute(x + (getWidth() >> 1), y + (getHeight() >> 1));
+	}
 
 	//
 

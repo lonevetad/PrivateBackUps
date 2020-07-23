@@ -114,18 +114,6 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 	public boolean isLazyNodeInstancing() { return isLazyNodeInstancing; }
 
-	public int getWidth() { return shape.getWidth(); }
-
-	public int getHeight() { return shape.getHeight(); }
-
-	public Point getLocationAbsolute() { return shape.getCenter(); }
-
-	public Point getTopLetCornerAbsolute() {
-		Point c;
-		c = shape.getCenter();
-		return new Point(c.x - (getWidth() >> 1), c.y - (getHeight() >> 1));
-	}
-
 	public ProviderShapeRunner getShapeRunnerProvider() { return shapeRunnerProvider; }
 
 	/** Use with caution. */
@@ -144,16 +132,6 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 	@Override
 	public void setShape(AbstractShape2D shape) {}
-
-	public void setLocationAbsolute(Point p) { shape.setCenter(p); }
-
-	public void setLocationAbsolute(int x, int y) { shape.setCenter(x, y); }
-
-	public void setTopLetCornerAbsolute(Point lc) { setTopLetCornerAbsolute(lc.x, lc.y); }
-
-	public void setTopLetCornerAbsolute(int x, int y) {
-		setLocationAbsolute(x + (getWidth() >> 1), y + (getHeight() >> 1));
-	}
 
 	@Override
 	public void setProviderShapesIntersectionDetector(

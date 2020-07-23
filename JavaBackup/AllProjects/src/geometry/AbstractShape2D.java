@@ -62,6 +62,16 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 */
 	public Point getCenter() { return new Point(getXCenter(), getYCenter()); }
 
+	@Override
+	public int getx() { // faster and lighter implementation
+		return getXCenter();
+	}
+
+	@Override
+	public int gety() { // faster and lighter implementation
+		return getYCenter();
+	}
+
 	/**
 	 * Get the top-left corner of the bounding box, not of the shape. This must
 	 * include the shape's rotation in the calculus( (i.e. if a rectangle is rotated
@@ -213,7 +223,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * {@link #getCenter()}.
 	 */
 	@Deprecated
-	public Rectangle getBoundingBox_OLD() {
+	protected Rectangle getBoundingBox_OLD() {
 		Point2D ltc, corners[];
 		Dimension dim;
 		corners = getBoundingBoxCorners();

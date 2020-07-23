@@ -63,7 +63,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		mapsAsList = mapsLocatedInSpace.toListValue(r -> r.ID);
 		misomsHeld = new SetMapped<>(mapsLocatedInSpace.toSetValue(w -> w.ID), w -> w.misom);
 		setObjectsAddedMap(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR));
-		shapeRect = null;// new ShapeRectangle()
+		shapeBoundingBox = null;// new ShapeRectangle()
 		clear();
 		setPathFinder(newPathFinder());
 //		this.pathOptimizer = new PathOptimizer<Point>() 
@@ -79,7 +79,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	protected final MapTreeAVL<Integer, MatrixISOMLocatedInSpace<Distance>> mapsLocatedInSpace;
 	protected final Set<MatrixInSpaceObjectsManager<Distance>> misomsHeld;
 	protected final List<MatrixISOMLocatedInSpace<Distance>> mapsAsList;
-	protected ShapeRectangle shapeRect;
+	protected ShapeRectangle shapeBoundingBox;
 	// from isom
 	protected final Integer ID;
 	protected Map<Integer, ObjectLocated> objectsAddedMap;
@@ -92,13 +92,11 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	public Integer getID() { return ID; }
 
 	@Override
-	public AbstractShape2D getBoundingShape() { return shapeRect; }
+	public AbstractShape2D getBoundingShape() { return shapeBoundingBox; }
 
 	public Set<MatrixInSpaceObjectsManager<Distance>> getMisomsHeld() { return misomsHeld; }
 
 	// getters for tests
-
-	public int getxLeftTop() { return xLeftTop; }
 
 	/**
 	 * Returns the maximum amount of {@link MatrixInSpaceObjectsManager} contained
@@ -107,23 +105,27 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 */
 	public int getMaximumSubmapsEachSection() { return maximumSubmapsEachSection; }
 
-	public int getyLeftTop() { return yLeftTop; }
-
 	public NodeQuadtreeMultiISOMRectangular getRoot() { return root; }
 
 	public int getMaxDepth() { return maxDepth; }
+
+	public int getxLeftTop() { return xLeftTop; }
+
+	public int getyLeftTop() { return yLeftTop; }
 
 	public int getxRightBottom() { return xRightBottom; }
 
 	public int getyRightBottom() { return yRightBottom; }
 
+	@Override
 	public int getWidth() { return width; }
 
+	@Override
 	public int getHeight() { return height; }
 
 	public Map<Integer, MatrixISOMLocatedInSpace<Distance>> getMapsLocatedInSpace() { return mapsLocatedInSpace; }
 
-	public ShapeRectangle getShapeRect() { return shapeRect; }
+	public ShapeRectangle getShapeRect() { return shapeBoundingBox; }
 
 	//
 
@@ -300,6 +302,8 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 	//
 
+	public void clear() { removeAllMaps(); }
+
 	public void removeAllMaps() {
 		mapsLocatedInSpace.clear();
 		root = null;
@@ -308,13 +312,11 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 	protected void clearDimensionCache() {
 		// neverBuilt = true;
-		shapeRect = null;
+		shapeBoundingBox = null;
 		maxDepth = 0;
 		xLeftTop = yLeftTop = xRightBottom = yRightBottom = width = height = 0;
-		this.objectsAddedMap.clear();
+//		this.objectsAddedMap.clear();
 	}
-
-	public void clear() { removeAllMaps(); }
 
 	/**
 	 * See {@link #getMapLocatedContaining(int, int)}, but returning the
@@ -386,11 +388,13 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		map.setTopLetCornerAbsolute(x, y);
 		r = new MatrixISOMLocatedInSpace<Distance>(this, map, x, y, angleRotationDegrees);
 		c = updateBoundingBox(r);
-		mapsLocatedInSpace.put(r.ID, r);
-		if (c > 0)
-			rebuild();
-		else
-			addNotRebuilding(r);
+		if (c >= 0) {
+			mapsLocatedInSpace.put(r.ID, r);
+			if (c > 0)
+				rebuild();
+			else
+				addNotRebuilding(r);
+		}
 		return r;
 	}
 
@@ -406,24 +410,24 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		return addMap(map, locationLeftTop.x, locationLeftTop.y, angleRotationDegrees);
 	}
 
-	public void addMaps(Collection<MatrixISOMLocatedInSpace<Distance>> mapsList) {
-		int[] cc = { -1 };
-		mapsList.forEach(r -> {
-			int c;
-			if (r != null) {
-				c = updateBoundingBox(r);
-				if (c >= 0) {
-					if (cc[0] < c)
-						cc[0] = c;
-					mapsLocatedInSpace.put(r.ID, r);
-				}
-			}
-		});
-		if (cc[0] > 0)
-			rebuild();
-		else
-			mapsList.forEach(this::addNotRebuilding);
-	}
+//	public void addMaps(Collection<MatrixInSpaceObjectsManager<Distance>> mapsList) {
+//		int[] cc = { -1 };
+//		mapsList.forEach(r -> {
+//			int c;
+//			if (r != null) {
+//				c = updateBoundingBox(r);
+//				if (c >= 0) {
+//					if (cc[0] < c)
+//						cc[0] = c;
+//					mapsLocatedInSpace.put(r.ID, r);
+//				}
+//			}
+//		});
+//		if (cc[0] > 0)
+//			rebuild();
+//		else
+//			mapsList.forEach(this::addNotRebuilding);
+//	}
 
 	public void removeMap(MatrixISOMLocatedInSpace<Distance> r) {
 		if (mapsLocatedInSpace.containsKey(r.ID)) {
@@ -463,10 +467,10 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 	protected void resetShape(boolean mustReallocate) {
 		if (mustReallocate)
-			shapeRect = new ShapeRectangle(0.0, 0, 0, true, 0, 0);
-		shapeRect.setWidth(width);
-		shapeRect.setHeight(height);
-		shapeRect.setLeftTopCorner(getxLeftTop(), getyLeftTop());
+			shapeBoundingBox = new ShapeRectangle(0.0, 0, 0, true, 0, 0);
+		shapeBoundingBox.setWidth(width);
+		shapeBoundingBox.setHeight(height);
+		shapeBoundingBox.setLeftTopCorner(getxLeftTop(), getyLeftTop());
 	}
 
 	protected void recalculateBoundingBox() {
@@ -474,11 +478,16 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		mapsAsList.forEach(this::updateBoundingBox);
 	}
 
+	/**
+	 * Update the bounding box. Returns a negative value if the shape are illegal
+	 * (null or negative height or width), 0 if the bounding box is not changed and
+	 * a positive value if the bounding box has successfully being updated.
+	 */
 	protected int updateBoundingBox(MatrixISOMLocatedInSpace<Distance> r) {
 		boolean changed;
-		int t;
+		int temp;
 		if (r.width < 1 || r.height < 1) { return -1; }
-		if (shapeRect == null) {
+		if (shapeBoundingBox == null) {
 			xLeftTop = r.x;
 			yLeftTop = r.y;
 			width = r.width;
@@ -497,15 +506,15 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			changed = true;
 			yLeftTop = r.y;
 		}
-		t = r.x + r.width;
-		if (t > xRightBottom) {
+		temp = r.x + r.width;
+		if (temp > xRightBottom) {
 			changed = true;
-			xRightBottom = t;
+			xRightBottom = temp;
 		}
-		t = r.y + r.height;
-		if (t > yRightBottom) {
+		temp = r.y + r.height;
+		if (temp > yRightBottom) {
 			changed = true;
-			yRightBottom = t;
+			yRightBottom = temp;
 		}
 		this.width = xRightBottom - getxLeftTop();
 		this.height = yRightBottom - getyLeftTop();
@@ -597,10 +606,6 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	}
 
 	/**
-	 * EMPTY METHOD
-	 * <P>
-	 * Should be a method to add a map without a full rebuild, but I don't know how
-	 * to do it in a smart way.
 	 */
 	protected void addNotRebuilding(MatrixISOMLocatedInSpace<Distance> map) {
 		if (getRoot() == null)
@@ -633,8 +638,12 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 				currentNode.submaps.add(map);
 			} else {
 				// else, build ricoursively
-				currentNode.submaps.add(map);
-				currentNode = rebuild(currentNode.father, currentNode.submaps, currentNode.x, currentNode.y,
+//				currentNode.submaps.add(map);
+				List<MatrixISOMLocatedInSpace<Distance>> submaps;
+				submaps = currentNode.submaps;
+				currentNode.submaps = null;
+				submaps.add(map);
+				currentNode = rebuild(currentNode.father, /* currentNode. */submaps, currentNode.x, currentNode.y,
 						currentNode.x + currentNode.width, currentNode.y + currentNode.width, currentNode.width,
 						currentNode.height, currentNode.xMiddle, currentNode.yMiddle);
 				if (this.getMaxDepth() < currentNode.depth) { this.maxDepth = currentNode.depth; }
@@ -765,11 +774,11 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		@Override
 		public Integer getID() { return ID; }
 
-		public double getAngleRotationDegrees() { return angleRotationDegrees; }
-
 		public MatrixInSpaceObjectsManager<Dd> getMatrix() { return misom; }
 
 		public MatrixInSpaceObjectsManager<Dd> getISOM() { return misom; }
+
+		public double getAngleRotationDegrees() { return angleRotationDegrees; }
 
 		public void setAngleRotationDegrees(double angleRotationDegrees) {
 			this.angleRotationDegrees = angleRotationDegrees % 360.0;
@@ -793,32 +802,48 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 					yy++; // because of "rounding"
 				// consider the offset
 				return misom.getNodeAt(xx, yy);
-			} else if ((isNinety = angleRotationDegrees == 90.0) || (angleRotationDegrees == 270.0)) {
-				int xx, yy; // centre
-				xx = this.x + (width >> 1);
-//				if((width&0x1)==0)xx--;
-//				if((height&0x1)==0)yy--;
-				yy = this.y + (height >> 1);
-
-				// top left corner, but rotated
-				// consider the offset
-				// it's rotated, so the coordinates are swapped
-//				return misom.getNodeAt(y-yy,x-xx);
-				throw new UnsupportedOperationException("Not still done");
-			} else if (angleRotationDegrees == 270.0) {
-				int xx, yy; // top left corner, but rotated
-				xx = this.x + (width >> 1);
-				yy = this.y + (height >> 1);
-				// consider the offset
-				// TODO rotate
-				// it's rotated, so the coordinates are swapped
-//				return misom.getNodeAt(y-yy,x-xx);
-				throw new UnsupportedOperationException("Not still done");
 			}
+//				else if ((isNinety = angleRotationDegrees == 90.0) || (angleRotationDegrees == 270.0)) {
+//				int xx, yy; // centre
+//				xx = this.x + (width >> 1);
+////				if((width&0x1)==0)xx--;
+////				if((height&0x1)==0)yy--;
+//				yy = this.y + (height >> 1);
+//
+//				// top left corner, but rotated
+//				// consider the offset
+//				// it's rotated, so the coordinates are swapped
+////				return misom.getNodeAt(y-yy,x-xx);
+//				throw new UnsupportedOperationException("Not still done");
+//			} else if (angleRotationDegrees == 270.0) {
+//				int xx, yy; // top left corner, but rotated
+//				xx = this.x + (width >> 1);
+//				yy = this.y + (height >> 1);
+//				// consider the offset
+//				// TODO rotate
+//				// it's rotated, so the coordinates are swapped
+////				return misom.getNodeAt(y-yy,x-xx);
+//				throw new UnsupportedOperationException("Not still done");
+//			}
 
 			// rotate it
 //			x-this.x, y-this.y
-			throw new UnsupportedOperationException("Not still done");
+			double sinPart, cosPart;
+			// make coordinates relative
+			x -= this.x;
+			y -= this.y;
+//			s = Math.sin(a); // a is in radians
+//			c = Math.cos(a);
+//			rotationMatrix = [
+//				[c, -s],
+//				[s, c]
+//			];
+			// [x,y] = dotProduct( [x,y], rotationMatrix);
+			cosPart = x * Math.cos(-angleRotationDegrees);
+			sinPart = y * Math.sin(-angleRotationDegrees);
+			x = (int) (x * cosPart + y * sinPart);
+			y = (int) ((y * cosPart) - (x * sinPart));
+			return misom.getNodeAt(x, y);
 		}
 	}
 
@@ -838,19 +863,19 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			depth = (father == null) ? 1 : (father.depth + 1);
 		}
 
-		public int getX() { return x; }
+		public int getX() { return this.x; }
 
-		public int getY() { return y; }
+		public int getY() { return this.y; }
 
-		public int getWidth() { return width; }
+		public int getWidth() { return this.width; }
 
-		public int getHeight() { return height; }
+		public int getHeight() { return this.height; }
 
-		public int getXMiddle() { return xMiddle; }
+		public int getXMiddle() { return this.xMiddle; }
 
-		public int getYMiddle() { return yMiddle; }
+		public int getYMiddle() { return this.yMiddle; }
 
-		public int getDepth() { return depth; }
+		public int getDepth() { return this.depth; }
 
 		public List<MatrixISOMLocatedInSpace<Distance>> getSubmaps() { return submaps; }
 
