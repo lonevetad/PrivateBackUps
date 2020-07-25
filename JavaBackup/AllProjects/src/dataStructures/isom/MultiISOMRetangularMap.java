@@ -200,8 +200,15 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	protected PathFinderIsom<Distance> newPathFinder() { return new PathFinderIsomDijkstra<>(this); }
 
 	@Override
-	public void forEachNode(Consumer<NodeIsom<Distance>> action) {
-		this.mapsLocatedInSpace.forEach((i, mw) -> mw.misom.forEachNode(action));
+	public void forEachNode(BiConsumer<NodeIsom<Distance>, Point> action) {
+		this.mapsLocatedInSpace.forEach((i, mw) -> {
+			mw.misom.forEachNode((n, p) -> {
+				// consider the offset
+				p.x += mw.x;
+				p.y += mw.y;
+				action.accept(n, p);
+			});
+		});
 	}
 
 	@Override
@@ -319,12 +326,17 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	}
 
 	/**
+	 * See {@link #getMISOMContaining(int, int)}.
+	 */
+	public MatrixInSpaceObjectsManager<Distance> getMISOMContaining(Point p) { return getMISOMContaining(p.x, p.y); }
+
+	/**
 	 * See {@link #getMapLocatedContaining(int, int)}, but returning the
 	 * {@link MatrixInSpaceObjectsManager} held.
 	 */
-	public MatrixInSpaceObjectsManager<Distance> getMISOMContaining(Point p) {
+	public MatrixInSpaceObjectsManager<Distance> getMISOMContaining(int x, int y) {
 		MatrixISOMLocatedInSpace<Distance> mw;
-		mw = getMapLocatedContaining(p);
+		mw = getMapLocatedContaining(x, y);
 		return (mw == null) ? null : mw.misom;
 	}
 
@@ -368,6 +380,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	/**
 	 * Add a map (a {@link MatrixInSpaceObjectsManager}) which is located, into the
 	 * space, at the given point.<br>
+	 * REMEMBER: the given coordinates are the top-left corner. <br>
 	 * This point is the map's offset because the map's class's indexes (i.e. those
 	 * passed to {@link MatrixInSpaceObjectsManager#getNodeAt(Point)})) are relative
 	 * to its origin.
@@ -379,13 +392,17 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		return addMap(map, x, y, 0.0);
 	}
 
+	/**
+	 * See {@link #addMap(MatrixInSpaceObjectsManager, int, int)}, but also
+	 * providing a rotation to the given map.
+	 */
 	public MatrixISOMLocatedInSpace<Distance> addMap(MatrixInSpaceObjectsManager<Distance> map, int x, int y,
 			double angleRotationDegrees) {
 		int c;
 		MatrixISOMLocatedInSpace<Distance> r;
 		if (map == null || map.getWidth() < 1 || map.getWidth() < 1)
 			return null;
-		map.setTopLetCornerAbsolute(x, y);
+		map.setTopLeftCorner(x, y);
 		r = new MatrixISOMLocatedInSpace<Distance>(this, map, x, y, angleRotationDegrees);
 		c = updateBoundingBox(r);
 		if (c >= 0) {
@@ -766,7 +783,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		}
 
 		/** In Degreed */
-		protected double angleRotationDegrees;
+		protected double angleRotationDegrees, sinCache, cosCache, sinInverseCache, cosInverseCache;
 		public final Integer ID;
 		protected final MultiISOMRetangularMap<Dd> multi;
 		public final MatrixInSpaceObjectsManager<Dd> misom;
@@ -781,14 +798,20 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		public double getAngleRotationDegrees() { return angleRotationDegrees; }
 
 		public void setAngleRotationDegrees(double angleRotationDegrees) {
+			double rad;
 			this.angleRotationDegrees = angleRotationDegrees % 360.0;
 			if (this.angleRotationDegrees < 0.0)
 				this.angleRotationDegrees += 360.0;
+			rad = Math.toRadians(this.angleRotationDegrees);
+			sinCache = Math.sin(rad);
+			cosCache = Math.cos(rad);
+			sinInverseCache = Math.sin(-rad);
+			cosInverseCache = Math.cos(-rad);
 		}
 
 		/** Absolute coordinates. */
 		public NodeIsom<Dd> getNodeAt(int x, int y) {
-			boolean isNinety;
+//			boolean isNinety;
 			if (angleRotationDegrees == 0.0) {
 				// consider the offset
 				return misom.getNodeAt(x - this.x, y - this.y);
@@ -839,11 +862,132 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 //				[s, c]
 //			];
 			// [x,y] = dotProduct( [x,y], rotationMatrix);
-			cosPart = x * Math.cos(-angleRotationDegrees);
-			sinPart = y * Math.sin(-angleRotationDegrees);
+			cosPart = Math.cos(-angleRotationDegrees);
+			sinPart = Math.sin(-angleRotationDegrees);
 			x = (int) (x * cosPart + y * sinPart);
 			y = (int) ((y * cosPart) - (x * sinPart));
 			return misom.getNodeAt(x, y);
+		}
+
+		public Point makePointRelative(Point p) {
+			p.x -= this.x;
+			p.y -= this.y;
+			return p;
+		}
+
+		/**
+		 * Calls {@link #makePointRelative(Point)} providing a newly created
+		 * {@link Point}.
+		 */
+		public Point makePointRelative(int x, int y) { return makePointRelative(new Point(x, y)); }
+
+		/**
+		 * The given {@link InSpaceObjectsManager} has a rotation in degrees (i.e.:
+		 * {@link #getAngleRotationDegrees()}), so the <b>relative</b> given point is
+		 * rotated relatively to the center so that it could be used as a
+		 * <i>2D-index</i>.
+		 */
+		public Point applyIsomsRotation(Point p) {
+			int x, y;
+			x = p.x;
+			y = p.y;
+			p.x = (int) (x * cosInverseCache + y * sinInverseCache);
+			p.y = (int) ((y * cosInverseCache) - (x * sinInverseCache));
+			return p;
+		}
+
+		/**
+		 * Calls {@link #makePointRelative(Point)} providing a newly created
+		 * {@link Point}.
+		 */
+		public Point applyIsomsRotation(int x, int y) { return applyIsomsRotation(new Point(x, y)); }
+
+		/**
+		 * Apply both {@link #makePointRelative(Point)} and then
+		 * {@link #applyIsomsRotation(Point)} to the given <b>absolute</b> point.
+		 */
+		public Point makeRelativeAndRotate(Point p) { return applyIsomsRotation(makePointRelative(p)); }
+
+		public Point makeRelativeAndRotate(int x, int y) { return makeRelativeAndRotate(new Point(x, y)); }
+
+		public boolean add(ObjectLocated o) {
+			boolean c;
+			int xo, yo;// , x, y;
+			Point oldLocation;
+			if (o == null)
+				return false;
+			oldLocation = o.getLocation();
+			xo = oldLocation.x;
+			yo = oldLocation.y;
+//			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
+			makeRelativeAndRotate(oldLocation);
+			c = this.multi.add(o);
+			o.setLocation(xo, yo);
+			return c;
+		}
+
+		public boolean contains(ObjectLocated o) {
+			boolean c;
+			int xo, yo;// , x, y;
+			Point oldLocation;
+			if (o == null)
+				return false;
+			oldLocation = o.getLocation();
+			xo = oldLocation.x;
+			yo = oldLocation.y;
+//			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
+			makeRelativeAndRotate(oldLocation);
+			c = this.multi.contains(o);
+			o.setLocation(xo, yo);
+			return c;
+		}
+
+		public boolean remove(ObjectLocated o) {
+			boolean c;
+			int xo, yo;// , x, y;
+			Point oldLocation;
+//			misomLocation = this.isomHeld.getLocation();
+			if (o == null)
+				return false;
+			oldLocation = o.getLocation();
+			xo = oldLocation.x;
+			yo = oldLocation.y;
+//			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
+			makeRelativeAndRotate(oldLocation);
+			c = this.multi.remove(o);
+			o.setLocation(xo, yo);
+			return c;
+		}
+
+		public void forEachNode(BiConsumer<NodeIsom<Dd>, Point> action) {
+			int hw, hh;
+			Point isomLocation;
+			isomLocation = this.misom.getLocation();
+			hw = (this.misom.getWidth() >> 1);
+			hh = (this.misom.getHeight() >> 1);
+			this.misom.forEachNode((n, p) -> {
+				int xRotated, yRotated;
+				// p is relative right now
+				// must be made absolute and rotated
+
+				// 1) make it from relative to top-left to relative to centre
+				p.x += hw;
+				p.y += hh;
+				// 2) apply the rotation
+				xRotated = (int) (p.x * cosCache + p.y * sinCache);
+				yRotated = (int) ((p.y * cosCache) - (p.x * sinCache));
+				p.x = xRotated;
+				p.y = yRotated;
+				// 3) make it back relative to top-left corner
+				p.x -= hw;
+				p.y -= hh;
+				// 4) make it absolute
+				p.x += isomLocation.x;
+				p.y += isomLocation.y;
+
+				// 5) DONE
+				action.accept(n, p);
+			});
 		}
 	}
 

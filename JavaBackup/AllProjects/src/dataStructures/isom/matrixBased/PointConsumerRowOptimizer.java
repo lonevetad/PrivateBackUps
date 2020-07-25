@@ -15,7 +15,7 @@ public abstract class PointConsumerRowOptimizer<Distance extends Number> impleme
 	}
 
 	protected int y;
-	protected NodeIsom[] rowCache;
+	protected NodeIsom<Distance>[] rowCache;
 	protected MatrixInSpaceObjectsManager<Distance> misom;
 
 //
@@ -24,7 +24,7 @@ public abstract class PointConsumerRowOptimizer<Distance extends Number> impleme
 
 	public int getY() { return y; }
 
-	public NodeIsom[] getRowCache() { return rowCache; }
+	public NodeIsom<Distance>[] getRowCache() { return rowCache; }
 
 	public MatrixInSpaceObjectsManager<Distance> getMisom() { return misom; }
 

@@ -17,7 +17,7 @@ public interface ObjectShaped extends ObjectLocated {
 		return s.getCenter();
 	}
 
-	/** See {@literal #getLocation()}. */
+	/** See {@link #getLocation()}. */
 	@Override
 	public default void setLocation(Point location) {
 		AbstractShape2D s;
@@ -36,5 +36,15 @@ public interface ObjectShaped extends ObjectLocated {
 			return;
 		s.setCenter(x, y);
 	}
+
+	public default void setTopLeftCorner(int x, int y) {
+		AbstractShape2D s;
+		s = this.getShape();
+		if (s == null)
+			return;
+		s.setLeftTopCorner(x, y);
+	}
+
+	public default void setTopLeftCorner(Point p) { setTopLeftCorner(p.x, p.y); }
 
 }

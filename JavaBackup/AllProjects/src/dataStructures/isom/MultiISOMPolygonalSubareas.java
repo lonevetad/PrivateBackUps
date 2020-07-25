@@ -42,7 +42,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 	private static final long serialVersionUID = 1L;
 	protected static final UniqueIDProvider ID_PROV_MULTI_ISOM_POLY = UniqueIDProvider.newBasicIDProvider();
 
-	protected MultiISOMPolygonalSubareas(int maximumSubmapsEachSection) {
+	public MultiISOMPolygonalSubareas(int maximumSubmapsEachSection) {
 		super();
 		if (maximumSubmapsEachSection < 1) {
 			log.log("Incorrect number of maximum submaps on each section: " + maximumSubmapsEachSection);
@@ -206,7 +206,8 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 	}
 
 	@Override
-	public void forEachNode(Consumer<NodeIsom<Distance>> action) { // TODO Auto-generated method stub
+	public void forEachNode(BiConsumer<NodeIsom<Distance>, Point> action) {
+		this.mapsLocatedInSpace.forEach((i, mw) -> mw.forEachNode(action));
 	}
 
 	/**
@@ -257,7 +258,8 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 	/**
 	 * See
 	 * {@link MultiISOMRetangularMap#addMap(MatrixInSpaceObjectsManager, int, int)},
-	 * since it's a similar function.
+	 * since it's a similar function.<br>
+	 * REMEMBER: the given coordinates are the top-left corner.
 	 */
 	public ISOMWrapperLocated addMap(InSpaceObjectsManager<Distance> map, int x, int y) {
 		return addMap(map, x, y, 0.0);
@@ -273,7 +275,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		ISOMWrapperLocated r;
 		if (map == null || map.getWidth() < 1 || map.getWidth() < 1)
 			return null;
-		map.setTopLetCornerAbsolute(x, y);
+		map.setTopLeftCorner(x, y);
 		r = new ISOMWrapperLocated(map);
 		c = updateBoundingBox(r);
 		if (c >= 0) {
@@ -393,7 +395,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		m = getMapLocatedContaining(o.getLocation());
 		if (m == null)
 			return false;
-		m.isomHeld.add(o);
+		m.add(o);
 		return true;
 	}
 
@@ -405,7 +407,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		m = getMapLocatedContaining(o.getLocation());
 		if (m == null)
 			return false;
-		return m.isomHeld.contains(o);
+		return m.contains(o);
 	}
 
 	@Override
@@ -416,7 +418,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		m = getMapLocatedContaining(o.getLocation());
 		if (m == null)
 			return false;
-		return m.isomHeld.remove(o);
+		return m.remove(o);
 	}
 
 	// TODO protected
@@ -682,6 +684,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 			this.father = father;
 			submaps = null;
 			depth = (father == null) ? 1 : (father.depth + 1);
+			shapeBBSubarea = new ShapeRectangle(true);
 		}
 
 		public List<ISOMWrapperLocated> getSubmaps() { return submaps; }
@@ -730,8 +733,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		private static final long serialVersionUID = 1L;
 //		protected int xLeftTop, yLeftTop, width, height
 		/** In Degreed */
-		protected double angleRotationDegrees, // sinCache, cosCache,
-				sinInverseCache, cosInverseCache;
+		protected double angleRotationDegrees, sinCache, cosCache, sinInverseCache, cosInverseCache;
 		public final Integer ID;
 		protected final InSpaceObjectsManager<Distance> isomHeld;
 
@@ -756,13 +758,13 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		public double getAngleRotationDegrees() { return angleRotationDegrees; }
 
 		public void setAngleRotationDegrees(double angleRotationDegrees) {
+			double rad;
 			this.angleRotationDegrees = angleRotationDegrees % 360.0;
 			if (this.angleRotationDegrees < 0.0)
 				this.angleRotationDegrees += 360.0;
-			double rad;
 			rad = Math.toRadians(this.angleRotationDegrees);
-//			sinCache = Math.sin(rad);
-//			cosCache = Math.cos(rad);
+			sinCache = Math.sin(rad);
+			cosCache = Math.cos(rad);
 			sinInverseCache = Math.sin(-rad);
 			cosInverseCache = Math.cos(-rad);
 		}
@@ -784,29 +786,183 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		public void setLocation(int x, int y) {
 //			this.xLeftTop = x;
 //			this.yLeftTop = y;
-			isomHeld.setLocation(x, y);
+			isomHeld.setTopLeftCorner(x, y);
 		}
+
+		public Point makePointRelativeToTopLeftCorner(Point p) {
+			Point location;
+			location = this.isomHeld.getTopLetCornerAbsolute();
+			p.x -= location.x;
+			p.y -= location.y;
+			return p;
+		}
+
+		/**
+		 * Calls {@link #makePointRelativeToTopLeftCorner(Point)} providing a newly
+		 * created {@link Point}.
+		 */
+		public Point makePointRelativeToTopLeftCorner(int x, int y) {
+			return makePointRelativeToTopLeftCorner(new Point(x, y));
+		}
+
+		public Point makePointRelativeToCenter(Point p) {
+			Point location;
+			location = this.isomHeld.getTopLetCornerAbsolute();
+			p.x += (this.isomHeld.getWidth() >> 1) - location.x;
+			p.y += (this.isomHeld.getHeight() >> 1) - location.y;
+			return p;
+		}
+
+		public Point makePointAbsoluteToTopLeftCorner(Point p) {
+			Point location;
+			location = this.isomHeld.getTopLetCornerAbsolute();
+			p.x += location.x;
+			p.y += location.y;
+			return p;
+		}
+
+		public Point makePointAbsoluteToCenter(Point p) {
+			Point location;
+			location = this.isomHeld.getTopLetCornerAbsolute();
+			p.x += location.x - (this.isomHeld.getWidth() >> 1);
+			p.y += location.y - (this.isomHeld.getHeight() >> 1);
+			return p;
+		}
+
+		/**
+		 * The given {@link InSpaceObjectsManager} has a rotation in degrees (i.e.:
+		 * {@link #getAngleRotationDegrees()}), so the <b>relative</b> given point is
+		 * rotated relatively to the center so that it could be used as a
+		 * <i>2D-index</i>.
+		 */
+		public Point applyIsomsRotation(Point p) {
+			int x, y;
+			x = p.x;
+			y = p.y;
+			p.x = (int) (x * cosInverseCache + y * sinInverseCache);
+			p.y = (int) ((y * cosInverseCache) - (x * sinInverseCache));
+			return p;
+		}
+
+		/**
+		 * Calls {@link #makePointRelativeToTopLeftCorner(Point)} providing a newly
+		 * created {@link Point}.
+		 */
+		public Point applyIsomsRotation(int x, int y) { return applyIsomsRotation(new Point(x, y)); }
+
+		/**
+		 * Apply both {@link #makePointRelativeToTopLeftCorner(Point)} and then
+		 * {@link #applyIsomsRotation(Point)} to the given <b>absolute</b> point.
+		 */
+		public Point makeRelativeToCenterAndRotate(Point p) {
+			return applyIsomsRotation(makePointRelativeToCenter(p));
+		}
+
+		public Point makeRelativeAndRotate(int x, int y) { return makeRelativeToCenterAndRotate(new Point(x, y)); }
 
 		/** Absolute coordinates. */
 		public NodeIsom<Distance> getNodeAt(int x, int y) {
 //			double xtemp, ytemp;
 			Point location;
-			location = this.isomHeld.getLocation();
-			// make coordinates relative
-			x -= location.x;
-			y -= location.y;
+			if (this.angleRotationDegrees != 0.0) {
+				// NOTE: actions in "makeRelativeAndRotate" are make here just to make them fast
+				location = this.isomHeld.getLocation();
+				// make coordinates relative to the centre
+				x += location.x - (this.isomHeld.getWidth() >> 1);
+				y += location.y - (this.isomHeld.getHeight() >> 1);
 //			s = Math.sin(a); // a is in radians
 //			c = Math.cos(a);
 //			rotationMatrix = [
 //				[c, -s],
 //				[s, c]
 //			];
-			// [x,y] = dotProduct( [x,y], rotationMatrix);
+				// [x,y] = dotProduct( [x,y], rotationMatrix);
 //			xtemp = x * cosInverseCache;
 //			ytemp = y * sinInverseCache;
-			x = (int) (x * cosInverseCache + y * sinInverseCache);
-			y = (int) ((y * cosInverseCache) - (x * sinInverseCache));
+				x = (int) (x * cosInverseCache + y * sinInverseCache);
+				y = (int) ((y * cosInverseCache) - (x * sinInverseCache));
+			}
 			return isomHeld.getNodeAt(x, y);
+		}
+
+		public boolean add(ObjectLocated o) {
+			boolean c;
+			int xo, yo;// , x, y;
+			Point oldLocation;
+			if (o == null)
+				return false;
+			oldLocation = o.getLocation();
+			xo = oldLocation.x;
+			yo = oldLocation.y;
+//			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
+			makeRelativeToCenterAndRotate(oldLocation);
+			c = isomHeld.add(o);
+			o.setLocation(xo, yo);
+			return c;
+		}
+
+		public boolean contains(ObjectLocated o) {
+			boolean c;
+			int xo, yo;// , x, y;
+			Point oldLocation;
+			if (o == null)
+				return false;
+			oldLocation = o.getLocation();
+			xo = oldLocation.x;
+			yo = oldLocation.y;
+//			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
+			makeRelativeToCenterAndRotate(oldLocation);
+			c = isomHeld.contains(o);
+			o.setLocation(xo, yo);
+			return c;
+		}
+
+		public boolean remove(ObjectLocated o) {
+			boolean c;
+			int xo, yo;// , x, y;
+			Point oldLocation;
+//			misomLocation = this.isomHeld.getLocation();
+			if (o == null)
+				return false;
+			oldLocation = o.getLocation();
+			xo = oldLocation.x;
+			yo = oldLocation.y;
+//			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
+			makeRelativeToCenterAndRotate(oldLocation);
+			c = isomHeld.remove(o);
+			o.setLocation(xo, yo);
+			return c;
+		}
+
+		public void forEachNode(BiConsumer<NodeIsom<Distance>, Point> action) {
+			int hw, hh;
+			Point isomLocation;
+			isomLocation = this.isomHeld.getLocation();
+			hw = (this.isomHeld.getWidth() >> 1);
+			hh = (this.isomHeld.getHeight() >> 1);
+			this.isomHeld.forEachNode((n, p) -> {
+				int xRotated, yRotated;
+				// p is relative right now
+				// must be made absolute and rotated
+
+				// 1) make it from relative to top-left to relative to centre
+				p.x += hw;
+				p.y += hh;
+				// 2) apply the rotation
+				xRotated = (int) (p.x * cosCache + p.y * sinCache);
+				yRotated = (int) ((p.y * cosCache) - (p.x * sinCache));
+				p.x = xRotated;
+				p.y = yRotated;
+				// 3) make it back relative to top-left corner
+				p.x -= hw;
+				p.y -= hh;
+				// 4) make it absolute
+				p.x += isomLocation.x;
+				p.y += isomLocation.y;
+
+				// 5) DONE
+				action.accept(n, p);
+			});
 		}
 	}
 

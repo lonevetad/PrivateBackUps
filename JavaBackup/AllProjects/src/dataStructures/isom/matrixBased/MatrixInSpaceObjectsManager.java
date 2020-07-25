@@ -122,7 +122,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	@Override
 	public Set<ObjectLocated> getAllObjectLocated() { return objectsAddedSet; }
 
-	public NodeIsom<Distance>[] getRow(int y) { return matrix[y]; }
+	public NodeIsom<Distance>[] getRow(int y) { return (y < 0 || y >= matrix.length) ? null : matrix[y]; }
 
 	//
 
@@ -189,6 +189,29 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		}
 	}
 
+	@Override
+	public void forEachNode(BiConsumer<NodeIsom<Distance>, Point> action) {
+		int r, c, w, h;
+		NodeIsom<Distance>[] row, m[];
+		Point p;
+		m = this.matrix;
+		if (action == null || m == null)
+			return;
+		h = this.getHeight();
+		w = this.getWidth();
+		p = new Point();
+		r = -1;
+		while (++r < h) {
+			row = m[r];
+			c = -1;
+			while (++c < w) {
+				p.y = r;// reset me also
+				p.x = c;
+				action.accept(row[c], p);
+			}
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public void reinstanceMatrix() {
 		int r, c, w, h;
@@ -215,7 +238,13 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		int x, y;
 		NodeIsom<Distance> n;
 //		n = matrix[y = (int) p.getY()][x = (int) p.getX()];
-		n = matrix[y = p.y][x = p.x];
+		n = null;
+		y = p.y;
+		x = p.x;
+		if (y >= 0 && x >= 0 && y < matrix.length && x < matrix[0].length) {
+			n = matrix[y][x];
+		} else
+			return null;
 		if (isLazyNodeInstancing && n == null) { n = matrix[y][x] = newNodeMatrix(x, y); }
 		return n;
 	}
@@ -262,6 +291,9 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	// TODO add
 
 	@Override
+	public ObjectLocated getObjectLocated(Integer ID) { return this.objectsAdded.get(ID); }
+
+	@Override
 	public boolean add(ObjectLocated o) {
 		AdderObjLocated<Distance> a;
 		if (o == null)
@@ -275,9 +307,6 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		this.getObjectsAdded().put(o.getID(), o);
 		return true;
 	}
-
-	@Override
-	public ObjectLocated getObjectLocated(Integer ID) { return this.objectsAdded.get(ID); }
 
 	@Override
 	public boolean contains(ObjectLocated o) { return o != null && this.getObjectsAdded().containsKey(o.getID()); }
@@ -381,7 +410,12 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public void acceptImpl(Point p) { this.misom.getNodeAt(p).addObject(oToManipulate); }
+		public void acceptImpl(Point p) {
+			NodeIsom<D> n;
+			n = this.misom.getNodeAt(p);
+			if (n != null)
+				n.addObject(oToManipulate);
+		}
 	}
 
 	protected static class RemoverObjLocated<D extends Number> extends ActionOnPointWithObj<D> {
@@ -392,7 +426,12 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public void acceptImpl(Point p) { this.misom.getNodeAt(p).removeObject(oToManipulate); }
+		public void acceptImpl(Point p) {
+			NodeIsom<D> n;
+			n = this.misom.getNodeAt(p);
+			if (n != null)
+				n.removeObject(oToManipulate);
+		}
 	}
 
 	protected class IteratorNodeIsom implements Iterator<ObjectLocated> {

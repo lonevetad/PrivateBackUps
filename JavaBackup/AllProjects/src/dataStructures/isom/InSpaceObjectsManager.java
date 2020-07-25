@@ -66,15 +66,15 @@ public interface InSpaceObjectsManager<Distance extends Number>
 
 	public void setPathFinder(PathFinderIsom<Distance> pathFinder);
 
-	public default void setLocationAbsolute(Point p) { getShape().setCenter(p); }
-
-	public default void setLocationAbsolute(int x, int y) { getShape().setCenter(x, y); }
-
-	public default void setTopLetCornerAbsolute(Point lc) { setTopLetCornerAbsolute(lc.x, lc.y); }
-
-	public default void setTopLetCornerAbsolute(int x, int y) {
-		setLocationAbsolute(x + (getWidth() >> 1), y + (getHeight() >> 1));
-	}
+//	public default void setLocationAbsolute(Point p) { getShape().setCenter(p); }
+//
+//	public default void setLocationAbsolute(int x, int y) { getShape().setCenter(x, y); }
+//
+//	public default void setTopLetCornerAbsolute(Point lc) { setTopLetCornerAbsolute(lc.x, lc.y); }
+//
+//	public default void setTopLetCornerAbsolute(int x, int y) {
+//		setLocationAbsolute(x + (getWidth() >> 1), y + (getHeight() >> 1));
+//	}
 
 	//
 

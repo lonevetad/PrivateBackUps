@@ -18,7 +18,16 @@ public interface NodeIsomProvider<Distance extends Number> extends Serializable 
 	/** See {@link #getNodeAt(Point)}. */
 	public NodeIsom<Distance> getNodeAt(int x, int y);
 
-	public void forEachNode(Consumer<NodeIsom<Distance>> action);
+	/** Actually calls {@link #forEachNode(BiConsumer)} but keeping */
+	public default void forEachNode(Consumer<NodeIsom<Distance>> action) {
+		forEachNode((n, p) -> action.accept(n));
+	}
+
+	/**
+	 * Apply an action to a given {@link NodeIsom} but providing also the location
+	 * ({@link Point}
+	 */
+	public void forEachNode(BiConsumer<NodeIsom<Distance>, Point> action);
 
 	public default void clearAllNodes() { forEachNode(n -> n.removeAllObjects()); }
 
