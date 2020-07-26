@@ -44,8 +44,8 @@ public class ShapeTriangle extends ShapeFillableImpl {
 
 	/** The centroid, the center of gravity */
 	protected void recalculateCenter() {
-		this.xCenter = (int) Math.round((vertexes[0].getX() + vertexes[1].getX() + vertexes[2].getX()) / 2.0);
-		this.xCenter = (int) Math.round((vertexes[0].getY() + vertexes[1].getY() + vertexes[2].getY()) / 2.0);
+		this.center.x = (int) Math.round((vertexes[0].getX() + vertexes[1].getX() + vertexes[2].getX()) / 2.0);
+		this.center.y = (int) Math.round((vertexes[0].getY() + vertexes[1].getY() + vertexes[2].getY()) / 2.0);
 	}
 
 	protected boolean hasNulls(Point2D[] vertexes) {
@@ -55,9 +55,7 @@ public class ShapeTriangle extends ShapeFillableImpl {
 		return false;
 	}
 
-	public Point2D[] getVertexes() {
-		return vertexes;
-	}
+	public Point2D[] getVertexes() { return vertexes; }
 
 	public ShapeTriangle setVertexes(Point2D[] vertexes) {
 		if (vertexes == null || vertexes.length != 3 || hasNulls(vertexes))
@@ -75,9 +73,7 @@ public class ShapeTriangle extends ShapeFillableImpl {
 	}
 
 	@Override
-	public final int getCornersAmounts() {
-		return 3;
-	}
+	public final int getCornersAmounts() { return 3; }
 
 	@Override
 	public AbstractShape2D setXCenter(int x) {
@@ -137,28 +133,18 @@ public class ShapeTriangle extends ShapeFillableImpl {
 	}
 
 	@Override
-	public int getRadius() {
-		return 0;
-	}
+	public int getRadius() { return 0; }
 
 	@Override
-	public AbstractShape2D setRadius(int radius) {
-		return this;
-	}
+	public AbstractShape2D setRadius(int radius) { return this; }
 
 	@Override
-	public AbstractShape2D setDiameter(int radius) {
-		return this;
-	}
+	public AbstractShape2D setDiameter(int radius) { return this; }
 
 	@Override
-	public AbstractShape2D setCornersAmounts(int cornersAmounts) {
-		return this;
-	}
+	public AbstractShape2D setCornersAmounts(int cornersAmounts) { return this; }
 
 	@Override
-	public AbstractShape2D clone() {
-		return new ShapeTriangle(this);
-	}
+	public AbstractShape2D clone() { return new ShapeTriangle(this); }
 
 }

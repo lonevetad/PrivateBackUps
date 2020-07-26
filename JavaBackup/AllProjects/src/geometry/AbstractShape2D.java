@@ -60,7 +60,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * circle's centre. <br>
 	 * See {@link #getBoundingBox()}.
 	 */
-	public Point getCenter() { return new Point(getXCenter(), getYCenter()); }
+	public abstract Point getCenter();// { return new Point(getXCenter(), getYCenter()); }
 
 	@Override
 	public int getx() { // faster and lighter implementation
@@ -177,7 +177,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 
 	public void setLeftTopCorner(int x, int y) { setCenter(x + (getWidth() >> 1), y + (getHeight() >> 1)); }
 
-	public void setLeftTopCorner(Point p) { setCenter(p.x + (getWidth() >> 1), p.y + (getHeight() >> 1)); }
+	public void setLeftTopCorner(Point p) { setLeftTopCorner(p.x, p.y); }
 
 	@Override
 	public void setLocation(Point location) { setCenter(location); }

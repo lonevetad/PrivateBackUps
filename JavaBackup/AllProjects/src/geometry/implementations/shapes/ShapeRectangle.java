@@ -100,15 +100,15 @@ public class ShapeRectangle extends ShapeFillableImpl {
 			return null;
 		this.width = width;
 		this.height = height;
-		xCOrig = this.xCenter;
-		yCOrig = this.yCenter;
-		this.xCenter = xLeftTop + (width >> 1);
-		this.yCenter = yLeftTop + (height >> 1);
+		xCOrig = this.center.x;
+		yCOrig = this.center.y;
+		this.center.x = xLeftTop + (width >> 1);
+		this.center.y = yLeftTop + (height >> 1);
 		p = this.polygonCache;
 		this.polygonCache = null;// force not to move the polygon
-		xCOrig = this.xCenter - xCOrig; // recycle for deltas
-		yCOrig = this.yCenter - yCOrig; // recycle for deltas
-//		setCenterImpl(xCOrig, yCOrig, this.xCenter, this.yCenter); // already done
+		xCOrig = this.center.x - xCOrig; // recycle for deltas
+		yCOrig = this.center.y - yCOrig; // recycle for deltas
+//		setCenterImpl(xCOrig, yCOrig, this.center.x, this.center.y); // already done
 		this.polygonCache = p;
 		movePolygon(xCOrig, yCOrig, true, true);
 		return this;
@@ -173,13 +173,13 @@ public class ShapeRectangle extends ShapeFillableImpl {
 			p = null;
 			if (angRotation == 0.0 | angRotation == 180.0)
 				p = polygonCache = new Polygon(//
-						new int[] { minusw = xCenter - minusw, plusw += xCenter, plusw, minusw }, //
-						new int[] { minush = yCenter - minush, minush, plush += yCenter, plush }//
+						new int[] { minusw = center.x - minusw, plusw += center.x, plusw, minusw }, //
+						new int[] { minush = center.y - minush, minush, plush += center.y, plush }//
 						, 4);
 			else if (angRotation == 90.0 | angRotation == 270.0)
 				p = polygonCache = new Polygon(//
-						new int[] { minush = xCenter - minush, plush += xCenter, plush, minush }, //
-						new int[] { minusw = yCenter - minusw, minusw, plusw += yCenter, plusw }//
+						new int[] { minush = center.x - minush, plush += center.x, plush, minush }, //
+						new int[] { minusw = center.y - minusw, minusw, plusw += center.y, plusw }//
 						, 4);
 			if (p != null) {
 				diameterCache = (int) Math.round(Math.hypot(width, height));
@@ -199,20 +199,20 @@ public class ShapeRectangle extends ShapeFillableImpl {
 		deltasx = new double[] { -halfWidth, halfWidth, halfWidth, -halfWidth };
 		deltasy = new double[] { -halfHeight, -halfHeight, halfHeight, halfHeight };
 		while (++counter < 4) {
-			tempx = (xCenter + deltasx[counter]);
-			tempy = (yCenter + deltasy[counter]);
-			rad = MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy) + angRotation;//
+			tempx = (center.x + deltasx[counter]);
+			tempy = (center.y + deltasy[counter]);
+			rad = MathUtilities.angleDegrees(center.x, center.y, tempx, tempy) + angRotation;//
 			if (rad < 0.0)
 				rad += 360.0;
 			else if (rad > 360.0)
 				rad -= 360.0;
 			rad = Math.toRadians(rad);
-//			System.out.println("xCenter: " + xCenter + ", yCenter: " + yCenter + "\n\t tempx: " + tempx + ", tempy: "
-//					+ tempy + ",\n\t ang between" + MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy));
+//			System.out.println("center.x: " + center.x + ", center.y: " + center.y + "\n\t tempx: " + tempx + ", tempy: "
+//					+ tempy + ",\n\t ang between" + MathUtilities.angleDegrees(center.x, center.y, tempx, tempy));
 			xx[counter] = (int) Math.round(//
-					xCenter + radius * Math.cos(rad));
+					center.x + radius * Math.cos(rad));
 			yy[counter] = (int) Math.round(//
-					yCenter + radius * Math.sin(rad));
+					center.y + radius * Math.sin(rad));
 		}
 		return polygonCache = new Polygon(xx, yy, 4);
 	}
@@ -267,13 +267,13 @@ public class ShapeRectangle extends ShapeFillableImpl {
 			p = null;
 			if (angRotation == 0.0 | angRotation == 180.0)
 				p = polygonCache = new Polygon(//
-						new int[] { minusw = xCenter - minusw, plusw += xCenter, plusw, minusw }, //
-						new int[] { minush = yCenter - minush, minush, plush += yCenter, plush }//
+						new int[] { minusw = center.x - minusw, plusw += center.x, plusw, minusw }, //
+						new int[] { minush = center.y - minush, minush, plush += center.y, plush }//
 						, 4);
 			else if (angRotation == 90.0 | angRotation == 270.0)
 				p = polygonCache = new Polygon(//
-						new int[] { minush = xCenter - minush, plush += xCenter, plush, minush }, //
-						new int[] { minusw = yCenter - minusw, minusw, plusw += yCenter, plusw }//
+						new int[] { minush = center.x - minush, plush += center.x, plush, minush }, //
+						new int[] { minusw = center.y - minusw, minusw, plusw += center.y, plusw }//
 						, 4);
 			if (p != null) {
 				diameterCache = (int) Math.round(Math.hypot(width, height));
@@ -292,23 +292,23 @@ public class ShapeRectangle extends ShapeFillableImpl {
 		addingy = false;
 		do {
 			addingx = false;
-			tempy = addingy ? (yCenter + halfHeight) : (yCenter - halfHeight);
+			tempy = addingy ? (center.y + halfHeight) : (center.y - halfHeight);
 			do {
-				tempx = addingx ? (xCenter + halfWidth) : (xCenter - halfWidth);
+				tempx = addingx ? (center.x + halfWidth) : (center.x - halfWidth);
 
-				rad = MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy) + angRotation;//
+				rad = MathUtilities.angleDegrees(center.x, center.y, tempx, tempy) + angRotation;//
 				if (rad < 0.0)
 					rad += 360.0;
 				else if (rad > 360.0)
 					rad -= 360.0;
 				rad = Math.toRadians(rad);
-				System.out.println(
-						"xCenter: " + xCenter + ", yCenter: " + yCenter + "\n\t tempx: " + tempx + ", tempy: " + tempy
-								+ ",\n\t ang between" + MathUtilities.angleDegrees(xCenter, yCenter, tempx, tempy));
+				System.out.println("center.x: " + center.x + ", center.y: " + center.y + "\n\t tempx: " + tempx
+						+ ", tempy: " + tempy + ",\n\t ang between"
+						+ MathUtilities.angleDegrees(center.x, center.y, tempx, tempy));
 				xx[counter] = (int) Math.round(//
-						xCenter + radius * Math.cos(rad));
+						center.x + radius * Math.cos(rad));
 				yy[counter++] = (int) Math.round(//
-						yCenter + radius * Math.sin(rad));
+						center.y + radius * Math.sin(rad));
 			} while (addingx = !addingx);
 		} while (addingy = !addingy);
 		return polygonCache = new Polygon(xx, yy, 4);

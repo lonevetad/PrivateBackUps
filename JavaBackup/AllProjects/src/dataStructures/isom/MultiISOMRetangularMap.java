@@ -848,38 +848,86 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 ////				return misom.getNodeAt(y-yy,x-xx);
 //				throw new UnsupportedOperationException("Not still done");
 //			}
-
-			// rotate it
-//			x-this.x, y-this.y
-			double sinPart, cosPart;
-			// make coordinates relative
-			x -= this.x;
-			y -= this.y;
+//			otherwise ..if (this.angleRotationDegrees != 0.0) {
+			else {
+				Point location;
+				// NOTE: actions in "makeRelativeAndRotate" are make here just to make them fast
+				location = this.misom.getLocation();
+				// make coordinates relative to the centre
+//				x += location.x - (this.misom.getWidth() >> 1);
+//				y += location.y - (this.misom.getHeight() >> 1);
+				x -= location.x;
+				y -= location.y;
 //			s = Math.sin(a); // a is in radians
 //			c = Math.cos(a);
 //			rotationMatrix = [
 //				[c, -s],
 //				[s, c]
 //			];
-			// [x,y] = dotProduct( [x,y], rotationMatrix);
-			cosPart = Math.cos(-angleRotationDegrees);
-			sinPart = Math.sin(-angleRotationDegrees);
-			x = (int) (x * cosPart + y * sinPart);
-			y = (int) ((y * cosPart) - (x * sinPart));
+				// [x,y] = dotProduct( [x,y], rotationMatrix);
+//			xtemp = x * cosInverseCache;
+//			ytemp = y * sinInverseCache;
+				x = (int) (x * cosInverseCache + y * sinInverseCache);
+				y = (int) ((y * cosInverseCache) - (x * sinInverseCache));
+			}
+
 			return misom.getNodeAt(x, y);
 		}
 
-		public Point makePointRelative(Point p) {
-			p.x -= this.x;
-			p.y -= this.y;
+		/**
+		 * Change the provided {@link Point}'s internal values equal to the relative
+		 * top-left corner of the {@link InSpaceObjectsManager} held by this class.
+		 */
+		public Point makePointRelativeToTopLeftCorner(Point p) {
+			Point location;
+			location = this.misom.getTopLetCorner();
+			p.x -= location.x;
+			p.y -= location.y;
 			return p;
 		}
 
 		/**
-		 * Calls {@link #makePointRelative(Point)} providing a newly created
-		 * {@link Point}.
+		 * Calls {@link #makePointRelativeToTopLeftCorner(Point)} providing a newly
+		 * created {@link Point}. The given point is to be meant as <b>absolute</b>,
+		 * i.e. NOT relative to this {@link InSpaceObjectsManager}.
 		 */
-		public Point makePointRelative(int x, int y) { return makePointRelative(new Point(x, y)); }
+		public Point makePointRelativeToTopLeftCorner(int x, int y) {
+			return makePointRelativeToTopLeftCorner(new Point(x, y));
+		}
+
+		public Point makePointAbsoluteToTopLeftCorner(Point p) {
+			Point location;
+			location = this.misom.getTopLetCorner();
+			p.x += location.x;
+			p.y += location.y;
+			return p;
+		}
+
+		/** See {@link #makePointRelativeToTopLeftCorner(int, int)}. */
+		public Point makePointRelativeToCenter(Point p) {
+			Point location;
+//			location = this.misom.getTopLetCorner();
+//			p.x += (this.misom.getWidth() >> 1) - location.x;
+//			p.y += (this.misom.getHeight() >> 1) - location.y;
+//			return p;
+			location = this.misom.getLocation();
+			p.x -= location.x;
+			p.y -= location.y;
+			return p;
+		}
+
+		public Point makePointAbsoluteToCenter(int x, int y) { return makePointAbsoluteToCenter(new Point(x, y)); }
+
+		public Point makePointAbsoluteToCenter(Point p) {
+			Point location;
+//			location = this.misom.getTopLetCorner();
+//			p.x += location.x - (this.misom.getWidth() >> 1);
+//			p.y += location.y - (this.misom.getHeight() >> 1);
+			location = this.misom.getLocation();
+			p.x += location.x;
+			p.y += location.y;
+			return p;
+		}
 
 		/**
 		 * The given {@link InSpaceObjectsManager} has a rotation in degrees (i.e.:
@@ -897,18 +945,22 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		}
 
 		/**
-		 * Calls {@link #makePointRelative(Point)} providing a newly created
-		 * {@link Point}.
+		 * Calls {@link #makePointRelativeToTopLeftCorner(Point)} providing a newly
+		 * created {@link Point}.
 		 */
 		public Point applyIsomsRotation(int x, int y) { return applyIsomsRotation(new Point(x, y)); }
 
 		/**
-		 * Apply both {@link #makePointRelative(Point)} and then
+		 * Apply both {@link #makePointRelativeToTopLeftCorner(Point)} and then
 		 * {@link #applyIsomsRotation(Point)} to the given <b>absolute</b> point.
 		 */
-		public Point makeRelativeAndRotate(Point p) { return applyIsomsRotation(makePointRelative(p)); }
+		public Point makeRelativeToCenterAndRotate(Point p) {
+			return applyIsomsRotation(makePointRelativeToCenter(p));
+		}
 
-		public Point makeRelativeAndRotate(int x, int y) { return makeRelativeAndRotate(new Point(x, y)); }
+		public Point makeRelativeToCenterAndRotate(int x, int y) {
+			return makeRelativeToCenterAndRotate(new Point(x, y));
+		}
 
 		public boolean add(ObjectLocated o) {
 			boolean c;
@@ -920,7 +972,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			xo = oldLocation.x;
 			yo = oldLocation.y;
 //			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
-			makeRelativeAndRotate(oldLocation);
+			makeRelativeToCenterAndRotate(oldLocation);
 			c = this.multi.add(o);
 			o.setLocation(xo, yo);
 			return c;
@@ -936,7 +988,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			xo = oldLocation.x;
 			yo = oldLocation.y;
 //			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
-			makeRelativeAndRotate(oldLocation);
+			makeRelativeToCenterAndRotate(oldLocation);
 			c = this.multi.contains(o);
 			o.setLocation(xo, yo);
 			return c;
@@ -946,14 +998,14 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 			boolean c;
 			int xo, yo;// , x, y;
 			Point oldLocation;
-//			misomLocation = this.isomHeld.getLocation();
+//			misomLocation = this.misom.getLocation();
 			if (o == null)
 				return false;
 			oldLocation = o.getLocation();
 			xo = oldLocation.x;
 			yo = oldLocation.y;
 //			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
-			makeRelativeAndRotate(oldLocation);
+			makeRelativeToCenterAndRotate(oldLocation);
 			c = this.multi.remove(o);
 			o.setLocation(xo, yo);
 			return c;
@@ -961,8 +1013,8 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 		public void forEachNode(BiConsumer<NodeIsom<Dd>, Point> action) {
 			int hw, hh;
-			Point isomLocation;
-			isomLocation = this.misom.getLocation();
+			Point isomLocationCentre;
+			isomLocationCentre = this.misom.getLocation();
 			hw = (this.misom.getWidth() >> 1);
 			hh = (this.misom.getHeight() >> 1);
 			this.misom.forEachNode((n, p) -> {
@@ -970,21 +1022,17 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 				// p is relative right now
 				// must be made absolute and rotated
 
-				// 1) make it from relative to top-left to relative to centre
-				p.x += hw;
-				p.y += hh;
+				// 1) make it from relative to top-left to relative to center
+				p.x -= hw;
+				p.y -= hh;
 				// 2) apply the rotation
 				xRotated = (int) (p.x * cosCache + p.y * sinCache);
 				yRotated = (int) ((p.y * cosCache) - (p.x * sinCache));
 				p.x = xRotated;
 				p.y = yRotated;
-				// 3) make it back relative to top-left corner
-				p.x -= hw;
-				p.y -= hh;
-				// 4) make it absolute
-				p.x += isomLocation.x;
-				p.y += isomLocation.y;
-
+				// 3) make it back relative to top-left corner and 4) absolute
+				p.x += hw + isomLocationCentre.x;
+				p.y += hh + isomLocationCentre.y;
 				// 5) DONE
 				action.accept(n, p);
 			});

@@ -2,6 +2,7 @@ package dataStructures.isom;
 
 import java.awt.Point;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,12 +47,22 @@ public interface InSpaceObjectsManager<Distance extends Number>
 
 	public default int getHeight() { return getShape().getHeight(); }
 
-	public default Point getLocationAbsolute() { return getShape().getCenter(); }
+//	public default Point getLocationAbsolute() { return getShape().getCenter(); }
+//
+//	public default Point getTopLetCornerAbsolute() {
+//		Point c;
+//		c = getLocationAbsolute();
+//		return new Point(c.x - (getWidth() >> 1), c.y - (getHeight() >> 1));
+//	}
 
-	public default Point getTopLetCornerAbsolute() {
-		Point c;
-		c = getLocationAbsolute();
-		return new Point(c.x - (getWidth() >> 1), c.y - (getHeight() >> 1));
+	@Override
+	public default Point getTopLetCorner() {
+//		Point c;
+//		c = getLocation();
+//		return new Point(c.x - (getWidth() >> 1), c.y - (getHeight() >> 1));
+		Point2D p2d;
+		p2d = getShape().getTopLeftCorner();
+		return new Point((int) p2d.getX(), (int) p2d.getY());
 	}
 
 	//

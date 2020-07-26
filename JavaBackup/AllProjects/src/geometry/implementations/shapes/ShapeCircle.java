@@ -49,24 +49,16 @@ public class ShapeCircle extends ShapeFillableImpl {
 
 	/** {@inheritDoc} */
 	@Override
-	public int getDiameter() {
-		return diameter;
-	}
+	public int getDiameter() { return diameter; }
 
 	@Override
-	public int getWidth() {
-		return diameter;
-	}
+	public int getWidth() { return diameter; }
 
 	@Override
-	public int getHeight() {
-		return diameter;
-	}
+	public int getHeight() { return diameter; }
 
 	@Override
-	public final boolean isRegular() {
-		return true;
-	}
+	public final boolean isRegular() { return true; }
 
 	@Override
 	public final int getCornersAmounts() {
@@ -84,7 +76,7 @@ public class ShapeCircle extends ShapeFillableImpl {
 	public Point getTopLeftCorner() {
 		int radius;
 		radius = diameter >> 1;
-		return new Point(xCenter - radius, yCenter - radius);
+		return new Point(center.x - radius, center.y - radius);
 	}
 
 	//
@@ -98,16 +90,14 @@ public class ShapeCircle extends ShapeFillableImpl {
 	}
 
 	@Override
-	public AbstractShape2D setCornersAmounts(int cornersAmounts) {
-		return this;
-	}
+	public AbstractShape2D setCornersAmounts(int cornersAmounts) { return this; }
 
 //
 
 	@Override
 	public boolean contains(int x, int y) {
-		return (this.xCenter == x && this.yCenter == y) //
-				|| (diameter / 2.0) <= Math.hypot(this.xCenter - x, this.yCenter - y);
+		return (this.center.x == x && this.center.y == y) //
+				|| (diameter / 2.0) <= Math.hypot(this.center.x - x, this.center.y - y);
 	}
 
 	@Override
@@ -116,9 +106,9 @@ public class ShapeCircle extends ShapeFillableImpl {
 		radius = (d = diameter) >> 1;
 		d_1 = d + (d & 0x1);
 		return new Point2D[] { //
-				new Point2D.Double(xm = xCenter - radius, y = yCenter - radius), //
-				new Point2D.Double(xp = xCenter + d_1, y), //
-				new Point2D.Double(xm, y = yCenter + d_1), //
+				new Point2D.Double(xm = center.x - radius, y = center.y - radius), //
+				new Point2D.Double(xp = center.x + d_1, y), //
+				new Point2D.Double(xm, y = center.y + d_1), //
 				new Point2D.Double(xp, y) };
 	}
 
@@ -126,7 +116,7 @@ public class ShapeCircle extends ShapeFillableImpl {
 	public Rectangle getBoundingBox() {
 		int radius, d;
 		radius = (d = diameter) >> 1;
-		return new Rectangle(xCenter - radius, yCenter - radius, d, d);
+		return new Rectangle(center.x - radius, center.y - radius, d, d);
 	}
 
 //	@Override
@@ -134,12 +124,10 @@ public class ShapeCircle extends ShapeFillableImpl {
 //		if (polygonCache != null)
 //			return polygonCache;
 //	return polygonCache = new Polygon(
-//			new int[] { xCenter - radius, xCenter + radius, xCenter - radius, xCenter + radius },
-//			new int[] { yCenter - radius, yCenter - radius, yCenter + radius, yCenter + radius }, 4);
+//			new int[] { center.x - radius, center.x + radius, center.x - radius, center.x + radius },
+//			new int[] { center.y - radius, center.y - radius, center.y + radius, center.y + radius }, 4);
 //	}
 
 	@Override
-	public AbstractShape2D clone() {
-		return new ShapeCircle(this);
-	}
+	public AbstractShape2D clone() { return new ShapeCircle(this); }
 }

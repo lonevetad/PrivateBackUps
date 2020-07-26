@@ -413,8 +413,12 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 		public void acceptImpl(Point p) {
 			NodeIsom<D> n;
 			n = this.misom.getNodeAt(p);
-			if (n != null)
+			if (n != null) {
 				n.addObject(oToManipulate);
+				System.out.println("YEAH nodeIsom found at: " + p);
+			} else {
+				System.out.println("No nodeIsom found at: " + p);
+			}
 		}
 	}
 

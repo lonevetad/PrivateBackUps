@@ -20,9 +20,7 @@ public class ShapePolygon extends ShapeFillableImpl {
 		setPoints(points);
 	}
 
-	public ShapePolygon() {
-		this(false);
-	}
+	public ShapePolygon() { this(false); }
 
 	public ShapePolygon(boolean isFilled) {
 		super(isFilled ? ShapeRunnersImplemented.Polygon : ShapeRunnersImplemented.PolygonBorder);
@@ -30,9 +28,7 @@ public class ShapePolygon extends ShapeFillableImpl {
 
 	Point2D[] points;
 
-	public Point2D[] getPoints() {
-		return points;
-	}
+	public Point2D[] getPoints() { return points; }
 
 	public ShapePolygon setPoints(Point2D[] points) {
 		double meanx, meany, len;
@@ -46,8 +42,8 @@ public class ShapePolygon extends ShapeFillableImpl {
 					meanx += p.getX() / len;
 					meany += p.getY() / len;
 				}
-				this.xCenter = (int) Math.round(meanx);
-				this.yCenter = (int) Math.round(meany);
+				this.center.x = (int) Math.round(meanx);
+				this.center.y = (int) Math.round(meany);
 				System.out.println(this.getCenter());
 			}
 		}
@@ -60,29 +56,19 @@ public class ShapePolygon extends ShapeFillableImpl {
 	}
 
 	@Override
-	public int getCornersAmounts() {
-		return 0;
-	}
+	public int getCornersAmounts() { return 0; }
 
 	@Override
-	public AbstractShape2D setRadius(int radius) {
-		return this;
-	}
+	public AbstractShape2D setRadius(int radius) { return this; }
 
 	@Override
-	public AbstractShape2D setDiameter(int diameter) {
-		return this;
-	}
+	public AbstractShape2D setDiameter(int diameter) { return this; }
 
 	@Override
-	public AbstractShape2D setCornersAmounts(int cornersAmounts) {
-		return this;
-	}
+	public AbstractShape2D setCornersAmounts(int cornersAmounts) { return this; }
 
 	@Override
-	public AbstractShape2D clone() {
-		return new ShapePolygon(this);
-	}
+	public AbstractShape2D clone() { return new ShapePolygon(this); }
 
 	//
 	@Override

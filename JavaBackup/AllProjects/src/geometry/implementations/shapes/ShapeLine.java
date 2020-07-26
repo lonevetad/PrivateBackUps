@@ -15,9 +15,7 @@ import tools.MathUtilities;
 public class ShapeLine extends AbstractShapeImpl {
 	private static final long serialVersionUID = -1545584051L;
 
-	public ShapeLine() {
-		super(ShapeRunnersImplemented.Line);
-	}
+	public ShapeLine() { super(ShapeRunnersImplemented.Line); }
 
 	public ShapeLine(ShapeLine s) {
 		super(s);
@@ -30,9 +28,7 @@ public class ShapeLine extends AbstractShapeImpl {
 		this.setLength(length);
 	}
 
-	public ShapeLine(Line2D l) {
-		this(l.getP1(), l.getP2());
-	}
+	public ShapeLine(Line2D l) { this(l.getP1(), l.getP2()); }
 
 	public ShapeLine(Point2D p1, Point2D p2) {
 		super(ShapeRunnersImplemented.Line);
@@ -46,8 +42,8 @@ public class ShapeLine extends AbstractShapeImpl {
 		y2 = (int) Math.round(p2.getY());
 		this.angleRotation = MathUtilities.angleDegrees(p1, p2);
 		this.length = (int) Math.round(MathUtilities.distance(p1, p2));
-		this.xCenter = (int) Math.round((p1.getX() + p2.getX()) / 2.0);
-		this.yCenter = (int) Math.round((p1.getY() + p2.getY()) / 2.0);
+		this.center.x = (int) Math.round((p1.getX() + p2.getX()) / 2.0);
+		this.center.y = (int) Math.round((p1.getY() + p2.getY()) / 2.0);
 //		slope=MathUtilities.slope(p1, p2);
 		this.polygonCache = new Polygon(new int[] { x1, x2 }, new int[] { y1, y2 }, 2);
 //		setDiameter(diameter)
@@ -58,29 +54,19 @@ public class ShapeLine extends AbstractShapeImpl {
 
 	//
 
-	public int getLength() {
-		return length;
-	}
+	public int getLength() { return length; }
 
 	@Override
-	public boolean isRegular() {
-		return true;
-	}
+	public boolean isRegular() { return true; }
 
 	@Override
-	public int getDiameter() {
-		return length;
-	}
+	public int getDiameter() { return length; }
 
 	@Override
-	public int getRadius() {
-		return length >> 1;
-	}
+	public int getRadius() { return length >> 1; }
 
 	@Override
-	public int getCornersAmounts() {
-		return 2;
-	}
+	public int getCornersAmounts() { return 2; }
 
 	public Point2D getP1() {
 		if (p1 == null || polygonCache == null) {
@@ -113,19 +99,15 @@ public class ShapeLine extends AbstractShapeImpl {
 		return this;
 	}
 
-	public void setLength(int length) {
-		setDiameter(length);
-	}
+	public void setLength(int length) { setDiameter(length); }
 
 	@Override
-	public AbstractShape2D setCornersAmounts(int cornersAmounts) {
-		return this;
-	}
+	public AbstractShape2D setCornersAmounts(int cornersAmounts) { return this; }
 
 	@Override
 	public AbstractShape2D setXCenter(int x) {
 		int delta;
-		delta = x - xCenter;
+		delta = x - center.x;
 		p1.setLocation(p1.getX() + delta, p1.getY());
 		p2.setLocation(p2.getX() + delta, p2.getY());
 		super.setXCenter(x);
@@ -135,7 +117,7 @@ public class ShapeLine extends AbstractShapeImpl {
 	@Override
 	public AbstractShape2D setYCenter(int y) {
 		int delta;
-		delta = y - yCenter;
+		delta = y - center.y;
 		p1.setLocation(p1.getX(), p1.getY() + delta);
 		p2.setLocation(p2.getX(), p2.getY() + delta);
 		super.setYCenter(y);
@@ -157,9 +139,7 @@ public class ShapeLine extends AbstractShapeImpl {
 	//
 
 	@Override
-	public AbstractShape2D toBorder() {
-		return this;
-	}
+	public AbstractShape2D toBorder() { return this; }
 
 	@Override
 	public boolean contains(int x, int y) {
@@ -184,25 +164,25 @@ public class ShapeLine extends AbstractShapeImpl {
 //		if (polygonCache != null)
 //			return polygonCache;
 		if (length == 0) {
-			xx = new int[] { xCenter, xCenter };
-			yy = new int[] { yCenter, yCenter };
+			xx = new int[] { center.x, center.x };
+			yy = new int[] { center.y, center.y };
 		} else {
 			halfLength = length / 2.0;
 			rad = this.getAngleRotation();
 			if (rad == 0.0 || rad == 180.0) {
-				xx = new int[] { (int) (xCenter - halfLength), (int) (xCenter + halfLength) };
-				yy = new int[] { (yCenter), (yCenter) };
+				xx = new int[] { (int) (center.x - halfLength), (int) (center.x + halfLength) };
+				yy = new int[] { (center.y), (center.y) };
 			} else if (rad == 90.0 || rad == 270.0) {
-				xx = new int[] { (xCenter), (xCenter) };
-				yy = new int[] { (int) (yCenter - halfLength), (int) (yCenter + halfLength) };
+				xx = new int[] { (center.x), (center.x) };
+				yy = new int[] { (int) (center.y - halfLength), (int) (center.y + halfLength) };
 			} else {
 //			rad = Math.toRadians(rad / 2.0);
 				rad = Math.toRadians(rad);
 				dx = Math.cos(rad) * halfLength;
 				dy = Math.sin(rad) * halfLength;
 				halfLength = length / 4.0;
-//			xx = new int[] { (int) (xCenter - dx), (int) (xCenter + dx) };
-//			yy = new int[] { (int) (yCenter - dy), (int) (yCenter + dy) };
+//			xx = new int[] { (int) (center.x - dx), (int) (center.x + dx) };
+//			yy = new int[] { (int) (center.y - dy), (int) (center.y + dy) };
 				if (dx < 0) {
 					/*
 					 * angle would range in (90;270), but angle's calculus would be wrong: swap
@@ -211,8 +191,8 @@ public class ShapeLine extends AbstractShapeImpl {
 					dx = -dx;
 					dy = -dy;
 				}
-				xx = new int[] { (int) Math.round(xCenter - dx), (int) Math.round(xCenter + dx) };
-				yy = new int[] { (int) Math.round(yCenter - dy), (int) Math.round(yCenter + dy) };
+				xx = new int[] { (int) Math.round(center.x - dx), (int) Math.round(center.x + dx) };
+				yy = new int[] { (int) Math.round(center.y - dy), (int) Math.round(center.y + dy) };
 //			return polygonCache = super.toPolygon();
 			}
 		}
@@ -228,9 +208,7 @@ public class ShapeLine extends AbstractShapeImpl {
 	}
 
 	@Override
-	public AbstractShape2D clone() {
-		return new ShapeLine(this);
-	}
+	public AbstractShape2D clone() { return new ShapeLine(this); }
 
 	public Line2D toLine() {
 //		Polygon p;

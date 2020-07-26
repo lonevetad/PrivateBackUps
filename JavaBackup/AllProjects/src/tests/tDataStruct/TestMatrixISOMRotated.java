@@ -1,20 +1,28 @@
 package tests.tDataStruct;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import dataStructures.isom.MultiISOMPolygonalSubareas;
+import dataStructures.isom.NodeIsom;
 import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
 import geometry.ObjectLocated;
+import tools.GraphicTools;
 import tools.NumberManager;
 import tools.UniqueIDProvider;
 
 public class TestMatrixISOMRotated {
 	static final UniqueIDProvider uidp = UniqueIDProvider.newBasicIDProvider();
+	static final int PIXEL_EACH_CELL = 25;
 
 	//
 
@@ -44,8 +52,58 @@ public class TestMatrixISOMRotated {
 			}
 		};
 		win.add(jpDrawMultimap);
+		win.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Dimension d;
+				d = win.getSize();
+				d.width -= 10;
+				d.height -= 35;
+				jpDrawMultimap.setSize(d);
+				jpDrawMultimap.setPreferredSize(d);
+			}
+		});
+		MouseAdapter ma;
+		ma = new MouseAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				Point p;
+				p = e.getPoint();
+				p.x /= PIXEL_EACH_CELL;
+				p.y /= PIXEL_EACH_CELL;
+//			applyMultiMapOffset(p);
+				win.setTitle("Mouse at: (x: " + p.x + ", y: " + p.y + ")");
+			}
+		};
+		win.addMouseMotionListener(ma);
 
+		win.setSize(500, 500);
+		win.setVisible(true);
 	}
+
+	// TODO paint
+	void paintRectsAndSections(Graphics g) {
+		multiPoly.forEachNode((n, p) -> printNode(g, n, p));
+		GraphicTools.paintGrid(g, PIXEL_EACH_CELL * jpDrawMultimap.getWidth(),
+				PIXEL_EACH_CELL * jpDrawMultimap.getHeight(), PIXEL_EACH_CELL);
+	}
+
+	void printNode(Graphics g, NodeIsom<Double> node, Point location) {
+		node.forEachHeldObject(ol -> {
+			ColoredOL col;
+			col = (ColoredOL) ol;
+			g.setColor((ol == null) ? Color.BLACK : col.color);
+			g.fillRect(location.x * PIXEL_EACH_CELL, location.y * PIXEL_EACH_CELL, PIXEL_EACH_CELL, PIXEL_EACH_CELL);
+		});
+	}
+
+	//
+
+	//
+
+	//
+
+	//
 
 	//
 
@@ -53,24 +111,33 @@ public class TestMatrixISOMRotated {
 		TestMatrixISOMRotated t;
 		ColoredOL[] points;
 		t = new TestMatrixISOMRotated();
+		System.out.println("Start");
 		//
 		t.multiPoly.addMap(//
 				new MISOM_SingleObjInNode<Double>(false, 12, 8, NumberManager.getDoubleManager())
 				//
-				, 5, 7, 57.5);
+				, 3, 7, 57.5);
+
+		// check the add
+		System.out.println("check maps added:");
+		t.multiPoly.getIsomsHeldCenterLocated().forEach(
+				e -> { System.out.println("map with ID: " + e.getKey().getID() + "\t lies at " + e.getValue()); });
+//		t.multiPoly.forEachNode(action);
 
 		//
 		points = new ColoredOL[] { //
 				new ColoredOL(Color.BLUE, 10, 10), //
-				new ColoredOL(Color.BLUE, 12, 10), //
-				new ColoredOL(Color.BLUE, 7, 11), //
-				new ColoredOL(Color.BLUE, 7, 7),//
+				new ColoredOL(Color.GREEN, 12, 10), //
+				new ColoredOL(Color.RED, 7, 11), //
+				new ColoredOL(Color.ORANGE, 7, 7),//
 		};
+		System.out.println("\n\nnow add objects");
 		for (ObjectLocated ol : points) {
 			System.out.println(ol);
 			t.multiPoly.add(ol);
 			System.out.println("added\n");
 		}
+//		t.multiPoly.forEachNode(action);
 //		ol=new ColoredOL(Color.BLUE, location)
 		t.buildAndShowGUI();
 		System.out.println("FINE");
