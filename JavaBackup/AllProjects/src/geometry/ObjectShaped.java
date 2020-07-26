@@ -1,7 +1,6 @@
 package geometry;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 
 public interface ObjectShaped extends ObjectLocated {
 
@@ -10,7 +9,9 @@ public interface ObjectShaped extends ObjectLocated {
 	public void setShape(AbstractShape2D shape);
 
 	@Override
-	public default Point getLocation() {
+	public default Point getLocation() { return this.getCenter(); }
+
+	public default Point getCenter() {
 		AbstractShape2D s;
 		s = this.getShape();
 		if (s == null)
@@ -18,14 +19,15 @@ public interface ObjectShaped extends ObjectLocated {
 		return s.getCenter();
 	}
 
-	public default Point getTopLetCorner() {
+	public default PointInt getTopLetCorner() {
 		AbstractShape2D s;
-		Point2D p2d;
+//		Point2D p2d;
 		s = this.getShape();
 		if (s == null)
 			return null;
-		p2d = s.getTopLeftCorner();
-		return (p2d instanceof Point) ? ((Point) p2d) : new Point((int) p2d.getX(), (int) p2d.getY());
+//		p2d = s.getTopLeftCorner();
+//		return (p2d instanceof Point) ? ((Point) p2d) : new Point((int) p2d.getX(), (int) p2d.getY());
+		return s.getTopLeftCorner();
 	}
 
 	/** See {@link #getLocation()}. */

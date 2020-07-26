@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
+import geometry.implementations.PointIntImpl;
 import geometry.implementations.ShapeUIDProvider;
 import geometry.pointTools.PolygonUtilities;
 
@@ -84,9 +85,9 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * <p>
 	 * NOTE: no cache is performed to calculate this point!
 	 */
-	public Point2D getTopLeftCorner() {
+	public PointInt getTopLeftCorner() {
 		// return getLeftTopCorner(getBoundingBoxCorners());
-		return new Point(getXTopLeft(), getYTopLeft());
+		return new PointIntImpl(getXTopLeft(), getYTopLeft());
 	}
 
 	/**

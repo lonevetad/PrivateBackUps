@@ -21,6 +21,7 @@ import dataStructures.isom.pathFinders.PathFinderIsomDijkstra;
 import geometry.AbstractMultiOISMRectangular;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
+import geometry.PointInt;
 import geometry.implementations.shapes.ShapeRectangle;
 import tests.tDataStruct.Test_MultiISOMRetangularMap_V1;
 import tools.Comparators;
@@ -879,10 +880,10 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		 * top-left corner of the {@link InSpaceObjectsManager} held by this class.
 		 */
 		public Point makePointRelativeToTopLeftCorner(Point p) {
-			Point location;
+			PointInt location;
 			location = this.misom.getTopLetCorner();
-			p.x -= location.x;
-			p.y -= location.y;
+			p.x -= location.getX();
+			p.y -= location.getY();
 			return p;
 		}
 
@@ -896,10 +897,10 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		}
 
 		public Point makePointAbsoluteToTopLeftCorner(Point p) {
-			Point location;
+			PointInt location;
 			location = this.misom.getTopLetCorner();
-			p.x += location.x;
-			p.y += location.y;
+			p.x += location.getX();
+			p.y += location.getY();
 			return p;
 		}
 

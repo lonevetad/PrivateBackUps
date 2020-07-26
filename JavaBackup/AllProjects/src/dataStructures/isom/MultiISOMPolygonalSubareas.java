@@ -23,6 +23,7 @@ import dataStructures.isom.pathFinders.Heuristic8GridMovement;
 import dataStructures.isom.pathFinders.PathFinderIsomAStar;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
+import geometry.PointInt;
 import geometry.ProviderShapeRunner;
 import geometry.ProviderShapesIntersectionDetector;
 import geometry.ShapesIntersectionDetector;
@@ -65,7 +66,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 	protected final Integer ID;
 	protected NodeQuadtreeISOM root;
 	protected final MapTreeAVL<Integer, ISOMWrapperLocated> mapsLocatedInSpace;
-	protected final Set<Entry<InSpaceObjectsManager<Distance>, Point>> isomsHeldCenterLocated;
+	protected final Set<Entry<InSpaceObjectsManager<Distance>, PointInt>> isomsHeldCenterLocated;
 	protected final List<ISOMWrapperLocated> mapsAsList;
 	protected ShapeRectangle shapeBoundingBox;
 	protected Map<Integer, ObjectLocated> objectsAddedMap;
@@ -130,7 +131,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 	 * {@link NodeQuadtreeISOM#get}
 	 */
 
-	public Set<Entry<InSpaceObjectsManager<Distance>, Point>> getIsomsHeldCenterLocated() {
+	public Set<Entry<InSpaceObjectsManager<Distance>, PointInt>> getIsomsHeldCenterLocated() {
 		return isomsHeldCenterLocated;
 	}
 
@@ -245,10 +246,10 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		// traverse the tree
 		while (!(n == null || n.isLeaf())) {
 			prev = n;
-			if (x >= n.xMiddle) { // east
-				n = (y >= n.yMiddle) ? n.sse : n.sne;
+			if (x >= n.getXMiddle()) { // east
+				n = (y >= n.getYMiddle()) ? n.sse : n.sne;
 			} else {// west
-				n = (y >= n.yMiddle) ? n.ssw : n.snw;
+				n = (y >= n.getYMiddle()) ? n.ssw : n.snw;
 			}
 		}
 		// get the collection of submaps
@@ -287,7 +288,11 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		if (map == null || map.getWidth() < 1 || map.getWidth() < 1)
 			return null;
 		map.setTopLeftCorner(x, y);
+		System.out.println(
+				"setting top-left corner in (x:" + x + ";y:" + y + ") , but map gives: " + map.getTopLetCorner());
+		System.out.println("center point: " + map.getCenter() + ", w: " + map.getWidth() + ", h: " + map.getHeight());
 		r = new ISOMWrapperLocated(map);
+		r.setAngleRotationDegrees(angleRotationDegrees);
 		c = updateBoundingBox(r);
 		if (c >= 0) {
 			mapsLocatedInSpace.put(r.ID, r);
@@ -405,9 +410,11 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 			return false;
 		m = getMapLocatedContaining(o.getLocation());
 		if (m == null)
+			System.out.println("---not found D:");
+		if (m == null)
 			return false;
-		m.add(o);
-		return true;
+		System.out.println("--- found isom wrapper at: " + o.getLocation());
+		return m.add(o);
 	}
 
 	@Override
@@ -500,8 +507,8 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 //		n.width = width;
 //		n.height = height;
 		n.shapeBBSubarea.setRectangle(xLeftTop, yLeftTop, width, height);
-		n.xMiddle = xMiddle;
-		n.yMiddle = yMiddle;
+//		n.xMiddle = xMiddle;
+//		n.yMiddle = yMiddle;
 		if (submaps.size() <= maximumSubmapsEachSection //
 				|| width <= MultiISOMRetangularMap.MINIMUM_DIMENSION_MAP
 				|| height <= MultiISOMRetangularMap.MINIMUM_DIMENSION_MAP) {
@@ -684,8 +691,8 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 	/** It's still rectangular */
 	protected class NodeQuadtreeISOM implements Stringable {
 		private static final long serialVersionUID = 530125748L;
-		protected int /* xLeftTop, yLeftTop, width, height, */
-		xMiddle, yMiddle, depth;
+		protected int /* xLeftTop, yLeftTop, width, height, xMiddle, yMiddle, */
+		depth;
 		List<ISOMWrapperLocated> submaps;
 		NodeQuadtreeISOM father, snw, sne, ssw, sse;
 		ShapeRectangle shapeBBSubarea;
@@ -711,10 +718,16 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		public int getHeightSubmap() { return shapeBBSubarea.getHeight(); }
 
 		/** Similar (or same) to the concept of "centre". */
-		public int getXMiddle() { return this.xMiddle; }
+		public int getXMiddle() {
+			return // this.xMiddle;
+			shapeBBSubarea.getCenter().x;
+		}
 
 		/** See {@link #getXMiddle()}. */
-		public int getYMiddle() { return this.yMiddle; }
+		public int getYMiddle() {
+			return // this.yMiddle;
+			shapeBBSubarea.getCenter().y;
+		}
 
 		public int getDepth() { return this.depth; }
 
@@ -747,7 +760,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		protected double angleRotationDegrees, sinCache, cosCache, sinInverseCache, cosInverseCache;
 		public final Integer ID;
 		protected final InSpaceObjectsManager<Distance> isomHeld;
-		protected Entry<InSpaceObjectsManager<Distance>, Point> isomAndLocation;
+		protected Entry<InSpaceObjectsManager<Distance>, PointInt> isomAndLocation;
 
 		protected ISOMWrapperLocated(InSpaceObjectsManager<Distance> isom) {
 			super();
@@ -757,7 +770,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 			sinInverseCache = 0;
 			// cosCache =
 			cosInverseCache = 1;
-			isomAndLocation = new IsomAndTopLefCornerAbs(isom, new Point());
+			isomAndLocation = new IsomAndTopLefCornerAbs(isom, isom.getTopLetCorner());
 		}
 
 		public AbstractShape2D getShape() { return isomHeld.getShape(); }
@@ -772,10 +785,10 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 
 		public double getAngleRotationDegrees() { return angleRotationDegrees; }
 
-		public Entry<InSpaceObjectsManager<Distance>, Point> getIsomAndLocation() {
+		public Entry<InSpaceObjectsManager<Distance>, PointInt> getIsomAndLocation() {
 			Point isomLoc;
 			isomLoc = this.isomHeld.getLocation(); // it is absolute and about center
-			isomAndLocation.setValue(isomLoc);
+			isomAndLocation.setValue(PointInt.fromPoint2D(isomLoc));
 			return isomAndLocation;
 		}
 
@@ -816,10 +829,10 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		 * top-left corner of the {@link InSpaceObjectsManager} held by this class.
 		 */
 		public Point makePointRelativeToTopLeftCorner(Point p) {
-			Point location;
+			PointInt location;
 			location = this.isomHeld.getTopLetCorner();
-			p.x -= location.x;
-			p.y -= location.y;
+			p.x -= location.getX();
+			p.y -= location.getY();
 			return p;
 		}
 
@@ -833,10 +846,10 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		}
 
 		public Point makePointAbsoluteToTopLeftCorner(Point p) {
-			Point location;
+			PointInt location;
 			location = this.isomHeld.getTopLetCorner();
-			p.x += location.x;
-			p.y += location.y;
+			p.x += location.getX();
+			p.y += location.getY();
 			return p;
 		}
 
@@ -897,6 +910,11 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 
 		public Point makeRelativeAndRotate(int x, int y) { return makeRelativeToCenterAndRotate(new Point(x, y)); }
 
+		protected void relativeFromCentreToLefttop(Point p) {
+			p.x += this.isomHeld.getWidth() >> 1;
+			p.y += this.isomHeld.getHeight() >> 1;
+		}
+
 		/** Absolute coordinates. */
 		public NodeIsom<Distance> getNodeAt(int x, int y) {
 //			double xtemp, ytemp;
@@ -930,11 +948,12 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 			Point oldLocation;
 			if (o == null)
 				return false;
-			oldLocation = o.getLocation();
+			oldLocation = o.getLocation(); // it's the center of the object
 			xo = oldLocation.x;
 			yo = oldLocation.y;
 //			o.setLocation(xo - misomLocation.x, yo - misomLocation.y);
 			makeRelativeToCenterAndRotate(oldLocation);
+			relativeFromCentreToLefttop(oldLocation);
 			c = isomHeld.add(o);
 			o.setLocation(xo, yo);
 			return c;
@@ -975,38 +994,50 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 
 		public void forEachNode(BiConsumer<NodeIsom<Distance>, Point> action) {
 			int hw, hh;
-			Point isomLocationCentre;
-			isomLocationCentre = this.isomHeld.getLocation();
+//			Point isomLocationCentre;
+//			isomLocationCentre = this.isomHeld.getLocation();
+			PointInt isomTopLeftCorner;
+			isomTopLeftCorner = this.isomHeld.getTopLetCorner();
 			hw = (this.isomHeld.getWidth() >> 1);
 			hh = (this.isomHeld.getHeight() >> 1);
+//			System.out.println("\n\n\n for eaching NODE and location");
 			this.isomHeld.forEachNode((n, p) -> {
 				int xRotated, yRotated;
 				// p is relative right now
-				// must be made absolute and rotated
-
-				// 1) make it from relative to top-left to relative to center
-				p.x -= hw;
-				p.y -= hh;
-				// 2) apply the rotation
-				xRotated = (int) (p.x * cosCache + p.y * sinCache);
-				yRotated = (int) ((p.y * cosCache) - (p.x * sinCache));
-				p.x = xRotated;
-				p.y = yRotated;
-				// 3) make it back relative to top-left corner and 4) absolute
-				p.x += hw + isomLocationCentre.x;
-				p.y += hh + isomLocationCentre.y;
-				// 5) DONE
+				if (this.angleRotationDegrees == 0.0) {
+					// must be made absolute ..
+//					System.out.print("p was .. " + p);
+					p.x += isomTopLeftCorner.getX();
+					p.y += isomTopLeftCorner.getY();
+//					System.out.println("and now p is: " + p);
+				} else {
+					// ..and rotated
+					// 1) make it from relative to top-left to relative to center
+					p.x -= hw;
+					p.y -= hh;
+					// 2) apply the rotation
+					xRotated = (int) (p.x * cosCache + p.y * sinCache);
+					yRotated = (int) ((p.y * cosCache) - (p.x * sinCache));
+					p.x = xRotated;
+					p.y = yRotated;
+					// 3) make it back relative to top-left corner and 4) absolute
+//					p.x += isomLocationCentre.x - hw;
+//					p.y += isomLocationCentre.y - hh;
+					p.x += hw + isomTopLeftCorner.getX();
+					p.y += hh + isomTopLeftCorner.getY();
+					// 5) DONE
+				}
 				action.accept(n, p);
 			});
 		}
 
 		//
 
-		protected class IsomAndTopLefCornerAbs implements Entry<InSpaceObjectsManager<Distance>, Point> {
+		protected class IsomAndTopLefCornerAbs implements Entry<InSpaceObjectsManager<Distance>, PointInt> {
 			protected InSpaceObjectsManager<Distance> key;
-			protected Point value;
+			protected PointInt value;
 
-			protected IsomAndTopLefCornerAbs(InSpaceObjectsManager<Distance> key, Point value) {
+			protected IsomAndTopLefCornerAbs(InSpaceObjectsManager<Distance> key, PointInt value) {
 				super();
 				this.key = key;
 				this.value = value;
@@ -1016,14 +1047,17 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 			public InSpaceObjectsManager<Distance> getKey() { return key; }
 
 			@Override
-			public Point getValue() { return value; }
+			public PointInt getValue() { return value; }
 
 			@Override
-			public Point setValue(Point value) {
+			public PointInt setValue(PointInt value) {
+				PointInt oldValue;
+				oldValue = this.value;
 				this.value = value;
-				return value;
+				return oldValue;
 			}
 		}
+
 	}
 
 	//

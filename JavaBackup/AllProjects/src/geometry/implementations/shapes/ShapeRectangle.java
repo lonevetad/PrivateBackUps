@@ -2,9 +2,9 @@ package geometry.implementations.shapes;
 
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.awt.geom.Point2D;
 
 import geometry.AbstractShape2D;
+import geometry.PointInt;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.shapes.subHierarchy.AbstractShapeRotated;
 import geometry.implementations.shapes.subHierarchy.ShapeFillableImpl;
@@ -154,6 +154,25 @@ public class ShapeRectangle extends ShapeFillableImpl {
 	//
 
 	@Override
+	public boolean contains(int x, int y) {
+		int xtl, ytl;
+		PointInt topLeft;
+		topLeft = getTopLeftCorner();
+		xtl = topLeft.getX();
+		ytl = topLeft.getY();
+		if (angleRotation == 0.0 || angleRotation == 180.0) {
+			return (xtl <= x && x <= (xtl + width))//
+					&& (ytl <= y && y <= (ytl + height));
+		} else if (angleRotation == 90.0 || angleRotation == 270.0) {
+			xtl = getXCenter() - (height >> 1);
+			ytl = getYCenter() - (width >> 1);
+			return (xtl <= x && x <= (xtl + height))//
+					&& (ytl <= y && y <= (ytl + width));
+		} // else ..
+		return super.contains(x, y);
+	}
+
+	@Override
 	public Polygon toPolygon() {
 		int counter;
 		double tempx, tempy, rad, halfWidth, halfHeight, radius, angRotation;
@@ -225,11 +244,11 @@ public class ShapeRectangle extends ShapeFillableImpl {
 	 */
 	@Override
 	public Rectangle getBoundingBox() {
-		Point2D ltc;
+		PointInt ltc;
 		ltc = getTopLeftCorner();
 		if (ltc == null)
 			return null;
-		return new Rectangle((int) ltc.getX(), (int) ltc.getY(), width, height);
+		return new Rectangle(ltc.getX(), ltc.getY(), width, height);
 	}
 
 	@Override

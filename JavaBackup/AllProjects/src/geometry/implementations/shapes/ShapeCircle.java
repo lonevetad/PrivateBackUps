@@ -1,10 +1,10 @@
 package geometry.implementations.shapes;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
 import geometry.AbstractShape2D;
+import geometry.PointInt;
 import geometry.ShapeRunnersImplemented;
 import geometry.implementations.shapes.subHierarchy.ShapeFillableImpl;
 
@@ -72,12 +72,11 @@ public class ShapeCircle extends ShapeFillableImpl {
 
 	}
 
-	@Override
-	public Point getTopLeftCorner() {
-		int radius;
-		radius = diameter >> 1;
-		return new Point(center.x - radius, center.y - radius);
-	}
+//	public Point getTopLeftCorner() {
+//		int radius;
+//		radius = diameter >> 1;
+//		return new Point(center.x - radius, center.y - radius);
+//	}
 
 	//
 
@@ -130,4 +129,33 @@ public class ShapeCircle extends ShapeFillableImpl {
 
 	@Override
 	public AbstractShape2D clone() { return new ShapeCircle(this); }
+
+	//
+
+	@Override
+	protected PointInt newTopLeftCorner() { return new PointTopLeftCornerCircle(); }
+
+	//
+
+	protected class PointTopLeftCornerCircle extends PointTopLeftCorner {
+		private static final long serialVersionUID = -29528778850410333L;
+
+		@Override
+		public int getX() { return getXCenter() - diameter; }
+
+		@Override
+		public int getY() { return getYCenter() - diameter; }
+
+		@Override
+		public void setLocation(int x, int y) {
+			center.x = (x) + diameter;
+			center.y = (y) + diameter;
+		}
+
+		@Override
+		public void setX(int x) { center.x = (x) + diameter; }
+
+		@Override
+		public void setY(int y) { center.y = (y) + diameter; }
+	}
 }

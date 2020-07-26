@@ -1,9 +1,9 @@
 package geometry.implementations.shapes.subHierarchy;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 
 import geometry.AbstractShape2D;
+import geometry.PointInt;
 import geometry.ShapeRunnersImplemented;
 
 public abstract class AbstractShapeImpl extends AbstractShapeRotated {
@@ -22,12 +22,12 @@ public abstract class AbstractShapeImpl extends AbstractShapeRotated {
 //		this.yCenter = yCenter;
 //		new Point(xCenter, yCenter)
 		center = new Point();
-		this.topLeftCorner = new PointTopLeftCorner();
+		this.topLeftCorner = newTopLeftCorner();
 	}
 
 //	protected int xCenter,yCenter;
 	protected final Point center;
-	protected final Point2D topLeftCorner;
+	protected final PointInt topLeftCorner;
 
 	//
 
@@ -44,7 +44,7 @@ public abstract class AbstractShapeImpl extends AbstractShapeRotated {
 	public Point getCenter() { return getLocation(); }
 
 	@Override
-	public Point2D getTopLeftCorner() { return topLeftCorner; }
+	public PointInt getTopLeftCorner() { return topLeftCorner; }
 
 	/**
 	 * Get the x-component of the of the {@link Point} returned by
@@ -87,21 +87,38 @@ public abstract class AbstractShapeImpl extends AbstractShapeRotated {
 		return this;
 	}
 
+	@Override
+	public void setLeftTopCorner(int x, int y) { this.topLeftCorner.setLocation(x, y); }
+
 	//
 
-	class PointTopLeftCorner extends Point2D {
+	protected PointInt newTopLeftCorner() { return new PointTopLeftCorner(); }
+
+	//
+
+	protected class PointTopLeftCorner implements PointInt /* extends Point2D */ {
+		private static final long serialVersionUID = -29528778850410333L;
 
 		@Override
-		public double getX() { return getXCenter() - (getWidth() >> 1); }
+		public int getX() { return getXCenter() - (getWidth() >> 1); }
 
 		@Override
-		public double getY() { return getYCenter() - (getWidth() >> 1); }
+		public int getY() { return getYCenter() - (getHeight() >> 1); }
 
 		@Override
-		public void setLocation(double x, double y) {
-			center.x = ((int) x) + (getWidth() >> 1);
-			center.y = ((int) y) + (getHeight() >> 1);
+		public void setLocation(int x, int y) {
+			center.x = (x) + (getWidth() >> 1);
+			center.y = (y) + (getHeight() >> 1);
 		}
+
+		@Override
+		public void setX(int x) { center.x = (x) + (getWidth() >> 1); }
+
+		@Override
+		public void setY(int y) { center.y = (y) + (getHeight() >> 1); }
+
+		@Override
+		public String toString() { return "PointTopLeft [x=" + getX() + ", y=" + getY() + "]"; }
 
 	}
 }

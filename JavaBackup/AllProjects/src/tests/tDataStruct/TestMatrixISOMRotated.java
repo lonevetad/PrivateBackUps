@@ -59,6 +59,7 @@ public class TestMatrixISOMRotated {
 				d = win.getSize();
 				d.width -= 10;
 				d.height -= 35;
+				jpDrawMultimap.setLocation(0, 0);
 				jpDrawMultimap.setSize(d);
 				jpDrawMultimap.setPreferredSize(d);
 			}
@@ -84,6 +85,7 @@ public class TestMatrixISOMRotated {
 	// TODO paint
 	void paintRectsAndSections(Graphics g) {
 		multiPoly.forEachNode((n, p) -> printNode(g, n, p));
+		g.setColor(Color.BLACK);
 		GraphicTools.paintGrid(g, PIXEL_EACH_CELL * jpDrawMultimap.getWidth(),
 				PIXEL_EACH_CELL * jpDrawMultimap.getHeight(), PIXEL_EACH_CELL);
 	}
@@ -92,7 +94,7 @@ public class TestMatrixISOMRotated {
 		node.forEachHeldObject(ol -> {
 			ColoredOL col;
 			col = (ColoredOL) ol;
-			g.setColor((ol == null) ? Color.BLACK : col.color);
+			g.setColor((ol == null) ? Color.LIGHT_GRAY : col.color);
 			g.fillRect(location.x * PIXEL_EACH_CELL, location.y * PIXEL_EACH_CELL, PIXEL_EACH_CELL, PIXEL_EACH_CELL);
 		});
 	}
@@ -108,15 +110,19 @@ public class TestMatrixISOMRotated {
 	//
 
 	public static void main(String[] args) {
+		double rotationDegree;
 		TestMatrixISOMRotated t;
 		ColoredOL[] points;
 		t = new TestMatrixISOMRotated();
 		System.out.println("Start");
 		//
+		rotationDegree = 0.0;
+//		rotationDegree = 57.5;
+
 		t.multiPoly.addMap(//
 				new MISOM_SingleObjInNode<Double>(false, 12, 8, NumberManager.getDoubleManager())
 				//
-				, 3, 7, 57.5);
+				, 3, 7, rotationDegree);
 
 		// check the add
 		System.out.println("check maps added:");
@@ -129,13 +135,17 @@ public class TestMatrixISOMRotated {
 				new ColoredOL(Color.BLUE, 10, 10), //
 				new ColoredOL(Color.GREEN, 12, 10), //
 				new ColoredOL(Color.RED, 7, 11), //
-				new ColoredOL(Color.ORANGE, 7, 7),//
+				new ColoredOL(Color.ORANGE, 7, 7), //
+				new ColoredOL(Color.PINK, 5, 8), //
+				new ColoredOL(Color.GREEN.darker(), 9, 6), //
+				new ColoredOL(Color.GREEN.brighter(), 3, 7),//
 		};
 		System.out.println("\n\nnow add objects");
 		for (ObjectLocated ol : points) {
+			boolean added;
 			System.out.println(ol);
-			t.multiPoly.add(ol);
-			System.out.println("added\n");
+			added = t.multiPoly.add(ol);
+			System.out.println("added: " + added + "\n\n");
 		}
 //		t.multiPoly.forEachNode(action);
 //		ol=new ColoredOL(Color.BLUE, location)

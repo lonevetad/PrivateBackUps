@@ -2,7 +2,6 @@ package dataStructures.isom;
 
 import java.awt.Point;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +14,7 @@ import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
 import geometry.PathOptimizer;
+import geometry.PointInt;
 import geometry.implementations.shapes.ShapeLine;
 import geometry.pointTools.PointConsumer;
 import geometry.pointTools.impl.ObjCollector;
@@ -56,13 +56,14 @@ public interface InSpaceObjectsManager<Distance extends Number>
 //	}
 
 	@Override
-	public default Point getTopLetCorner() {
+	public default PointInt getTopLetCorner() {
 //		Point c;
 //		c = getLocation();
 //		return new Point(c.x - (getWidth() >> 1), c.y - (getHeight() >> 1));
-		Point2D p2d;
-		p2d = getShape().getTopLeftCorner();
-		return new Point((int) p2d.getX(), (int) p2d.getY());
+//		Point2D p2d;
+//		p2d = getShape().getTopLeftCorner();
+//		return new Point((int) p2d.getX(), (int) p2d.getY());
+		return getShape().getTopLeftCorner();
 	}
 
 	//
