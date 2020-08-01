@@ -1,11 +1,14 @@
 package games.generic.controlModel.subimpl;
 
+import java.util.Queue;
+
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
+import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gObj.GameObjectGeneric;
 import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.misc.GThread;
@@ -32,7 +35,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	 */
 	public static final int MIN_DELTA = 10, MAX_DELTA = 100, MAX_ELAPSED_TIME = 100;
 
-	protected int lastElapsedDeltaTime = 0;
+	protected int lastElapsedDeltaTime = 0, maxEventProcessedEachStep;
 	protected GEventInterface eventInterface;
 	protected final GameThreadsManager gameThreadsManager;
 
@@ -40,6 +43,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 		super(controller, modalityName);
 		this.lastElapsedDeltaTime = this.getMinimumMillisecondsEachCycle();
 		this.gameThreadsManager = newGameThreadsManager();
+		this.maxEventProcessedEachStep = IGameModalityEventBased.super.getMaxEventProcessedEachStep();
 	}
 
 	//
@@ -67,12 +71,20 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 
 	public GModelET getGModelEventTimedObjectsHolder() { return (GModelET) this.getModel(); }
 
+	@Override
+	public int getMaxEventProcessedEachStep() { return maxEventProcessedEachStep; }
+
 	//
 
 	@Override
 	public void setEventInterface(GEventInterface eventInterface) {
 		this.eventInterface = eventInterface;
 		this.getGModelEventTimedObjectsHolder().setEventManager(eventInterface.getGameEventManager());
+	}
+
+	@Override
+	public void setMaxEventProcessedEachStep(int maxEventProcessedEachStep) {
+		this.maxEventProcessedEachStep = maxEventProcessedEachStep;
 	}
 
 	//
@@ -273,6 +285,14 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public boolean doOnExceedingEventsProcessedInStep() {
+		Queue<IGEvent> q;
+		q = this.getEventManager().getEventsQueued();
+		q.clear();
+		return false;
 	}
 
 	//

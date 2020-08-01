@@ -2364,5 +2364,38 @@
 			{"attribute": "Strength", "value": -4}
 		],
 		"abilities": ["Bloodlust"]
+	}, {
+		"name": "Labradorite Pendant",
+		"description": "",
+		"type": "Necklace",
+		"rarity": 3,
+		"sellPrice": [63],
+		"dimensInvent": {
+			"width": 1, "height": 2
+		},
+		"attributeMods": [
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": 7},
+			{"attribute": "ShieldMax", "value": 15},
+			{"attribute": "RegenShield", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 15}
+		],
+		"abilities": []
+	}, {
+		"name": "Labradorite Bracelet",
+		"description": "",
+		"type": "Bracelet",
+		"rarity": 3,
+		"sellPrice": [63],
+		"dimensInvent": {
+			"width": 2, "height": 1
+		},
+		"attributeMods": [
+			{"attribute": "Wisdom", "value": 2},
+			{"attribute": "Faith", "value": 3},
+			{"attribute": "ShieldMax", "value": 25},
+			{"attribute": "RegenShield", "value": 4}
+		],
+		"abilities": []
 	}
 ]
