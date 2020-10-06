@@ -1,0 +1,59 @@
+import example
+
+
+main()
+
+// exercise 1
+let neighNum = foldSum(nbr(1));
+env.put("neighNum", neighNum);
+
+// exercise 2
+let maxNeighHere = rep(old <- 0) { max(old, neighNum) };
+env.put("maxNeighHere", maxNeighHere);
+
+// exercise 3
+let maxNeighAnywhere = rep(old <- 0) { max(foldMax(nbr(old)), neighNum) };
+env.put("maxNeighAnywhere", maxNeighAnywhere);
+
+// exercise 4
+let myPos = getCoordinates();
+let lonelyNeigh = snd(foldMin(nbr(pair(neighNum, myPos))));
+env.put("target", lonelyNeigh);
+
+// exercise 5
+let socialNeigh = snd(foldMax(nbr(pair(neighNum, myPos))));
+let runFromSocialNeigh = 2 * socialNeigh - myPos; // opposite direction
+env.put("target", runFromSocialNeigh);
+
+// exercise 6
+
+// euclidean norm of a vector
+let norm = { x ->
+  sqrt(fst(x)*fst(x) + snd(x)*snd(x))
+};
+
+// computes force given distance vector (using inverse square law)
+let dist2force = { v ->
+  v / pow(norm(v),3)
+};
+
+// combines the forces
+let attractingForce = dist2force(lonelyNeigh - myPos);
+let repulsingForce = dist2force(myPos - socialNeigh);
+let overallForce = attractingForce + repulsingForce;
+env.put("target", myPos + overallForce);
+
+// exercise 7
+
+let upForce    = dist2force(pair(0, snd(myPos) - 3));
+let downForce  = dist2force(pair(0, snd(myPos) + 3));
+let leftForce  = dist2force(pair(fst(myPos) - 4, 0.0));
+let rightForce = dist2force(pair(fst(myPos) + 4, 0.0));
+let neighForce = foldHood([0,0], dist2force(myPos - nbr(myPos))) { a,b -> a+b };
+let totalForce = upForce + downForce + leftForce + rightForce + neighForce;
+
+// smoothing filter, corresponds to a friction force equal to 50% speed
+let speed = rep (old <- pair(0,0)) {
+    (old + totalForce)/2
+};
+env.put("target", myPos + 0.02*speed); // if the speed is low, we avoid huge oscillations

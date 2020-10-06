@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -97,6 +98,40 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 		if (reverseMapper == null)
 			throw new UnsupportedOperationException("Cannot modify the original set without a reverse-mapper");
 		return backSet.remove(reverseMapper.apply((T) o));
+	}
+
+	/**
+	 * Returns one element, if this set is not empty, chosen in a way dependent to
+	 * its base implementation. In case no useful way could be used, it just use the
+	 * iterator.
+	 */
+	public T pickOne() {
+		T el = null;
+		if (isEmpty())
+			return null;
+		if (this.backSet instanceof SortedSet<?>) {
+			OriginalType anElement;
+			anElement = ((SortedSet<OriginalType>) this.backSet).first();
+			el = this.newTypeExtractor.apply(anElement);
+		} else {
+			el = this.iterator().next();
+		}
+		return el;
+	}
+
+	public T removeOne() {
+		T el = null;
+		OriginalType anElement;
+		if (isEmpty())
+			return null;
+		if (this.backSet instanceof SortedSet<?>) {
+			anElement = ((SortedSet<OriginalType>) this.backSet).first();
+		} else {
+			anElement = this.backSet.iterator().next();
+		}
+		el = this.newTypeExtractor.apply(anElement);
+		this.backSet.remove(anElement);
+		return el;
 	}
 
 	@Override
