@@ -29,7 +29,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,7 +41,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import tools.gui.swing.HintTextFieldUI;
+
 public class RemoteControl {
+	protected static final long MILLIS_BETWEEN_EACH_SCREENCAST = 500; // 250;
 
 	//
 
@@ -65,7 +72,7 @@ public class RemoteControl {
 		}
 
 		//
-		protected ViewRC() { init(); }
+		protected ViewRC() {}
 
 		private boolean alreadyInitialized = false;
 		protected AModelControllerRC modelController;
@@ -78,7 +85,7 @@ public class RemoteControl {
 		protected JButton jbToSlave, jbToMaster, jbStartMastering;
 		protected JLabel jlConnectionStatus;
 
-		protected void init() {
+		public void init() {
 			if (alreadyInitialized)
 				return;
 			alreadyInitialized = true;
@@ -134,6 +141,21 @@ public class RemoteControl {
 		protected void showScreencast(BufferedImage im) {
 			this.screenCastReceived = im;
 //resize the image
+			jpScreencast.setSize(im.getWidth(), im.getHeight());
+			jpScreencast.setPreferredSize(jpScreencast.getSize());
+			jpScreencast.repaint();
+		}
+
+		protected void tryToConnectMasterToSlave(String hostAddress, int port) {
+			try {
+				this.modelController = new MCMasterRC(this, hostAddress, port);
+				// DONE :D
+				toTheMasterMasteringUponConnection();
+				jlConnectionStatus.setText("Connected to the Slave :D");
+			} catch (Exception e) {
+				e.printStackTrace();
+				jlConnectionStatus.setText("Something went wrong:\n" + e.getMessage());
+			}
 		}
 
 		protected void onConnectionEstablished() { jlConnectionStatus.setText("Connected :D"); }
@@ -144,6 +166,7 @@ public class RemoteControl {
 		protected void setupGuiMaster() {
 			ConnectionInfoView civ;
 			civ = new ConnectionInfoView(modelController, false) {
+				private static final long serialVersionUID = 20123016578339L;
 
 				@Override
 				protected String getConnectionAddress(AModelControllerRC theController) {
@@ -157,8 +180,8 @@ public class RemoteControl {
 				}
 
 			};
-			jpMaster.add(civ);
-			jpMaster.add(jlConnectionStatus);
+			jpMasterConnecting.add(civ);
+			jpMasterConnecting.add(jlConnectionStatus);
 			jbStartMastering = new JButton("Try to connect");
 			jbStartMastering.addActionListener(l -> {
 				try {
@@ -166,30 +189,48 @@ public class RemoteControl {
 					String hostAddress;
 					hostAddress = civ.jtHostAddress.getText().trim();
 					port = Integer.parseInt(civ.jtPort.getText().trim());
-					this.modelController = new MCMasterRC(this, hostAddress, port);
-					// DONE :D
-					toTheMasterMasteringUponConnection();
-					jlConnectionStatus.setText("Connected to the Slave :D");
+
+					// I don't want to block the GUI
+					ExecutorService executor = Executors.newSingleThreadExecutor();
+					executor.submit(() -> {
+						jlConnectionStatus.setText("Connecting ...");
+						tryToConnectMasterToSlave(hostAddress, port);
+						try {
+							System.out.println("attempt to shutdown executor");
+							executor.shutdown();
+							executor.awaitTermination(5, TimeUnit.SECONDS);
+						} catch (InterruptedException e) {
+							System.err.println("tasks interrupted");
+						} finally {
+							if (!executor.isTerminated()) { System.err.println("cancel non-finished tasks"); }
+							executor.shutdownNow();
+							System.out.println("shutdown finished");
+						}
+					});
 				} catch (Exception e) {
 					e.printStackTrace();
 					jlConnectionStatus.setText("Something went wrong:\n" + e.getMessage());
 				}
 			});
-			jpMaster.add(jbStartMastering);
+			jpMasterConnecting.add(jbStartMastering);
+			jpMasterConnecting.setLayout(new BoxLayout(jpMasterConnecting, BoxLayout.Y_AXIS));
 		}
 
 		protected void toMaster() {
 			toPanel(PanelName.MasterConnecting);
 			setupGuiMaster();
+			System.out.println("shown panel master connecting");
 		}
 
 		protected void setupGuiMasterMastering() {
 			// todo
 			jpScreencast = new JPanel() {
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void paintComponent(Graphics g) {
-					paintScreencastedImage(g);
 					super.paintComponent(g);
+					paintScreencastedImage(g);
 				}
 			};
 			jspScreencast = new JScrollPane(jpScreencast);
@@ -279,6 +320,7 @@ public class RemoteControl {
 		protected void setupGuiSlave() {
 			ConnectionInfoView civ;
 			civ = new ConnectionInfoView(modelController, true) {
+				private static final long serialVersionUID = 89753134583L;
 
 				@Override
 				protected String getConnectionAddress(AModelControllerRC theController) {
@@ -299,6 +341,7 @@ public class RemoteControl {
 			try {
 				this.modelController = new MCSlaveRC(this);
 				setupGuiSlave();
+				System.out.println("I'm slaving :D");
 				toPanel(PanelName.ClientSlave);
 			} catch (AWTException | IOException e) {
 				e.printStackTrace();
@@ -314,35 +357,46 @@ public class RemoteControl {
 			g.drawImage(screenCastReceived, 0, 0, null);
 		}
 
-		// inner class
+		// TODO GUI inner class
 		abstract static class ConnectionInfoView extends JPanel {
+			private static final long serialVersionUID = -12334215L;
 			protected JTextField jtHostAddress, jtPort;
 			protected AModelControllerRC theController;
 
 			protected ConnectionInfoView(AModelControllerRC modelController, boolean isSlave) {
 				super();
 				String txt;
+				this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 				this.theController = modelController;
 				txt = "IP address: " + getConnectionAddress(theController);
-				jtHostAddress = new JTextField(txt);
+				System.out.println(txt);
+				jtHostAddress = new JTextField();
 				jtHostAddress.setToolTipText(txt);
-				jtHostAddress.addFocusListener(new FocusListenerWithPrompt(jtHostAddress, txt));
-				add(jtHostAddress);
+//				jtHostAddress.addFocusListener(new FocusListenerWithPrompt(jtHostAddress, txt));
+				jtHostAddress.setUI(new HintTextFieldUI(txt));
+				jtHostAddress.setSize(200, 35);
+				this.add(jtHostAddress);
 				txt = "IP port: " + getConnectionPort(theController);
-				jtPort = new JTextField(txt);
+				System.out.println(txt);
+				jtPort = new JTextField();
 				jtPort.setToolTipText(txt);
-				jtPort.addFocusListener(new FocusListenerWithPrompt(jtPort, txt));
+//				jtPort.addFocusListener(new FocusListenerWithPrompt(jtPort, txt));
+				jtPort.setUI(new HintTextFieldUI(txt));
+				jtPort.setSize(200, 35);
 				if (isSlave) {
 					jtHostAddress.setEditable(false);
 					jtPort.setEditable(false);
 				}
-				add(jtPort);
+				this.add(jtPort);
+				this.setSize(450, 100);
+				this.setPreferredSize(this.getSize());
 			}
 
 			protected abstract String getConnectionAddress(AModelControllerRC theController);
 
 			protected abstract int getConnectionPort(AModelControllerRC theController);
 
+			@Deprecated
 			protected class FocusListenerWithPrompt implements FocusListener {
 				final String txt;
 				final JTextField textField;
@@ -401,7 +455,6 @@ public class RemoteControl {
 	 * send it to the Slave.
 	 */
 	protected static class MCMasterRC extends AModelControllerRC {
-		protected static final int PING_INTERVAL_MS = 1000;
 		protected static final MsgPing PING_MSG = new MsgPing();
 
 		protected MCMasterRC(ViewRC view, String host, int port) throws AWTException, IOException {
@@ -409,7 +462,9 @@ public class RemoteControl {
 			this.socket = new Socket(host, port);
 			this.os = this.socket.getOutputStream();
 			this.outputChannel = new ObjectOutputStream(this.os);
-			this.shutDownReceiver = new ObjectInputStream(this.socket.getInputStream());
+			System.out.println("master got OUTput stream");
+			this.fromSlaveReceiver = new ObjectInputStream(this.socket.getInputStream());
+			System.out.println("master got INput stream");
 			onSettingUp();
 		}
 
@@ -417,12 +472,12 @@ public class RemoteControl {
 		protected final Socket socket;
 		protected final OutputStream os;
 		protected final ObjectOutputStream outputChannel;
-		protected ObjectInputStream shutDownReceiver;
+		protected ObjectInputStream fromSlaveReceiver;
 		protected MasterRunner masterRunner;
 		protected Thread threadMasterRunner;
 
 		@Override
-		protected boolean isClient() { return false; }
+		protected boolean isClient() { return true; }
 
 		protected String getSlaveConnectionAddress() { return socket.getInetAddress().getHostAddress(); }
 
@@ -458,7 +513,10 @@ public class RemoteControl {
 			}
 		}
 
-		protected void ping() { execute(PING_MSG); }
+		protected void ping() {
+			execute(PING_MSG);
+			System.out.println("master pinged");
+		}
 
 		protected void manageScreencast(BufferedImage bi) { this.view.showScreencast(bi); }
 
@@ -494,26 +552,32 @@ public class RemoteControl {
 
 			@Override
 			public void run() {
+				System.out.println("MASTER RUNNER:\n\t this.masterRCInstance.isAlive: " + this.masterRCInstance.isAlive
+						+ "\n\t canRun: " + canRun);
 				while (this.masterRCInstance.isAlive && this.canRun) {
 					try {
-						Thread.sleep(PING_INTERVAL_MS);
+						Thread.sleep(MILLIS_BETWEEN_EACH_SCREENCAST);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 					if (this.masterRCInstance.isAlive) {
 						// try to read some incoming message
+						System.out.println("master reading");
 						try {
-							if (this.masterRCInstance.shutDownReceiver.available() > 0) {
+							if (this.masterRCInstance.fromSlaveReceiver.available() > 0) {
 								try {
-									Object objRead = this.masterRCInstance.shutDownReceiver.readObject();
+									Object objRead = this.masterRCInstance.fromSlaveReceiver.readObject();
 									if (objRead instanceof AMessageCommand) {
 //										shutDown(false);
+										System.out.println(
+												"master received " + objRead.getClass().getSimpleName() + " message");
 										((AMessageCommand) objRead).execute(this.masterRCInstance);
 									}
 								} catch (ClassNotFoundException e) {
 									e.printStackTrace();
 								}
-							}
+							} else
+								System.out.println("master nothing to read");
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -542,7 +606,8 @@ public class RemoteControl {
 
 		protected MCSlaveRC(ViewRC view, int port) throws AWTException, IOException {
 			super(view);
-			this.server = new ServerSocket(port);
+			this.server = new ServerSocket(port, 4, InetAddress.getLocalHost());
+			threadExecutor = Executors.newFixedThreadPool(2);
 			startConnectionAndReading();
 		}
 
@@ -550,12 +615,13 @@ public class RemoteControl {
 		protected final ServerSocket server;
 		protected Socket master;
 		protected ObjectInputStream msgReceiver;
+		protected ObjectOutputStream msgSender;
 		protected ConnectorAndReaderMsg runnerReader;
 		protected ScreencasterRunner runnerScreencaster;
-		protected Thread threadReader, threadScreencaster;
+		protected ExecutorService threadExecutor;
 
 		@Override
-		protected boolean isClient() { return true; }
+		protected boolean isClient() { return false; }
 
 		protected String getConnectionAddress() { return server.getInetAddress().getHostAddress(); }
 
@@ -575,6 +641,18 @@ public class RemoteControl {
 			return true;
 		}
 
+		protected void sendScreenshoot(BufferedImage screenshot) {
+			MsgScreencast msg = new MsgScreencast(screenshot);
+			try {
+				System.out.println("slave sending screenshot.....");
+				msgSender.writeObject(msg);
+				System.out.println("slave sent screenshot :D");
+				msgSender.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		/*
 		 * @Override protected void executeCommandMouse(MsgMouse mm) {
 		 * this.robotActionSensorActuator. }
@@ -588,9 +666,13 @@ public class RemoteControl {
 			}
 			case Connecting:
 			case Connected: {
-				this.runnerReader.shutDownReader();
-				this.runnerScreencaster.shutDownScreencaster();
+				if (runnerReader != null)
+					this.runnerReader.shutDownReader();
+				if (runnerScreencaster != null)
+					this.runnerScreencaster.shutDownScreencaster();
 				status = ConnectionStatus.ShuttedDown;
+				if (master == null)
+					return;
 				if (isUserAction) {
 					ObjectOutputStream oos;
 					try {
@@ -619,23 +701,24 @@ public class RemoteControl {
 				}
 				this.master = null;
 				this.msgReceiver = null;
+				this.msgSender = null;
 				this.runnerReader = null;
 				this.runnerScreencaster = null;
-				this.threadReader = null;
-				this.threadScreencaster = null;
+				if (threadExecutor != null) {
+					threadExecutor.shutdownNow();
+					this.threadExecutor = null;
+				}
 				break;
 			}
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + this.status);
 			}
-
 		}
 
 		protected void startConnectionAndReading() {
 			if (this.runnerReader != null)
 				return;
-			this.threadReader = new Thread(this.runnerReader = newReader());
-			this.threadReader.start();
+			threadExecutor.submit(this.runnerReader = newReader());
 		}
 
 		/** Override designed */
@@ -646,12 +729,12 @@ public class RemoteControl {
 		@Override
 		protected void onConnectionEstablished() {
 			System.out.println("slave connected");
-			this.threadScreencaster = new Thread(runnerScreencaster = newScreencasterRunner());
-			this.threadScreencaster.start();
+			threadExecutor.submit(runnerScreencaster = newScreencasterRunner());
+			this.view.onConnectionEstablished();
 		}
 
 		//
-		//
+		// TODO SLAVE RUNNERs
 		protected class ConnectorAndReaderMsg implements Runnable {
 			protected boolean canRead = true;
 
@@ -664,7 +747,8 @@ public class RemoteControl {
 			protected void shutDownReader() {
 				this.canRead = false;
 				try {
-					threadReader.interrupt();
+//					threadReader.interrupt();
+					threadExecutor.shutdown();
 				} catch (SecurityException e) {
 					e.printStackTrace();
 				}
@@ -676,7 +760,11 @@ public class RemoteControl {
 						status = ConnectionStatus.Connecting;
 						master = server.accept();
 						status = ConnectionStatus.Connected;
+						System.out.println("slave has accepted a socket");
 						msgReceiver = new ObjectInputStream(master.getInputStream());
+						System.out.println("slave got IN	put stream");
+						msgSender = new ObjectOutputStream(master.getOutputStream());
+						System.out.println("slave got OUTput stream");
 						onConnectionEstablished();
 					} catch (IOException e) {
 						status = ConnectionStatus.NewBorn;
@@ -694,6 +782,7 @@ public class RemoteControl {
 			protected void readMsg() {
 				int avail;
 				Object objRead;
+				System.out.println("slave start reading a message");
 				while (this.canRead) {
 					avail = 0;
 					do {
@@ -707,16 +796,21 @@ public class RemoteControl {
 						}
 						if (avail == 0) {
 							try {
-								Thread.sleep(100);
+								System.out.println("slave sleep : no msg to read");
+								Thread.sleep(250);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
 						} else {
 							try {
+								System.out.println("slave something to read");
 								if (checkReader())
 									return;
 								objRead = msgReceiver.readObject();
-								if (objRead instanceof AMessageCommand) { execute((AMessageCommand) objRead); }
+								if (objRead instanceof AMessageCommand) {
+									System.out.println("slave received a message: " + objRead.getClass().getName());
+									execute((AMessageCommand) objRead);
+								}
 							} catch (ClassNotFoundException | IOException e) {
 								e.printStackTrace();
 							}
@@ -728,15 +822,14 @@ public class RemoteControl {
 		}
 
 		protected class ScreencasterRunner implements Runnable {
-//			robotActionSensorActuator
 
 			protected boolean canScreencast = true;
-			protected long MILLIS_BETWEEN_EACH_SCREENCAST = 250;
 
 			protected void shutDownScreencaster() {
 				this.canScreencast = false;
 				try {
-					threadScreencaster.interrupt();
+//					threadScreencaster.interrupt();
+					threadExecutor.shutdown();
 				} catch (SecurityException e) {
 					e.printStackTrace();
 				}
@@ -746,13 +839,17 @@ public class RemoteControl {
 			public void run() {
 				long delta;
 				BufferedImage screenshot;
+				System.out.println("slave screencasting :D " + canScreencast);
 				try {
 					while (canScreencast) {
 						delta = System.currentTimeMillis();
 						try {
-							screenshot = robotActionSensorActuator
-									.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-							execute(new MsgScreencast(screenshot));
+							Rectangle areaScreenshot;
+							areaScreenshot = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+							screenshot = robotActionSensorActuator.createScreenCapture(areaScreenshot);
+							System.out.println(areaScreenshot);
+							sendScreenshoot(screenshot);
+							System.out.println("sent screenshoot");
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -964,5 +1061,9 @@ public class RemoteControl {
 		} catch (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
+
+		ViewRC v;
+		v = new ViewRC();
+		v.init();
 	}
 }
