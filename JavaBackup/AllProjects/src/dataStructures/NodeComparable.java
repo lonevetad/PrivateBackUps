@@ -67,16 +67,17 @@ public interface NodeComparable<K> extends Serializable {
 		children.forEach(action);
 	}
 
-	public default void addChildNC(NodeComparable<K> child) {
+	public default NodeComparable<K> addChildNC(NodeComparable<K> child) {
 		Set<NodeComparable<K>> children;
 		if (child == null)
-			return;
+			return this;
 		children = getChildrenNC();
 		if (children == null) {
 			System.out.println(" WTFFFFF CHILDREN NULL");
-			return;
+			return this;
 		}
 		children.add(child);
+		return this;
 	}
 
 	//
@@ -88,8 +89,9 @@ public interface NodeComparable<K> extends Serializable {
 //	
 
 	/**
-	 * Compute how much the given node (called "the other") differs from <code>this</code> (let's call the given node as "the other"). Default weights (instance of
-	 * {@link DissonanceWeights}) is provided
+	 * Compute how much the given node (called "the other") differs from
+	 * <code>this</code> (let's call the given node as "the other"). Default weights
+	 * (instance of {@link DissonanceWeights}) is provided
 	 * <p>
 	 * {@link DissonanceWeights#getWeightMissingNode()} weights the nodes that are
 	 * missing in <code>this</code> "children set" (obtained by

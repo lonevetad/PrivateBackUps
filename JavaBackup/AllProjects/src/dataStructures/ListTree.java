@@ -18,7 +18,8 @@ import java.util.function.Consumer;
  * the given generic class is implementing {@link Comparable}. <br>
  * It uses a binary balanced AVL-like tree.
  * 
- * @deprecated use {@link MapTreeAVL#toListValue(java.util.function.Function)}.
+ * @deprecated use {@link MapTreeAVL#toListValue(java.util.function.Function)}
+ *             unless memory optimization due to non-hierarchy.
  */
 @Deprecated
 public class ListTree<E> implements List<E> {

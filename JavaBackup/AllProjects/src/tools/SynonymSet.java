@@ -8,7 +8,15 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
+import grammars.transfer.TransferTranslationRuleBased;
 
+/**
+ * A set of String representing the same concept.
+ * <p>
+ * Could be a PoS-Tag or a dependency. For instance, an "object" could be "obj",
+ * "dobj" (direct object) or something else. Similarly to "adjective": "adj",
+ * "amod", etc.
+ */
 public class SynonymSet {
 	public static final Comparator<SynonymSet> SYNONYM_COMPARATOR = (eg1, eg2) -> {
 		boolean equal;
@@ -69,7 +77,9 @@ public class SynonymSet {
 	public void removeAlternative(String t) { this.bm.remove(t); }
 
 	/**
-	 * Computes if there are at least one "alternatives" in common.
+	 * Computes if there are at least one "alternatives" in common (i.e., those
+	 * ElementGrammarWithAlternatives are applicable in the context of
+	 * {@link TransferTranslationRuleBased}).
 	 */
 	public boolean areIntersecting(SynonymSet eg) {
 		int s1, s2;
