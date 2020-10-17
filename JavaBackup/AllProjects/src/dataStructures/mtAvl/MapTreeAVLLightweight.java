@@ -2281,6 +2281,15 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public K last() { return MapTreeAVLLightweight.this.lastKey(); }
+
+		/**
+		 * Returns one element, if this set is not empty, chosen in a way dependent to
+		 * its base implementation. In case no usefull way could be used, it just use
+		 * the iterator.
+		 */
+		public K pickOne() {
+			return isEmpty() ? null : first();
+		}
 	}
 
 	protected class SortedSetEntryWrapper extends SortedSetWrapper<Entry<K, V>> {

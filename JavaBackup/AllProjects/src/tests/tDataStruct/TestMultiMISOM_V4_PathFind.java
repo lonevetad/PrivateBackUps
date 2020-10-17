@@ -30,8 +30,8 @@ import javax.swing.JScrollPane;
 import dataStructures.MapTreeAVL;
 import dataStructures.isom.MultiISOMRetangularCaching;
 import dataStructures.isom.MultiISOMRetangularMap;
-import dataStructures.isom.ObjLocatedCollectorIsom;
 import dataStructures.isom.MultiISOMRetangularMap.MatrixISOMLocatedInSpace;
+import dataStructures.isom.ObjLocatedCollectorIsom;
 import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import geometry.AbstractShape2D;
@@ -331,6 +331,23 @@ public class TestMultiMISOM_V4_PathFind {
 					new MyRectangle(23, 43, 9, 13).setName("ex"), //
 					new MyRectangle(39, 44, 4, 6).setName("ey"), //
 					new MyRectangle(32, 36, 7, 30).setName("ez"), //
+					new MyRectangle(33, 5, 6, 4).setName("dw"), //
+					new MyRectangle(41, 6, 3, 10).setName("dx"), //
+					new MyRectangle(39, 1, 8, 5).setName("dy"), //
+					new MyRectangle(36, 2, 3, 3).setName("dz"), //
+					new MyRectangle(28, 0, 16, 1).setName("eb"), //
+					new MyRectangle(29, 1, 2, 13).setName("ec"), //
+					new MyRectangle(31, 10, 8, 3).setName("ed"), //
+					new MyRectangle(46, 6, 3, 5).setName("ee"), //
+					new MyRectangle(49, 8, 5, 7).setName("ef"), //
+					new MyRectangle(54, 12, 2, 5).setName("eg"), //
+					new MyRectangle(49, 16, 5, 1).setName("eh"), //
+					new MyRectangle(55, 10, 3, 2).setName("ei"), //
+					new MyRectangle(57, 12, 1, 5).setName("ej"), //
+					new MyRectangle(48, 12, 1, 3).setName("ek"), //
+					new MyRectangle(49, 17, 4, 4).setName("el"), //
+					new MyRectangle(33, 2, 2, 3).setName("em"), //
+					new MyRectangle(20, 45, 3, 4).setName("en"), //
 			}, new Point(0, 0), new Point(11, 11)), //
 			() -> new RectanglesAndPathfindingPoints(new MyRectangle[] { //
 					new MyRectangle(18, 9, 14, 20).setName("c"), //

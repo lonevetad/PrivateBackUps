@@ -17,7 +17,11 @@ import java.util.function.Consumer;
  * <code>O(n)</code>. Further implementations could enhance those two methods if
  * the given generic class is implementing {@link Comparable}. <br>
  * It uses a binary balanced AVL-like tree.
+ * 
+ * @deprecated use {@link MapTreeAVL#toListValue(java.util.function.Function)}
+ *             unless memory optimization due to non-hierarchy.
  */
+@Deprecated
 public class ListTree<E> implements List<E> {
 	protected static final int DEPTH_INITIAL = -1;
 
@@ -40,14 +44,10 @@ public class ListTree<E> implements List<E> {
 	}
 
 	@Override
-	public int size() {
-		return size;
-	}
+	public int size() { return size; }
 
 	@Override
-	public boolean isEmpty() {
-		return root == NIL;
-	}
+	public boolean isEmpty() { return root == NIL; }
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -58,9 +58,7 @@ public class ListTree<E> implements List<E> {
 	}
 
 	@Override
-	public Iterator<E> iterator() {
-		return new IteratorListTree();
-	}
+	public Iterator<E> iterator() { return new IteratorListTree(); }
 
 	@Override
 	public E get(int index) {
@@ -125,18 +123,12 @@ public class ListTree<E> implements List<E> {
 		return true;
 	}
 
-	public void addFirst(E element) {
-		add(0, element);
-	}
+	public void addFirst(E element) { add(0, element); }
 
-	public void addLast(E element) {
-		add(size, element);
-	}
+	public void addLast(E element) { add(size, element); }
 
 	@Override
-	public void add(int index, E element) {
-		addAt(index, new NodeListTree(element));
-	}
+	public void add(int index, E element) { addAt(index, new NodeListTree(element)); }
 
 	protected void addAt(int index, NodeListTree n) {
 		NodeListTree x;
@@ -245,9 +237,7 @@ public class ListTree<E> implements List<E> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean remove(Object key) {
-		return delete((E) key);
-	}
+	public boolean remove(Object key) { return delete((E) key); }
 
 	/**
 	 * If the given key is stored inside the map, then that key and associated value
@@ -288,13 +278,9 @@ public class ListTree<E> implements List<E> {
 
 	// TODO protected
 
-	protected NodeListTree successor(NodeListTree n) {
-		return n == NIL ? n : n.next;
-	}
+	protected NodeListTree successor(NodeListTree n) { return n == NIL ? n : n.next; }
 
-	protected NodeListTree predecessor(NodeListTree n) {
-		return n == NIL ? n : n.prev;
-	}
+	protected NodeListTree predecessor(NodeListTree n) { return n == NIL ? n : n.prev; }
 
 	protected NodeListTree successorSorted(NodeListTree n) {
 		if (n == NIL)
@@ -538,9 +524,7 @@ public class ListTree<E> implements List<E> {
 		if (size == Integer.MAX_VALUE) {
 			size = (1 + root.sizeLeft + root.sizeRight);
 			// is there an overflow?
-			if (size < 0 || root.sizeLeft < 0 || root.sizeRight < 0) {
-				size = Integer.MAX_VALUE;
-			}
+			if (size < 0 || root.sizeLeft < 0 || root.sizeRight < 0) { size = Integer.MAX_VALUE; }
 		} else if (--size == 0) {
 			root = last = first = NIL;
 		} else if (root == NIL)
@@ -638,9 +622,7 @@ public class ListTree<E> implements List<E> {
 		return sb.toString();
 	}
 
-	public void toString(StringBuilder sb) {
-		toString(sb, 0);
-	}
+	public void toString(StringBuilder sb) { toString(sb, 0); }
 
 	protected void toString(StringBuilder sb, int tabLevel) {
 		NodeListTree m;
@@ -689,9 +671,7 @@ public class ListTree<E> implements List<E> {
 			nullifyReferences();
 		}
 
-		void nullifyReferences() {
-			father = left = right = prev = next = NIL;
-		}
+		void nullifyReferences() { father = left = right = prev = next = NIL; }
 
 		public void rotate(boolean isRight) {
 			int hl, hr;
@@ -868,9 +848,7 @@ public class ListTree<E> implements List<E> {
 	}
 
 	@Override
-	public ListIterator<E> listIterator() {
-		throw new UnsupportedOperationException("Operation not implemented yet");
-	}
+	public ListIterator<E> listIterator() { throw new UnsupportedOperationException("Operation not implemented yet"); }
 
 	@Override
 	public ListIterator<E> listIterator(int index) {
@@ -895,9 +873,7 @@ public class ListTree<E> implements List<E> {
 		NodeListTree n = first;
 
 		@Override
-		public boolean hasNext() {
-			return n != NIL;
-		}
+		public boolean hasNext() { return n != NIL; }
 
 		@Override
 		public E next() {

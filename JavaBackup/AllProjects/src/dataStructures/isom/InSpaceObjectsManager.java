@@ -14,6 +14,7 @@ import geometry.AbstractShape2D;
 import geometry.ObjectLocated;
 import geometry.ObjectShaped;
 import geometry.PathOptimizer;
+import geometry.PointInt;
 import geometry.implementations.shapes.ShapeLine;
 import geometry.pointTools.PointConsumer;
 import geometry.pointTools.impl.ObjCollector;
@@ -42,6 +43,29 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	@Override
 	public default AbstractShape2D getShape() { return getBoundingShape(); }
 
+	public default int getWidth() { return getShape().getWidth(); }
+
+	public default int getHeight() { return getShape().getHeight(); }
+
+//	public default Point getLocationAbsolute() { return getShape().getCenter(); }
+//
+//	public default Point getTopLetCornerAbsolute() {
+//		Point c;
+//		c = getLocationAbsolute();
+//		return new Point(c.x - (getWidth() >> 1), c.y - (getHeight() >> 1));
+//	}
+
+	@Override
+	public default PointInt getTopLetCorner() {
+//		Point c;
+//		c = getLocation();
+//		return new Point(c.x - (getWidth() >> 1), c.y - (getHeight() >> 1));
+//		Point2D p2d;
+//		p2d = getShape().getTopLeftCorner();
+//		return new Point((int) p2d.getX(), (int) p2d.getY());
+		return getShape().getTopLeftCorner();
+	}
+
 	//
 
 	// TODO SETTER
@@ -53,6 +77,16 @@ public interface InSpaceObjectsManager<Distance extends Number>
 	public void setPathOptimizer(PathOptimizer<Point> pathOptimizer);
 
 	public void setPathFinder(PathFinderIsom<Distance> pathFinder);
+
+//	public default void setLocationAbsolute(Point p) { getShape().setCenter(p); }
+//
+//	public default void setLocationAbsolute(int x, int y) { getShape().setCenter(x, y); }
+//
+//	public default void setTopLetCornerAbsolute(Point lc) { setTopLetCornerAbsolute(lc.x, lc.y); }
+//
+//	public default void setTopLetCornerAbsolute(int x, int y) {
+//		setLocationAbsolute(x + (getWidth() >> 1), y + (getHeight() >> 1));
+//	}
 
 	//
 

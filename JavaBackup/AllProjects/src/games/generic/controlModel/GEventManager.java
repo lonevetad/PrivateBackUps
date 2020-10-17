@@ -39,6 +39,9 @@ public abstract class GEventManager implements GObjectsHolder {
 
 	public GModality getGameModality() { return gameModality; }
 
+	/** Use with care */
+	public Queue<IGEvent> getEventsQueued() { return eventsQueued; }
+
 	/**
 	 * Use with caution.
 	 * <p>
@@ -114,11 +117,16 @@ public abstract class GEventManager implements GObjectsHolder {
 	 * cycle, i.e. each {@link GModality#doOnEachCycle(long)})
 	 */
 	public void performAllEvents() {
+		boolean canCycle;
+		int eventsCount, eventsMax;
 		final GModalityET gm;
 		Queue<IGEvent> q;
 		IGEvent event;
 		gm = this.gameModality;
 		q = this.eventsQueued;
+		canCycle = true;
+		eventsCount = 0;
+		eventsMax = this.gameModality.getMaxEventProcessedEachStep();
 //		this.eventsQueued.forEach((id, q) -> {
 		while (!q.isEmpty()) {
 
@@ -131,10 +139,13 @@ public abstract class GEventManager implements GObjectsHolder {
 			 * two different threads, then this check is way more required, to synchronize
 			 * both threads upon sleeping and awakening.
 			 */
-			while ((!q.isEmpty()) && gm.isRunningOrSleep()) {
+			while (canCycle && (!q.isEmpty()) && gm.isRunningOrSleep()) {
 //					l.remove(0).performEvent(gm);
 				this.notifyEventObservers(event = q.poll()); // remove the first event
 				event.onProcessingEnded();
+				if (eventsMax > 0 && ++eventsCount > eventsMax) {
+					canCycle = this.gameModality.doOnExceedingEventsProcessedInStep();
+				}
 			}
 		}
 //		});

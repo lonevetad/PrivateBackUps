@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
+import geometry.implementations.PointIntImpl;
 import geometry.implementations.ShapeUIDProvider;
 import geometry.pointTools.PolygonUtilities;
 
@@ -60,7 +61,17 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * circle's centre. <br>
 	 * See {@link #getBoundingBox()}.
 	 */
-	public Point getCenter() { return new Point(getXCenter(), getYCenter()); }
+	public abstract Point getCenter();// { return new Point(getXCenter(), getYCenter()); }
+
+	@Override
+	public int getx() { // faster and lighter implementation
+		return getXCenter();
+	}
+
+	@Override
+	public int gety() { // faster and lighter implementation
+		return getYCenter();
+	}
 
 	/**
 	 * Get the top-left corner of the bounding box, not of the shape. This must
@@ -74,9 +85,9 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * <p>
 	 * NOTE: no cache is performed to calculate this point!
 	 */
-	public Point2D getTopLeftCorner() {
+	public PointInt getTopLeftCorner() {
 		// return getLeftTopCorner(getBoundingBoxCorners());
-		return new Point(getXTopLeft(), getYTopLeft());
+		return new PointIntImpl(getXTopLeft(), getYTopLeft());
 	}
 
 	/**
@@ -167,7 +178,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 
 	public void setLeftTopCorner(int x, int y) { setCenter(x + (getWidth() >> 1), y + (getHeight() >> 1)); }
 
-	public void setLeftTopCorner(Point p) { setCenter(p.x + (getWidth() >> 1), p.y + (getHeight() >> 1)); }
+	public void setLeftTopCorner(Point p) { setLeftTopCorner(p.x, p.y); }
 
 	@Override
 	public void setLocation(Point location) { setCenter(location); }
@@ -213,7 +224,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	 * {@link #getCenter()}.
 	 */
 	@Deprecated
-	public Rectangle getBoundingBox_OLD() {
+	protected Rectangle getBoundingBox_OLD() {
 		Point2D ltc, corners[];
 		Dimension dim;
 		corners = getBoundingBoxCorners();

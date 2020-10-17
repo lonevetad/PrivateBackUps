@@ -51,6 +51,73 @@ public interface AbstractObjectsInSpaceManager<Distance extends Number> extends 
 
 	public boolean remove(ObjectLocated o);
 
+	/** See {@link #addAt(ObjectLocated, int, int)}. */
+	public default boolean addAt(ObjectLocated o, Point location) {
+		return addAt(o, location.x, location.y);
+	}
+
+	/**
+	 * Called by {@link #add(ObjectLocated)}, but adding the given object at the
+	 * specified location (that could NOT be the one provided by
+	 * {@link ObjectLocated#getLocation()}).
+	 */
+	public default boolean addAt(ObjectLocated o, int x, int y) {
+		boolean c;
+		int xo, yo;
+		Point oldLocation;
+		if (o == null)
+			return false;
+		oldLocation = o.getLocation();
+		xo = oldLocation.x;
+		yo = oldLocation.y;
+		o.setLocation(x, y);
+		c = add(o);
+		o.setLocation(xo, yo);
+		return c;
+	}
+
+	/** See {@link #containsAt(ObjectLocated, int, int)}. */
+	public default boolean containsAt(ObjectLocated o, Point location) {
+		return containsAt(o, location.x, location.y);
+	}
+
+	public default boolean containsAt(ObjectLocated o, int x, int y) {
+		boolean c;
+		int xo, yo;
+		Point oldLocation;
+		if (o == null)
+			return false;
+		oldLocation = o.getLocation();
+		xo = oldLocation.x;
+		yo = oldLocation.y;
+		o.setLocation(x, y);
+		c = contains(o);
+		o.setLocation(xo, yo);
+		return c;
+	}
+
+	/** See {@link #removeAt(ObjectLocated, int, int)}. */
+	public default boolean removeAt(ObjectLocated o, Point location) {
+		return removeAt(o, location.x, location.y);
+	}
+
+	public default boolean removeAt(ObjectLocated o, int x, int y) {
+		boolean c;
+		int xo, yo;
+		Point oldLocation;
+		if (o == null)
+			return false;
+		oldLocation = o.getLocation();
+		xo = oldLocation.x;
+		yo = oldLocation.y;
+		o.setLocation(x, y);
+		c = remove(o);
+		o.setLocation(xo, yo);
+		return c;
+	}
+
+	//
+
 	public default boolean clearArea(AbstractShape2D areaToClear) { return remove(areaToClear, null); }
 
 	public default boolean remove(AbstractShape2D areaToClear, Predicate<ObjectLocated> objectFilter) {
