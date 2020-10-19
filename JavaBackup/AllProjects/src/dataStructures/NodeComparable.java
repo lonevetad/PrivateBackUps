@@ -40,11 +40,17 @@ public interface NodeComparable<K> extends Serializable {
 
 	//
 
-	// TODO METHODS
+	// TODO INSTANCE METHODS
 
 	//
 
 	public K getKeyIdentifier();
+
+	/**
+	 * in future releases, the score (compute
+	 * througj{@link #computeDissonanceAsLong(NodeComparable)}
+	 */
+	public default long scoreKeyCompatibilityWith(K anotherKey) { return 1; }
 
 	/** Returns the set of all children held by this node. */
 	public Set<NodeComparable<K>> getChildrenNC();
@@ -72,10 +78,7 @@ public interface NodeComparable<K> extends Serializable {
 		if (child == null)
 			return this;
 		children = getChildrenNC();
-		if (children == null) {
-			System.out.println(" WTFFFFF CHILDREN NULL");
-			return this;
-		}
+		if (children == null) { return this; }
 		children.add(child);
 		return this;
 	}
@@ -89,9 +92,9 @@ public interface NodeComparable<K> extends Serializable {
 //	
 
 	/**
-	 * Compute how much the given node (called "the other") differs from
-	 * <code>this</code> (let's call the given node as "the other"). Default weights
-	 * (instance of {@link DissonanceWeights}) is provided
+	 * Compute how much <code>this</code> node differs to the given one, which is
+	 * considered as the "base". Default weights (instance of
+	 * {@link DissonanceWeights}) is provided.
 	 * <p>
 	 * {@link DissonanceWeights#getWeightMissingNode()} weights the nodes that are
 	 * missing in <code>this</code> "children set" (obtained by
@@ -147,6 +150,7 @@ public interface NodeComparable<K> extends Serializable {
 
 	//
 
+	/** See {@link NodeComparable#computeDissonanceAsLong(NodeComparable)}. */
 	public static class DissonanceWeights implements Serializable {
 		private static final long serialVersionUID = 23263214070008L;
 		protected int weightMissingNode, weightExceedingNode, weightDepth;
@@ -361,6 +365,5 @@ public interface NodeComparable<K> extends Serializable {
 
 		@Override
 		public NodeComparable<T> getChildNCByKey(T key) { return this.backMap.get(key); }
-
 	}
 }
