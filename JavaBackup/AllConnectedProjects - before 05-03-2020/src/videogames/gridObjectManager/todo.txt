@@ -1,2 +1,0 @@
-copiare qui le classi di matrixObjectLocationManager, fare refactoring con le nuove strutture dati, aggiungere nuovi algoritmi di ricerca (A*, per esempio) e nuove aree.
-
