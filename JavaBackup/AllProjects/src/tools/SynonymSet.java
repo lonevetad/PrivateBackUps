@@ -127,7 +127,7 @@ public class SynonymSet {
 		if (eg == this)
 			return true;
 		if (eg == null ||
-		// se uno è empty -> return false
+		// se uno Ã¨ empty -> return false
 				((s1 = this.backMap.size()) > 0) != (((s2 = eg.backMap.size()) > 0)))
 			return false;
 		// since the sets are sorted .. check extremes
