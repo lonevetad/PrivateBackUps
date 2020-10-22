@@ -123,6 +123,7 @@ public abstract class NodeIsom<D extends Number> extends PointWrapper implements
 	 */
 	public abstract boolean isWalkable(Predicate<ObjectLocated> isWalkableTester);
 
+	/** BEWARE of NULLS */
 	public abstract void forEachHeldObject(Consumer<ObjectLocated> action);
 
 	/**

@@ -6,15 +6,9 @@ import geometry.ShapeRunnersImplemented;
 public abstract class AbstractShapeRotated extends AbstractShape2D {
 	private static final long serialVersionUID = -718739262045L;
 
-	public AbstractShapeRotated(ShapeRunnersImplemented shapeImplementing) {
-		super(shapeImplementing);
-		this.angleRotation = 0.0;
-	}
+	public AbstractShapeRotated(ShapeRunnersImplemented shapeImplementing) { this(shapeImplementing, 0.0); }
 
-	public AbstractShapeRotated(AbstractShapeRotated s) {
-		super(s.shapeImplementing);
-		this.angleRotation = s.angleRotation;
-	}
+	public AbstractShapeRotated(AbstractShapeRotated s) { this(s.shapeImplementing, s.angleRotation); }
 
 	public AbstractShapeRotated(ShapeRunnersImplemented shapeImplementing, double angleRotation) {
 		super(shapeImplementing);
@@ -28,9 +22,7 @@ public abstract class AbstractShapeRotated extends AbstractShape2D {
 	 * the center.
 	 */
 	@Override
-	public double getAngleRotation() {
-		return angleRotation;
-	}
+	public double getAngleRotation() { return angleRotation; }
 
 	/** See {@link #getAngleRotation()}. */
 	@Override

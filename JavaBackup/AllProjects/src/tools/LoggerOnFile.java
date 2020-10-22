@@ -8,6 +8,8 @@ import java.io.IOException;
 public class LoggerOnFile implements LoggerMessages {
 	private static final long serialVersionUID = 5401484L;
 
+	public LoggerOnFile() throws IOException { this(null); }
+
 	public LoggerOnFile(String filename) throws IOException {
 		if (filename == null)
 			filename = "logAutoCreated.txt";
