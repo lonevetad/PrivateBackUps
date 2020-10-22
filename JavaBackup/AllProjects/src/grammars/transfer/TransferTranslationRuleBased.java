@@ -9,6 +9,7 @@ import dataStructures.MapTreeAVL;
 import dataStructures.NodeComparable;
 import tools.NodeComparableSynonymIndexed;
 import tools.SynonymSet;
+import tools.SynonymSet.SynonymSetComparator;
 
 /**
  * Idea: si inizia a tradurre (usando
@@ -37,7 +38,8 @@ import tools.SynonymSet;
 public class TransferTranslationRuleBased {
 
 	public TransferTranslationRuleBased() {
-		rulesGroupedByRoot = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, SynonymSet.SYNONYM_COMPARATOR);
+		rulesGroupedByRoot = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
+				SynonymSetComparator.FIRST_DIFFERENT_FIRST);
 //	<TransferTranslationItEng3.ElementGrammarWithAlternatives, List<TransferRule>>		
 	}
 

@@ -210,11 +210,13 @@ public interface NodeComparable<K> extends Serializable {
 			long[] dissonance = { Objects.equals(nodeBase.getKeyIdentifier(), this.getKeyIdentifier()) ? 0 : 1 };
 			this.forEachChildNC(child -> {
 				T key;
+				NodeComparable<T> childBase;
 				key = child.getKeyIdentifier();
-				if (nodeBase.containsChildNC(key)) {
+				childBase = nodeBase.getChildNCByKey(key);
+//				if (nodeBase.containsChildNC(key)) {
+				if (childBase != null) {
 					// recursion :D
-					dissonance[0] += ((DefaultNodeComparable<T>) child).computeDissonanceAsLong_NoRecursion(
-							nodeBase.getChildNCByKey(key), //
+					dissonance[0] += ((DefaultNodeComparable<T>) child).computeDissonanceAsLong_NoRecursion(childBase, //
 							weights, //
 							exponentialWeightDepth * weights.weightDepth);
 				} else {
@@ -240,12 +242,15 @@ public interface NodeComparable<K> extends Serializable {
 			nodesVisited.put(thisKey, this);
 			this.forEachChildNC(child -> {
 				T key;
+				NodeComparable<T> childBase;
 				key = child.getKeyIdentifier();
-				if (nodeBase.containsChildNC(key)) {
+				childBase = nodeBase.getChildNCByKey(key);
+//				if (nodeBase.containsChildNC(key)) {
+				if (childBase != null) {
 					// recursion :D
 					if (!nodesVisited.containsKey(key)) {
 						dissonance[0] += ((DefaultNodeComparable<T>) child).computeDissonanceAsLong_WithRecursion(
-								nodeBase.getChildNCByKey(key), //
+								childBase, //
 								weights, //
 								nodesVisited, //
 								exponentialWeightDepth * weights.weightDepth);
@@ -282,11 +287,14 @@ public interface NodeComparable<K> extends Serializable {
 							: BigInteger.ONE };
 			this.forEachChildNC(child -> {
 				T key;
+				NodeComparable<T> childBase;
 				key = child.getKeyIdentifier();
-				if (nodeBase.containsChildNC(key)) {
+				childBase = nodeBase.getChildNCByKey(key);
+//				if (nodeBase.containsChildNC(key)) {
+				if (childBase != null) {
 					// recursion :D
-					dissonance[0] = dissonance[0].add(((DefaultNodeComparable<T>) child)
-							.computeDissonanceAsBigInt_NoRecursion(nodeBase.getChildNCByKey(key), //
+					dissonance[0] = dissonance[0]
+							.add(((DefaultNodeComparable<T>) child).computeDissonanceAsBigInt_NoRecursion(childBase, //
 									weights, //
 									exponentialWeightDepth.multiply(weights.weightDepthBigInt))//
 					);
@@ -313,13 +321,15 @@ public interface NodeComparable<K> extends Serializable {
 					Objects.equals(nodeBase.getKeyIdentifier(), thisKey) ? BigInteger.ZERO : BigInteger.ONE };
 			this.forEachChildNC(child -> {
 				T key;
+				NodeComparable<T> childBase;
 				key = child.getKeyIdentifier();
-				if (nodeBase.containsChildNC(key)) {
+				childBase = nodeBase.getChildNCByKey(key);
+//				if (nodeBase.containsChildNC(key)) {
+				if (childBase != null) {
 					// recursion :D
 					if (!nodesVisited.containsKey(key)) {
 						BigInteger dissGot;
-						dissGot = ((DefaultNodeComparable<T>) child).computeDissonanceAsBigInt_WithRecursion(
-								nodeBase.getChildNCByKey(key), //
+						dissGot = ((DefaultNodeComparable<T>) child).computeDissonanceAsBigInt_WithRecursion(childBase, //
 								weights, //
 								nodesVisited, //
 								exponentialWeightDepth.multiply(weights.weightDepthBigInt));
