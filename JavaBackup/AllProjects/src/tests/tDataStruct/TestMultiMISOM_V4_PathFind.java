@@ -32,6 +32,7 @@ import dataStructures.isom.MultiISOMRetangularCaching;
 import dataStructures.isom.MultiISOMRetangularMap;
 import dataStructures.isom.MultiISOMRetangularMap.MatrixISOMLocatedInSpace;
 import dataStructures.isom.ObjLocatedCollectorIsom;
+import dataStructures.isom.MultiISOMRetangularMap.MatrixISOMLocatedInSpace;
 import dataStructures.isom.matrixBased.MISOM_SingleObjInNode;
 import dataStructures.isom.matrixBased.MatrixInSpaceObjectsManager;
 import geometry.AbstractShape2D;

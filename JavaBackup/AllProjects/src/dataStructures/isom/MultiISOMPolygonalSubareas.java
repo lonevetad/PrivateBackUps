@@ -34,7 +34,6 @@ import tools.Stringable;
 import tools.UniqueIDProvider;
 
 // TODO nella "addMap", considerare	la Shape dell'ISOM da aggiungere E
-
 /**
  * Takes inspiration from {@link MultiISOMRetangularCaching}, but areas could be
  * polygonal, no matter what.
