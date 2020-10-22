@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import tools.remoteControl.view.ViewRC;
 
+/** Main launcher and works as a test */
 public class RemoteControl {
 
 	public static void main(String args[]) {
