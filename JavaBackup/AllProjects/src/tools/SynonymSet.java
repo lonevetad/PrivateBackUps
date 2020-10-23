@@ -19,7 +19,7 @@ import grammars.transfer.TransferTranslationRuleBased;
  */
 public class SynonymSet implements Cloneable {
 
-	private static final Comparator<SynonymSet> SYNONYM_COMPARATOR = (eg1, eg2) -> {
+	private static final Comparator<SynonymSet> SYNONYM_COMPARATOR = (s1, s2) -> {
 		int c, size1, size2;
 		Iterator<String> i1, i2;
 		Comparator<String> comp;
@@ -27,15 +27,15 @@ public class SynonymSet implements Cloneable {
 //		SynonymSet intersection;
 		// Comparator<String> comp;
 		// System.out.println("porcodd " + eg1 + " <-> " + eg2);
-		if (eg1 == eg2)
+		if (s1 == s2)
 			return 0;
-		if (eg1 == null)
+		if (s1 == null)
 			return -1;
-		if (eg2 == null)
+		if (s2 == null)
 			return 1;
 		// smallest
-		size1 = eg1.backMap.size();
-		size2 = eg2.backMap.size();
+		size1 = s1.backMap.size();
+		size2 = s2.backMap.size();
 		if (size1 == 0) {
 			// System.out.println("dfjdsfssdf " + (size2 == 0 ? 0 : -1));
 			return size2 == 0 ? 0 : -1;
@@ -44,8 +44,8 @@ public class SynonymSet implements Cloneable {
 		 * since synonyms are sortable and this set is sorted, then compare the elements
 		 * in order
 		 */
-		i1 = eg1.backMap.iteratorKey();
-		i2 = eg2.backMap.iteratorKey();
+		i1 = s1.backMap.iteratorKey();
+		i2 = s2.backMap.iteratorKey();
 		comp = Comparators.STRING_COMPARATOR;
 		c = 0;
 		while (i1.hasNext() && i2.hasNext() && //
@@ -75,11 +75,43 @@ public class SynonymSet implements Cloneable {
 		SUBSET_CHECK_ELSE_COLLAPSE(new ComparatorSynonymBySubset()),
 		SUBSET_THEN_FIRST_ON_SEQUENCE(new ComparatorSynonymBySubset() {
 			@Override
-			public int finishCompareOnIntersecting(SynonymSet eg1, SynonymSet eg2) {
+			public int finishCompareOnIntersecting(SynonymSet s1, SynonymSet s2) {
 				// System.out.println("yeeeeeh");
-				return SYNONYM_COMPARATOR.compare(eg1, eg2);
+				return SYNONYM_COMPARATOR.compare(s1, s2);
 			}
-		});
+		})//
+		,
+		/**
+		 * More general version than {@link SU} because this one gives precedence on
+		 * subset relation and how close are the arguments, comparing keys only in case
+		 * of a tie.
+		 */
+		INTERS_THEN_MISS_THEN_EXCEED((s1, s2) -> {
+			int c, c1, c2;
+			if (s1 == s2)
+				return 0;
+			if (s1 == null)
+				return -1;
+			if (s2 == null)
+				return 1;
+			c1 = s1.alternatives.size();
+			c2 = s2.alternatives.size();
+			c = s1.intersectionSize(s2);
+			if (c == c1) {
+				return (c == c2) ? 0 : -1;
+			} else if (c == c2)
+				return 1;
+			// no one is equal or a subset: everyone has something that the other has not
+// now check the "closest to intersection": which one has fewer elements more to the inters.
+			c1 -= c;
+			c2 -= c;
+			if (c1 == c2) // tie: just compare elements
+				return SYNONYM_COMPARATOR.compare(s1, s2);
+			else
+				return (c1 < c2) ? 1 : -1;
+		})
+		/**/
+		;
 
 		SynonymSetComparator(Comparator<SynonymSet> c) { this.comps = c; }
 
@@ -273,7 +305,7 @@ public class SynonymSet implements Cloneable {
 	}
 
 	@Override
-	public Object clone() {
+	public SynonymSet clone() {
 		SynonymSet s;
 		s = new SynonymSet();
 		this.backMap.forEach((k, v) -> s.addAlternative(k));

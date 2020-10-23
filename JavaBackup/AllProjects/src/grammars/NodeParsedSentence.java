@@ -1,4 +1,4 @@
-package grammars.transfer;
+package grammars;
 
 import java.util.Arrays;
 import java.util.Collection;

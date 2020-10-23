@@ -31,6 +31,7 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 		instantiatesChildrenStructures();
 	}
 
+	/** It does not add children. */
 	public NodeComparableSynonymIndexed(NodeComparableSynonymIndexed original) {// copy constructor
 		this.alternatives = original.alternatives;
 		instantiatesChildrenStructures();
@@ -139,7 +140,15 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 
 	// delegators
 
-	public void addAlternative(String s) { this.alternatives.addAlternative(s); }
+	public NodeComparableSynonymIndexed addAlternative(String s) {
+		this.alternatives.addAlternative(s);
+		return this;
+	}
+
+	public NodeComparableSynonymIndexed addAlternatives(SynonymSet s) {
+		s.forEach(this.alternatives::addAlternative);
+		return this;
+	}
 
 	public void removeAlternative(String t) { this.alternatives.removeAlternative(t); }
 

@@ -216,7 +216,8 @@ public interface NodeComparable<K> extends Serializable {
 //				if (nodeBase.containsChildNC(key)) {
 				if (childBase != null) {
 					// recursion :D
-					dissonance[0] += ((DefaultNodeComparable<T>) child).computeDissonanceAsLong_NoRecursion(childBase, //
+					dissonance[0] += ((NodeComparableDefaultAlghoritms<T>) child).computeDissonanceAsLong_NoRecursion(
+							childBase, //
 							weights, //
 							exponentialWeightDepth * weights.weightDepth);
 				} else {
@@ -293,8 +294,8 @@ public interface NodeComparable<K> extends Serializable {
 //				if (nodeBase.containsChildNC(key)) {
 				if (childBase != null) {
 					// recursion :D
-					dissonance[0] = dissonance[0]
-							.add(((DefaultNodeComparable<T>) child).computeDissonanceAsBigInt_NoRecursion(childBase, //
+					dissonance[0] = dissonance[0].add(((NodeComparableDefaultAlghoritms<T>) child)
+							.computeDissonanceAsBigInt_NoRecursion(childBase, //
 									weights, //
 									exponentialWeightDepth.multiply(weights.weightDepthBigInt))//
 					);

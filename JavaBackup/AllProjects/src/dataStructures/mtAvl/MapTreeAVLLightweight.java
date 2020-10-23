@@ -861,6 +861,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		if (c > 0)
 			throw new IllegalArgumentException("Lower bound is greater than upper bound");
 		if (c == 0) {
+			System.out.println("c : " + c);
 			if (isLowerBoundIncluded || isUpperBoundIncluded) {
 				r = MapTreeAVL.newMap(optimization, behaviour, comp);
 				if (this.containsKey(lowerBound))
@@ -870,22 +871,28 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				throw new IllegalArgumentException("The ma");
 		}
 		r = MapTreeAVL.newMap(optimization, behaviour, comp);
-		if (this.isEmpty())
+		if (this.isEmpty()) {
+			System.out.println(" eheh empty");
 			return r;
+		}
 		if (size == 1) {
 			if ((comp.compare(lowerBound, root.k) < 0) && (comp.compare(root.k, upperBound) < 0)) {
 				r.put(root.k, root.v);
 			}
+			System.out.println("WTF");
 			return r;
 		}
-		// recycle the "get" code
-		if (comp.compare(((NodeAVL) this.peekMaximum()).k, lowerBound) < 0) {
+		if (comp.compare(((NodeAVL) this.peekMaximum()).k, lowerBound) >= 0 && //
+				comp.compare(((NodeAVL) this.peekMinimum()).k, upperBound) <= 0) {
+			// recycle the "get" code
 			NodeAVL n, temp, firstNode;
 			// lower bound is greater: move to the real starting node
 			n = temp = root;
 			// search for the first node
+			System.out.println("root: " + n.k);
 			firstNode = null;
 			while (firstNode == null && n != NIL) {
+//				System.out.println("while 1 node: " + n);
 				c = comp.compare(lowerBound, n.k);
 				if (c == 0 && isLowerBoundIncluded) {
 					firstNode = n;
@@ -895,18 +902,26 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				}
 			}
 			if (firstNode == null) {
+				System.out.println("first node is null and became temp: " + temp.k);
 				firstNode = temp;
 				while (firstNode != NIL && (c = comp.compare(firstNode.k, lowerBound)) < 0) {
+//					System.out.println("while 2 first node successing it" + firstNode.k);
 					firstNode = successorSorted(firstNode);
 				}
 			}
-			if (firstNode == null || firstNode == NIL)
+			if (firstNode == null || firstNode == NIL) {
+				System.out.println("first node STILL empty");
 				return r; // EMPTY
+			}
 			n = firstNode;
 			// add the first node and each subsequent node (lower than upper bound)
+			// BUT FIRST: check the starting node "n" and the upper bound
+			c = comp.compare(n.k, upperBound);
+			if (!(c < 0 || (c == 0 && isUpperBoundIncluded))) { return r; } // no, outside range
 			do {
 				r.put(n.k, n.v);
 				temp = successorSorted(n);
+//				System.out.println("while 3temp will is now: " + temp.k);
 				if (temp == NIL)
 					n = NIL; // no more nodes available -> stop
 				else {
@@ -935,7 +950,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 	@Override
 	public Entry<K, V> getLowesCommonAncestor(K k1, K k2) {
-//		Entry<K, V>
 		int c1, c2;
 		NodeAVL n, prev;
 		if (root == NIL)
@@ -970,6 +984,62 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			} while (notFound && n != NIL);
 		}
 		return prev;
+	}
+
+	@Override
+	public ClosestMatch<K, V> closestMatchOf(K key) {
+		boolean notFound;
+		int c;
+		NodeAVL n, closestUpper;
+		Comparator<K> co;
+		n = root;
+		if (n == NIL || n == null)
+			return null;
+		if (n.left == NIL && n.right == NIL)
+			return new ClosestMatch<>(n);
+		/*
+		 * search for the nearest lower key: scan node by node.
+		 */
+		co = comp;
+		closestUpper = null;
+		notFound = true;
+		do {
+			c = co.compare(key, n.k);
+			if (c == 0) {
+//				closestUpper = null;
+//				notFound = false;
+				return new ClosestMatch<>(n);
+			} else {
+				if (c < 0) {
+					// go to the left
+					if (n.left != NIL) {
+						closestUpper = n;
+						n = n.left;
+					} else {
+						// n is at the bottom of a subtree but could have a predecessor. If so -> pred.
+						// == lower bound
+						closestUpper = n;
+						n = predecessorSorted(n);
+						notFound = false;
+						if (n == NIL) {
+							n = null; // cannot return NIL and a "not existing lower bound" must be marked in some way
+						} // else : n is already the lower bound
+					}
+				} else {
+					// similarly, go to right
+					if (n.right != NIL) {
+						n = n.right;
+					} else {
+						notFound = false;
+						closestUpper = successorSorted(n);
+						if (closestUpper == NIL) {
+							closestUpper = null; // n is lower bound, no upper bound and NIL cannot be returned
+						}
+					}
+				}
+			}
+		} while (notFound);
+		return new ClosestMatch<>(n, closestUpper);
 	}
 
 	// TODO MERGE
