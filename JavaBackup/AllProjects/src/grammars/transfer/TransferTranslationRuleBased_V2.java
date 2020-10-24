@@ -5,14 +5,12 @@ import java.util.Map;
 import dataStructures.MapTreeAVL;
 import grammars.NodeParsedSentence;
 import tools.SynonymSet;
-import tools.SynonymSet.SynonymSetComparator;
 
 /** Second version of {@link TransferTranslationRuleBased}. */
 public class TransferTranslationRuleBased_V2 extends ATransferTranslationRuleBased {
 
 	public TransferTranslationRuleBased_V2() {
-		rulesGivenLHS = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
-				SynonymSetComparator.FIRST_DIFFERENT_FIRST);
+		rulesGivenLHS = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, SynonymSet.COMPARATOR);
 		ruleCollectorByLHSAsChild = new NodeParsedSentence("i'm just a root");
 //	<TransferTranslationItEng3.ElementGrammarWithAlternatives, List<TransferRule>>		
 	}

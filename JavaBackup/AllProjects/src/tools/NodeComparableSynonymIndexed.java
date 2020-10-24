@@ -8,7 +8,6 @@ import java.util.function.Function;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.NodeComparable;
-import tools.SynonymSet.SynonymSetComparator;
 
 /** Default implementation of {@link NodeComparable} useful for */
 public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableDefaultAlghoritms<SynonymSet>
@@ -50,7 +49,7 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 
 	protected void instantiatesChildrenStructures() {
 		this.childrenBySynonymsBackMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
-				SynonymSetComparator.FIRST_DIFFERENT_FIRST);
+				SynonymSet.COMPARATOR);
 		this.childrenBySynonyms =
 //				new SetMapped<>(
 //				((MapTreeAVL<SynonymSet, NodeComparableSynonymIndexed>) this.childrenBySynonymsBackMap)

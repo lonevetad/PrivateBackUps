@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 import dataStructures.MapTreeAVL;
 import grammars.NodeParsedSentence;
 import tools.SynonymSet;
-import tools.SynonymSet.SynonymSetComparator;
 
 /**
  * Idea: si inizia a tradurre (usando
@@ -40,8 +39,7 @@ import tools.SynonymSet.SynonymSetComparator;
 public class TransferTranslationRuleBased extends ATransferTranslationRuleBased {
 
 	public TransferTranslationRuleBased() {
-		rulesGroupedByRoot = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
-				SynonymSetComparator.FIRST_DIFFERENT_FIRST);
+		rulesGroupedByRoot = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, SynonymSet.COMPARATOR);
 //	<TransferTranslationItEng3.ElementGrammarWithAlternatives, List<TransferRule>>		
 	}
 
