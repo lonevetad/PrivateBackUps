@@ -179,7 +179,7 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 		 * {@link MapTreeAVL#forEach(ForEachMode, Consumer)} passing
 		 * {@link ForEachMode#Stack} instead of {@link ForEachMode#Queue}
 		 */
-		ToQueueFIFOIterating(new MapTreeAVLFactory() {
+		QueueFIFOIteration(new MapTreeAVLFactory() {
 			@Override
 			public <Key, Val> MapTreeAVL<Key, Val> newMap(BehaviourOnKeyCollision b, Comparator<Key> comp) {
 				return new MapTreeAVLQueuable<Key, Val>(b, comp);
@@ -187,9 +187,9 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 		}),
 
 		/**
-		 * All features of {@link #MinMaxIndexIteration} and
-		 * {@link #ToQueueFIFOIterating} together, but at the price of more memory usage
-		 * due to the additional informations stored.
+		 * All features of {@link #MinMaxIndexIteration} and {@link #QueueFIFOIteration}
+		 * together, but at the price of more memory usage due to the additional
+		 * informations stored.
 		 */
 		FullButHeavyNodes(new MapTreeAVLFactory() {
 			@Override

@@ -12,13 +12,13 @@ import dataStructures.graph.PathFindStrategy;
 import dataStructures.graph.PathGraph;
 import dataStructures.graph.pathfind.PathFindAStar;
 import dataStructures.graph.pathfind.PathFinderDijkstra;
+import tools.Comparators;
 import tools.LoggerMessages;
 
 public class TestDijkstraPriorityQueue {
 	protected static final int numberNodeGraphs = 14;
 
-	public TestDijkstraPriorityQueue() {
-	}
+	public TestDijkstraPriorityQueue() {}
 
 	//
 
@@ -56,13 +56,14 @@ public class TestDijkstraPriorityQueue {
 		scan.close();
 		scan = null;
 
-		pathFinder = isDijkstra ? new PathFinderDijkstra<>() : new PathFindAStar<Integer, Integer>(new AStarHeuristic()));
-		g = isSynch ? new GraphSimpleSynchronized<>(pathFinder, GraphSimple.INT_COMPARATOR)
-				: new GraphSimpleAsynchronized<>(pathFinder, GraphSimple.INT_COMPARATOR);
+		pathFinder = isDijkstra ? new PathFinderDijkstra<>()
+				: new PathFindAStar<Integer, Integer>(new AStarHeuristic());
+		g = isSynch ? new GraphSimpleSynchronized<>(pathFinder, Comparators.INTEGER_COMPARATOR)
+				: new GraphSimpleAsynchronized<>(pathFinder, Comparators.INTEGER_COMPARATOR);
 		g.setLog(log);
 		((PathFindAStar<Integer, Integer>) pathFinder).setGraph(g);
 		i = -1;
-		while(++i < numberNodeGraphs) {
+		while (++i < numberNodeGraphs) {
 			g.addNode(i);
 		}
 
@@ -101,7 +102,7 @@ public class TestDijkstraPriorityQueue {
 		for (int[] link : links) {
 			if (link != null) {
 				k = 0;
-				while(k < link.length) {
+				while (k < link.length) {
 					// pairs of destination-distance
 					dest = Integer.valueOf(link[k++]);
 					distance = Integer.valueOf(link[k++]);

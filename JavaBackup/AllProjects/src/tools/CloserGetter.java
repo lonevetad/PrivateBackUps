@@ -23,6 +23,9 @@ public interface CloserGetter<K> extends Serializable {
 	 * Given a value (first parameter), check which one of two (last) values is the
 	 * other two value is closer to the given (first) one.<br>
 	 * In case of tie, the first element should be returned.
+	 * <p>
+	 * May invoke {@link #getCloserTo(Object, DifferenceCalculator, Object, Object)}
+	 * by providing a well designed {@link DifferenceCalculator}.
 	 */
 	public K getCloserTo(K target, K option1, K opt2);
 

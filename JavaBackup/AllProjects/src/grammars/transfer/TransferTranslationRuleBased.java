@@ -39,7 +39,7 @@ import tools.SynonymSet;
 public class TransferTranslationRuleBased extends ATransferTranslationRuleBased {
 
 	public TransferTranslationRuleBased() {
-		rulesGroupedByRoot = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, SynonymSet.COMPARATOR);
+		rulesGroupedByRoot = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, SynonymSet.COMPARATOR_SYNONYM_SET);
 //	<TransferTranslationItEng3.ElementGrammarWithAlternatives, List<TransferRule>>		
 	}
 

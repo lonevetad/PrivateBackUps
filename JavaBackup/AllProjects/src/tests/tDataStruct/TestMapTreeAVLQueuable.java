@@ -18,7 +18,7 @@ public class TestMapTreeAVLQueuable {
 			System.out.println(e);
 		};
 		//
-		t = MapTreeAVL.newMap(MapTreeAVL.Optimizations.ToQueueFIFOIterating, MapTreeAVL.BehaviourOnKeyCollision.Replace,
+		t = MapTreeAVL.newMap(MapTreeAVL.Optimizations.QueueFIFOIteration, MapTreeAVL.BehaviourOnKeyCollision.Replace,
 				Comparators.INTEGER_COMPARATOR);
 		System.out.println(t.getClass());
 		System.out.println(t);

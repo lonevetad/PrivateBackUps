@@ -197,7 +197,7 @@ public class JListModelRBTree<K, E> extends AbstractListModel<E> implements Set<
 		keyElem = keyExtractor.apply(elem);
 		iter = (Iterator<K>) ((Set<E>) delegate).iterator();
 		while (iter.hasNext() && //
-				(notFound = (elem == null ? (iter.n.value != null)
+				(notFound = (elem == null ? (iter.n.keyIdentifier != null)
 						: (!(comparatorKeys.compare(keyElem, iter.next()) == 0))))/**/)
 			index++;
 		return notFound ? -1 : index;

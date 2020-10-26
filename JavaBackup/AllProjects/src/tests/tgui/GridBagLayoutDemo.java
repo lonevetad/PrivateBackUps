@@ -29,7 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tests;
+package tests.tgui;
 
 /*
  * GridBagLayoutDemo.java requires no other files.

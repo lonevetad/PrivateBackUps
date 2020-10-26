@@ -1,48 +1,17 @@
-package tests;
+package tests.tDataStruct;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import dataStructures.NodeComparable;
+import dataStructures.TreeComparable;
 import tools.Comparators;
 
-public class TestTreeDissonanceComputer {
+public class TestTreeDissonanceComputer extends TreeComparable<Integer> {
+	private static final long serialVersionUID = 1L;
 
-	public TestTreeDissonanceComputer() {}
-
-	NodeComparable<Integer> root;
-
-	/** No null pointer checks are performed */
-	void addNode(Integer v, List<Integer> path) {
-		NodeComparable<Integer> newChild;
-		newChild = NodeComparable.newDefaultNodeComparable(v, Comparators.INTEGER_COMPARATOR);
-		if (path == null || path.isEmpty()) {
-			root = newChild;
-		} else {
-			NodeComparable<Integer> nIter;
-			nIter = root;
-			System.out.println("adding " + v);
-			Iterator<Integer> iter;
-			Integer step;
-			if (root == null)
-				throw new NullPointerException();
-			iter = path.iterator();
-			step = iter.next();
-			if (!step.equals(root.getKeyIdentifier()))
-				return;
-
-			while (iter.hasNext()) {
-				step = iter.next();
-				System.out.println("iter: " + nIter.getKeyIdentifier() + ", step: " + step);
-				nIter = nIter.getChildNCByKey(step);
-				System.out.println("and now is: " + nIter);
-			}
-			System.out.println("adding on iter: " + nIter.getKeyIdentifier());
-			nIter.addChildNC(newChild);
-		}
-	}
+	public TestTreeDissonanceComputer() { super(Comparators.INTEGER_COMPARATOR); }
 
 	/** See {@link NodeComparable#computeDissonanceAsLong(NodeComparable)}. */
 	public long computeDiff(TestTreeDissonanceComputer theBase) {
@@ -59,50 +28,13 @@ public class TestTreeDissonanceComputer {
 
 	//
 
-	@Override
-	public String toString() {
-		StringBuilder sb;
-		sb = new StringBuilder();
-		sb.append("Tree:");
-		if (root == null)
-			sb.append("nullo");
-		else
-			toString(sb, root, 0);
-		return sb.toString();
-	}
-
-	public void toString(StringBuilder sb, NodeComparable<Integer> n, int level) {
-		sb.append('\n');
-		addTab(sb, level, false);
-		sb.append(n.getKeyIdentifier());
-		int lev = level + 1;
-		n.forEachChildNC(c -> toString(sb, c, lev));
-	}
-
-	public void addTab(StringBuilder sb, int tabLevel, boolean newLineNeeded) {
-		if (sb != null) {
-			if (newLineNeeded)
-				sb.append('\n');
-			sb.ensureCapacity(sb.length() + tabLevel);
-			while (tabLevel-- > 0) {
-				sb.append('\t');
-			}
-		}
-	}
-
-	//
-
-	//
-
-	//
-
 	public static void main(String[] args) {
 		Integer x;
 		TestTreeDissonanceComputer t, altro;
 		LinkedList<Integer> l;
+		l = new LinkedList<>();
 		t = new TestTreeDissonanceComputer();
 		altro = new TestTreeDissonanceComputer();
-		l = new LinkedList<>();
 		System.out.println("START");
 		d(altro, t);
 		x = 7;

@@ -3,10 +3,10 @@ package tests.tDataStruct;
 import java.util.Map.Entry;
 
 import dataStructures.MapTreeAVL;
-import dataStructures.MapTreeAVL.ClosestMatch;
+import tools.ClosestMatch;
 import tools.Comparators;
 
-public class TestClosestMatch {
+public class TestClosestMatch_OnMapTreeAVL {
 	public static final int[] TO_ADD = { 100, 50, 150, 20, 70, 130, 200, 10, 15, 188 };
 
 //	size: 10, collection-type: Replace
@@ -24,7 +24,7 @@ public class TestClosestMatch {
 
 	static enum ToSearch {
 		Minimum(10), NoLowerBound(5), LowIsFatherUpIsSucc(13), LowIsPredUpIsFather(66), Maximum(200), NoUpperBound(222),
-		Root(100), InBetweenFromRight(128);
+		Root(100), InBetweenFromRight(128), SomeWeird(194);
 
 		public final Integer val;
 
@@ -33,7 +33,7 @@ public class TestClosestMatch {
 
 	public static void main(String[] args) {
 		MapTreeAVL<Integer, Integer> t;
-		ClosestMatch<Integer, Integer> cm;
+		ClosestMatch<Entry<Integer, Integer>> cm;
 		Integer x;
 		t = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
 		for (int a : TO_ADD) {

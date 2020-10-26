@@ -15,7 +15,8 @@ public final class Comparators {
 
 	public static final MyComparator<String> STRING_COMPARATOR = new GenericComparator<String>()//
 			, STRING_COMPARATOR_2 = //
-					(s1, s2) -> ((s1 == null) ? (s2 == null ? 0 : -1) : (s2 == null ? 1 : s1.compareTo(s2)));
+					(s1, s2) -> ((s1 == s2) ? 0
+							: ((s1 == null) ? (s2 == null ? 0 : -1) : (s2 == null ? 1 : s1.compareTo(s2))));
 	public static final MyComparator<Integer> INTEGER_COMPARATOR = new GenericComparator<Integer>();
 	public static final MyComparator<Long> LONG_COMPARATOR = new GenericComparator<Long>();
 	public static final MyComparator<Double> DOUBLE_COMPARATOR = new GenericComparator<Double>();

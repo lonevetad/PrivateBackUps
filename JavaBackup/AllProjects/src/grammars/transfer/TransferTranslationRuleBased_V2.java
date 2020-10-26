@@ -1,16 +1,18 @@
 package grammars.transfer;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import grammars.NodeParsedSentence;
 import tools.SynonymSet;
 
 /** Second version of {@link TransferTranslationRuleBased}. */
+@Deprecated
 public class TransferTranslationRuleBased_V2 extends ATransferTranslationRuleBased {
 
 	public TransferTranslationRuleBased_V2() {
-		rulesGivenLHS = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, SynonymSet.COMPARATOR);
+		rulesGivenLHS = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, SynonymSet.COMPARATOR_SYNONYM_SET);
 		ruleCollectorByLHSAsChild = new NodeParsedSentence("i'm just a root");
 //	<TransferTranslationItEng3.ElementGrammarWithAlternatives, List<TransferRule>>		
 	}
@@ -53,8 +55,10 @@ public class TransferTranslationRuleBased_V2 extends ATransferTranslationRuleBas
 	@Override
 	protected TransferRule getBestRuleFor(NodeParsedSentence subtreeToTransfer) {
 		NodeParsedSentence maybeALhs;
-		maybeALhs = (NodeParsedSentence) this.ruleCollectorByLHSAsChild
-				.getChildNCByKey(subtreeToTransfer.getKeyIdentifier());
+		maybeALhs = (NodeParsedSentence) this.ruleCollectorByLHSAsChild.getChildNCMostSimilarTo(subtreeToTransfer);
 		return (maybeALhs == null) ? null : rulesGivenLHS.get(maybeALhs.getKeyIdentifier());
 	}
+
+	@Override
+	public void forEachRule(Consumer<TransferRule> c) { this.rulesGivenLHS.forEach((lhs, r) -> c.accept(r)); }
 }

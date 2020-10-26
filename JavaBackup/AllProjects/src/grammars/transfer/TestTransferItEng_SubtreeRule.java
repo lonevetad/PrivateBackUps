@@ -6,7 +6,7 @@ import grammars.ElemGrammarBase;
 import grammars.NodeParsedSentence;
 import tools.SynonymSet;
 
-public class TestTransferItEng3 {
+public class TestTransferItEng_SubtreeRule {
 
 	public static void main(String[] args) { testSingle(); }
 

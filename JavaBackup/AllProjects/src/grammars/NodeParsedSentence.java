@@ -2,11 +2,13 @@ package grammars;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 import dataStructures.MapTreeAVL;
+import dataStructures.NodeComparable;
 import tools.Comparators;
 import tools.NodeComparableSynonymIndexed;
 import tools.SynonymSet;
@@ -17,6 +19,7 @@ import tools.SynonymSet;
  */
 public class NodeParsedSentence extends NodeComparableSynonymIndexed {
 	private static final long serialVersionUID = -3000078540407L;
+	public static final Comparator<NodeParsedSentence> COMPARATOR_NODE_NPS = NodeComparableSynonymIndexed.COMPARATOR_NODE::compare;
 
 	//
 
@@ -98,6 +101,11 @@ public class NodeParsedSentence extends NodeComparableSynonymIndexed {
 	// SOMETHING ELSE
 
 	//
+
+	@Override
+	public NodeComparable<SynonymSet> getChildNCMostSimilarTo(SynonymSet key) {
+		return this.getChildNCMostSimilarTo(key, NodeParsedSentence::new);
+	}
 
 	protected void checkFeatures() {
 		if (features == null)

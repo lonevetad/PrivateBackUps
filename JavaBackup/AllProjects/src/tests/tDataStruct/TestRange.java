@@ -23,7 +23,7 @@ public class TestRange {
 		MapTreeAVL<Integer, Integer> t;
 		Integer x;
 		t = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
-		for (int a : TestClosestMatch.TO_ADD) {
+		for (int a : TestClosestMatch_OnMapTreeAVL.TO_ADD) {
 			x = a;
 			t.put(x, x);
 		}
