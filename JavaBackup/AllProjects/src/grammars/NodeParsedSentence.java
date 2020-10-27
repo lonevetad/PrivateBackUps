@@ -80,20 +80,28 @@ public class NodeParsedSentence extends NodeComparableSynonymIndexed {
 
 	//
 
-	public void setLemma(String lemma) { this.lemma = lemma; }
+	public NodeParsedSentence setLemma(String lemma) {
+		this.lemma = lemma;
+		return this;
+	}
 
-	public void setGloss(String gloss) { this.gloss = gloss; }
+	public NodeParsedSentence setGloss(String gloss) {
+		this.gloss = gloss;
+		return this;
+	}
 
-	public void setDep(String dep) {
+	public NodeParsedSentence setDep(String dep) {
 		super.removeAlternative(this.dep);
 		this.dep = dep;
 		super.addAlternative(dep);
+		return this;
 	}
 
-	public void setPos(String pos) {
+	public NodeParsedSentence setPos(String pos) {
 		super.removeAlternative(this.pos);
 		this.pos = pos;
 		super.addAlternative(pos);
+		return this;
 	}
 
 	//

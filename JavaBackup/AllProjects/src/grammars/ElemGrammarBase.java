@@ -13,12 +13,13 @@ public enum ElemGrammarBase {
 	Verb("V", "VP", "verb"), //
 	Adjective("JJ", "JJR", "JJS", "adj", "amod"), //
 	Noun("NN", "NNS", "NNP", "NNPS", "N", "nsubj", "nsubjpass", "noun", "nobj"), //
-	Adverb("RB", "RBR", "RBS"), //
+	Adverb("RB", "RBR", "RBS", "adv", "adverb"), //
 	Subject("S", "subj", "nsubj", "nsubjpass"), //
 	Objectt("O", "obj", "dobj", "iobj"), //
 	Aux("aux", "auxpass"), //
-	Det("det"), //
-	Comp("comp", "xcomp")
+	Det("det", "RI"), //
+	Comp("comp", "xcomp"), //
+	Case("case", "E")
 	//
 	;
 
@@ -28,7 +29,7 @@ public enum ElemGrammarBase {
 
 	private ElemGrammarBase(SynonymSet eg) { this.eg = eg; }
 
-	public NodeParsedSentence newNSD() { return new NodeParsedSentence(this.getSynonymsClone()); }
+	public NodeParsedSentence newNode() { return new NodeParsedSentence(this.getSynonymsClone()); }
 
 	//
 

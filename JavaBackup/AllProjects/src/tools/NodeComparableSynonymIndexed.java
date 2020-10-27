@@ -105,8 +105,10 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 		ClosestMatch<Entry<NodeComparable<SynonymSet>, NodeComparable<SynonymSet>>> cm;
 		ClosestMatch<NodeComparable<SynonymSet>> cmN;
 		cm = this.childrenBySynonymsBackMap.closestMatchOf(copy);
+		if (cm == null)
+			return null;
 		// but the closest match needs to be converted .. .-.
-		cmN = cm.convertTo(COMPARATOR_NODE, Entry::getKey/* e -> e.getKey() */);
+		cmN = cm.convertTo(COMPARATOR_NODE, e -> { return e == null ? null : e.getKey(); });
 		// ready to get the real closest match
 		return cmN.getClosetsMatchToOriginal(CLOSER_GETTER_NCSI);
 	}
@@ -244,7 +246,7 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 		sb.append("NStD: ");
 		this.alternatives.toString(sb);
 		toStringNonCollectionFields(sb);
-		sb.append(" -----> (children:)");
+		sb.append(" -----> children:");
 		lev = level + 1;
 		this.forEachChildNC((child) -> {
 			if (child instanceof NodeComparableSynonymIndexed) {

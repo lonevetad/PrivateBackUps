@@ -21,7 +21,11 @@ public class TransferTranslationRuleBased_V4 extends ATransferTranslationRuleBas
 	public void forEachRule(Consumer<TransferRule> c) { this.rulesGivenLHS.forEach((syn, rule) -> c.accept(rule)); }
 
 	@Override
-	public void addRule(TransferRule rule) { rulesGivenLHS.put(rule.lhsTemplate, rule); }
+	public void addRule(TransferRule rule) {
+		rulesGivenLHS.put(rule.lhsTemplate, rule);
+		System.out.println("\nrule added:");
+		System.out.println(rule);
+	}
 
 	@Override
 	public NodeParsedSentence transfer(NodeParsedSentence rootSubtree) {

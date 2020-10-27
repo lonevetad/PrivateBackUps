@@ -13,6 +13,11 @@ public class TestTransferItEng_SubtreeRule {
 	public static void testSingle() {
 		NodeParsedSentence root, converted;
 		NodeParsedSentence subj, obj;
+		System.out.println("START \nby listing rules:");
+		BuilderTransferTranslatorItEng3_ByHand.TRANSFERER_RULE_BASED
+				.forEachRule(r -> System.out.println("------ " + r));
+		System.out.println("\n\n and then ? \n\n");
+
 //		root = ElemGrammarBase.Verb.newNSD();
 //		root.setGloss("coding");
 //		root.setPos(pos);
@@ -76,9 +81,10 @@ public class TestTransferItEng_SubtreeRule {
 						.addChildNC(obj) // still returning the new root
 		;
 
+		System.out.println("\n\n\n _______");
 		System.out.println("\n\n now converting heavy stuffs");
 		System.out.println(root);
-		System.out.println("\n\n\n _______");
+		System.out.println("\n _______");
 		converted = BuilderTransferTranslatorItEng3_ByHand.//
 				TRANSFERER_RULE_BASED.transfer(root);
 		System.out.println("\n\n\n\n converted");

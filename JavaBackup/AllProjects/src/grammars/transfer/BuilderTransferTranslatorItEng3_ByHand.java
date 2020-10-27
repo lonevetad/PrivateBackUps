@@ -45,8 +45,8 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 		// more complexity
 		//
 
-		t.addRule(new TransferRule((NodeParsedSentence) ElemGrammarBase.Verb.newNSD()//
-				.addChildNC(ElemGrammarBase.Noun.newNSD().addAlternatives(ElemGrammarBase.Subject.getSynonyms()))) {
+		t.addRule(new TransferRule((NodeParsedSentence) ElemGrammarBase.Verb.newNode()//
+				.addChildNC(ElemGrammarBase.Noun.newNode().addAlternatives(ElemGrammarBase.Subject.getSynonyms()))) {
 			@Override
 			public SubTransferResult implementsTransferRule(ATransferTranslationRuleBased transferer,
 					NodeParsedSentence originalSubtree) {
@@ -73,8 +73,8 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 		});
 
 		t.addRule(new TransferRule(//
-				(NodeParsedSentence) ElemGrammarBase.Verb.newNSD()//
-						.addChildNC(ElemGrammarBase.Objectt.newNSD())//
+				(NodeParsedSentence) ElemGrammarBase.Verb.newNode()//
+						.addChildNC(ElemGrammarBase.Objectt.newNode())//
 		) {
 			@Override
 			public SubTransferResult implementsTransferRule(ATransferTranslationRuleBased transferer,
@@ -82,7 +82,7 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				SubTransferResult r;
 				NodeParsedSentence newVerb, newSubj, newObj, oldObj;
 				// prodicing
-				newVerb = ElemGrammarBase.Verb.newNSD();
+				newVerb = ElemGrammarBase.Verb.newNode();
 				// (the old child must be taken)
 				oldObj = (NodeParsedSentence) originalSubtree
 						.getChildNCMostSimilarTo(ElemGrammarBase.Objectt.getSynonyms());
@@ -94,7 +94,7 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				 * in italiano, esiste il soggetto sottointeso, in inglese no -> creiamolo e
 				 * mettiamolo di default, con il genere che dipende dall'oggetto
 				 */
-				newSubj = ElemGrammarBase.Subject.newNSD();
+				newSubj = ElemGrammarBase.Subject.newNode();
 				String[] genderFeature = oldObj.getFeatures().get("Gender");
 				if (genderFeature != null) { newSubj.addFeatures("Gender", genderFeature); }
 				newVerb.addChildNC(newSubj);
@@ -110,10 +110,11 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				return r;
 			}
 		});
+
 		t.addRule(new TransferRule(//
-				(NodeParsedSentence) ElemGrammarBase.Subject.newNSD()
+				(NodeParsedSentence) ElemGrammarBase.Subject.newNode()
 						.addAlternatives(ElemGrammarBase.Noun.getSynonyms())//
-						.addChildNC(ElemGrammarBase.Adjective.newNSD())//
+						.addChildNC(ElemGrammarBase.Adjective.newNode())//
 		) {
 			@Override
 			public SubTransferResult implementsTransferRule(ATransferTranslationRuleBased transferer,
@@ -121,11 +122,11 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				SubTransferResult r;
 				NodeParsedSentence newSubj, newAdj, oldAdj;
 				// prodicing
-				newSubj = ElemGrammarBase.Subject.newNSD();
+				newSubj = ElemGrammarBase.Subject.newNode();
 				// (the old child must be taken)
 				oldAdj = (NodeParsedSentence) originalSubtree
 						.getChildNCMostSimilarTo(ElemGrammarBase.Adjective.getSynonyms());
-				newAdj = ElemGrammarBase.Adjective.newNSD(); // TODO sostituire col clone del nodo Adj figlio di
+				newAdj = ElemGrammarBase.Adjective.newNode(); // TODO sostituire col clone del nodo Adj figlio di
 																// originalSubtree
 				// wiring
 				newSubj.addChildNC(newAdj);
@@ -163,10 +164,12 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 		 * TODO WHY IS NOT BEING ADDED?? AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH
 		 */
 
+		System.out.println("\n\n\n BUILDER BY HAND - 3-CHILD FILLED TREES :D\n\n");
+
 		t.addRule(new TransferRule(//
-				(NodeParsedSentence) ElemGrammarBase.Verb.newNSD()//
-						.addChildNC(ElemGrammarBase.Subject.newNSD())//
-						.addChildNC(ElemGrammarBase.Objectt.newNSD())//
+				(NodeParsedSentence) ElemGrammarBase.Verb.newNode()//
+						.addChildNC(ElemGrammarBase.Subject.newNode())//
+						.addChildNC(ElemGrammarBase.Objectt.newNode())//
 		) {
 			@Override
 			public SubTransferResult implementsTransferRule(ATransferTranslationRuleBased transferer,
@@ -175,15 +178,15 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				NodeParsedSentence newVerb, newSubj, oldSubj, newObj, oldObj;
 				System.out.println("----- siiiiii :D mi hanno sceltooooo :D ");
 				// prodicing
-				newVerb = ElemGrammarBase.Verb.newNSD();
+				newVerb = ElemGrammarBase.Verb.newNode();
 				// (the old child must be taken)
 				oldSubj = (NodeParsedSentence) originalSubtree
 						.getChildNCMostSimilarTo(ElemGrammarBase.Subject.getSynonyms());
 				oldObj = (NodeParsedSentence) originalSubtree
 						.getChildNCMostSimilarTo(ElemGrammarBase.Objectt.getSynonyms());
 				// and then new ones
-				newSubj = ElemGrammarBase.Subject.newNSD();
-				newObj = ElemGrammarBase.Objectt.newNSD();
+				newSubj = ElemGrammarBase.Subject.newNode();
+				newObj = ElemGrammarBase.Objectt.newNode();
 				// wiring
 				newVerb.addChildNC(newSubj);
 				newVerb.addChildNC(newObj);
@@ -196,11 +199,13 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 			}
 		});
 
+		System.out.println("\n\n builder by hand ... 4 children or more complexities\n\n");
+
 		t.addRule(new TransferRule(//
-				(NodeParsedSentence) ElemGrammarBase.Verb.newNSD()//
-						.addChildNC(ElemGrammarBase.Subject.newNSD())//
-						.addChildNC(ElemGrammarBase.Aux.newNSD())//
-						.addChildNC(ElemGrammarBase.Objectt.newNSD())//
+				(NodeParsedSentence) ElemGrammarBase.Verb.newNode()//
+						.addChildNC(ElemGrammarBase.Subject.newNode())//
+						.addChildNC(ElemGrammarBase.Aux.newNode())//
+						.addChildNC(ElemGrammarBase.Objectt.newNode())//
 		) {
 			@Override
 			public SubTransferResult implementsTransferRule(ATransferTranslationRuleBased transferer,
@@ -208,7 +213,7 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				SubTransferResult r;
 				NodeParsedSentence newVerb, newSubj, oldSubj, newObj, oldObj, newAux, oldAux;
 				// prodicing
-				newVerb = ElemGrammarBase.Verb.newNSD();
+				newVerb = ElemGrammarBase.Verb.newNode();
 				// (the old child must be taken)
 				oldSubj = (NodeParsedSentence) originalSubtree
 						.getChildNCMostSimilarTo(ElemGrammarBase.Subject.getSynonyms());
@@ -217,9 +222,9 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				oldAux = (NodeParsedSentence) originalSubtree
 						.getChildNCMostSimilarTo(ElemGrammarBase.Aux.getSynonyms());
 				// and then new ones
-				newSubj = ElemGrammarBase.Subject.newNSD();
-				newAux = ElemGrammarBase.Aux.newNSD();
-				newObj = ElemGrammarBase.Objectt.newNSD();
+				newSubj = ElemGrammarBase.Subject.newNode();
+				newAux = ElemGrammarBase.Aux.newNode();
+				newObj = ElemGrammarBase.Objectt.newNode();
 				// wiring
 				newVerb.addChildNC(newSubj);
 				newVerb.addChildNC(newObj);
@@ -233,9 +238,11 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				return r;
 			}
 		});
+
 		t.addRule(new TransferRule(//
-				(NodeParsedSentence) ElemGrammarBase.Verb.newNSD()//
-						.addChildNC(ElemGrammarBase.Aux.newNSD().addAlternatives(ElemGrammarBase.Subject.getSynonyms()))//
+				(NodeParsedSentence) ElemGrammarBase.Verb.newNode()//
+						.addChildNC(
+								ElemGrammarBase.Aux.newNode().addAlternatives(ElemGrammarBase.Subject.getSynonyms()))//
 		) {
 			@Override
 			public SubTransferResult implementsTransferRule(ATransferTranslationRuleBased transferer,
@@ -243,7 +250,7 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				SubTransferResult r;
 				NodeParsedSentence newVerb, newAux, oldAux;
 				// prodicing
-				newVerb = ElemGrammarBase.Verb.newNSD();
+				newVerb = ElemGrammarBase.Verb.newNode();
 				r = new SubTransferResult(newVerb);
 				// (the old child must be taken)
 				SynonymSet auxSyns;
@@ -271,8 +278,8 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 
 		// forme verbali composte?
 		t.addRule(new TransferRule(//
-				(NodeParsedSentence) ElemGrammarBase.Verb.newNSD()//
-						.addChildNC(ElemGrammarBase.Aux.newNSD().addAlternatives(ElemGrammarBase.Verb.getSynonyms())
+				(NodeParsedSentence) ElemGrammarBase.Verb.newNode()//
+						.addChildNC(ElemGrammarBase.Aux.newNode().addAlternatives(ElemGrammarBase.Verb.getSynonyms())
 								.addAlternative("VA"))//
 		) {
 			@Override
@@ -281,7 +288,7 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				SubTransferResult r;
 				NodeParsedSentence newVerb, newAux, oldAux;
 				// prodicing
-				newVerb = ElemGrammarBase.Verb.newNSD();
+				newVerb = ElemGrammarBase.Verb.newNode();
 				r = new SubTransferResult(newVerb);
 				// (the old child must be taken)
 				SynonymSet auxSyns;
@@ -302,6 +309,128 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 				return r;
 			}
 		});
+
+		t.addRule(new TransferRule(//
+				(NodeParsedSentence) ElemGrammarBase.Verb.newNode()//
+						.addChildNC(//
+								ElemGrammarBase.Subject.newNode().addAlternatives(ElemGrammarBase.Noun.getSynonyms())//
+										.addChildNC(ElemGrammarBase.Aux.newNode()//
+												.addAlternatives(ElemGrammarBase.Det.getSynonyms())
+												.addAlternatives(ElemGrammarBase.Comp.getSynonyms()))//
+						)//
+						.addChildNC(
+								ElemGrammarBase.Objectt.newNode().addAlternatives(ElemGrammarBase.Noun.getSynonyms()))//
+		) {
+			@Override
+			public SubTransferResult implementsTransferRule(ATransferTranslationRuleBased transferer,
+					NodeParsedSentence originalSubtree) {
+				SubTransferResult r;
+				NodeParsedSentence newVerb, newSubj, oldSubj, newObj, newAux, oldObj, oldAux;
+				// prodicing
+				newVerb = originalSubtree.clone();
+				r = new SubTransferResult(newVerb);
+				r.addPairOldNewNode(originalSubtree, newVerb);
+				// (the old child must be taken)
+				oldSubj = (NodeParsedSentence) originalSubtree
+						.getChildNCMostSimilarTo(ElemGrammarBase.Subject.getSynonyms());
+				if (oldSubj == null) {
+					oldSubj = (NodeParsedSentence) originalSubtree
+							.getChildNCMostSimilarTo(ElemGrammarBase.Noun.getSynonyms());
+				}
+				newSubj = (oldSubj != null) ? oldSubj.clone() : ElemGrammarBase.Subject.newNode();
+				newVerb.addChildNC(newSubj);
+				r.addPairOldNewNode(oldSubj, newSubj);
+				newAux = null;
+				if (oldSubj != null) { // the det/aux
+					NodeParsedSentence nnn = null;
+//					SynonymSet squery;
+					// ElemGrammarBase[]
+					nnn = (NodeParsedSentence) ElemGrammarBase.Aux.newNode()//
+							.addAlternatives(ElemGrammarBase.Det.getSynonyms())
+							.addAlternatives(ElemGrammarBase.Comp.getSynonyms());
+//					squery = nnn.getKeyIdentifier();
+					oldAux = (NodeParsedSentence) oldSubj.getChildNCMostSimilarTo(nnn);
+					if (oldAux != null) {
+						newAux = oldAux.clone();
+						r.addPairOldNewNode(oldAux, newAux);
+					}
+				}
+				if (newAux == null) { newAux = ElemGrammarBase.Aux.newNode(); }
+				newVerb.addChildNC(newAux);
+				oldObj = (NodeParsedSentence) originalSubtree
+						.getChildNCMostSimilarTo(ElemGrammarBase.Objectt.getSynonyms());
+// and then new ones
+				newObj = oldObj != null ? oldObj.clone() : ElemGrammarBase.Objectt.newNode();
+				newVerb.addChildNC(newObj);
+
+				// mandatory invoke .. (bottom-up is better, but You are free)
+				r.addPairOldNewNode(oldObj, newObj);
+				return r;
+			}
+		});
+
+		t.addRule(new TransferRule(//
+				(NodeParsedSentence) ElemGrammarBase.Verb.newNode()//
+						.addChildNC(//
+								ElemGrammarBase.Subject.newNode().addAlternatives(ElemGrammarBase.Noun.getSynonyms())//
+										.addChildNC(ElemGrammarBase.Aux.newNode()//
+												.addAlternatives(ElemGrammarBase.Det.getSynonyms())
+												.addAlternatives(ElemGrammarBase.Comp.getSynonyms()))//
+						)//
+						.addChildNC(
+								ElemGrammarBase.Objectt.newNode().addAlternatives(ElemGrammarBase.Noun.getSynonyms()))//
+						.addChildNC(ElemGrammarBase.Adverb.newNode())//
+		) {
+			@Override
+			public SubTransferResult implementsTransferRule(ATransferTranslationRuleBased transferer,
+					NodeParsedSentence originalSubtree) {
+				SubTransferResult r;
+				NodeParsedSentence newVerb, newSubj, oldSubj, newObj, oldObj, newAux, oldAux, newAdv, oldAdv;
+				// prodicing
+				newVerb = originalSubtree.clone();
+				r = new SubTransferResult(newVerb);
+				r.addPairOldNewNode(originalSubtree, newVerb);
+				// (the old child must be taken)
+				oldSubj = (NodeParsedSentence) originalSubtree
+						.getChildNCMostSimilarTo(ElemGrammarBase.Subject.getSynonyms());
+				if (oldSubj == null) {
+					oldSubj = (NodeParsedSentence) originalSubtree
+							.getChildNCMostSimilarTo(ElemGrammarBase.Noun.getSynonyms());
+				}
+				newSubj = (oldSubj != null) ? oldSubj.clone() : ElemGrammarBase.Subject.newNode();
+				newVerb.addChildNC(newSubj);
+				r.addPairOldNewNode(oldSubj, newSubj);
+				newAux = null;
+				if (oldSubj != null) { // the det/aux
+					NodeParsedSentence nnn = null;
+//					SynonymSet squery;
+					// ElemGrammarBase[]
+					nnn = (NodeParsedSentence) ElemGrammarBase.Aux.newNode()//
+							.addAlternatives(ElemGrammarBase.Det.getSynonyms())
+							.addAlternatives(ElemGrammarBase.Comp.getSynonyms());
+//					squery = nnn.getKeyIdentifier();
+					oldAux = (NodeParsedSentence) oldSubj.getChildNCMostSimilarTo(nnn);
+					if (oldAux != null) {
+						newAux = oldAux.clone();
+						r.addPairOldNewNode(oldAux, newAux);
+					}
+				}
+				if (newAux == null) { newAux = ElemGrammarBase.Aux.newNode(); }
+				newVerb.addChildNC(newAux);
+				oldObj = (NodeParsedSentence) originalSubtree
+						.getChildNCMostSimilarTo(ElemGrammarBase.Objectt.getSynonyms());
+// and then new ones
+				newObj = oldObj != null ? oldObj.clone() : ElemGrammarBase.Objectt.newNode();
+				newVerb.addChildNC(newObj);
+				r.addPairOldNewNode(oldObj, newObj);
+
+				oldAdv = (NodeParsedSentence) originalSubtree
+						.getChildNCMostSimilarTo(ElemGrammarBase.Adverb.getSynonyms());
+				newAdv = (oldAdv != null) ? oldAdv.clone() : ElemGrammarBase.Adverb.newNode();
+				return r;
+			}
+		});
+
 //
 //		t.addRule(new TransferRule(
 //				//
@@ -347,7 +476,7 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 		final ElemGrammarBase egb;
 
 		public IdentityTransferRule(ElemGrammarBase egb) {
-			super(egb.newNSD());
+			super(egb.newNode());
 			this.egb = egb;
 		}
 

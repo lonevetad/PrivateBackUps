@@ -70,7 +70,7 @@ public interface NodeComparable<K> extends Serializable {
 	public default MapTreeAVL<NodeComparable<K>, NodeComparable<K>> newChildrenBackmap(
 			Comparator<NodeComparable<K>> comparatorNode) {
 		MapTreeAVL<NodeComparable<K>, NodeComparable<K>> m;
-		m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration, comparatorNode);
+		m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.FullButHeavyNodes, comparatorNode);
 		return m;
 	}
 
