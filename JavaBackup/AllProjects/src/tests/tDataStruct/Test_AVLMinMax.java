@@ -3,7 +3,7 @@ package tests.tDataStruct;
 import dataStructures.MapTreeAVL;
 import tools.Comparators;
 
-public class TAVLMinMax {
+public class Test_AVLMinMax {
 
 	public static void main(String[] args) {
 		MapTreeAVL<Integer, Integer> t;

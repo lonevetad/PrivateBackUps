@@ -1,4 +1,4 @@
-package grammars.grammarV2;
+package grammars.v2;
 
 import java.util.Iterator;
 

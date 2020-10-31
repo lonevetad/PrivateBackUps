@@ -1,4 +1,4 @@
-package grammars;
+package grammars.v1;
 
 import java.util.Arrays;
 import java.util.LinkedList;

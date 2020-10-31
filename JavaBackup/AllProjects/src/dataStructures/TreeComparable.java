@@ -1,13 +1,14 @@
 package dataStructures;
 
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.function.BiFunction;
 
 import dataStructures.NodeComparable.DefaultNodeComparable;
+import tools.Stringable;
 
-public class TreeComparable<K> implements Serializable {
+/** See {@link NodeComparable}. */
+public class TreeComparable<K> implements Stringable {
 	private static final long serialVersionUID = 212454434863000L;
 	protected final BiFunction<K, Comparator<K>, NodeComparable<K>> nodeSupplier;
 	protected final Comparator<K> keyComparator;
@@ -22,6 +23,12 @@ public class TreeComparable<K> implements Serializable {
 		this.nodeSupplier = nodeSupplier;
 		this.keyComparator = keyComparator;
 	}
+
+	public BiFunction<K, Comparator<K>, NodeComparable<K>> getNodeSupplier() { return nodeSupplier; }
+
+	public Comparator<K> getKeyComparator() { return keyComparator; }
+
+	public NodeComparable<K> getRoot() { return root; }
 
 	/** No null pointer checks are performed */
 	public void addNode(K v, Iterable<K> path) {
@@ -75,20 +82,35 @@ public class TreeComparable<K> implements Serializable {
 		sb = new StringBuilder();
 		sb.append("Tree:");
 		if (root == null)
-			sb.append("null root");
+			sb.append(" null root");
 		else
 			toString(sb, root, 0);
 		return sb.toString();
 	}
 
+	@Override
+	public void toString(StringBuilder sb, int level) {
+		sb.append('\n');
+		addTab(sb, level, false);
+		sb.append("TreeComp:");
+		toString(sb, root, level);
+	}
+
 	public void toString(StringBuilder sb, NodeComparable<K> n, int level) {
 		sb.append('\n');
 		addTab(sb, level, false);
-		sb.append(n.getKeyIdentifier());
+		K k;
+		k = n.getKeyIdentifier();
+		if (k instanceof Stringable) {
+			((Stringable) k).addTab(sb, level + 1);
+		} else {
+			sb.append(k);
+		}
 		int lev = level + 1;
 		n.forEachChildNC(c -> toString(sb, c, lev));
 	}
 
+	@Override
 	public void addTab(StringBuilder sb, int tabLevel, boolean newLineNeeded) {
 		if (sb != null) {
 			if (newLineNeeded)

@@ -14,7 +14,15 @@ public interface CloserGetter<K> extends Serializable {
 		long d1, d2;
 		d1 = diffCalc.getDifference(target, option1);
 		d2 = diffCalc.getDifference(target, option2);
-		return d1 <= d2 ? option1 : option2;
+//		return d1 <= d2 ? option1 : option2;
+		/*
+		 * turn them to negative to: 1) take advantage of the extra bit for a double
+		 * interval of values -> do not risk overflow 2) make the Different parameters'
+		 * order indifferent
+		 */
+		if (d1 > 0) { d1 = -d1; }
+		if (d2 > 0) { d2 = -d2; }
+		return d1 >= d2 ? option1 : option2;
 	}
 
 	// and a way to compare its class

@@ -1197,6 +1197,35 @@ public final class MathUtilities {
 
 	public static int negateInt(int n) { return n ^ 0xFFFFFFFF; }
 
+	public static int sqrt(int a, int b) {
+		if (b < 0)
+			return -1;
+		if (a == 0)
+			return 0;
+		if (a == 1)
+			return 1;
+		if (b == 0)
+			return 1;
+		if (b == 1)
+			return a;
+		if (a == -1)
+			return ((b & 0x1) == 0) ? 1 : -1;
+		return sqrt_(a, b);
+	}
+
+	protected static int sqrt_(int a, int b) {
+		int c;
+//		if ((b&0x1) ==0) {
+//			c = sqrt_(a, b>>1);
+//			return c*c;
+//		}else {
+//			c = sqrt_(a, b-1>>1);
+//			return a*c*c;
+//		}
+		c = sqrt_(a, b >> 1);
+		return c * (((b & 0x1) == 0) ? c : (a * c));
+	}
+
 	//
 
 	public static class MathBeans {

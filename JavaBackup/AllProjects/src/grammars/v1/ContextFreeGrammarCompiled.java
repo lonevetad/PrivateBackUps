@@ -1,4 +1,4 @@
-package grammars;
+package grammars.v1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import grammars.ContextFreeGrammarCompiled.AbstractTokensIterator;
+import grammars.v1.ContextFreeGrammarCompiled.AbstractTokensIterator;
 
 public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensIterator> {
 	static final Comparator<String> STR_COMP = String::compareTo;
@@ -39,7 +39,7 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 		int i, len;
 		ProductionRuleCompiled prcOld;
 		ProductionRuleGeneric prcNew;
-		List<Object[]> nonTerminalProducingRulesSources; // its an object to store alreadi splitted productions
+		List<Object[]> nonTerminalProducingRulesSources; // its an object to store already splitted productions
 		String[] productionsRaw, symbolsInProduction;
 		String antec, temp;
 		if (!neverCompiled)
@@ -226,9 +226,7 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 		return test(tokenizer.apply(sentence));
 	}
 
-	public boolean test(Stream<String> tokens) {
-		return test((String[]) tokens.toArray());
-	}
+	public boolean test(Stream<String> tokens) { return test((String[]) tokens.toArray()); }
 
 	public boolean test(String[] tokens) {
 		ArrayList<String> a;
@@ -238,9 +236,7 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 		return test(a);
 	}
 
-	public boolean test(Collection<String> tokens) {
-		return test(newTokenIterator(tokens));
-	}
+	public boolean test(Collection<String> tokens) { return test(newTokenIterator(tokens)); }
 
 	@Override
 	public boolean test(AbstractTokensIterator t) {
@@ -324,17 +320,11 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 
 		protected abstract List<String> newTokenHolder(Collection<String> allTokens);
 
-		public String getActualToken() {
-			return actualToken;
-		}
+		public String getActualToken() { return actualToken; }
 
-		public void moveToNext() {
-			next();
-		}
+		public void moveToNext() { next(); }
 
-		public void moveToPrevious() {
-			previous();
-		}
+		public void moveToPrevious() { previous(); }
 
 		public void backTrackBy(int n) {
 //			while (n-- > 0)
@@ -350,9 +340,7 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 		//
 
 		@Override
-		public boolean hasNext() {
-			return index < (tokens.size());
-		}
+		public boolean hasNext() { return index < (tokens.size()); }
 
 		@Override
 		public String next() {
@@ -367,9 +355,7 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 		}
 
 		@Override
-		public boolean hasPrevious() {
-			return index >= 0;
-		}
+		public boolean hasPrevious() { return index >= 0; }
 
 		@Override
 		public String previous() {
@@ -384,35 +370,23 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 		}
 
 		@Override
-		public int nextIndex() {
-			return index + 1;
-		}
+		public int nextIndex() { return index + 1; }
 
 		@Override
-		public int previousIndex() {
-			return index - 1;
-		}
+		public int previousIndex() { return index - 1; }
 
 		@Override
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
+		public void remove() { throw new UnsupportedOperationException(); }
 
 		@Override
-		public void set(String e) {
-			throw new UnsupportedOperationException();
-		}
+		public void set(String e) { throw new UnsupportedOperationException(); }
 
 		@Override
-		public void add(String e) {
-			throw new UnsupportedOperationException();
-		}
+		public void add(String e) { throw new UnsupportedOperationException(); }
 	}
 
 	public class TokensIterator_V1 extends AbstractTokensIterator {
-		TokensIterator_V1(Collection<String> allTokens) {
-			super(allTokens);
-		}
+		TokensIterator_V1(Collection<String> allTokens) { super(allTokens); }
 
 		@Override
 		protected List<String> newTokenHolder(Collection<String> allTokens) {
@@ -453,9 +427,7 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 		 */
 		protected Map<Integer, Set<TokenProductionIndexes>> productionCalls;// use a map
 
-		protected CyclicGrammarUponTestingDetector() {
-			this.productionCalls = new TreeMap<>(Integer::compareTo);
-		}
+		protected CyclicGrammarUponTestingDetector() { this.productionCalls = new TreeMap<>(Integer::compareTo); }
 
 		protected void registerTokenIndexProceduction(int tokenIndex, Integer productionID) {
 			Integer i;
@@ -584,14 +556,10 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 
 	public class PRSingleTerminal extends ProductionRuleCompiled {
 
-		protected PRSingleTerminal(String nonTerminalName) {
-			super(nonTerminalName);
-		}
+		protected PRSingleTerminal(String nonTerminalName) { super(nonTerminalName); }
 
 		@Override
-		public boolean test(AbstractTokensIterator t) {
-			return acceptToken(t.getActualToken());
-		}
+		public boolean test(AbstractTokensIterator t) { return acceptToken(t.getActualToken()); }
 
 		@Override
 		public boolean acceptToken(String s) {
@@ -609,9 +577,7 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 		}
 
 		@Override
-		public boolean test(AbstractTokensIterator t) {
-			return acceptToken(t.getActualToken());
-		}
+		public boolean test(AbstractTokensIterator t) { return acceptToken(t.getActualToken()); }
 
 		@Override
 		public boolean acceptToken(String s) {
@@ -620,7 +586,5 @@ public class ContextFreeGrammarCompiled implements Predicate<AbstractTokensItera
 		}
 	}
 
-	public static void main(String[] args) {
-		System.out.println(isNonTerminal("ciao come va"));
-	}
+	public static void main(String[] args) { System.out.println(isNonTerminal("ciao come va")); }
 }

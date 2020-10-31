@@ -1,4 +1,4 @@
-package grammars.grammarV2;
+package grammars.v2;
 
 public abstract class RuleElementCompound extends RuleElement {
 	private static final long serialVersionUID = 210201650166500L;

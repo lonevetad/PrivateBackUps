@@ -40,15 +40,15 @@ public class SynonymSet implements SortedSetEnhancedDelegating<String>, Cloneabl
 		return COMP_SET_STRING.compare(s1.alternatives, s2.alternatives);
 	};
 	/** Difference computer of synonyms. */
-	public static final DifferenceCalculator<SynonymSet> DIFFERENCE_CALCULATOR =
+	public static final DifferenceCalculator<SynonymSet> DIFFERENCE_CALCULATOR = DifferenceCalculator
+			.from(COMPARATOR_SYNONYM_SET);
 	// all of the following are the same, equally correct solution
 	/*
 	 * (s1, s2) -> DIFF_CALC_SET_STRINGS .getDifference(s1.alternatives,
 	 * s2.alternatives)
 	 */
 //			DIFF_CALC_SET_STRINGS::getDifference//
-			COMPARATOR_SYNONYM_SET::compare//
-	;
+
 	public static final CloserGetter<SynonymSet> CLOSER_GETTER = (s1, s2, s3) -> CloserGetter.getCloserTo(s1,
 			DIFFERENCE_CALCULATOR, s2, s3);
 

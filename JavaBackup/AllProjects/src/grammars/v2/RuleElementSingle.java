@@ -1,4 +1,4 @@
-package grammars.grammarV2;
+package grammars.v2;
 
 /** Marker-class */
 public class RuleElementSingle extends RuleElement {

@@ -1,5 +1,6 @@
 package grammars.transfer;
 
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 
@@ -10,6 +11,9 @@ import tools.ClosestMatch;
 import tools.NodeComparableSynonymIndexed;
 
 public class TransferTranslationRuleBased_V4 extends ATransferTranslationRuleBased {
+	public static final CloserGetter<Map.Entry<NodeParsedSentence, TransferRule>> CLOSE_GETTER_NPS_TR = (eo, e1,
+			e2) -> CloserGetter.getCloserTo(eo, (e11, e22) -> NodeComparableSynonymIndexed.DIFF_COMPUTER_NODE
+					.getDifference(e11.getKey(), e22.getKey()), e1, e2);
 
 	public TransferTranslationRuleBased_V4() {
 		rulesGivenLHS = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, NodeParsedSentence.COMPARATOR_NODE_NPS);
@@ -50,8 +54,6 @@ public class TransferTranslationRuleBased_V4 extends ATransferTranslationRuleBas
 		if (ruleMatched == null)
 			return null;
 		// a "ClosestMatch" could have an exact match or just approximation
-		return ruleMatched.getClosetsMatchToOriginal((eo, e1, e2) -> CloserGetter.getCloserTo(eo,
-				(e11, e22) -> NodeComparableSynonymIndexed.DIFF_COMPUTER_NODE.getDifference(e11.getKey(), e22.getKey()),
-				e1, e2)).getValue();
+		return ruleMatched.getClosetsMatchToOriginal(CLOSE_GETTER_NPS_TR).getValue();
 	}
 }

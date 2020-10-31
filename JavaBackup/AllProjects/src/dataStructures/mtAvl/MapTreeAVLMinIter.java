@@ -180,7 +180,7 @@ public class MapTreeAVLMinIter<K, V> extends MapTreeAVLIndexable<K, V> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	protected NodeAVL predecessorSorted(NodeAVL n) { return ((NodeAVL_MinIter) n).nextInOrder; }
+	protected NodeAVL predecessorSorted(NodeAVL n) { return ((NodeAVL_MinIter) n).prevInOrder; }
 
 	/**
 	 * Use with care

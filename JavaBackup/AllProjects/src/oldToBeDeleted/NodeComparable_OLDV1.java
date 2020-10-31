@@ -1,4 +1,4 @@
-package dataStructures;
+package oldToBeDeleted;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -8,16 +8,17 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import tools.DifferenceCalculator;
+import dataStructures.MapTreeAVL;
+import dataStructures.SortedSetEnhanced;
 import tools.Stringable;
 
 /**
  * Node of a tree-like structure (no check if it's a graph or a single rooted
  * tree) that can be compared (through
- * {@link #computeDissonanceAsLong(NodeComparable)}) to produce a "score": the
- * lower, the better.
+ * {@link #computeDissonanceAsLong(NodeComparable_OLDV1)}) to produce a "score":
+ * the lower, the better.
  */
-public interface NodeComparable<K> extends Stringable {
+public interface NodeComparable_OLDV1<K> extends Stringable {
 
 	// STATIC STUFFS
 
@@ -39,17 +40,13 @@ public interface NodeComparable<K> extends Stringable {
 	//
 
 	/** Gets a new Node comparator, given a key comparator. */
-	public static <T> Comparator<NodeComparable<T>> newNodeComparatorDefault(Comparator<T> keyComp) {
+	public static <T> Comparator<NodeComparable_OLDV1<T>> newNodeComparatorDefault(Comparator<T> keyComp) {
 		return new NodeComparatorDefault<>(keyComp);
 	}
 
-	/** Provides a simple implementation of the {@link NodeComparable}. */
-	public static <T> NodeComparable<T> newDefaultNodeComparable(T value, Comparator<T> comparatorKey) {
-		return new DefaultNodeComparable<>(value, comparatorKey);
-	}
-
-	public static <T> DifferenceCalculator<NodeComparable<T>> newDifferenceCalculator(Comparator<T> keyComparator) {
-		return (s1, s2) -> { return s2.computeDissonanceAsLong(s1); };
+	/** Provides a simple implementation of the {@link NodeComparable_OLDV1}. */
+	public static <K> NodeComparable_OLDV1<K> newDefaultNodeComparable_OLDV1(K value, Comparator<K> comparatorKey) {
+		return new DefaultNodeComparable_OLDV1<>(value, comparatorKey);
 	}
 
 	//
@@ -62,13 +59,13 @@ public interface NodeComparable<K> extends Stringable {
 
 	public Comparator<K> getKeyComparator();
 
-	public default Comparator<NodeComparable<K>> getNodeComparator() {
+	public default Comparator<NodeComparable_OLDV1<K>> getNodeComparator() {
 		return newNodeComparatorDefault(getKeyComparator());
 	}
 
-	public default int getHeightNode() { return HEIGHT_OF_NEW_NODE; }
+	public default int getHeight() { return HEIGHT_OF_NEW_NODE; }
 
-	public NodeComparable<K> setHeightNode(int height);
+	public NodeComparable_OLDV1<K> setHeight(int height);
 
 	/**
 	 * Constructor-designed method, produces a "backing map" for
@@ -76,15 +73,14 @@ public interface NodeComparable<K> extends Stringable {
 	 * Invokes {@link #newChildrenBackmap(Comparator)} passing it
 	 * {@link #getNodeComparator()} as parameter;
 	 */
-	public default MapTreeAVL<NodeComparable<K>, NodeComparable<K>> newChildrenBackmap() {
+	public default MapTreeAVL<NodeComparable_OLDV1<K>, NodeComparable_OLDV1<K>> newChildrenBackmap() {
 		return newChildrenBackmap(getNodeComparator());
 	}
 
-	public default MapTreeAVL<NodeComparable<K>, NodeComparable<K>> newChildrenBackmap(
-			Comparator<NodeComparable<K>> comparatorNode) {
-		MapTreeAVL<NodeComparable<K>, NodeComparable<K>> m;
-		m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.FullButHeavyNodes,
-				MapTreeAVL.BehaviourOnKeyCollision.AddItsNotASet, comparatorNode);
+	public default MapTreeAVL<NodeComparable_OLDV1<K>, NodeComparable_OLDV1<K>> newChildrenBackmap(
+			Comparator<NodeComparable_OLDV1<K>> comparatorNode) {
+		MapTreeAVL<NodeComparable_OLDV1<K>, NodeComparable_OLDV1<K>> m;
+		m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.FullButHeavyNodes, comparatorNode);
 		return m;
 	}
 
@@ -92,8 +88,8 @@ public interface NodeComparable<K> extends Stringable {
 	 * Constructor-designed method, should be chained with a value (a field?)
 	 * obtained through ways like {@link #newChildrenBackmap(Comparator)}.
 	 */
-	public default SortedSetEnhanced<NodeComparable<K>> newChildrenSet(
-			MapTreeAVL<NodeComparable<K>, NodeComparable<K>> backmap) {
+	public default SortedSetEnhanced<NodeComparable_OLDV1<K>> newChildrenSet(
+			MapTreeAVL<NodeComparable_OLDV1<K>, NodeComparable_OLDV1<K>> backmap) {
 		return backmap.toSetKey();
 	}
 
@@ -101,24 +97,25 @@ public interface NodeComparable<K> extends Stringable {
 	 * Constructor-designed method, chaining {@link #newChildrenBackmap()} and
 	 * {@link #newChildrenSet(MapTreeAVL)}
 	 */
-	public default SortedSetEnhanced<NodeComparable<K>> newChildrenSet() {
+	public default SortedSetEnhanced<NodeComparable_OLDV1<K>> newChildrenSet() {
 		return newChildrenSet(newChildrenBackmap());
 	}
 
 	/**
 	 * in future releases, the score (compute
-	 * througj{@link #computeDissonanceAsLong(NodeComparable)}
+	 * througj{@link #computeDissonanceAsLong(NodeComparable_OLDV1)}
 	 */
 	public default long scoreKeyCompatibilityWith(K anotherKey) { return 1; }
 
 	/** Returns the set of all children held by this node. */
-	public SortedSetEnhanced<NodeComparable<K>> getChildrenNC();
+	public SortedSetEnhanced<NodeComparable_OLDV1<K>> getChildrenNC();
 
 	/**
-	 * See {@link #getChildNCMostSimilarTo(NodeComparable)}, giving a node produced
-	 * with the given key and a way to instantiate a wrapper node.
+	 * See {@link #getChildNCMostSimilarTo(NodeComparable_OLDV1)}, giving a node
+	 * produced with the given key and a way to instantiate a wrapper node.
 	 */
-	public default NodeComparable<K> getChildNCMostSimilarTo(K key, Function<K, NodeComparable<K>> nodeGenerator) {
+	public default NodeComparable_OLDV1<K> getChildNCMostSimilarTo(K key,
+			Function<K, NodeComparable_OLDV1<K>> nodeGenerator) {
 		return getChildNCMostSimilarTo(nodeGenerator.apply(key));
 	}
 
@@ -127,66 +124,58 @@ public interface NodeComparable<K> extends Stringable {
 	 * similar node (this node could be produced by
 	 * {@link #getChildNCMostSimilarTo(Object, Function)}).
 	 */
-	public NodeComparable<K> getChildNCMostSimilarTo(NodeComparable<K> copy);
+	public NodeComparable_OLDV1<K> getChildNCMostSimilarTo(NodeComparable_OLDV1<K> copy);
 
 	public default boolean isLeafNC() {
-		Set<NodeComparable<K>> children;
+		Set<NodeComparable_OLDV1<K>> children;
 		children = getChildrenNC();
 		return children == null || children.isEmpty();
 	}
 
 	/**
 	 * See {@link #getChildNCMostSimilarTo(Object, Function)} for a explanation
-	 * (because it's similar) and {@link #containsChildNC(NodeComparable)}, giving
-	 * to the last method a node produced with the given key and a way to
+	 * (because it's similar) and {@link #containsChildNC(NodeComparable_OLDV1)},
+	 * giving to the last method a node produced with the given key and a way to
 	 * instantiate a wrapper node.
 	 */
-	public default boolean containsChildNC(K key, Function<K, NodeComparable<K>> nodeGenerator) {
+	public default boolean containsChildNC(K key, Function<K, NodeComparable_OLDV1<K>> nodeGenerator) {
 		return this.containsChildNC(nodeGenerator.apply(key));
 	}
 
-	public default boolean containsChildNC(NodeComparable<K> copy) {
+	public default boolean containsChildNC(NodeComparable_OLDV1<K> copy) {
 		return this.getChildNCMostSimilarTo(copy) != null;
 	}
 
 	/** Scans all children depending on their sorting. */
-	public default void forEachChildNC(Consumer<NodeComparable<K>> action) {
-		Set<NodeComparable<K>> children;
+	public default void forEachChildNC(Consumer<NodeComparable_OLDV1<K>> action) {
+		Set<NodeComparable_OLDV1<K>> children;
 		children = getChildrenNC();
 		if (children == null)
 			return;
 		children.forEach(action);
 	}
 
-	public void forEachChildNCFIFOOrdering(Consumer<NodeComparable<K>> action);
+	public void forEachChildNCFIFOOrdering(Consumer<NodeComparable_OLDV1<K>> action);
 
-	public default NodeComparable<K> addChildNC(NodeComparable<K> child) {
+	public default NodeComparable_OLDV1<K> addChildNC(NodeComparable_OLDV1<K> child) {
 		int nh, childHeight;
-		Set<NodeComparable<K>> children;
+		Set<NodeComparable_OLDV1<K>> children;
 		if (child == null)
 			return this;
-		childHeight = child.getHeightNode();
-		if (childHeight != HEIGHT_OF_NEW_NODE && childHeight < getHeightNode()) { return this; } // no cycles allowed
+		childHeight = child.getHeight();
+		if (childHeight < getHeight()) { return this; } // no cycles allowed
 		children = getChildrenNC();
 		if (children == null) { return this; }
 		children.add(child);
-		nh = getHeightNode();
+		nh = getHeight();
 		if (nh != Integer.MAX_VALUE) { nh++; }
-		child.setHeightNode(nh);
+		child.setHeight(nh);
 		return this;
-	}
-
-	public default int getTreeSize() {
-		int[] s = { 1 };
-		Set<NodeComparable<K>> children;
-		children = getChildrenNC();
-		if (children != null) { children.forEach(n -> s[0] += n.getTreeSize()); }
-		return s[0];
 	}
 
 	//
 
-	// abstract STUFFS
+	// PUBLIC STUFFS
 
 	//
 
@@ -206,50 +195,49 @@ public interface NodeComparable<K> extends Stringable {
 	 * recursion depth: deeper dependency could be considered having a higher weight
 	 * ("less than one" exponent base are not implemented yet).
 	 */
-	public default long computeDissonanceAsLong(NodeComparable<K> nodeBase) {
+	public default long computeDissonanceAsLong(NodeComparable_OLDV1<K> nodeBase) {
 		return computeDissonanceAsLong(nodeBase, WEIGHTS_DEFAULT);
 	}
 
-//	public default long computeDissonanceAsLong(NodeComparable<K> nodeBase, boolean checkRecursion) {
-//		return computeDissonanceAsLong(nodeBase, WEIGHTS_DEFAULT, checkRecursion);
-//	}
+	public default long computeDissonanceAsLong(NodeComparable_OLDV1<K> nodeBase, boolean checkRecursion) {
+		return computeDissonanceAsLong(nodeBase, WEIGHTS_DEFAULT, checkRecursion);
+	}
 
-//	/** See {@link #computeDissonanceAsLong(NodeComparable)}. */
-//	public default long computeDissonanceAsLong(NodeComparable<K> nodeBase, DissonanceWeights weights) {
-//		return computeDissonanceAsLong(nodeBase, weights, false); // make it fast
-//	}
+	/** See {@link #computeDissonanceAsLong(NodeComparable_OLDV1)}. */
+	public default long computeDissonanceAsLong(NodeComparable_OLDV1<K> nodeBase, DissonanceWeights weights) {
+		return computeDissonanceAsLong(nodeBase, weights, false); // make it fast
+	}
 
-	/** See {@link #computeDissonanceAsLong(NodeComparable)}. */
-	public long computeDissonanceAsLong(NodeComparable<K> nodeBase, DissonanceWeights weights);
-	// , boolean checkRecursion);
+	/** See {@link #computeDissonanceAsLong(NodeComparable_OLDV1)}. */
+	public long computeDissonanceAsLong(NodeComparable_OLDV1<K> nodeBase, DissonanceWeights weights,
+			boolean checkRecursion);
 
 	//
 
 	/**
-	 * See {@link #computeDissonanceAsLong(NodeComparable)}, it's the same but
+	 * See {@link #computeDissonanceAsLong(NodeComparable_OLDV1)}, it's the same but
 	 * returning and computing a {@link BigInteger} instead.
 	 */
-	public default BigInteger computeDissonanceAsBigInt(NodeComparable<K> nodeBase) {
+	public default BigInteger computeDissonanceAsBigInt(NodeComparable_OLDV1<K> nodeBase) {
 		return computeDissonanceAsBigInt(nodeBase, WEIGHTS_DEFAULT);
 	}
 
-//	/** See {@link #computeDissonanceAsLong(NodeComparable)}. */
-//	public default BigInteger computeDissonanceAsBigInt(NodeComparable<K> nodeBase, boolean checkRecursion) {
-//		return computeDissonanceAsBigInt(nodeBase, WEIGHTS_DEFAULT, checkRecursion);
-//	}
+	/** See {@link #computeDissonanceAsLong(NodeComparable_OLDV1)}. */
+	public default BigInteger computeDissonanceAsBigInt(NodeComparable_OLDV1<K> nodeBase, boolean checkRecursion) {
+		return computeDissonanceAsBigInt(nodeBase, WEIGHTS_DEFAULT, checkRecursion);
+	}
 
-//	public default BigInteger computeDissonanceAsBigInt(NodeComparable<K> nodeBase, DissonanceWeights weights) {
-//		return computeDissonanceAsBigInt(nodeBase, weights, false); // make it fast
-//	}
+	public default BigInteger computeDissonanceAsBigInt(NodeComparable_OLDV1<K> nodeBase, DissonanceWeights weights) {
+		return computeDissonanceAsBigInt(nodeBase, weights, false); // make it fast
+	}
 
-	/** See {@link #computeDissonanceAsLong(NodeComparable)}. */
-	public BigInteger computeDissonanceAsBigInt(NodeComparable<K> nodeBase, DissonanceWeights weights);
-//	, boolean checkRecursion);
-
-	//
+	/** See {@link #computeDissonanceAsLong(NodeComparable_OLDV1)}. */
+	public BigInteger computeDissonanceAsBigInt(NodeComparable_OLDV1<K> nodeBase, DissonanceWeights weights,
+			boolean checkRecursion);
 
 	//
 
+	//
 	@Override
 	public default void toString(StringBuilder sb) { this.toString(sb, 0); }
 
@@ -282,7 +270,10 @@ public interface NodeComparable<K> extends Stringable {
 
 	//
 
-	/** See {@link NodeComparable#computeDissonanceAsLong(NodeComparable)}. */
+	/**
+	 * See
+	 * {@link NodeComparable_OLDV1#computeDissonanceAsLong(NodeComparable_OLDV1)}.
+	 */
 	public static class DissonanceWeights implements Serializable {
 		private static final long serialVersionUID = 23263214070008L;
 		protected int weightMissingNode, weightExceedingNode, weightDepth;
@@ -330,68 +321,85 @@ public interface NodeComparable<K> extends Stringable {
 
 	//
 
-	public static abstract class NodeComparableDefaultAlghoritms<T> implements NodeComparable<T> {
+	public static abstract class NodeComparable_OLDV1DefaultAlghoritms<T> implements NodeComparable_OLDV1<T> {
 		private static final long serialVersionUID = -651032512L;
 
-		protected int heightNode = 0;
+		protected int height = 0;
 
 		@Override
-		public int getHeightNode() { return heightNode; }
+		public int getHeight() { return height; }
 
 		@Override
-		public NodeComparable<T> setHeightNode(int height) {
-			this.heightNode = height < 0 ? 0 : height;
+		public NodeComparable_OLDV1<T> setHeight(int height) {
+			this.height = height < 0 ? HEIGHT_OF_NEW_NODE : height;
 			return this;
 		}
 
 		@Override
-		public int getTreeSize() {
-			int[] s = { 1 };
-			Set<NodeComparable<T>> children;
-			children = getChildrenNC();
-			if (children != null) { children.forEach(n -> s[0] += n.getTreeSize()); }
-			return s[0];
+		public long computeDissonanceAsLong(NodeComparable_OLDV1<T> nodeBase, DissonanceWeights weights,
+				boolean checkRecursion) {
+			return checkRecursion ? computeDissonanceAsLong_WithRecursion(nodeBase, weights, //
+					nodeBase.newChildrenSet() //
+					, weights.weightDepth)
+					: computeDissonanceAsLong_NoRecursion(nodeBase, weights, weights.weightDepth);
 		}
 
-		protected void getTreeSize(int[] accumulator) {
-			Set<NodeComparable<T>> children;
-			accumulator[0]++;
-			children = getChildrenNC();
-			if (children != null) {
-				children.forEach(n -> ((NodeComparableDefaultAlghoritms<T>) n).getTreeSize(accumulator));
-			}
-		}
-
-		@Override
-		public long computeDissonanceAsLong(NodeComparable<T> nodeBase, DissonanceWeights weights) {
-			return computeDissonanceAsLong_NoRecursion(nodeBase, weights, weights.weightDepth);
-		}
-
-		protected long computeDissonanceAsLong_NoRecursion(NodeComparable<T> nodeBase, DissonanceWeights weights,
+		protected long computeDissonanceAsLong_NoRecursion(NodeComparable_OLDV1<T> nodeBase, DissonanceWeights weights,
 				long exponentialWeightDepth) {
-			SortedSetEnhanced<NodeComparable<T>> childrenBase;
 			long[] dissonance = { Objects.equals(nodeBase.getKeyIdentifier(), this.getKeyIdentifier()) ? 0 : 1 };
-			childrenBase = nodeBase.getChildrenNC();
 			this.forEachChildNC(child -> {
-				if (!childrenBase.contains(child)) {// looks for a exact match
-//					dissonance[0]+=
-//				} else {
-					dissonance[0] += weights.weightExceedingNode * child.getTreeSize();
+//				T key;
+				NodeComparable_OLDV1<T> childBase;
+//				key = child.getKeyIdentifier();
+				childBase = nodeBase.getChildNCMostSimilarTo(child);
+//				if (nodeBase.containsChildNC(key)) {
+				if (childBase != null) {
+					// recursion :D
+					dissonance[0] += ((NodeComparable_OLDV1DefaultAlghoritms<T>) child)
+							.computeDissonanceAsLong_NoRecursion(childBase, //
+									weights, //
+									exponentialWeightDepth * weights.weightDepth);
+				} else {
+					dissonance[0] += weights.weightMissingNode * exponentialWeightDepth;
 				}
-////				T key;
-//				NodeComparable<T> childBase;
-////				key = child.getKeyIdentifier();
-//				childBase = nodeBase.getChildNCMostSimilarTo(child);
-////				if (nodeBase.containsChildNC(key)) {
-//				if (childBase != null) {
-//					// recursion :D
-//					dissonance[0] += ((NodeComparableDefaultAlghoritms<T>) child).computeDissonanceAsLong_NoRecursion(
-//							childBase, //
-//							weights, //
-//							exponentialWeightDepth * weights.weightDepth);
-//				} else {
-//					dissonance[0] += weights.weightMissingNode * exponentialWeightDepth;
-//				}
+			});
+			nodeBase.forEachChildNC(child -> {
+//				T key;
+//				key = child.getKeyIdentifier();
+				if (!this.containsChildNC(child)) {
+					dissonance[0] += weights.weightExceedingNode * exponentialWeightDepth;
+				}
+			});
+			return dissonance[0];
+		}
+
+		protected long computeDissonanceAsLong_WithRecursion(NodeComparable_OLDV1<T> nodeBase,
+				DissonanceWeights weights, SortedSetEnhanced<NodeComparable_OLDV1<T>> nodesVisited,
+				long exponentialWeightDepth) {
+//			if(nodesVisited.containsKey(this.value) || nodesVisited.containsKey(nodeBase).)
+			T thisKey;
+			thisKey = this.getKeyIdentifier();
+			long[] dissonance = { Objects.equals(nodeBase.getKeyIdentifier(), thisKey) ? 0 : 1 };
+//			nodesVisited.put(thisKey, this);
+			nodesVisited.add(this);
+			this.forEachChildNC(child -> {
+//				T key;
+				NodeComparable_OLDV1<T> childBase;
+//				key = child.getKeyIdentifier();
+				childBase = nodeBase.getChildNCMostSimilarTo(child);
+//				if (nodeBase.containsChildNC(key)) {
+				if (childBase != null) {
+					// recursion :D
+					if (!nodesVisited.contains(childBase)) {
+						dissonance[0] += ((DefaultNodeComparable_OLDV1<T>) child).computeDissonanceAsLong_WithRecursion(
+								childBase, //
+								weights, //
+								nodesVisited, //
+								exponentialWeightDepth * weights.weightDepth);
+					}
+				} else {
+					dissonance[0] += weights.weightMissingNode * exponentialWeightDepth;
+				}
 			});
 			nodeBase.forEachChildNC(child -> {
 //				T key;
@@ -406,27 +414,28 @@ public interface NodeComparable<K> extends Stringable {
 		//
 
 		@Override
-		public BigInteger computeDissonanceAsBigInt(NodeComparable<T> nodeBase, DissonanceWeights weights) {
+		public BigInteger computeDissonanceAsBigInt(NodeComparable_OLDV1<T> nodeBase, DissonanceWeights weights,
+				boolean checkRecursion) {
 			return checkRecursion ? computeDissonanceAsBigInt_WithRecursion(nodeBase, weights, //
 					nodeBase.newChildrenSet(), BigInteger.valueOf(weights.weightDepth))
 					: computeDissonanceAsBigInt_NoRecursionCheck(nodeBase, weights,
 							BigInteger.valueOf(weights.weightDepth));
 		}
 
-		protected BigInteger computeDissonanceAsBigInt_NoRecursionCheck(NodeComparable<T> nodeBase,
+		protected BigInteger computeDissonanceAsBigInt_NoRecursionCheck(NodeComparable_OLDV1<T> nodeBase,
 				DissonanceWeights weights, BigInteger exponentialWeightDepth) {
 			BigInteger[] dissonance = {
 					Objects.equals(nodeBase.getKeyIdentifier(), this.getKeyIdentifier()) ? BigInteger.ZERO
 							: BigInteger.ONE };
 			this.forEachChildNC(child -> {
 //				T key;
-				NodeComparable<T> childBase;
+				NodeComparable_OLDV1<T> childBase;
 //				key = child.getKeyIdentifier();
 				childBase = nodeBase.getChildNCMostSimilarTo(child);
 //				if (nodeBase.containsChildNC(key)) {
 				if (childBase != null) {
 					// recursion :D
-					dissonance[0] = dissonance[0].add(((NodeComparableDefaultAlghoritms<T>) child)
+					dissonance[0] = dissonance[0].add(((NodeComparable_OLDV1DefaultAlghoritms<T>) child)
 							.computeDissonanceAsBigInt_NoRecursionCheck(childBase, //
 									weights, //
 									exponentialWeightDepth.multiply(weights.weightDepthBigInt))//
@@ -446,8 +455,8 @@ public interface NodeComparable<K> extends Stringable {
 			return dissonance[0];
 		}
 
-		protected BigInteger computeDissonanceAsBigInt_WithRecursion(NodeComparable<T> nodeBase,
-				DissonanceWeights weights, SortedSetEnhanced<NodeComparable<T>> nodesVisited,
+		protected BigInteger computeDissonanceAsBigInt_WithRecursion(NodeComparable_OLDV1<T> nodeBase,
+				DissonanceWeights weights, SortedSetEnhanced<NodeComparable_OLDV1<T>> nodesVisited,
 				BigInteger exponentialWeightDepth) {
 			T thisKey;
 			thisKey = this.getKeyIdentifier();
@@ -455,7 +464,7 @@ public interface NodeComparable<K> extends Stringable {
 					Objects.equals(nodeBase.getKeyIdentifier(), thisKey) ? BigInteger.ZERO : BigInteger.ONE };
 			this.forEachChildNC(child -> {
 //				T key;
-				NodeComparable<T> childBase;
+				NodeComparable_OLDV1<T> childBase;
 //				key = child.getKeyIdentifier();
 				childBase = nodeBase.getChildNCMostSimilarTo(child);
 //				if (nodeBase.containsChildNC(key)) {
@@ -463,7 +472,8 @@ public interface NodeComparable<K> extends Stringable {
 					// recursion :D
 					if (!nodesVisited.contains(childBase)) {
 						BigInteger dissGot;
-						dissGot = ((DefaultNodeComparable<T>) child).computeDissonanceAsBigInt_WithRecursion(childBase, //
+						dissGot = ((DefaultNodeComparable_OLDV1<T>) child).computeDissonanceAsBigInt_WithRecursion(
+								childBase, //
 								weights, //
 								nodesVisited, //
 								exponentialWeightDepth.multiply(weights.weightDepthBigInt));
@@ -496,19 +506,19 @@ public interface NodeComparable<K> extends Stringable {
 		}
 	}
 
-	public static class DefaultNodeComparable<T> extends NodeComparableDefaultAlghoritms<T> {
+	public static class DefaultNodeComparable_OLDV1<T> extends NodeComparable_OLDV1DefaultAlghoritms<T> {
 		private static final long serialVersionUID = 1L;
 		protected T keyIdentifier;
-		protected MapTreeAVL<NodeComparable<T>, NodeComparable<T>> backMap;
-		protected SortedSetEnhanced<NodeComparable<T>> children;
+		protected MapTreeAVL<NodeComparable_OLDV1<T>, NodeComparable_OLDV1<T>> backMap;
+		protected SortedSetEnhanced<NodeComparable_OLDV1<T>> children;
 		protected final Comparator<T> comparatorKey;
 
-		public DefaultNodeComparable(T value, Comparator<T> comparatorKey) {
+		public DefaultNodeComparable_OLDV1(T value, Comparator<T> comparatorKey) {
 			super();
 			this.comparatorKey = comparatorKey;
 			this.keyIdentifier = value;
 			this.backMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration, // comparatorKey
-					NodeComparable.newNodeComparatorDefault(comparatorKey));
+					NodeComparable_OLDV1.newNodeComparatorDefault(comparatorKey));
 //			this.children = this.backMap.toSetValue(n -> n.getKeyIdentifier());
 			this.children = this.backMap.toSetKey();
 		}
@@ -522,36 +532,39 @@ public interface NodeComparable<K> extends Stringable {
 		public Comparator<T> getKeyComparator() { return comparatorKey; }
 
 		@Override
-		public SortedSetEnhanced<NodeComparable<T>> getChildrenNC() { return this.children; }
+		public SortedSetEnhanced<NodeComparable_OLDV1<T>> getChildrenNC() { return this.children; }
 
 		@Override
-		public NodeComparable<T> getChildNCMostSimilarTo(NodeComparable<T> copy) { return this.backMap.get(copy); }
+		public NodeComparable_OLDV1<T> getChildNCMostSimilarTo(NodeComparable_OLDV1<T> copy) {
+			return this.backMap.get(copy);
+		}
 
 		@Override
-		public void forEachChildNCFIFOOrdering(Consumer<NodeComparable<T>> action) {}
+		public void forEachChildNCFIFOOrdering(Consumer<NodeComparable_OLDV1<T>> action) {}
 	}
 
 	//
 
-	public static class NodeComparatorDefault<T> implements Comparator<NodeComparable<T>> {
+	public static class NodeComparatorDefault<T> implements Comparator<NodeComparable_OLDV1<T>> {
 		protected final Comparator<T> keyComp;
-		protected final Comparator<SortedSetEnhanced<NodeComparable<T>>> childrenSetComparator; // huuuuge generics :D
+		protected final Comparator<SortedSetEnhanced<NodeComparable_OLDV1<T>>> childrenSetComparator; // huuuuge
+																										// generics :D
 
 		public NodeComparatorDefault(Comparator<T> keyComp) {
 //			this(keyComp, null); }
 //
-//		public NodeComparatorDefault(Comparator<T> keyComp, Comparator<SortedSetEnhanced<NodeComparable<T>>> c) {
+//		public NodeComparatorDefault(Comparator<T> keyComp, Comparator<SortedSetEnhanced<NodeComparable_OLDV1<T>>> c) {
 			super();
 			this.keyComp = keyComp;
 			this.childrenSetComparator = /* c != null ? c : */ newChildrenSetComparator();
 		}
 
-		protected Comparator<SortedSetEnhanced<NodeComparable<T>>> newChildrenSetComparator() {
+		protected Comparator<SortedSetEnhanced<NodeComparable_OLDV1<T>>> newChildrenSetComparator() {
 			return SortedSetEnhanced.COMPARATOR_FACTORY_PREFERRED.newComparator(this); // RECURSION
 		}
 
 		@Override
-		public int compare(NodeComparable<T> n1, NodeComparable<T> n2) {
+		public int compare(NodeComparable_OLDV1<T> n1, NodeComparable_OLDV1<T> n2) {
 			int c;
 			if (n1 == n2) { return 0; }
 			if (n1 == null) { return -1; }

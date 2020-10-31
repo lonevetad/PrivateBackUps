@@ -11,7 +11,7 @@ import dataStructures.SortedSetEnhanced;
 
 /** Default implementation of {@link NodeComparable} useful for */
 public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableDefaultAlghoritms<SynonymSet>
-		implements Stringable, Cloneable {
+		implements Cloneable {
 	private static final long serialVersionUID = 5640520473L;
 
 	protected static final Function<NodeComparableSynonymIndexed, NodeComparable<SynonymSet>> IDENTITY_FUNCTION_JavaCompiler_GENERICS_TOO_RESTRICTIVE = (
@@ -35,13 +35,13 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 			.differenceCalcFromSetComparator(COMPARATOR_CHILDREN);
 	/** THE REAL {@link DifferenceCalculator} for this class. */
 	public static final DifferenceCalculator<NodeComparable<SynonymSet>> DIFF_COMPUTER_NODE = (n1, n2) -> {
+		long d;
 		if (n1 == n2)
 			return 0;
 		if (n1 == null)
 			return Integer.MIN_VALUE;
 		if (n2 == null)
 			return Integer.MAX_VALUE;
-		long d;
 		d = SynonymSet.DIFFERENCE_CALCULATOR.getDifference(n1.getKeyIdentifier(), n2.getKeyIdentifier());
 		if (d != 0)
 			return d;
@@ -219,40 +219,5 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 	public long scoreKeyCompatibilityWith(SynonymSet anotherKey) {
 		// TODO: use the synonym's comparator or not?
 		return this.alternatives.countDifferenceWith(anotherKey);
-	}
-
-	//
-
-	@Override
-	public String toString() {
-		StringBuilder sb;
-		sb = new StringBuilder();
-		toString(sb);
-		return sb.toString();
-	}
-
-	@Override
-	public void toString(StringBuilder sb) { this.toString(sb, 0); }
-
-	/** Call <code>super</code> before doing anything. */
-	protected void toStringNonCollectionFields(StringBuilder sb) {
-		sb.append(" --> ");
-	}
-
-	@Override
-	public void toString(StringBuilder sb, int level) {
-		int lev;
-		addTab(sb, level, false);
-		sb.append("NStD: ");
-		this.alternatives.toString(sb);
-		toStringNonCollectionFields(sb);
-		sb.append(" -----> children:");
-		lev = level + 1;
-		this.forEachChildNC((child) -> {
-			if (child instanceof NodeComparableSynonymIndexed) {
-				sb.append('\n');
-				((NodeComparableSynonymIndexed) child).toString(sb, lev);
-			}
-		});
 	}
 }
