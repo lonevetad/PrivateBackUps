@@ -1,4 +1,4 @@
-package dataStructures;
+package dataStructures.minorUtils;
 
 import java.io.Serializable;
 import java.util.Map.Entry;

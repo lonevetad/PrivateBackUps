@@ -1,41 +1,19 @@
 package tests.tDataStruct;
 
-import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import dataStructures.MapTreeAVL;
-import dataStructures.NodeComparable;
 import tools.CloserGetter;
 import tools.ClosestMatch;
-import tools.Comparators;
-import tools.DifferenceCalculator;
 
-public class Test_NodeComparableSubtreeBased_Search {
+public class Test_NodeComparableSubtreeBased_Search extends tests.tDataStruct.Test_NodeComparableSubtreeBased_Compare {
 
 	//
-	static final Comparator<NodeComparable<Integer>> NC_I = NodeComparable
-			.newNodeComparatorDefault(Comparators.INTEGER_COMPARATOR);
-	static final Comparator<TreeCompInteger> COMP_TREE_INT = (t1, t2) -> {
-		return NC_I.compare(t1.getRoot(), t2.getRoot());
-	};
-	static final DifferenceCalculator<TreeCompInteger> DIFF_TREE = COMP_TREE_INT::compare;
 
 	public static final CloserGetter<Map.Entry<TreeCompInteger, TreeCompInteger>> CLOSE_GETTER_TREE = (eo, e1,
 			e2) -> CloserGetter.getCloserTo(eo, (e11, e22) -> DIFF_TREE.getDifference(e11.getKey(), e22.getKey()), e1,
 					e2);
-
-	static {
-		TreeCompInteger t1, t2;
-		System.out.println("AAAAAAAAAAAAAAAH");
-		t1 = TreeCompInteger.fromString("0 { 77 1 { 2 } }");
-		t2 = TreeCompInteger.fromString("0 { 77 1 { 2 {3 {4} }} }");
-		System.out.println(t1);
-		System.out.println(t2);
-		System.out.println(COMP_TREE_INT.compare(t1, t2));
-		System.out.println(COMP_TREE_INT.compare(t2, t1));
-		System.out.println("AAAAAAAAAAAAAAAH");
-	}
 
 	//
 
@@ -152,5 +130,19 @@ public class Test_NodeComparableSubtreeBased_Search {
 		 * alberi di test 3) cercare il best match
 		 */
 		System.out.println("\n\n\n END");
+
+		System.out.println(" .. or not: ");
+		int i;
+		TreeCompInteger[] trees = new TreeCompInteger[2];
+		for (String[] pair : TREE_PAIRS_TO_TEST) {
+			i = 0;
+			for (String wannaBeTree : pair) {
+				t = TreeCompInteger.fromString(wannaBeTree);
+				tt.add(t);
+				trees[i++] = t;
+			}
+			System.out.println("difference : " + trees[0].getRoot().computeDissonanceAsLong(trees[1].getRoot()));
+		}
+		System.out.println(tt);
 	}
 }

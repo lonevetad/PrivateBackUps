@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.function.BiConsumer;
 
+import dataStructures.minorUtils.SortedSetEnhancedDelegating;
 import grammars.NodeParsedSentence;
 import grammars.transfer.TransferRule;
 import tools.CloserGetter;

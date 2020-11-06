@@ -101,6 +101,9 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 	public SortedSetEnhanced<NodeComparable<SynonymSet>> getChildrenNC() { return this.childrenBySynonyms; }
 
 	@Override
+	public SynonymSet getKeyIdentifier() { return this.alternatives; }
+
+	@Override
 	public NodeComparable<SynonymSet> getChildNCMostSimilarTo(NodeComparable<SynonymSet> copy) {
 		ClosestMatch<Entry<NodeComparable<SynonymSet>, NodeComparable<SynonymSet>>> cm;
 		ClosestMatch<NodeComparable<SynonymSet>> cmN;
@@ -113,8 +116,32 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 		return cmN.getClosetsMatchToOriginal(CLOSER_GETTER_NCSI);
 	}
 
+	/**
+	 * Check if at least a children has a similar {@link #getKeyIdentifier()}. It
+	 * differs to {@link #containsChildNC(NodeComparable)} because of this non-exact
+	 * match
+	 * <p>
+	 * Previous documentation:<br>
+	 * {@inheritDoc}
+	 */
 	@Override
-	public SynonymSet getKeyIdentifier() { return this.alternatives; }
+	public boolean containsChildNC(SynonymSet key, Function<SynonymSet, NodeComparable<SynonymSet>> nodeGenerator) {
+		// that's just super.
+		return super.containsChildNC(nodeGenerator.apply(key));
+	}
+
+	/**
+	 * Performs an exact match of the node, checking recursively around its children
+	 * ({@link #getChildrenNC()}). It differs from
+	 * {@link #containsChildNC(SynonymSet, Function)} for this detail.
+	 * <p>
+	 * Previous documentation:<br>
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean containsChildNC(NodeComparable<SynonymSet> copy) {
+		return this.childrenBySynonymsBackMap.containsKey(copy);
+	}
 
 	// DEPRECATED : ALREADY IMPLEMENTED IN CHILDREN'S COMPARATOR
 //	@Override

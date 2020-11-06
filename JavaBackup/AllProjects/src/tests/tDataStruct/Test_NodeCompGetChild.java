@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import dataStructures.TreeComparable;
 import tools.Comparators;
 
-public class TestNodeCompGetChild {
+public class Test_NodeCompGetChild {
 
 	public static void main(String[] args) {
 		TreeComparable<Integer> t;

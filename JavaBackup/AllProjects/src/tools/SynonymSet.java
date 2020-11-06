@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.SortedSetEnhanced;
-import dataStructures.SortedSetEnhancedDelegating;
+import dataStructures.minorUtils.SortedSetEnhancedDelegating;
 
 // TODO GENERALIZE TO A SORTED-SET
 /**
@@ -21,6 +21,7 @@ import dataStructures.SortedSetEnhancedDelegating;
  */
 public class SynonymSet implements SortedSetEnhancedDelegating<String>, Cloneable {
 
+	public static final Comparator<String> COMPARATOR_SINGLE_SYNONYM = Comparators.STRING_COMPARATOR;
 	/**
 	 * Synonyms are set of strings, this comparator is a "low level" comparator used
 	 * in {@link #COMPARATOR_SYNONYM_SET}.
@@ -28,7 +29,7 @@ public class SynonymSet implements SortedSetEnhancedDelegating<String>, Cloneabl
 	protected static final Comparator<SortedSetEnhanced<String>> COMP_SET_STRING = //
 //			SortedSetEnhanced.ComparatorFactoriesSSE.CASCADE_OF_INTERSECT_MISS_EXCEED_KEY
 			SortedSetEnhanced.COMPARATOR_FACTORY_PREFERRED//
-					.newComparator(Comparators.STRING_COMPARATOR);
+					.newComparator(COMPARATOR_SINGLE_SYNONYM);
 	/** Low-level difference calculator: of set of strings */
 	protected static final DifferenceCalculator<SortedSetEnhanced<String>> DIFF_CALC_SET_STRINGS = SortedSetEnhanced
 			.differenceCalcFromSetComparator(COMP_SET_STRING);
@@ -81,6 +82,9 @@ public class SynonymSet implements SortedSetEnhancedDelegating<String>, Cloneabl
 
 	@Override
 	public void forEach(Consumer<? super String> action) { alternatives.forEach(action); }
+
+	@Override
+	public ClosestMatch<String> closestMatchOf(String key) { return this.alternatives.closestMatchOf(key); }
 
 	public List<String> toList() { return Collections.unmodifiableList(backMap.toList()); }
 
@@ -136,13 +140,4 @@ public class SynonymSet implements SortedSetEnhancedDelegating<String>, Cloneabl
 		this.backMap.forEach((k, v) -> s.addAlternative(k));
 		return s;
 	}
-
-	//
-
-	//
-
-	//
-
-	@Override
-	public ClosestMatch<String> closestMatchOf(String key) { return this.alternatives.closestMatchOf(key); }
 }

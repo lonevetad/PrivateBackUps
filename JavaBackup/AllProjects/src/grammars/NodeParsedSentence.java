@@ -21,6 +21,8 @@ public class NodeParsedSentence extends NodeComparableSynonymIndexed {
 	private static final long serialVersionUID = -3000078540407L;
 	public static final Comparator<NodeParsedSentence> COMPARATOR_NODE_NPS = NodeComparableSynonymIndexed.COMPARATOR_NODE::compare;
 
+	public static final Comparator<SynonymSet> getNPSComparatorKey() { return SynonymSet.COMPARATOR_SYNONYM_SET; }
+
 	//
 
 	public NodeParsedSentence(String gloss) {
