@@ -5,7 +5,10 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 public final class Comparators {
 	public interface MyComparator<E> extends Comparator<E>, Serializable {
@@ -13,13 +16,14 @@ public final class Comparators {
 
 	private Comparators() {}
 
-	public static final MyComparator<String> STRING_COMPARATOR = new GenericComparator<String>()//
+	public static final MyComparator<String> STRING_COMPARATOR = new GenericComparator<>()//
 			, STRING_COMPARATOR_2 = //
 					(s1, s2) -> ((s1 == s2) ? 0
 							: ((s1 == null) ? (s2 == null ? 0 : -1) : (s2 == null ? 1 : s1.compareTo(s2))));
-	public static final MyComparator<Integer> INTEGER_COMPARATOR = new GenericComparator<Integer>();
-	public static final MyComparator<Long> LONG_COMPARATOR = new GenericComparator<Long>();
-	public static final MyComparator<Double> DOUBLE_COMPARATOR = new GenericComparator<Double>();
+	public static final MyComparator<Integer> INTEGER_COMPARATOR = new GenericComparator<>();
+	public static final MyComparator<Long> LONG_COMPARATOR = new GenericComparator<>();
+	public static final MyComparator<Double> DOUBLE_COMPARATOR = new GenericComparator<>();
+	public static final MyComparator<Character> CHAR_COMPARATOR = new GenericComparator<>();
 	public static final MyComparator<File> FILE_COMPARATOR = new GenericComparator<File>();
 	public static final MyComparator<Color> COLOR_COMPARATOR = (e1, e2) -> {
 		if (e1 == e2)
@@ -215,6 +219,31 @@ public final class Comparators {
 
 	// TODO STATIC METHODS
 
+	public static <K> Comparator<List<K>> newListComparator(Comparator<K> keyComparator) {
+		return (l1, l2) -> {
+			int s1, s2, c;
+			Iterator<K> iter1, iter2;
+			if (l1 == l2)
+				return 0;
+			if (l1 == null)
+				return -1;
+			if (l2 == null)
+				return 1;
+			s1 = l1.size();
+			s2 = l2.size();
+			if (s1 == 0) {
+				return s2 == 0 ? 0 : -s2;
+			} else if (s2 == 0) { return s1; }
+			iter1 = l1.iterator();
+			iter2 = l2.iterator();
+			c = 0;
+			while (iter1.hasNext() && iter2.hasNext() && //
+			(c = keyComparator.compare(iter1.next(), iter2.next())) == 0) {
+			}
+			return (c != 0) ? c : (s1 - s2);
+		};
+	}
+
 	public static <V> int getHighest(V[] array, Comparator<V> comp) {
 		int i, len, index;
 		V v, vtemp;
@@ -295,4 +324,27 @@ public final class Comparators {
 	}
 
 	// public static int getNullityTest(Objec)
+
+	public static void main(String[] args) {
+		Comparator<List<Integer>> ci;
+		ci = newListComparator(Comparators.INTEGER_COMPARATOR);
+		List<List<Integer>> ll = Arrays.asList( //
+				Arrays.asList(7, 5, 3, 5), //
+				Arrays.asList(7, 5, 3, 10), //
+				Arrays.asList(2, 5, 3, 5), //
+				Arrays.asList(7, 5, 3), //
+				Arrays.asList(7, 5, 0, 5)//
+		);
+		System.out.println("eheheh");
+		for (var l1 : ll) {
+			System.out.print("\n\ncomparing:");
+			System.out.println(Arrays.toString(l1.toArray()));
+			for (var l2 : ll) {
+				System.out.print("--- with :\n\t");
+				System.out.println(Arrays.toString(l2.toArray()));
+				System.out.println("---->" + ci.compare(l1, l2));
+			}
+		}
+		System.out.println("ohohoh");
+	}
 }

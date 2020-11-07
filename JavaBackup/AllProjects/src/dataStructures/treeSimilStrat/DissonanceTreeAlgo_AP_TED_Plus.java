@@ -67,12 +67,12 @@ public class DissonanceTreeAlgo_AP_TED_Plus<T> implements DissonanceTreeAlgorith
 			f.forEachPathNode(gamma -> {
 				SortedSetEnhanced<NodeComparable<T>> e;
 				e = NodeComparable.removePath(f, gamma);
-
+				// TODO
 			});
 		};
 		whatToDo.accept(ff, gg);
 		whatToDo.accept(gg, ff);
-		return 0;
+		return cost[0];
 	}
 
 	/**

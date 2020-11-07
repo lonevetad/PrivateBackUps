@@ -47,10 +47,21 @@ public class Test_NodeComparable_RemovePath_ForEachPath {
 		System.out.println("\n\n\n now iterating over each path of the last forest's trees");
 		forest.forEach(n -> n.forEachPathKey(printerList));
 		System.out.println("\n\n\n AAAAAAAAAH\niterating with a for-each");
-		var iter = t.getRoot().iteratorPathKeys();
+		printPathsThroughIterator(t.getRoot(), printerList);
+		System.out.println("and into the forest");
+		forest.forEach(n -> Test_NodeComparable_RemovePath_ForEachPath.printPathsThroughIterator(n, printerList));
+		System.out.println("\n\n\n end");
+		System.out.println("..");
+		printPathsThroughIterator(NodeComparable.newDefaultNodeComparable(8, Comparators.INTEGER_COMPARATOR),
+				printerList);
+		System.out.println("...");
+
+	}
+
+	static void printPathsThroughIterator(NodeComparable<Integer> t, Consumer<List<Integer>> printerList) {
+		var iter = t.iteratorPathKeys();
 		while (iter.hasNext()) {
 			printerList.accept(iter.next());
 		}
-		System.out.println("\n\n\n end");
 	}
 }

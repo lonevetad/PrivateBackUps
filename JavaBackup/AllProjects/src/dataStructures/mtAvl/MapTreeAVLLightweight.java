@@ -2340,7 +2340,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		}
 	}
 
-	protected abstract class SortedSetWrapper<E> implements SortedSetEnhanced<E>, TreeAVLDelegator<K, V> {
+	public abstract class SortedSetWrapper<E> implements SortedSetEnhanced<E>, TreeAVLDelegator<K, V> {
 
 		protected SortedSetWrapper() { super(); }
 
@@ -2402,9 +2402,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public Comparator<K> getKeyComparator() { return MapTreeAVLLightweight.this.comp; }
-
-		@Override
-		public SortedSetEnhanced<K> newSortedSetEnhanced(Comparator<K> comp) { return new SortedSetKeyWrapper(); }
 
 		@Override
 		public ClosestMatch<K> closestMatchOf(K key) {
@@ -2476,11 +2473,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public Comparator<Entry<K, V>> getKeyComparator() { return MapTreeAVLLightweight.this.compEntry; }
-
-		@Override
-		public SortedSetEnhanced<Entry<K, V>> newSortedSetEnhanced(Comparator<Entry<K, V>> comp) {
-			return new SortedSetEntryWrapper();
-		}
 
 		@Override
 		public Comparator<? super Entry<K, V>> comparator() { return MapTreeAVLLightweight.this.compEntry; }
@@ -2587,11 +2579,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public Comparator<V> getKeyComparator() {
-			throw new UnsupportedOperationException("Cannot compare value class's insntaces.");
-		}
-
-		@Override
-		public SortedSetEnhanced<V> newSortedSetEnhanced(Comparator<V> comp) {
 			throw new UnsupportedOperationException("Cannot compare value class's insntaces.");
 		}
 

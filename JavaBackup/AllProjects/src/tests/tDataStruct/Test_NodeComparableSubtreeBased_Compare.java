@@ -7,11 +7,14 @@ import tools.Comparators;
 import tools.DifferenceCalculator;
 
 public class Test_NodeComparableSubtreeBased_Compare {
+
 	static final Comparator<NodeComparable<Integer>> NC_I = NodeComparable
 			.newNodeComparatorDefault(Comparators.INTEGER_COMPARATOR);
+
 	static final Comparator<TreeCompInteger> COMP_TREE_INT = (t1, t2) -> {
 		return NC_I.compare(t1.getRoot(), t2.getRoot());
 	};
+
 	static final DifferenceCalculator<TreeCompInteger> DIFF_TREE = DifferenceCalculator.from(COMP_TREE_INT);
 //		 NodeComparable.newDifferenceCalculator(COMP_TREE_INT);
 
@@ -33,7 +36,11 @@ public class Test_NodeComparableSubtreeBased_Compare {
 			{ "2{ 5 {4} 5 {6} }", "2{5 {4} 5 {7}}" }, //
 			{ "2{ 1 2 3}", "2{1 2 0}" }, //
 			{ "2{ 1 2 3 4}", "2{1 2 0 4}" }, //
-			{ "5{ 3 1 {2 -2 0{7 8} 9 {3} 11 {-2 -7 -9{-10}}} 4 7{ 1 2 3 4{4{4}}}}",
+			{ "77{55 {22 {33 {1}}} 55{22 {33 {4}}}55 {22 {33 {2}}}55 {22 {33 {3}}}}", "77 {55 {22 {33 {1 2 3 4}}}}" }, //
+			{ "77 {55 {22 {33 {1 2 3 4}}}}", "77{55 {22 {33 {1}}} 55{22 {33 {4}}}55 {22 {33 {2}}}55 {22 {33 {3}}}}" }, //
+			{ "2{ 3 1 {2 -2 0{7 8} 9 {3} 11 {-2 -7 -9{-10}}} 4 7{ 1 2 3 4{4{4}}}}", //
+					"2{ 3 1{2 -2 0 {6 8} 9 {3} 11 {-2 -7 -9{-10}}} 5 7{ 1 2 54 4{4{4}}}} -666}" }, //
+			{ "5{ 3 1 {2 -2 0{7 8} 9 {3} 11 {-2 -7 -9{-10}}} 4 7{ 1 2 3 4{4{4}}}}", //
 					"2{ 3 1{2 -2 0 {6 8} 9 {3} 11 {-2 -7 -9{-10}}} 5 7{ 1 2 54 4{4{4}}}} -666}" }, //
 	};
 
