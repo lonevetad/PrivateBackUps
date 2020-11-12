@@ -157,7 +157,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 
 	public GThread addGameThreadSimplyStoppable(Runnable runner) {
 		GTRunnableSimplestImplementation gr;
-		gr = new GTRunnableSimplestImplementation();
+		gr = new GameModalityBasedGTRunnable(this);
 		gr.setRunnerDelegated(runner);
 		return this.addGameThread(gr);
 	}
@@ -344,5 +344,17 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 			this.gmodality = gmodality;
 			this.setRunnerDelegated(() -> gmodality.runSingleGameCycle());
 		}
+	}
+
+	protected static class GameModalityBasedGTRunnable extends GTRunnableSimplestImplementation {
+		protected final GModalityET gameModality;
+
+		public GameModalityBasedGTRunnable(GModalityET gameModality) {
+			super();
+			this.gameModality = gameModality;
+		}
+
+		@Override
+		protected boolean canRunRunnerCycle() { return gameModality.isRunningOrSleep(); }
 	}
 }

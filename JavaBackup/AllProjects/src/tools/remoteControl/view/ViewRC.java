@@ -3,6 +3,7 @@ package tools.remoteControl.view;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -17,7 +18,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -59,14 +59,15 @@ public class ViewRC {
 	//
 	public ViewRC() {
 		this.observerScreenshoot = this::showScreencast;
-		this.observerConnection = this::onConnectionEstablishedMasterToSlave;
+//		this.observerConnection = this::onConnectionEstablishedMasterToSlave;
 	}
 
 	private boolean alreadyInitialized = false;
 	protected AModelControllerRC modelController;
 	protected BufferedImage screenCastReceived;
 	protected final ObserverSimple<BufferedImage> observerScreenshoot;
-	protected final ObserverSimple<ConnectionStatus> observerConnection;
+//	protected final ObserverSimple<ConnectionStatus> observerConnection;
+	protected ObserverSimple<ConnectionStatus> observerConnection;
 	//
 	protected JFrame fin;
 	protected JPanel jpFin, jpMainPanel, jpScreencast, jpSlave, jpMasterConnecting, jpMaster;
@@ -132,7 +133,34 @@ public class ViewRC {
 
 	public ObserverSimple<ConnectionStatus> getObserverConnection() { return observerConnection; }
 
+	protected void setModelController(AModelControllerRC mc) {
+		this.modelController = mc;
+//		if(mc!=null) {		}
+	}
+
 	protected void toPanel(PanelName pn) { allPanelsManager.show(jpFin, pn.name()); }
+
+	protected void onConnectionEstablishedMasterToSlave(ConnectionStatus cs) { toTheMasterMasteringUponConnection(); }
+
+	protected void tryToConnectMasterToSlave(String hostAddress, int port) {
+		try {
+			MCMasterRC master;
+			master = new MCMasterRC(this, hostAddress, port);
+			this.observerConnection = this::onConnectionEstablishedMasterToSlave;
+			setModelController(master);
+			startRepaintingScreencastVisualizer();
+			master.getObservableScreenshoot().addObserver(this.getObserverScreenshoot());
+			master.getObservableConnectionStatus().addObserver(this.getObserverConnection());
+			// DONE :D
+			toTheMasterMasteringUponConnection();
+			jlConnectionStatus.setText("Connected to the Slave :D");
+		} catch (Exception e) {
+			e.printStackTrace();
+			jlConnectionStatus.setText("Something went wrong:\n" + e.getMessage());
+		}
+	}
+
+	//
 
 	/** Just saves the instance */
 	protected void showScreencast(BufferedImage im) {
@@ -143,22 +171,9 @@ public class ViewRC {
 		jpScreencast.repaint();
 	}
 
-	protected void onConnectionEstablishedMasterToSlave(ConnectionStatus cs) { toTheMasterMasteringUponConnection(); }
-
-	protected void tryToConnectMasterToSlave(String hostAddress, int port) {
-		try {
-			MCMasterRC master;
-			master = new MCMasterRC(this, hostAddress, port);
-			this.modelController = master;
-			master.getObservableScreenshoot().addObserver(this.getObserverScreenshoot());
-			master.getObservableConnectionStatus().addObserver(this.getObserverConnection());
-			// DONE :D
-			toTheMasterMasteringUponConnection();
-			jlConnectionStatus.setText("Connected to the Slave :D");
-		} catch (Exception e) {
-			e.printStackTrace();
-			jlConnectionStatus.setText("Something went wrong:\n" + e.getMessage());
-		}
+	protected void startRepaintingScreencastVisualizer() {
+		// should run a runner to paint the jpScreencast, but it's already done by the
+		// observer
 	}
 
 	// TODO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
@@ -200,17 +215,18 @@ public class ViewRC {
 				executor.submit(() -> {
 					jlConnectionStatus.setText("Connecting ...");
 					tryToConnectMasterToSlave(hostAddress, port);
-					try {
-						System.out.println("attempt to shutdown executor");
-						executor.shutdown();
-						executor.awaitTermination(5, TimeUnit.SECONDS);
-					} catch (InterruptedException e) {
-						System.err.println("tasks interrupted");
-					} finally {
-						if (!executor.isTerminated()) { System.err.println("cancel non-finished tasks"); }
-						executor.shutdownNow();
-						System.out.println("shutdown finished");
-					}
+					System.out.println("RETURNED FROM MASTER CONNECTING");
+//					try {
+//						System.out.println("attempt to shutdown executor");
+//						executor.shutdown();
+//						executor.awaitTermination(5, TimeUnit.SECONDS);
+//					} catch (InterruptedException e) {
+//						System.err.println("tasks interrupted");
+//					} finally {
+//						if (!executor.isTerminated()) { System.err.println("cancel non-finished tasks"); }
+//						executor.shutdownNow();
+//						System.out.println("shutdown finished");
+//					}
 				});
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -227,8 +243,7 @@ public class ViewRC {
 		System.out.println("shown panel master connecting");
 	}
 
-	protected void setupGuiMasterMastering() {
-		// todo
+	protected void newScreencastVisualizer(JPanel whereToAdd) {
 		jpScreencast = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -242,7 +257,13 @@ public class ViewRC {
 		jspScreencast.setViewportView(jpScreencast);
 		jspScreencast.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		jspScreencast.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		jpMaster.add(jspScreencast, BorderLayout.CENTER);
+		whereToAdd.add(jspScreencast, BorderLayout.CENTER);
+		jpScreencast.setSize(200, 200);
+		jpScreencast.setBackground(new Color(128, 255, 196));
+	}
+
+	protected void setupGuiMasterMastering() {
+		newScreencastVisualizer(jpMaster);
 
 		// LISTENERS
 		jpScreencast.addKeyListener(new KeyListener() {
@@ -339,6 +360,7 @@ public class ViewRC {
 
 		};
 		jpSlave.add(civ);
+		newScreencastVisualizer(jpSlave);
 		jpSlave.add(jlConnectionStatus);
 	}
 
@@ -346,14 +368,20 @@ public class ViewRC {
 		try {
 			MCSlaveRC slave;
 			slave = new MCSlaveRC(this);
-			this.modelController = slave;
+			this.observerConnection = this::onConnectionEstablishedSlaveAcceptingMaster;
+			setModelController(slave);
 			slave.getObservableConnectionStatus().addObserver(getObserverConnection());
+			slave.getObservableScreenshoot().addObserver(this.getObserverScreenshoot());
 			setupGuiSlave();
 			System.out.println("I'm slaving :D");
 			toPanel(PanelName.ClientSlave);
 		} catch (AWTException | IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected void onConnectionEstablishedSlaveAcceptingMaster(ConnectionStatus cs) {
+
 	}
 
 	//

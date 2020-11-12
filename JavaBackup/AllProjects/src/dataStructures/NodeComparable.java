@@ -133,8 +133,9 @@ public interface NodeComparable<K> extends Stringable {
 	}
 
 	/**
-	 * in future releases, the score (compute
-	 * througj{@link #computeDissonanceAsLong(NodeComparable)}
+	 * In future releases or subclasses, the score (compute through
+	 * {@link #computeDissonanceAsLong(NodeComparable)}) may require to take in
+	 * advice the keys to score a difference.
 	 */
 	public default long scoreKeyCompatibilityWith(K anotherKey) { return 1; }
 

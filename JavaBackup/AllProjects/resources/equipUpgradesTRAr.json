@@ -131,8 +131,8 @@
 		"rarity": 3,
 		"bonusPrice": [6],
 		"modifiers": [
-			{"attribute": "ProbabilityAvoidPhysical", "value": 4},
-			{"attribute": "ProbabilityAvoidMagical", "value": 4}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 4},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 4}
 		]
 	}, {
 		"name": "Warm",
@@ -147,8 +147,8 @@
 		"rarity": 3,
 		"bonusPrice": [6],
 		"modifiers": [
-			{"attribute": "ProbabilityAvoidPhysical", "value": 40},
-			{"attribute": "ProbabilityAvoidMagical", "value": 40}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 40},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 40}
 		]
 	}, {
 		"name": "Warm",
@@ -241,12 +241,12 @@
 			{"attribute": "Precision", "value": 7},
 			{"attribute": "Dexterity", "value": 7},
 			{"attribute": "Velocity", "value": 10},
-			{"attribute": "ProbabilityHitPhysical", "value": 100},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 50}
-			{"attribute": "ProbabilityHitMagical", "value": 100},
-			{"attribute": "ProbabilityAvoidMagical", "value": 50},
-			{"attribute": "CriticalProbability", "value": 80},
-			{"attribute": "CriticalMultiplier", "value": 5}
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 100},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 50}
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 100},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 50},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 80},
+			{"attribute": "CriticalMultiplierPercentage", "value": 5}
 		]
 	}, {
 		"name": "of Thief",
@@ -257,8 +257,8 @@
 			{"attribute": "Dexterity", "value": 7},
 			{"attribute": "Precision", "value": 4},
 			{"attribute": "Intelligence", "value": 5},
-			{"attribute": "ProbabilityHitPhysical", "value": 30},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 50}
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 30},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 50}
 		]
 	}, {
 		"name": "of Fanatic",
@@ -269,7 +269,7 @@
 			{"attribute": "Faith", "value": 12},
 			{"attribute": "Intelligence", "value": -7},
 			{"attribute": "DamageBonusPhysical", "value": 5},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -70}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -70}
 		]
 	}, {
 		"name": "of Explorer",
@@ -279,7 +279,7 @@
 			{"attribute": "Strength", "value": 6},
 			{"attribute": "Wisdom", "value": 10},
 			{"attribute": "Dexterity", "value": 7},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 50}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 50}
 		]
 	}, {
 		"name": "of Thrull",
@@ -291,7 +291,7 @@
 			{"attribute": "Strength", "value": 8},
 			{"attribute": "Constitution", "value": 8},
 			{"attribute": "Defense", "value": 10},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -50}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -50}
 		]
 	}, {
 		"name": "Heavily-plated",
@@ -301,8 +301,8 @@
 			{"attribute": "Defense", "value": 12},
 			{"attribute": "Constitution", "value": 7},
 			{"attribute": "Dexterity", "value": -6},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -30},
-			{"attribute": "ProbabilityAvoidMagical", "value": -30},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -30},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -30},
 			{"attribute": "DamageReductionPhysical", "value": 4},
 			{"attribute": "DamageReductionMagical", "value": 4}
 		]
@@ -404,7 +404,7 @@
 			{"attribute": "Defense", "value": -3},
 			{"attribute": "Constitution", "value": -2},
 			{"attribute": "DamageBonusPhysical", "value": 2},
-			{"attribute": "CriticalMultiplier", "value": 5}
+			{"attribute": "CriticalMultiplierPercentage", "value": 5}
 		]
 	}, {
 		"name": "Broken",
@@ -414,7 +414,7 @@
 			{"attribute": "Defense", "value": -5},
 			{"attribute": "Precision", "value": -3},
 			{"attribute": "Strength", "value": -3},
-			{"attribute": "CriticalMultiplier", "value": 10}
+			{"attribute": "CriticalMultiplierPercentage", "value": 10}
 		]
 	}, {
 		"name": "Fragile",
@@ -425,7 +425,7 @@
 			{"attribute": "Precision", "value": -2},
 			{"attribute": "Strength", "value": -1},
 			{"attribute": "Defense", "value": -4},
-			{"attribute": "CriticalMultiplier", "value": 5}
+			{"attribute": "CriticalMultiplierPercentage", "value": 5}
 		]
 	}, {
 		"name": "Thinner",
@@ -462,7 +462,7 @@
 		"modifiers": [
 			{"attribute": "DamageBonusPhysical", "value": 2},
 			{"attribute": "DamageBonusMagical", "value": 2},
-			{"attribute": "CriticalMultiplier", "value": 7}
+			{"attribute": "CriticalMultiplierPercentage", "value": 7}
 		]
 	}, {
 		"name": "Well-sharpened",
@@ -471,7 +471,7 @@
 		"modifiers": [
 			{"attribute": "DamageBonusPhysical", "value": 3},
 			{"attribute": "DamageBonusMagical", "value": 3},
-			{"attribute": "CriticalMultiplier", "value": 10}
+			{"attribute": "CriticalMultiplierPercentage", "value": 10}
 		]
 	}, {
 		"name": "Leather stuffed",
@@ -517,8 +517,8 @@
 			{"attribute": "DamageBonusPhysical", "value": 7},
 			{"attribute": "DamageReductionPhysical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": 3},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -100},
-			{"attribute": "ProbabilityAvoidMagical", "value": -100}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -100},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -100}
 		]
 	}, {
 		"name": "of Shaman",
@@ -536,8 +536,8 @@
 			{"attribute": "DamageBonusMagical", "value": 10},
 			{"attribute": "DamageReductionPhysical", "value": -5},
 			{"attribute": "DamageReductionMagical", "value": 6},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -100},
-			{"attribute": "ProbabilityAvoidMagical", "value": 100}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -100},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 100}
 		]
 	}, {
 		"name": "of Sniper", 
@@ -549,10 +549,10 @@
 			{"attribute": "Precision", "value": 20},
 			{"attribute": "Dexterity", "value": 3},
 			{"attribute": "Faith", "value": 5},
-			{"attribute": "ProbabilityHitPhysical", "value": 150},
-			{"attribute": "ProbabilityHitMagical", "value": 150},
-			{"attribute": "CriticalMultiplier", "value": 30},
-			{"attribute": "CriticalProbability", "value": 150}
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 150},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 150},
+			{"attribute": "CriticalMultiplierPercentage", "value": 30},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 150}
 		]
 	}, {
 		"name": "of Acrobat", 
@@ -564,10 +564,10 @@
 			{"attribute": "Precision", "value": 4},
 			{"attribute": "Dexterity", "value": 20},
 			{"attribute": "Strength", "value": 2},
-			{"attribute": "ProbabilityHitPhysical", "value": 150},
-			{"attribute": "ProbabilityHitMagical", "value": 150},
-			{"attribute": "ProbabilityHitPhysical", "value": 30},
-			{"attribute": "ProbabilityHitMagical", "value": 30}
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 150},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 150},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 30},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 30}
 		]
 	}, {
 		"name": "of Hero",
@@ -578,7 +578,7 @@
 			{"attribute": "Intelligence", "value": 5},
 			{"attribute": "Precision", "value": 3},
 			{"attribute": "Dexterity", "value": 3},
-			{"attribute": "CriticalMultiplier", "value": 15}
+			{"attribute": "CriticalMultiplierPercentage", "value": 15}
 		]
 	}, {
 		"name": "of Warrior",
@@ -594,9 +594,9 @@
 			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "DamageBonusPhysical", "value": 4},
 			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "ProbabilityHitPhysical", "value": 50},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 50},
-			{"attribute": "CriticalMultiplier", "value": 15}
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 50},
+			{"attribute": "CriticalMultiplierPercentage", "value": 15}
 		]
 	}, {
 		"name": "of Assassin", 
@@ -693,8 +693,8 @@
 			{"attribute": "Luck", "value": 5},
 			{"attribute": "DamageBonusMagical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": 2},
-			{"attribute": "ProbabilityHitMagical", "value": 100},
-			{"attribute": "ProbabilityAvoidMagical", "value": 50}
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 100},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 50}
 		]
 	}, {
 		"name": "of Druid",
@@ -726,8 +726,8 @@
 			{"attribute": "Dexterity", "value": 3},
 			{"attribute": "Precision", "value": 3},
 			{"attribute": "Faith", "value": -4},
-			{"attribute": "ProbabilityHitPhysical", "value": 50},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 30},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 30},
 			{"attribute": "DamageBonusPhysical", "value": 2},
 			{"attribute": "DamageReductionPhysical", "value": 1}
 		]
@@ -788,8 +788,8 @@
 			{"attribute": "Velocity", "value": 25},
 			{"attribute": "DamageReductionMagical", "value": 8},
 			{"attribute": "DamageReductionPhysical", "value": 4},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 150},
-			{"attribute": "ProbabilityAvoidMagical", "value": 150}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 150},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 150}
 		]
 	}, {
 		"name": "of Seaman",
@@ -848,11 +848,11 @@
 			{"attribute": "Luck", "value": -6},
 			{"attribute": "DamageBonusPhysical", "value": 2},
 			{"attribute": "DamageBonusMagical", "value": 6},
-			{"attribute": "CriticalMultiplier", "value": 15},
-			{"attribute": "ProbabilityHitPhysical", "value": 50},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -100},
-			{"attribute": "ProbabilityHitMagical", "value": 50},
-			{"attribute": "ProbabilityAvoidMagical", "value": -100}
+			{"attribute": "CriticalMultiplierPercentage", "value": 15},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -100},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 50},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -100}
 		]
 	}, {
 		"name": "Cursed",
@@ -878,7 +878,7 @@
 			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Strength", "value": 8},
 			{"attribute": "DamageBonusPhysical", "value": 4},
-			{"attribute": "CriticalMultiplier", "value": 10}
+			{"attribute": "CriticalMultiplierPercentage", "value": 10}
 		]
 	}, {
 		"name": "of King",
@@ -890,8 +890,8 @@
 			{"attribute": "Dexterity", "value": -3},
 			{"attribute": "Strength", "value": 2},
 			{"attribute": "Health", "value": -6},
-			{"attribute": "ProbabilityHitPhysical", "value": 60},
-			{"attribute": "ProbabilityHitMagical", "value": 60}
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 60},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 60}
 		]
 	}, {
 		"name": "of Drunk",
@@ -908,8 +908,8 @@
 			{"attribute": "Faith", "value": 10},
 			{"attribute": "DamageBonusPhysical", "value": -3},
 			{"attribute": "DamageBonusMagical", "value": -3},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 70},
-			{"attribute": "ProbabilityAvoidMagical", "value": 70}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 70},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 70}
 		]
 	}, {
 		"name": "of Farmer",
@@ -1062,11 +1062,11 @@
 		"rarity": 3,
 		"bonusPrice": [35],
 		"modifiers": [
-			{"attribute": "ProbabilityHitPhysical", "value": 50},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 50},
-			{"attribute": "ProbabilityHitMagical", "value": 50},
-			{"attribute": "ProbabilityAvoidMagical", "value": 50},
-			{"attribute": "CriticalProbability", "value": 50},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 50},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 50},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 50},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 50},
 			{"attribute": "Precision", "value": 7},
 			{"attribute": "Dexterity", "value": 7}
 		]
@@ -1085,8 +1085,8 @@
 			{"attribute": "Intelligence", "value": 4},
 			{"attribute": "Wisdom", "value": 5},
 			{"attribute": "Faith", "value": 17},
-			{"attribute": "ProbabilityAvoidPhysical", "value": 50},
-			{"attribute": "ProbabilityAvoidMagical", "value": 50}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 50},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 50}
 		]
 	}, {
 		"name": "of Tireness",
@@ -1102,8 +1102,8 @@
 			{"attribute": "Intelligence", "value": -2},
 			{"attribute": "Wisdom", "value": -2},
 			{"attribute": "Faith", "value": 8},
-			{"attribute": "ProbabilityAvoidPhysical", "value": -30},
-			{"attribute": "ProbabilityAvoidMagical", "value": -30}
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -30},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -30}
 		]
 	}, {
 		"name": "Dark Thefth",
