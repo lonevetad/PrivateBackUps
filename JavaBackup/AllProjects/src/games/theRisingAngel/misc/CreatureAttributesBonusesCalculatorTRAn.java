@@ -59,7 +59,7 @@ import tools.minorTools.RandomWeightedIndexes;
  * </li>
  * <li>Dexterity:
  * <ul>
- * <li>+0.5 ProbabilityAvoid.
+ * <li>+1 ProbabilityPerThousandAvoidPhysical.
  * <li>+0.5 ProbabilityPerThousandHitPhysical</li>
  * <li>+0.25 DamageReductionPhysical</li>
  * <li>+0.25 DamageReductionMagical</li>
@@ -71,7 +71,7 @@ import tools.minorTools.RandomWeightedIndexes;
  * <li>Precision:
  * <ul>
  * <li>+1 ProbabilityPerThousandHitPhysical</li>
- * <li>+0.25 ProbabilityAvoid</li>
+ * <li>+0.5 ProbabilityPerThousandAvoidPhysical</li>
  * <li>+0.25 DamageBonusPhysical</li>
  * <li>+0.125 DamageBonusMagical</li>
  * <li>+1 CriticalProbabilityPerThousand</li>
@@ -88,6 +88,7 @@ import tools.minorTools.RandomWeightedIndexes;
  * <li>+0.25 CriticalMultiplierPercentage</li>
  * <li>+0.0625 Luck</li>
  * <li>+0.5 CriticalProbabilityPerThousandAvoid</li>
+ * <li>+0.5 ProbabilityPerThousandHitPhysical</li>
  * </ul>
  * </li>
  * <li>Wisdom:
@@ -308,7 +309,8 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			v = +c.getValue(AttributesTRAn.Dexterity) //
 					+ ((// 1/2
 					+c.getValue(AttributesTRAn.Defense) //
-							+ c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Luck) //
+							+ c.getValue(AttributesTRAn.Intelligence) //
+							+ c.getValue(AttributesTRAn.Luck) //
 							+ c.getValue(AttributesTRAn.Precision) //
 							+ ((// 1/4
 							+c.getValue(AttributesTRAn.Constitution) //
