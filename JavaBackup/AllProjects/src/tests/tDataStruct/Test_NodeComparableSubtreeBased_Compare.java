@@ -3,6 +3,10 @@ package tests.tDataStruct;
 import java.util.Comparator;
 
 import dataStructures.NodeComparable;
+import dataStructures.treeSimilStrat.DissonanceTreeAlgo_Mine5;
+import dataStructures.treeSimilStrat.DissonanceTreeAlgo_Zhang_Shasha;
+import dataStructures.treeSimilStrat.DissonanceTreeAlgorithm;
+import dataStructures.treeSimilStrat.NodeAlteringCosts;
 import tools.Comparators;
 import tools.DifferenceCalculator;
 
@@ -19,9 +23,11 @@ public class Test_NodeComparableSubtreeBased_Compare {
 //		 NodeComparable.newDifferenceCalculator(COMP_TREE_INT);
 
 	public static final String[][] TREE_PAIRS_TO_TEST = { //
-//			{ "2", "2" }, //
-//			{ "2 {4}", "2 {5}" }, //
-//			{ "2", "2 {5}" }, //
+			{ "2", "2" }, //
+			{ "2 {4}", "2 {5}" }, //
+			{ "2", "2 {5}" }, //
+			{ "2 {5 {4 {8}", "2" }, //
+			{ "2 {5 {4 {8}", "2 {5" }, //
 			//
 			/*
 			 * difference results in "4" because "5{4}" and "5{3}" are treated as
@@ -45,19 +51,34 @@ public class Test_NodeComparableSubtreeBased_Compare {
 	};
 
 	public static void main(String[] args) {
+		long d1, d2;
 		TreeCompInteger t1, t2;
+		final DissonanceTreeAlgorithm<Integer> dissAlgoTester, dissAlgoToTest;
+		final NodeAlteringCosts<Integer> nac;
 		System.out.println("AAAAAAAAAAAAAAAH");
+		dissAlgoTester = new DissonanceTreeAlgo_Zhang_Shasha<>();
+		dissAlgoToTest = new DissonanceTreeAlgo_Mine5<>();
+		nac = NodeAlteringCosts.newDefaultNAC();
 		for (String[] pair : TREE_PAIRS_TO_TEST) {
 			System.out.println("\n\n new test:");
 			t1 = TreeCompInteger.fromString(pair[0]);
-			t2 = TreeCompInteger.fromString(pair[1]);
 			System.out.println(t1);
+			System.out.println("and");
+			t2 = TreeCompInteger.fromString(pair[1]);
 			System.out.println(t2);
 			System.out.println("comparing:");
 			System.out.println(COMP_TREE_INT.compare(t1, t2));
 			System.out.println(COMP_TREE_INT.compare(t2, t1));
 			System.out.println("now difference:");
 			System.out.println(t1.computeDifference(t2));
+			System.out.print("check difference in algos: ");
+			d1 = dissAlgoTester.computeDissonance(nac, t1.getRoot(), t2.getRoot());
+			d2 = dissAlgoToTest.computeDissonance(nac, t1.getRoot(), t2.getRoot());
+			if (d1 == d2) {
+				System.out.println("ok : " + d1);
+			} else {
+				System.out.println("ERROR: expected " + d1 + ", got instead " + d2);
+			}
 		}
 		System.out.println("AAAAAAAAAAAAAAAH\n");
 	}

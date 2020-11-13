@@ -1,4 +1,4 @@
-package tools.implementations;
+package tools.impl;
 
 import java.awt.Color;
 

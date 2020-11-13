@@ -2,12 +2,13 @@ package tests.tDataStruct;
 
 import java.util.Arrays;
 
+import dataStructures.CollectionAlteringCosts;
 import tools.Comparators;
 import tools.EditDistance;
 import tools.EditDistance.EqualityChecker;
+import tools.impl.EditDistanceLevenshtein;
 
 public class TestEditDistance {
-
 	public static class S {
 		public final int dist;
 		public final String s1, s2;
@@ -31,7 +32,7 @@ public class TestEditDistance {
 		return cc;
 	}
 
-	public static int d(S s) { return EditDistance.editDistance(c(s.s1), c(s.s2), EC_CHAR); }
+	public static int d(S s) { return ED.editDistance(c(s.s1), c(s.s2), EC_CHAR, CAC); }
 
 	public static void test(S s) {
 		int diff;
@@ -43,6 +44,10 @@ public class TestEditDistance {
 		}
 	}
 
+	//
+
+	public static final EditDistance ED = new EditDistanceLevenshtein();
+	public static final CollectionAlteringCosts<Character> CAC = CollectionAlteringCosts.newDefaultCAC();
 	public static final EqualityChecker<Character> EC_CHAR = EqualityChecker
 			.fromComparator(Comparators.CHAR_COMPARATOR);
 
@@ -51,6 +56,8 @@ public class TestEditDistance {
 			s("", "", 0), //
 			s("ciao", "", 4), //
 			s("", "ciao", 4), //
+			s("ciao", "f", 4), //
+			s("f", "ciao", 4), //
 			s("a", "", 1), //
 			s("", "a", 1), //
 			s("a", "a", 0), //
@@ -87,10 +94,10 @@ public class TestEditDistance {
 			test(stt);
 		System.out.println("end test");
 
-		System.out.println(EditDistance.editDistance(//
+		System.out.println(ED.editDistance(//
 				Arrays.asList(8, 5, 2, 4, 86, 0, 6), //
 				Arrays.asList(2, 1, 8, 5, 2, 4, 8, 6, 0, 7, 6),
-				//
+				// == 5
 				EditDistance.EqualityChecker.fromComparator(Comparators.INTEGER_COMPARATOR)));
 	}
 }

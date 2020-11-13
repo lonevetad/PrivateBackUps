@@ -44,15 +44,17 @@ public class TestTreeDissonanceComputer extends TreeComparable<Integer> {
 
 		for (int i = 0; i < 4; i++)
 			ap(t, i * 10, l);
-//		d(altro, t);
 
+		pp(t, altro);
+		d(altro, t);
 		l.add(20);
 		ap(t, 25, l);
 		ap(t, 13, l);
 		l.add(25);
+		System.out.println("\n\n\n\n eh eh");
 		ap(t, 22, l);
 
-		System.out.println("adding " + x + " to altro");
+		System.out.println("#### adding " + x + " to altro");
 		altro.addNode(x, null);
 		System.out.println(altro);
 		d(altro, t);
@@ -78,13 +80,23 @@ public class TestTreeDissonanceComputer extends TreeComparable<Integer> {
 		System.out.println(":D");
 		d(altro, t);
 
-		System.out.println("now add -8");
+		System.out.println("now add -8: " + Arrays.toString(l.toArray()));
 		ap(altro, -8, l);
 		System.out.println("\n\n do it again, between");
 		System.out.println(t);
 		System.out.println(altro);
 		System.out.println(":D");
 		d(altro, t);
+		System.out.println("what if I add 7->50 and 7->50->55 to the altro?");
+		altro.addNode(50, Arrays.asList(7));
+		altro.addNode(55, Arrays.asList(7, 50));
+		pp(t, altro);
+		d(altro, t);
+
+		altro.getRoot().getChildrenNC().remove(altro.nodeSupplier.apply(50, altro.keyComparator).addChildNC(//
+				altro.nodeSupplier.apply(55, altro.keyComparator)));
+		System.out.println("new altro :D");
+		System.out.println(altro);
 
 		//
 
@@ -96,14 +108,21 @@ public class TestTreeDissonanceComputer extends TreeComparable<Integer> {
 		System.out.println(altro);
 		altro.addNode(0, l);
 		l.add(20);
-		System.out.println("altro");
-		ap(altro, 13, l);
+		System.out.println("altro .... l: " + Arrays.toString(l.toArray()));
+		for (int i = 0; i < 20; i++) {
+			System.out.println(" force adding " + i + " times");
+			altro.addNode(13, l);
+		}
+		System.out.println(altro);
+		System.out.println("t was");
+		System.out.println(t);
 		d(altro, t);
 
 		System.out.println("fixing t by adding -8");
 		l.add(25);
 		ap(t, -8, l);
 		System.out.println("diffff");
+		pp(t, altro);
 		d(altro, t);
 
 		for (int i = 0; i < 5; i++)

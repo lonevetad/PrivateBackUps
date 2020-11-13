@@ -32,33 +32,26 @@ public class TreeCompInteger extends TreeComparable<Integer> {
 		root = null;
 		ssize = s.length();
 		i = startIndex[0] - 1;
-//		System.out.println("starting from : " + startIndex[0]);
 		while (root == null && ++i < ssize) {
 			c = s.charAt(i);
 			if (c == '-' || Character.isDigit(c)) {
 				int endIndex = i - 1;
 				while (++endIndex < ssize && //
-						(Character.isDigit(c = s.charAt(endIndex)) || c == '-')
-				//
-				)
+						(Character.isDigit(c = s.charAt(endIndex)) || c == '-'))
 					;
-//				System.out.println("substringing [" + i + "; " + endIndex + "]");
 				root = t.getNodeSupplier().apply(//
 						Integer.parseInt(s.substring(i, endIndex)), t.getKeyComparator());
+				startIndex[0] = endIndex;
 				if (endIndex >= ssize) { return root; }
-				i = skipToFirstNonBlankChar(s, endIndex) - 1; // "i" will be "++"
+				i = skipToFirstNonBlankChar(s, endIndex) - 1; // "-1" because "i" will be incremented later
 			}
 		}
-//		System.out.println("root before " + root);
 		while (++i < ssize) {
 			c = s.charAt(i);
-//			System.out.println("c: ." + c + ".");
 			if (c == '{') {
-				while ((i = skipToFirstNonBlankChar(s, ++i)) != ssize && s.charAt(i) != '}') {
+				while (i < ssize && (i = skipToFirstNonBlankChar(s, ++i)) < ssize && s.charAt(i) != '}') {
 					startIndex[0] = i;
 					child = parseStringBuilder(t, s, startIndex);
-//					System.out.println("child found: " + child.getKeyIdentifier() + " at index i: " + i + ", ending at "
-//							+ startIndex[0]);
 					root.addChildNC(child);
 					i = startIndex[0] - 1;
 				}
@@ -67,7 +60,6 @@ public class TreeCompInteger extends TreeComparable<Integer> {
 					c == '-' || Character.isDigit(c)//
 			) {
 				startIndex[0] = i;
-//				System.out.println("returning root:\n" + root);
 				return root;
 			} else if (Character.isWhitespace(s.charAt(i))) {
 				i = skipToFirstNonBlankChar(s, i);
@@ -79,7 +71,6 @@ public class TreeCompInteger extends TreeComparable<Integer> {
 			}
 			// else : simply skip the character
 		}
-//		System.out.println("root after " + root);
 		return root;
 	}
 

@@ -357,7 +357,7 @@ public interface SortedSetEnhanced<E> extends SortedSet<E> {
 		 *      violation.
 		 */
 		@Deprecated
-		SUBSET_ORDER_COLLAPSE_ID_AND_NONSUBSET(ComparatorSynonymBySubset::new), //
+		SUBSET_ORDER_COLLAPSE_ID_AND_NONSUBSET(ComparatorBySubset::new), //
 
 		/**
 		 * * @deprecated May violates transitivity
@@ -372,7 +372,7 @@ public interface SortedSetEnhanced<E> extends SortedSet<E> {
 
 			@Override
 			public <T> Comparator<SortedSetEnhanced<T>> newComparator(Comparator<T> c) {
-				return new ComparatorSynonymBySubset<>(c) {
+				return new ComparatorBySubset<>(c) {
 					final Comparator<SortedSetEnhanced<T>> copByKey = newComparatorByKeyOrder(comp);
 
 					@Override
@@ -591,10 +591,10 @@ public interface SortedSetEnhanced<E> extends SortedSet<E> {
 
 	//
 
-	public static class ComparatorSynonymBySubset<T> implements Comparator<SortedSetEnhanced<T>> {
+	public static class ComparatorBySubset<T> implements Comparator<SortedSetEnhanced<T>> {
 		final Comparator<T> comp;
 
-		public ComparatorSynonymBySubset(Comparator<T> comp) {
+		public ComparatorBySubset(Comparator<T> comp) {
 			super();
 			this.comp = comp;
 		}

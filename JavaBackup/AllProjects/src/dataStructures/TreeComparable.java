@@ -49,25 +49,47 @@ public class TreeComparable<K> implements Stringable {
 			step = iter.next();
 			if (keyComparator.compare(root.getKeyIdentifier(), step) != 0)
 				return;
-			childIter = (DefaultNodeComparable<K>) NodeComparable.newDefaultNodeComparable(v, keyComparator);
+			childIter = // (DefaultNodeComparable<K>) NodeComparable.newDefaultNodeComparable(v,
+						// keyComparator);
+					(DefaultNodeComparable<K>) nodeSupplier.apply(v, keyComparator);
+//			System.out.print("ADDING OVER PATH: ");
+//			for (K k : path) {
+//				System.out.print(", " + k);
+//			}
+//			System.out.println();
+
 			while (iter.hasNext()) {
 				step = iter.next();
 				childIter.setKeyIdentifier(step);
 				oldIter = nIter;
+//				System.out.println("STEP IS : " + step + ", iter.hasNext()_ " + iter.hasNext());
 				nIter = nIter.getChildNCMostSimilarTo(childIter);
 				if (nIter == null) {
 					if (isAdd) {
+//						System.out.println("porcodddd oldIter: " + oldIter);
+//						System.out.println(this);
+//						System.out.println("######## let's build up the fucking node");
 						nIter = nodeSupplier.apply(step, keyComparator);
 						oldIter.addChildNC(nIter);
 					} else {
 						throw new NullPointerException("Missing path node of key: " + step);
 					}
 				}
-				System.out.println("and now is: " + nIter);
+//				System.out.println("and now is: " + nIter);
 			}
-			System.out.println("adding on iter: " + nIter.getKeyIdentifier());
+//			System.out.println("adding on iter: " + nIter.getKeyIdentifier() + ", the newChild: " + newChild);
+//			System.out.println("nIter class: " + nIter.getClass().getName());
 			nIter.addChildNC(newChild);
+//			System.out.println("new nIter:");
+//			System.out.println(nIter);
+			if (!nIter.containsChildNC(newChild)) {
+				System.out.println("WTF");
+				nIter.getChildrenNC().forEach(System.out::println);
+				System.out.println("You know what? I'll rage quit");
+				throw new RuntimeException("WTF - " + nIter.getClass().getName());
+			}
 		}
+//		System.out.println("END add");
 	}
 
 	public long computeDifference(TreeComparable<K> t) { return this.root.computeDissonanceAsLong(t.root); }

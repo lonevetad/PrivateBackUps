@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import dataStructures.NodeComparable;
 import dataStructures.SortedSetEnhanced;
 import dataStructures.TreeComparable;
+import dataStructures.treeSimilStrat.NodeAlteringCosts.ActionOnNodeCost;
 
 /**
  * General contract to compute a dissonance over two trees (to be precise: two
@@ -25,7 +26,7 @@ public interface DissonanceTreeAlgorithm<T> {
 	public default long getActionCostWholeSubtree(NodeAlteringCosts<T> nodeAlteringCost, boolean isInsert,
 			SortedSetEnhanced<NodeComparable<T>> nodes) {
 		final long[] ll = { 0 };
-		nodes.forEach(n -> ll[0] += getActionCostWholeSubtree(nodeAlteringCost, isInsert, n));
+		nodes.forEach(n -> { ll[0] += getActionCostWholeSubtree(nodeAlteringCost, isInsert, n); });
 		return ll[0];
 	}
 
@@ -67,27 +68,24 @@ public interface DissonanceTreeAlgorithm<T> {
 		@Override
 		public void accept(NodeAlteringCosts<E> nac, NodeComparable<E> n) {
 			long tc;
-			final CostExtractor<E> costExt;
+			final ActionOnNodeCost<E> costExt;
 			final Consumer<NodeComparable<E>> nodeAdder;
 			final LinkedList<NodeComparable<E>> nodesToBeComputed;
 			SortedSetEnhanced<NodeComparable<E>> children;
 			nodesToBeComputed = new LinkedList<>();
 			costExt = isInsertAction ? nac::insertNodeCost : nac::deleteNodeCost;
-			nodeAdder = nodesToBeComputed::add;
+			nodeAdder = nodesToBeComputed::addLast;
 			nodesToBeComputed.add(n);
 			tc = 0;
 			// simple bfs
-			while (!nodesToBeComputed.isEmpty()) {
+			while (!(nodesToBeComputed.isEmpty() || nodesToBeComputed.size() == 0)) {
 				n = nodesToBeComputed.removeFirst();
-				tc += costExt.getCost(n);
+				tc += costExt.getNodeCost(n);
 				children = n.getChildrenNC();
 				if (children != null && (!children.isEmpty())) { children.forEach(nodeAdder); }
 			}
 			this.totalCost = tc;
 		}
 
-		protected static interface CostExtractor<K> {
-			public long getCost(NodeComparable<K> n);
-		}
 	}
 }

@@ -14,6 +14,7 @@ import java.util.function.Function;
 import dataStructures.MapTreeAVL.ForEachMode;
 import dataStructures.minorUtils.DissonanceWeights;
 import dataStructures.treeSimilStrat.DissonanceTreeAlgo_Mine2;
+import dataStructures.treeSimilStrat.DissonanceTreeAlgo_Mine5;
 import dataStructures.treeSimilStrat.DissonanceTreeAlgo_Zhang_Shasha;
 import dataStructures.treeSimilStrat.DissonanceTreeAlgorithm;
 import dataStructures.treeSimilStrat.NodeAlteringCosts;
@@ -61,6 +62,7 @@ public interface NodeComparable<K> extends Stringable {
 		if (child == null)
 			return this;
 		childHeight = child.getHeightNode();
+		if (getHeightNode() == HEIGHT_OF_NEW_NODE) { this.setHeightNode(0); }
 		if (childHeight != HEIGHT_OF_NEW_NODE && childHeight < getHeightNode()) { return this; } // no cycles allowed
 		children = getChildrenNC();
 		if (children == null) { return this; }
@@ -153,6 +155,12 @@ public interface NodeComparable<K> extends Stringable {
 	 * {@link #getChildNCMostSimilarTo(Object, Function)}).
 	 */
 	public NodeComparable<K> getChildNCMostSimilarTo(NodeComparable<K> copy);
+
+	/**
+	 * See {@link #getChildNCMostSimilarTo(NodeComparable)}, but returns an exact
+	 * node or null.
+	 */
+	public NodeComparable<K> getExactChild(NodeComparable<K> copy);
 
 	/**
 	 * See {@link #getChildNCMostSimilarTo(Object, Function)} for a explanation
@@ -260,17 +268,9 @@ public interface NodeComparable<K> extends Stringable {
 	 * ("less than one" exponent base are not implemented yet).
 	 */
 	public default long computeDissonanceAsLong(NodeComparable<K> nodeBase) {
+		if (nodeBase == null) { return this.getTreeSize(); }
 		return computeDissonanceAsLong(nodeBase, DissonanceWeights.WEIGHTS_DEFAULT);
 	}
-
-//	public default long computeDissonanceAsLong(NodeComparable<K> nodeBase, boolean checkRecursion) {
-//		return computeDissonanceAsLong(nodeBase, WEIGHTS_DEFAULT, checkRecursion);
-//	}
-
-//	/** See {@link #computeDissonanceAsLong(NodeComparable)}. */
-//	public default long computeDissonanceAsLong(NodeComparable<K> nodeBase, DissonanceWeights weights) {
-//		return computeDissonanceAsLong(nodeBase, weights, false); // make it fast
-//	}
 
 	/** See {@link #computeDissonanceAsLong(NodeComparable)}. */
 	public long computeDissonanceAsLong(NodeComparable<K> nodeBase, DissonanceWeights weights);
@@ -283,6 +283,8 @@ public interface NodeComparable<K> extends Stringable {
 	 * returning and computing a {@link BigInteger} instead.
 	 */
 	public default BigInteger computeDissonanceAsBigInt(NodeComparable<K> nodeBase) {
+		if (nodeBase == null)
+			return BigInteger.valueOf(this.getTreeSize());
 		return computeDissonanceAsBigInt(nodeBase, DissonanceWeights.WEIGHTS_DEFAULT);
 	}
 
@@ -405,7 +407,7 @@ public interface NodeComparable<K> extends Stringable {
 	public static abstract class NodeComparableDefaultAlghoritms<T> implements NodeComparable<T> {
 		private static final long serialVersionUID = -651032512L;
 
-		protected int heightNode = 0;
+		protected int heightNode = HEIGHT_OF_NEW_NODE;
 		protected NodeComparable<T> father;
 
 		@Override
@@ -422,7 +424,7 @@ public interface NodeComparable<K> extends Stringable {
 
 		@Override
 		public NodeComparable<T> setHeightNode(int height) {
-			this.heightNode = height < 0 ? 0 : height;
+			this.heightNode = (height < 0 && height != HEIGHT_OF_NEW_NODE) ? 0 : height;
 			return this;
 		}
 
@@ -451,11 +453,6 @@ public interface NodeComparable<K> extends Stringable {
 			return new DissonanceTreeAlgo_Zhang_Shasha<T>().computeDissonance(NodeAlteringCosts.newDefaultNAC(), this,
 					nodeBase);
 		}
-
-//		protected long computeDissonanceAsLong_NoRecursionCheck(NodeComparable<T> nodeBase, DissonanceWeights weights,
-//				long exponentialWeightDepth) {
-//		return new DissonanceTreeAlgo_Mine1<>().computeDissonance(weight, this, nodeBase);
-//		}
 
 		@SuppressWarnings("deprecation")
 		protected long computeDissonanceAsLong_V2(NodeComparable<T> nodeBase, DissonanceWeights weights,
@@ -557,11 +554,11 @@ public interface NodeComparable<K> extends Stringable {
 			this.backMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration, // comparatorKey
 //					NodeComparable.newNodeComparatorDefault(comparatorKey)
 					this.nodeComparator = super.getNodeComparator());
-//			this.children = this.backMap.toSetValue(n -> n.getKeyIdentifier());
 			this.children = this.backMap.toSetKey();
-			this.dissonanceComputator = new DissonanceTreeAlgo_Zhang_Shasha<>();
+//			this.dissonanceComputator = new DissonanceTreeAlgo_Zhang_Shasha<>();
 //			this.dissonanceComputator = new DissonanceTreeAlgo_Mine3_AllPathBruteForce<>();
 //			this.dissonanceComputator = new DissonanceTreeAlgo_Mine4_AllPathBruteForce<>();
+			this.dissonanceComputator = new DissonanceTreeAlgo_Mine5<>();
 		}
 
 		@Override
@@ -585,8 +582,30 @@ public interface NodeComparable<K> extends Stringable {
 
 		public void setKeyIdentifier(T value) { this.keyIdentifier = value; }
 
+		@SuppressWarnings("unchecked")
 		@Override
-		public NodeComparable<T> getChildNCMostSimilarTo(NodeComparable<T> copy) { return this.backMap.get(copy); }
+		public NodeComparable<T> getChildNCMostSimilarTo(NodeComparable<T> copy) {
+			NodeComparable<T> n;
+			n = this.backMap.get(copy);
+			if (n != null)
+				return n;
+			final Comparator<T> kc = this.getKeyComparator();
+			final Object[] bestNode = { null };
+			long[] diff = { -1 };
+			this.backMap.forEachSimilar(copy, (n1, n2) -> kc.compare(n1.getKeyIdentifier(), n2.getKeyIdentifier()),
+					c -> {
+						long d;
+						d = c.getKey().computeDissonanceAsLong(copy);
+						if (bestNode[0] == null || d < diff[0]) {
+							bestNode[0] = c.getKey();
+							diff[0] = d;
+						}
+					});
+			return (NodeComparable<T>) bestNode[0];
+		}
+
+		@Override
+		public NodeComparable<T> getExactChild(NodeComparable<T> copy) { return this.backMap.get(copy); }
 
 		@Override
 		public void forEachChildNCFIFOOrdering(Consumer<NodeComparable<T>> action) {
@@ -599,7 +618,7 @@ public interface NodeComparable<K> extends Stringable {
 					"EH EH NodeComparator - compute dissonance " + dissonanceComputator.getClass().getSimpleName());
 			return this.dissonanceComputator.computeDissonance(NodeAlteringCosts.newDefaultNAC(), nodeBase, this);
 		}
-	}
+	} // END DefaultNodeComparable
 
 	//
 
@@ -608,9 +627,6 @@ public interface NodeComparable<K> extends Stringable {
 		protected final Comparator<SortedSetEnhanced<NodeComparable<T>>> childrenSetComparator; // huuuuge generics :D
 
 		public NodeComparatorDefault(Comparator<T> keyComp) {
-//			this(keyComp, null); }
-//
-//		public NodeComparatorDefault(Comparator<T> keyComp, Comparator<SortedSetEnhanced<NodeComparable<T>>> c) {
 			super();
 			this.keyComp = keyComp;
 			this.childrenSetComparator = /* c != null ? c : */ newChildrenSetComparator();
