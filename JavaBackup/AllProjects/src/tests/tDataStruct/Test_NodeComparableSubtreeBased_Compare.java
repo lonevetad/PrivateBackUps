@@ -48,6 +48,7 @@ public class Test_NodeComparableSubtreeBased_Compare {
 					"2{ 3 1{2 -2 0 {6 8} 9 {3} 11 {-2 -7 -9{-10}}} 5 7{ 1 2 54 4{4{4}}}} -666}" }, //
 			{ "5{ 3 1 {2 -2 0{7 8} 9 {3} 11 {-2 -7 -9{-10}}} 4 7{ 1 2 3 4{4{4}}}}", //
 					"2{ 3 1{2 -2 0 {6 8} 9 {3} 11 {-2 -7 -9{-10}}} 5 7{ 1 2 54 4{4{4}}}} -666}" }, //
+			{ "0{ 1 {2} 1 {3} 1 {4} 1 {5} 1 {6} }", "0{ 1 {2} 1 {3} 1 {4} 1 {5} 1 {-1} }" }, //
 	};
 
 	public static void main(String[] args) {
@@ -55,7 +56,7 @@ public class Test_NodeComparableSubtreeBased_Compare {
 		TreeCompInteger t1, t2;
 		final DissonanceTreeAlgorithm<Integer> dissAlgoTester, dissAlgoToTest;
 		final NodeAlteringCosts<Integer> nac;
-		System.out.println("AAAAAAAAAAAAAAAH");
+		System.out.println("START");
 		dissAlgoTester = new DissonanceTreeAlgo_Zhang_Shasha<>();
 		dissAlgoToTest = new DissonanceTreeAlgo_Mine5<>();
 		nac = NodeAlteringCosts.newDefaultNAC();
@@ -70,8 +71,7 @@ public class Test_NodeComparableSubtreeBased_Compare {
 			System.out.println(COMP_TREE_INT.compare(t1, t2));
 			System.out.println(COMP_TREE_INT.compare(t2, t1));
 			System.out.println("now difference:");
-			System.out.println(t1.computeDifference(t2));
-			System.out.print("check difference in algos: ");
+			System.out.println("\n\n\ncheck difference in algos: ");
 			d1 = dissAlgoTester.computeDissonance(nac, t1.getRoot(), t2.getRoot());
 			d2 = dissAlgoToTest.computeDissonance(nac, t1.getRoot(), t2.getRoot());
 			if (d1 == d2) {
@@ -80,6 +80,6 @@ public class Test_NodeComparableSubtreeBased_Compare {
 				System.out.println("ERROR: expected " + d1 + ", got instead " + d2);
 			}
 		}
-		System.out.println("AAAAAAAAAAAAAAAH\n");
+		System.out.println("FINEH\n");
 	}
 }

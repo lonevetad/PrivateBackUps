@@ -94,6 +94,7 @@ public class DissonanceTreeAlgo_Zhang_Shasha<T> implements DissonanceTreeAlgorit
 				res = Math.min(res, //
 						cd(nodeAlteringCost, keyComp, fv, gw) + nodeAlteringCost.insertNodeCost(gleftmost) //
 				);
+				gw.add(gleftmost);
 			} else {
 				fv.add(fleftmost);
 				res = Math.min(res, //
@@ -104,6 +105,7 @@ public class DissonanceTreeAlgo_Zhang_Shasha<T> implements DissonanceTreeAlgorit
 				res = Math.min(res, //
 						cd(nodeAlteringCost, keyComp, fv, gw) + nodeAlteringCost.deleteNodeCost(fleftmost) //
 				);
+				fv.add(fleftmost);
 			}
 		}
 		return res;

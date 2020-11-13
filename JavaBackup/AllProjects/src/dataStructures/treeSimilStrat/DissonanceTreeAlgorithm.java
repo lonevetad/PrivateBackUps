@@ -49,6 +49,7 @@ public interface DissonanceTreeAlgorithm<T> {
 		public ActionCostWholeSubtree(boolean isInsert) {
 			super();
 			this.isInsertAction = isInsert;
+			this.totalCost = 0;
 //			this.nodeAlteringCost = nodeAlteringCost;
 //			this.node = n;
 		}
@@ -86,6 +87,5 @@ public interface DissonanceTreeAlgorithm<T> {
 			}
 			this.totalCost = tc;
 		}
-
 	}
 }

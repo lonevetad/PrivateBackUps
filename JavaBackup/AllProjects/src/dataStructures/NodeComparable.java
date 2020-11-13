@@ -319,6 +319,7 @@ public interface NodeComparable<K> extends Stringable {
 	public default void toString(StringBuilder sb, int level) {
 		int lev;
 		K k;
+		SortedSetEnhanced<NodeComparable<K>> cc;
 		addTab(sb, level, false);
 		sb.append("NC: ");
 		k = getKeyIdentifier();
@@ -328,7 +329,10 @@ public interface NodeComparable<K> extends Stringable {
 			sb.append(k);
 		}
 		toStringNonCollectionFields(sb);
-		sb.append(", children: [");
+		sb.append(", children: ");
+		cc = this.getChildrenNC();
+		sb.append(cc == null ? 0 : cc.size());
+		sb.append(" : [");
 		lev = level + 1;
 		this.forEachChildNC((child) -> child.toString(sb.append('\n'), lev));
 		sb.append(']');
