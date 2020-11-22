@@ -18,6 +18,7 @@ import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.abilities.AAttrSingleBonusMalusRandomFixed;
 import games.theRisingAngel.abilities.AAttrSingleBonusMalusRandomPercentage;
 import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
+import games.theRisingAngel.abilities.ADamageReductionOnLifeLowerToPhysicalAttributes;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
 import games.theRisingAngel.abilities.ALifeHealingMakesEarnBaseCurrency;
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
@@ -288,8 +289,11 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 			a.setRarityIndex(2);
 			return a;
 		});
+		objProvider.addObj(ADamageReductionOnLifeLowerToPhysicalAttributes.NAME,
+				ADamageReductionOnLifeLowerToPhysicalAttributes.RARITY,
+				gm -> new ADamageReductionOnLifeLowerToPhysicalAttributes());
 
-		///
+		//
 
 		System.out.println("objProvider ABILITY size: " + objProvider.getObjectsFactoriesCount());
 	}

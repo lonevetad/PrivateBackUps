@@ -1,35 +1,74 @@
-package tools.minorTools;
+package tools;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.function.BiConsumer;
 
 /**
  * Extract randomly an index (from 0 to <code>length -1</code>) based on those
  * indexes' weights.
+ * <p>
+ * Uses {@link ObjWithRarityWeight}.
  */
 public class RandomWeightedIndexes {
 
+	//
+
+	public static interface ConsumerIndexWeight {
+		/** The first parameter is the index, the second is the weight. */
+		public void applyIndexWeight(int index, int weight);
+	}
+
+	//
+
 	public RandomWeightedIndexes(int[] values, Random r) {
+		if (r == null)
+			throw new IllegalArgumentException("Null Random instance");
+		this.rng = r;
+		this.objWRW = null;
+		setValues(values);
+	}
+
+	public RandomWeightedIndexes(int[] values) { this(values, new Random()); }
+
+	public RandomWeightedIndexes(int[] values, long seed) { this(values, new Random(seed)); }
+
+	//
+
+	public RandomWeightedIndexes(ObjWithRarityWeight[] values, Random r) {
 		if (r == null)
 			throw new IllegalArgumentException("Null Random instance");
 		this.rng = r;
 		setValues(values);
 	}
 
-	public RandomWeightedIndexes(int[] values) {
-		this(values, new Random());
-	}
+	public RandomWeightedIndexes(ObjWithRarityWeight[] values) { this(values, new Random()); }
 
-	public RandomWeightedIndexes(int[] values, long seed) {
-		this(values, new Random(seed));
-	}
-
-	protected long sumValues;
-	protected int[] weights;
-	protected long[] summedValues;
-	protected transient Random rng;
+	public RandomWeightedIndexes(ObjWithRarityWeight[] values, long seed) { this(values, new Random(seed)); }
 
 	//
+
+	protected long sumAllWeights;
+	protected int[] weights;
+	/**
+	 * Partial and sequential sum of the weights before and included the "current"
+	 * one (the current index).
+	 */
+	protected long[] partialSequentialSumWeights;
+	protected transient Random rng;
+	protected ObjWithRarityWeight[] objWRW = null;
+
+	//
+
+	protected void setValues(ObjWithRarityWeight[] v) {
+		int len;
+		int[] vv;
+		vv = new int[len = v.length];
+		while (--len >= 0) {
+			vv[len] = v[len].getRarityWeight();
+		}
+		setValues(vv);
+	}
 
 	protected void setValues(int[] v) {
 		int i, n, val;
@@ -40,7 +79,7 @@ public class RandomWeightedIndexes {
 		i = -1;
 		s = 0;
 		sv = new long[n];
-		while(++i < n) {
+		while (++i < n) {
 			if ((val = v[i]) <= 0)
 				throw new IllegalArgumentException("Values must be strictly positive, error at index: " + i);
 			s += val;
@@ -48,13 +87,11 @@ public class RandomWeightedIndexes {
 		}
 		this.weights = new int[n];
 		System.arraycopy(v, 0, this.weights, 0, n);
-		this.sumValues = s;
-		this.summedValues = sv;
+		this.sumAllWeights = s;
+		this.partialSequentialSumWeights = sv;
 	}
 
-	public int getWeight(int index) {
-		return this.weights[index];
-	}
+	public int getWeight(int index) { return this.weights[index]; }
 
 	/** Returns the amount of indexes managed by this instance. */
 	public int getIndexesAmount() {
@@ -79,22 +116,20 @@ public class RandomWeightedIndexes {
 			throw new IllegalArgumentException("Values must be strictly positive: " + weight);
 		vals = this.weights; // cache
 		oldval = vals[index];
-		this.sumValues -= oldval;
+		this.sumAllWeights -= oldval;
 		vals[index] = weight;
 		newSum = index == 0 ? 0 : vals[--index]; // "--" to use the "++index"
 		// update the summed values
 		n = vals.length;
-		sv = this.summedValues; // cache
-		while(++index < n) {
+		sv = this.partialSequentialSumWeights; // cache
+		while (++index < n) {
 			sv[index] = (newSum += vals[index]);
 		}
 //		this.sumValues = --sv[n - 1]; // the max cap is excluded
 	}
 
 	/** Alias for the less clear {@link #next()}. */
-	public int nextIndex() {
-		return next();
-	}
+	public int nextIndex() { return next(); }
 
 	/**
 	 * Returns a random index, which probability depends on the already given
@@ -105,21 +140,21 @@ public class RandomWeightedIndexes {
 		int i, j, mid;
 		long v;
 		long[] vals;
-		v = sumValues;
+		v = sumAllWeights;
 		if (v < Integer.MAX_VALUE)
 			v = rng.nextInt((int) v);
 		else {
 			v = rng.nextLong();
 			if (v > 0)
-				v %= sumValues;
+				v %= sumAllWeights;
 			else if (v < 0)
-				v = (v % sumValues) + sumValues;
+				v = (v % sumAllWeights) + sumAllWeights;
 		}
 //		System.out.print(" (v:" + v + ") ");
 //		System.out.println("\t\t(v:" + v + ") ");
-		j = (vals = this.summedValues).length - 1;
+		j = (vals = this.partialSequentialSumWeights).length - 1;
 		i = 0;
-		while(i < j) {
+		while (i < j) {
 			mid = (i + j) >> 1;
 //			System.out.println("\t\t\t(i:" + i + ", mid:" + mid + ", j:" + j + ")");
 			if (mid == 0)
@@ -145,10 +180,27 @@ public class RandomWeightedIndexes {
 		return i;
 	}
 
-	@Override
-	public String toString() {
-		return "RandomWeightedIndexes [weights=" + Arrays.toString(weights) + "]";
+	public void forEachIndexAndWeight(BiConsumer<Integer, Integer> consumer) {
+		forEachIndexAndWeight(new ConsumerIndexWeight() {
+			@Override
+			public void applyIndexWeight(int index, int weight) { consumer.accept(index, weight); }
+		});
 	}
+
+	public void forEachIndexAndWeight(ConsumerIndexWeight consumer) {
+		int i, len;
+		int ww[];
+		i = -1;
+		len = (ww = this.weights).length;
+		while (++i < len) {
+			consumer.applyIndexWeight(i, ww[i]);
+		}
+	}
+
+	@Override
+	public String toString() { return "RandomWeightedIndexes [weights=" + Arrays.toString(weights) + "]"; }
+
+	//
 
 	public static void main(String[] args) {
 		int i;
@@ -173,7 +225,7 @@ public class RandomWeightedIndexes {
 //			System.out.println("\t" + i);
 				indexes[i]++;
 			}
-			System.out.println(Arrays.toString(rw.summedValues));
+			System.out.println(Arrays.toString(rw.partialSequentialSumWeights));
 			System.out.println(Arrays.toString(indexes));
 			System.out.println("\n\n");
 		}

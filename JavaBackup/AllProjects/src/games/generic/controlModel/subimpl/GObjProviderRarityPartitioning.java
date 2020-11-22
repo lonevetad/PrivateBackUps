@@ -9,7 +9,7 @@ import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.misc.RarityHolder;
 import tools.Comparators;
-import tools.minorTools.RandomWeightedIndexes;
+import tools.RandomWeightedIndexes;
 
 public abstract class GObjProviderRarityPartitioning<E extends RarityHolder & ObjectNamed>
 		extends GameObjectsProvider<E> {

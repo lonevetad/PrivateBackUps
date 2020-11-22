@@ -4,6 +4,6 @@
 	"spaceSubunitsEachMacrounits": 20,
 	"timeSubunitsEachMacrounits": 1000,
 	"probabilityOfContextesHolders": [
-		{"equipItemsRarities": [32,256,128,64,32,16,8]}
+		{"equipItemsRarities": [32,256,128,64,32,16,8]} // ObjWithRarityWeight
 	]
 }

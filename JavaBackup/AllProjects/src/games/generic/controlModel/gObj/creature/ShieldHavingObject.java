@@ -1,4 +1,4 @@
-package games.generic.controlModel.gObj;
+package games.generic.controlModel.gObj.creature;
 
 public interface ShieldHavingObject {
 

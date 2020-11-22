@@ -25,7 +25,7 @@ import tools.ObjectWithID;
  * This class depends on its "level" (defined in the constructor): its
  * {@link #getTimeThreshold()} depends on the
  * <code>(level+1)*{@link GModalityTRAn#TIME_SUBUNITS_EACH_TIME_UNIT_TRAn}</code>
- * and the amount of healings is <code>(level+1)*N</code>.
+ * and the amount of healing is <code>(level+1)*N</code>.
  * <p>
  * Currently, N = 4.
  */
@@ -33,12 +33,20 @@ public class AMeditationMoreRegen extends AbilityModifyingAttributesRealTime imp
 	private static final long serialVersionUID = -95598741022024L;
 	public static final int HEALING_FACTOR = 4;
 	public static final String NAME = "Meditation ";
-	protected static final List<String> eventsWatching = Arrays
-			.asList(new String[] { EventsTRAn.ObjectMoved.getName(), EventsTRAn.DamageReceived.getName(),
-					EventsTRAn.DamageAvoided.getName(), EventsTRAn.DamageInflicted.getName() });
+	protected static List<String> EVENTS_WATCHING_MMR = null;
+	protected static final AttributeIdentifier[] ATTRIBUTES_MODIFIED_MMR = new AttributeIdentifier[] {
+			AttributesTRAn.RegenLife, AttributesTRAn.RegenMana };
+
+	protected static List<String> getEventsWatching_MMR() {
+		if (EVENTS_WATCHING_MMR == null)
+			EVENTS_WATCHING_MMR = Arrays
+					.asList(new String[] { EventsTRAn.ObjectMoved.getName(), EventsTRAn.DamageReceived.getName(),
+							EventsTRAn.DamageAvoided.getName(), EventsTRAn.DamageInflicted.getName() });
+		return EVENTS_WATCHING_MMR;
+	}
 
 	public AMeditationMoreRegen(int level) {
-		super(NAME + level, new AttributeIdentifier[] { AttributesTRAn.RegenLife, AttributesTRAn.RegenMana });
+		super(NAME + level, ATTRIBUTES_MODIFIED_MMR);
 		if (level < 0)
 			throw new IllegalArgumentException("Negative level: " + level);
 		this.level = level;
@@ -69,7 +77,7 @@ public class AMeditationMoreRegen extends AbilityModifyingAttributesRealTime imp
 	public long getTimeThreshold() { return timeThreshold; }
 
 	@Override
-	public List<String> getEventsWatching() { return eventsWatching; }
+	public List<String> getEventsWatching() { return getEventsWatching_MMR(); }
 
 //	public void performAbility(GModality gm) {} 
 
@@ -118,5 +126,4 @@ public class AMeditationMoreRegen extends AbilityModifyingAttributesRealTime imp
 		isActive = true;
 		applyModifyingEffecsOnEquipping();
 	}
-
 }

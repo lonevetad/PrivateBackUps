@@ -1,8 +1,8 @@
 package tests.tGame.tgEvent1.oggettiDesempio;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.DamageDealerGeneric;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.DamageTypeGeneric;
 import games.generic.controlModel.subimpl.TimedObjectSimpleImpl;
@@ -15,16 +15,18 @@ import tools.UniqueIDProvider;
 public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl, DamageDealerGeneric {
 	private static final long serialVersionUID = 4741714L;
 	static final int MILLIS_EACH__DAMAGE = 1500;
-	long timeElapsed, timeThreshold;
-	int c, damageAmount;
-	Integer ID;
-	BaseCreatureRPG target;
+	public int c, damageAmount;
+	public long timeElapsed, timeThreshold;
+	public final Integer ID;
+	public BaseCreatureRPG target;
+	public DamageTypesTRAn damageType;
 
 	public ObjDamageDeliverE1(long timeThreshold) {
 		ID = UniqueIDProvider.GENERAL_UNIQUE_ID_PROVIDER.getNewID();
 		timeElapsed = 0;
 		this.timeThreshold = timeThreshold;
 		c = 0;
+		this.damageType = DamageTypesTRAn.Physical;
 	}
 
 	@Override
@@ -40,7 +42,11 @@ public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl, DamageDealerGe
 
 	public int getDamageAmount() { return damageAmount; }
 
+	public DamageTypesTRAn getDamageType() { return damageType; }
+
 	//
+
+	public void setDamageType(DamageTypesTRAn damageType) { this.damageType = damageType; }
 
 	public void setDamageAmount(int damageAmount) { this.damageAmount = damageAmount; }
 
@@ -56,8 +62,9 @@ public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl, DamageDealerGe
 		GModality_E1 gmodtrar;
 		GameObjectsManagerTRAn gomTrar;
 		DamageGeneric d;
-		d = new DamageGeneric(damageAmount, DamageTypesTRAn.Physical);
-		System.out.println("Damage fired this amont of times: " + c++);
+		d = new DamageGeneric(damageAmount, this.damageType);
+		System.out.println("Damage fired this amont of times: " + c++ + ", dealing " + damageAmount + " "
+				+ this.damageType.name());
 		gmodtrar = (GModality_E1) modality;
 		gomTrar = (GameObjectsManagerTRAn) gmodtrar.getGameObjectsManager();
 		gomTrar.dealsDamageTo(this, target, d);
@@ -80,15 +87,4 @@ public class ObjDamageDeliverE1 implements TimedObjectSimpleImpl, DamageDealerGe
 
 	@Override
 	public void onRemovedFromGame(GModality gm) {}
-
-//	public void act(GModality modality, long milliseconds) {
-//		if (milliseconds > 0) {
-//			if ((this.timeEnlapsed += milliseconds) > MILLIS_EACH__DAMAGE) {
-//				this.timeEnlapsed %= MILLIS_EACH__DAMAGE;
-//				// TODO perform the damage
-//				System.out.println("Damage " + c++);
-//			}
-//		}
-//	}
-
 }

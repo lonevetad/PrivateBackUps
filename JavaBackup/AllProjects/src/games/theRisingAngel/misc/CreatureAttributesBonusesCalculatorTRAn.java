@@ -3,7 +3,7 @@ package games.theRisingAngel.misc;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
 import games.theRisingAngel.GModalityTRAn;
-import tools.minorTools.RandomWeightedIndexes;
+import tools.RandomWeightedIndexes;
 
 // TODO : aggiornare la tabella qua sotto
 /**

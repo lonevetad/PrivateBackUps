@@ -1,6 +1,7 @@
-package games.generic.controlModel.gObj;
+package games.generic.controlModel.gObj.creature;
 
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.inventoryAbil.EquipmentsHolder;
 
 public interface BaseCreatureRPG extends EquipmentsHolder, CreatureSimple, ManaHavingObject {

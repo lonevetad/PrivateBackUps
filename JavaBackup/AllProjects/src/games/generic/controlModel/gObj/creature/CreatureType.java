@@ -1,4 +1,4 @@
-package games.generic.controlModel.gObj;
+package games.generic.controlModel.gObj.creature;
 
 import games.generic.controlModel.ObjectNamed;
 import games.generic.controlModel.misc.RarityHolder;

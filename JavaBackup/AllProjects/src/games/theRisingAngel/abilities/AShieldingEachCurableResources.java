@@ -1,7 +1,7 @@
 package games.theRisingAngel.abilities;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import games.generic.controlModel.GEventObserver;
@@ -23,28 +23,39 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 	public static final int MAX_SHIELD = 100, RARITY = 4,
 			PRIORITY_DAMAGE_OBSERVER = ALoseManaBeforeLife.PRIORITY_OBSERVER_SHIELDING_THE_TEMPLE << 1;
 	public static final String NAME = "Essence insofference";
+	protected static List<String> EVENTS_WATCHING = null;
+
+	protected static List<String> getEventsWatching_SECR() {
+		DamageTypesTRAn[] dd;
+		HealingTypeExample[] vv;
+		if (EVENTS_WATCHING != null)
+			return EVENTS_WATCHING;
+		vv = HealingTypeExample.values();
+		dd = DamageTypesTRAn.values();
+		EVENTS_WATCHING = new ArrayList<>(dd.length + vv.length);
+		for (HealingTypeExample ht : vv) {
+			EVENTS_WATCHING.add(ht.getName());
+		}
+		for (DamageTypesTRAn dt : dd) {
+			EVENTS_WATCHING.add(dt.getName());
+		}
+		return EVENTS_WATCHING;
+	}
 
 	public AShieldingEachCurableResources() {
 		shields = new int[HealingTypeExample.values().length];
 		resetAbility();
-		eventsWatching = new LinkedList<>();
-		for (HealingTypeExample ht : HealingTypeExample.values()) {
-			eventsWatching.add(ht.getName());
-		}
-		for (DamageTypesTRAn dt : DamageTypesTRAn.values()) {
-			eventsWatching.add(dt.getName());
-		}
 
 	}
 
 	protected int[] shields;
-	protected List<String> eventsWatching;
+//	protected List<String> eventsWatching;
 
 	@Override
 	public int getObserverPriority() { return PRIORITY_DAMAGE_OBSERVER; }
 
 	@Override
-	public List<String> getEventsWatching() { return eventsWatching; }
+	public List<String> getEventsWatching() { return getEventsWatching_SECR(); }
 
 	@Override
 	public void performAbility(GModality gm) {}
@@ -96,7 +107,7 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 			index = ht.getID();
 			amount = this.shields[index] + hg.getHealAmount();
 			if (amount > MAX_SHIELD)
-				amount = MAX_PRIORITY;
+				amount = MAX_SHIELD;
 			this.shields[index] = amount;
 		}
 	}

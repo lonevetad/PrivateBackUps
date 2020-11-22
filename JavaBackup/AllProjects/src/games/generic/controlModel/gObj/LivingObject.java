@@ -3,6 +3,7 @@ package games.generic.controlModel.gObj;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gEvents.DamageReceiverGeneric;
 import games.generic.controlModel.gEvents.EventDamage;
+import games.generic.controlModel.gObj.creature.HealingObject;
 import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityRPG;

@@ -2,7 +2,7 @@ package games.old;
 
 <<<<<<< HEAD
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityAttributesModsVanishingOverTime;
 import games.generic.controlModel.misc.AttributeIdentifier;

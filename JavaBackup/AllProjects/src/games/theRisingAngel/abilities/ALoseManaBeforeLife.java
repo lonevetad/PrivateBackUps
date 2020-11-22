@@ -8,7 +8,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gObj.LivingObject;
-import games.generic.controlModel.gObj.ManaHavingObject;
+import games.generic.controlModel.gObj.creature.ManaHavingObject;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityBaseImpl;
 import games.generic.controlModel.misc.AttributesHolder;
 import games.theRisingAngel.events.EventsTRAn;

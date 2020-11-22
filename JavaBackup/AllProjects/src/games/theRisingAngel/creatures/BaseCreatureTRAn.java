@@ -3,6 +3,8 @@ package games.theRisingAngel.creatures;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
+import games.generic.controlModel.gObj.creature.ACurableResource;
+import games.generic.controlModel.gObj.creature.CurableResource;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
@@ -50,46 +52,49 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	@Override
 	public void defineAllCurableResources() {
 		this.addCurableResource(new CurableResourceTRAn(HealingTypeExample.Life) {
+			private static final long serialVersionUID = 78748098434280452L;
 
 			@Override
-			public int getResourceAmountMax() { return getLifeMax(); }
+			public int getAmountMax() { return getLifeMax(); }
 
 			@Override
-			public int getResourceRegen() { return getLifeRegenation(); }
+			public int getRegenerationAmount() { return getLifeRegenation(); }
 
 			@Override
-			public void setResourceAmountMax(int resourceAmountMax) { setLifeMax(resourceAmountMax); }
+			public void setAmountMax(int resourceAmountMax) { setLifeMax(resourceAmountMax); }
 
 			@Override
-			public void setResourceRegen(int resourceRegen) { setLifeRegenation(resourceRegen); }
+			public void setRegenerationAmount(int resourceRegen) { setLifeRegenation(resourceRegen); }
 		});
 		this.addCurableResource(new CurableResourceTRAn(HealingTypeExample.Mana) {
+			private static final long serialVersionUID = 78748098434280452L;
 
 			@Override
-			public int getResourceAmountMax() { return getManaMax(); }
+			public int getAmountMax() { return getManaMax(); }
 
 			@Override
-			public int getResourceRegen() { return getManaRegenation(); }
+			public int getRegenerationAmount() { return getManaRegenation(); }
 
 			@Override
-			public void setResourceAmountMax(int resourceAmountMax) { setManaMax(resourceAmountMax); }
+			public void setAmountMax(int resourceAmountMax) { setManaMax(resourceAmountMax); }
 
 			@Override
-			public void setResourceRegen(int resourceRegen) { setManaRegenation(resourceRegen); }
+			public void setRegenerationAmount(int resourceRegen) { setManaRegenation(resourceRegen); }
 		});
 		this.addCurableResource(new CurableResourceTRAn(HealingTypeExample.Shield) {
+			private static final long serialVersionUID = 78748098434280452L;
 
 			@Override
-			public int getResourceAmountMax() { return getShieldMax(); }
+			public int getAmountMax() { return getShieldMax(); }
 
 			@Override
-			public int getResourceRegen() { return getShieldRegenation(); }
+			public int getRegenerationAmount() { return getShieldRegenation(); }
 
 			@Override
-			public void setResourceAmountMax(int resourceAmountMax) { setShieldMax(resourceAmountMax); }
+			public void setAmountMax(int resourceAmountMax) { setShieldMax(resourceAmountMax); }
 
 			@Override
-			public void setResourceRegen(int resourceRegen) { setShieldRegenation(resourceRegen); }
+			public void setRegenerationAmount(int resourceRegen) { setShieldRegenation(resourceRegen); }
 		});
 	}
 
@@ -311,33 +316,30 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	// TODO CLASS
 
 	/**
-	 * Default implementation that let, to be defined,
-	 * {#{@link CurableResource#getResourceAmountMax()} and
+	 * Default implementation that let to be defined
+	 * {@link CurableResource#getResourceAmountMax()} and
 	 * {@link CurableResource#getResourceRegen()}.
 	 */
-	public abstract class CurableResourceTRAn implements CurableResource {
+	public abstract class CurableResourceTRAn extends ACurableResource {
+		private static final long serialVersionUID = 54405L;
 
-		public CurableResourceTRAn(CurableResourceType ht) { this.resourceType = ht; }
+		public CurableResourceTRAn(CurableResourceType ht) { super(ht); }
 
-		protected int resourceAmount;
-		protected final CurableResourceType resourceType;
-
-		@Override
-		public int getResourceAmount() { return resourceAmount; }
+		protected int amount;
 
 		@Override
-		public void setResourceAmount(int resourceAmount) {
+		public int getAmount() { return amount; }
+
+		@Override
+		public void setAmount(int resourceAmount) {
 			int max;
-			max = getResourceAmountMax();
+			max = getAmountMax();
 			if (resourceAmount < 0 && (!this.resourceType.acceptsNegative())) { resourceAmount = 0; }
 			if (resourceAmount > max) { resourceAmount = max; }
-			this.resourceAmount = resourceAmount;
+			this.amount = resourceAmount;
 		}
 
 		@Override
 		public CurableResourceType getResourceType() { return resourceType; }
-
-		@Override
-		public void alterResourceAmount(int delta) { setResourceAmount(this.getResourceAmount() + delta); }
 	}
 }

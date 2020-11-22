@@ -1,6 +1,6 @@
 package games.old; // generic.controlModel.inventoryAbil.abilitiesImpl;
 
-import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityBaseImpl;
 import games.generic.controlModel.misc.CreatureAttributes;
