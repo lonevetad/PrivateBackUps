@@ -163,7 +163,6 @@ public class BuilderTransferTranslatorItEng3_ByHand extends BuilderTransferTrans
 		/*
 		 * TODO WHY IS NOT BEING ADDED?? AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH
 		 */
-
 		System.out.println("\n\n\n BUILDER BY HAND - 3-CHILD FILLED TREES :D\n\n");
 
 		t.addRule(new TransferRule(//

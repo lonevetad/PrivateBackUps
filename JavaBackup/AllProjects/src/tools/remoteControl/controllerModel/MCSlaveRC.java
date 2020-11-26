@@ -35,8 +35,7 @@ public class MCSlaveRC extends AModelControllerRC {
 		// start debug stuff
 		this.observersBuffImage = new LinkedList<>();
 		this.observableScreenshoot = () -> this.observersBuffImage;
-		// end debug stuff
-
+		// end debug s
 		startConnectionAndReading();
 	}
 

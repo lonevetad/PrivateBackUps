@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.function.Consumer;
 
-import dataStructures.MapTreeAVL;
+import dataStructures.MapTreeAVL;ì
 import dataStructures.SortedSetEnhanced;
 import dataStructures.minorUtils.SortedSetEnhancedDelegating;
 
-// TODO GENERALIZE TO A SORTED-SET
+// TODO GENERALIZE TO A SORTED-SETì
 /**
  * A set of String representing the same concept.
  * <p>
@@ -54,6 +54,7 @@ public class SynonymSet implements SortedSetEnhancedDelegating<String>, Cloneabl
 			DIFFERENCE_CALCULATOR, s2, s3);
 
 	//
+
 
 	public SynonymSet(String... alternatives) {
 		this();

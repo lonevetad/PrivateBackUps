@@ -52,12 +52,12 @@ public class NodeComparableSynonymIndexed_v2 extends NodeComparableSynonymIndexe
 		return this;
 	}
 
-	@Override
+	@Overrideì
 	public NodeComparable<SynonymSet> getChildNCMostSimilarTo(SynonymSet key) {
 		return this.getChildNCMostSimilarTo(key, NodeComparableSynonymIndexed_v2::new);
 	}
 
-	@Override
+	@Overrideì
 	public NodeComparable<SynonymSet> getChildNCBySingleKey(String key) { return this.childrenByEachSynonyms.get(key); }
 
 //	@Override
