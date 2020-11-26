@@ -11,9 +11,11 @@ import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.heal.HealAmountInstance;
-import games.generic.controlModel.heal.HealingObject;
+import games.generic.controlModel.heal.HealableResourcesHolder;
 import games.generic.controlModel.heal.IHealableResourceType;
-import games.generic.controlModel.heal.resExample.HealingTypeExample;
+import games.generic.controlModel.heal.IHealableResourcesHolder;
+import games.generic.controlModel.heal.IHealingResourcesOverTimeStrategy;
+import games.generic.controlModel.heal.resExample.ExampleHealingType;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.inventoryAbil.EquipmentsHolder;
@@ -48,7 +50,8 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	protected List<String> eventsWatching;
 	protected EquipmentSet equipmentSet;
 	protected CreatureAttributes attributes;
-	protected HealableResourcesHolders curableResourcesHolders;
+	protected IHealableResourcesHolder healableResourcesHolder;
+	protected IHealingResourcesOverTimeStrategy healerStrategy;
 	protected AbstractShape2D shape;
 	protected GObjMovement movementImplementation;
 	protected Map<String, AbilityGeneric> abilities = null;
@@ -61,22 +64,32 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		this.name = name;
 		initializeID();
 		this.isDestroyed = false;
-		this.attributes = newAttributes();
-		this.setCurableResourcesHolders(new HealingObject.HealableResourcesHolders());
-		defineAllHealableResources();
+		initAllCreatureStuffs();
 	}
 
 	protected void initializeID() { this.ID = CreatureUIDProvider.newID(); }
 
+	/** Override designed. */
+	protected void initAllCreatureStuffs() {
+		HealableResourcesHolder hrh;
+		this.attributes = newAttributes();
+		hrh = new HealableResourcesHolder(this);
+		this.setHealableResourcesHolder(hrh);
+		this.setHealingStrategyHelper(hrh);
+		defineAllHealableResources();
+		this.setEquipmentSet(newEquipmentSet());
+		this.equipmentSet.setCreatureWearingEquipments(this);
+	}
+
 	@Override
 	public void defineAllHealableResources() {
-		this.addHealableResourceType(HealingTypeExample.Life);
-		this.addHealableResourceType(HealingTypeExample.Mana);
-		this.addHealableResourceType(HealingTypeExample.Shield);
+		this.addHealableResourceType(ExampleHealingType.Mana);
+		this.addHealableResourceType(ExampleHealingType.Life);
+		this.addHealableResourceType(ExampleHealingType.Shield);
 	}
 
 	/**
-	 * Creates a new {@link CreatureAttributes} with a fixed amounts of attribues.
+	 * Creates a new {@link CreatureAttributes} with a fixed amounts of attributes.
 	 */
 	protected CreatureAttributes newAttributes(int attributesAmount) {
 		return new CreatureAttributesBaseAndDerivedCaching(attributesAmount);
@@ -120,8 +133,10 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	public EquipmentSet getEquipmentSet() { return equipmentSet; }
 
 	@Override
-	public HealableResourcesHolders getHealableResourcesHolders() { return curableResourcesHolders; }
+	public IHealableResourcesHolder getHealableResourcesHolder() { return healableResourcesHolder; }
 
+	@Override
+	public IHealingResourcesOverTimeStrategy getHealingStrategyHelper() { return healerStrategy; }
 	//
 
 	@Override
@@ -149,16 +164,13 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public void setTicksHealing(int ticks) { this.ticksHealing = ticks; }
-
-	@Override
-	public void setAccumulatedTimeRegen(int accumulatedTimeLifeRegen) {
-		this.accumulatedTimeLifeRegen = accumulatedTimeLifeRegen;
+	public void setHealableResourcesHolder(IHealableResourcesHolder healableResourcesHolder) {
+		this.healableResourcesHolder = healableResourcesHolder;
 	}
 
 	@Override
-	public void setCurableResourcesHolders(HealableResourcesHolders curableResourcesHolders) {
-		this.curableResourcesHolders = curableResourcesHolders;
+	public void setHealingStrategyHelper(IHealingResourcesOverTimeStrategy healingStrategyHelper) {
+		this.healerStrategy = healingStrategyHelper;
 	}
 
 	/*

@@ -4,7 +4,7 @@ import games.generic.controlModel.heal.IHealableResourceType;
 
 /** Provides a set of examples of healing. */
 public enum ExampleHealingType implements IHealableResourceType {
-	Life, Mana, Shield, Stamina;
+	Life, Mana, Shield, Stamina, Inspiration, Energy;
 
 	final IDHolderHealableResourceType idHolderHRT;
 

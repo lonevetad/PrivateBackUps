@@ -25,13 +25,12 @@ public // abstract
 class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	private static final long serialVersionUID = -34551879021102L;
 
-	public BaseCreatureTRAn(GModalityRPG gModRPG, String name) {
-		super(gModRPG, name);
-		this.setEquipmentSet(newEquipmentSet());
-		this.equipmentSet.setCreatureWearingEquipments(this);
-	}
+	public BaseCreatureTRAn(GModalityRPG gModRPG, String name) { super(gModRPG, name); }
 
 	//
+
+	@Override
+	public EquipmentSet newEquipmentSet() { return new EquipmentSetTRAn(); }
 
 	@Override
 	protected CreatureAttributes newAttributes() {
@@ -92,9 +91,6 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		});
 	}
 
-	@Override
-	public EquipmentSet newEquipmentSet() { return new EquipmentSetTRAn(); }
-
 	// TODO GETTER
 
 	@Override
@@ -140,7 +136,7 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	}
 
 	@Override
-	public int getHealableResourceMax(IHealableResourceType healType) {
+	public int getHealableResourceAmountMax(IHealableResourceType healType) {
 		if (healType == ExampleHealingType.Life)
 			return getLifeMax();
 		else if (healType == ExampleHealingType.Mana)
@@ -335,8 +331,6 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 			if (resourceAmount > max) { resourceAmount = max; }
 			this.amount = resourceAmount;
 		}
-
-		@Override
-		public IHealableResourceType getResourceType() { return resourceType; }
 	}
+
 }
