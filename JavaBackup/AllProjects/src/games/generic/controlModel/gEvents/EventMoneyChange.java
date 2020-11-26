@@ -1,7 +1,6 @@
 package games.generic.controlModel.gEvents;
 
 import games.generic.controlModel.player.PlayerGeneric;
-import games.generic.controlModel.subimpl.GEvent;
 
 public class EventMoneyChange extends GEvent {
 	private static final long serialVersionUID = 6986301488631859L;

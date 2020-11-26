@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
 
-import games.generic.controlModel.subimpl.GEvent;
+import games.generic.controlModel.gEvents.GEvent;
 import games.generic.controlModel.subimpl.GModalityET;
 import tools.ObjectWithID;
 

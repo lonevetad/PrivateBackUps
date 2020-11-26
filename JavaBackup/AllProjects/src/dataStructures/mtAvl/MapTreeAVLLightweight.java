@@ -20,6 +20,9 @@ import java.util.stream.Stream;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.QueueLightweight;
+import dataStructures.SortedSetEnhanced;
+import dataStructures.minorUtils.EntryImpl;
+import tools.ClosestMatch;
 
 /**REMOVED COMMENTS <p>
  * There's a bunch of ways to iterate all over this map.
@@ -848,6 +851,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		return n;
 	}
 
+	// TODO range query, closest match, forEachSimilar ... yay complex stuffs
+
 	@Override
 	public MapTreeAVL<K, V> rangeQuery(K lowerBound, boolean isLowerBoundIncluded, K upperBound,
 			boolean isUpperBoundIncluded) throws IllegalArgumentException {
@@ -867,25 +872,26 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 					r.put(lowerBound, this.get(lowerBound));
 				return r;
 			} else
-				throw new IllegalArgumentException("The ma");
+				throw new IllegalArgumentException("The interval is empty: same bounds but bot excluded.");
 		}
 		r = MapTreeAVL.newMap(optimization, behaviour, comp);
-		if (this.isEmpty())
-			return r;
+		if (this.isEmpty()) { return r; }
 		if (size == 1) {
 			if ((comp.compare(lowerBound, root.k) < 0) && (comp.compare(root.k, upperBound) < 0)) {
 				r.put(root.k, root.v);
 			}
 			return r;
 		}
-		// recycle the "get" code
-		if (comp.compare(((NodeAVL) this.peekMaximum()).k, lowerBound) < 0) {
+		if (comp.compare(((NodeAVL) this.peekMaximum()).k, lowerBound) >= 0 && //
+				comp.compare(((NodeAVL) this.peekMinimum()).k, upperBound) <= 0) {
+			// recycle the "get" code
 			NodeAVL n, temp, firstNode;
 			// lower bound is greater: move to the real starting node
 			n = temp = root;
 			// search for the first node
 			firstNode = null;
 			while (firstNode == null && n != NIL) {
+//				System.out.println("while 1 node: " + n);
 				c = comp.compare(lowerBound, n.k);
 				if (c == 0 && isLowerBoundIncluded) {
 					firstNode = n;
@@ -897,16 +903,20 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			if (firstNode == null) {
 				firstNode = temp;
 				while (firstNode != NIL && (c = comp.compare(firstNode.k, lowerBound)) < 0) {
+//					System.out.println("while 2 first node successing it" + firstNode.k);
 					firstNode = successorSorted(firstNode);
 				}
 			}
-			if (firstNode == null || firstNode == NIL)
-				return r; // EMPTY
+			if (firstNode == null || firstNode == NIL) { return r; }
 			n = firstNode;
 			// add the first node and each subsequent node (lower than upper bound)
+			// BUT FIRST: check the starting node "n" and the upper bound
+			c = comp.compare(n.k, upperBound);
+			if (!(c < 0 || (c == 0 && isUpperBoundIncluded))) { return r; } // no, outside range
 			do {
 				r.put(n.k, n.v);
 				temp = successorSorted(n);
+//				System.out.println("while 3temp will is now: " + temp.k);
 				if (temp == NIL)
 					n = NIL; // no more nodes available -> stop
 				else {
@@ -924,6 +934,109 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	}
 
 	@Override
+	public ClosestMatch<Entry<K, V>> closestMatchOf(K key) {
+		boolean notFound, isExactMatch;
+		int c;
+		NodeAVL n, closestUpper;
+		Comparator<K> co;
+		n = root;
+		if (n == NIL || n == null)
+			return null;
+		closestUpper = null;
+		co = comp;
+		if (notFound = !(isExactMatch = (n.left == NIL && n.right == NIL)) //
+		) {
+			// search for the nearest lower key: scan node by node.
+			do {
+				c = co.compare(key, n.k);
+				if (c == 0) {
+					closestUpper = null;
+					notFound = false;
+//				return new ClosestMatch<>(n);
+					isExactMatch = true;
+				} else {
+					if (c < 0) {
+						// go to the left
+						if (n.left != NIL) {
+							closestUpper = n;
+							n = n.left;
+						} else {
+							// n is at the bottom of a subtree but could have a predecessor. If so -> pred.
+							// == lower bound
+							closestUpper = n;
+							n = predecessorSorted(n);
+							notFound = false;
+							if (n == NIL) {
+								n = null; // cannot return NIL and a "not existing lower bound" must be marked in some
+											// way
+							} // else : n is already the lower bound
+						}
+					} else {
+						// similarly, go to right
+						if (n.right != NIL) {
+							n = n.right;
+						} else {
+							notFound = false;
+							closestUpper = successorSorted(n);
+							if (closestUpper == NIL) {
+								closestUpper = null; // n is lower bound, no upper bound and NIL cannot be returned
+							}
+						}
+					}
+				}
+			} while (notFound);
+		}
+		Entry<K, V> keyWrapper = new EntryImpl<>(key, null);
+		Comparator<Entry<K, V>> ec;
+		ec = (e1, e2) -> { return co.compare(e1.getKey(), e2.getKey()); };
+		return isExactMatch ? new ClosestMatch<>(keyWrapper, ec, n)
+				: new ClosestMatch<>(keyWrapper, ec, n, closestUpper);
+	}
+
+	@Override
+	public void forEachSimilar(K key, Comparator<K> keyComp, Consumer<Entry<K, V>> action) {
+		int c;
+		NodeAVL n, niter, temp;
+		if (keyComp == null) { keyComp = this.getComparator(); }
+		if ((n = root) == null || n == NIL)
+			return;
+		// similar to getNode
+		while (n != NIL && (c = keyComp.compare(key, n.k)) != 0) {
+			n = (c < 0) ? n.left : n.right;
+		}
+		if (n == NIL || n == null)
+			return;
+		/*
+		 * we have the starting point: iterate for each predecessor and successor. To be
+		 * precise: search for the first similar in sequence, than the last, then scan
+		 * the span
+		 */
+		// the start
+		niter = n;
+		while ((temp = predecessorSorted(niter)) != NIL && temp != n && keyComp.compare(key, temp.k) == 0) {
+			niter = temp;
+		}
+		// the end
+		while ((temp = successorSorted(n)) != NIL && temp != niter && keyComp.compare(key, temp.k) == 0) {
+			n = temp;
+		}
+		if (n == niter) {
+			action.accept(niter);
+		} else {
+			// the span
+			// niter == start ; n == end
+			temp = niter;
+			do {
+				action.accept(temp);
+			} while ((temp = successorSorted(temp)) != n // until the end (excluded for now)
+					&& temp != niter // do not go back to the start
+					// just in case
+					&& niter != NIL);
+			action.accept(n); // do the end
+		}
+	}
+
+	@Override
 	public Entry<K, V> getLastInserted() {
 		throw new UnsupportedOperationException("Not enought informations in this class to implement it");
 	}
@@ -935,7 +1048,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 	@Override
 	public Entry<K, V> getLowesCommonAncestor(K k1, K k2) {
-//		Entry<K, V>
 		int c1, c2;
 		NodeAVL n, prev;
 		if (root == NIL)
@@ -1064,7 +1176,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		prevEntry = this.getNode(kOld); // the entry to be deleted
 		if (prevEntry == null || prevEntry == NIL)
 			return null;
-		copy = new EntryImpl(kOld, prevEntry.v);
+		copy = new EntryImpl<>(kOld, prevEntry.v);
 		this.delete(prevEntry);
 		this.put(kNew, prevEntry.v);
 		return copy;
@@ -1088,7 +1200,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		prevEntry = this.getNode(key); // the entry to be deleted
 		if (prevEntry == null || prevEntry == NIL)
 			return null;
-		copy = new EntryImpl(key, prevEntry.v);
+		copy = new EntryImpl<>(key, prevEntry.v);
 		prevEntry.v = vNew;
 		return copy;
 	}
@@ -1156,6 +1268,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 					} else
 						a[--ss] = null;
 				}
+
 			});
 		}
 		return a;
@@ -1165,6 +1278,10 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 	// minor methods
 
+	/**
+	 * Warning: may return the first element of the sequence (since it's the
+	 * "successor") in some subclasses and overrides.
+	 */
 	protected NodeAVL successorSorted(NodeAVL n) {
 		if (n == NIL)
 			return n;
@@ -1181,6 +1298,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		return n.father;
 	}
 
+	/** See {@link #successorSorted(NodeAVL)} for the warning. */
 	protected NodeAVL predecessorSorted(NodeAVL n) {
 		if (n == NIL)
 			return n;
@@ -1197,9 +1315,15 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		return n.father;
 	}
 
-	protected NodeAVL successorForIterator(NodeAVL n) { return successorSorted(n); }
+	/** See {@link #successorSorted(NodeAVL)} for the warning. */
+	protected NodeAVL successorForIterator(NodeAVL n) {
+		return successorSorted(n);
+	}
 
-	protected NodeAVL predecessorForIterator(NodeAVL n) { return predecessorSorted(n); }
+	/** See {@link #successorSorted(NodeAVL)} for the warning. */
+	protected NodeAVL predecessorForIterator(NodeAVL n) {
+		return predecessorSorted(n);
+	}
 
 	@Override
 	public boolean containsValue(Object value) {
@@ -1287,13 +1411,13 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	}
 
 	@Override
-	public SortedSet<K> toSetKey() { return keySet(); }
+	public SortedSetEnhanced<K> toSetKey() { return (SortedSetEnhanced<K>) keySet(); }
 
 	@Override
-	public SortedSet<Entry<K, V>> toSetEntry() { return entrySet(); }
+	public SortedSetEnhanced<Entry<K, V>> toSetEntry() { return (SortedSetEnhanced<Entry<K, V>>) entrySet(); }
 
 	@Override
-	public SortedSet<V> toSetValue(Function<V, K> keyExtractor) {
+	public SortedSetEnhanced<V> toSetValue(Function<V, K> keyExtractor) {
 		if (behaviour == MapTreeAVL.BehaviourOnKeyCollision.AddItsNotASet)
 			throw new UnsupportedOperationException(
 					"Cannot create a set if the behavior is MapTreeAVL.BehaviourOnKeyCollision.AddItsNotASet");
@@ -1335,10 +1459,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	}
 
 	@Override
-	public K firstKey() {
-//		throw new UnsupportedOperationException("Operation forbidden");
-		return this.peekMinimum().getKey();
-	}
+	public K firstKey() { return this.peekMinimum().getKey(); }
 
 	@Override
 	public K lastKey() { return this.peekMaximum().getKey(); }
@@ -1378,7 +1499,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		sb.append(", v: ");
 		sb.append(m.getValue()).append(')');
 
-		sb.append('\n');
+		sb.append('\n').append('\n');
 //		toString(sb, root, 0);
 		forEachAndDepth((nnn, level) -> {
 			NodeAVL node = (MapTreeAVLLightweight<K, V>.NodeAVL) nnn;
@@ -1463,32 +1584,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	//
 
 	// TODO CLASSES
-
-	protected class EntryImpl implements Serializable, Entry<K, V> {
-		private static final long serialVersionUID = -5984105125453013608L;
-
-		public EntryImpl(K k, V v) {
-			super();
-			this.k = k;
-			this.v = v;
-		}
-
-		K k;
-		V v;
-
-		@Override
-		public K getKey() { return k; }
-
-		@Override
-		public V getValue() { return v; }
-
-		@Override
-		public V setValue(V value) {
-			V oldv;
-			oldv = v;
-			return oldv;
-		}
-	}
 
 	protected class NodeAVL implements Serializable, Entry<K, V> {
 		private static final long serialVersionUID = -5984105125453013609L;
@@ -1658,7 +1753,8 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public String toString() {
-			return String.valueOf(k) + "-" + String.valueOf(v) + ",h:" + height + ",f:" + String.valueOf(father.k);
+			return "k:" + String.valueOf(k) + " - v:" + String.valueOf(v) + ",h:" + height + ",f:"
+					+ String.valueOf(father.k);
 		}
 	}
 
@@ -2259,7 +2355,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		}
 	}
 
-	protected abstract class SortedSetWrapper<E> implements SortedSet<E>, TreeAVLDelegator<K, V> {
+	public abstract class SortedSetWrapper<E> implements SortedSetEnhanced<E>, TreeAVLDelegator<K, V> {
 
 		protected SortedSetWrapper() { super(); }
 
@@ -2317,16 +2413,32 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	}
 
 	protected class SortedSetKeyWrapper extends SortedSetWrapper<K> {
-		// implements SortedSet<K> {
-
 		protected SortedSetKeyWrapper() { super(); }
+
+		@Override
+		public Comparator<K> getKeyComparator() { return MapTreeAVLLightweight.this.comp; }
+
+		@Override
+		public ClosestMatch<K> closestMatchOf(K key) {
+			ClosestMatch<Entry<K, V>> cm = MapTreeAVLLightweight.this.closestMatchOf(key);
+			return cm.isExactMatch()
+					? new ClosestMatch<K>(key, this.getKeyComparator(), cm.nearestLowerOrExact.getKey())
+					: new ClosestMatch<K>(key, this.getKeyComparator(), cm.nearestLowerOrExact.getKey(),
+							cm.nearestUpper.getKey());
+		}
 
 		@Override
 		public Comparator<? super K> comparator() { return MapTreeAVLLightweight.this.comp; }
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public boolean add(K e) {
-			MapTreeAVLLightweight.this.put(e, null);
+			V v = null;
+			try {
+				v = (V) e;
+			} catch (Exception exc) { /* nothing to do here */
+			}
+			MapTreeAVLLightweight.this.put(e, v);
 			return false;
 		}
 
@@ -2348,6 +2460,11 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public void forEach(Consumer<? super K> action) {
 			MapTreeAVLLightweight.this.forEach(e -> action.accept(e.getKey()));
+		}
+
+		@Override
+		public void forEachSimilar(K key, Comparator<K> keyComp, Consumer<K> action) {
+			MapTreeAVLLightweight.this.forEachSimilar(key, keyComp, e -> action.accept(e.getKey()));
 		}
 
 		@Override
@@ -2374,6 +2491,9 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 			super();
 
 		}
+
+		@Override
+		public Comparator<Entry<K, V>> getKeyComparator() { return MapTreeAVLLightweight.this.compEntry; }
 
 		@Override
 		public Comparator<? super Entry<K, V>> comparator() { return MapTreeAVLLightweight.this.compEntry; }
@@ -2404,6 +2524,21 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public void forEach(Consumer<? super Entry<K, V>> action) { MapTreeAVLLightweight.this.forEach(action); }
 
 		@Override
+		public void forEachSimilar(Entry<K, V> key, Comparator<Entry<K, V>> keyComp, Consumer<Entry<K, V>> action) {
+			MapTreeAVLLightweight.this.forEachSimilar(key.getKey(), //
+//					MapTreeAVLLightweight.this.com
+					((k1, k2) -> {
+						return keyComp.compare(MapTreeAVLLightweight.this.getNode(k1),
+								MapTreeAVLLightweight.this.getNode(k2));
+					}), action);
+		}
+
+		@Override
+		public ClosestMatch<Entry<K, V>> closestMatchOf(Entry<K, V> key) {
+			return MapTreeAVLLightweight.this.closestMatchOf(key.getKey());
+		}
+
+		@Override
 		public Iterator<Entry<K, V>> iterator() { return MapTreeAVLLightweight.this.iterator(); }
 
 		@Override
@@ -2415,6 +2550,27 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 	protected class SortedSetValueWrapper extends SortedSetWrapper<V> {
 		// implements SortedSet<K> {
+
+		/**
+		 * Cannot be efficient as other set implementations (like those returned by
+		 * {@link MapTreeAVL#keySet()} and {@link MapTreeAVL#entrySet()}) due to the
+		 * lack of efficiency caused by "value-based" search (opposite of "key-based" ).
+		 * <p>
+		 * {@inheritDoc}
+		 */
+		@SuppressWarnings("unchecked")
+		@Override
+		public void forEachSimilar(V key, Comparator<V> keyComp, Consumer<V> action) {
+			Consumer<Entry<K, V>> entryConsumer;
+			if (root == NIL)
+				return;
+			entryConsumer = e -> { if (keyComp.compare(key, e.getValue()) == 0) { action.accept(e.getValue()); } };
+			try {
+				MapTreeAVLLightweight.this.forEachSimilar((K) key, entryConsumer);
+			} catch (ClassCastException cce) {
+				MapTreeAVLLightweight.this.forEach(entryConsumer);
+			}
+		}
 
 		protected SortedSetValueWrapper(Function<V, K> keyExtractor) {
 			super();
@@ -2441,6 +2597,16 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		protected final Function<V, K> keyExtractor;
 		protected final Comparator<V> compValue;
+
+		@Override
+		public Comparator<V> getKeyComparator() {
+			throw new UnsupportedOperationException("Cannot compare value class's insntaces.");
+		}
+
+		@Override
+		public ClosestMatch<V> closestMatchOf(V key) {
+			throw new UnsupportedOperationException("Cannot compare value class's insntaces.");
+		}
 
 		@Override
 		public Comparator<? super V> comparator() { return this.compValue; }
@@ -2482,6 +2648,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public V last() { return MapTreeAVLLightweight.this.peekMaximum().getValue(); }
+
 	}
 
 	// TODO submaps

@@ -11,10 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import games.generic.controlModel.GController;
+import games.generic.controlModel.heal.resExample.ExampleHealingType;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.CurableResourceType;
 import games.generic.controlModel.misc.GThread.GTRunnable;
-import games.generic.controlModel.misc.HealingTypeExample;
 import games.generic.view.GameView;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CurrencySetTRAn;
@@ -32,8 +31,8 @@ public class GView_E1 extends GameView {
 //	JScrollPane jspPlayerAttributes;
 	JLabel jlMoneyText, jlMoneyValue;
 	JLabel[] jlPlayerStatText, jlPlayerStatValue;
-	CurableResourceType[] curableResource = { HealingTypeExample.Life, HealingTypeExample.Mana,
-			HealingTypeExample.Shield };
+	ExampleHealingType[] curableResource = { ExampleHealingType.Life, ExampleHealingType.Mana,
+			ExampleHealingType.Shield };
 
 	@Override
 	public void initAndShow() {
@@ -58,27 +57,7 @@ public class GView_E1 extends GameView {
 		jbCloseAll = new JButton("CLOSE ALL");
 		jpNorth.add(jbCloseAll);
 
-		jbStartPause.addActionListener(l -> {
-			if (gc == null) {
-				System.out.println("CIao");
-				return;
-			}
-			System.out.println("gc.isAlive()? " + gc.isAlive());
-			if (gc.isAlive()) {
-				if (gc.isPlaying()) {
-					gc.pauseGame();
-					jbStartPause.setText("Resume");
-				} else {
-					gc.resumeGame();
-					jbStartPause.setText("Pause");
-				}
-			} else {
-				gc.startGame();
-				addRepainterThread();
-				System.out.println("STARTED");
-				jbStartPause.setText("Pause");
-			}
-		});
+		jbStartPause.addActionListener(l -> startSimulation());
 		jbCloseAll.addActionListener(l -> {
 			System.out.println("CLOSING ALL");
 			c.closeAll();
@@ -147,6 +126,30 @@ public class GView_E1 extends GameView {
 //		fin.pack();
 	}
 
+	protected void startSimulation() {
+		if (gc == null) {
+			System.out.println("GView cannot start because gc is NULL");
+			return;
+		}
+		System.out.println("gc.isAlive()? " + gc.isAlive());
+		if (gc.isAlive()) {
+			if (gc.isPlaying()) {
+				gc.pauseGame();
+				jbStartPause.setText("Resume");
+			} else {
+				gc.resumeGame();
+				jbStartPause.setText("Pause");
+			}
+		} else {
+			System.out.println("view starting");
+			gc.startGame();
+			System.out.println("view adding repainter");
+			addRepainterThread();
+			System.out.println("STARTED");
+			jbStartPause.setText("Pause");
+		}
+	}
+
 	void repaintPlayerInfo() {
 		int max, v, n;
 		Player_E1 p;
@@ -155,17 +158,16 @@ public class GView_E1 extends GameView {
 //		StringBuilder sb;
 		CreatureAttributes ca;
 		JProgressBar jpb;
-		CurableResourceType curRes;
+		ExampleHealingType curRes;
 		gmodalitye1 = (GModality_E1) super.gc.getCurrentGameModality();
 		if (gmodalitye1 == null)
 			return;
 		p = gmodalitye1.getPlayerRPG();
-
 		for (int i = 0; i < curableResource.length; i++) {
 			jpb = jpbCurableResources[i];
 			curRes = curableResource[i];
-			jpb.setMaximum(max = p.getCurableResourceMax(curRes));
-			jpb.setValue(v = p.getCurableResourceAmount(curRes));
+			jpb.setMaximum(max = p.getHealableResourceMax(curRes));
+			jpb.setValue(v = p.getHealableResourceAmount(curRes));
 			textDisplayed = curRes.getName() + ": " + v + " / " + max;
 			jpb.setToolTipText(textDisplayed);
 			jpb.setString(textDisplayed);
@@ -204,6 +206,7 @@ public class GView_E1 extends GameView {
 //		t = new GThread(new PlayerInfoRepainter(gmodalitye1));
 //		gmodalitye1.addGameThread(t);
 //		t.start();
+		System.out.println("view on adding repainter");
 		gmodalitye1.addGameThreadSimplyStoppable(this::singleRepaintCycle);
 	}
 

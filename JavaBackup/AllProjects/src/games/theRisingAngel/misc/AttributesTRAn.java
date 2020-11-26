@@ -11,7 +11,6 @@ import tools.Comparators;
  * <p>
  * Important notes:
  * <ul>
- * <li>Probabilities and multipliers are meant o be a percentage</li>
  * <li>Luck should add up to the above concepts and to the drop (what kinds of
  * drops, rarity, amount of modifiers and abilities and their rarities).</li>
  * <li>Velocity is free to interpretation (usually, "10-th of a unit each

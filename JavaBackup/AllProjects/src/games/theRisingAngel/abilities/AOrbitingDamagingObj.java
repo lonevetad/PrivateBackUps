@@ -2,11 +2,11 @@ package games.theRisingAngel.abilities;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsManager;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.DamageTypeGeneric;
 import games.generic.controlModel.gObj.CreatureSimple;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AOrbitingSpawningBlobs;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.DamageTypeGeneric;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.GModalityTRAn;
 import geometry.AbstractShape2D;

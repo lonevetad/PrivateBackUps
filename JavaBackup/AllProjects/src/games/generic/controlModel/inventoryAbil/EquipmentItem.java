@@ -12,7 +12,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsProvidersHolder;
 import games.generic.controlModel.gObj.AbilitiesHolder;
 import games.generic.controlModel.gObj.AssignableObject;
-import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.misc.AttributesHolder;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.subimpl.GModalityRPG;

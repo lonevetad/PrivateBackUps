@@ -10,7 +10,7 @@ import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import tools.Comparators;
-import tools.minorTools.RandomWeightedIndexes;
+import tools.RandomWeightedIndexes;
 
 /**
  * Defines a "database-like" holder of a specific hierarchy of game objects (all

@@ -21,6 +21,7 @@ public class TestGModel {
 		gm = new GModel() {
 			@Override
 			public void onCreate() { System.out.println("CIAOOOO"); }
+
 		};
 		System.out.println("helooo " + gm.addObjHolder("TIME", new GOH()));
 		System.out.println("FINE");
@@ -28,6 +29,7 @@ public class TestGModel {
 
 			@Override
 			public void onCreate() { System.out.println("REAL timed model"); }
+
 		};
 		System.out.println("helooo 2.0 " + gmt.addObjHolder("MEMORYLESS", new GOH()));
 		gmt.addTimedObject(new TO(777));
@@ -91,5 +93,10 @@ public class TestGModel {
 
 		@Override
 		public boolean removeAll() { return false; }
+
+		@Override
+		public int objectsHeldCount() { // TODO Auto-generated method stub
+			return 0;
+		}
 	}
 }

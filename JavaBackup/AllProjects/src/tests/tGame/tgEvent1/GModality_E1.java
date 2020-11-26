@@ -19,12 +19,14 @@ import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.GameObjectsProvidersHolderTRAn;
+import games.theRisingAngel.abilities.ADamageReductionOnLifeLowerToPhysicalAttributes;
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.AProtectButMakesSoft;
 import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
+import games.theRisingAngel.misc.DamageTypesTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesHolder.PlayerCharacterTypes;
 import geometry.implementations.shapes.ShapeRectangle;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
@@ -137,22 +139,29 @@ public class GModality_E1 extends GModalityTRAn {
 		// first make the player, then the damager, the healer, the fairy, the
 		// money-maker, etc
 
-		odd = new ObjDamageDeliverE1(6000);
-		odd.setTarget(p);
-		odd.setDamageAmount(300);
-		odd.setAccumulatedTimeElapsed(5000);
-		this.addGameObject(odd);
-
-		odd = new ObjDamageDeliverE1(4000);
-		odd.setTarget(p);
-		odd.setDamageAmount(125);
-		odd.setAccumulatedTimeElapsed(2500);
-		this.addGameObject(odd);
+		int[][] damageDealers = { //
+				// milliseconds (ms), damage, starting time (ms), damage index
+				{ 6000, 300, 5000, 0 }, //
+				{ 4000, 125, 2500, 0 }, //
+				{ 12000, 600, 125, 1 }, //
+				{ 1200, 20, 15, 0 }, //
+		};
+		for (int[] damageData : damageDealers) {
+			odd = new ObjDamageDeliverE1(damageData[0]);
+			odd.setTarget(p);
+			odd.setDamageAmount(damageData[1]);
+			odd.setAccumulatedTimeElapsed(damageData[2]);
+			odd.setDamageType(damageData[3] == 0 ? DamageTypesTRAn.Physical : DamageTypesTRAn.Magical);
+			this.addGameObject(odd);
+		}
+		damageDealers = null;
 
 		//
 
 		equipmentName = "Plated Armor of Stonefying Skin";
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+		equip.addAbility(goph.getAbilitiesProvider().getAbilityByName(this,
+				ADamageReductionOnLifeLowerToPhysicalAttributes.NAME));
 		System.out.println("\n\n equipping: " + equipmentName);
 		System.out.println(equip.toString());
 		System.out.println("\n\n");
@@ -200,10 +209,10 @@ public class GModality_E1 extends GModalityTRAn {
 		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, AProtectButMakesSoft.NAME));
 		p.equip(equip);
 
-		equipmentName = "Snake Belt";
-		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, AProtectButMakesSoft.NAME));
-		p.equip(equip);
+//		equipmentName = "Snake Belt";
+//		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
+//		equip.addAbility(goph.getAbilitiesProvider().getNewObjByName(this, AProtectButMakesSoft.NAME));
+//		p.equip(equip);
 
 		//
 

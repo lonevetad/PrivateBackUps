@@ -24,6 +24,7 @@ public class MsgScreencast extends AMessageCommand {
 		h = this.height = im.getHeight();
 		this.imgType = im.getType();
 		rawPixels = new int[w * h];
+		System.out.println("image with " + rawPixels.length + " pixels");
 		i = 0;
 		y = -1;
 		while (++y < h) {

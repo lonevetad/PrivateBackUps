@@ -1,6 +1,6 @@
 package games.theRisingAngel.misc;
 
-import games.generic.controlModel.misc.DamageTypeGeneric;
+import games.generic.controlModel.damage.DamageTypeGeneric;
 
 public enum DamageTypesTRAn implements DamageTypeGeneric {
 	Physical, Magical;

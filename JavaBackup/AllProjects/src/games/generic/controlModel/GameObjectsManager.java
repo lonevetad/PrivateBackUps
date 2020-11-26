@@ -6,13 +6,13 @@ import java.util.function.Predicate;
 
 import dataStructures.SetMapped;
 import dataStructures.isom.InSpaceObjectsManagerImpl;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
 import games.generic.controlModel.gObj.CreatureSimple;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.gObj.MovingObject;
 import games.generic.controlModel.gObj.ObjectInSpace;
-import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.subimpl.GModalityET;
 import geometry.AbstractShape2D;
 import geometry.ObjectLocated;

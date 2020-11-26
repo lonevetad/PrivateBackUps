@@ -1,7 +1,7 @@
 package games.theRisingAngel;
 
-import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreaturesProvider;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.inventoryAbil.EquipItemProvider;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgradesProvider;
 import games.generic.controlModel.misc.GMapProvider;

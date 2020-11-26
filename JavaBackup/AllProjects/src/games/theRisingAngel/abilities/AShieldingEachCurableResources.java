@@ -1,18 +1,18 @@
 package games.theRisingAngel.abilities;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.damage.DamageGeneric;
 import games.generic.controlModel.gObj.LivingObject;
+import games.generic.controlModel.heal.IHealableResourceType;
+import games.generic.controlModel.heal.resExample.ExampleHealingType;
+import games.generic.controlModel.heal.HealAmountInstance;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityBaseImpl;
-import games.generic.controlModel.misc.CurableResourceType;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.HealGeneric;
-import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventHealTRAr;
 import games.theRisingAngel.misc.DamageTypesTRAn;
@@ -23,28 +23,39 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 	public static final int MAX_SHIELD = 100, RARITY = 4,
 			PRIORITY_DAMAGE_OBSERVER = ALoseManaBeforeLife.PRIORITY_OBSERVER_SHIELDING_THE_TEMPLE << 1;
 	public static final String NAME = "Essence insofference";
+	protected static List<String> EVENTS_WATCHING = null;
+
+	protected static List<String> getEventsWatching_SECR() {
+		DamageTypesTRAn[] dd;
+		ExampleHealingType[] vv;
+		if (EVENTS_WATCHING != null)
+			return EVENTS_WATCHING;
+		vv = ExampleHealingType.values();
+		dd = DamageTypesTRAn.values();
+		EVENTS_WATCHING = new ArrayList<>(dd.length + vv.length);
+		for (ExampleHealingType ht : vv) {
+			EVENTS_WATCHING.add(ht.getName());
+		}
+		for (DamageTypesTRAn dt : dd) {
+			EVENTS_WATCHING.add(dt.getName());
+		}
+		return EVENTS_WATCHING;
+	}
 
 	public AShieldingEachCurableResources() {
-		shields = new int[HealingTypeExample.values().length];
+		shields = new int[ExampleHealingType.values().length];
 		resetAbility();
-		eventsWatching = new LinkedList<>();
-		for (HealingTypeExample ht : HealingTypeExample.values()) {
-			eventsWatching.add(ht.getName());
-		}
-		for (DamageTypesTRAn dt : DamageTypesTRAn.values()) {
-			eventsWatching.add(dt.getName());
-		}
 
 	}
 
 	protected int[] shields;
-	protected List<String> eventsWatching;
+//	protected List<String> eventsWatching;
 
 	@Override
 	public int getObserverPriority() { return PRIORITY_DAMAGE_OBSERVER; }
 
 	@Override
-	public List<String> getEventsWatching() { return eventsWatching; }
+	public List<String> getEventsWatching() { return getEventsWatching_SECR(); }
 
 	@Override
 	public void performAbility(GModality gm) {}
@@ -52,11 +63,11 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 	@Override
 	public void resetAbility() { Arrays.fill(shields, MAX_SHIELD); }
 
-	protected HealingTypeExample healForDamage(DamageTypesTRAn dt) {
+	protected ExampleHealingType healForDamage(DamageTypesTRAn dt) {
 		if (dt == DamageTypesTRAn.Physical)
-			return HealingTypeExample.Life;
+			return ExampleHealingType.Life;
 		else if (dt == DamageTypesTRAn.Magical)
-			return HealingTypeExample.Mana;
+			return ExampleHealingType.Mana;
 		else
 			return null;
 	}
@@ -69,7 +80,7 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 			int min;
 			EventDamageTRAn ed;
 			ObjectWithID o;
-			HealingTypeExample ht;
+			ExampleHealingType ht;
 			DamageGeneric dg;
 			ed = (EventDamageTRAn) ge;
 			o = getOwner();
@@ -87,16 +98,16 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 		} else if (ge instanceof EventHealTRAr<?>) {
 			// heal the shield
 			int amount;
-			CurableResourceType ht;
+			IHealableResourceType ht;
 			EventHealTRAr<?> eh;
-			HealGeneric hg;
+			HealAmountInstance hg;
 			eh = (EventHealTRAr<?>) ge;
 			hg = eh.getHeal();
 			ht = hg.getHealType();
 			index = ht.getID();
 			amount = this.shields[index] + hg.getHealAmount();
 			if (amount > MAX_SHIELD)
-				amount = MAX_PRIORITY;
+				amount = MAX_SHIELD;
 			this.shields[index] = amount;
 		}
 	}

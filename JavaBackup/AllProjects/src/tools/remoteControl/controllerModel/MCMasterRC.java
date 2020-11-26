@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -30,6 +31,7 @@ public class MCMasterRC extends AModelControllerRC {
 		super(view);
 		this.observersBuffImage = new LinkedList<>();
 		this.observableScreenshoot = () -> this.observersBuffImage;
+		System.out.println("master attempting to connect");
 		asycnrhonouslyConnect(host, port);
 	}
 
@@ -59,6 +61,9 @@ public class MCMasterRC extends AModelControllerRC {
 		try {
 			this.outputChannel.writeObject(msg);
 			this.outputChannel.flush();
+		} catch (SocketException e) {
+			e.printStackTrace();
+			shutDown(false);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -123,7 +128,7 @@ public class MCMasterRC extends AModelControllerRC {
 	protected MasterRunner newMasterRunner() { return new MasterRunner(this); }
 
 	protected void onSettingUp() {
-		this.threadMasterRunner = new Thread(this.newMasterRunner());
+		this.threadMasterRunner = new Thread(this.masterRunner = this.newMasterRunner());
 		this.onConnectionEstablished();
 		this.threadMasterRunner.start();
 	}

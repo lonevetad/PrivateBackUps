@@ -3,8 +3,8 @@ package games.generic.controlModel.inventoryAbil.abilitiesImpl;
 import java.util.Arrays;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CreatureSimple;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.inventoryAbil.AbilityTimedGeneric;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.misc.AttributeIdentifier;
@@ -130,6 +130,7 @@ public abstract class AbilityModifyingAttributesRealTime extends AbilityBaseImpl
 
 //
 
+	/** Should alter the objects returned by {@link #getAttributesToModify()}. */
 	public abstract void updateAttributesModifiersValues(GModality gm, /* EquipmentItem ei, */ CreatureSimple ah,
 			CreatureAttributes ca);
 

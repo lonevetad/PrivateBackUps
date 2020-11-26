@@ -19,7 +19,11 @@ public interface ObjectWithID extends ObjWithIDGeneric<Integer> {
 
 	// TODO methods
 
-	/** BEWARE of non uniqueness caused by bad management ! */
+	/**
+	 * The integer number-based identifier of this instance.
+	 * <p>
+	 * BEWARE of non uniqueness caused by bad management of this identifier!
+	 */
 	@Override
 	public Integer getID();
 }

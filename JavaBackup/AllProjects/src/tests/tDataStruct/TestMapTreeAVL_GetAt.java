@@ -86,7 +86,7 @@ public class TestMapTreeAVL_GetAt {
 		//
 
 		System.out.println("\n\n################ now test if tree's queue version is working well\n\n\n");
-		t = MapTreeAVL.newMap(MapTreeAVL.Optimizations.ToQueueFIFOIterating, Integer::compare);
+		t = MapTreeAVL.newMap(MapTreeAVL.Optimizations.QueueFIFOIteration, Integer::compare);
 		s = 15;
 		fill(s, t);
 		System.out.println(t);

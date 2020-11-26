@@ -1,7 +1,7 @@
 package games.theRisingAngel.abilities;
 
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gEvents.EventDamage;
+import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.ASimpleFixedBufferVanishing;

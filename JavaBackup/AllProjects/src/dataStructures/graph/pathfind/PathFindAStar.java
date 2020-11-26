@@ -13,6 +13,7 @@ import dataStructures.graph.GraphSimple;
 import dataStructures.graph.GraphSimpleAsynchronized;
 import dataStructures.graph.PathFindStrategy;
 import dataStructures.graph.PathGraph;
+import dataStructures.isom.PathFinderIsomFrontierBased.NodePositionInFrontier;
 import geometry.ObjectShaped;
 import tools.NumberManager;
 
@@ -27,17 +28,11 @@ public class PathFindAStar<E, Distance extends Number> implements PathFindStrate
 	protected BiFunction<E, E, Distance> heuristic;
 	protected GraphSimple<E, Distance> graph;
 
-	public BiFunction<E, E, Distance> getHeuristic() {
-		return heuristic;
-	}
+	public BiFunction<E, E, Distance> getHeuristic() { return heuristic; }
 
-	public GraphSimple<E, Distance> getGraph() {
-		return graph;
-	}
+	public GraphSimple<E, Distance> getGraph() { return graph; }
 
-	public void setGraph(GraphSimple<E, Distance> graph) {
-		this.graph = graph;
-	}
+	public void setGraph(GraphSimple<E, Distance> graph) { this.graph = graph; }
 
 	public PathFindAStar<E, Distance> setHeuristic(BiFunction<E, E, Distance> heuristic) {
 		this.heuristic = heuristic;
@@ -99,7 +94,7 @@ public class PathFindAStar<E, Distance extends Number> implements PathFindStrate
 		dd = new NodeInfoAStar<E, Distance>(d, distanceManager);
 		nodeInfos.put(dest, dd);
 
-		while((!frontier.isEmpty()) && ((dd.father == null)
+		while ((!frontier.isEmpty()) && ((dd.father == null)
 		/*
 		 * continue if there's a path to reach the destination shorter to the already
 		 * found one. This condition will force to exit from the cycle if the "minimum"
@@ -133,7 +128,7 @@ public class PathFindAStar<E, Distance extends Number> implements PathFindStrate
 		nodeInfos.clear();
 		p = new PathGraph<E, Distance>(distanceManager);
 //		distanceTotal = dd.distFromStart;
-		while(dd != ss) {
+		while (dd != ss) {
 			p.addStep(dd.thisNode.getElem(), dd.distFromFather);
 			dd = dd.father;
 		}
@@ -181,9 +176,7 @@ public class PathFindAStar<E, Distance extends Number> implements PathFindStrate
 			this.distanceManager = distanceManager;
 		}
 
-		public void setCurrentNode(NodeInfoAStar<E, D> n) {
-			this.currentNode = n;
-		}
+		public void setCurrentNode(NodeInfoAStar<E, D> n) { this.currentNode = n; }
 
 //		public void accept(GraphSimpleAsynchronized<E, D>.NodeGraphSimpleAsynchronized nod, Integer distToAdj) {
 		@SuppressWarnings("unchecked")

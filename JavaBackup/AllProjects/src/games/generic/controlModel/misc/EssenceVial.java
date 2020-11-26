@@ -15,10 +15,13 @@ import tools.ObjectNamedID;
 public class EssenceVial implements Serializable {
 	private static final long serialVersionUID = 365014755285420100L;
 
-	public EssenceVial() {}
+	public EssenceVial() {
+		this.isEquipmentUpgrade = false;
+		this.essenceName = null;
+	}
 
 	protected boolean isEquipmentUpgrade;
-	protected String essenceName = null;
+	protected String essenceName; // no need to store the complete reference
 
 	/**
 	 * Returns <code>true</code> if the extracted essence, if any, refers to an
@@ -28,8 +31,21 @@ public class EssenceVial implements Serializable {
 
 	public String getEssenceName() { return essenceName; }
 
-	/** Test if some essence is stored */
-	public boolean isEmpty() { return essenceName == null; }
+	/**
+	 * Test if some essence is NOT stored.<br>
+	 * Opposite of {@link #storeEssence()}.
+	 */
+	public boolean isEmpty() {
+		return essenceName == null;
+	}
+
+	/**
+	 * Test if some essence is stored.<br>
+	 * Opposite of {@link #isEmpty()}.
+	 */
+	public boolean containsAnEssence() {
+		return essenceName != null;
+	}
 
 	//
 

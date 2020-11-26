@@ -3,7 +3,6 @@ package games.generic.controlModel.gEvents;
 import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import games.generic.controlModel.subimpl.GEvent;
 
 public class DestructionObjEvent extends GEvent {
 	private static final long serialVersionUID = 50320237291343862L;

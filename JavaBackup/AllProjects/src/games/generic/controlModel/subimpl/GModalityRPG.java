@@ -5,12 +5,12 @@ import games.generic.controlModel.GController;
 import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GObjectsInSpaceManager;
 import games.generic.controlModel.GameObjectsManager;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
 import games.generic.controlModel.gObj.CreatureSimple;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.MovingObject;
 import games.generic.controlModel.gObj.ObjectInSpace;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.player.BasePlayerRPG;
 
 public abstract class GModalityRPG extends GModalityET {
