@@ -1,7 +1,7 @@
 package games.theRisingAngel.loaders;
 
 import games.generic.controlModel.GController;
-import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.misc.LoaderGameObjects;
 

@@ -1,9 +1,12 @@
 package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gEvents.DamageReceiverGeneric;
-import games.generic.controlModel.gEvents.EventDamage;
-import games.generic.controlModel.misc.DamageGeneric;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.DamageReceiverGeneric;
+import games.generic.controlModel.damage.EventDamage;
+import games.generic.controlModel.heal.HealingObject;
+import games.generic.controlModel.heal.IHealableResourceType;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityRPG;
 
@@ -17,6 +20,16 @@ public interface LivingObject extends DestructibleObject, DamageReceiverGeneric,
 
 	/** See {@link #getLifeRegenation()}. */
 	public void setLifeRegenation(int lifeRegenation);
+
+	public IHealableResourceType getLifeResourceType();
+
+	@Override
+	public default boolean receiveLifeHealing(int amount) {
+		boolean hasHealed;
+		hasHealed = (amount <= 0); // DamageReceiverGeneric.super.receiveHealing(amount);
+		if (hasHealed) { this.healMyself(newHealInstance(getLifeResourceType(), amount)); }
+		return hasHealed;
+	}
 
 //	@Override
 //	public default void act(GModality modality, int timeUnits) {

@@ -10,9 +10,13 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import tools.ObservableSimple;
+import tools.ObserverSimple;
 import tools.remoteControl.msg.AMessageCommand;
 import tools.remoteControl.msg.MsgScreencast;
 import tools.remoteControl.msg.MsgShutDown;
@@ -27,6 +31,11 @@ public class MCSlaveRC extends AModelControllerRC {
 		super(view);
 		this.server = new ServerSocket(port, 4, InetAddress.getLocalHost());
 		threadExecutor = Executors.newFixedThreadPool(2);
+
+		// start debug stuff
+		this.observersBuffImage = new LinkedList<>();
+		this.observableScreenshoot = () -> this.observersBuffImage;
+		// end debug s
 		startConnectionAndReading();
 	}
 
@@ -38,6 +47,11 @@ public class MCSlaveRC extends AModelControllerRC {
 	protected ConnectorAndReaderMsg runnerReader;
 	protected ScreencasterRunner runnerScreencaster;
 	protected ExecutorService threadExecutor;
+	// added for debug purposes
+	protected final List<ObserverSimple<BufferedImage>> observersBuffImage;
+	protected final ObservableSimple<BufferedImage> observableScreenshoot;
+
+	public ObservableSimple<BufferedImage> getObservableScreenshoot() { return observableScreenshoot; }
 
 	@Override
 	public boolean isClient() { return false; }
@@ -67,6 +81,7 @@ public class MCSlaveRC extends AModelControllerRC {
 			msgSender.writeObject(msg);
 			System.out.println("slave sent screenshot :D");
 			msgSender.flush();
+			System.out.println("slave flushed screenshot :D");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -274,6 +289,7 @@ public class MCSlaveRC extends AModelControllerRC {
 						areaScreenshot = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
 						screenshot = robotActionSensorActuator.createScreenCapture(areaScreenshot);
 						System.out.println(areaScreenshot);
+						observableScreenshoot.notifyObservers(screenshot);
 						sendScreenshoot(screenshot);
 						System.out.println("sent screenshoot");
 					} catch (Exception e) {

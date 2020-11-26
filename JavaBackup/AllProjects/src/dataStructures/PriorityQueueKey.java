@@ -209,7 +209,7 @@ public class PriorityQueueKey<ValueHoldingKey, Key> implements Serializable, Ite
 				prevVal = prev.getValue();
 				entryFetcher.remove(e.getKey());
 				entryFetcher.put(e.getKey(), prev);
-				keys.remove(prevVal);
+				keys.remove(prev);
 				keys.put(e, this.keyExtractor.apply(e.getKey()));
 				assert (entryFetcher.size() == keys.size()) : "After replacing size inconsistent: entries: "
 						+ entryFetcher.size() + ", keys: " + keys.size();

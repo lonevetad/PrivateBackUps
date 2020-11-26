@@ -1,7 +1,7 @@
 package games.generic.controlModel.player;
 
-import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.CurrencyHolder;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.misc.CreatureAttributes;
 
 /** Base definition of a "player" of a "Rule Play Game" (RPG) */

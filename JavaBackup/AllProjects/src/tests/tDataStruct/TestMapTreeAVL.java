@@ -29,7 +29,7 @@ public class TestMapTreeAVL {
 				testMapWithOptimization(o, printer, c);
 			}
 		} else {
-			testMapWithOptimization(MapTreeAVL.Optimizations.ToQueueFIFOIterating, printer, c);
+			testMapWithOptimization(MapTreeAVL.Optimizations.QueueFIFOIteration, printer, c);
 		}
 	}
 
@@ -242,7 +242,7 @@ public class TestMapTreeAVL {
 		t.forEach(printer);
 		System.out.println("reversed: ");
 
-		t.forEach(optimization == MapTreeAVL.Optimizations.ToQueueFIFOIterating ? MapTreeAVL.ForEachMode.Stack
+		t.forEach(optimization == MapTreeAVL.Optimizations.QueueFIFOIteration ? MapTreeAVL.ForEachMode.Stack
 				: MapTreeAVL.ForEachMode.SortedDecreasing//
 				, //
 //				e -> {

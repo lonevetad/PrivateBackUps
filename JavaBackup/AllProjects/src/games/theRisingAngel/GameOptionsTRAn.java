@@ -3,8 +3,8 @@ package games.theRisingAngel;
 import games.generic.GameOptions;
 import games.generic.controlModel.misc.LoaderGeneric;
 import games.generic.controlModel.misc.LoaderGeneric.JSONFileConsumer;
+import tools.RandomWeightedIndexes;
 import games.generic.controlModel.misc.ProbabilityOfContextesHolders;
-import tools.minorTools.RandomWeightedIndexes;
 
 public class GameOptionsTRAn extends GameOptions {
 	protected ProbabilityOfContextesHolders probabilitiesContexes;

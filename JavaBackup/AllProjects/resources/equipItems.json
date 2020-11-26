@@ -1738,8 +1738,8 @@
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Dexterity", "value": 6},
 			{"attribute": "Precision", "value": 6},
-			{"attribute": "CriticalMultiplier", "value": 4},
-			{"attribute": "CriticalProbability", "value": 20}
+			{"attribute": "CriticalMultiplierPercentage", "value": 4},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 20}
 		],
 		"abilities": []
 	}, {
@@ -2319,7 +2319,7 @@
 			"width": 2, "height": 2
 		},
 		"attributeMods": [
-			{"attribute": "RigenLife", "value": -2}
+			{"attribute": "RegenLife", "value": -2}
 			{"attribute": "Strength", "value": 2},
 			{"attribute": "Intelligence", "value": 2},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 35},

@@ -2,10 +2,10 @@ package games.generic.controlModel;
 
 import java.awt.Point;
 
-import games.generic.controlModel.gEvents.EventDamage;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gObj.LivingObject;
-import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subimpl.GModalityET;
 import geometry.ObjectLocated;

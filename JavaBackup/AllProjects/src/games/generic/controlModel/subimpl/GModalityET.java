@@ -9,6 +9,7 @@ import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.gEvents.GEvent;
 import games.generic.controlModel.gObj.GameObjectGeneric;
 import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.misc.GThread;
@@ -157,7 +158,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 
 	public GThread addGameThreadSimplyStoppable(Runnable runner) {
 		GTRunnableSimplestImplementation gr;
-		gr = new GTRunnableSimplestImplementation();
+		gr = new GameModalityBasedGTRunnable(this);
 		gr.setRunnerDelegated(runner);
 		return this.addGameThread(gr);
 	}
@@ -226,7 +227,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	public void progressElapsedTime(final int timeUnit) {
 		GEventManager gem;
 		this.getModelTimeBased().forEachTimedObject((to) -> {
-			to.act(this, timeUnit); // fai progredire QUALSIASI cosa: abilità che si ricaricano col tempo,
+			to.act(this, timeUnit); // fai progredire QUALSIASI cosa: abilitÃ  che si ricaricano col tempo,
 			// rigenerazioni, movimento di proiettili e cose, etc
 		});
 		gem = this.eventInterface.getGameEventManager();
@@ -344,5 +345,17 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 			this.gmodality = gmodality;
 			this.setRunnerDelegated(() -> gmodality.runSingleGameCycle());
 		}
+	}
+
+	protected static class GameModalityBasedGTRunnable extends GTRunnableSimplestImplementation {
+		protected final GModalityET gameModality;
+
+		public GameModalityBasedGTRunnable(GModalityET gameModality) {
+			super();
+			this.gameModality = gameModality;
+		}
+
+		@Override
+		protected boolean canRunRunnerCycle() { return gameModality.isRunningOrSleep(); }
 	}
 }

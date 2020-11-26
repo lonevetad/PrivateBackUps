@@ -112,11 +112,17 @@ public class GThread extends Thread {
 		public void setRunnerDelegated(Runnable runnerDelegated) { this.runnerDelegated = runnerDelegated; }
 
 		@Override
-		public void run() {
+		public final void run() {
 			if (!isWorking)
 				throw new IllegalStateException(
 						"This runner GTRunnable has already died! Re-create me or find a way to restart me (not only just by calling restart())");
-			while (isWorking) {
+			runRunner();
+		}
+
+		protected boolean canRunRunnerCycle() { return isWorking; }
+
+		protected void runRunner() {
+			while (canRunRunnerCycle()) {
 				this.runnerDelegated.run();
 			}
 		}

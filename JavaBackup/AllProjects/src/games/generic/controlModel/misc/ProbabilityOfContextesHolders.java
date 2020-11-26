@@ -4,7 +4,7 @@ import java.util.Map;
 
 import dataStructures.MapTreeAVL;
 import tools.Comparators;
-import tools.minorTools.RandomWeightedIndexes;
+import tools.RandomWeightedIndexes;
 
 public class ProbabilityOfContextesHolders {
 

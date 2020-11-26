@@ -21,6 +21,7 @@ import dataStructures.mtAvl.MapTreeAVLFull;
 import dataStructures.mtAvl.MapTreeAVLLightweight;
 import dataStructures.mtAvl.MapTreeAVLMinIter;
 import dataStructures.mtAvl.MapTreeAVLQueuable;
+import tools.ClosestMatch;
 
 /**REMOVED COMMENTS <p>
  * There's a bunch of ways to iterate all over this map.
@@ -105,7 +106,14 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	 * </ul>
 	 */
 	public static enum BehaviourOnKeyCollision {
-		KeepPrevious, Replace, AddItsNotASet/* it's senseless */
+		KeepPrevious, Replace,
+		/**
+		 * Peculiar behavior that means that pairs of key and value with the same key
+		 * are added to this map. <br>
+		 * (The newly added pair is put onto the left of the yet existing key[s], so
+		 * they are considered "lower". That keeps an inverse chronological order.)
+		 */
+		AddItsNotASet/* it's senseless */
 	}
 
 	/**
@@ -178,7 +186,7 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 		 * {@link MapTreeAVL#forEach(ForEachMode, Consumer)} passing
 		 * {@link ForEachMode#Stack} instead of {@link ForEachMode#Queue}
 		 */
-		ToQueueFIFOIterating(new MapTreeAVLFactory() {
+		QueueFIFOIteration(new MapTreeAVLFactory() {
 			@Override
 			public <Key, Val> MapTreeAVL<Key, Val> newMap(BehaviourOnKeyCollision b, Comparator<Key> comp) {
 				return new MapTreeAVLQueuable<Key, Val>(b, comp);
@@ -186,9 +194,9 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 		}),
 
 		/**
-		 * All features of {@link #MinMaxIndexIteration} and
-		 * {@link #ToQueueFIFOIterating} together, but at the price of more memory usage
-		 * due to the additional informations stored.
+		 * All features of {@link #MinMaxIndexIteration} and {@link #QueueFIFOIteration}
+		 * together, but at the price of more memory usage due to the additional
+		 * informations stored.
 		 */
 		FullButHeavyNodes(new MapTreeAVLFactory() {
 			@Override
@@ -317,6 +325,8 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 
 	public int indexOf(Object o);
 
+	// TODO for-each-er and iterators
+
 	/**
 	 * Similar to {@link #forEach(java.util.function.Consumer)}, but allow to
 	 * iterate over the elements in different ways.<br>
@@ -328,6 +338,45 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	public void forEach(ForEachMode mode, Consumer<Entry<K, V>> action);
 
 	public void forEachAndDepth(EntryDepthConsumer<K, V> action);
+
+	/**
+	 * Invokes {@link #forEachSimilar(Object, Comparator, Consumer)} giving as a
+	 * {@link Comparator} the one returned by {@link #getComparator()}.
+	 */
+	public default void forEachSimilar(K key, Consumer<Entry<K, V>> action) {
+		forEachSimilar(key, getComparator(), action);
+	}
+
+	/**
+	 * Given a key (first parameter) and a optional {@link Comparator} (which can be
+	 * the same of the one returned by {@link #getComparator()}), runs an action
+	 * ({@link Consumer}) over each {@link Entry} stored which are considered
+	 * compatible.<br>
+	 * <b>BEWARE</b>: the given Comparator should NOT have a totally different logic
+	 * than the one defined by the Comparator provided upon creating this map,
+	 * because the behavior of this method could be unpredictable (or just running
+	 * on one element, or more, or no one). See the next paragraph.
+	 * <p>
+	 * Usually, there are two use cases (not mutually exclusive) which this
+	 * iteration could run on more than one element:
+	 * <ul>
+	 * <li>The option {@link BehaviourOnKeyCollision#AddItsNotASet} has been set upon
+	 * instantiating this map.</li>
+	 * <li>The given Consumer generate a less restrictive partition of the key's
+	 * domain than the one provided upon building this map. That means that
+	 * theoretically more elements could be considered "equal" under the given
+	 * Comparator rather then the one returned by {@link #getComparator()}.<br>
+	 * As an example: imagine that a Person is identified by a pair of
+	 * {@link String}, i.e. the <i>first name</i> and <i>last name</i>, so that pair
+	 * is this map's key. Assume that the map's Comparator compares firstly the
+	 * <i>last name</i>s, then the <i>first name</i>. If You provide a Comparator
+	 * that compares only the <i>last name</i> then some Persons could be considered
+	 * similar: they just need to share <i>last name</i> (like siblings, father and
+	 * children, etc). So, under that second Comparator all of "similar" Person will
+	 * be consumed by the given {@link Consumer}.</li>
+	 * </ul>
+	 */
+	public void forEachSimilar(K key, Comparator<K> keyComp, Consumer<Entry<K, V>> action);
 
 	/**
 	 * Same as {@link #iterator()}, but iterating entries in decreasing order
@@ -418,6 +467,17 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 			boolean isUpperBoundIncluded) throws IllegalArgumentException;
 
 	/**
+	 * Search if exists an entry with a compatible key (i.e., the comparator
+	 * provided upon instantiation and {@link #getComparator()}) or, in absence, a
+	 * pair of the closest entries: the closer lower entry and the closer upper
+	 * entry. <br>
+	 * It returns an instance of {@link ClosestMatch}. If the match is exact, then
+	 * the returned instance's method {@link ClosestMatch#isExactMatch()} will
+	 * return <code>true</code>
+	 */
+	public ClosestMatch<Entry<K, V>> closestMatchOf(K key);
+
+	/**
 	 * Merge the smaller tree in the bigger ones. The smaller one will be cleared
 	 * after the call.
 	 * <P>
@@ -492,11 +552,11 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	 */
 	public List<V> toListValue(Function<V, K> keyExtractor);
 
-	public SortedSet<K> toSetKey();
+	public SortedSetEnhanced<K> toSetKey();
 
-	public SortedSet<Entry<K, V>> toSetEntry();
+	public SortedSetEnhanced<Entry<K, V>> toSetEntry();
 
-	public SortedSet<V> toSetValue(Function<V, K> keyExtractor);
+	public SortedSetEnhanced<V> toSetValue(Function<V, K> keyExtractor);
 
 	// ENDCOLLECTION CONVERTITORS
 
@@ -555,9 +615,14 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 
 	/**
 	 * With some particular inputs, the tree could be nearly unbalanced, making some
-	 * operations heavier than the predicted <code>O(log(n))</code>, where <i>n</i>
-	 * is the total size of the tree. <br>
-	 * Three examples making the tree left-tailed:
+	 * operations very heavy, still <code>O(log(n))</code> (where <i>n</i> is the
+	 * total size of the tree) but the worst case has huge coefficients. So,
+	 * recalculating the root while keeping the balance will enhance the worst case
+	 * at the expense of the average, because it sticks to <code>O(log(n))</code>,
+	 * by minimizing the maximum height.<br>
+	 * This method runs on <code>O(n*log2(n))</code> time. <br>
+	 * Three examples making the tree left-tailed (if the elements are added in the
+	 * specified order):
 	 * <ul>
 	 * <li>{ 10, 4, 20, 2, 6, 15, 22, 1, 3, 5, 11, 0 }</li>
 	 * <li>{ 99, 10, 140, 4, 20, 120, 160, 2, 6, 15, 22, 110, 103, 150, 1, 3, 5, 11,
@@ -570,10 +635,81 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	 * 1, 3, 5, 11, 100, 1025, <br>
 	 * 0 }</li>
 	 * </ul>
-	 * <br>
-	 * This way, the maximum height is minimized and so the worst case is
-	 * O(log2(n)). <br>
-	 * This method runs on <code>O(n*log2(n))</code> time.
 	 */
 	public void compact();
+
+	//
+
+	//
+
+	//
+//
+//	/**
+//	 * See {@link MapTreeAVL#closestMatchOf(Object)}. If the match is exact (i.e.
+//	 * this map hold an entry with the given key), then {@link #isExactMatch()} will
+//	 * return <code>true</code> (and {@link #nearestUpper} will be
+//	 * <code>null</code>).
+//	 */
+//	public static class ClosestMatch<Kk, Vv> implements Serializable {
+//		private static final long serialVersionUID = -15432L;
+//
+//		public ClosestMatch(Kk originalValue, Comparator<Kk> keyComparator, Entry<Kk, Vv> nearestLowerOrExact) {
+//			this(originalValue, keyComparator, nearestLowerOrExact, null, true);
+//		}
+//
+//		public ClosestMatch(Kk originalValue, Comparator<Kk> keyComparator, Entry<Kk, Vv> nearestLowerOrExact,
+//				Entry<Kk, Vv> nearestUpper) {
+//			this(originalValue, keyComparator, nearestLowerOrExact, nearestUpper, false
+////					(nearestLowerOrExact == null || nearestUpper == null)
+//			);
+//		}
+//
+//		protected ClosestMatch(Kk originalValue, Comparator<Kk> keyComparator, Entry<Kk, Vv> nearestLowerOrExact,
+//				Entry<Kk, Vv> nearestUpper, boolean isExact) {
+//			super();
+//			this.isExact = isExact;
+//			this.originalValue = originalValue;
+//			this.keyComparator = keyComparator;
+//			this.nearestLowerOrExact = nearestLowerOrExact;
+//			this.nearestUpper = nearestUpper;
+//		}
+//
+//		protected final boolean isExact;
+//		protected final Kk originalValue;
+//		public final Entry<Kk, Vv> nearestLowerOrExact, nearestUpper;
+//		public final Comparator<Kk> keyComparator; // MapTreeAVL<Kk, Vv> mapFromWhichIsComputed; //still not visible to
+//													// "user"
+//
+//		public boolean isExactMatch() { return this.isExact; }
+//
+//		public boolean hasLowerBound() { return this.nearestLowerOrExact != null; }
+//
+//		public boolean hasUpperBound() { return this.nearestUpper != null; }
+//
+//		/** Returns the exact match if any, or <code>null</code> otherwise. */
+//		public Entry<Kk, Vv> exactOrNull() {
+//			return isExact ? (nearestLowerOrExact != null ? nearestLowerOrExact : nearestUpper) : null;
+//		}
+//
+//		public Entry<Kk, Vv> getAvailableMatchLowerFirst() {
+//			return nearestLowerOrExact != null ? nearestLowerOrExact : nearestUpper;
+//		}
+//
+//		public Entry<Kk, Vv> getAvailableMatchUpperFirst() {
+//			return nearestUpper != null ? nearestUpper : nearestLowerOrExact;
+//		}
+//
+//		//
+//
+//		public Entry<Kk, Vv> getClosetsMatch(CloserGetter<Kk> closerGetter) {
+//			Kk closerKey, keyLowerExact;
+//			if (nearestLowerOrExact == null)
+//				return nearestUpper;
+//			if (nearestUpper == null)
+//				return nearestLowerOrExact;
+//			keyLowerExact = nearestLowerOrExact.getKey();
+//			closerKey = closerGetter.getCloserTo(originalValue, keyComparator, keyLowerExact, nearestUpper.getKey());
+//			return (closerKey == keyLowerExact) ? nearestLowerOrExact : nearestUpper;
+//		}
+//	}
 }

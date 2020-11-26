@@ -2,6 +2,8 @@ package games.generic.controlModel.gObj;
 
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.heal.resExample.ShieldHavingObject;
 import games.generic.controlModel.misc.AttributesHolder;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.RarityHolder;
@@ -14,12 +16,13 @@ import tools.ObjectNamedID;
  * <ol>
  * <li>{@link AttributesHolder} (holding: {@link CreatureAttributes})</li>
  * <li>{@link MovingObject}</li>
- * <li>{@link TimedObject} (inherited by 2�)</li>
- * <li>{@link ObjectInSpace} (inherited by 2�)</li>
+ * <li>{@link TimedObject} (inherited by 2)</li>
+ * <li>{@link ObjectInSpace} (inherited by 2)</li>
  * <li>{@link LivingObject}</li>
- * <li>{@link DestructibleObject} (inherited by 5�)</li>
- * <li>{@link GEventObserver} (inherited by 6� but independent in its
- * functionality and concept)</li>
+ * <li>{@link DestructibleObject} (inherited by 5)</li>
+ * <li>{@link GEventObserver} (inherited by 6 but independent in its
+ * functionality and concept, because this instance could listen other
+ * events)</li>
  * <li>{@link RarityHolder}: NPC or enemy creatures could be spawned
  * randomly</li>
  * </ol>
@@ -41,6 +44,8 @@ public interface CreatureSimple
 
 	@Override
 	public default void act(GModality modality, int timeUnits) {
+		if (isDestroyed())
+			return;
 		MovingObject.super.act(modality, timeUnits);
 		LivingObject.super.act(modality, timeUnits); // this is the same of the below :
 //		ObjectHealing.super.act(modality, timeUnits);

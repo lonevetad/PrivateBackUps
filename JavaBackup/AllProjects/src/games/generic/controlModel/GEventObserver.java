@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
-import games.generic.controlModel.subimpl.GEvent;
+import games.generic.controlModel.gEvents.GEvent;
 import tools.Comparators;
 import tools.ObjectWithID;
 import tools.UniqueIDProvider;

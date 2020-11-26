@@ -1,10 +1,10 @@
 package games.theRisingAngel.events;
 
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gEvents.EventDamage;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gObj.LivingObject;
-import games.generic.controlModel.misc.DamageGeneric;
 
 public class EventDamageTRAn extends EventDamage {
 	private static final long serialVersionUID = 2222178786L;

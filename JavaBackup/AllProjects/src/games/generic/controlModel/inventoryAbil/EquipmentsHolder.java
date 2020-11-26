@@ -1,9 +1,9 @@
 package games.generic.controlModel.inventoryAbil;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.BaseCreatureRPG;
 import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.gObj.GameObjectGeneric;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.inventoryAbil.EquipmentSet.ConsumerEquipmentIndex;
 
 public interface EquipmentsHolder extends GModalityHolder, GameObjectGeneric {

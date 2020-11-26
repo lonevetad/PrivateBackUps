@@ -16,7 +16,7 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 		super(b, comp);
 		firstInserted = (NodeAVL_Queuable) NIL;
 		((NodeAVL_Queuable) NIL).nextInserted = ((NodeAVL_Queuable) NIL).prevInserted = (NodeAVL_Queuable) NIL;
-		optimization = Optimizations.ToQueueFIFOIterating;
+		optimization = Optimizations.QueueFIFOIteration;
 	}
 
 	protected NodeAVL_Queuable firstInserted; // stack-like
@@ -285,12 +285,11 @@ public class MapTreeAVLQueuable<K, V> extends MapTreeAVLIndexable<K, V> {
 
 		@Override
 		protected void restart() {
-			jumps = 0;
-			canRemove = false;
+			super.restart();
 			current = end = normalOrder ? firstInserted : firstInserted.prevInserted;
 		}
 
 		@Override
-		public boolean hasNext() { return (size > 0) && (current != end || jumps == 0); }
+		public boolean hasNext() { return (!isEmpty) && (size > 0) && (current != end || jumps == 0); }
 	}
 }

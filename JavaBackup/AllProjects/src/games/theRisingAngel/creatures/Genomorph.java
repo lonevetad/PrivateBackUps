@@ -3,7 +3,7 @@ package games.theRisingAngel.creatures;
 import java.util.Set;
 
 import dataStructures.MapTreeAVL;
-import games.generic.controlModel.gObj.CreatureSharingAbilities;
+import games.generic.controlModel.gObj.creature.CreatureSharingAbilities;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import tools.Comparators;
 

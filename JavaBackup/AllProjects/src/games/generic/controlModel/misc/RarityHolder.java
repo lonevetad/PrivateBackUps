@@ -1,7 +1,7 @@
 package games.generic.controlModel.misc;
 
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import tools.minorTools.RandomWeightedIndexes;
+import tools.RandomWeightedIndexes;
 
 /**
  * An object, like an {@link EquipmentItem}'s ability, could be created randomly
@@ -16,6 +16,7 @@ import tools.minorTools.RandomWeightedIndexes;
 public interface RarityHolder {
 	public static final int NO_RARITY = -1;
 
+	/** That's the INDEX of the rarity, like "common / rare / legendary". */
 	public int getRarityIndex();
 
 	public RarityHolder setRarityIndex(int rarityIndex);

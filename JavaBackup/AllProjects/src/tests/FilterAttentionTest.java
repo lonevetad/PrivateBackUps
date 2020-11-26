@@ -3,7 +3,7 @@ package tests;
 import java.awt.Color;
 
 import tools.StreamPixel;
-import tools.implementations.MonoColoredRectangle;
+import tools.impl.MonoColoredRectangle;
 
 public class FilterAttentionTest {
 	StreamPixel sp;

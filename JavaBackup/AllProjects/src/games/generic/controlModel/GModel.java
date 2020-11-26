@@ -32,6 +32,13 @@ public abstract class GModel implements GObjectsHolder {
 
 	//
 
+	@Override
+	public int objectsHeldCount() {
+		int[] c = { 0 };
+		this.objectsHoldersSpecialized.forEach((n, gh) -> { c[0] += gh.objectsHeldCount(); });
+		return this.allObjects.size() + c[0];
+	}
+
 	public GMap getMapCurrent() { return mapCurrent; }
 
 	public void setMapCurrent(GMap mapCurrent) { this.mapCurrent = mapCurrent; }

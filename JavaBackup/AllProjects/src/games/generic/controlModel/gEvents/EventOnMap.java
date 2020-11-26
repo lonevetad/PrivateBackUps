@@ -1,7 +1,6 @@
 package games.generic.controlModel.gEvents;
 
 import games.generic.controlModel.ObjectNamed;
-import games.generic.controlModel.subimpl.GEvent;
 import geometry.ObjectLocated;
 
 public abstract class EventOnMap extends GEvent {

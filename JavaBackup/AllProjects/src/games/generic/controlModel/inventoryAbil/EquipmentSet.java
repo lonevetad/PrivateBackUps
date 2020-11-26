@@ -1,7 +1,7 @@
 package games.generic.controlModel.inventoryAbil;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.BaseCreatureRPG;
+import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.player.PlayerGeneric;
 
 /**

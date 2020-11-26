@@ -1,14 +1,14 @@
 package games.generic.controlModel.subimpl;
 
 import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
-import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gObj.CreatureSimple;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.gObj.LivingObject;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.HealGeneric;
+import games.generic.controlModel.heal.HealAmountInstance;
 import tools.ObjectNamedID;
 import tools.ObjectWithID;
 
@@ -48,7 +48,7 @@ public interface GEventInterfaceRPG extends GEventInterface {
 	 * After someone is being healed, fire this event.<br>
 	 */
 	public <SourceHealing extends ObjectWithID> void fireHealReceivedEvent(GModalityET gaModality, SourceHealing source,
-			LivingObject receiver, HealGeneric heal);
+			LivingObject receiver, HealAmountInstance heal);
 
 	/**
 	 * Similar to
@@ -59,7 +59,7 @@ public interface GEventInterfaceRPG extends GEventInterface {
 	 * {@link #fireHealReceivedEvent(GModalityET, CreatureSimple, ObjectNamedID)}).
 	 */
 	public <SourceHealing extends ObjectWithID> void fireHealGivenEvent(GModalityET gaModality, LivingObject receiver,
-			HealGeneric heal, SourceHealing source);
+			HealAmountInstance heal, SourceHealing source);
 
 	//
 

@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import games.generic.controlModel.gObj.MovingObject;
-import games.generic.controlModel.subimpl.GEvent;
 
 public class EventMoviment extends GEvent {
 	private static final long serialVersionUID = 369578984148920210L;

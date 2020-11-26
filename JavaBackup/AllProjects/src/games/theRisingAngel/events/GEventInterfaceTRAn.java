@@ -3,14 +3,14 @@ package games.theRisingAngel.events;
 import java.awt.Point;
 
 import games.generic.controlModel.GEventManager;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
-import games.generic.controlModel.gEvents.EventDamage;
 import games.generic.controlModel.gEvents.EventMoneyChange;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.gObj.LivingObject;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.HealGeneric;
+import games.generic.controlModel.heal.HealAmountInstance;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GEventManagerFineGrained;
@@ -112,13 +112,13 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 
 	@Override
 	public <SourceHealing extends ObjectWithID> void fireHealGivenEvent(GModalityET gaModality, LivingObject receiver,
-			HealGeneric heal, SourceHealing source) {
+			HealAmountInstance heal, SourceHealing source) {
 		this.getGameEventManager().fireEvent(new EventHealTRAr<>(EventsTRAn.HealGiven, source, receiver, heal));
 	}
 
 	@Override
 	public <SourceHealing extends ObjectWithID> void fireHealReceivedEvent(GModalityET gaModality, SourceHealing source,
-			LivingObject receiver, HealGeneric heal) {
+			LivingObject receiver, HealAmountInstance heal) {
 		this.getGameEventManager().fireEvent(new EventHealTRAr<>(EventsTRAn.HealReceived, source, receiver, heal));
 	}
 
