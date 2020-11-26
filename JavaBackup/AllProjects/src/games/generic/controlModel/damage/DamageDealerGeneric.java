@@ -1,7 +1,6 @@
-package games.generic.controlModel.gObj;
+package games.generic.controlModel.damage;
 
-import games.generic.controlModel.gEvents.DamageReceiverGeneric;
-import games.generic.controlModel.misc.DamageTypeGeneric;
+import games.generic.controlModel.gObj.CreatureSimple;
 import tools.ObjectNamedID;
 
 /**

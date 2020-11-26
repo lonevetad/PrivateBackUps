@@ -6,7 +6,7 @@ import java.util.List;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gEvents.EventDamage;
+import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gEvents.EventMoviment;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.inventoryAbil.AttributeModification;

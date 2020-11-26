@@ -1,4 +1,4 @@
-package games.generic.controlModel.subimpl;
+package games.generic.controlModel.gEvents;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;

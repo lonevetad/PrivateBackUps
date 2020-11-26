@@ -1,14 +1,14 @@
 package games.old;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gEvents.DamageReceiverGeneric;
-import games.generic.controlModel.gEvents.EventDamage;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.DamageReceiverGeneric;
+import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gObj.CreatureSimple;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.DestructibleObject;
 import games.generic.controlModel.gObj.LivingObject;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.HealGeneric;
+import games.generic.controlModel.heal.HealAmountInstance;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
@@ -68,7 +68,7 @@ public interface LivingObject_OLD extends DestructibleObject, DamageReceiverGene
 	}
 	// , int actualDamageReceived);
 
-	public HealGeneric newHealLifeInstance(int healAmount);
+	public HealAmountInstance newHealLifeInstance(int healAmount);
 
 	/**
 	 * Similar to {@link #fireDamageReceived( GModality, int, int)}, but about

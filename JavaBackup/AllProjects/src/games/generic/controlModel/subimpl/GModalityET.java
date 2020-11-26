@@ -9,6 +9,7 @@ import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.gEvents.GEvent;
 import games.generic.controlModel.gObj.GameObjectGeneric;
 import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.misc.GThread;

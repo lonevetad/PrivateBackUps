@@ -2,20 +2,19 @@ package games.theRisingAngel.creatures;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.damage.DamageTypeGeneric;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
-import games.generic.controlModel.gObj.creature.ACurableResource;
-import games.generic.controlModel.gObj.creature.CurableResource;
+import games.generic.controlModel.heal.AHealableResource;
+import games.generic.controlModel.heal.HealableResource;
+import games.generic.controlModel.heal.IHealableResourceType;
+import games.generic.controlModel.heal.resExample.ExampleHealingType;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.CurableResourceType;
-import games.generic.controlModel.misc.DamageTypeGeneric;
-import games.generic.controlModel.misc.HealingTypeExample;
 import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.GModalityTRAn;
 import games.theRisingAngel.events.EventsTRAn;
 import games.theRisingAngel.inventory.EquipmentSetTRAn;
 import games.theRisingAngel.misc.AttributesTRAn;
@@ -35,11 +34,6 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	//
 
 	@Override
-	public int getTimeSubunitsEachTimeUnits() {
-		return GModalityTRAn.TIME_SUBUNITS_EACH_TIME_UNIT_TRAn; // milliseconds :D
-	}
-
-	@Override
 	protected CreatureAttributes newAttributes() {
 		CreatureAttributes ca;
 		ca = newAttributes(AttributesTRAn.VALUES.length);
@@ -50,8 +44,8 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	protected CreatureAttributes newAttributes(int attributesAmount) { return new CreatureAttributesTRAn(); }
 
 	@Override
-	public void defineAllCurableResources() {
-		this.addCurableResource(new CurableResourceTRAn(HealingTypeExample.Life) {
+	public void defineAllHealableResources() {
+		this.addHealableResource(new HealableResourceTRAn(ExampleHealingType.Life) {
 			private static final long serialVersionUID = 78748098434280452L;
 
 			@Override
@@ -66,7 +60,7 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 			@Override
 			public void setRegenerationAmount(int resourceRegen) { setLifeRegenation(resourceRegen); }
 		});
-		this.addCurableResource(new CurableResourceTRAn(HealingTypeExample.Mana) {
+		this.addHealableResource(new HealableResourceTRAn(ExampleHealingType.Mana) {
 			private static final long serialVersionUID = 78748098434280452L;
 
 			@Override
@@ -81,7 +75,7 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 			@Override
 			public void setRegenerationAmount(int resourceRegen) { setManaRegenation(resourceRegen); }
 		});
-		this.addCurableResource(new CurableResourceTRAn(HealingTypeExample.Shield) {
+		this.addHealableResource(new HealableResourceTRAn(ExampleHealingType.Shield) {
 			private static final long serialVersionUID = 78748098434280452L;
 
 			@Override
@@ -104,7 +98,7 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	// TODO GETTER
 
 	@Override
-	public int getLife() { return getCurableResourceAmount(HealingTypeExample.Life); }
+	public int getLife() { return getHealableResourceAmount(ExampleHealingType.Life); }
 
 	@Override
 	public int getLifeMax() { return this.getAttributes().getValue(AttributesTRAn.LifeMax); }
@@ -113,7 +107,7 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	public int getLifeRegenation() { return this.getAttributes().getValue(AttributesTRAn.RegenLife); }
 
 	@Override
-	public int getMana() { return getCurableResourceAmount(HealingTypeExample.Mana); }
+	public int getMana() { return getHealableResourceAmount(ExampleHealingType.Mana); }
 
 	@Override
 	public int getManaMax() { return this.getAttributes().getValue(AttributesTRAn.ManaMax); }
@@ -122,7 +116,7 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	public int getManaRegenation() { return this.getAttributes().getValue(AttributesTRAn.RegenMana); }
 
 	@Override
-	public int getShield() { return getCurableResourceAmount(HealingTypeExample.Shield); }
+	public int getShield() { return getHealableResourceAmount(ExampleHealingType.Shield); }
 
 	@Override
 	public int getShieldMax() { return this.getAttributes().getValue(AttributesTRAn.ShieldMax); }
@@ -132,23 +126,26 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	public int getShieldRegenation() { return this.getAttributes().getValue(AttributesTRAn.RegenShield); }
 
 	@Override
-	public int getCurableResourceRegeneration(CurableResourceType healType) {
-		if (healType == HealingTypeExample.Life)
+	public IHealableResourceType getLifeResourceType() { return ExampleHealingType.Life; }
+
+	@Override
+	public int getHealableResourceRegeneration(IHealableResourceType healType) {
+		if (healType == ExampleHealingType.Life)
 			return getLifeRegenation();
-		else if (healType == HealingTypeExample.Mana)
+		else if (healType == ExampleHealingType.Mana)
 			return getManaRegenation();
-		else if (healType == HealingTypeExample.Shield)
+		else if (healType == ExampleHealingType.Shield)
 			return getShieldRegenation();
 		return 0;
 	}
 
 	@Override
-	public int getCurableResourceMax(CurableResourceType healType) {
-		if (healType == HealingTypeExample.Life)
+	public int getHealableResourceMax(IHealableResourceType healType) {
+		if (healType == ExampleHealingType.Life)
 			return getLifeMax();
-		else if (healType == HealingTypeExample.Mana)
+		else if (healType == ExampleHealingType.Mana)
 			return getManaMax();
-		else if (healType == HealingTypeExample.Shield)
+		else if (healType == ExampleHealingType.Shield)
 			return getShieldMax();
 		return 0;
 	}
@@ -203,7 +200,7 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 			life = getLifeMax();
 		if (life <= 0)
 			life = 0;
-		this.setCurableResourceAmount(HealingTypeExample.Life, life);
+		this.setHealableResourceAmount(ExampleHealingType.Life, life);
 		if (getLife() <= 0) {
 			DestructionObjEvent de;
 			de = fireDestructionEvent(getgModalityRPG());
@@ -233,7 +230,7 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 			mana = getManaMax();
 		if (mana <= 0)
 			mana = (0);
-		this.setCurableResourceAmount(HealingTypeExample.Mana, mana);
+		this.setHealableResourceAmount(ExampleHealingType.Mana, mana);
 
 	}
 
@@ -259,7 +256,7 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 			shield = getShieldMax();
 		if (shield <= 0)
 			shield = (0);
-		this.setCurableResourceAmount(HealingTypeExample.Shield, shield);
+		this.setHealableResourceAmount(ExampleHealingType.Shield, shield);
 
 	}
 
@@ -280,10 +277,10 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 	}
 
 	@Override
-	public void setHealingRegenerationAmount(CurableResourceType healType, int value) {
-		if (healType == HealingTypeExample.Life)
+	public void setHealableResourceAmountMax(IHealableResourceType healType, int value) {
+		if (healType == ExampleHealingType.Life)
 			setLifeRegenation(value);
-		else if (healType == HealingTypeExample.Mana)
+		else if (healType == ExampleHealingType.Mana)
 			setManaRegenation(value);
 	}
 
@@ -317,13 +314,13 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	/**
 	 * Default implementation that let to be defined
-	 * {@link CurableResource#getResourceAmountMax()} and
-	 * {@link CurableResource#getResourceRegen()}.
+	 * {@link HealableResource#getResourceAmountMax()} and
+	 * {@link HealableResource#getResourceRegen()}.
 	 */
-	public abstract class CurableResourceTRAn extends ACurableResource {
+	public abstract class HealableResourceTRAn extends AHealableResource {
 		private static final long serialVersionUID = 54405L;
 
-		public CurableResourceTRAn(CurableResourceType ht) { super(ht); }
+		public HealableResourceTRAn(IHealableResourceType ht) { super(ht); }
 
 		protected int amount;
 
@@ -340,6 +337,6 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 		}
 
 		@Override
-		public CurableResourceType getResourceType() { return resourceType; }
+		public IHealableResourceType getResourceType() { return resourceType; }
 	}
 }

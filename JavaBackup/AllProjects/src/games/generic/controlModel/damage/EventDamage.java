@@ -1,16 +1,14 @@
-package games.generic.controlModel.gEvents;
+package games.generic.controlModel.damage;
 
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
+import games.generic.controlModel.gEvents.EventInfo_SourceToTarget;
 import games.generic.controlModel.gObj.LivingObject;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityModifyingAttributesRealTime;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityVanishingOverTime;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.DamageTypeGeneric;
 
 public class EventDamage extends EventInfo_SourceToTarget<DamageDealerGeneric, LivingObject> {
 	private static final long serialVersionUID = 1L;

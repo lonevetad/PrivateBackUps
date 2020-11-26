@@ -1,33 +1,15 @@
-package games.generic.controlModel.gEvents;
+package games.generic.controlModel.damage;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.GameObjectGeneric;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.DamageTypeGeneric;
+import games.generic.controlModel.heal.resExample.LifeHavingObject;
 
 /**
  * Marker interface for an entity capable of receiving damage, analog and
  * "opposite" to {@link DamageDealerGeneric}.<br>
  * It's enriched with info useful for damage computation.
  */
-public interface DamageReceiverGeneric extends GameObjectGeneric {
-
-	public int getLife();
-
-	public int getLifeMax();
-
-	/**
-	 * Raw setting, like assigning a variable's value.
-	 */
-	public void setLife(int life);
-
-	/**
-	 * Raw setting, like assigning a variable's value, like {@link #setLife(int).
-	 * Could invoke this last method if the actual life (returned by
-	 * {@link #getLife()} is greater than the given parameter).
-	 */
-	public void setLifeMax(int lifeMax);
+public interface DamageReceiverGeneric extends LifeHavingObject, GameObjectGeneric {
 
 	/***
 	 * NOTE: this is NOT a percentage (i.e. "%"), but a "per thousand" probability!!

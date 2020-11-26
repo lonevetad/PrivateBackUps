@@ -4,8 +4,8 @@ import java.awt.Point;
 import java.util.function.Predicate;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gEvents.DamageReceiverGeneric;
-import games.generic.controlModel.misc.DamageGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.DamageReceiverGeneric;
 import games.theRisingAngel.GModalityTRAn;
 import geometry.ObjectLocated;
 

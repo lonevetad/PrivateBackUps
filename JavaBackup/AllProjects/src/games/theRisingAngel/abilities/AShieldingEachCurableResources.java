@@ -7,12 +7,12 @@ import java.util.List;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.damage.DamageGeneric;
 import games.generic.controlModel.gObj.LivingObject;
+import games.generic.controlModel.heal.IHealableResourceType;
+import games.generic.controlModel.heal.resExample.ExampleHealingType;
+import games.generic.controlModel.heal.HealAmountInstance;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityBaseImpl;
-import games.generic.controlModel.misc.CurableResourceType;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.HealGeneric;
-import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.events.EventDamageTRAn;
 import games.theRisingAngel.events.EventHealTRAr;
 import games.theRisingAngel.misc.DamageTypesTRAn;
@@ -27,13 +27,13 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 
 	protected static List<String> getEventsWatching_SECR() {
 		DamageTypesTRAn[] dd;
-		HealingTypeExample[] vv;
+		ExampleHealingType[] vv;
 		if (EVENTS_WATCHING != null)
 			return EVENTS_WATCHING;
-		vv = HealingTypeExample.values();
+		vv = ExampleHealingType.values();
 		dd = DamageTypesTRAn.values();
 		EVENTS_WATCHING = new ArrayList<>(dd.length + vv.length);
-		for (HealingTypeExample ht : vv) {
+		for (ExampleHealingType ht : vv) {
 			EVENTS_WATCHING.add(ht.getName());
 		}
 		for (DamageTypesTRAn dt : dd) {
@@ -43,7 +43,7 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 	}
 
 	public AShieldingEachCurableResources() {
-		shields = new int[HealingTypeExample.values().length];
+		shields = new int[ExampleHealingType.values().length];
 		resetAbility();
 
 	}
@@ -63,11 +63,11 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 	@Override
 	public void resetAbility() { Arrays.fill(shields, MAX_SHIELD); }
 
-	protected HealingTypeExample healForDamage(DamageTypesTRAn dt) {
+	protected ExampleHealingType healForDamage(DamageTypesTRAn dt) {
 		if (dt == DamageTypesTRAn.Physical)
-			return HealingTypeExample.Life;
+			return ExampleHealingType.Life;
 		else if (dt == DamageTypesTRAn.Magical)
-			return HealingTypeExample.Mana;
+			return ExampleHealingType.Mana;
 		else
 			return null;
 	}
@@ -80,7 +80,7 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 			int min;
 			EventDamageTRAn ed;
 			ObjectWithID o;
-			HealingTypeExample ht;
+			ExampleHealingType ht;
 			DamageGeneric dg;
 			ed = (EventDamageTRAn) ge;
 			o = getOwner();
@@ -98,9 +98,9 @@ public class AShieldingEachCurableResources extends AbilityBaseImpl implements G
 		} else if (ge instanceof EventHealTRAr<?>) {
 			// heal the shield
 			int amount;
-			CurableResourceType ht;
+			IHealableResourceType ht;
 			EventHealTRAr<?> eh;
-			HealGeneric hg;
+			HealAmountInstance hg;
 			eh = (EventHealTRAr<?>) ge;
 			hg = eh.getHeal();
 			ht = hg.getHealType();

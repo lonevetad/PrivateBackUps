@@ -1,6 +1,8 @@
-package games.generic.controlModel.gObj.creature;
+package games.generic.controlModel.heal.resExample;
 
-public interface ShieldHavingObject {
+import tools.ObjectNamedID;
+
+public interface ShieldHavingObject extends ObjectNamedID {
 
 	public int getShield();
 

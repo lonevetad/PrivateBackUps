@@ -1,4 +1,6 @@
-package games.generic.controlModel.misc;
+package games.generic.controlModel.damage;
+
+import games.generic.controlModel.misc.AmountNamed;
 
 /**
  * Describes a generic type of damage (physical, fire, poison, ranged, critical,

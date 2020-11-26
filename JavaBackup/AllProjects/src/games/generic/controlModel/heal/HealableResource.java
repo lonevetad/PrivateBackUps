@@ -1,18 +1,16 @@
-package games.generic.controlModel.gObj.creature;
+package games.generic.controlModel.heal;
 
-import games.generic.controlModel.misc.CurableResourceType;
-import games.theRisingAngel.creatures.BaseCreatureTRAn.CurableResourceTRAn;
+import games.theRisingAngel.creatures.BaseCreatureTRAn.HealableResourceTRAn;
 
 /**
- * A wrapper that contains and defines a "resource" (see
- * {@link CurableResourceType}), like life, mana, shield, stamina, etc.
+ * An implementation of {@link AHealableResource}, check it for an example.
  * <p>
- * An example: {@link CurableResourceTRAn}
+ * An example: {@link HealableResourceTRAn}
  */
-public class CurableResource extends ACurableResource {
+public class HealableResource extends AHealableResource {
 	private static final long serialVersionUID = 5850480L;
 
-	public CurableResource(CurableResourceType ht) { super(ht); }
+	public HealableResource(IHealableResourceType ht) { super(ht); }
 
 	protected int amount, amountMax, regenerationAmount;
 

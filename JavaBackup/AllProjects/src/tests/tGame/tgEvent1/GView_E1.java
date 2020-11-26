@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import games.generic.controlModel.GController;
+import games.generic.controlModel.heal.resExample.ExampleHealingType;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.GThread.GTRunnable;
-import games.generic.controlModel.misc.HealingTypeExample;
 import games.generic.view.GameView;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CurrencySetTRAn;
@@ -31,8 +31,8 @@ public class GView_E1 extends GameView {
 //	JScrollPane jspPlayerAttributes;
 	JLabel jlMoneyText, jlMoneyValue;
 	JLabel[] jlPlayerStatText, jlPlayerStatValue;
-	HealingTypeExample[] curableResource = { HealingTypeExample.Life, HealingTypeExample.Mana,
-			HealingTypeExample.Shield };
+	ExampleHealingType[] curableResource = { ExampleHealingType.Life, ExampleHealingType.Mana,
+			ExampleHealingType.Shield };
 
 	@Override
 	public void initAndShow() {
@@ -158,7 +158,7 @@ public class GView_E1 extends GameView {
 //		StringBuilder sb;
 		CreatureAttributes ca;
 		JProgressBar jpb;
-		HealingTypeExample curRes;
+		ExampleHealingType curRes;
 		gmodalitye1 = (GModality_E1) super.gc.getCurrentGameModality();
 		if (gmodalitye1 == null)
 			return;
@@ -166,8 +166,8 @@ public class GView_E1 extends GameView {
 		for (int i = 0; i < curableResource.length; i++) {
 			jpb = jpbCurableResources[i];
 			curRes = curableResource[i];
-			jpb.setMaximum(max = p.getCurableResourceMax(curRes));
-			jpb.setValue(v = p.getCurableResourceAmount(curRes));
+			jpb.setMaximum(max = p.getHealableResourceMax(curRes));
+			jpb.setValue(v = p.getHealableResourceAmount(curRes));
 			textDisplayed = curRes.getName() + ": " + v + " / " + max;
 			jpb.setToolTipText(textDisplayed);
 			jpb.setString(textDisplayed);

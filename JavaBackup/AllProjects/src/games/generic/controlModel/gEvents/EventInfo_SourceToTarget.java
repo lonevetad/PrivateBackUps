@@ -1,7 +1,6 @@
 package games.generic.controlModel.gEvents;
 
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.subimpl.GEvent;
 
 /**
  * Event putting in relations two objects: a "source doing something to a

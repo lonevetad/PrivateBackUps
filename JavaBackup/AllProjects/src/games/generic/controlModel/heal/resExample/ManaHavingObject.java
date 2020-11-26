@@ -1,4 +1,4 @@
-package games.generic.controlModel.gObj.creature;
+package games.generic.controlModel.heal.resExample;
 
 import tools.ObjectNamedID;
 

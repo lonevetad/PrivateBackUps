@@ -3,13 +3,13 @@ package games.generic.controlModel;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import games.generic.controlModel.gEvents.GEvent;
 import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.gObj.GameObjectGeneric;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
-import games.generic.controlModel.subimpl.GEvent;
 import tools.ObjectNamedID;
 import tools.ObjectWithID;
 

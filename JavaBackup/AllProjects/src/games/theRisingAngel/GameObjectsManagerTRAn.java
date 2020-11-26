@@ -7,13 +7,13 @@ import games.generic.controlModel.GEventInterface;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
 import games.generic.controlModel.GameObjectsManager;
-import games.generic.controlModel.gEvents.EventDamage;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.DamageTypeGeneric;
+import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gObj.CreatureSimple;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.DamageTypeGeneric;
-import games.generic.controlModel.misc.HealGeneric;
-import games.generic.controlModel.misc.HealingTypeExample;
+import games.generic.controlModel.heal.HealAmountInstance;
+import games.generic.controlModel.heal.resExample.ExampleHealingType;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.theRisingAngel.creatures.BaseCreatureTRAn;
 import games.theRisingAngel.events.GEventInterfaceTRAn;
@@ -30,8 +30,8 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 	public static final AttributesTRAn[] leechableResources = { AttributesTRAn.LifeLeechPercentage,
 			AttributesTRAn.ManaLeechPercentage, AttributesTRAn.ShieldLeechPercentage }; // add shield in future
 	/** DO NOT TOUCH */
-	public static final HealingTypeExample[] leechableHealingTypes = { HealingTypeExample.Life, HealingTypeExample.Mana,
-			HealingTypeExample.Shield };
+	public static final ExampleHealingType[] leechableHealingTypes = { ExampleHealingType.Life, ExampleHealingType.Mana,
+			ExampleHealingType.Shield };
 
 	public GameObjectsManagerTRAn(GModalityTRAn gmodalityTrar) {
 		super();
@@ -110,7 +110,7 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 				if (source instanceof BaseCreatureTRAn) {
 					int i;
 					BaseCreatureTRAn bc;
-					HealGeneric healing;
+					HealAmountInstance healing;
 					bc = (BaseCreatureTRAn) source;
 					/*
 					 * Recycle "thresholdToHitting" as "amount to leech". Also accepts negative
@@ -122,7 +122,7 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 						if (thresholdToHitting != 0) {
 							thresholdToHitting = (thresholdToHitting * r) / 100;
 							if (thresholdToHitting != 0) {
-								healing = new HealGeneric(leechableHealingTypes[i], thresholdToHitting);
+								healing = new HealAmountInstance(leechableHealingTypes[i], thresholdToHitting);
 								bc.receiveHealing(gm, source, healing);
 							}
 						}

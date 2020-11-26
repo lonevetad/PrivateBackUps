@@ -2,13 +2,12 @@ package games.generic.controlModel.gObj.creature;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.gObj.CreatureSimple;
+import games.generic.controlModel.heal.resExample.ManaHavingObject;
 import games.generic.controlModel.inventoryAbil.EquipmentsHolder;
 
 public interface BaseCreatureRPG extends EquipmentsHolder, CreatureSimple, ManaHavingObject {
 
 	// implemented to let "this class implementor" to redefine and call it"
-	@Override
-	public default void act(GModality modality, int timeUnits) { CreatureSimple.super.act(modality, timeUnits); }
 
 	@Override
 	default void addMeToGame(GModality gm) {

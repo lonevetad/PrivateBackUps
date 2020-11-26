@@ -1,4 +1,4 @@
-package games.generic.controlModel.misc;
+package games.generic.controlModel.damage;
 
 import tools.ObjectNamedID;
 

@@ -8,15 +8,15 @@ import java.util.Set;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gEvents.DamageReceiverGeneric;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.DamageReceiverGeneric;
 import games.generic.controlModel.gObj.CreatureSimple;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.MovingObject;
 import games.generic.controlModel.gObj.MovingObjectDelegatingMovement;
 import games.generic.controlModel.gObj.OrbitingInteractiveObject;
 import games.generic.controlModel.gObj.TimedObject;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityTargetingGObjInMap;
-import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.GObjMovement;
 import games.generic.controlModel.subimpl.movements.GObjLinearMovement;
 import games.theRisingAngel.GModalityTRAn;

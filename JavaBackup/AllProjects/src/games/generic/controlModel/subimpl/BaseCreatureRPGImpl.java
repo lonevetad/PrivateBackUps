@@ -5,20 +5,20 @@ import java.util.Map;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gEvents.EventDamage;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gObj.CreatureSimple;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
 import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
-import games.generic.controlModel.gObj.creature.HealingObject;
+import games.generic.controlModel.heal.HealAmountInstance;
+import games.generic.controlModel.heal.HealingObject;
+import games.generic.controlModel.heal.IHealableResourceType;
+import games.generic.controlModel.heal.resExample.HealingTypeExample;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
 import games.generic.controlModel.inventoryAbil.EquipmentsHolder;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.CurableResourceType;
-import games.generic.controlModel.misc.DamageGeneric;
 import games.generic.controlModel.misc.GObjMovement;
-import games.generic.controlModel.misc.HealGeneric;
-import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureUIDProvider;
 import games.theRisingAngel.misc.DamageTypesTRAn;
@@ -43,14 +43,12 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	private static final long serialVersionUID = 1L;
 
 	protected boolean isDestroyed;
-	protected int ticksHealing;
-	protected int accumulatedTimeLifeRegen;
 	protected Integer ID;
 	protected String name;
 	protected List<String> eventsWatching;
 	protected EquipmentSet equipmentSet;
 	protected CreatureAttributes attributes;
-	protected CurableResourcesHolders curableResourcesHolders;
+	protected HealableResourcesHolders curableResourcesHolders;
 	protected AbstractShape2D shape;
 	protected GObjMovement movementImplementation;
 	protected Map<String, AbilityGeneric> abilities = null;
@@ -64,19 +62,17 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 		initializeID();
 		this.isDestroyed = false;
 		this.attributes = newAttributes();
-		this.setCurableResourcesHolders(new HealingObject.CurableResourcesHolders());
-		defineAllCurableResources();
-		ticksHealing = 0;
-		accumulatedTimeLifeRegen = 0;
+		this.setCurableResourcesHolders(new HealingObject.HealableResourcesHolders());
+		defineAllHealableResources();
 	}
 
 	protected void initializeID() { this.ID = CreatureUIDProvider.newID(); }
 
 	@Override
-	public void defineAllCurableResources() {
-		this.addCurableResourceType(HealingTypeExample.Life);
-		this.addCurableResourceType(HealingTypeExample.Mana);
-		this.addCurableResourceType(HealingTypeExample.Shield);
+	public void defineAllHealableResources() {
+		this.addHealableResourceType(HealingTypeExample.Life);
+		this.addHealableResourceType(HealingTypeExample.Mana);
+		this.addHealableResourceType(HealingTypeExample.Shield);
 	}
 
 	/**
@@ -115,22 +111,16 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
+	public AbstractShape2D getShape() { return shape; }
+
+	@Override
 	public boolean isDestroyed() { return this.isDestroyed; }
 
 	@Override
 	public EquipmentSet getEquipmentSet() { return equipmentSet; }
 
 	@Override
-	public int getTicksHealing() { return ticksHealing; }
-
-	@Override
-	public int getAccumulatedTimeRegen() { return accumulatedTimeLifeRegen; }
-
-	@Override
-	public AbstractShape2D getShape() { return shape; }
-
-	@Override
-	public CurableResourcesHolders getCurableResourcesHolders() { return curableResourcesHolders; }
+	public HealableResourcesHolders getHealableResourcesHolders() { return curableResourcesHolders; }
 
 	//
 
@@ -167,7 +157,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public void setCurableResourcesHolders(CurableResourcesHolders curableResourcesHolders) {
+	public void setCurableResourcesHolders(HealableResourcesHolders curableResourcesHolders) {
 		this.curableResourcesHolders = curableResourcesHolders;
 	}
 
@@ -276,8 +266,8 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public HealGeneric newHealInstance(CurableResourceType healType, int healAmount) {
-		return new HealGeneric(healType, healAmount);
+	public HealAmountInstance newHealInstance(IHealableResourceType healType, int healAmount) {
+		return new HealAmountInstance(healType, healAmount);
 	}
 
 	//

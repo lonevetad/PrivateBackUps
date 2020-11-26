@@ -6,12 +6,12 @@ import java.util.List;
 import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gEvents.EventHealing;
 import games.generic.controlModel.gObj.CurrencyHolder;
 import games.generic.controlModel.gObj.LivingObject;
+import games.generic.controlModel.heal.EventHealing;
+import games.generic.controlModel.heal.resExample.ExampleHealingType;
 import games.generic.controlModel.inventoryAbil.abilitiesImpl.AbilityBaseImpl;
 import games.generic.controlModel.misc.CurrencySet;
-import games.generic.controlModel.misc.HealingTypeExample;
 import games.theRisingAngel.events.EventsTRAn;
 import tools.ObjectWithID;
 
@@ -58,7 +58,7 @@ public class ALifeHealingMakesEarnBaseCurrency extends AbilityBaseImpl implement
 			LivingObject ol;
 			ObjectWithID owid;
 			eventHealing = (EventHealing<?>) ge;
-			if (eventHealing.getHeal().getType() != HealingTypeExample.Life)
+			if (eventHealing.getHeal().getType() != ExampleHealingType.Life)
 				return;
 			amoutHealed = eventHealing.getHeal().getHealAmount();
 			owid = getOwner();

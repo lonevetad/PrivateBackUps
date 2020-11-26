@@ -1,10 +1,10 @@
 package tests.tGame.tgEvent1.oggettiDesempio;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageDealerGeneric;
+import games.generic.controlModel.damage.DamageGeneric;
+import games.generic.controlModel.damage.DamageTypeGeneric;
 import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
-import games.generic.controlModel.misc.DamageGeneric;
-import games.generic.controlModel.misc.DamageTypeGeneric;
 import games.generic.controlModel.subimpl.TimedObjectSimpleImpl;
 import games.theRisingAngel.GameObjectsManagerTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
