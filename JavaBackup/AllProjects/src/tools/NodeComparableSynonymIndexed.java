@@ -220,7 +220,6 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 	public void forEachChildNCFIFOOrdering(Consumer<NodeComparable<SynonymSet>> action) {
 //((	MapTreeAVLFull<>	)this.childrenBySynonymsBackMap).fo
 		this.childrenBySynonymsBackMap.forEach(MapTreeAVL.ForEachMode.Queue, e -> action.accept(e.getKey()));
-
 	}
 
 	// delegators
@@ -233,7 +232,7 @@ public class NodeComparableSynonymIndexed extends NodeComparable.NodeComparableD
 	public NodeComparableSynonymIndexed addAlternatives(SynonymSet s) {
 		s.forEach(this.alternatives::addAlternative);
 		return this;
-	}r
+	}
 
 	public void removeAlternative(String t) { this.alternatives.removeAlternative(t); }
 

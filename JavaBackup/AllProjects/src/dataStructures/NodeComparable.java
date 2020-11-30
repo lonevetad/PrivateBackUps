@@ -247,7 +247,11 @@ public interface NodeComparable<K> extends Stringable {
 
 	//
 
+	// abstract STUFFS
+
 	//
+
+//	
 
 	/**
 	 * Compute how much <code>this</code> node differs to the given one, which is
@@ -271,7 +275,6 @@ public interface NodeComparable<K> extends Stringable {
 	/** See {@link #computeDissonanceAsLong(NodeComparable)}. */
 	public long computeDissonanceAsLong(NodeComparable<K> nodeBase, DissonanceWeights weights);
 	// , boolean checkRecursion);
-
 
 	//
 
@@ -459,7 +462,6 @@ public interface NodeComparable<K> extends Stringable {
 		protected long computeDissonanceAsLong_V2(NodeComparable<T> nodeBase, DissonanceWeights weights,
 				long exponentialWeightDepth) {
 			return new DissonanceTreeAlgo_Mine2<T>().computeDissonance(weights, this, nodeBase);
-
 		}
 
 		//
@@ -478,6 +480,7 @@ public interface NodeComparable<K> extends Stringable {
 			BigInteger[] dissonance = {
 					Objects.equals(nodeBase.getKeyIdentifier(), this.getKeyIdentifier()) ? BigInteger.ZERO
 							: BigInteger.ONE };
+
 			BiConsumer<NodeComparable<T>, NodeComparable<T>> oneSideDifferenceComputation;
 			boolean[] isExceedingNode = { true };
 			// since the difference is symmetrical
