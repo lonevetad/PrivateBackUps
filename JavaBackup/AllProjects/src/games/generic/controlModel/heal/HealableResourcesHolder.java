@@ -76,7 +76,6 @@ public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy i
 		if (this.backmapHealableResources.isEmpty())
 			return;
 		if (this.healer == null) { this.healer = new HealerForEacher(); }
-		System.out.println(this.getClass().getSimpleName() + " healing over " + timeUnits + " time units.");
 		this.healer.timeUnitsElapsed = timeUnits;
 		this.backmapHealableResources.forEach(this.healer);
 	}
@@ -113,8 +112,8 @@ public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy i
 			BridgeHealResourceRecharge b;
 			res = (b = t.getValue()).resource;
 			r = res.getRegenerationAmount();
-			System.out.println(
-					this.getClass().getSimpleName() + " - r: " + r + "\tof " + res.getResourceType().getName());
+//			System.out.println(
+//					this.getClass().getSimpleName() + " - r: " + r + "\tof " + res.getResourceType().getName());
 			timeUnitSuperscale = getTimeUnitSuperscale();
 			total = 0;
 			if (r != b.regenCache) {// detect changes
@@ -163,7 +162,7 @@ public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy i
 				b.amountRecovered = nextCumulativeRecover;
 			}
 			// DO THE HEAL
-			System.out.println(this.getClass().getSimpleName() + " - healed by total: " + total);
+//			System.out.println(this.getClass().getSimpleName() + " - healed by total: " + total);
 			if (total > 0) { objToHeal.healMyself(objToHeal.newHealInstance(t.getKey(), total)); }
 		}
 	}
