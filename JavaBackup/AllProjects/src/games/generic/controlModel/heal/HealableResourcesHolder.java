@@ -46,7 +46,7 @@ public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy i
 	@Override
 	public void alterHealableResourceAmount(IHealableResourceType healType, int delta) {
 		AHealableResource hr = getHealableResourceFor(healType);
-		hr.setAmount(hr.getAmount() - delta);
+		hr.setAmount(hr.getAmount() + delta);
 	}
 
 	//
@@ -76,7 +76,8 @@ public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy i
 		if (this.backmapHealableResources.isEmpty())
 			return;
 		if (this.healer == null) { this.healer = new HealerForEacher(); }
-		this.healer.ms = timeUnits;
+		System.out.println(this.getClass().getSimpleName() + " healing over " + timeUnits + " time units.");
+		this.healer.timeUnitsElapsed = timeUnits;
 		this.backmapHealableResources.forEach(this.healer);
 	}
 
@@ -103,16 +104,19 @@ public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy i
 //			this.objToHeal = Objects.requireNonNull(objToHeal);
 //		}
 //		protected final HealingObject objToHeal;
-		protected int ms = 0;
+		protected int timeUnitsElapsed = 0;
 
 		@Override
 		public void accept(Entry<IHealableResourceType, BridgeHealResourceRecharge> t) {
-			int total = 0, nextTotalTime, r, timeUnitSuperscale;
+			int total, nextTotalTime, r, timeUnitSuperscale;
 			AHealableResource res;
 			BridgeHealResourceRecharge b;
 			res = (b = t.getValue()).resource;
 			r = res.getRegenerationAmount();
+			System.out.println(
+					this.getClass().getSimpleName() + " - r: " + r + "\tof " + res.getResourceType().getName());
 			timeUnitSuperscale = getTimeUnitSuperscale();
+			total = 0;
 			if (r != b.regenCache) {// detect changes
 				b.regenCache = r;
 				total = (b.millis * b.regenCache) / timeUnitSuperscale;
@@ -122,8 +126,8 @@ public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy i
 			if (r == 0)
 				return;
 
-			// this.millis += ms;
-			nextTotalTime = b.millis + ms;
+			// this.millis += timeUnitsElapsed;
+			nextTotalTime = b.millis + timeUnitsElapsed;
 
 			if (nextTotalTime >= timeUnitSuperscale) {
 				total += (r - b.amountRecovered); // recover the "amount left"
@@ -159,6 +163,7 @@ public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy i
 				b.amountRecovered = nextCumulativeRecover;
 			}
 			// DO THE HEAL
+			System.out.println(this.getClass().getSimpleName() + " - healed by total: " + total);
 			if (total > 0) { objToHeal.healMyself(objToHeal.newHealInstance(t.getKey(), total)); }
 		}
 	}

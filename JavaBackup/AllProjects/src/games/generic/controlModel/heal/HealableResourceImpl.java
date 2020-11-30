@@ -7,10 +7,10 @@ import games.theRisingAngel.creatures.BaseCreatureTRAn.HealableResourceTRAn;
  * <p>
  * An example: {@link HealableResourceTRAn}
  */
-public class HealableResource extends AHealableResource {
+public class HealableResourceImpl extends AHealableResource {
 	private static final long serialVersionUID = 5850480L;
 
-	public HealableResource(IHealableResourceType ht) { super(ht); }
+	public HealableResourceImpl(IHealableResourceType ht) { super(ht); }
 
 	protected int amount, amountMax, regenerationAmount;
 
