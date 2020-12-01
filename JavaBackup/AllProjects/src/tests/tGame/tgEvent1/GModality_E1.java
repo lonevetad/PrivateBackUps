@@ -140,11 +140,12 @@ public class GModality_E1 extends GModalityTRAn {
 		// money-maker, etc
 
 		int[][] damageDealers = { //
-				// milliseconds (ms), damage, starting time (ms), damage index
+//				 milliseconds (ms), damage, starting time (ms), damage index
 				{ 6000, 300, 5000, 0 }, //
 				{ 4000, 125, 2500, 0 }, //
-				{ 12000, 600, 125, 1 }, //
-				{ 1200, 20, 15, 0 }, //
+				{ 12000, 650, 125, 1 }, //
+//				{ 17000, 700, -5333, 0 }, //
+//				{ 1200, 20, 15, 0 }, //
 		};
 		for (int[] damageData : damageDealers) {
 			odd = new ObjDamageDeliverE1(damageData[0]);

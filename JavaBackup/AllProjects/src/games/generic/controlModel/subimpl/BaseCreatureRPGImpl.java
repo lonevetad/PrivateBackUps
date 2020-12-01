@@ -11,7 +11,7 @@ import games.generic.controlModel.damage.EventDamage;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.gObj.creature.BaseCreatureRPG;
 import games.generic.controlModel.heal.HealAmountInstance;
-import games.generic.controlModel.heal.HealableResourcesHolder;
+import games.generic.controlModel.heal.HealableResourcesHolderStrategy;
 import games.generic.controlModel.heal.IHealableResourceType;
 import games.generic.controlModel.heal.IHealableResourcesHolder;
 import games.generic.controlModel.heal.IHealingResourcesOverTimeStrategy;
@@ -71,9 +71,9 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	/** Override designed. */
 	protected void initAllCreatureStuffs() {
-		HealableResourcesHolder hrh;
+		HealableResourcesHolderStrategy hrh;
 		this.attributes = newAttributes();
-		hrh = new HealableResourcesHolder(this);
+		hrh = new HealableResourcesHolderStrategy(this);
 		this.setHealableResourcesHolder(hrh);
 		this.setHealingStrategyHelper(hrh);
 		defineAllHealableResources();
@@ -232,6 +232,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	@Override
 	public boolean destroy() {
 		this.gModalityRPG.removeGameObject(this);
+		this.setDestroyed(true);
 		System.out.println("\n\n\n\n " + name + " I'M DEEEEEAAAAAADDDDDD \n\n\n");
 		return true;
 	}
@@ -266,10 +267,12 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 			if (shield > 0) {
 				if (shield >= damageReallyReceived) {
 					setShield(shield - damageReallyReceived);
+					originalDamage.setDamageAmount(0);
 					return;
 				} else {
 					setShield(0);
 					damageReallyReceived -= shield;
+					originalDamage.setDamageAmount(damageReallyReceived);
 				}
 			}
 			// then execute the damage, after ALL reductions and malus by listeners

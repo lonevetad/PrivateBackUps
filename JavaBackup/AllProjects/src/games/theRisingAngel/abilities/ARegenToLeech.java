@@ -42,8 +42,8 @@ public class ARegenToLeech extends AbilityModifyingAttributesRealTime {
 		while (++i < n) {
 			pair = rigenToLeetchPairs[i];
 			// pick the original value plus the base-attributes gaining
-			regen = cat.getOriginalValue(pair[0].getIndex()) - 1;
-			this.attributesToModify[i << 1].setValue(-regen);
+			regen = cat.getOriginalValue(pair[0].getIndex());
+			this.attributesToModify[i << 1].setValue((-regen) + 1);
 			// recycle regen as temporary variable for leech
 			regen >>= 1;
 			if (regen == 0) {

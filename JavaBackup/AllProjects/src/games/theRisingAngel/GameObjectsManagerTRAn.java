@@ -4,6 +4,7 @@ import java.util.Random;
 
 import dataStructures.isom.MultiISOMRetangularMap;
 import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.GEventManager;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
 import games.generic.controlModel.GameObjectsManager;
@@ -11,6 +12,7 @@ import games.generic.controlModel.damage.DamageDealerGeneric;
 import games.generic.controlModel.damage.DamageGeneric;
 import games.generic.controlModel.damage.DamageTypeGeneric;
 import games.generic.controlModel.damage.EventDamage;
+import games.generic.controlModel.gEvents.GEvent;
 import games.generic.controlModel.gObj.CreatureSimple;
 import games.generic.controlModel.heal.HealAmountInstance;
 import games.generic.controlModel.heal.resExample.ExampleHealingType;
@@ -69,13 +71,28 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 
 	//
 
+	/**
+	 * Deals damage considering the probabilities to hit and avoid strikes, both
+	 * normal and, in case of success of the former, critical damage.<br>
+	 * At each test an event is fired (the default implementation of the
+	 * {@link GEventManager} lets to define if the events are performed as they are
+	 * fired or just "posted" into a queue, see
+	 * {@link GEvent#isRequirigImmediateProcessing()}.) to allow modifications of
+	 * damage amount or something else to be applied.<br>
+	 * The leech mechanism is embedded and instantaneous.
+	 * <p>
+	 * Inherited documentation:<br>
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void dealsDamageTo(DamageDealerGeneric source, CreatureSimple target, DamageGeneric damage) {
+
 		int r, thresholdToHitting;
 		DamageTypeGeneric damageType;
 		Random rand;
 		EventDamage ed;
 		GModalityET gm;
+		GEventInterface eventInterface;
 		rand = this.getGameModality().getRandom();
 		r = rand.nextInt(MAX_PROBABILITY_VALUE_PER_THOUSAND);
 		damageType = damage.getDamageType();
@@ -83,9 +100,10 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 		thresholdToHitting = (THRESHOLD_PROBABILITY_BASE_TO_HIT_PER_THOUSAND
 				+ source.getProbabilityPerThousandHit(damageType)) - target.getProbabilityPerThousandAvoid(damageType);
 		gm = (GModalityET) getGameModality();
+		eventInterface = this.getGEventInterface();
 		if (r <= thresholdToHitting) {
 //			GameObjectsManager.super.dealsDamageTo(source, target, damage);
-			ed = this.getGEventInterface().fireDamageDealtEvent(gm, source, target, damage);
+			ed = eventInterface.fireDamageDealtEvent(gm, source, target, damage);
 //			update the damage amount
 			damage.setValue(ed.getDamageAmountToBeApplied());
 
@@ -99,7 +117,7 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 				if (thresholdToHitting >= 0) {
 					// crit dealt !
 					damage.setValue((damage.getDamageAmount() * (100 + r)) / 100);
-					ed = this.getGEventInterface().fireCriticalDamageDealtEvent(gm, source, target, damage);
+					ed = eventInterface.fireCriticalDamageDealtEvent(gm, source, target, damage);
 					// update the damage amount
 					damage.setValue(ed.getDamageAmountToBeApplied());
 				}
@@ -133,7 +151,7 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 			}
 		} else {
 			GEventInterfaceTRAn geiTran;
-			geiTran = (GEventInterfaceTRAn) this.getGEventInterface();
+			geiTran = (GEventInterfaceTRAn) eventInterface; // this.getGEventInterface();
 			geiTran.fireDamageAvoidedEvent(gm, source, target, damage);
 			geiTran.fireDamageMissedEvent(gm, source, target, damage);
 		}
