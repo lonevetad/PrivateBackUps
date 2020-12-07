@@ -24,7 +24,7 @@ import tools.RandomWeightedIndexes;
  * for each 1/f points of this".</li>
  * <li>Strength:
  * <ul>
- * <li>+2.25 LifeMax</li>
+ * <li>+1/16 LifeMax</li>
  * <li>+0.25 DamageReductionPhysical</li>
  * <li>+1.25 DamageBonusPhysical</li>
  * <li>+0.25 CriticalMultiplierPercentage</li>
@@ -34,9 +34,9 @@ import tools.RandomWeightedIndexes;
  * </li>
  * <li>Constitution:
  * <ul>
- * <li>+10.5 LifeMax</li>
+ * <li>+10 LifeMax</li>
  * <li>+0.75 DamageReductionPhysical</li>
- * <li>+1 RegenLife</li>
+ * <li>+0.25 RegenLife</li>
  * <li>+0.25 DamageBonusPhysical</li>
  * <li>+0.5 DamageReductionMagical</li>
  * <li>+0.25 CriticalProbabilityPerThousandAvoid
@@ -44,8 +44,8 @@ import tools.RandomWeightedIndexes;
  * </li>
  * <li>Health:
  * <ul>
- * <li>+4.5 LifeMax</li>
- * <li>+ 2 RegenLife</li>
+ * <li>+4 LifeMax</li>
+ * <li>+ 1 RegenLife</li>
  * <li>+0.03125 Luck</li>
  * </ul>
  * </li>
@@ -100,8 +100,8 @@ import tools.RandomWeightedIndexes;
  * <li>+0.125 CriticalProbabilityPerThousand</li>
  * <li>+0.125 CriticalMultiplierPercentage</li>
  * <li>+0.25 LifeMax</li>
+ * <li>+1/32 RegenLife</li>
  * <li>+0.0625 Luck</li>
- * <li>+0.125 RegenLife</li>
  * <li>+0.125 CriticalProbabilityPerThousandAvoid</li>
  * <li>+0.25 ProbabilityPerThousandHitPhysical</li>
  * </ul>
@@ -168,26 +168,43 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			cost = c.getValue(AttributesTRAn.Constitution);
 			str = c.getValue(AttributesTRAn.Strength);
 			h = c.getValue(AttributesTRAn.Health);
-			v = +c.getValue(AttributesTRAn.Defense) //
-					+ (( // *2
-					+h //
-							+ (cost + (cost << 2)) // = *5
-							+ str) //
-							<< 1)
-					+ //
-					(( //
-					+((c.getValue(AttributesTRAn.Wisdom) + str) >> 1) //
-							+ h //
-					) >> 1);
+			// V3
+			/* 4*h + 10*cost + 2*str + wisdom/4 */
+			v = (c.getValue(AttributesTRAn.Wisdom) >> 2) //
+					+ ((str + cost + //
+							(((cost << 1) + h) << 1)//
+					) << 1);
+//			v = +c.getValue(AttributesTRAn.Defense) //
+//					+ (( // *2
+//					+h //
+//							+ (cost + (cost << 2)) // = *5
+//							+ str) //
+//							<< 1)
+//					+ //
+//					(( //
+//					+((c.getValue(AttributesTRAn.Wisdom) + str) >> 1) //
+//							+ h //
+//					) >> 1);
 			break;
 		}
 		case RegenLife: {
-			v = +((// 0.25
-			+(c.getValue(AttributesTRAn.Wisdom) >> 1) //
-					+ c.getValue(AttributesTRAn.Strength)) >> 2)//
-					+ c.getValue(AttributesTRAn.Constitution) //
-					+ (c.getValue(AttributesTRAn.Health) << 1);
+			// V3
+			/** h + (cons/4) + (str/16) + (wisdom/32) */
+			v = c.getValue(AttributesTRAn.Health) //
+					+ ((+((c.getValue(AttributesTRAn.Strength)//
+							+ ((c.getValue(AttributesTRAn.Strength)//
+									+ (c.getValue(AttributesTRAn.Wisdom) >> 1)//
+							) >> 1)//
+					) >> 1) //
+							+ c.getValue(AttributesTRAn.Constitution)) >> 2);
+//			V2
+//			v = +((// 0.25
+//			+(c.getValue(AttributesTRAn.Wisdom) >> 1) //
+//					+ c.getValue(AttributesTRAn.Strength)) >> 2)//
+//					+ c.getValue(AttributesTRAn.Constitution) //
+//					+ (c.getValue(AttributesTRAn.Health) << 1);
 			break;
+			// V1
 //					+((c.getValue(AttributesTRAn.Health) + (c.getValue(AttributesTRAn.Constitution) >> 1)
 //					+ (c.getValue(AttributesTRAn.Strength) / 3) // >> 2)
 //					+ ((c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Faith)) >> 3)) >> 3);

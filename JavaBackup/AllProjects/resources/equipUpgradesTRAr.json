@@ -2481,5 +2481,21 @@
 			{"attribute": "RegenShield", "value": 4},
 			{"attribute": "Luck", "value": -16}
 		]
-	}
+	}, {
+		"name": "of the Gangrenous Wounds",
+		"rarity": 5,
+		"bonusPrice": [-100],
+		"description": "So much meat means so much to lose.",
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 1000},
+			{"attribute": "RegenLife", "value": -100}
+	], {
+			"name": "of the Gluey body",
+			"rarity": 5,
+			"bonusPrice": [-50],
+			"description": "So much meat means so much to lose.",
+			"modifiers": [
+				{"attribute": "LifeMax", "value": -750},
+				{"attribute": "RegenLife", "value": 50}
+		]
 ]
