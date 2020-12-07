@@ -2265,6 +2265,31 @@
 			{"attribute": "Luck", "value": 2}
 		]
 	}, {
+		"name": "Scratched",
+		"rarity": 1,
+		"bonusPrice": [-3],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": -5},
+			{"attribute": "Defense", "value": -1}
+		]
+	}, {
+		"name": "with bumps and hits",
+		"rarity": 1,
+		"bonusPrice": [-5],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": -10},
+			{"attribute": "Dexterity", "value": -1}
+		]
+	}, {
+		"name": "Stinky",
+		"rarity": 1,
+		"bonusPrice": [-12],
+		"modifiers": [
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Precision", "value": -3}
+		]
+	}, {
 		"name": "of Pine tree",
 		"rarity": 1,
 		"bonusPrice": [8],
