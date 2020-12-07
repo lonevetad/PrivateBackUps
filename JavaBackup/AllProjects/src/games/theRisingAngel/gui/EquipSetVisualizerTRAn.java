@@ -6,6 +6,11 @@ import games.generic.view.dataProviders.EquipSetProviderGui;
 import games.theRisingAngel.inventory.EquipmentSetTRAn;
 import games.theRisingAngel.inventory.EquipmentTypesTRAn;
 
+/**
+ * Should add, as a feature: each rarity-1 attribute that includes 1 Luck should
+ * hide that luck bonus, as an easter-egg.<br>
+ * In code:
+ */
 public class EquipSetVisualizerTRAn extends EquipSetProviderGui {
 
 	public static final int FIRST_PAGE_WIDTH = 3, FIRST_PAGE_HEIGHT = 4, //
@@ -19,9 +24,7 @@ public class EquipSetVisualizerTRAn extends EquipSetProviderGui {
 
 	protected final EquipmentItem[][] firstPage, secondJewelryPage;
 
-	public EquipmentSetTRAn getEquipSetTRAn() {
-		return (EquipmentSetTRAn) getEquipSet();
-	}
+	public EquipmentSetTRAn getEquipSetTRAn() { return (EquipmentSetTRAn) getEquipSet(); }
 
 	public void updatePages() {
 		int r, c, offsetEquipSet, handSize, handIndex, handOffset;

@@ -170,20 +170,21 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			h = c.getValue(AttributesTRAn.Health);
 			v = +c.getValue(AttributesTRAn.Defense) //
 					+ (( // *2
-					+(h << 1) //
+					+h //
 							+ (cost + (cost << 2)) // = *5
 							+ str) //
 							<< 1)
 					+ //
 					(( //
 					+((c.getValue(AttributesTRAn.Wisdom) + str) >> 1) //
-							+ cost //
+							+ h //
 					) >> 1);
 			break;
 		}
 		case RegenLife: {
 			v = +((// 0.25
-			+(c.getValue(AttributesTRAn.Wisdom) >> 1) + c.getValue(AttributesTRAn.Strength)) >> 2)//
+			+(c.getValue(AttributesTRAn.Wisdom) >> 1) //
+					+ c.getValue(AttributesTRAn.Strength)) >> 2)//
 					+ c.getValue(AttributesTRAn.Constitution) //
 					+ (c.getValue(AttributesTRAn.Health) << 1);
 			break;
@@ -231,8 +232,11 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			break;
 		}
 		case RegenMana: {
-			v = +c.getValue(AttributesTRAn.Faith) + //
-					+((c.getValue(AttributesTRAn.Wisdom) >> 2)) //
+			v = //
+					+(((c.getValue(AttributesTRAn.Wisdom) //
+							+ (c.getValue(AttributesTRAn.Health) >> 1)//
+					) >> 1) //
+							+ c.getValue(AttributesTRAn.Faith)) >> 1 //
 			;
 			break;
 //		;}case RegenMana : {v= ((c.getValue(AttributesTRAn.Faith))

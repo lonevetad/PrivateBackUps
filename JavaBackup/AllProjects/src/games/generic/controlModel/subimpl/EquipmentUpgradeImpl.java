@@ -1,6 +1,7 @@
 package games.generic.controlModel.subimpl;
 
-import java.util.Set;
+import java.util.Comparator;
+import java.util.SortedSet;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
@@ -8,30 +9,35 @@ import games.generic.controlModel.inventoryAbil.EquipmentItem;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgrade;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.RarityHolder;
+import tools.ClosestMatch;
 import tools.Comparators;
 
 public class EquipmentUpgradeImpl implements EquipmentUpgrade {
 
 	public EquipmentUpgradeImpl(int rarityIndex, String name) {
 		super();
-		MapTreeAVL<String, AttributeModification> m;
 		this.rarityIndex = rarityIndex;
 		this.name = name;
-		m = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
-		this.attributeModifiers = m.toSetValue(AttributeModification.KEY_EXTRACTOR);
+		backMapAttrMods = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
+		this.attributeModifiers = backMapAttrMods.toSetValue(AttributeModification.KEY_EXTRACTOR);
+		this.description = null;
 	}
 
 	protected int rarityIndex;
-	protected String name;
+	protected String name, description;
+	protected final MapTreeAVL<String, AttributeModification> backMapAttrMods;
 	protected EquipmentItem equipmentAssigned;
-	protected final Set<AttributeModification> attributeModifiers;
+	protected final SortedSet<AttributeModification> attributeModifiers;
 	protected CurrencySet priceModifications;
 
 	@Override
-	public Set<AttributeModification> getAttributeModifiers() { return attributeModifiers; }
+	public SortedSet<AttributeModification> getDelegator() { return attributeModifiers; }
 
 	@Override
 	public String getName() { return name; }
+
+	@Override
+	public String getDescription() { return description; }
 
 	@Override
 	public int getRarityIndex() { return rarityIndex; }
@@ -41,6 +47,11 @@ public class EquipmentUpgradeImpl implements EquipmentUpgrade {
 
 	@Override
 	public CurrencySet getPricesModifications() { return priceModifications; }
+
+	//
+
+	@Override
+	public void setDescription(String description) { this.description = description; }
 
 	@Override
 	public RarityHolder setRarityIndex(int rarityIndex) {
@@ -61,8 +72,9 @@ public class EquipmentUpgradeImpl implements EquipmentUpgrade {
 	@Override
 	public String toString() {
 		return "\tEquipmentUpgradeImpl [\n\t\tname=" + name + ", rarityIndex=" + rarityIndex
-				+ ",\n\t\tpriceModifications=" + priceModifications + ",\n\t\tattributeModifiers="
-				+ attributeModifiersToString() + "]";
+				+ ",\n\t\tpriceModifications=" + priceModifications
+				+ (this.description != null ? (",\n\t" + this.description) : "")//
+				+ ",\n\t\tattributeModifiers=" + attributeModifiersToString() + "]";
 	}
 
 	public String attributeModifiersToString() {
@@ -76,4 +88,12 @@ public class EquipmentUpgradeImpl implements EquipmentUpgrade {
 		return sb.toString();
 	}
 
+	@Override
+	public Comparator<AttributeModification> getKeyComparator() { return AttributeModification.COMPARATOR; }
+
+	@Override
+	public ClosestMatch<AttributeModification> closestMatchOf(AttributeModification key) {
+		var cm = backMapAttrMods.closestMatchOf(AttributeModification.KEY_EXTRACTOR.apply(key));
+		return cm.convertTo(AttributeModification.COMPARATOR, e -> e.getValue());
+	}
 }
