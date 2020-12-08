@@ -16,7 +16,12 @@ import tools.ObjectWithID;
  * it's a {@link GObjectsHolder} of {@link GEventObserver}<br>
  * All {@link GEvent}s' effects should be applied "at the same time" because all
  * of them happens in the same "moment" (i.e. in the same cycle, implemented in
- * {@link GModality#doOnEachCycle(long)}) but it's obviously hard to implement.
+ * {@link GModalityET#doOnEachCycle(int)} if the modality is time-based) but
+ * it's obviously hard to implement.
+ * <p>
+ * The implementation should allow to fire events immediately: fire them as the
+ * are posted, without putting them to a hypothetical queue and waiting to be
+ * performed. See {@link GEvent#isRequirigImmediateProcessing()}.
  */
 public abstract class GEventManager implements GObjectsHolder {
 	protected GModalityET gameModality; // back reference

@@ -14,10 +14,11 @@ import games.generic.controlModel.GModality;
  * (i.e. a {@link IHealingResourcesOverTimeStrategy}).<br>
  * Used inside {@link HealingObject}.
  */
-public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy implements IHealableResourcesHolder {
+public class HealableResourcesHolderStrategy extends IHealingResourcesOverTimeStrategy
+		implements IHealableResourcesHolder {
 	private static final long serialVersionUID = 636898404756654L;
 
-	public HealableResourcesHolder(HealingObject objToHeal) {
+	public HealableResourcesHolderStrategy(HealingObject objToHeal) {
 		super(objToHeal);
 		this.backmapHealableResources = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				MapTreeAVL.BehaviourOnKeyCollision.KeepPrevious, IHealableResourceType.COMPARATOR_CURABLE_RES_TYPE);
@@ -163,7 +164,15 @@ public class HealableResourcesHolder extends IHealingResourcesOverTimeStrategy i
 			}
 			// DO THE HEAL
 //			System.out.println(this.getClass().getSimpleName() + " - healed by total: " + total);
-			if (total > 0) { objToHeal.healMyself(objToHeal.newHealInstance(t.getKey(), total)); }
+
+			if (total > 0) {
+				objToHeal.healMyself(objToHeal.newHealInstance(t.getKey(), total));
+			} else if (total < 0) { // && objToHeal instanceof DamageReceiverGeneric
+				objToHeal.alterCurableResourceAmount(t.getKey(), total);
+//				DamageReceiverGeneric drg;
+//				drg = (DamageReceiverGeneric) objToHeal;
+//				drg.receiveDamage(gm, new DamageGeneric(), this);
+			}
 		}
 	}
 }
