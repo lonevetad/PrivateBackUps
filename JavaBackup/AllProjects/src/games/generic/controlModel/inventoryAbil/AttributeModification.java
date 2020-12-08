@@ -64,5 +64,5 @@ public class AttributeModification extends AmountNamed {
 	public void setValue(int value) { this.value = value; }
 
 	@Override
-	public String toString() { return "AttributeModification [attr=" + getAttributeModified() + " : v=" + value + "]"; }
+	public String toString() { return "(attr=" + getAttributeModified() + " : v=" + value + ")"; } // AttributeModification
 }
