@@ -227,7 +227,7 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 	public void progressElapsedTime(final int timeUnit) {
 		GEventManager gem;
 		this.getModelTimeBased().forEachTimedObject((to) -> {
-			to.act(this, timeUnit); // fai progredire QUALSIASI cosa: abilit‡ che si ricaricano col tempo,
+			to.act(this, timeUnit); // fai progredire QUALSIASI cosa: abilit√† che si ricaricano col tempo,
 			// rigenerazioni, movimento di proiettili e cose, etc
 		});
 		gem = this.eventInterface.getGameEventManager();

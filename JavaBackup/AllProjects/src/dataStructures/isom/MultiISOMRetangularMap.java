@@ -495,7 +495,6 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		clearDimensionCache();
 		mapsAsList.forEach(this::updateBoundingBox);
 	}
-
 	/**
 	 * Update the bounding box. Returns a negative value if the shape are illegal
 	 * (null or negative height or width), 0 if the bounding box is not changed and

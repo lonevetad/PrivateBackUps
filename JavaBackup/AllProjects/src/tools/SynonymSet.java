@@ -53,8 +53,6 @@ public class SynonymSet implements SortedSetEnhancedDelegating<String>, Cloneabl
 	public static final CloserGetter<SynonymSet> CLOSER_GETTER = (s1, s2, s3) -> CloserGetter.getCloserTo(s1,
 			DIFFERENCE_CALCULATOR, s2, s3);
 
-	//
-
 	public SynonymSet(String... alternatives) {
 		this();
 		for (String s : alternatives) {
