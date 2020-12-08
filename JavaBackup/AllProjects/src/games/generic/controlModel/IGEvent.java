@@ -24,6 +24,10 @@ public interface IGEvent extends ObjectNamedID {
 	public default String getDescription() { return null; }
 
 	/**
+	 * Short explanation:<br>
+	 * If <code>true</code>, marks this event as urgent and requiring to be
+	 * processed as it's fired.
+	 * <p>
 	 * Long explanation:<br>
 	 * Usually events are put in a queue (inside a {@link GEventManager}) and are
 	 * processed all together, at the end of the implementation of
@@ -39,10 +43,7 @@ public interface IGEvent extends ObjectNamedID {
 	 * <li><code>false</code> if it's not urgent, so can be put in he queue as
 	 * usually</li>
 	 * </ul>
-	 * <p>
-	 * Short explanation:<br>
-	 * Mark this event as urgent if <code>true</code> to force to process it as i's
-	 * fired.
+	 *
 	 * 
 	 * @return <code>true</code> if the event is urgent, <code>false</code>
 	 *         otherwise

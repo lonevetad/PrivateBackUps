@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.function.Consumer;
 
-import dataStructures.MapTreeAVL;ì
+import dataStructures.MapTreeAVL;
 import dataStructures.SortedSetEnhanced;
 import dataStructures.minorUtils.SortedSetEnhancedDelegating;
 
-// TODO GENERALIZE TO A SORTED-SETì
+// TODO GENERALIZE TO A SORTED-SET
 /**
  * A set of String representing the same concept.
  * <p>
@@ -52,9 +52,6 @@ public class SynonymSet implements SortedSetEnhancedDelegating<String>, Cloneabl
 
 	public static final CloserGetter<SynonymSet> CLOSER_GETTER = (s1, s2, s3) -> CloserGetter.getCloserTo(s1,
 			DIFFERENCE_CALCULATOR, s2, s3);
-
-	//
-
 
 	public SynonymSet(String... alternatives) {
 		this();

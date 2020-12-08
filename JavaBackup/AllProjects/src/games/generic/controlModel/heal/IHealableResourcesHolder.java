@@ -18,7 +18,7 @@ public interface IHealableResourcesHolder extends Serializable {
 
 	/**
 	 * See {@link #getHealableResourceAmount(IHealableResourceType)}, but the delta
-	 * could be negative.<br>
+	 * could be negative. It's <b>added</b> to the current value.<br>
 	 * This should be used in generic, intermediate implementations and should
 	 * delegate the optional "event firing" to the end methods, like "healing
 	 * gaining" or "resource loss".
@@ -59,7 +59,7 @@ public interface IHealableResourcesHolder extends Serializable {
 	//
 
 	public default void addHealableResourceType(IHealableResourceType healType) {
-		addHealableResource(new HealableResource(healType));
+		addHealableResource(new HealableResourceImpl(healType));
 	}
 
 	public default void addHealableResource(AHealableResource cr) { getHealableResources().add(cr); }

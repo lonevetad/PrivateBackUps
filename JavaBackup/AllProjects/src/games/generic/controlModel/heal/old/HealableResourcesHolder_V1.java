@@ -4,13 +4,13 @@ import java.util.Set;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.heal.AHealableResource;
-import games.generic.controlModel.heal.HealableResource;
-import games.generic.controlModel.heal.HealableResourcesHolder;
+import games.generic.controlModel.heal.HealableResourceImpl;
+import games.generic.controlModel.heal.HealableResourcesHolderStrategy;
 import games.generic.controlModel.heal.IHealableResourceType;
 import games.generic.controlModel.heal.IHealableResourcesHolder;
 
 /**
- * @deprecated replaced by {@link HealableResourcesHolder}
+ * @deprecated replaced by {@link HealableResourcesHolderStrategy}
  */
 @Deprecated
 public class HealableResourcesHolder_V1 implements IHealableResourcesHolder {
@@ -44,7 +44,7 @@ public class HealableResourcesHolder_V1 implements IHealableResourcesHolder {
 
 	@Override
 	public void addHealableResourceType(IHealableResourceType healType) {
-		addHealableResource(new HealableResource(healType));
+		addHealableResource(new HealableResourceImpl(healType));
 	}
 
 	@Override

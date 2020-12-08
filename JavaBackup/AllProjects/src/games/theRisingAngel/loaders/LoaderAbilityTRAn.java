@@ -27,6 +27,7 @@ import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
 import games.theRisingAngel.abilities.AProtectButMakesSoft;
 import games.theRisingAngel.abilities.ARandomScatteringOrbs;
 import games.theRisingAngel.abilities.ARandomScatteringOrbsImpl;
+import games.theRisingAngel.abilities.ARegenBonusPayingPrecisionBasedOnLifeMissing;
 import games.theRisingAngel.abilities.ARegenToLeech;
 import games.theRisingAngel.abilities.AShieldingButWeakining;
 import games.theRisingAngel.abilities.AShieldingEachCurableResources;
@@ -292,6 +293,10 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 		objProvider.addObj(ADamageReductionOnLifeLowerToPhysicalAttributes.NAME,
 				ADamageReductionOnLifeLowerToPhysicalAttributes.RARITY,
 				gm -> new ADamageReductionOnLifeLowerToPhysicalAttributes());
+
+		objProvider.addObj(ARegenBonusPayingPrecisionBasedOnLifeMissing.NAME,
+				ARegenBonusPayingPrecisionBasedOnLifeMissing.RARITY,
+				gm -> new ARegenBonusPayingPrecisionBasedOnLifeMissing());
 
 		//
 

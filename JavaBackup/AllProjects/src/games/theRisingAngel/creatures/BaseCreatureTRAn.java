@@ -5,7 +5,7 @@ import games.generic.controlModel.IGEvent;
 import games.generic.controlModel.damage.DamageTypeGeneric;
 import games.generic.controlModel.gEvents.DestructionObjEvent;
 import games.generic.controlModel.heal.AHealableResource;
-import games.generic.controlModel.heal.HealableResource;
+import games.generic.controlModel.heal.HealableResourceImpl;
 import games.generic.controlModel.heal.IHealableResourceType;
 import games.generic.controlModel.heal.resExample.ExampleHealingType;
 import games.generic.controlModel.inventoryAbil.EquipmentSet;
@@ -310,8 +310,8 @@ class BaseCreatureTRAn extends BaseCreatureRPGImpl {
 
 	/**
 	 * Default implementation that let to be defined
-	 * {@link HealableResource#getResourceAmountMax()} and
-	 * {@link HealableResource#getResourceRegen()}.
+	 * {@link HealableResourceImpl#getResourceAmountMax()} and
+	 * {@link HealableResourceImpl#getResourceRegen()}.
 	 */
 	public abstract class HealableResourceTRAn extends AHealableResource {
 		private static final long serialVersionUID = 54405L;

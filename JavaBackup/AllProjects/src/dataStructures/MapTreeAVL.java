@@ -446,6 +446,8 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	 */
 	public Entry<K, V> getLowesCommonAncestor(K k1, K k2);
 
+	// TODO rangeQuery, closestMatch, merge
+
 	/** See {@link #rangeQuery(Object, boolean, Object, boolean)}. */
 	public default MapTreeAVL<K, V> rangeQuery(K lowerBound, K upperBound) throws IllegalArgumentException {
 		return rangeQuery(lowerBound, true, upperBound, true);

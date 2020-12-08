@@ -166,7 +166,7 @@ public class GView_E1 extends GameView {
 		for (int i = 0; i < curableResource.length; i++) {
 			jpb = jpbCurableResources[i];
 			curRes = curableResource[i];
-			jpb.setMaximum(max = p.getHealableResourceMax(curRes));
+			jpb.setMaximum(max = p.getHealableResourceAmountMax(curRes));
 			jpb.setValue(v = p.getHealableResourceAmount(curRes));
 			textDisplayed = curRes.getName() + ": " + v + " / " + max;
 			jpb.setToolTipText(textDisplayed);

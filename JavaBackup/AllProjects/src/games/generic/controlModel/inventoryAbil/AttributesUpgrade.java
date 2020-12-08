@@ -1,10 +1,12 @@
 package games.generic.controlModel.inventoryAbil;
 
-import java.util.Set;
+import java.util.SortedSet;
 
+import dataStructures.minorUtils.SortedSetEnhancedDelegating;
 import games.generic.controlModel.ObjectNamed;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CurrencySet;
+import games.generic.controlModel.misc.EssenceVial;
 import games.generic.controlModel.misc.RarityHolder;
 
 /**
@@ -15,11 +17,16 @@ import games.generic.controlModel.misc.RarityHolder;
  * to increase (or decrease) the quality (and the value, maybe) of the equipment
  * having it. <br>
  * (Also, in some game this upgrade could be extracted in some kind of
- * potion-essence and applied to another equipment, that is a very useful and
- * cool feature). aaa
+ * potion-essence like {@link EssenceVial} and applied to another equipment,
+ * that is a very useful and cool feature).
  */
-public interface AttributesUpgrade extends RarityHolder, ObjectNamed {
-	public Set<AttributeModification> getAttributeModifiers();
+public interface AttributesUpgrade
+		extends RarityHolder, ObjectNamed, SortedSetEnhancedDelegating<AttributeModification> {
+
+	/** BEWARE: do not modify the set. */
+	public default SortedSet<AttributeModification> getAttributeModifiers() {
+		return this.getDelegator();
+	}
 
 	/**
 	 * Any attributes could apply a bonus or a malus to the price of everything it's

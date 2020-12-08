@@ -132,7 +132,7 @@ public class TransferTranslationRuleBased extends ATransferTranslationRuleBased 
 
 	@Override
 	public void forEachRule(Consumer<TransferRule> c) { this.rulesGroupedByRoot.forEach((ss, l) -> l.forEach(c)); }
-  
+
 	//
 
 	//

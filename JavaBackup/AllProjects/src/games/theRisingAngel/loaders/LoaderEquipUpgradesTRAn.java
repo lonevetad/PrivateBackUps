@@ -91,14 +91,14 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 	protected static class FactoryEquipUpgrade implements FactoryObjGModalityBased<EquipmentUpgrade> {
 		int rarity;
 		int[] bonusPriceSell = null;
-		String name, description;
+		String name, description = null;
 		List<AttributeModification> attrMods = null;
 
 		@Override
 		public EquipmentUpgrade newInstance(GModality gm) {
 			EquipmentUpgrade eu;
 			eu = new EquipmentUpgradeImpl(rarity, name);
-//			ei.description = description;
+			if (description != null) { eu.setDescription(description); }
 			if (attrMods != null) {
 				for (AttributeModification am : attrMods)
 					eu.addAttributeModifier(am);

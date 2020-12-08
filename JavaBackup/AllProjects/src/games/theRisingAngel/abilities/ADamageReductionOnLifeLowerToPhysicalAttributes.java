@@ -11,7 +11,7 @@ import tools.ObjectWithID;
 
 /**
  * When the life drops above a certain percentage
- * (}{@link #LIFE_PERCENTAGE_THRESHOLD}) Provides a reduction of all kinds of
+ * ({@link #LIFE_PERCENTAGE_THRESHOLD}) Provides a reduction of all kinds of
  * damages based on the current formula:<br>
  * <code> (a/b) * (c*{@link AttributesTRAn#Strength} + d*{@link AttributesTRAn#Constitution} + e*{@link AttributesTRAn#Health
  * })</code>, where all of <i>{a, b, c, d, e}</i> are some positive constants.
