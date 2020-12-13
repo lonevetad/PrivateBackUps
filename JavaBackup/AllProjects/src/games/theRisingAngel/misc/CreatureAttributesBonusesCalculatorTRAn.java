@@ -230,6 +230,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 		case DamageBonusPhysical: {
 			int str;
 			str = c.getValue(AttributesTRAn.Strength);
+			/** 1.25*str + (const+prec)/4 */
 			v = str //
 					+ ((str + c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Precision))//
 							>> 2);
@@ -262,9 +263,11 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //				+ (c.getValue(AttributesTRAn.Health) >> 3)) / 10;break;
 		}
 		case DamageBonusMagical: {
+			/** int + wisd/2 + prec/8 */
 			v = c.getValue(AttributesTRAn.Intelligence) //
 					+ (( //
-					+(c.getValue(AttributesTRAn.Precision) >> 2) + c.getValue(AttributesTRAn.Wisdom)) >> 1);
+					+(c.getValue(AttributesTRAn.Precision) >> 2) //
+							+ c.getValue(AttributesTRAn.Wisdom)) >> 1);
 //					( //
 //			(c.getValue(AttributesTRAn.Precision) / 5) + c.getValue(AttributesTRAn.Intelligence)
 //					+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Faith) >> 1)) >> 1)//

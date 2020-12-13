@@ -697,7 +697,6 @@
 			{"attribute": "CriticalMultiplierPercentage", "value": 20},
 			{"attribute": "CriticalProbabilityPerThousand", "value": 150}
 		]  // TODO OOOOOOOOOOOOOOOOOOOOOOOOOOO da qua in su bisogna riaggiustare tutto considerando che gli equipaggiamenti "base" forniscono 1-1.5 livelli in bonus (ossia 10-15 punti base)
-
 	}, {
 		"name": "of Boxer",
 		"rarity": 3,
@@ -773,7 +772,7 @@
 			{"attribute": "Luck", "value": 5},
 			{"attribute": "DamageBonusMagical", "value": 5},
 			{"attribute": "DamageReductionMagical", "value": 2},
-			{"attribute": "ProbabilityPerThousandHitMagical", "value": 100},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 80},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 50}
 		]
 	}, {
@@ -793,7 +792,7 @@
 			{"attribute": "ManaMax", "value": 50},
 			{"attribute": "Velocity", "value": 10},
 			{"attribute": "CriticalProbabilityPerThousand", "value": 30},
-			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 70}
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 75}
 		]
 	}, {
 		"name": "of Knight",
@@ -806,10 +805,10 @@
 			{"attribute": "Dexterity", "value": 3},
 			{"attribute": "Precision", "value": 3},
 			{"attribute": "Faith", "value": -4},
-			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
-			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 30},
-			{"attribute": "DamageBonusPhysical", "value": 2},
-			{"attribute": "DamageReductionPhysical", "value": 1}
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 55},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 35},
+			{"attribute": "DamageBonusPhysical", "value": 10},
+			{"attribute": "DamageReductionPhysical", "value": 6}
 		]
 	}, {
 		"name": "of Woodcutter",
@@ -821,16 +820,16 @@
 			{"attribute": "Precision", "value": 2},
 			{"attribute": "Intelligence", "value": -3},
 			{"attribute": "Wisdom", "value": -2},
-			{"attribute": "DamageBonusPhysical", "value": 1}
+			{"attribute": "DamageBonusPhysical", "value": 5}
 		]
 	}, {
-		"name": "with sacred oils",
+		"name": "with Sacred Oils",
 		"rarity": 2,
 		"bonusPrice": [22],
 		"modifiers": [
 			{"attribute": "Faith", "value": 2},
-			{"attribute": "DamageBonusMagical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 1}
+			{"attribute": "DamageBonusMagical", "value": 4},
+			{"attribute": "DamageReductionMagical", "value": 3}
 		]
 	}, {
 		"name": "Dragon-scaled",
@@ -892,7 +891,6 @@
 		"rarity": 3,
 		"bonusPrice": [17],
 		"modifiers": [
-			{"attribute": "LifeLeechPercentage", "value": 3},
 			{"attribute": "Faith", "value": -10},
 			{"attribute": "Health", "value": -3},
 			{"attribute": "Luck", "value": -10},
@@ -901,8 +899,10 @@
 			{"attribute": "Intelligence", "value": -4},
 			{"attribute": "Wisdom", "value": -5},
 			{"attribute": "RegenMana", "value": 3},
-			{"attribute": "DamageBonusPhysical", "value": 5},
-			{"attribute": "DamageBonusMagical", "value": 3}
+			{"attribute": "LifeLeechPercentage", "value": 3},
+			{"attribute": "ManaLeechPercentage", "value": 2},
+			{"attribute": "DamageBonusPhysical", "value": 15},
+			{"attribute": "DamageBonusMagical", "value": 13}
 		]
 	}, {
 		"name": "of Hunter",
@@ -926,8 +926,8 @@
 			{"attribute": "Constitution", "value": -8},
 			{"attribute": "Defense", "value": -4},
 			{"attribute": "Luck", "value": -6},
-			{"attribute": "DamageBonusPhysical", "value": 2},
-			{"attribute": "DamageBonusMagical", "value": 6},
+			{"attribute": "DamageBonusPhysical", "value": 7},
+			{"attribute": "DamageBonusMagical", "value": 21},
 			{"attribute": "CriticalMultiplierPercentage", "value": 15},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -100},
@@ -943,8 +943,8 @@
 			{"attribute": "Faith", "value": -8},
 			{"attribute": "Constitution", "value": -6},
 			{"attribute": "Defense", "value": -6},
-			{"attribute": "DamageBonusPhysical", "value": 3},
-			{"attribute": "DamageBonusMagical", "value": 5},
+			{"attribute": "DamageBonusPhysical", "value": 11},
+			{"attribute": "DamageBonusMagical", "value": 15},
 			{"attribute": "Luck", "value": -8},
 			{"attribute": "Precision", "value": -4}
 		]
@@ -953,12 +953,12 @@
 		"rarity": 2,
 		"bonusPrice": [23],
 		"modifiers": [
-			{"attribute": "Faith", "value": -5},
-			{"attribute": "Wisdom", "value": -2},
+			{"attribute": "Faith", "value": -6},
+			{"attribute": "Wisdom", "value": -3},
 			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Strength", "value": 8},
-			{"attribute": "DamageBonusPhysical", "value": 4},
-			{"attribute": "CriticalMultiplierPercentage", "value": 10}
+			{"attribute": "DamageBonusPhysical", "value": 12},
+			{"attribute": "CriticalMultiplierPercentage", "value": 12}
 		]
 	}, {
 		"name": "of King",
@@ -986,8 +986,8 @@
 			{"attribute": "Intelligence", "value": -6},
 			{"attribute": "Wisdom", "value": -7},
 			{"attribute": "Faith", "value": 10},
-			{"attribute": "DamageBonusPhysical", "value": -3},
-			{"attribute": "DamageBonusMagical", "value": -3},
+			{"attribute": "DamageBonusPhysical", "value": -8},
+			{"attribute": "DamageBonusMagical", "value": -8},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 70},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 70}
 		]
@@ -1029,8 +1029,8 @@
 		]
 	}, {
 		"name": "of Relax",
-		"rarity": 1,
-		"bonusPrice": [5],
+		"rarity": 2,
+		"bonusPrice": [15],
 		"modifiers": [
 			{"attribute": "Strength", "value": 1},
 			{"attribute": "Constitution", "value": 1},
@@ -1187,11 +1187,11 @@
 		]
 	}, {
 		"name": "Dark Thefth",
-		"rarity": 1,
-		"bonusPrice": [7],
+		"rarity": 2,
+		"bonusPrice": [27],
 		"modifiers": [
-			{"attribute": "LifeLeechPercentage", "value": 4},
-			{"attribute": "ManaLeechPercentage", "value": 2}
+			{"attribute": "LifeLeechPercentage", "value": 8},
+			{"attribute": "ManaLeechPercentage", "value": 4}
 		]
 	}, {
 		"name": "of Void Siphoning",
@@ -1204,11 +1204,21 @@
 	}, {
 		"name": "of the Bloodgus",
 		"rarity": 3,
+		"bonusPrice": [22],
+		"modifiers": [
+			{"attribute": "LifeLeechPercentage", "value": 35},
+			{"attribute": "ManaLeechPercentage", "value": 35},
+			{"attribute": "LifeMax", "value": 150},
+			{"attribute": "RegenLife", "value": -20}
+		]
+	}, {
+		"name": "of the Vampire",
+		"rarity": 3,
 		"bonusPrice": [27],
 		"modifiers": [
 			{"attribute": "LifeLeechPercentage", "value": 25},
 			{"attribute": "LifeMax", "value": 100},
-			{"attribute": "RegenLife", "value": -15}
+			{"attribute": "RegenLife", "value": -12}
 		]
 	}, {
 		"name": "of Sadism",
@@ -1245,7 +1255,7 @@
 	}, {
 		"name": "of Sorrow",
 		"rarity": 1,
-		"bonusPrice": [-20],
+		"bonusPrice": [-10],
 		"modifiers": [
 			{"attribute": "ManaLeechPercentage", "value": -5},
 			{"attribute": "LifeLeechPercentage", "value": -5}
@@ -1307,23 +1317,23 @@
 		"rarity": 2,
 		"bonusPrice": [32],
 		"modifiers": [
-			{"attribute": "DamageReductionPhysical", "value": 3},
-			{"attribute": "DamageReductionMagical", "value": 3},
-			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10},
-			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -10},
-			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -10},
-			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": -10}
+			{"attribute": "DamageReductionPhysical", "value": 8},
+			{"attribute": "DamageReductionMagical", "value": 8},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 17},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": -15},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": -15},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": -15}
 		]
 	}, {
 		"name": "Of Leaf Spirit",
 		"rarity": 2,
 		"bonusPrice": [32],
 		"modifiers": [
-			{"attribute": "DamageReductionPhysical", "value": -3},
-			{"attribute": "DamageReductionMagical", "value": -3},
-			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 10},
-			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 10},
-			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 10}
+			{"attribute": "DamageReductionPhysical", "value": -5},
+			{"attribute": "DamageReductionMagical", "value": -5},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 12},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 12},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 12}
 		]
 	}, {
 		"name": "Of Envy",
@@ -1341,21 +1351,25 @@
 		"name": "Of Thornbrush",
 		"rarity": 2,
 		"bonusPrice": [32],
+		"description": "TODO: add the reflection damage.",
 		"modifiers": [
-			{"attribute": "DamageBonusPhysical", "value": 4},
-			{"attribute": "DamageBonusMagical", "value": 4},
+			{"attribute": "DamageBonusPhysical", "value": 15},
+			{"attribute": "DamageBonusMagical", "value": 15},
 			{"attribute": "RegenLife", "value": -2},
 			{"attribute": "RegenMana", "value": -2},
-			{"attribute": "LifeMax", "value": -25},
-			{"attribute": "ManaMax", "value": -15}
+			{"attribute": "LifeMax", "value": -45},
+			{"attribute": "ManaMax", "value": -30}
 		]
 	}, {
 		"name": "Of Sleeper",
 		"rarity": 1,
 		"bonusPrice": [4],
 		"modifiers": [
-			{"attribute": "LifeMax", "value": 40},
-			{"attribute": "ManaMax", "value": 30}
+			{"attribute": "LifeMax", "value": 50},
+			{"attribute": "ManaMax", "value": 35},
+			{"attribute": "Defense", "value": -3},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Precision", "value": -3}
 		]
 	}, {
 		"name": "with Magic Stabilizers",
@@ -1380,8 +1394,8 @@
 		"rarity": 1,
 		"bonusPrice": [7],
 		"modifiers": [
-			{"attribute": "DamageReductionMagical", "value": 2},
-			{"attribute": "DamageReductionPhysical", "value": 1}
+			{"attribute": "DamageReductionMagical", "value": 3},
+			{"attribute": "DamageReductionPhysical", "value": 2}
 		]
 	}, {
 		"name": "Romantic",
@@ -1494,16 +1508,16 @@
 			{"attribute": "Health", "value": 1},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": -15},
 			{"attribute": "ProbabilityPerThousandHitMagical", "value": -15},
-			{"attribute": "DamageBonusPhysical", "value": 1},
-			{"attribute": "DamageBonusMagical", "value": 1}
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageBonusMagical", "value": 2}
 		]
 	}, {
 		"name": "Blessed by Tech Angel",
 		"rarity": 3,
 		"bonusPrice": [65],
 		"modifiers": [
-			{"attribute": "ShieldMax", "value": 25},
-			{"attribute": "RegenShield", "value": 3},
+			{"attribute": "ShieldMax", "value": 50},
+			{"attribute": "RegenShield", "value": 7},
 			{"attribute": "Faith", "value": 8}
 		]
 	}, {
@@ -1511,8 +1525,8 @@
 		"rarity": 2,
 		"bonusPrice": [33],
 		"modifiers": [
-			{"attribute": "ShieldMax", "value": 15},
-			{"attribute": "RegenShield", "value": 1},
+			{"attribute": "ShieldMax", "value": 35},
+			{"attribute": "RegenShield", "value": 4},
 			{"attribute": "Defense", "value": -7}
 		]
 	}, {
@@ -1529,8 +1543,8 @@
 		"rarity": 2,
 		"bonusPrice": [37],
 		"modifiers": [
-			{"attribute": "ShieldMax", "value": 5},
-			{"attribute": "RegenShield", "value": 5}
+			{"attribute": "ShieldMax", "value": 18},
+			{"attribute": "RegenShield", "value": 6}
 		]
 	}, {
 		"name": "Dusty",
@@ -1568,7 +1582,7 @@
 			{"attribute": "Faith", "value": 3},
 			{"attribute": "LifeLeechPercentage", "value": 5},
 			{"attribute": "ManaLeechPercentage", "value": 5},
-			{"attribute": "LifeMax", "value": -75}, //there's a price
+			{"attribute": "LifeMax", "value": -75}
 			{"attribute": "ManaMax", "value": -40},
 			{"attribute": "Luck", "value": -5}
 		]
@@ -1691,14 +1705,21 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "ManaMax", "value": 20}
+			{"attribute": "LifeMax", "value": 30}
+		]
+	}, {
+		"name": "Wood Intarsed",
+		"rarity": 1,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": 25}
 		]
 	}, {
 		"name": "Mana to Blood",
 		"rarity": 1,
 		"bonusPrice": [4],
   		"modifiers": [
-			{"attribute": "RegenLife", "value": 3},
+			{"attribute": "RegenLife", "value": 4},
 			{"attribute": "RegenMana", "value": -2}
 		]
 	}, {
@@ -1707,23 +1728,23 @@
 		"bonusPrice": [4],
 		"modifiers": [
 			{"attribute": "RegenLife", "value": -2},
-			{"attribute": "RegenMana", "value": 3}
+			{"attribute": "RegenMana", "value": 4}
 		]
 	}, {
 		"name": "Mind to Matter",
 		"rarity": 1,
 		"bonusPrice": [4],
 		"modifiers": [
-			{"attribute": "LifeMax", "value": 30},
-			{"attribute": "ManaMax", "value": -20}
+			{"attribute": "LifeMax", "value": 70},
+			{"attribute": "ManaMax", "value": -50}
 		]
 	}, {
 		"name": "Matter to Mind",
 		"rarity": 1,
 		"bonusPrice": [4],
 		"modifiers": [
-			{"attribute": "LifeMax", "value": -20},
-			{"attribute": "ManaMax", "value": 30}
+			{"attribute": "LifeMax", "value": -50},
+			{"attribute": "ManaMax", "value": 60}
 		]
 	}, {
 		"name": "Dull",
@@ -1768,8 +1789,8 @@
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 20},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 20},
 			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 20},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 6},
+			{"attribute": "DamageReductionMagical", "value": 6},
 			{"attribute": "CriticalMultiplierPercentageReduction", "value": 5},
 		]
 	}, {
@@ -1780,8 +1801,8 @@
 			{"attribute": "Strength", "value": 7},
 			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Defense", "value": 4},
-			{"attribute": "DamageReductionPhysical", "value": 3},
-			{"attribute": "DamageReductionMagical", "value": 3},
+			{"attribute": "DamageReductionPhysical", "value": 11},
+			{"attribute": "DamageReductionMagical", "value": 11},
 			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
 		]
 	}, {
@@ -2023,8 +2044,8 @@
 		"modifiers": [
 			{"attribute": "LifeMax", "value": 25},
 			{"attribute": "Defense", "value": 7},
-			{"attribute": "DamageReductionPhysical", "value": 5},
-			{"attribute": "DamageReductionMagical", "value": 3}
+			{"attribute": "DamageReductionPhysical", "value": 12},
+			{"attribute": "DamageReductionMagical", "value": 10
 		]
 	}, {
 		"name": "Gross",
@@ -2033,8 +2054,8 @@
 		"modifiers": [
 			{"attribute": "Health", "value": -7},
 			{"attribute": "Faith", "value": -7},
-			{"attribute": "DamageBonusPhysical", "value": 10},
-			{"attribute": "DamageBonusMagical", "value": 10}
+			{"attribute": "DamageBonusPhysical", "value": 17},
+			{"attribute": "DamageBonusMagical", "value": 17}
 		]
 	}, {
 		"name": "of Cordierite",
@@ -2055,16 +2076,16 @@
 		"rarity": 2,
 		"bonusPrice": [23],
 		"modifiers": [
-			{"attribute": "ShieldMax", "value": 5},
-			{"attribute": "RegenShield", "value": 2}
+			{"attribute": "ShieldMax", "value": 11},
+			{"attribute": "RegenShield", "value": 3}
 		]
 	}, {
 		"name": "of Larimar",
 		"rarity": 2,
 		"bonusPrice": [23],
 		"modifiers": [
-			{"attribute": "ShieldMax", "value": 3},
-			{"attribute": "RegenShield", "value": 1},
+			{"attribute": "ShieldMax", "value": 7},
+			{"attribute": "RegenShield", "value": 2},
 			{"attribute": "RegenMana", "value": 1}
 		]
 	}, {
@@ -2072,8 +2093,8 @@
 		"rarity": 2,
 		"bonusPrice": [23],
 		"modifiers": [
-			{"attribute": "DamageReductionPhysical", "value": 3},
-			{"attribute": "DamageReductionMagical", "value": 3}
+			{"attribute": "DamageReductionPhysical", "value": 8},
+			{"attribute": "DamageReductionMagical", "value": 8}
 		]
 	}, {
 		"name": "of Tourmaline",
@@ -2229,8 +2250,8 @@
 		"bonusPrice": [50],
 		"description": "Very precious and hard, but also very brittle.",
 		"modifiers": [
-			{"attribute": "DamageReductionPhysical", "value": 10},
-			{"attribute": "DamageReductionMagical", "value": 10},
+			{"attribute": "DamageReductionPhysical", "value": 42},
+			{"attribute": "DamageReductionMagical", "value": 42},
 			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": -20},
 			{"attribute": "CriticalMultiplierPercentageReduction", "value": -20},
 			{"attribute": "Luck", "value": 3}
@@ -2259,8 +2280,8 @@
 		"rarity": 1,
 		"bonusPrice": [10],
 		"modifiers": [
-			{"attribute": "DamageReductionPhysical", "value": 1},
-			{"attribute": "DamageReductionMagical", "value": 1},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2},
 			{"attribute": "Faith", "value": 2},
 			{"attribute": "Luck", "value": 2}
 		]
@@ -2277,7 +2298,7 @@
 		"rarity": 1,
 		"bonusPrice": [-5],
 		"modifiers": [
-			{"attribute": "ManaMax", "value": -10},
+			{"attribute": "LifeMax", "value": -10},
 			{"attribute": "Dexterity", "value": -1}
 		]
 	}, {
@@ -2326,7 +2347,7 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "LifeMax", "value": 15},
+			{"attribute": "LifeMax", "value": 25},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 4},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 4},
 			{"attribute": "Luck", "value": 1}
@@ -2344,8 +2365,8 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "DamageBonusPhysical", "value": 1},
-			{"attribute": "DamageBonusMagical", "value": 1},
+			{"attribute": "DamageBonusPhysical", "value": 3},
+			{"attribute": "DamageBonusMagical", "value": 3},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2361,8 +2382,8 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 4},
-			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 4},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 6},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 6},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2378,7 +2399,7 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "RegenMana", "value": 1},
+			{"attribute": "RegenMana", "value": 2},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2386,7 +2407,7 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "Precision", "value": 1},
+			{"attribute": "Precision", "value": 2},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2394,23 +2415,15 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "Intelligence", "value": 1},
+			{"attribute": "Intelligence", "value": 2},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
-		"name": "of Magnolia tree",
+		"name": "of Pink Dogwood tree",
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "RegenLife", "value": 1},
-			{"attribute": "Luck", "value": 1}
-		]
-	}, {
-		"name": "of Juglans-Cinerea tree",
-		"rarity": 1,
-		"bonusPrice": [8],
-		"modifiers": [
-			{"attribute": "LifeMax", "value": 20},
+			{"attribute": "RegenLife", "value": 2},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2418,7 +2431,7 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "LifeMax", "value": 20},
+			{"attribute": "LifeMax", "value": 50},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2426,7 +2439,7 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "ManaMax", "value": 20},
+			{"attribute": "ManaMax", "value": 50},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2434,8 +2447,8 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "ManaMax", "value": 10},
-			{"attribute": "LifeMax", "value": 10},
+			{"attribute": "ManaMax", "value": 25},
+			{"attribute": "LifeMax", "value": 25},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2443,8 +2456,8 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "LifeLeechPercentage", "value": 2},
-			{"attribute": "ManaLeechPercentage", "value": 2},
+			{"attribute": "LifeLeechPercentage", "value": 3},
+			{"attribute": "ManaLeechPercentage", "value": 3},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2452,8 +2465,17 @@
 		"rarity": 1,
 		"bonusPrice": [8],
 		"modifiers": [
-			{"attribute": "DamageReductionPhysical", "value": 1},
-			{"attribute": "DamageReductionMagical", "value": 1},
+			{"attribute": "DamageReductionPhysical", "value": 5},
+			{"attribute": "DamageReductionMagical", "value": 3},
+			{"attribute": "Luck", "value": 1}
+		]
+	}, {
+		"name": "of Tilia tree",
+		"rarity": 1,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "DamageReductionPhysical", "value": 3},
+			{"attribute": "DamageReductionMagical", "value": 5},
 			{"attribute": "Luck", "value": 1}
 		]
 	}, {
@@ -2507,7 +2529,133 @@
 			{"attribute": "LifeMax", "value": 25},
 			{"attribute": "ManaMax", "value": 15},
 			{"attribute": "RegenLife", "value": 1},
-			{"attribute": "RegenLife", "value": 1}
+			{"attribute": "RegenMana", "value": 1}
+		]
+	}, {
+		"name": "of Shady Scrub",
+		"rarity": 2,
+		"bonusPrice": [18],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 15},
+			{"attribute": "ManaMax", "value": 20},
+			{"attribute": "RegenLife", "value": 1},
+			{"attribute": "RegenMana", "value": 1}
+		]
+	}, {
+		"name": "of Narcissist",
+		"rarity": 3,
+		"bonusPrice": [-15],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": 15},
+			{"attribute": "RegenMana", "value": -4},
+			{"attribute": "ManaLeechPercentage", "value": 15}
+		]
+	}, {
+		"name": "of Opportunist",
+		"rarity": 3,
+		"bonusPrice": [-15],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": 15},
+			{"attribute": "RegenMana", "value": -4},
+			{"attribute": "ManaLeechPercentage", "value": 15}
+		]
+	}, {
+		"name": "Consumed",
+		"rarity": 2,
+		"bonusPrice": [-12],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": -20},
+			{"attribute": "DamageReductionPhysical", "value": -10},
+			{"attribute": "DamageReductionMagical", "value": -10}
+		]
+	}, {
+		"name": "of Carver",
+		"rarity": 2,
+		"bonusPrice": [13],
+		"modifiers": [
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "Strength", "value": -2},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 20}
+		]
+	}, {
+		"name": "of Silence",
+		"rarity": 2,
+		"bonusPrice": [10],
+		"modifiers": [
+			{"attribute": "DamageBonusPhysical", "value": -3},
+			{"attribute": "DamageBonusMagical", "value": -3},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 70},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 50},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 50}
+		]
+	}, {
+		"name": "of Knives Thrower",
+		"rarity": 3,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "DamageBonusPhysical", "value": -5},
+			{"attribute": "DamageBonusMagical", "value": -5},
+			{"attribute": "Strength", "value": -3},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 100},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 100},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 100}
+		]
+	}, {
+		"name": "of Carver",
+		"rarity": 2,
+		"bonusPrice": [13],
+		"modifiers": [
+			{"attribute": "Precision", "value": 6},
+			{"attribute": "Strength", "value": -2},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 20}
+		]
+	}, {
+		"name": "of Insofference",
+		"rarity": 3,
+		"bonusPrice": [10],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": -55},
+			{"attribute": "ShieldMax", "value": 25},
+			{"attribute": "RegenShield", "value": 5},
+			{"attribute": "Luck", "value": -2}
+		]
+	}, {
+		"name": "of Apathy",
+		"rarity": 3,
+		"bonusPrice": [15],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": -40},
+			{"attribute": "ShieldMax", "value": 25},
+			{"attribute": "RegenShield", "value": 5},
+			{"attribute": "Luck", "value": -2}
+		]
+	}, {
+		"name": "of Of Nihilism",
+		"rarity": 4,
+		"bonusPrice": [-25],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": -90},
+			{"attribute": "ManaMax", "value": -60},
+			{"attribute": "ShieldMax", "value": 80},
+			{"attribute": "RegenShield", "value": 20},
+			{"attribute": "Luck", "value": -5}
+		]
+	}, {
+		"name": "of Compassion",
+		"rarity": 4,
+		"bonusPrice": [20],
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 40},
+			{"attribute": "ManaMax", "value": 50},
+			{"attribute": "ShieldMax", "value": 60},
+			{"attribute": "RegenLife", "value": 2},
+			{"attribute": "RegenMana", "value": 2},
+			{"attribute": "RegenShield", "value": 8},
+			{"attribute": "DamageBonusPhysical", "value": -17},
+			{"attribute": "DamageBonusMagical", "value": -17},
+			{"attribute": "CriticalProbabilityPerThousand", "value": -30},
+			{"attribute": "CriticalMultiplierPercentage", "value": -15},
+			{"attribute": "Luck", "value": 3}
 		]
 	}
 ]
