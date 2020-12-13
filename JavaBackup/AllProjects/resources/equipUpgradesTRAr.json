@@ -677,26 +677,26 @@
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 50},
 			{"attribute": "CriticalMultiplierPercentage", "value": 15}
-		]
+		] // TODO OOOOOOOOOOOOOOOOOOOOOOOOOOO da qua in su bisogna riaggiustare tutto considerando che gli equipaggiamenti "base" forniscono 1-1.5 livelli in bonus (ossia 10-15 punti base)
 	}, {
 		"name": "of Assassin", 
 		"rarity": 3,
 		"bonusPrice": [39],
 		"modifiers": [
-			{"attribute": "Strength", "value": 5},
+			{"attribute": "Strength", "value": 2},
 			{"attribute": "Intelligence", "value": 5},
-			{"attribute": "Precision", "value": 12},
-			{"attribute": "Dexterity", "value": 12},
+			{"attribute": "Precision", "value": 11},
+			{"attribute": "Dexterity", "value": 11},
 			{"attribute": "Faith", "value": -10},
-			{"attribute": "Constitution", "value": -6},
-			{"attribute": "Velocity", "value": 10},
+			{"attribute": "Constitution", "value": -4},
+			{"attribute": "Velocity", "value": 15},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 60},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 60},
 			{"attribute": "ProbabilityPerThousandHitMagical", "value": 60},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 60},
 			{"attribute": "CriticalMultiplierPercentage", "value": 20},
-			{"attribute": "CriticalProbabilityPerThousand", "value": 150}
-		]  // TODO OOOOOOOOOOOOOOOOOOOOOOOOOOO da qua in su bisogna riaggiustare tutto considerando che gli equipaggiamenti "base" forniscono 1-1.5 livelli in bonus (ossia 10-15 punti base)
+			{"attribute": "CriticalProbabilityPerThousand", "value": 175}
+		]
 	}, {
 		"name": "of Boxer",
 		"rarity": 3,
@@ -706,9 +706,11 @@
 			{"attribute": "Constitution", "value": 3},
 			{"attribute": "Precision", "value": 3},
 			{"attribute": "Dexterity", "value": 4},
-			{"attribute": "Wisdom", "value": -4},
-			{"attribute": "DamageBonusPhysical", "value": 2},
-			{"attribute": "DamageReductionPhysical", "value": 1},
+			{"attribute": "Wisdom", "value": -6},
+			{"attribute": "Intelligence", "value": -2},
+			{"attribute": "Velocity", "value": 5},
+			{"attribute": "DamageBonusPhysical", "value": 4},
+			{"attribute": "DamageReductionPhysical", "value": 6},
 			{"attribute": "CriticalProbabilityPerThousand", "value": 30}
 		]
 	}, {
