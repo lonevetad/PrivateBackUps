@@ -217,6 +217,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 		}
 		case DamageReductionPhysical: {
 			int cons;
+			// def + (cons*3 +str+dex)/4
 			cons = c.getValue(AttributesTRAn.Constitution);
 			v = +c.getValue(AttributesTRAn.Defense) //
 					+ (( //
@@ -302,6 +303,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			break;
 		}
 		case DamageReductionMagical: {
+			// def + (cons+wis)/2 + (int+dex)/4
 			v = +c.getValue(AttributesTRAn.Defense) //
 					+ (( //
 					+c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Wisdom) + ((//
@@ -328,13 +330,13 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 		}
 		case CriticalProbabilityPerThousand: {
 			v = +c.getValue(AttributesTRAn.Precision) //
-					+ ((// 1/2
-					+((// 1/4
+					+ ((// start 1/2
+					+((// start 1/4
 					+((c.getValue(AttributesTRAn.Wisdom)) >> 1) // 1/8
 							+ c.getValue(AttributesTRAn.Dexterity) //
 							+ c.getValue(AttributesTRAn.Intelligence) //
-					) >> 1) //
-							+ c.getValue(AttributesTRAn.Luck)) >> 1);
+					) >> 1) // end 1/4
+							+ c.getValue(AttributesTRAn.Luck)) >> 1); // end 1/2
 			//
 //					((c.getValue(AttributesTRAn.Precision) << 1) //
 //							+ c.getValue(AttributesTRAn.Dexterity) //
@@ -445,8 +447,11 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			break;
 		}
 		case Velocity: {
-			v = ((c.getValue(AttributesTRAn.Dexterity) << 1) / 5) //
-					+ (((c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Strength)) << 1) / 15);
+			v = ((//
+			(((c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Strength)) << 1) / 3)
+					+ (c.getValue(AttributesTRAn.Dexterity) << 1)//
+			) / 5) //
+			;
 			break;
 		}
 		default:
