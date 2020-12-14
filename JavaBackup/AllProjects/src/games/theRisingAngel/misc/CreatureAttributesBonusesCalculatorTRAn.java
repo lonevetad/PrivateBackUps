@@ -44,8 +44,9 @@ import tools.RandomWeightedIndexes;
  * </li>
  * <li>Health:
  * <ul>
- * <li>+4 LifeMax</li>
- * <li>+ 1 RegenLife</li>
+ * <li>+4.5 LifeMax</li>
+ * <li>+0.75 RegenLife</li>
+ * <li>+ 0.125 RegenMana</li>
  * <li>+0.03125 Luck</li>
  * </ul>
  * </li>
@@ -81,7 +82,8 @@ import tools.RandomWeightedIndexes;
  * </li>
  * <li>Intelligence:
  * <ul>
- * <li>+1 ManaMax</li>
+ * <li>+0.75 ManaMax</li>
+ * <li>+1/16 RegenMana</li>
  * <li>+1 DamageBonusMagical</li>
  * <li>+0.25 DamageReductionMagical</li>
  * <li>+0.25 CriticalProbabilityPerThousand</li>
@@ -93,7 +95,7 @@ import tools.RandomWeightedIndexes;
  * </li>
  * <li>Wisdom:
  * <ul>
- * <li>+2 ManaMax</li>
+ * <li>+1.5 ManaMax</li>
  * <li>+0.25 RegenMana</li>
  * <li>+0.5 DamageBonusMagical</li>
  * <li>+0.5 DamageReductionMagical</li>
@@ -108,8 +110,8 @@ import tools.RandomWeightedIndexes;
  * </li>
  * <li>Faith:
  * <ul>
- * <li>+4.25 ManaMax</li>
- * <li>+1 RegenMana</li>
+ * <li>+4 ManaMax</li>
+ * <li>+0.75 RegenMana</li>
  * <li>+0.125 Luck
  * </ul>
  * </li>
@@ -169,11 +171,11 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			str = c.getValue(AttributesTRAn.Strength);
 			h = c.getValue(AttributesTRAn.Health);
 			// V3
-			/* 4*h + 10*cost + 2*str + wisdom/4 */
-			v = (c.getValue(AttributesTRAn.Wisdom) >> 2) //
-					+ ((str + cost + //
-							(((cost << 1) + h) << 1)//
-					) << 1);
+			/** 4.5*h + 10*cost + 2*str + wisdom/4 */
+			v = (((c.getValue(AttributesTRAn.Wisdom) >> 1) + h) >> 1) //
+					+ ((str + cost + (((cost << 1) + h) << 1)// str + h-2 cost*5
+					) << 1); // *2
+			// v2
 //			v = +c.getValue(AttributesTRAn.Defense) //
 //					+ (( // *2
 //					+h //
@@ -189,14 +191,17 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 		}
 		case RegenLife: {
 			// V3
-			/** h + (cons/4) + (str/16) + (wisdom/32) */
-			v = c.getValue(AttributesTRAn.Health) //
-					+ ((+((c.getValue(AttributesTRAn.Strength)//
-							+ ((c.getValue(AttributesTRAn.Strength)//
-									+ (c.getValue(AttributesTRAn.Wisdom) >> 1)//
-							) >> 1)//
-					) >> 1) //
-							+ c.getValue(AttributesTRAn.Constitution)) >> 2);
+			int h;
+			h = c.getValue(AttributesTRAn.Health);
+			/** h*0.75 + (cons/4) + (str/16) + (wisdom/32) */
+			v = (//
+			(((c.getValue(AttributesTRAn.Wisdom) >> 1)//
+					+ c.getValue(AttributesTRAn.Strength))//
+					>> 2) // fatta la parte str+wis , /4
+					+ c.getValue(AttributesTRAn.Constitution) + //
+					(h << 1) + h // h*3
+			) >> 2 // another /4
+			;
 //			V2
 //			v = +((// 0.25
 //			+(c.getValue(AttributesTRAn.Wisdom) >> 1) //
@@ -242,20 +247,42 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			break;
 		}
 		case ManaMax: {
-			int faith;
-			faith = c.getValue(AttributesTRAn.Faith);
-			v = c.getValue(AttributesTRAn.Intelligence) //
-					+ ((faith << 1) + (c.getValue(AttributesTRAn.Wisdom)) << 1) //
-					+ (faith >> 2);
+//			V3
+			int wis, intell;
+			wis = c.getValue(AttributesTRAn.Wisdom);
+			intell = c.getValue(AttributesTRAn.Intelligence);
+			/** faith*4 + wisdom*1.5 + int*0.75 */ // == faith<<2 + wis*6/4 + int*3/4
+			v = (wis << 1) + intell; // 2*wis + intell
+			v = (c.getValue(AttributesTRAn.Faith) << 2) + //
+					(((v << 1) + v)// == *3
+							>> 2) // == /4
+			;
+//			int faith;
+//			faith = c.getValue(AttributesTRAn.Faith);
+//			v = c.getValue(AttributesTRAn.Intelligence) //
+//					+ ((faith << 1) + (c.getValue(AttributesTRAn.Wisdom)) << 1) //
+//					+ (faith >> 2);
 			break;
 		}
 		case RegenMana: {
-			v = //
-					+(((c.getValue(AttributesTRAn.Wisdom) //
-							+ (c.getValue(AttributesTRAn.Health) >> 1)//
-					) >> 1) //
-							+ c.getValue(AttributesTRAn.Faith)) >> 1 //
-			;
+//			V3
+			int f;
+			f = c.getValue(AttributesTRAn.Faith);
+			/** faith*0.75 + wis/4 + health/8 + int/16 */
+			v = (//
+			((c.getValue(AttributesTRAn.Health) + (c.getValue(AttributesTRAn.Intelligence) >> 1))//
+					>> 1) + //
+					c.getValue(AttributesTRAn.Wisdom) + //
+					(f << 1) + f // *3
+			) >> 2;
+			// v2
+			// health/8 + wisdom/4 + faith/2
+//			v = //
+//					+(((c.getValue(AttributesTRAn.Wisdom) //
+//							+ (c.getValue(AttributesTRAn.Health) >> 1)//
+//					) >> 1) //
+//							+ c.getValue(AttributesTRAn.Faith) ) >> 1 //
+//			;
 			break;
 //		;}case RegenMana : {v= ((c.getValue(AttributesTRAn.Faith))
 //				+ (c.getValue(AttributesTRAn.Wisdom) >> 1)

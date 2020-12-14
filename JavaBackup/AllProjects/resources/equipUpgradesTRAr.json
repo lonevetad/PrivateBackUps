@@ -40,8 +40,8 @@
 		"bonusPrice": [56],
 		"modifiers": [
 			{"attribute": "Defense", "value": 7},
-			{"attribute": "DamageReductionPhysical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 2}
+			{"attribute": "DamageReductionPhysical", "value": 8},
+			{"attribute": "DamageReductionMagical", "value": 8}
 		]
 	}, {
 		"name": "with Art Decorations",
@@ -50,8 +50,9 @@
 		"modifiers": [
 			{"attribute": "Wisdom", "value": 4},
 			{"attribute": "Health", "value": 2},
-			{"attribute": "DamageBonusMagical", "value": 1},
-			{"attribute": "DamageReductionMagical", "value": 1}
+			{"attribute": "DamageBonusMagical", "value": 5},
+			{"attribute": "DamageReductionMagical", "value": 5},
+			{"attribute": "Luck", "value": 5}
 		]
 	}, {
 		"name": "Moon runed",
@@ -60,23 +61,24 @@
 		"modifiers": [
 			{"attribute": "ManaMax", "value": 50},
 			{"attribute": "RegenMana", "value": 4},
-			{"attribute": "Wisdom", "value": 5},
 			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Wisdom", "value": 5},
 			{"attribute": "Faith", "value": 5},
-			{"attribute": "DamageBonusMagical", "value": 2},
-			{"attribute": "DamageReductionMagical", "value": 2}
+			{"attribute": "DamageBonusMagical", "value": 10},
+			{"attribute": "DamageReductionMagical", "value": 10}
 		]
 	}, {
 		"name": "Sun runed",
 		"rarity": 3,
 		"bonusPrice": [100],
-		"modifiers": [ 
-			{"attribute": "RegenLife", "value": 4},
-			{"attribute": "Constitution", "value": 5},
+		"modifiers": [
+			{"attribute": "LifeMax", "value": 75},
+			{"attribute": "RegenLife", "value": 5},
 			{"attribute": "Strength", "value": 5},
+			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Health", "value": 5},
-			{"attribute": "DamageBonusPhysical", "value": 2},
-			{"attribute": "DamageReductionPhysical", "value": 2}
+			{"attribute": "DamageBonusPhysical", "value": 10},
+			{"attribute": "DamageReductionPhysical", "value": 10}
 		]
 	}, {
 		"name": "Earth runed",
@@ -86,16 +88,18 @@
 			{"attribute": "Defense", "value": 5},
 			{"attribute": "Dexterity", "value": 5},
 			{"attribute": "Precision", "value": 5},
-			{"attribute": "DamageBonusPhysical", "value": -2},
-			{"attribute": "DamageReductionPhysical", "value": -2},
+			{"attribute": "DamageBonusPhysical", "value": -5},
+			{"attribute": "DamageBonusMagical", "value": -5},
+			{"attribute": "DamageReductionPhysical", "value": -5},
+			{"attribute": "DamageReductionMagical", "value": -5},
 			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 20},
 			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 20},
-			{"attribute": "DamageBonusMagical", "value": -2},
-			{"attribute": "DamageReductionMagical", "value": -2},
 			{"attribute": "ProbabilityPerThousandHitMagical", "value": 20},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 20},
-			{"attribute": "CriticalProbabilityPerThousand", "value": 10},
-			{"attribute": "CriticalMultiplierPercentage", "value": 3}
+			{"attribute": "CriticalProbabilityPerThousand", "value": 25},
+			{"attribute": "CriticalMultiplierPercentage", "value": 10},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 25},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 10}
 		]
 	}, {
 		"name": "Blood runed",
@@ -104,19 +108,8 @@
 		"modifiers": [
 			{"attribute": "LifeLeechPercentage", "value": 15},
 			{"attribute": "ManaLeechPercentage", "value": 15},
-			{"attribute": "RegenLife", "value": 2},
-			{"attribute": "RegenMana", "value": 2},
-			{"attribute": "Luck", "value": -5}
-		]
-	}, {
-		"name": "Blood runed",
-		"rarity": 3,
-		"bonusPrice": [30],
-		"modifiers": [
-			{"attribute": "LifeLeechPercentage", "value": 10},
-			{"attribute": "ManaLeechPercentage", "value": 10},
-			{"attribute": "RegenLife", "value": 2},
-			{"attribute": "RegenMana", "value": 2},
+			{"attribute": "RegenLife", "value": 5},
+			{"attribute": "RegenMana", "value": 5},
 			{"attribute": "Luck", "value": -5}
 		]
 	}, {
@@ -125,6 +118,13 @@
 		"bonusPrice": [12],
 		"modifiers": [
 			{"attribute": "Defense", "value": 3}
+		]
+	}, {
+		"name": "Bad",
+		"rarity": 1,
+		"bonusPrice": [-10],
+		"modifiers": [
+			{"attribute": "Defense", "value": -2}
 		]
 	}, {
 		"name": "Slimy",
@@ -141,6 +141,15 @@
 		"modifiers": [
 			{"attribute": "Health", "value": 1},
 			{"attribute": "Faith", "value": 1}
+		]
+	}, {
+		"name": "Cold",
+		"rarity": 1,
+		"bonusPrice": [-3],
+		"modifiers": [
+			{"attribute": "Health", "value": -1},
+			{"attribute": "Defense", "value": 1},
+			{"attribute": "Faith", "value": -1}
 		]
 	}, {
 		"name": "Slimy",
@@ -2751,6 +2760,14 @@
 			{"attribute": "DamageBonusPhysical", "value": 12},
 			{"attribute": "DamageBonusMagical", "value": 12},
 			{"attribute": "CriticalMultiplierPercentage", "value": 15}
+		]
+	},{
+		"name": "Patched",
+		"rarity": 1,
+		"bonusPrice": [-5],
+		"modifiers": [
+			{"attribute": "Defense", "value": -1},
+			{"attribute": "Faith", "value": 1}
 		]
 	}
 ]
