@@ -3094,5 +3094,44 @@
 			{"attribute": "LifeLeechPercentage", "value": 5},
 			{"attribute": "ManaLeechPercentage", "value": 15}
 		]
+	}, {
+		"name": "Bones Plated",
+		"rarity": 2,
+		"bonusPrice": [-26],
+		"modifiers": [
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Faith", "value": -4},
+			{"attribute": "DamageBonusPhysical", "value": 2},
+			{"attribute": "DamageBonusMagical", "value": 2},
+			{"attribute": "DamageReductionPhysical", "value": 7},
+			{"attribute": "DamageReductionMagical", "value": 7}
+		]
+	}, {
+		"name": "Molded",
+		"rarity": 2,
+		"bonusPrice": [-22],
+		"modifiers": [
+			{"attribute": "Constitution", "value": -2},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "Defense", "value": -3},
+			{"attribute": "ManaMax", "value": 50}
+		]
+	}, {
+		"name": "of Health",
+		"rarity": 1,
+		"bonusPrice": [11],
+		"modifiers": [
+			{"attribute": "Health", "value": 4},
+			{"attribute": "Constitution", "value": 1}
+		]
+	}, {
+		"name": "Enjoying the Wind",
+		"rarity": 2,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Velocity", "value": 5}
+		]
 	}
 ]
