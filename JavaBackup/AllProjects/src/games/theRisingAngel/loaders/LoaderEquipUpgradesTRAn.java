@@ -3,17 +3,22 @@ package games.theRisingAngel.loaders;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgrade;
+import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.misc.LoaderGeneric;
 import games.generic.controlModel.subimpl.EquipmentUpgradeImpl;
 import games.generic.controlModel.subimpl.LoaderEquipUpgrades;
+import games.theRisingAngel.misc.AttributesTRAn;
+import games.theRisingAngel.misc.CreatureAttributesTRAn;
+import games.theRisingAngel.misc.EquipItemRaritiesTRAn;
 
 public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 
@@ -124,26 +129,43 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 	}
 
 	public static void main(String[] args) {
-		int size;
+		int size, positive, negative;
 		int[] rarities;
 		LoaderEquipUpgradeFromFile leuff;
 		LinkedList<FactoryEquipUpgrade> factories;
 		FactoryEquipUpgrade fe;
+		final CreatureAttributes ca;
+		Consumer<AttributeModification> attrModAdder;
 		leuff = new LoaderEquipUpgradeFromFile("", "equipUpgradesTRAr.json");
 		leuff.readAllFile();
 		size = leuff.factories.size();
 		System.out.println("LoaderEquipUpgradeFromFile we read:");
-		rarities = new int[6];
+		rarities = new int[EquipItemRaritiesTRAn.values().length];
 		Arrays.fill(rarities, 0);
+		positive = negative = 0;
 		factories = (LinkedList<FactoryEquipUpgrade>) leuff.factories;
+		ca = new CreatureAttributesTRAn();
+		attrModAdder = // am -> ca.applyAttributeModifier(am);
+				ca::applyAttributeModifier;
 		while (!factories.isEmpty()) {
 			fe = factories.removeFirst();
 			System.out.println();
 			System.out.println(fe);
 			rarities[fe.rarity]++;
+			if (fe.bonusPriceSell[0] >= 0) {
+				positive++;
+			} else {
+				negative++;
+			}
+			fe.attrMods.forEach(attrModAdder);
 		}
 		System.out.println("total: " + size);
+		System.out.println("Which " + positive + " are positive, and " + negative + " are negative.");
 		System.out.println("RARITIES proportion:");
 		System.out.println(Arrays.toString(rarities));
+		System.out.println("Total attributes, summing all upgrades' modifications:");
+		for (AttributesTRAn attTRan : AttributesTRAn.values()) {
+			System.out.println(attTRan.getName() + " -> " + ca.getValue(attTRan));
+		}
 	}
 }

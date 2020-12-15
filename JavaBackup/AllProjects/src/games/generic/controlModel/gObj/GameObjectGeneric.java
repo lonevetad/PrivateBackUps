@@ -20,5 +20,14 @@ public interface GameObjectGeneric extends ObjectNamedID {
 	 */
 	public void onRemovedFromGame(GModality gm);
 
+	/**
+	 * IMPORTANT notes for overrider:
+	 * <ul>
+	 * <li>Should invoke {@link GModality#removeGameObject(GameObjectGeneric)}, as
+	 * the default implementation does</li>
+	 * <li>It's not needed to call {@link #onRemovedFromGame(GModality)}: it's
+	 * already called by {@link GModality#removeGameObject(GameObjectGeneric)}.</li>
+	 * </ul>
+	 */
 	public default void removeMeToGame(GModality gm) { gm.removeGameObject(this); }
 }

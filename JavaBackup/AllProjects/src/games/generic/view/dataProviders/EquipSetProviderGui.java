@@ -6,6 +6,7 @@ import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.view.GameView;
 import games.generic.view.GuiComponent;
 
+/** Mostra quali pezzi di equipaggiamento sono assegnati al Player. */
 public class EquipSetProviderGui extends GuiComponent {
 
 	public EquipSetProviderGui(GameView view) { super(view); }

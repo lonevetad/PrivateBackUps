@@ -1,5 +1,6 @@
 package games.generic.controlModel.inventoryAbil.abilitiesImpl;
 
+import games.generic.controlModel.gObj.GModalityHolder;
 import games.generic.controlModel.inventoryAbil.AbilityGeneric;
 import tools.ObjectWithID;
 import tools.UniqueIDProvider;
@@ -34,5 +35,10 @@ public abstract class AbilityBaseImpl implements AbilityGeneric {
 	//
 
 	@Override
-	public void setOwner(ObjectWithID owner) { this.owner = owner; }
+	public void setOwner(ObjectWithID owner) {
+		this.owner = owner;
+		if (owner != null && owner instanceof GModalityHolder) {
+			onAddingToOwner(((GModalityHolder) owner).getGameModality());
+		}
+	}
 }

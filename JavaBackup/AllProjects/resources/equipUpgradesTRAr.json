@@ -1857,7 +1857,7 @@
 		"rarity": 2,
 		"bonusPrice": [-100],
 		"modifiers": [
-			{"attribute": "Faith", "value": 10},
+			{"attribute": "Faith", "value": 20},
 			{"attribute": "Intelligence", "value": -15},
 			{"attribute": "Wisdom", "value": -15},
 			{"attribute": "Health", "value": -5}
@@ -1867,11 +1867,11 @@
 		"rarity": 1,
 		"bonusPrice": [11],
 		"modifiers": [
-			{"attribute": "LifeMax", "value": 50},
+			{"attribute": "LifeMax", "value": 25},
 			{"attribute": "Strength", "value": 15},
 			{"attribute": "Constitution", "value": 6},
-			{"attribute": "Health", "value": -4},
-			{"attribute": "Dexterity", "value": -6},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "Dexterity", "value": -4},
 			{"attribute": "Precision", "value": -2},
 			{"attribute": "Intelligence", "value": -3},
 			{"attribute": "Wisdom", "value": -5}
@@ -1881,17 +1881,27 @@
 		"rarity": 1,
 		"bonusPrice": [18],
 		"modifiers": [
-			{"attribute": "Wisdom", "value": 10},
-			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "ManaMax", "value": 20},
+			{"attribute": "Strength", "value": -1},
 			{"attribute": "Constitution", "value": -3},
+			{"attribute": "Health", "value": 2},
 			{"attribute": "Defense", "value": -4},
 			{"attribute": "Dexterity", "value": -3},
-			{"attribute": "Health", "value": 2}
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Wisdom", "value": 10}
+		]
+	}, {
+		"name": "Of Stretching",
+		"rarity": 1,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Dexterity", "value": 5}
 		]
 	}, {
 		"name": "Of Atheist",
 		"rarity": 1,
-		"bonusPrice": [8],
+		"bonusPrice": [18],
 		"modifiers": [
 			{"attribute": "Wisdom", "value": 7},
 			{"attribute": "Intelligence", "value": 5},
@@ -2294,7 +2304,7 @@
 		"name": "of Neodymium twin",
 		"rarity": 4,
 		"bonusPrice": [50],
-		"description": "Shows very rare behaviour to a very rare metal.",
+		"description": "Shows very rare behaviour similar to a very rare metal.",
 		"modifiers": [
 			{"attribute": "ShieldMax", "value": 50},
 			{"attribute": "RegenShield", "value": 2},
@@ -2612,6 +2622,52 @@
 			{"attribute": "RegenLife", "value": 50}
 		]
 	}, {
+		"name": "with Spiritual Sponge",
+		"rarity": 5,
+		"bonusPrice": [75],
+		"description": "Those crystals behaves like batteries, vibrating in a misty way, nice and mysterious, but carrying them ome makes me so tired...",
+		"modifiers": [
+			{"attribute": "ManaMax", "value": 800},
+			{"attribute": "RegenMana", "value": -60}
+		]
+	}, {
+		"name": "of the Oniric Flow",
+		"rarity": 5,
+		"bonusPrice": [-50],
+		"description": "There's no need to trap spiritual energy if You are already connected to the source.",
+		"modifiers": [
+			{"attribute": "LifeMax", "value": -500},
+			{"attribute": "RegenMana", "value": 35}
+		]
+	}, {
+		"name": "with Mystical Amplifier",
+		"rarity": 4,
+		"bonusPrice": [75],
+		"description": "This mysterious device attached to it, infused with magical power, syphon Your will, but granting You a forbidden power."
+		"modifiers": [
+			{"attribute": "RegenMana", "value": -50},
+			{"attribute": "DamageBonusMagical", "value": 30}
+		]
+	}, {
+		"name": "Blood Powered",
+		"rarity": 4,
+		"bonusPrice": [75],
+		"description": "Blood for blood, but I want your!."
+		"modifiers": [
+			{"attribute": "RegenLife", "value": -50},
+			{"attribute": "DamageBonusPhysical", "value": 30}
+		]
+	}, {
+		"name": "of Obsessive Nenia",
+		"rarity": 3,
+		"bonusPrice": [75],
+		"description": "The mouth never stops, constantly spitting out words with no will or awareness at all, but Gods are listening and replying to those calls for helps."
+		"modifiers": [
+			{"attribute": "ManaMax", "value": -150},
+			{"attribute": "RegenLife", "value": 15},
+			{"attribute": "RegenMana", "value": 10}
+		]
+	}, {
 		"name": "of Meadow",
 		"rarity": 2,
 		"bonusPrice": [18],
@@ -2726,8 +2782,8 @@
 		"modifiers": [
 			{"attribute": "LifeMax", "value": -90},
 			{"attribute": "ManaMax", "value": -60},
-			{"attribute": "ShieldMax", "value": 80},
-			{"attribute": "RegenShield", "value": 20},
+			{"attribute": "ShieldMax", "value": 40},
+			{"attribute": "RegenShield", "value": 10},
 			{"attribute": "Luck", "value": -5}
 		]
 	}, {
@@ -2737,10 +2793,10 @@
 		"modifiers": [
 			{"attribute": "LifeMax", "value": 40},
 			{"attribute": "ManaMax", "value": 50},
-			{"attribute": "ShieldMax", "value": 60},
+			{"attribute": "ShieldMax", "value": 30},
 			{"attribute": "RegenLife", "value": 2},
 			{"attribute": "RegenMana", "value": 2},
-			{"attribute": "RegenShield", "value": 8},
+			{"attribute": "RegenShield", "value": 4},
 			{"attribute": "DamageBonusPhysical", "value": -17},
 			{"attribute": "DamageBonusMagical", "value": -17},
 			{"attribute": "CriticalProbabilityPerThousand", "value": -30},
@@ -2761,13 +2817,282 @@
 			{"attribute": "DamageBonusMagical", "value": 12},
 			{"attribute": "CriticalMultiplierPercentage", "value": 15}
 		]
-	},{
+	}, {
 		"name": "Patched",
 		"rarity": 1,
 		"bonusPrice": [-5],
 		"modifiers": [
 			{"attribute": "Defense", "value": -1},
 			{"attribute": "Faith", "value": 1}
+		]
+	}, {
+		"name": "Elegant",
+		"rarity": 1,
+		"bonusPrice": [50],
+		"modifiers": [
+			{"attribute": "Strength", "value": -2},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Dexterity", "value": -4},
+			{"attribute": "Wisdom", "value": 3},
+			{"attribute": "Faith", "value": 1}
+		]
+	}, {
+		"name": "Exited",
+		"rarity": 1,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "Strength", "value": 1},
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Dexterity", "value": 4},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Faith", "value": 1}
+		]
+	}, {
+		"name": "of a Good Mood",
+		"rarity": 1,
+		"bonusPrice": [10],
+		"modifiers": [
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Faith", "value": 2}
+		]
+	}, {
+		"name": "of a Bad Mood",
+		"rarity": 1,
+		"bonusPrice": [-15],
+		"modifiers": [
+			{"attribute": "Constitution", "value": -1},
+			{"attribute": "Health", "value": -1},
+			{"attribute": "Faith", "value": -1}
+		]
+	}, {
+		"name": "of Breath",
+		"rarity": 1,
+		"bonusPrice": [4],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": 1},
+			{"attribute": "Precision", "value": 1},
+			{"attribute": "RegenLife", "value": 1},
+			{"attribute": "RegenMana", "value": 1}
+		]
+	}, {
+		"name": "of Controlled Breath",
+		"rarity": 1,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "Strength", "value": -1},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "RegenLife", "value": 1},
+			{"attribute": "RegenMana", "value": 1}
+		]
+	}, {
+		"name": "of Demotivation",
+		"rarity": 1,
+		"bonusPrice": [-17],
+		"modifiers": [
+			{"attribute": "Strength", "value": -3},
+			{"attribute": "Intelligence", "value": -2},
+			{"attribute": "RegenLife", "value": -1},
+			{"attribute": "RegenMana", "value": -1},
+			{"attribute": "DamageReductionPhysical", "value": 2},
+			{"attribute": "DamageReductionMagical", "value": 2}
+		]
+	}, {
+		"name": "of Sweat",
+		"rarity": 1,
+		"bonusPrice": [-16],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": -25},
+			{"attribute": "Constitution", "value": -1},
+			{"attribute": "RegenLife", "value": 3},
+			{"attribute": "RegenMana", "value": 1}
+		]
+	}, {
+		"name": "of a Bad Sleep",
+		"rarity": 1,
+		"bonusPrice": [-7],
+		"modifiers": [
+			{"attribute": "Strength", "value": -2},
+			{"attribute": "Constitution", "value": -2},
+			{"attribute": "Health", "value": -2},
+			{"attribute": "Defense", "value": -2},
+			{"attribute": "Dexterity", "value": -2},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Intelligence", "value": -2},
+			{"attribute": "Wisdom", "value": -2},
+			{"attribute": "Faith", "value": -2},
+			{"attribute": "DamageBonusPhysical", "value": 4},
+			{"attribute": "DamageBonusMagical", "value": 4}
+		]
+	}, {
+		"name": "of a Bad Sleeper",
+		"rarity": 3,
+		"bonusPrice": [-47],
+		"modifiers": [
+			{"attribute": "Strength", "value": -3},
+			{"attribute": "Constitution", "value": -3},
+			{"attribute": "Health", "value": -3},
+			{"attribute": "Defense", "value": -3},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "Intelligence", "value": -3},
+			{"attribute": "Wisdom", "value": -3},
+			{"attribute": "Faith", "value": -3},
+			{"attribute": "DamageBonusPhysical", "value": 5},
+			{"attribute": "DamageBonusMagical", "value": 5},
+			{"attribute": "CriticalMultiplierPercentage", "value": 2}
+		]
+	}, {
+		"name": "of Cyber Mosquito",
+		"rarity": 3,
+		"bonusPrice": [66],
+		"modifiers": [
+			{"attribute": "ShieldMax", "value": 15},
+			{"attribute": "ShieldLeechPercentage", "value": 10}
+		]
+	}, {
+		"name": "of Cybervampire",
+		"rarity": 4,
+		"bonusPrice": [99],
+		"modifiers": [
+			{"attribute": "ShieldMax", "value": 25},
+			{"attribute": "RegenMana", "value": -1},
+			{"attribute": "RegenShield", "value": -1},
+			{"attribute": "ShieldLeechPercentage", "value": 20}
+		]
+	}, {
+		"name": "with Batteries",
+		"rarity": 3,
+		"bonusPrice": [50],
+		"modifiers": [
+			{"attribute": "ShieldMax", "value": 35}
+		]
+	}, {
+		"name": "with Dynamos",
+		"rarity": 3,
+		"bonusPrice": [66],
+		"modifiers": [
+			{"attribute": "Strength", "value": -5},
+			{"attribute": "ShieldMax", "value": 10},
+			{"attribute": "ShieldLeechPercentage", "value": 15}
+		]
+	}, {
+		"name": "of Logic",
+		"rarity": 2,
+		"bonusPrice": [22],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 8},
+			{"attribute": "Wisdom", "value": 4},
+			{"attribute": "Faith", "value": -3}
+		]
+	}, {
+		"name": "of Reflexes",
+		"rarity": 2,
+		"bonusPrice": [22],
+		"description": "A surviving-prone ability with a cost.",
+		"modifiers": [
+			{"attribute": "Defense", "value": 4},
+			{"attribute": "Dexterity", "value": 9},
+			{"attribute": "Intelligence", "value": -2}
+		]
+	}, {
+		"name": "of Dreams",
+		"rarity": 1,
+		"bonusPrice": [8],
+		"modifiers": [
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Faith", "value": 4}
+		]
+	}, {
+		"name": "of Fear of Fight",
+		"rarity": 1,
+		"bonusPrice": [-15],
+		"description": "You prefer to not fight, also to not being hit as well.",
+		"modifiers": [
+			{"attribute": "Defense", "value": 5},
+			{"attribute": "Dexterity", "value": 5},
+			{"attribute": "Precision", "value": -4}
+		]
+	}, {
+		"name": "of Slime",
+		"rarity": 2,
+		"bonusPrice": [15],
+		"description": "You can recover quickly to injuries, but it makes you very soft.",
+		"modifiers": [
+			{"attribute": "LifeMax", "value": -150},
+			{"attribute": "RegenLife", "value": 20}
+		]
+	}, {
+		"name": "of Lizard's Tail",
+		"rarity": 1,
+		"bonusPrice": [15],
+		"description": "You can recover to injuries, but it makes you fearfull.",
+		"modifiers": [
+			{"attribute": "LifeMax", "value": -60},
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Dexterity", "value": 3},
+			{"attribute": "RegenLife", "value": 8},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": -10},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": -10}
+		]
+	}, {
+		"name": "of Starfish",
+		"rarity": 1,
+		"bonusPrice": [15],
+		"description": "You can recover to injuries, but it makes you soft and slow.",
+		"modifiers": [
+			{"attribute": "LifeMax", "value": -40},
+			{"attribute": "Defense", "value": -3},
+			{"attribute": "Velocity", "value": -15},
+			{"attribute": "RegenLife", "value": 5}
+		]
+	}, {
+		"name": "of Studying",
+		"rarity": 2,
+		"bonusPrice": [23],
+		"description": "Knowledge requires hours of hard work",
+		"modifiers": [
+			{"attribute": "Strength", "value": -7},
+			{"attribute": "Constitution", "value": -4},
+			{"attribute": "Intelligence", "value": 11},
+			{"attribute": "Wisdom", "value": 11}
+		]
+	}, {
+		"name": "of Dietist",
+		"rarity": 2,
+		"bonusPrice": [35],
+		"description": "Mens sana in corpore sano.",
+		"modifiers": [
+			{"attribute": "ManaMax", "value": 15},
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 4}
+		]
+	}, {
+		"name": "of Leech",
+		"rarity": 2,
+		"bonusPrice": [17],
+		"modifiers": [
+			{"attribute": "LifeLeechPercentage", "value": 15}
+		]
+	}, {
+		"name": "of Spiritual Leech",
+		"rarity": 2,
+		"bonusPrice": [17],
+		"modifiers": [
+			{"attribute": "ManaLeechPercentage", "value": 15}
+		]
+	}, {
+		"name": "of Narcissist",
+		"rarity": 2,
+		"bonusPrice": [-15],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 5},
+			{"attribute": "Wisdom", "value": -7},
+			{"attribute": "Faith", "value": 3},
+			{"attribute": "LifeLeechPercentage", "value": 5},
+			{"attribute": "ManaLeechPercentage", "value": 15}
 		]
 	}
 ]

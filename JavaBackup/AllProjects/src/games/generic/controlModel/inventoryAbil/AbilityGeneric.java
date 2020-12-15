@@ -45,6 +45,12 @@ public interface AbilityGeneric extends AssignableObject, RarityHolder, GameObje
 	 */
 	public void resetAbility();
 
+	/**
+	 * Simply invokes the more friendly-named {@link #resetAbility()}.
+	 * <p>
+	 * Inherited documentation:<br>
+	 * {@inheritDoc}
+	 */
 	@Override
 	public default void resetStuffs() { resetAbility(); }
 

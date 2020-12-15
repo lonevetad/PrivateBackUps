@@ -14,6 +14,10 @@ public interface AssignableObject extends GameObjectGeneric {
 
 	// utilities
 
+	/**
+	 * Override designed.<br>
+	 * Some resets action should be done. Let's do it there.
+	 */
 	public void resetStuffs();
 
 	/**
@@ -29,7 +33,7 @@ public interface AssignableObject extends GameObjectGeneric {
 
 	/**
 	 * Override designed.<br>
-	 * Perform clean-up actions, by default by calling {@link #resetAbility()}, in
+	 * Perform clean-up actions, by default by calling {@link #resetStuffs()}, in
 	 * certain moments, like the death of the owner, the un-equipment of the
 	 * belonging {@link EquipmentItem}, etc.
 	 */

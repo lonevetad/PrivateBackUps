@@ -97,6 +97,7 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 
 	protected void onCreate(GModality gm) { enrichEquipment(gm, gm.getGameObjectsProvider()); }
 
+	/** Just check the instances of sets and backmaps. */
 	protected void checkAbilitiesSet() {
 		if (this.abilities == null) {
 			this.backMapAbilities = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
@@ -152,7 +153,14 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 			checkAbilitiesSet();
 			this.abilities.add(am);
 //			am.setEquipItem(this);
-			if (getCreatureWearingEquipments() != null) { am.onAddingToOwner(getGameModality()); }
+			BaseCreatureRPG owner = getCreatureWearingEquipments();
+			if (owner != null) {
+				am.setOwner(owner);
+				if (owner.getGameModality() == null) {
+					// make sure the adding operation is performed
+					am.onAddingToOwner(getGameModality());
+				}
+			}
 		}
 		return this;
 	}
@@ -198,7 +206,7 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 			up.getPricesModifications()
 					.forEachTypeAmount((i, amount) -> { this.sellPrice.alterCurrencyAmount(i, amount); });
 			// apply modifications
-			ah = this.getCreatureWearingEquipments(); // assumed to be true
+			ah = this.getCreatureWearingEquipments();
 			if (ah != null) {
 				ca = ah.getAttributes();
 				up.getAttributeModifiers().forEach(eam -> ca.applyAttributeModifier(eam));
@@ -217,7 +225,7 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 			up.getPricesModifications()
 					.forEachTypeAmount((i, amount) -> { this.sellPrice.alterCurrencyAmount(i, -amount); });
 			// apply modifications
-			ah = this.getCreatureWearingEquipments(); // assumed to be true
+			ah = this.getCreatureWearingEquipments();
 			if (ah != null) {
 				ca = ah.getAttributes();
 				up.getAttributeModifiers().forEach(eam -> ca.removeAttributeModifier(eam));
