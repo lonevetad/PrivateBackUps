@@ -1,0 +1,1090 @@
+START TEST SRL PARSER
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 17 init r1 4
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 17 ]Register [r1 -> 4 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 17 ]Register [r1 -> 4 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 7 init r1 4 inc r0
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 7 ]Register [r1 -> 4 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 8 ]Register [r1 -> 4 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 7 init r1 4 inc /*commento multilinea*/ r0
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 7 ]Register [r1 -> 4 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 8 ]Register [r1 -> 4 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 7 init r1 4 inc //commento singola 
+ r0
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 7 ]Register [r1 -> 4 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 8 ]Register [r1 -> 4 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 7 init r1 4 for r0 { inc r1}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 7 ]Register [r1 -> 4 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 7 ]Register [r1 -> 11 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 7 init r1 4 for r0 { incr r1 } dec r0 decr r0;
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 7 ]Register [r1 -> 4 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 5 ]Register [r1 -> 11 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 7 init r1 4 init r2 300 for r0 { for (r1){ inc r2 } } ; dec r0
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 7 ]Register [r1 -> 4 ]Register [r2 -> 300 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 6 ]Register [r1 -> 4 ]Register [r2 -> 328 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init rr -3 init r2 7 ; 
+ for rr { inc r2 }
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r2 -> 7 ]Register [rr -> -3 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r2 -> 4 ]Register [rr -> -3 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init pippo 5 init pluto -88 swap(pippo, pluto)
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [pippo -> 5 ]Register [pluto -> -88 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [pippo -> -88 ]Register [pluto -> 5 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init dividendo 18 init quoziente 0 init tp1 1 init tp2 0 ;
+for dividendo { swap(tp1 tp2) for(tp1){ inc quoziente; } }
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [dividendo -> 18 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [dividendo -> 18 ]Register [quoziente -> 9 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init dividendo 7 init quoziente 0 init tp1 1 init tp2 0 ;
+for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [dividendo -> 7 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [dividendo -> 7 ]Register [quoziente -> 3 ]Register [tp1 -> 0 ]Register [tp2 -> 1 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init dividendo 1 init quoziente 0 init tp1 1 init tp2 0 ;
+for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [dividendo -> 1 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [dividendo -> 1 ]Register [quoziente -> 0 ]Register [tp1 -> 0 ]Register [tp2 -> 1 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init dividendo -9 init quoziente 0 init tp1 1 init tp2 0 ;
+for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [dividendo -> -9 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [dividendo -> -9 ]Register [quoziente -> -4 ]Register [tp1 -> 0 ]Register [tp2 -> 1 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init dividendo -8 init quoziente 0 init tp1 1 init tp2 0 ;
+for dividendo { swap(tp1 tp2) for(tp1){ inc quoziente; } }
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [dividendo -> -8 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [dividendo -> -8 ]Register [quoziente -> -4 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init dividendo -1 init quoziente 0 init tp1 1 init tp2 0 ;
+for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [dividendo -> -1 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [dividendo -> -1 ]Register [quoziente -> 0 ]Register [tp1 -> 0 ]Register [tp2 -> 1 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init dividendo 0 init quoziente 0 init tp1 1 init tp2 0 ;
+for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [dividendo -> 0 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [dividendo -> 0 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -10 init b 7 for a dec b
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [a -> -10 ]Register [b -> 7 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [a -> -10 ]Register [b -> 17 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -3 init b 7 init c 100 for a { for b { inc c}}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [a -> -3 ]Register [b -> 7 ]Register [c -> 100 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [a -> -3 ]Register [b -> 7 ]Register [c -> 79 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -4 init b -16 init c 100 for a { for b { inc c}}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [a -> -4 ]Register [b -> -16 ]Register [c -> 100 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [a -> -4 ]Register [b -> -16 ]Register [c -> 164 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 9 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 9 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 1 ]Register [r4 -> 0 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> -8 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> -8 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> -1 ]Register [r4 -> 5 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 6 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 6 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> 1 ]Register [r4 -> -3 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> -13 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> -13 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> -1 ]Register [r4 -> 0 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 2 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 2 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> 1 ]Register [r4 -> -1 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> -2 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> -2 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> -1 ]Register [r4 -> 2 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 1 ]Register [r4 -> 0 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> -1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> -1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> -1 ]Register [r4 -> 0 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 0 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 0 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> -1 ]Register [r4 -> 1 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> 3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> 3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 1 ]Register [r4 -> 0 ]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register [r0 -> -3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register [r0 -> -3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> -1 ]Register [r4 -> 0 ]]
