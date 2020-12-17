@@ -7,6 +7,7 @@ import srl.SRLRegistersCollection;
 import srl.SRLRegistersCollection.Register;
 
 public class SRLFor implements SRLCodeStatement {
+	private static final long serialVersionUID = 8461380564L;
 
 	public SRLFor(String registerName, SRLBody body) {
 		super();
@@ -22,7 +23,7 @@ public class SRLFor implements SRLCodeStatement {
 	public SRLBody getBody() { return body; }
 
 	@Override
-	public void perform(SRLRegistersCollection registers, boolean isNOTInverse) {
+	public void runCode(SRLRegistersCollection registers, boolean isNOTInverse) {
 		long rep;
 		Register r;
 		r = registers.getRegister(registerName);
@@ -33,8 +34,11 @@ public class SRLFor implements SRLCodeStatement {
 		}
 		if (rep != 0) {
 			while (--rep >= 0) {
-				body.perform(registers, isNOTInverse);
+				body.runCode(registers, isNOTInverse);
 			}
 		}
 	}
+
+	@Override
+	public SRLFor clone() { return new SRLFor(registerName, body.clone()); }
 }

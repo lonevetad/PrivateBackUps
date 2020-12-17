@@ -74,6 +74,7 @@ for r1  { // DISPARI - parte 1
 //Similarmente, 0 deve restituire vero esattamente come -1.
 //Quindi si riduce N di 1 e si procede coi "dispari" come se nulla fosse.
 
+/*
 for r2  { // PARI
 	// devo riazzerare r4, uso r1,3 come truth-pair per ricalcolare la meta' in r4
 	inc r1 ; // vale 1 ora, r3 vale ancora 0
@@ -82,6 +83,7 @@ for r2  { // PARI
 		for r1 { dec r4 ; }
 	}
 	// r4 vale 0 di nuovo ;  il numero di swap eseguiti e' pari -> r1==1 ; r3==0
+
 
 	dec r0 ; // decremento temporaneo
 	for r0  { // ricalcolo della meta'
@@ -134,8 +136,17 @@ for r2  { // PARI
 //	r4 = 0
 
 }
+*/
 
 
+
+/*
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // FINE parte legata alla parita', INIZIO parte "generale" (legata al segno)
 
 
@@ -167,7 +178,6 @@ dec r0 ;
 //Salvo quindi in r4 la quantita' di swap(r1, r2) da eseguire
 //(sfruttando poi il valore di r2 per azzerare r4, nel caso)
 
-/*
 inc r3 ;
 for r3 { // se siamo qui, e' perche' r3==2
 	swap(r1, r2) ;

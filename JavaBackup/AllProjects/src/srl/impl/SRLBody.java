@@ -8,6 +8,7 @@ import srl.SRLRegistersCollection;
 
 /** Just a scope, useful for {@link SRLFor}.S */
 public class SRLBody implements SRLCodeStatement {
+	private static final long serialVersionUID = 55027084952165L;
 
 	public SRLBody() { this.body = new LinkedList<>(); }
 
@@ -18,8 +19,16 @@ public class SRLBody implements SRLCodeStatement {
 	public void addStatement(SRLCodeStatement s) { body.add(s); }
 
 	@Override
-	public void perform(SRLRegistersCollection registers, boolean isNOTInverse) {
+	public void runCode(SRLRegistersCollection registers, boolean isNOTInverse) {
 		if (this.body.isEmpty()) { System.out.println("SRLBody empty"); }
-		this.body.forEach(o -> o.perform(registers, isNOTInverse));
+		this.body.forEach(o -> o.runCode(registers, isNOTInverse));
+	}
+
+	@Override
+	public SRLBody clone() {
+		SRLBody b;
+		b = new SRLBody();
+		this.body.forEach(stat -> b.addStatement(stat.clone()));
+		return b;
 	}
 }

@@ -1,5 +1,68 @@
 [
 	{
+		"name": "of Strength",
+		"rarity": 3,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Strength", "value": 13}
+		]
+	}, {
+		"name": "of Constitution",
+		"rarity": 3,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Constitution", "value": 13}
+		]
+	}, {
+		"name": "of Health",
+		"rarity": 3,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Health", "value": 13}
+		]
+	}, {
+		"name": "of Defense",
+		"rarity": 3,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Defense", "value": 13}
+		]
+	}, {
+		"name": "of Dexterity",
+		"rarity": 3,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Dexterity", "value": 13}
+		]
+	}, {
+		"name": "of Precision",
+		"rarity": 3,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Precision", "value": 13}
+		]
+	}, {
+		"name": "of Intelligence",
+		"rarity": 3,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Intelligence", "value": 13}
+		]
+	}, {
+		"name": "of Wisdom",
+		"rarity": 3,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Wisdom", "value": 13}
+		]
+	}, {
+		"name": "of Faith",
+		"rarity": 3,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Faith", "value": 13}
+		]
+	}, {
 		"name": "Benedicted",
 		"rarity": 1,
 		"bonusPrice": [6],
@@ -3132,6 +3195,89 @@
 			{"attribute": "Health", "value": 2},
 			{"attribute": "Dexterity", "value": 2},
 			{"attribute": "Velocity", "value": 5}
+		]
+	}, {
+		"name": "of Boy",
+		"rarity": 1,
+		"bonusPrice": [6],
+		"modifiers": [
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Defense", "value": 2}
+		]
+	}, {
+		"name": "of Girl",
+		"rarity": 1,
+		"bonusPrice": [6],
+		"modifiers": [
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Wisdom", "value": 2p}
+		]
+	}, {
+		"name": "of Youth",
+		"rarity": 2,
+		"bonusPrice": [18],
+		"modifiers": [
+			{"attribute": "Strength", "value": 3},
+			{"attribute": "Constitution", "value": 2},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": -2},
+			{"attribute": "Intelligence", "value": 3},
+			{"attribute": "Wisdom", "value": -4},
+			{"attribute": "Faith", "value": 2},
+			{"attribute": "Luck", "value": 2}
+		]
+	}, {
+		"name": "of Grappling Hopep",
+		"rarity": 2,
+		"bonusPrice": [14],
+		"modifiers": [
+			{"attribute": "Strength", "value": 1},
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Faith", "value": 4}
+		]
+	}, {
+		"name": "Silky & Sucky Touch",
+		"rarity": 3,
+		"bonusPrice": [17],
+		"modifiers": [
+			{"attribute": "Faith", "value": -3},
+			{"attribute": "DamageBonusPhysical", "value": -7},
+			{"attribute": "DamageBonusMagical", "value": -7},
+			{"attribute": "LifeLeechPercentage", "value": 15},
+			{"attribute": "ManaLeechPercentage", "value": 15}
+		]
+	}, {
+		"name": "Well Covering",
+		"rarity": 1,
+		"bonusPrice": [9],
+		"modifiers": [
+			{"attribute": "Constitution", "value": 1},
+			{"attribute": "Defense", "value": 2},
+			{"attribute": "Intelligence", "value": 1}
+		]
+	}, {
+		"name": "of Runner",
+		"rarity": 2,
+		"bonusPrice": [11],
+		"modifiers": [
+			{"attribute": "Constitution", "value": 3},
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Dexterity", "value": 6},
+			{"attribute": "Velocity", "value": 10}
+		]
+	}, {
+		"name": "of the Wise",
+		"rarity": 2,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Health", "value": 2},
+			{"attribute": "Wisdom", "value": 6},
+			{"attribute": "Intelligence", "value": 3}
 		]
 	}
 ]

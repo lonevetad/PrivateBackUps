@@ -219,13 +219,13 @@ public class SRLTokenStream1 extends SRLTokenStream {
 		} else if (c == 'i') { // INIT or INC(R)?
 			tokenName = "i";
 //			System.out.println("STARTING init or inc");
-			this.toNextChar();
+			this.toNextChar(true);
 			if (this.currentChar == 'n') {
-				this.toNextChar();
+				this.toNextChar(true);
 				tokenName = tokenName + 'n';
 				if (this.currentChar == 'i') { // INIT
 					tokenName = tokenName + 'i';
-					this.toNextChar();
+					this.toNextChar(true);
 					if (this.currentChar == 't') {
 						tokenName = tokenName + 't';
 						this.toNextChar();
@@ -247,15 +247,14 @@ public class SRLTokenStream1 extends SRLTokenStream {
 					tokenName = tokenName + this.currentChar;
 				}
 			} else {
-//				System.out.println("what is the char that made init or inc stop?" + this.currentChar + ".");
-				tokenName = tokenName + this.currentChar;
+				makeCacheValid();
 			}
 		} else if (c == 'd') { // DEC(R)
 			tokenName = "d";
-			this.toNextChar();
+			this.toNextChar(true);
 			if (this.currentChar == 'e') {
 				tokenName = tokenName + 'e';
-				this.toNextChar();
+				this.toNextChar(true);
 				if (this.currentChar == 'c') {
 					tokenName = tokenName + 'c';
 					this.toNextChar(true);
@@ -270,26 +269,26 @@ public class SRLTokenStream1 extends SRLTokenStream {
 					tokenName = tokenName + this.currentChar;
 				}
 			} else {
-				tokenName = tokenName + this.currentChar;
+				makeCacheValid();
 			}
 		} else if (c == 'f') { // FOR
 			tokenName = "f";
-			this.toNextChar();
+			this.toNextChar(true);
 			if (this.currentChar == 'o') {
 				tokenName = tokenName + 'o';
-				this.toNextChar();
+				this.toNextChar(true);
 				if (this.currentChar == 'r') {
-					this.toNextChar();
+					this.toNextChar(true);
 					t = new SRLToken("for", SRLTokenName.For);
 				} else {
 					tokenName = tokenName + this.currentChar;
 				}
 			} else {
-				tokenName = tokenName + this.currentChar;
+				makeCacheValid();
 			}
 		} else if (c == 's') { // SWAP
 			tokenName = "s";
-			this.toNextChar();
+			this.toNextChar(true);
 			if (this.currentChar == 'w') {
 				tokenName = tokenName + 'w';
 				this.toNextChar();
@@ -298,7 +297,7 @@ public class SRLTokenStream1 extends SRLTokenStream {
 					this.toNextChar();
 					if (this.currentChar == 'p') {
 						tokenName = tokenName + 'p';
-						this.toNextChar();
+						this.toNextChar(true);
 						t = new SRLToken(tokenName, SRLTokenName.Swap);
 					} else {
 						tokenName = tokenName + this.currentChar;
@@ -307,7 +306,7 @@ public class SRLTokenStream1 extends SRLTokenStream {
 					tokenName = tokenName + this.currentChar;
 				}
 			} else {
-				tokenName = tokenName + this.currentChar;
+				makeCacheValid();
 			}
 		} else if (c == '-' || c == '+' || Character.isDigit(c)) { // NUMBERS
 			boolean isNeg;

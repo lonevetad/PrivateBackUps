@@ -25,7 +25,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 17 ]Register [r1 -> 4 ]]
+Register[r0 -> 17]Register[r1 -> 4]]
 
  execute it:
 
@@ -34,7 +34,7 @@ Register [r0 -> 17 ]Register [r1 -> 4 ]]
  in the end, the registers are:
 
 
-Register [r0 -> 17 ]Register [r1 -> 4 ]]
+Register[r0 -> 17]Register[r1 -> 4]]
 
 
 
@@ -61,7 +61,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 7 ]Register [r1 -> 4 ]]
+Register[r0 -> 7]Register[r1 -> 4]]
 
  execute it:
 
@@ -70,7 +70,7 @@ Register [r0 -> 7 ]Register [r1 -> 4 ]]
  in the end, the registers are:
 
 
-Register [r0 -> 8 ]Register [r1 -> 4 ]]
+Register[r0 -> 8]Register[r1 -> 4]]
 
 
 
@@ -97,7 +97,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 7 ]Register [r1 -> 4 ]]
+Register[r0 -> 7]Register[r1 -> 4]]
 
  execute it:
 
@@ -106,7 +106,7 @@ Register [r0 -> 7 ]Register [r1 -> 4 ]]
  in the end, the registers are:
 
 
-Register [r0 -> 8 ]Register [r1 -> 4 ]]
+Register[r0 -> 8]Register[r1 -> 4]]
 
 
 
@@ -134,7 +134,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 7 ]Register [r1 -> 4 ]]
+Register[r0 -> 7]Register[r1 -> 4]]
 
  execute it:
 
@@ -143,7 +143,7 @@ Register [r0 -> 7 ]Register [r1 -> 4 ]]
  in the end, the registers are:
 
 
-Register [r0 -> 8 ]Register [r1 -> 4 ]]
+Register[r0 -> 8]Register[r1 -> 4]]
 
 
 
@@ -170,7 +170,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 7 ]Register [r1 -> 4 ]]
+Register[r0 -> 7]Register[r1 -> 4]]
 
  execute it:
 
@@ -179,7 +179,43 @@ Register [r0 -> 7 ]Register [r1 -> 4 ]]
  in the end, the registers are:
 
 
-Register [r0 -> 7 ]Register [r1 -> 11 ]]
+Register[r0 -> 7]Register[r1 -> 11]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 -17 init r1 0 for r0 inc r1
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> -17]Register[r1 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> -17]Register[r1 -> -17]]
 
 
 
@@ -206,7 +242,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 7 ]Register [r1 -> 4 ]]
+Register[r0 -> 7]Register[r1 -> 4]]
 
  execute it:
 
@@ -215,7 +251,7 @@ Register [r0 -> 7 ]Register [r1 -> 4 ]]
  in the end, the registers are:
 
 
-Register [r0 -> 5 ]Register [r1 -> 11 ]]
+Register[r0 -> 5]Register[r1 -> 11]]
 
 
 
@@ -242,7 +278,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 7 ]Register [r1 -> 4 ]Register [r2 -> 300 ]]
+Register[r0 -> 7]Register[r1 -> 4]Register[r2 -> 300]]
 
  execute it:
 
@@ -251,7 +287,7 @@ Register [r0 -> 7 ]Register [r1 -> 4 ]Register [r2 -> 300 ]]
  in the end, the registers are:
 
 
-Register [r0 -> 6 ]Register [r1 -> 4 ]Register [r2 -> 328 ]]
+Register[r0 -> 6]Register[r1 -> 4]Register[r2 -> 328]]
 
 
 
@@ -279,7 +315,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r2 -> 7 ]Register [rr -> -3 ]]
+Register[r2 -> 7]Register[rr -> -3]]
 
  execute it:
 
@@ -288,7 +324,7 @@ Register [r2 -> 7 ]Register [rr -> -3 ]]
  in the end, the registers are:
 
 
-Register [r2 -> 4 ]Register [rr -> -3 ]]
+Register[r2 -> 4]Register[rr -> -3]]
 
 
 
@@ -315,7 +351,7 @@ parse it
  parsed, the registers are:
 
 
-Register [pippo -> 5 ]Register [pluto -> -88 ]]
+Register[pippo -> 5]Register[pluto -> -88]]
 
  execute it:
 
@@ -324,7 +360,7 @@ Register [pippo -> 5 ]Register [pluto -> -88 ]]
  in the end, the registers are:
 
 
-Register [pippo -> -88 ]Register [pluto -> 5 ]]
+Register[pippo -> -88]Register[pluto -> 5]]
 
 
 
@@ -352,7 +388,7 @@ parse it
  parsed, the registers are:
 
 
-Register [dividendo -> 18 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> 18]Register[quoziente -> 0]Register[tp1 -> 1]Register[tp2 -> 0]]
 
  execute it:
 
@@ -361,7 +397,7 @@ Register [dividendo -> 18 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Registe
  in the end, the registers are:
 
 
-Register [dividendo -> 18 ]Register [quoziente -> 9 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> 18]Register[quoziente -> 9]Register[tp1 -> 1]Register[tp2 -> 0]]
 
 
 
@@ -389,7 +425,7 @@ parse it
  parsed, the registers are:
 
 
-Register [dividendo -> 7 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> 7]Register[quoziente -> 0]Register[tp1 -> 1]Register[tp2 -> 0]]
 
  execute it:
 
@@ -398,7 +434,7 @@ Register [dividendo -> 7 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register
  in the end, the registers are:
 
 
-Register [dividendo -> 7 ]Register [quoziente -> 3 ]Register [tp1 -> 0 ]Register [tp2 -> 1 ]]
+Register[dividendo -> 7]Register[quoziente -> 3]Register[tp1 -> 0]Register[tp2 -> 1]]
 
 
 
@@ -426,7 +462,7 @@ parse it
  parsed, the registers are:
 
 
-Register [dividendo -> 1 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> 1]Register[quoziente -> 0]Register[tp1 -> 1]Register[tp2 -> 0]]
 
  execute it:
 
@@ -435,7 +471,7 @@ Register [dividendo -> 1 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register
  in the end, the registers are:
 
 
-Register [dividendo -> 1 ]Register [quoziente -> 0 ]Register [tp1 -> 0 ]Register [tp2 -> 1 ]]
+Register[dividendo -> 1]Register[quoziente -> 0]Register[tp1 -> 0]Register[tp2 -> 1]]
 
 
 
@@ -463,7 +499,7 @@ parse it
  parsed, the registers are:
 
 
-Register [dividendo -> -9 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> -9]Register[quoziente -> 0]Register[tp1 -> 1]Register[tp2 -> 0]]
 
  execute it:
 
@@ -472,7 +508,7 @@ Register [dividendo -> -9 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Registe
  in the end, the registers are:
 
 
-Register [dividendo -> -9 ]Register [quoziente -> -4 ]Register [tp1 -> 0 ]Register [tp2 -> 1 ]]
+Register[dividendo -> -9]Register[quoziente -> -4]Register[tp1 -> 0]Register[tp2 -> 1]]
 
 
 
@@ -500,7 +536,7 @@ parse it
  parsed, the registers are:
 
 
-Register [dividendo -> -8 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> -8]Register[quoziente -> 0]Register[tp1 -> 1]Register[tp2 -> 0]]
 
  execute it:
 
@@ -509,7 +545,7 @@ Register [dividendo -> -8 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Registe
  in the end, the registers are:
 
 
-Register [dividendo -> -8 ]Register [quoziente -> -4 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> -8]Register[quoziente -> -4]Register[tp1 -> 1]Register[tp2 -> 0]]
 
 
 
@@ -537,7 +573,7 @@ parse it
  parsed, the registers are:
 
 
-Register [dividendo -> -1 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> -1]Register[quoziente -> 0]Register[tp1 -> 1]Register[tp2 -> 0]]
 
  execute it:
 
@@ -546,7 +582,7 @@ Register [dividendo -> -1 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Registe
  in the end, the registers are:
 
 
-Register [dividendo -> -1 ]Register [quoziente -> 0 ]Register [tp1 -> 0 ]Register [tp2 -> 1 ]]
+Register[dividendo -> -1]Register[quoziente -> 0]Register[tp1 -> 0]Register[tp2 -> 1]]
 
 
 
@@ -574,7 +610,7 @@ parse it
  parsed, the registers are:
 
 
-Register [dividendo -> 0 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> 0]Register[quoziente -> 0]Register[tp1 -> 1]Register[tp2 -> 0]]
 
  execute it:
 
@@ -583,7 +619,7 @@ Register [dividendo -> 0 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register
  in the end, the registers are:
 
 
-Register [dividendo -> 0 ]Register [quoziente -> 0 ]Register [tp1 -> 1 ]Register [tp2 -> 0 ]]
+Register[dividendo -> 0]Register[quoziente -> 0]Register[tp1 -> 1]Register[tp2 -> 0]]
 
 
 
@@ -610,7 +646,7 @@ parse it
  parsed, the registers are:
 
 
-Register [a -> -10 ]Register [b -> 7 ]]
+Register[a -> -10]Register[b -> 7]]
 
  execute it:
 
@@ -619,7 +655,7 @@ Register [a -> -10 ]Register [b -> 7 ]]
  in the end, the registers are:
 
 
-Register [a -> -10 ]Register [b -> 17 ]]
+Register[a -> -10]Register[b -> 17]]
 
 
 
@@ -646,7 +682,7 @@ parse it
  parsed, the registers are:
 
 
-Register [a -> -3 ]Register [b -> 7 ]Register [c -> 100 ]]
+Register[a -> -3]Register[b -> 7]Register[c -> 100]]
 
  execute it:
 
@@ -655,7 +691,7 @@ Register [a -> -3 ]Register [b -> 7 ]Register [c -> 100 ]]
  in the end, the registers are:
 
 
-Register [a -> -3 ]Register [b -> 7 ]Register [c -> 79 ]]
+Register[a -> -3]Register[b -> 7]Register[c -> 79]]
 
 
 
@@ -682,7 +718,7 @@ parse it
  parsed, the registers are:
 
 
-Register [a -> -4 ]Register [b -> -16 ]Register [c -> 100 ]]
+Register[a -> -4]Register[b -> -16]Register[c -> 100]]
 
  execute it:
 
@@ -691,7 +727,884 @@ Register [a -> -4 ]Register [b -> -16 ]Register [c -> 100 ]]
  in the end, the registers are:
 
 
-Register [a -> -4 ]Register [b -> -16 ]Register [c -> 164 ]]
+Register[a -> -4]Register[b -> -16]Register[c -> 164]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 7 init b 10 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 7]Register[ancilla -> 0]Register[b -> 10]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 10]Register[ancilla -> 0]Register[b -> 7]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -8 init b -4 init c -2 init d -10 init res 0;;
+for a{ for(b){ for[c){ for{d}{inc res } } }}
+inc d inc d;
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -8]Register[b -> -4]Register[c -> -2]Register[d -> -10]Register[res -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -8]Register[b -> -4]Register[c -> -2]Register[d -> -8]Register[res -> 640]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -8 init b -4 init c -2 init d -1 init res 0;;
+for a{ for(b){ for[c){ for{d}{inc res } } }}
+inc d inc d; for d{ for b { dec c }} ; 
+for d{for{c}{dec b}}
+
+ init eee 5 for eee dec res;
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -8]Register[b -> -4]Register[c -> -2]Register[d -> -1]Register[eee -> 5]Register[res -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -8]Register[b -> -6]Register[c -> 2]Register[d -> 1]Register[eee -> 5]Register[res -> 59]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 17 init b 10 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 17]Register[ancilla -> 0]Register[b -> 10]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 10]Register[ancilla -> 0]Register[b -> 17]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 8 init b -5 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 8]Register[ancilla -> 0]Register[b -> -5]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -5]Register[ancilla -> 0]Register[b -> 8]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -4 init b 16 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -4]Register[ancilla -> 0]Register[b -> 16]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 16]Register[ancilla -> 0]Register[b -> -4]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -50 init b -40 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -50]Register[ancilla -> 0]Register[b -> -40]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -40]Register[ancilla -> 0]Register[b -> -50]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 4 init b 0 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 4]Register[ancilla -> 0]Register[b -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 0]Register[ancilla -> 0]Register[b -> 4]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 0 init b 4 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 0]Register[ancilla -> 0]Register[b -> 4]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 4]Register[ancilla -> 0]Register[b -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -4 init b 0 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -4]Register[ancilla -> 0]Register[b -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 0]Register[ancilla -> 0]Register[b -> -4]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 0 init b -4 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 0]Register[ancilla -> 0]Register[b -> -4]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -4]Register[ancilla -> 0]Register[b -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 1 init b 0 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 1]Register[ancilla -> 0]Register[b -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 0]Register[ancilla -> 0]Register[b -> 1]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 0 init b 1 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 0]Register[ancilla -> 0]Register[b -> 1]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 1]Register[ancilla -> 0]Register[b -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -1 init b 0 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -1]Register[ancilla -> 0]Register[b -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 0]Register[ancilla -> 0]Register[b -> -1]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 0 init b -1 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 0]Register[ancilla -> 0]Register[b -> -1]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -1]Register[ancilla -> 0]Register[b -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 2 init b 3 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 2]Register[ancilla -> 0]Register[b -> 3]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 3]Register[ancilla -> 0]Register[b -> 2]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 3 init b 2 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 3]Register[ancilla -> 0]Register[b -> 2]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 2]Register[ancilla -> 0]Register[b -> 3]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -2 init b 3 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -2]Register[ancilla -> 0]Register[b -> 3]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 3]Register[ancilla -> 0]Register[b -> -2]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 3 init b -2 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 3]Register[ancilla -> 0]Register[b -> -2]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -2]Register[ancilla -> 0]Register[b -> 3]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a 2 init b -3 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> 2]Register[ancilla -> 0]Register[b -> -3]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -3]Register[ancilla -> 0]Register[b -> 2]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -3 init b 2 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -3]Register[ancilla -> 0]Register[b -> 2]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> 2]Register[ancilla -> 0]Register[b -> -3]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -2 init b -3 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -2]Register[ancilla -> 0]Register[b -> -3]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -3]Register[ancilla -> 0]Register[b -> -2]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init a -3 init b -2 init ancilla 0;for a { inc ancilla} for ancilla {dec a}
+for b { inc a} for a {dec b}
+for ancilla { inc b} for b {dec ancilla}
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[a -> -3]Register[ancilla -> 0]Register[b -> -2]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[a -> -2]Register[ancilla -> 0]Register[b -> -3]]
 
 
 
@@ -718,7 +1631,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 9 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> 9]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -727,7 +1640,7 @@ Register [r0 -> 9 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Regi
  in the end, the registers are:
 
 
-Register [r0 -> 9 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 1 ]Register [r4 -> 0 ]]
+Register[r0 -> 9]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]]
 
 
 
@@ -754,7 +1667,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> -8 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> -8]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -763,7 +1676,7 @@ Register [r0 -> -8 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Reg
  in the end, the registers are:
 
 
-Register [r0 -> -8 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> -1 ]Register [r4 -> 5 ]]
+Register[r0 -> -8]Register[r1 -> 0]Register[r2 -> 1]Register[r3 -> 0]Register[r4 -> -4]]
 
 
 
@@ -790,7 +1703,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 6 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> 6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -799,7 +1712,7 @@ Register [r0 -> 6 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Regi
  in the end, the registers are:
 
 
-Register [r0 -> 6 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> 1 ]Register [r4 -> -3 ]]
+Register[r0 -> 6]Register[r1 -> 0]Register[r2 -> 1]Register[r3 -> 0]Register[r4 -> 3]]
 
 
 
@@ -826,7 +1739,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> -13 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> -13]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -835,7 +1748,7 @@ Register [r0 -> -13 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Re
  in the end, the registers are:
 
 
-Register [r0 -> -13 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> -1 ]Register [r4 -> 0 ]]
+Register[r0 -> -13]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> -1]Register[r4 -> 0]]
 
 
 
@@ -862,7 +1775,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 2 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> 2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -871,7 +1784,7 @@ Register [r0 -> 2 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Regi
  in the end, the registers are:
 
 
-Register [r0 -> 2 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> 1 ]Register [r4 -> -1 ]]
+Register[r0 -> 2]Register[r1 -> 0]Register[r2 -> 1]Register[r3 -> 0]Register[r4 -> 1]]
 
 
 
@@ -898,7 +1811,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> -2 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> -2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -907,7 +1820,7 @@ Register [r0 -> -2 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Reg
  in the end, the registers are:
 
 
-Register [r0 -> -2 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> -1 ]Register [r4 -> 2 ]]
+Register[r0 -> -2]Register[r1 -> 0]Register[r2 -> 1]Register[r3 -> 0]Register[r4 -> -1]]
 
 
 
@@ -934,7 +1847,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -943,7 +1856,7 @@ Register [r0 -> 1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Regi
  in the end, the registers are:
 
 
-Register [r0 -> 1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 1 ]Register [r4 -> 0 ]]
+Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]]
 
 
 
@@ -970,7 +1883,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> -1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -979,7 +1892,7 @@ Register [r0 -> -1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Reg
  in the end, the registers are:
 
 
-Register [r0 -> -1 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> -1 ]Register [r4 -> 0 ]]
+Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> -1]Register[r4 -> 0]]
 
 
 
@@ -1006,7 +1919,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 0 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> 0]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -1015,7 +1928,7 @@ Register [r0 -> 0 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Regi
  in the end, the registers are:
 
 
-Register [r0 -> 0 ]Register [r1 -> 1 ]Register [r2 -> -1 ]Register [r3 -> -1 ]Register [r4 -> 1 ]]
+Register[r0 -> 0]Register[r1 -> 0]Register[r2 -> 1]Register[r3 -> 0]Register[r4 -> 0]]
 
 
 
@@ -1042,7 +1955,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> 3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -1051,7 +1964,7 @@ Register [r0 -> 3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Regi
  in the end, the registers are:
 
 
-Register [r0 -> 3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 1 ]Register [r4 -> 0 ]]
+Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]]
 
 
 
@@ -1078,7 +1991,7 @@ parse it
  parsed, the registers are:
 
 
-Register [r0 -> -3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Register [r4 -> 0 ]]
+Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
 
  execute it:
 
@@ -1087,4 +2000,292 @@ Register [r0 -> -3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> 0 ]Reg
  in the end, the registers are:
 
 
-Register [r0 -> -3 ]Register [r1 -> 1 ]Register [r2 -> 0 ]Register [r3 -> -1 ]Register [r4 -> 0 ]]
+Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> -1]Register[r4 -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> 7]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> 7]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> 11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> 11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> -1]Register[r4 -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> -7]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> -7]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> -1]Register[r4 -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> -11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> -11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> -1]Register[r4 -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> 101]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> 101]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]]
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+Sorgente TROPPO grande
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> -103]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> -103]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> -1]Register[r4 -> 0]]

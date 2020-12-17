@@ -8,6 +8,7 @@ import srl.SRLRegistersCollection;
  * {@link #isIncrement()}} on a register (which is {@link #getRegisterName()}).
  */
 public class SRLIncrDecrOnRegister implements SRLCodeStatement {
+	private static final long serialVersionUID = -32025517961902L;
 
 	public SRLIncrDecrOnRegister(boolean isIncrement, String registerName) {
 		super();
@@ -23,11 +24,14 @@ public class SRLIncrDecrOnRegister implements SRLCodeStatement {
 	public String getRegisterName() { return registerName; }
 
 	@Override
-	public void perform(SRLRegistersCollection registers, boolean isNOTInverse) {
+	public void runCode(SRLRegistersCollection registers, boolean isNOTInverse) {
 		if (isNOTInverse == this.isIncrement) {
 			registers.incrementRegister(this.registerName);
 		} else {
 			registers.decrementRegister(this.registerName);
 		}
 	}
+
+	@Override
+	public SRLIncrDecrOnRegister clone() { return new SRLIncrDecrOnRegister(isIncrement, registerName); }
 }

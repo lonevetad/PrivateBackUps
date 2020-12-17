@@ -1,5 +1,6 @@
 package srl;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Consumer;
@@ -7,7 +8,8 @@ import java.util.function.Consumer;
 //import dataStructures.MapTreeAVL;
 import tools.Comparators;
 
-public class SRLRegistersCollection {
+public class SRLRegistersCollection implements Serializable, Cloneable {
+	private static final long serialVersionUID = 89561514L;
 
 	public SRLRegistersCollection() {
 		this.registers = // MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
@@ -38,6 +40,15 @@ public class SRLRegistersCollection {
 
 	public void forEachRegister(Consumer<Register> action) { this.registers.forEach((n, r) -> action.accept(r)); }
 
+	@Override
+	public SRLRegistersCollection clone() {
+		final SRLRegistersCollection r;
+		r = new SRLRegistersCollection();
+		this.registers.forEach((n, reg) -> r.registers.put(reg.name, reg.clone()));
+		return r;
+	}
+//		public SRLCodeStatement clone();
+
 	/**
 	 * Disruptive operation: set ALL registers to zero. Should NOT be used, unless
 	 * in tests.
@@ -61,7 +72,8 @@ public class SRLRegistersCollection {
 
 	//
 
-	public static class Register {
+	public static class Register implements Serializable, Cloneable {
+		private static final long serialVersionUID = -2015410865408L;
 		public long value;
 		public final String name;
 
@@ -71,9 +83,17 @@ public class SRLRegistersCollection {
 			toZero();
 		}
 
+		protected Register(String name, long value) {
+			this.name = name;
+			this.value = value;
+		}
+
 		public void toZero() { this.value = 0; }
 
 		@Override
-		public String toString() { return "Register [" + name + " -> " + value + " ]"; }
+		public String toString() { return "Register[" + name + " -> " + value + "]"; }
+
+		@Override
+		public Register clone() { return new Register(name, value); }
 	}
 }
