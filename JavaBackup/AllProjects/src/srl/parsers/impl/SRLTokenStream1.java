@@ -1,5 +1,6 @@
 package srl.parsers.impl;
 
+import java.util.LinkedList;
 import java.util.Objects;
 
 import srl.parsers.CharacterStream;
@@ -20,6 +21,7 @@ public class SRLTokenStream1 extends SRLTokenStream {
 			emptyCharStreamException();
 		}
 		lineNumber = columnNumber = 0;
+		tokenPushedBack = new LinkedList<>();
 		jumpJunkChars();
 //		System.out.println(
 //				this.getClass().getSimpleName() + " starts with char:" + currentChar + ", at: " + currentLineColumn());
@@ -28,6 +30,7 @@ public class SRLTokenStream1 extends SRLTokenStream {
 	protected boolean hasEnded, hasCache;
 	protected int columnNumber, lineNumber;
 	protected char currentChar, charForseen;
+	protected LinkedList<SRLToken> tokenPushedBack;
 
 	//
 
@@ -192,6 +195,7 @@ public class SRLTokenStream1 extends SRLTokenStream {
 		char c;
 		SRLToken t;
 		String tokenName = null;
+		if (!tokenPushedBack.isEmpty()) { return tokenPushedBack.removeFirst(); }
 		if (!isNotEnded()) { return SRLTokenStream.EOF_TOKEN; }
 //		System.out.println("jump on starting a new token");
 		jumpJunkChars();
@@ -344,4 +348,7 @@ public class SRLTokenStream1 extends SRLTokenStream {
 //		System.out.println("Token: " + t.getTokenName().name() + " -> :" + t.getTokenContent() + ".");
 		return t;
 	}
+
+	@Override
+	public void pushBackToken(SRLToken token) { tokenPushedBack.addFirst(token); }
 }

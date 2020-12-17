@@ -1,9 +1,5 @@
 package tests.tSrl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class MockData {
@@ -16,56 +12,66 @@ public class MockData {
 
 	private static final ISRLProgramTextSupplier[] srlProgEx() {
 		int i;
-		ArrayList<ISRLProgramTextSupplier> al;
+//		ArrayList<ISRLProgramTextSupplier> al;
 		String fileText = null;
-		int[] r0Vals = { 9, -8, 6, -13, 2, -2, 1, -1, 0, 3, -3, 5, 7, 11, -5, -7, -11, 101, -103 };
-		String[] a;
+		int[] r0Vals = { 5, -5, 6, -6, 3, -3, 4, -4, 1, 0, -1, 2, -2 };
+		String[] a, testsR0;
 		String[][] fixedTests = { new String[] { //
-				"init r0 17 init r1 4", //
-				"init r0 7 init r1 4 inc r0", //
-				"init r0 7 init r1 4 inc /*commento multilinea*/ r0", //
-				"init r0 7 init r1 4 inc //commento singola \n r0", //
-				"init r0 7 init r1 4 for r0 { inc r1}", //
-				"init r0 -17 init r1 0 for r0 inc r1", //
-				"init r0 7 init r1 4 for r0 { incr r1 } dec r0 decr r0;", //
-				"init r0 7 init r1 4 init r2 300 for r0 { for (r1){ inc r2 } } ; dec r0", //
-				"init rr -3 init r2 7 ; \n for rr { inc r2 }", //
-				"init pippo 5 init pluto -88 swap(pippo, pluto)", //
-				"init dividendo 18 init quoziente 0 init tp1 1 init tp2 0 ;\n"
-						+ "for dividendo { swap(tp1 tp2) for(tp1){ inc quoziente; } }", //
-				"init dividendo 7 init quoziente 0 init tp1 1 init tp2 0 ;\n"
-						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
-				"init dividendo 1 init quoziente 0 init tp1 1 init tp2 0 ;\n"
-						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
-				"init dividendo -9 init quoziente 0 init tp1 1 init tp2 0 ;\n"
-						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
-				"init dividendo -8 init quoziente 0 init tp1 1 init tp2 0 ;\n"
-						+ "for dividendo { swap(tp1 tp2) for(tp1){ inc quoziente; } }", //
-				"init dividendo -1 init quoziente 0 init tp1 1 init tp2 0 ;\n"
-						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
-				"init dividendo 0 init quoziente 0 init tp1 1 init tp2 0 ;\n"
-						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
-				"init a -10 init b 7 for a dec b", //
-				"init a -3 init b 7 init c 100 for a { for b { inc c}}", // , //
-				"init a -4 init b -16 init c 100 for a { for b { inc c}}", //
-				"init a 7 init b 10 init ancilla 0;" // SWAP macro in pure SRL
-						+ "for a { inc ancilla} for ancilla {dec a}\n" //
-						+ "for b { inc a} for a {dec b}\n" //
-						+ "for ancilla { inc b} for b {dec ancilla}", //
-				"init a -8 init b -4 init c -2 init d -10 init res 0;;\n" + //
-						"for a{ for(b){ for[c){ for{d}{inc res } } }}\n" + //
-						"inc d inc d;", //
-				"init a -8 init b -4 init c -2 init d -1 init res 0;;\n" + //
-						"for a{ for(b){ for[c){ for{d}{inc res } } }}\n" + //
-						"inc d inc d; for d{ for b { dec c }} ; \n" + //
-						"for d{for{c}{dec b}}" + //
-						"\n\n init eee 5 for eee dec res;" }, //
+//				"init r0 17 init r1 4", //
+//				"init r0 7 init r1 4 inc r0", //
+//				"init r0 7 init r1 4 inc /*commento multilinea*/ r0", //
+//				"init r0 7 init r1 4 inc //commento singola \n r0", //
+//				"init r0 7 init r1 4 inc r0 inc r0", //
+				"init r0 7 init r1 4 inc r0 inc r0 inc r0", //
+//				"init r0 -7 init r1 4 inc r0", //
+//				"init r0 -7 init r1 4 inc r0 inc r0", //
+//				"init r0 -7 init r1 4 inc r0 inc r0 inc r0", //
+//				"init r0 7 init r1 4 for r0 { inc r1}", //
+//				"init r0 -17 init r1 0 for r0 inc r1", //
+//				"init r0 7 init r1 4 for r0 { incr r1 } dec r0 decr r0;", //
+//				"init r0 7 init r1 4 init r2 300 for r0 { for (r1){ inc r2 } } ; dec r0", //
+//				"init r0 5 init r1 10 init r2 0 init r3 2 for r0 { for (r1){ inc r2 for r3 inc r2 } } ;", //
+//				"init r0 5 init r1 3 init r2 1000 init r3 2 init acaso 222 for r0 { for (r1){ inc r2 for r3 dec r2 } inc acaso } ; dec r0", //
+//				"init r0 5 init r1 3 init r2 1000 init r3 2 init acaso 222 for r0 { for (r1){ inc r2 for r3 dec r2 inc acaso } inc acaso } ; dec r0", //
+//				"init r0 5 init r1 4 for r0 { inc r1 inc r1 inc r1}", //
+//				"init rr -3 init r2 7 ; \n for rr { inc r2 }", //
+//				"init pippo 5 init pluto -88 swap(pippo, pluto)", //
+//				"init dividendo 18 init quoziente 0 init tp1 1 init tp2 0 ;\n"
+//						+ "for dividendo { swap(tp1 tp2) for(tp1){ inc quoziente; } }", //
+//				"init dividendo 7 init quoziente 0 init tp1 1 init tp2 0 ;\n"
+//						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
+//				"init dividendo 1 init quoziente 0 init tp1 1 init tp2 0 ;\n"
+//						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
+//				"init dividendo -9 init quoziente 0 init tp1 1 init tp2 0 ;\n"
+//						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
+//				"init dividendo -8 init quoziente 0 init tp1 1 init tp2 0 ;\n"
+//						+ "for dividendo { swap(tp1 tp2) for(tp1){ inc quoziente; } }", //
+//				"init dividendo -1 init quoziente 0 init tp1 1 init tp2 0 ;\n"
+//						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
+//				"init dividendo 0 init quoziente 0 init tp1 1 init tp2 0 ;\n"
+//						+ "for dividendo { swap(tp1, tp2) for(tp1){ inc quoziente; } }", //
+//				"init a -10 init b 7 for a dec b", //
+//				"init a -3 init b 7 init c 100 for a { for b { inc c}}", // , //
+//				"init a -4 init b -16 init c 100 for a { for b { inc c}}", //
+//				"init a 7 init b 10 init ancilla 0;" // SWAP macro in pure SRL
+//						+ "for a { inc ancilla} for ancilla {dec a}\n" //
+//						+ "for b { inc a} for a {dec b}\n" //
+//						+ "for ancilla { inc b} for b {dec ancilla}", //
+//				"init a -8 init b -4 init c -2 init d -10 init res 0;;\n" + //
+//						"for a{ for(b){ for[c){ for{d}{inc res } } }}\n" + //
+//						"inc d inc d;", //
+//				"init a -8 init b -4 init c -2 init d -1 init res 0;;\n" + //
+//						"for a{ for(b){ for[c){ for{d}{inc res } } }}\n" + //
+//						"inc d inc d; for d{ for b { dec c }} ; \n" + //
+//						"for d{for{c}{dec b}}" + //
+//						"\n\n init eee 5 for eee dec res;",//
+				}, //
 				null };
-		int[][] pairTestingSwap = new int[][] { //
-				{ 17, 10 }, { 8, -5 }, { -4, 16 }, { -50, -40 }//
-				, { 4, 0 }, { 0, 4 }, { -4, 0 }, { 0, -4 }//
-				, { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }//
-				, { 2, 3 }, { 3, 2 }, { -2, 3 }, { 3, -2 }, { 2, -3 }, { -3, 2 }, { -2, -3 }, { -3, -2 }//
+		int[][] pairTestingSwap = new int[][] { { 5, 5 },//
+//				{ 17, 10 }, { 8, -5 }, { -4, 16 }, { -50, -40 }//
+//				, { 4, 0 }, { 0, 4 }, { -4, 0 }, { 0, -4 }//
+//				, { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }//
+//				, { 2, 3 }, { 3, 2 }, { -2, 3 }, { 3, -2 }, { 2, -3 }, { -3, 2 }, { -2, -3 }, { -3, -2 }//
 		};
 		fileText = " init ancilla 0;" + //
 				"for a { inc ancilla} for ancilla {dec a}\n" + //
@@ -76,7 +82,49 @@ public class MockData {
 			int[] pair = pairTestingSwap[i];
 			fixedTests[1][i] = "init a " + pair[0] + " init b " + pair[1] + fileText;
 		}
-		a = new String[fixedTests[0].length + fixedTests[1].length];
+
+		// fixedTests continene: quelli a mano all'inizio + quelli con l'ancilla qui
+		// sopra
+
+		// testsR0
+		testsR0 = new String[] { //
+//				" init r1 1 init r2 0 init r3 0; \n for r0 { swap(r1, r2) ; for r1{ inc r3} }", //
+//				//
+//				" init isEven 1 init isOdd 0 init quot 0 init ancilla 0\n" + //
+//						"for r0 { swap(isEven, isOdd) for isEven { inc quot }} ;\n" + //
+//						"for quot { incr ancilla inc ancilla}", //
+
+//				" init r1 1 init r2 0 init r3 0; \n for r1 { inc r3 } swap(r1, r2) for r1 { dec r3 }" //
+
+//				" init r1 1 init r2 0 init r3 0; \n " + //
+//						"for r0 { for r1 { inc r3 } swap(r1,r2) for r1 { dec r3 } } " //
+//						"for r0 { for r1 { for r0 { inc r3 } } swap(r1,r2) for r1 { for r0 { dec r3 } } } " //
+
+//				" init r1 1 init r2 0 init r3 0; \n " + //
+//						"for r0 { for r0 { for r1 { inc r3 } swap(r1,r2) for r1 { dec r3 } } " + //
+////				"for r0 { swap(r1, r2) } "+//
+//						"}", // +
+//				//
+//				" init r1 1 init r2 0 init r3 0; \n " + //
+//						"for r0 { for r0 { for r1 { inc r3 } swap(r1,r2) for r1 { dec r3 } } " + //
+//						"for r0 { swap(r1, r2) } " + //
+//						"}",// +
+//				// cosi' r3 vale |N| e r2 contiene "N e' pari?"
+
+//				" init r1 1 init r2 0 init r3 0 init r4 0 inc r5 ; \n " + //
+//				"for r0 { for r0 { inc r3 inc r5 } inc r4 } \n"+ // r3 == r5 == N*N ; r4 == N == sign(N)*|N|
+//				"dec r4 \n" + // r4 == N-1 .. se era 5, ora vale 4, se era -6 ora vale -7
+//				"for r0 { for r4 { dec r3 } } \n" // r3 ora vale +|N|
+
+//" init r1 1 init r2 0 init r3 0 for r0 { for r1 { incr r3 } swap(r1,r2) for r1 { decr r3 } swap(r1,r2) }"
+				" init r1 0 ;" //
+						+ "\n incr r0 for r0 { for r0 { incr r1 }} dec r0" //
+						+ "\n for r0 { for r0 { dec r1 }} "
+
+		};
+
+		a = new String[fixedTests[0].length + fixedTests[1].length + //
+				(r0Vals.length * testsR0.length)];
 		i = 0;
 		for (String[] singleSource : fixedTests) {
 			for (String source : singleSource) {
@@ -85,38 +133,48 @@ public class MockData {
 		}
 		pairTestingSwap = null;
 		fixedTests = null;
-		fileText = null;
 
-		// from text
-		try {
-			StringBuilder sb;
-			sb = new StringBuilder(1024);
-			FileReader fr;
-			BufferedReader br;
-			fr = new FileReader(new File("./lessThanOne.txt"));
-			br = new BufferedReader(fr);
-			br.lines().forEach(l -> sb.append('\n').append(l));
-			fileText = sb.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (fileText == null) {
-			ISRLProgramTextSupplier[] aa;
-			aa = new ISRLProgramTextSupplier[i = a.length];
-			while (--i >= 0) {
-				aa[i] = new SRLProgramTextSupplier(a[i]);
+		// test r0
+		for (String tr0 : testsR0) {
+			for (int r0 : r0Vals) {
+				a[i++] = "init r0 " + r0 + tr0;
 			}
-			return aa;
 		}
-		// if the file has been found ..
-		al = new ArrayList<>(a.length + r0Vals.length);
-		for (String simpleTest : a) {
-			al.add(new SRLProgramTextSupplier(simpleTest));
+
+		// clean
+		testsR0 = null;
+		i = 0;
+
+//		// from text
+//		try {
+//			StringBuilder sb;
+//			sb = new StringBuilder(1024);
+//			FileReader fr;
+//			BufferedReader br;
+//			fr = new FileReader(new File("./lessThanOne.txt"));
+//			br = new BufferedReader(fr);
+//			br.lines().forEach(l -> sb.append('\n').append(l));
+//			fileText = sb.toString();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		if (fileText == null) {
+		ISRLProgramTextSupplier[] aa;
+		aa = new ISRLProgramTextSupplier[i = a.length];
+		while (--i >= 0) {
+			aa[i] = new SRLProgramTextSupplier(a[i]);
 		}
-		for (int r0 : r0Vals) {
-			al.add(new SRLProgramTextSupplier_ForLessThanOneFile(fileText, r0));
-		}
-		return al.toArray(new ISRLProgramTextSupplier[al.size()]);
+		return aa;
+//		}
+//		// if the file has been found ..
+//		al = new ArrayList<>(a.length + r0Vals.length);
+//		for (String simpleTest : a) {
+//			al.add(new SRLProgramTextSupplier(simpleTest));
+//		}
+//		for (int r0 : r0Vals) {
+//			al.add(new SRLProgramTextSupplier_ForLessThanOneFile(fileText, r0));
+//		}
+//		return al.toArray(new ISRLProgramTextSupplier[al.size()]);
 	}
 
 	public static interface ISRLProgramTextSupplier extends Supplier<String> {

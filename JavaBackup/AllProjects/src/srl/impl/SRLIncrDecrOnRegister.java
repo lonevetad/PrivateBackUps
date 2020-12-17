@@ -26,8 +26,10 @@ public class SRLIncrDecrOnRegister implements SRLCodeStatement {
 	@Override
 	public void runCode(SRLRegistersCollection registers, boolean isNOTInverse) {
 		if (isNOTInverse == this.isIncrement) {
+			System.out.println("inc " + registerName);
 			registers.incrementRegister(this.registerName);
 		} else {
+			System.out.println("dec " + registerName);
 			registers.decrementRegister(this.registerName);
 		}
 	}

@@ -147,7 +147,13 @@ public class SRLParser1 implements SRLParser {
 				body.addStatement(new SRLSwap(registerFirstName, registerSecondName));
 				break;
 			case ClosedParenthesis:
-				hasClosedPar = true;
+				if (hasParenthesis) {
+					hasClosedPar = true;
+				} else {
+					stream.pushBackToken(t);
+					// do not break: the given closed parenthesis is supossed to belong to another
+					// body -> E.O.Body
+				}
 			case EOF:
 				hasMoreToken = false;
 				break;
