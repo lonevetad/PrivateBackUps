@@ -117,10 +117,19 @@ public class MockData {
 //				"for r0 { for r4 { dec r3 } } \n" // r3 ora vale +|N|
 
 //" init r1 1 init r2 0 init r3 0 for r0 { for r1 { incr r3 } swap(r1,r2) for r1 { decr r3 } swap(r1,r2) }"
-				" init r1 0 ;" //
-						+ "\n incr r0 for r0 { for r0 { incr r1 }} dec r0" //
-						+ "\n for r0 { for r0 { dec r1 }} "
-
+				" init r1 1 init r2 0 init r3 0 init r4 0;" //
+//						+ "\n incr r3 for r0 { incr r3 incr r3 dec r4 } " //
+//						+ "\nfor r3 { swap(r1,r2) for r1 inc r4 } swap(r1,r2)" 
+//						// /|\ the core -- ERRORE: r4 vale sempre il numero di "inc r4 che precedono questo ciclo (se assente, 0)"
+//						+ "\n for r0 { dec r3 dec r3 } " // portiamo r3 ad 1
+//						+ "\n for r4 { dec r3 } " // solo uno varra' 1
+//						+ "\n // swap(r3,r4) // do it to ask the question isNonNegative"
+						+ "\n for r0 { dec r3 dec r4 } // vale -N " //
+						+ "\n inc r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 " //
+						// + "\n for r0 { inc r4 } " //
+						+ "\n for r3 { inc r4 } " // rimane 1
+						+ "\n inc r3 for r0 { dec r3}"//
+				// vedere quanto vale r4s
 		};
 
 		a = new String[fixedTests[0].length + fixedTests[1].length + //
