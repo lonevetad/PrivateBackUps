@@ -51,6 +51,15 @@ public class SRLParser1 implements SRLParser {
 		if (!registers.containsRegister(regName)) { excRegisterNotDeclared(stream, regName); }
 	}
 
+	protected void checkUnusedVar(SRLTokenStream stream, ForbiddenRegisters forbiddenVariablesOfForAndCounts,
+			String regName) {
+		if (forbiddenVariablesOfForAndCounts.containsRegister(regName)) {
+			throw new SRLParseException("Cannot alter the register: " + regName
+					+ ", because is fixed (in some cycle), at " + stream.currentLineColumn());
+		}
+
+	}
+
 	protected void checkWantedToken(SRLTokenStream stream, SRLTokenName expected, SRLToken got) {
 		if (expected != got.getTokenName()) { excUnwantedToken(stream, expected, got); }
 	}
@@ -88,10 +97,7 @@ public class SRLParser1 implements SRLParser {
 				checkWantedToken(stream, SRLTokenName.Register, registerFirst);
 				registerFirstName = registerFirst.getTokenContent();
 				checkDeclaredVar(stream, registers, registerFirstName);
-				if (forbiddenVariablesOfForAndCounts.containsRegister(registerFirstName)) {
-					throw new SRLParseException("Cannot increment the register: " + registerFirstName
-							+ ", because is fixed, at " + stream.currentLineColumn());
-				}
+				checkUnusedVar(stream, forbiddenVariablesOfForAndCounts, registerFirstName);
 				body.addStatement(new SRLIncrDecrOnRegister(true, registerFirstName));
 				break;
 			case Decrement:
@@ -99,10 +105,7 @@ public class SRLParser1 implements SRLParser {
 				checkWantedToken(stream, SRLTokenName.Register, registerFirst);
 				registerFirstName = registerFirst.getTokenContent();
 				checkDeclaredVar(stream, registers, registerFirstName);
-				if (forbiddenVariablesOfForAndCounts.containsRegister(registerFirstName)) {
-					throw new SRLParseException("Cannot increment the register: " + registerFirstName
-							+ ", because is fixed, at " + stream.currentLineColumn());
-				}
+				checkUnusedVar(stream, forbiddenVariablesOfForAndCounts, registerFirstName);
 				body.addStatement(new SRLIncrDecrOnRegister(false, registerFirstName));
 				break;
 			case For:
@@ -140,6 +143,8 @@ public class SRLParser1 implements SRLParser {
 				registerSecondName = registerSecond.getTokenContent();
 				checkDeclaredVar(stream, registers, registerFirstName);
 				checkDeclaredVar(stream, registers, registerSecondName);
+				checkUnusedVar(stream, forbiddenVariablesOfForAndCounts, registerFirstName);
+				checkUnusedVar(stream, forbiddenVariablesOfForAndCounts, registerSecondName);
 				if (expectArgumentParhentesis) {
 					registerFirst = stream.nextToken();
 					checkWantedToken(stream, SRLTokenName.ClosedParenthesis, registerFirst);

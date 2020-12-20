@@ -3338,5 +3338,36 @@
 			{"attribute": "DamageBonusMagical", "value": 10},
 			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 10}
 		]
+	}, {
+		"name": "of Ally",
+		"rarity": 2,
+		"bonusPrice": [25],
+		"modifiers": [
+			{"attribute": "Health", "value": 1},
+			{"attribute": "Dexterity", "value": 2},
+			{"attribute": "Precision", "value": 2},
+			{"attribute": "Faith", "value": 1},
+			{"attribute": "ProbabilityPerThousandHitPhysical", "value": 50},
+			{"attribute": "ProbabilityPerThousandHitMagical", "value": 50},
+			{"attribute": "CriticalProbabilityPerThousand", "value": 50}
+		]
+	}, {
+		"name": "of Hexoskeleton",
+		"rarity": 3,
+		"bonusPrice": [35],
+		"modifiers": [
+			{"attribute": "ManaMax", "value": -130},
+			{"attribute": "Strength", "value": 2},
+			{"attribute": "Constitution", "value": 4},
+			{"attribute": "Defense", "value": 7},
+			{"attribute": "Dexterity", "value": -3},
+			{"attribute": "Precision", "value": -3},
+			{"attribute": "ProbabilityPerThousandAvoidPhysical", "value": 100},
+			{"attribute": "ProbabilityPerThousandAvoidMagical", "value": 100},
+			{"attribute": "DamageReductionPhysical", "value": 30},
+			{"attribute": "DamageReductionMagical", "value": 30},
+			{"attribute": "CriticalMultiplierPercentageReduction", "value": 30},
+			{"attribute": "CriticalProbabilityPerThousandAvoid", "value": 300}
+		]
 	}
 ]

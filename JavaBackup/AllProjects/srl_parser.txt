@@ -116,18 +116,16 @@ _________________________________
 
 
 using the source:
-init r0 5 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 5 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -136,7 +134,7 @@ Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -145,7 +143,7 @@ Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -168,18 +166,16 @@ _________________________________
 
 
 using the source:
-init r0 -5 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 -5 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -188,7 +184,7 @@ Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -197,7 +193,7 @@ Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -5]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -220,18 +216,16 @@ _________________________________
 
 
 using the source:
-init r0 6 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 6 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> 6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -240,7 +234,7 @@ Register[r0 -> 6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> 6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -249,7 +243,7 @@ Register[r0 -> 6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -272,18 +266,16 @@ _________________________________
 
 
 using the source:
-init r0 -6 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 -6 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> -6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -292,7 +284,7 @@ Register[r0 -> -6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> -6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -301,7 +293,7 @@ Register[r0 -> -6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -6]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -324,18 +316,16 @@ _________________________________
 
 
 using the source:
-init r0 3 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 3 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -344,7 +334,7 @@ Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -353,7 +343,7 @@ Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -376,18 +366,16 @@ _________________________________
 
 
 using the source:
-init r0 -3 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 -3 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -396,7 +384,7 @@ Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -405,7 +393,7 @@ Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -3]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -428,18 +416,16 @@ _________________________________
 
 
 using the source:
-init r0 4 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 4 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> 4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -448,7 +434,7 @@ Register[r0 -> 4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> 4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -457,7 +443,7 @@ Register[r0 -> 4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -480,18 +466,16 @@ _________________________________
 
 
 using the source:
-init r0 -4 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 -4 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> -4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -500,7 +484,7 @@ Register[r0 -> -4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> -4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -509,7 +493,7 @@ Register[r0 -> -4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -4]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -532,18 +516,16 @@ _________________________________
 
 
 using the source:
-init r0 1 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 1 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -552,7 +534,7 @@ Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -561,7 +543,7 @@ Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -584,18 +566,16 @@ _________________________________
 
 
 using the source:
-init r0 0 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 0 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> 0]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 0]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -604,7 +584,7 @@ Register[r0 -> 0]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 0]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> 0]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -613,7 +593,7 @@ Register[r0 -> 0]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 0]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 0]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -636,18 +616,16 @@ _________________________________
 
 
 using the source:
-init r0 -1 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 -1 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -656,7 +634,7 @@ Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -665,7 +643,7 @@ Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -1]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -688,18 +666,16 @@ _________________________________
 
 
 using the source:
-init r0 2 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 2 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> 2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -708,7 +684,7 @@ Register[r0 -> 2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> 2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -717,7 +693,7 @@ Register[r0 -> 2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 
  in the end, the registers are:
 
 
-Register[r0 -> 2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> 2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true
@@ -740,18 +716,16 @@ _________________________________
 
 
 using the source:
-init r0 -2 init r1 1 init r2 0 init r3 0 init r4 0;
- for r0 { inc r3 inc r4 } // vale -N 
- dec r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 
- for r3 { dec r4 } 
- inc r3 for r0 { dec r3}
+init r0 -2 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
 
 parse it
 
  parsed, the registers are:
 
 
-Register[r0 -> -2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  execute it:
 
@@ -760,7 +734,7 @@ Register[r0 -> -2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 1]]
+Register[r0 -> -2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  run inverse:
 
@@ -769,7 +743,207 @@ Register[r0 -> -2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4
  in the end, the registers are:
 
 
-Register[r0 -> -2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]]
+Register[r0 -> -2]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ are the same as original? 
+true
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 11 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> 11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> 11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ run inverse:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> 11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ are the same as original? 
+true
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 -11 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> -11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> -11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ run inverse:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> -11]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ are the same as original? 
+true
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 12 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> 12]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> 12]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ run inverse:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> 12]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ are the same as original? 
+true
+
+
+
+ 
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+_________________________________
+
+
+
+
+using the source:
+init r0 -12 init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;
+ inc r0 for r0{ for r0 { inc r3 }} dec r0
+ for r0{ for r0 { dec r3 } dec r3 dec r3 } 
+
+parse it
+
+ parsed, the registers are:
+
+
+Register[r0 -> -12]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ execute it:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> -12]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 1]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
+
+ run inverse:
+
+
+
+ in the end, the registers are:
+
+
+Register[r0 -> -12]Register[r1 -> 1]Register[r2 -> 0]Register[r3 -> 0]Register[r4 -> 0]Register[r5 -> 0]Register[r6 -> 0]]
 
  are the same as original? 
 true

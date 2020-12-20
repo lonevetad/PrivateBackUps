@@ -14,7 +14,7 @@ public class MockData {
 		int i;
 //		ArrayList<ISRLProgramTextSupplier> al;
 		String fileText = null;
-		int[] r0Vals = { 5, -5, 6, -6, 3, -3, 4, -4, 1, 0, -1, 2, -2 };
+		int[] r0Vals = { 5, -5, 6, -6, 3, -3, 4, -4, 1, 0, -1, 2, -2, 11, -11, 12, -12 };
 		String[] a, testsR0;
 		String[][] fixedTests = { new String[] { //
 //				"init r0 17 init r1 4", //
@@ -117,19 +117,64 @@ public class MockData {
 //				"for r0 { for r4 { dec r3 } } \n" // r3 ora vale +|N|
 
 //" init r1 1 init r2 0 init r3 0 for r0 { for r1 { incr r3 } swap(r1,r2) for r1 { decr r3 } swap(r1,r2) }"
-				" init r1 1 init r2 0 init r3 0 init r4 0;" //
+//				" init r1 1 init r2 0 init r3 0 init r4 0;" //
 //						+ "\n incr r3 for r0 { incr r3 incr r3 dec r4 } " //
 //						+ "\nfor r3 { swap(r1,r2) for r1 inc r4 } swap(r1,r2)" 
 //						// /|\ the core -- ERRORE: r4 vale sempre il numero di "inc r4 che precedono questo ciclo (se assente, 0)"
 //						+ "\n for r0 { dec r3 dec r3 } " // portiamo r3 ad 1
 //						+ "\n for r4 { dec r3 } " // solo uno varra' 1
 //						+ "\n // swap(r3,r4) // do it to ask the question isNonNegative"
-						+ "\n for r0 { dec r3 dec r4 } // vale -N " //
-						+ "\n inc r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 " //
-						// + "\n for r0 { inc r4 } " //
-						+ "\n for r3 { inc r4 } " // rimane 1
-						+ "\n inc r3 for r0 { dec r3}"//
+//						+ "\n for r0 { dec r3 dec r4 } // vale -N " //
+//						+ "\n inc r3 // il negativo, tra r0 ed r3, vale -|N|+1 ossia -(|N|-1), l'altro [il positivo] |N|+1 " //
+				//
+				// , " init r1 1 init r2 0 init r3 0 for r0 { for r1 { incr r3 } swap(r1,r2) for
+				// r1 { decr r3 } swap(r1,r2) }"
+//						// + "\n for r0 { inc r4 } " //
+//						+ "\n for r3 { inc r4 } " // rimane 1
+//						+ "\n inc r3 for r0 { dec r3}",//
 				// vedere quanto vale r4s
+				//
+//				" init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ; +" //r5 1 init r6 0 ;\n" //
+//	//let's try
+////				+"for r0 { for r5 {"  //
+//
+//				+ "\ninc r5 for r0 { inc r5 inc r5 } ;"// odd
+//				+ "\n inc r3 dec r4 for r5 { swap(r1, r2) for r1 {swap(r3, r4) }}" //
+//				+ "\n for r5 { swap(r1, r2) }" // reset
+//				+ "\n dec r5 for r0 { dec r5 dec r5 }" // back to zero
+//				//core
+////				+ "\ninc r3" //
+//				+ "\n for r0 { inc r3 inc r3 }" // is odd now: (2N+1) if N>=0 ; (-(2*|N| -1)) otherwise
+////				+ "\n" //
+//						+ "\nfor r3 { swap(r1, r2) ; for r1{ inc r4;} }"// halve
+//						+ "\nfor r4 { dec r3 } for r3 {dec r4} " //
+				" init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;"//
+//						+ "\nfor r0 { swap(r1, r2) ; for r1{ inc r3; inc r4 inc r5 } } for r0 { swap(r1, r2) ; }"// halve
+//																													// in
+//																													// r3
+//						+ "\nfor r3 { for r3 { "// it's repeated a positive time (needed to NOT invert the code if N<0
+////				+ "\n for r3 { inc r5 }"// copy r3 in r5 and reset r3
+//						+ "\nfor r4 { swap(r1, r2) ; for r1{ inc r6;} } for r4 { swap(r1, r2) ; }"// half, in r5
+//						+ "\nfor r5 { dec r4 }"// to zero
+////						+ "\nfor r6 { dec r5 inc r4 }"// to zero
+//						+ "\n } }"//
+				/**
+				 * old core of a double for r0 : + "\n for r3 { inc r6 }"// save old r3 // <br>
+				 * + "\nfor r3 { swap(r1, r2) ; for r1{ inc r5;} } for r3 { swap(r1, r2) ; }"//
+				 * half, in r5 // <br>
+				 * + "\n for r6 { dec r3 }"// to zero // <br>
+				 * + "\n for r5 { inc r3 dec r6 dec r6 } "// save r5 in r3, bring r6 to 1 if r5
+				 * is odd // <br>
+				 * // this for dec r5 only if its odd // <br>
+				 * + "\n for r5 { for r1 { dec r6} swap(r1, r2) for r1{inc r6} } for r5 {
+				 * swap(r1, r2) } " // <br>
+				 * + "\n for r3 { dec r5 } " // set r5 to zero // <br>
+				 */
+
+//						+ "\nfor r0 { inc r3 incr r4 inc r4 } inc r4 " //
+//						+ "\nfor r4 { dec r3 } " 
+						+ "\n inc r0 for r0{ for r0 { inc r3 }} dec r0" //
+						+ "\n for r0{ for r0 { dec r3 } dec r3 dec r3 } " // se N >=0 -> r3 = 1
 		};
 
 		a = new String[fixedTests[0].length + fixedTests[1].length + //

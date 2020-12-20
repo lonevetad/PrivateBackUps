@@ -41,11 +41,7 @@ public class SRLBody implements SRLCodeStatement {
 //				s.runCode(registers, isNOTInverse);
 //			}
 			// V3
-			System.out.println("\ninvert body :D");
-			this.body.forEachReverseOrder(o -> {
-				System.out.println("weeeee :D");
-				o.runCode(registers, isNOTInverse);
-			});
+			this.body.forEachReverseOrder(o -> o.runCode(registers, isNOTInverse));
 		}
 	}
 
