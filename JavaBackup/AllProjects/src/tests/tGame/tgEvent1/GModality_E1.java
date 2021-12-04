@@ -23,7 +23,7 @@ import games.theRisingAngel.abilities.ADamageReductionOnLifeLowerToPhysicalAttri
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.AProtectButMakesSoft;
 import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
-import games.theRisingAngel.inventory.NecklaceOfPainRinvigoring;
+import games.theRisingAngel.inventory.equipsWithAbilities.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;

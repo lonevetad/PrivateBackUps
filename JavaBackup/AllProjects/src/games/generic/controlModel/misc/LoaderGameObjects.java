@@ -14,16 +14,18 @@ import games.generic.controlModel.ObjectNamed;
 public abstract class LoaderGameObjects<E extends ObjectNamed> extends LoaderGeneric {
 	protected GameObjectsProvider<E> objProvider;
 
-	public LoaderGameObjects(GameObjectsProvider<E> objProvider) {
-		this.objProvider = objProvider;
+	public LoaderGameObjects(GameObjectsProvider<E> objProvider) { this.objProvider = objProvider; }
+
+	public GameObjectsProvider<E> getObjProvider() { return objProvider; }
+
+	public void setObjProvider(GameObjectsProvider<E> ombp) { this.objProvider = ombp; }
+
+	public void saveObjectFactory(String identifierOrName, FactoryObjGModalityBased<E> objectFactory) {
+		this.saveObjectFactory(identifierOrName, 0, objectFactory);
 	}
 
-	public GameObjectsProvider<E> getObjProvider() {
-		return objProvider;
+	public void saveObjectFactory(String identifierOrName, int objectGroupIdentifier,
+			FactoryObjGModalityBased<E> objectFactory) {
+		this.getObjProvider().addObj(identifierOrName, objectGroupIdentifier, objectFactory);
 	}
-
-	public void setObjProvider(GameObjectsProvider<E> ombp) {
-		this.objProvider = ombp;
-	}
-
 }

@@ -71,7 +71,7 @@ public class LoaderFunctionsTRAn {
 	 * the set of those "equip-mods/upgrades" could be saved in a JSON format,
 	 * similar to the one used in {@link LoaderEquipTRAn}
 	 */
-	public static List<AttributeModification> extractAttributeModifications(LoaderGeneric.JSONLineReader lr) {
+	public static AttributeModification[] extractAttributeModifications(LoaderGeneric.JSONLineReader lr) {
 		int v;
 		AttributesTRAn attr;
 		List<AttributeModification> attrMods;
@@ -87,11 +87,8 @@ public class LoaderFunctionsTRAn {
 			v = LoaderGeneric.extractIntValue(temp);
 			attrMods.add(new AttributeModification(attr, v));
 		}
-		if (!attrMods.isEmpty()) {
-			AttributeModification[] a;
-			a = new AttributeModification[attrMods.size()];
-			attrMods = Arrays.asList(attrMods.toArray(a));
-		}
-		return attrMods;
+		AttributeModification[] a;
+		a = new AttributeModification[attrMods.size()];
+		return attrMods.toArray(a);
 	}
 }

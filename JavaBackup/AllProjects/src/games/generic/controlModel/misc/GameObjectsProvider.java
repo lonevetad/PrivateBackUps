@@ -68,6 +68,10 @@ public class GameObjectsProvider<E extends ObjectNamed> {
 
 	public FactoryObjGModalityBased<E> getAtIndex(int index) { return this.objsByName.getAt(index).getValue(); }
 
+	/**
+	 * Returns a {@link Map} that holds every stored object, which are identified by
+	 * their name.
+	 */
 	public Map<String, FactoryObjGModalityBased<E>> getObjectsIdentified() { return this.objsByName; }
 
 	public void forEachFactory(BiConsumer<String, FactoryObjGModalityBased<E>> action) {

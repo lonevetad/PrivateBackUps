@@ -1,5 +1,7 @@
 package games.theRisingAngel;
 
+import java.io.File;
+
 import games.generic.controlModel.GController;
 import games.generic.controlModel.misc.LoaderGeneric;
 
@@ -19,6 +21,10 @@ import games.generic.controlModel.misc.LoaderGeneric;
  * 
  */
 public class LoaderConfigurations extends LoaderGeneric {
+
+	public static final String RESOURCE_REPOSITORY = "TheRisingAngel";
+	public static final String RESOURCE_REPOSITORY_PULL_FACT = LoaderGeneric.startPath + RESOURCE_REPOSITORY
+			+ File.separatorChar;
 
 	public LoaderConfigurations() {}
 

@@ -14,7 +14,7 @@ public class MockData {
 		int i;
 //		ArrayList<ISRLProgramTextSupplier> al;
 		String fileText = null;
-		int[] r0Vals = { 5, -5, 6, -6, 3, -3, 4, -4, 1, 0, -1, 2, -2, 11, -11, 12, -12 };
+		int[] r0Vals = { 5, -5, 6, -6, 3, -3, 4, -4, 1, 0, -1, 2, -2, 11, -11, 12, -12, 31, -31, 32, -32 };
 		String[] a, testsR0;
 		String[][] fixedTests = { new String[] { //
 //				"init r0 17 init r1 4", //
@@ -148,7 +148,13 @@ public class MockData {
 ////				+ "\n" //
 //						+ "\nfor r3 { swap(r1, r2) ; for r1{ inc r4;} }"// halve
 //						+ "\nfor r4 { dec r3 } for r3 {dec r4} " //
-				" init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;"//
+				//
+				//
+				//
+//				" init r1 1 init r2 0 init r3 0 init r4 0 init r5 0 init r6 0 ;"//
+				//
+				//
+				//
 //						+ "\nfor r0 { swap(r1, r2) ; for r1{ inc r3; inc r4 inc r5 } } for r0 { swap(r1, r2) ; }"// halve
 //																													// in
 //																													// r3
@@ -173,8 +179,24 @@ public class MockData {
 
 //						+ "\nfor r0 { inc r3 incr r4 inc r4 } inc r4 " //
 //						+ "\nfor r4 { dec r3 } " 
-						+ "\n inc r0 for r0{ for r0 { inc r3 }} dec r0" //
-						+ "\n for r0{ for r0 { dec r3 } dec r3 dec r3 } " // se N >=0 -> r3 = 1
+//						+ "\n inc r0 for r0{ for r0 { inc r3 }} dec r0" //
+//						+ "\n for r0{ for r0 { dec r3 } dec r3 dec r3 } " // se N >=0 -> r3 = 1
+
+				//
+
+				" init r1 1 init r2 0 init r3 1 init r4 0 " //
+						+ "\ninc r2 ;" //
+						+ "\nfor r0 {" //
+						+ "\n\tfor r1 { " //
+						+ "\n\t\tdec r2;\n\t\tswap(r3,r4) " //
+						+ "\n\t\tfor r4 {\n\t\t\tinc r2\n\t\t} " //
+						+ "\n\t} " //
+						+ "\n\tfor r2 { " //
+						+ "\n\t\nswap(r1,r3) " //
+						+ "\n\t} " //
+						+ "\n} "
+//				+ "\nfor r0{ swap(r3,r4) } " 
+//				+ "\ninc r1 for r4 { dec r3 } " 
 		};
 
 		a = new String[fixedTests[0].length + fixedTests[1].length + //
@@ -231,8 +253,7 @@ public class MockData {
 //		return al.toArray(new ISRLProgramTextSupplier[al.size()]);
 	}
 
-	public static interface ISRLProgramTextSupplier extends Supplier<String> {
-	}
+	public static interface ISRLProgramTextSupplier extends Supplier<String> {}
 
 	public static class SRLProgramTextSupplier implements ISRLProgramTextSupplier {
 		public final String program;

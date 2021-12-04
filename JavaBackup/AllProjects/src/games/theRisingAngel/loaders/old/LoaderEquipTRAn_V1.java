@@ -1,4 +1,4 @@
-package games.theRisingAngel.loaders;
+package games.theRisingAngel.loaders.old;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -19,11 +19,12 @@ import games.theRisingAngel.abilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.EquipmentTypesTRAn;
 import games.theRisingAngel.inventory.equipsWithAbilities.HelmetOfPlanetaryMeteors;
 import games.theRisingAngel.inventory.equipsWithAbilities.NecklaceOfPainRinvigoring;
+import games.theRisingAngel.loaders.LoaderFunctionsTRAn;
 import games.theRisingAngel.loaders.LoaderItemsTRAn.FactoryItems;
 
-public class LoaderEquipTRAn extends LoaderEquipments {
+public class LoaderEquipTRAn_V1 extends LoaderEquipments {
 
-	public LoaderEquipTRAn(GameObjectsProvider<EquipmentItem> objProvider) { super(objProvider); }
+	public LoaderEquipTRAn_V1(GameObjectsProvider<EquipmentItem> objProvider) { super(objProvider); }
 
 	@Override
 	public void loadInto(GController gc) {

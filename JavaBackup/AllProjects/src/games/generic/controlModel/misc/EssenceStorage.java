@@ -12,10 +12,10 @@ import tools.ObjectNamedID;
  * (Actually, it just store its key, that is its name, since both are instances
  * of {@link ObjectNamedID}.)
  */
-public class EssenceVial implements Serializable {
+public class EssenceStorage implements Serializable {
 	private static final long serialVersionUID = 365014755285420100L;
 
-	public EssenceVial() {
+	public EssenceStorage() {
 		this.isEquipmentUpgrade = false;
 		this.essenceName = null;
 	}

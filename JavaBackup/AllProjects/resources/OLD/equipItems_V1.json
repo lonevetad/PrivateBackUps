@@ -3,11 +3,11 @@
 		"name": "Cloth Trousers",
 		"type": "Legs",
 		"rarity": 1,
-		"sellPrice": [25],
+		"price": [25],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "Precision", "value": 2},
 			{"attribute": "Constitution", "value": 2},
@@ -21,11 +21,11 @@
 		"name": "Cloth Shirt",
 		"type": "Chest",
 		"rarity": 1,
-		"sellPrice": [25],
+		"price": [25],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 3},
 			{"attribute": "Precision", "value": 3},
 			{"attribute": "Constitution", "value": 1},
@@ -38,11 +38,11 @@
 		"name": "Cloth Sleeve",
 		"type": "Arms",
 		"rarity": 1,
-		"sellPrice": [8],
+		"price": [8],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 2},
 			{"attribute": "Precision", "value": 4},
 			{"attribute": "Constitution", "value": 1},
@@ -56,11 +56,11 @@
 		"name": "Cloth Shoes",
 		"type": "Feet",
 		"rarity": 1,
-		"sellPrice": [20],
+		"price": [20],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "Constitution", "value": 1},
 			{"attribute": "Defense", "value": 2},
@@ -75,11 +75,11 @@
 		"name": "Cloth Hat",
 		"type": "Head",
 		"rarity": 1,
-		"sellPrice": [12],
+		"price": [12],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Precision", "value": 2},
@@ -92,11 +92,11 @@
 		"name": "Cloth Hood",
 		"type": "Head",
 		"rarity": 1,
-		"sellPrice": [18],
+		"price": [18],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Constitution", "value": 3},
 			{"attribute": "CriticalMultiplierPercentageReduction", "value": 5},
@@ -108,11 +108,11 @@
 		"name": "Cloth Gloves",
 		"type": "Hands",
 		"rarity": 1,
-		"sellPrice": [15],
+		"price": [15],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 2},
 			{"attribute": "Constitution", "value": 1},
 			{"attribute": "Precision", "value": 4},
@@ -125,11 +125,11 @@
 		"name": "Cloth Cape",
 		"type": "Shoulder",
 		"rarity": 1,
-		"sellPrice": [21],
+		"price": [21],
 		"dimensInvent": {
 			"width": 2, "height": 4
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 5},
 			{"attribute": "Constitution", "value": 3},
 			{"attribute": "Dexterity", "value": -2},
@@ -144,11 +144,11 @@
 		"name": "Wool Cap",
 		"type": "Head",
 		"rarity": 1,
-		"sellPrice": [18],
+		"price": [18],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Constitution", "value": 4},
 			{"attribute": "Health", "value": 1},
 			{"attribute": "Defense", "value": 5},
@@ -162,11 +162,11 @@
 		"name": "Wool Gloves",
 		"type": "Hands",
 		"rarity": 1,
-		"sellPrice": [25],
+		"price": [25],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 2},
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Health", "value": 1},
@@ -181,11 +181,11 @@
 		"name": "Wool Sleeve",
 		"type": "Arms",
 		"rarity": 1,
-		"sellPrice": [8],
+		"price": [8],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 3},
 			{"attribute": "Defense", "value": 5},
 			{"attribute": "Constitution", "value": 3},
@@ -200,11 +200,11 @@
 		"name": "Wool Trousers",
 		"type": "Legs",
 		"rarity": 1,
-		"sellPrice": [27],
+		"price": [27],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 10},
 			{"attribute": "Defense", "value": 7},
 			{"attribute": "Constitution", "value": 3},
@@ -221,11 +221,11 @@
 		"type": "Chest",
 		"description": "A warm shirt of raw wool, a uncomfortable for soft skins but smooths hurts.",
 		"rarity": 1,
-		"sellPrice": [28],
+		"price": [28],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 15},
 			{"attribute": "Defense", "value": 7},
 			{"attribute": "Constitution", "value": 4},
@@ -241,11 +241,11 @@
 		"name": "Wool Shoes",
 		"type": "Feet",
 		"rarity": 1,
-		"sellPrice": [27],
+		"price": [27],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Health", "value": 1},
@@ -260,11 +260,11 @@
 		"name": "Wool Mantle",
 		"type": "Shoulder",
 		"rarity": 1,
-		"sellPrice": [25],
+		"price": [25],
 		"dimensInvent": {
 			"width": 2, "height": 4
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 8},
 			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Health", "value": 2},
@@ -279,11 +279,11 @@
 		"name": "Leather Trousers",
 		"type": "Legs",
 		"rarity": 2,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 23},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 7},
@@ -298,11 +298,11 @@
 		"name": "Leather Jacket",
 		"type": "Chest",
 		"rarity": 1,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 18},
 			{"attribute": "Defense", "value": 7},
 			{"attribute": "Constitution", "value": 8},
@@ -316,11 +316,11 @@
 		"name": "Leather Shoes",
 		"type": "Feet",
 		"rarity": 2,
-		"sellPrice": [34],
+		"price": [34],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 5},
 			{"attribute": "Constitution", "value": 7},
 			{"attribute": "Dexterity", "value": 5},
@@ -334,11 +334,11 @@
 		"name": "Leather Boots",
 		"type": "Feet",
 		"rarity": 2,
-		"sellPrice": [37],
+		"price": [37],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 8},
 			{"attribute": "Health", "value": -2},
@@ -352,11 +352,11 @@
 		"name": "Leather Cap",
 		"type": "Head",
 		"rarity": 2,
-		"sellPrice": [28],
+		"price": [28],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 11},
 			{"attribute": "Defense", "value": 4},
 			{"attribute": "Constitution", "value": 5},
@@ -370,11 +370,11 @@
 		"name": "Leather Gloves",
 		"type": "Hands",
 		"rarity": 2,
-		"sellPrice": [22],
+		"price": [22],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Health", "value": -2},
@@ -389,11 +389,11 @@
 		"name": "Leather Sleeve",
 		"type": "Arms",
 		"rarity": 2,
-		"sellPrice": [13],
+		"price": [13],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 3},
 			{"attribute": "Defense", "value": 4},
 			{"attribute": "Constitution", "value": 6},
@@ -409,11 +409,11 @@
 		"name": "Leather Cloak",
 		"type": "Shoulder",
 		"rarity": 2,
-		"sellPrice": [35],
+		"price": [35],
 		"dimensInvent": {
 			"width": 2, "height": 4
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 10},
 			{"attribute": "Constitution", "value": 10},
 			{"attribute": "Dexterity", "value": -6},
@@ -428,11 +428,11 @@
 		"name": "Chainmail Trousers",
 		"type": "Legs",
 		"rarity": 2,
-		"sellPrice": [37],
+		"price": [37],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -20},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 5},
@@ -446,11 +446,11 @@
 		"name": "Chainmail Brigandine",
 		"type": "Chest",
 		"rarity": 2,
-		"sellPrice": [37],
+		"price": [37],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -20},
 			{"attribute": "Defense", "value": 7},
 			{"attribute": "Constitution", "value": 8},
@@ -465,11 +465,11 @@
 		"name": "Chainmail Coif",
 		"type": "Head",
 		"rarity": 2,
-		"sellPrice": [25],
+		"price": [25],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -10},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 5},
@@ -483,11 +483,11 @@
 		"name": "Chainmail Gauntlet",
 		"type": "Hands",
 		"rarity": 2,
-		"sellPrice": [32],
+		"price": [32],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 3},
 			{"attribute": "Defense", "value": 5},
 			{"attribute": "Constitution", "value": 4},
@@ -501,11 +501,11 @@
 		"name": "Chainmail Sleeve",
 		"type": "Arms",
 		"rarity": 2,
-		"sellPrice": [28],
+		"price": [28],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -15},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 5},
@@ -519,11 +519,11 @@
 		"name": "Chainmail Boots",
 		"type": "Feet",
 		"rarity": 2,
-		"sellPrice": [23],
+		"price": [23],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -10},
 			{"attribute": "LifeMax", "value": -20},
 			{"attribute": "Defense", "value": 8},
@@ -538,11 +538,11 @@
 		"name": "Steelplated Trousers",
 		"type": "Legs",
 		"rarity": 3,
-		"sellPrice": [45],
+		"price": [45],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -30},
 			{"attribute": "Defense", "value": 11},
 			{"attribute": "Constitution", "value": 9},
@@ -560,11 +560,11 @@
 		"name": "Steelplated Armor",
 		"type": "Chest",
 		"rarity": 3,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -35},
 			{"attribute": "Defense", "value": 13},
 			{"attribute": "Constitution", "value": 11},
@@ -583,11 +583,11 @@
 		"name": "Steelplated Helm",
 		"type": "Head",
 		"rarity": 3,
-		"sellPrice": [30],
+		"price": [30],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -16},
 			{"attribute": "Defense", "value": 7},
 			{"attribute": "Constitution", "value": 5},
@@ -605,11 +605,11 @@
 		"name": "Steelplated Ponthelm",
 		"type": "Head",
 		"rarity": 3,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -19},
 			{"attribute": "Defense", "value": 8},
 			{"attribute": "Constitution", "value": 7},
@@ -627,11 +627,11 @@
 		"name": "Steelplated Cage",
 		"type": "Head",
 		"rarity": 3,
-		"sellPrice": [28],
+		"price": [28],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -7},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 3},
@@ -649,11 +649,11 @@
 		"name": "Steelplated Gauntlet",
 		"type": "Hands",
 		"rarity": 2,
-		"sellPrice": [27],
+		"price": [27],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 5},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 2},
@@ -670,11 +670,11 @@
 		"name": "Steelplated Sleeve",
 		"type": "Arms",
 		"rarity": 2,
-		"sellPrice": [31],
+		"price": [31],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -15},
 			{"attribute": "ManaMax", "value": -15},
 			{"attribute": "Strength", "value": 7},
@@ -694,11 +694,11 @@
 		"name": "Steelplated Sollerets",
 		"type": "Feet",
 		"rarity": 3,
-		"sellPrice": [25],
+		"price": [25],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -10},
 			{"attribute": "ManaMax", "value": -20},
 			{"attribute": "Defense", "value": 8},
@@ -717,11 +717,11 @@
 		"name": "Feather Wings",
 		"type": "Shoulder",
 		"rarity": 1,
-		"sellPrice": [7],
+		"price": [7],
 		"dimensInvent": {
 			"width": 4, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 7},
 			{"attribute": "Precision", "value": -3},
 			{"attribute": "Wisdom", "value": -2},
@@ -735,11 +735,11 @@
 		"name": "Angel Wings",
 		"type": "Shoulder",
 		"rarity": 4,
-		"sellPrice": [255],
+		"price": [255],
 		"dimensInvent": {
 			"width": 4, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 12},
 			{"attribute": "Health", "value": 3},
 			{"attribute": "Faith", "value": 7},
@@ -756,11 +756,11 @@
 		"name": "Demon Wings",
 		"type": "Shoulder",
 		"rarity": 4,
-		"sellPrice": [255],
+		"price": [255],
 		"dimensInvent": {
 			"width": 4, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 8},
 			{"attribute": "Precision", "value": 4},
 			{"attribute": "Strength", "value": 7},
@@ -777,11 +777,11 @@
 		"name": "Wood Chestplate",
 		"type": "Chest",
 		"rarity": 1,
-		"sellPrice": [17],
+		"price": [17],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 3},
 			{"attribute": "Dexterity", "value": -4},
@@ -798,11 +798,11 @@
 		"name": "Wood plated Trousers",
 		"type": "Legs",
 		"rarity": 2,
-		"sellPrice": [21],
+		"price": [21],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [			
+		"attributeModifiers": [			
 			{"attribute": "Strength", "value": -4},
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": -2},
@@ -818,11 +818,11 @@
 		"name": "Wood Helmet",
 		"type": "Head",
 		"rarity": 2,
-		"sellPrice": [12],
+		"price": [12],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [			
+		"attributeModifiers": [			
 			{"attribute": "Strength", "value": -2},
 			{"attribute": "Defense", "value": 4},
 			{"attribute": "Constitution", "value": -2},
@@ -841,11 +841,11 @@
 		"name": "Wood Plinth",
 		"type": "Feet",
 		"rarity": 2,
-		"sellPrice": [15],
+		"price": [15],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [			
+		"attributeModifiers": [			
 			{"attribute": "Strength", "value": -3},
 			{"attribute": "Defense", "value": 4},
 			{"attribute": "Constitution", "value": -5},
@@ -861,11 +861,11 @@
 		"name": "Wood armguard",
 		"type": "Legs",
 		"rarity": 2,
-		"sellPrice": [9],
+		"price": [9],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [			
+		"attributeModifiers": [			
 			{"attribute": "Strength", "value": 4},
 			{"attribute": "Defense", "value": 5},
 			{"attribute": "Constitution", "value": 3},
@@ -884,11 +884,11 @@
 		"name": "Leather Jacket",
 		"type": "Chest",
 		"rarity": 1,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 18},
 			{"attribute": "Defense", "value": 7},
 			{"attribute": "Constitution", "value": 8},
@@ -902,11 +902,11 @@
 		"name": "Leather Shoes",
 		"type": "Feet",
 		"rarity": 2,
-		"sellPrice": [34],
+		"price": [34],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 5},
 			{"attribute": "Constitution", "value": 7},
 			{"attribute": "Dexterity", "value": 5},
@@ -920,11 +920,11 @@
 		"name": "Leather Boots",
 		"type": "Feet",
 		"rarity": 2,
-		"sellPrice": [37],
+		"price": [37],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 6},
 			{"attribute": "Constitution", "value": 8},
 			{"attribute": "Health", "value": -2},
@@ -938,11 +938,11 @@
 		"name": "Leather Helmet",
 		"type": "Head",
 		"rarity": 2,
-		"sellPrice": [28],
+		"price": [28],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 11},
 			{"attribute": "Defense", "value": 4},
 			{"attribute": "Constitution", "value": 5},
@@ -956,11 +956,11 @@
 		"name": "Leather Gloves",
 		"type": "Hands",
 		"rarity": 2,
-		"sellPrice": [22],
+		"price": [22],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Health", "value": -2},
@@ -975,11 +975,11 @@
 		"name": "Leather Sleeve",
 		"type": "Arms",
 		"rarity": 2,
-		"sellPrice": [13],
+		"price": [13],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 3},
 			{"attribute": "Defense", "value": 4},
 			{"attribute": "Constitution", "value": 6},
@@ -995,11 +995,11 @@
 		"name": "Leather Belt",
 		"type": "Belt",
 		"rarity": 1,
-		"sellPrice": [24],
+		"price": [24],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 4},
 			{"attribute": "Constitution", "value": 3},
 			{"attribute": "Dexterity", "value": 2},
@@ -1010,11 +1010,11 @@
 		"name": "Belt with iron plates",
 		"type": "Belt",
 		"rarity": 2,
-		"sellPrice": [39],
+		"price": [39],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 3},
 			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Defense", "value": 5},
@@ -1026,11 +1026,11 @@
 		"name": "String belt",
 		"type": "Belt",
 		"rarity": 1,
-		"sellPrice": [16],
+		"price": [16],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 1},
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Defense", "value": 3},
@@ -1042,11 +1042,11 @@
 		"name": "Belt with Vials",
 		"type": "Belt",
 		"rarity": 1,
-		"sellPrice": [16],
+		"price": [16],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 2},
 			{"attribute": "LifeMax", "value": 50},
 			{"attribute": "ManaMax", "value": 70}
@@ -1056,11 +1056,11 @@
 		"name": "Ruby Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 4}
 		],
 		"abilities": []
@@ -1068,11 +1068,11 @@
 		"name": "Oxided Iron Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 30}
 		],
 		"abilities": []
@@ -1080,11 +1080,11 @@
 		"name": "Lapis Lazuli Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ManaMax", "value": 25}
 		],
 		"abilities": []
@@ -1092,11 +1092,11 @@
 		"name": "Amber Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Precision", "value": 4}
 		],
 		"abilities": []
@@ -1104,11 +1104,11 @@
 		"name": "Emerald Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 4}
 		],
 		"abilities": []
@@ -1117,11 +1117,11 @@
 		"type": "Ring",
 		"description": "Fear have a strong power: in long run, can endure sense at the cost of lucidity.",
 		"rarity": 1,
-		"sellPrice": [27],
+		"price": [27],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 7},
 			{"attribute": "Intelligence", "value": -2},
 			{"attribute": "Wisdom", "value": -1},
@@ -1132,11 +1132,11 @@
 		"name": "Sapphire Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Intelligence", "value": 4}
 		],
 		"abilities": []
@@ -1144,11 +1144,11 @@
 		"name": "Tiger Eye Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenLife", "value": 2}
 		],
 		"abilities": []
@@ -1156,11 +1156,11 @@
 		"name": "Opal Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenMana", "value": 2}
 		],
 		"abilities": []
@@ -1168,11 +1168,11 @@
 		"name": "Aquamarine Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Wisdom", "value": 4}
 		],
 		"abilities": []
@@ -1180,11 +1180,11 @@
 		"name": "Quartz Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [42],
+		"price": [42],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenLife", "value": 1},
 			{"attribute": "RegenMana", "value": 1}
 		],
@@ -1193,11 +1193,11 @@
 		"name": "Body Quartz Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenLife", "value": 3},
 			{"attribute": "RegenMana", "value": -1}
 		],
@@ -1206,11 +1206,11 @@
 		"name": "Mind Quartz Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenLife", "value": -1},
 			{"attribute": "RegenMana", "value": 3}
 		],
@@ -1219,11 +1219,11 @@
 		"name": "Rhyolite Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [47],
+		"price": [47],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenLife", "value": 1},
 			{"attribute": "LifeMax", "value": 20}
 		],
@@ -1232,11 +1232,11 @@
 		"name": "Spectrolite Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ManaMax", "value": 20},
 			{"attribute": "RegenMana", "value": 1}
 		],
@@ -1245,11 +1245,11 @@
 		"name": "Serpentine Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [38],
+		"price": [38],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 2},
 			{"attribute": "Dexterity", "value": 2},
 			{"attribute": "Precision", "value": 2}
@@ -1259,11 +1259,11 @@
 		"name": "Spinel Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Health", "value": 4}
 		],
 		"abilities": []
@@ -1271,11 +1271,11 @@
 		"name": "Diamond Ring",
 		"type": "Ring",
 		"rarity": 3,
-		"sellPrice": [65],
+		"price": [65],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Luck", "value": 5}
 		],
 		"abilities": []
@@ -1283,11 +1283,11 @@
 		"name": "Andesine Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Constitution", "value": 4}
 		],
 		"abilities": []
@@ -1295,11 +1295,11 @@
 		"name": "Amazonite Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Faith", "value": 4}
 		],
 		"abilities": []
@@ -1307,11 +1307,11 @@
 		"name": "Calcite Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Velocity", "value": 10}
 		],
 		"abilities": []
@@ -1319,11 +1319,11 @@
 		"name": "Rhodonite Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusMagical", "value": 2}
 		],
 		"abilities": []
@@ -1331,11 +1331,11 @@
 		"name": "Malachite Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageReductionMagical", "value": 2}
 		],
 		"abilities": []
@@ -1343,11 +1343,11 @@
 		"name": "Moldavite Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusPhysical", "value": 2}
 		],
 		"abilities": []
@@ -1355,11 +1355,11 @@
 		"name": "Morganite Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageReductionPhysical", "value": 2}
 		],
 		"abilities": []
@@ -1367,11 +1367,11 @@
 		"name": "Sphene Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "CriticalProbabilityPerThousand", "value": 10}
 		],
 		"abilities": []
@@ -1379,11 +1379,11 @@
 		"name": "Sugilite Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [33],
+		"price": [33],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "CriticalMultiplierPercentage", "value": 5}
 		],
 		"abilities": []
@@ -1391,11 +1391,11 @@
 		"name": "Blue Topaz Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [48],
+		"price": [48],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusMagical", "value": 2},
 			{"attribute": "DamageReductionMagical", "value": 1}
 		],
@@ -1404,11 +1404,11 @@
 		"name": "Light-Blue Topaz Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [48],
+		"price": [48],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusMagical", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 2}
 		],
@@ -1417,11 +1417,11 @@
 		"name": "Triphane Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [48],
+		"price": [48],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 3},
 			{"attribute": "Precision", "value": 2}
 		],
@@ -1430,11 +1430,11 @@
 		"name": "Verdite Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [48],
+		"price": [48],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 2},
 			{"attribute": "Precision", "value": 3}
 		],
@@ -1443,11 +1443,11 @@
 		"name": "Yellow Zoisite Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [55],
+		"price": [55],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusPhysical", "value": 2},
 			{"attribute": "DamageReductionPhysical", "value": 1}
 		],
@@ -1456,11 +1456,11 @@
 		"name": "Green Zoisite Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [55],
+		"price": [55],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusPhysical", "value": 1},
 			{"attribute": "DamageReductionPhysical", "value": 2}
 		],
@@ -1469,11 +1469,11 @@
 		"name": "Sunstone Ring",
 		"type": "Ring",
 		"rarity": 3,
-		"sellPrice": [65],
+		"price": [65],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 40},
 			{"attribute": "Strength", "value": 2},
 			{"attribute": "Constitution", "value": 2},
@@ -1487,11 +1487,11 @@
 		"name": "Moonstone Ring",
 		"type": "Ring",
 		"rarity": 3,
-		"sellPrice": [65],
+		"price": [65],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ManaMax", "value": 30},
 			{"attribute": "Intelligence", "value": 2},
 			{"attribute": "Wisdom", "value": 2},
@@ -1504,11 +1504,11 @@
 		"name": "Pyrite Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusPhysical", "value": 2},
 			{"attribute": "DamageBonusMagical", "value": 2},
 			{"attribute": "RegenLife", "value": -1},
@@ -1519,11 +1519,11 @@
 		"name": "Prehnite Ring",
 		"type": "Ring",
 		"rarity": 2,
-		"sellPrice": [55],
+		"price": [55],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageReductionPhysical", "value": 2},
 			{"attribute": "DamageReductionMagical", "value": 2},
 			{"attribute": "Luck", "value": -1}
@@ -1533,11 +1533,11 @@
 		"name": "Plated Armor of Stonefying Skin",
 		"type": "Chest",
 		"rarity": 3,
-		"sellPrice": [155],
+		"price": [155],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Health", "value": -5},
 			{"attribute": "Defense", "value": 7},
@@ -1550,11 +1550,11 @@
 		"name": "Belt with Limph-made Walled",
 		"type": "Belt",
 		"rarity": 3,
-		"sellPrice": [203],
+		"price": [203],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenLife", "value": 2},
 			{"attribute": "Luck", "value": -4}
 		],
@@ -1563,11 +1563,11 @@
 		"name": "Bracelet of a child",
 		"type": "Bracelet",
 		"rarity": 1,
-		"sellPrice": [15],
+		"price": [15],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Health", "value": 1},
 			{"attribute": "Faith", "value": 2},
 			{"attribute": "Luck", "value": 2}
@@ -1577,11 +1577,11 @@
 		"name": "Bracelet of river stones",
 		"type": "Bracelet",
 		"rarity": 1,
-		"sellPrice": [17],
+		"price": [17],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Wisdom", "value": 1},
 			{"attribute": "Faith", "value": 2},
@@ -1592,11 +1592,11 @@
 		"name": "Bracelet of animal bones",
 		"type": "Bracelet",
 		"rarity": 2,
-		"sellPrice": [22],
+		"price": [22],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Dexterity", "value": 2},
 			{"attribute": "Wisdom", "value": 1},
@@ -1607,11 +1607,11 @@
 		"name": "Bracelet of wolves teeth",
 		"type": "Bracelet",
 		"rarity": 3,
-		"sellPrice": [35],
+		"price": [35],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 5},
 			{"attribute": "Precision", "value": 6},
 			{"attribute": "Dexterity", "value": 4},
@@ -1622,11 +1622,11 @@
 		"name": "Bracelet of precious stones",
 		"type": "Bracelet",
 		"rarity": 3,
-		"sellPrice": [42],
+		"price": [42],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Intelligence", "value": 3},
 			{"attribute": "Wisdom", "value": 3},
 			{"attribute": "Faith", "value": 3},
@@ -1637,11 +1637,11 @@
 		"name": "Bracelet with metal bands",
 		"type": "Bracelet",
 		"rarity": 3,
-		"sellPrice": [42],
+		"price": [42],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ManaMax", "value": -10},
 			{"attribute": "DamageReductionMagical", "value": 2},
 			{"attribute": "DamageReductionPhysical", "value": 5},
@@ -1652,11 +1652,11 @@
 		"name": "Bracelet of runed woods",
 		"type": "Bracelet",
 		"rarity": 3,
-		"sellPrice": [42],
+		"price": [42],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ManaMax", "value": 15},
 			{"attribute": "RegenMana", "value": 2},
 			{"attribute": "DamageReductionMagical", "value": 8},
@@ -1669,11 +1669,11 @@
 		"name": "Bracelet of flowers and leaves",
 		"type": "Bracelet",
 		"rarity": 2,
-		"sellPrice": [26],
+		"price": [26],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Health", "value": 1},
 			{"attribute": "Faith", "value": 1},
 			{"attribute": "DamageBonusMagical", "value": 2},
@@ -1684,11 +1684,11 @@
 		"name": "Bracelet gold plated",
 		"type": "Bracelet",
 		"rarity": 4,
-		"sellPrice": [170],
+		"price": [170],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusMagical", "value": 3},
 			{"attribute": "DamageReductionMagical", "value": 4},
 			{"attribute": "Luck", "value": -5},
@@ -1699,11 +1699,11 @@
 		"name": "Bracelet silver plated",
 		"type": "Bracelet",
 		"rarity": 3,
-		"sellPrice": [80],
+		"price": [80],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusMagical", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": 2},
 			{"attribute": "Luck", "value": -2},
@@ -1714,11 +1714,11 @@
 		"name": "Belt of the Warrior",
 		"type": "Belt",
 		"rarity": 3,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 7},
 			{"attribute": "Constitution", "value": 5},
 			{"attribute": "Health", "value": 3},
@@ -1730,11 +1730,11 @@
 		"name": "Belt of the Druid",
 		"type": "Belt",
 		"rarity": 3,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Dexterity", "value": 6},
 			{"attribute": "Precision", "value": 6},
@@ -1746,11 +1746,11 @@
 		"name": "Belt of the Bishop",
 		"type": "Belt",
 		"rarity": 3,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Intelligence", "value": 4},
 			{"attribute": "Wisdom", "value": 5},
 			{"attribute": "Faith", "value": 6},
@@ -1762,11 +1762,11 @@
 		"name": "Earrings of little hunger",
 		"type": "Earrings",
 		"rarity": 2,
-		"sellPrice": [15],
+		"price": [15],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Health", "value": -5},
 			{"attribute": "RegenLife", "value": 2}
 		],
@@ -1775,11 +1775,11 @@
 		"name": "Earrings of rusted plate",
 		"type": "Earrings",
 		"rarity": 1,
-		"sellPrice": [7],
+		"price": [7],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageReductionPhysical", "value": 2},
 			{"attribute": "DamageReductionMagical", "value": 2},
 			{"attribute": "Luck", "value": -1}
@@ -1791,11 +1791,11 @@
 		"name": "Ring of rusted plate",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [7],
+		"price": [7],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Constitution", "value": 2},
 			{"attribute": "Health", "value": -3},
 			{"attribute": "Defense", "value": 4},
@@ -1809,11 +1809,11 @@
 		"description": "Gloves belonged to a bloody madman, who always became crazy and frenzy if he cannot satisfy his cruelty upon missing the target.",
 		"type": "Hands",
 		"rarity": 3,
-		"sellPrice": [5],
+		"price": [5],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Strength", "value": 4},
 			{"attribute": "Precision", "value": 2},
@@ -1824,11 +1824,11 @@
 		"name": "Necklace of devoted vampire",
 		"type": "Necklace",
 		"rarity": 3,
-		"sellPrice": [76],
+		"price": [76],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Faith", "value": 4},
 			{"attribute": "LifeLeechPercentage", "value": 10},
 			{"attribute": "Precision", "value": 7},
@@ -1841,11 +1841,11 @@
 		"name": "Bead of the dance",
 		"type": "Necklace",
 		"rarity": 1,
-		"sellPrice": [17],
+		"price": [17],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 25},
 			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "Health", "value": 3}
@@ -1855,11 +1855,11 @@
 		"name": "Pendant with Eye of the tiger",
 		"type": "Necklace",
 		"rarity": 1,
-		"sellPrice": [17],
+		"price": [17],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ManaMax", "value": 30},
 			{"attribute": "Precision", "value": 4}
 		],
@@ -1868,11 +1868,11 @@
 		"name": "Choker of inebriance",
 		"type": "Necklace",
 		"rarity": 2,
-		"sellPrice": [14],
+		"price": [14],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenLife", "value": 2},
 			{"attribute": "RegenMana", "value": 2},
 			{"attribute": "Intelligence", "value": -3},
@@ -1884,11 +1884,11 @@
 		"type": "Necklace",
 		"description": "Devoted to Nature, this simple ornament represent their bound: armony without pain.",
 		"rarity": 2,
-		"sellPrice": [18],
+		"price": [18],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Health", "value": 4},
 			{"attribute": "Faith", "value": 4},
 			{"attribute": "DamageBonusPhysical", "value": -1},
@@ -1899,11 +1899,11 @@
 		"name": "Warm scarf",
 		"type": "Necklace",
 		"rarity": 1,
-		"sellPrice": [8],
+		"price": [8],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Health", "value": 4},
 			{"attribute": "RegenLife", "value": 1},
 			{"attribute": "DamageReductionMagical", "value": -2}
@@ -1913,11 +1913,11 @@
 		"name": "Amulet of spiritual guardian",
 		"type": "Necklace",
 		"rarity": 3,
-		"sellPrice": [47],
+		"price": [47],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ManaMax", "value": -25},
 			{"attribute": "RegenMana", "value": -7},
 			{"attribute": "DamageReductionMagical", "value": 8},
@@ -1929,11 +1929,11 @@
 		"name": "Earrings of hard touch",
 		"type": "Earrings",
 		"rarity": 2,
-		"sellPrice": [22],
+		"price": [22],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "DamageBonusPhysical", "value": -10},
 			{"attribute": "DamageBonusMagical", "value": -10},
 			{"attribute": "CriticalMultiplierPercentage", "value": 30}
@@ -1943,11 +1943,11 @@
 		"name": "Gloves of soft touch",
 		"type": "Hands",
 		"rarity": 1,
-		"sellPrice": [12],
+		"price": [12],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Health", "value": 5},
 			{"attribute": "Faith", "value": 3},
 			{"attribute": "DamageBonusPhysical", "value": -7},
@@ -1962,11 +1962,11 @@
 		"name": "Crystal armguard",
 		"type": "Arms",
 		"rarity": 4,
-		"sellPrice": [230],
+		"price": [230],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ShieldMax", "value": 50},
 			{"attribute": "RegenShield", "value": 5},
 			{"attribute": "DamageBonusMagical", "value": 12},
@@ -1978,11 +1978,11 @@
 		"name": "Runed armguard",
 		"type": "Arms",
 		"rarity": 3,
-		"sellPrice": [80],
+		"price": [80],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -30},
 			{"attribute": "ManaMax", "value": -30},
 			{"attribute": "RegenMana", "value": -7},
@@ -2003,11 +2003,11 @@
 		"name": "Gems Necklace of Meditation",
 		"type": "Necklace",
 		"rarity": 2,
-		"sellPrice": [44],
+		"price": [44],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenLife", "value": 2},
 			{"attribute": "RegenMana", "value": 2},
 			{"attribute": "Health", "value": 4},
@@ -2021,11 +2021,11 @@
 		"name": "Angel-guided Sleeve",
 		"type": "Arms",
 		"rarity": 4,
-		"sellPrice": [65],
+		"price": [65],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Health", "value": -5},
 			{"attribute": "RegenLife", "value": -2},
 			{"attribute": "Defense", "value": 3},
@@ -2049,11 +2049,11 @@
 		"name": "Archers Sleeve",
 		"type": "Arms",
 		"rarity": 2,
-		"sellPrice": [20],
+		"price": [20],
 		"dimensInvent": {
 			"width": 2, "height": 3
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Precision", "value": 8},
 			{"attribute": "Dexterity", "value": 4},
 			{"attribute": "Constitution", "value": 2},
@@ -2070,11 +2070,11 @@
 		"name": "Mantle of Semi-visibility",
 		"type": "Shoulder",
 		"rarity": 3,
-		"sellPrice": [77],
+		"price": [77],
 		"dimensInvent": {
 			"width": 2, "height": 4
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": -30},
 			{"attribute": "ManaMax", "value": -20},
 			{"attribute": "Defense", "value": 20},
@@ -2090,11 +2090,11 @@
 		"name": "Charm",
 		"type": "Necklace",
 		"rarity": 1,
-		"sellPrice": [22],
+		"price": [22],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeMax", "value": 25},
 			{"attribute": "ManaMax", "value": 10}
 		],
@@ -2103,11 +2103,11 @@
 		"name": "Ring of the Wicked Witch",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [13],
+		"price": [13],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ManaLeechPercentage", "value": 15},
 			{"attribute": "RegenMana", "value": -2},
 			{"attribute": "ManaMax", "value": -20}
@@ -2117,11 +2117,11 @@
 		"name": "Ring of the Leech",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [13],
+		"price": [13],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeLeechPercentage", "value": 15},
 			{"attribute": "RegenLife", "value": -2},
 			{"attribute": "LifeMax", "value": -30}
@@ -2131,11 +2131,11 @@
 		"name": "Crystal Thunderstone Belt of mad Scientist",
 		"type": "Belt",
 		"rarity": 3,
-		"sellPrice": [100],
+		"price": [100],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Faith", "value": 10},
 			{"attribute": "Intelligence", "value": 3},
 			{"attribute": "Constitution", "value": -5},
@@ -2149,11 +2149,11 @@
 		"name": "Ferromagnetic Ring",
 		"type": "Ring",
 		"rarity": 1,
-		"sellPrice": [18],
+		"price": [18],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ShieldMax", "value": 15},
 			{"attribute": "RegenShield", "value": 1}
 		],
@@ -2162,11 +2162,11 @@
 		"name": "Ferromagnetic Chocker",
 		"type": "Necklace",
 		"rarity": 1,
-		"sellPrice": [18],
+		"price": [18],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ShieldMax", "value": 15},
 			{"attribute": "RegenShield", "value": 1}
 		],
@@ -2175,11 +2175,11 @@
 		"name": "Ferromagnetic Bracelet",
 		"type": "Bracelet",
 		"rarity": 1,
-		"sellPrice": [18],
+		"price": [18],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ShieldMax", "value": 15},
 			{"attribute": "RegenShield", "value": 1}
 		],
@@ -2188,11 +2188,11 @@
 		"name": "Ferromagnetic Earrings",
 		"type": "Earrings",
 		"rarity": 1,
-		"sellPrice": [18],
+		"price": [18],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "ShieldMax", "value": 15},
 			{"attribute": "RegenShield", "value": 1}
 		],
@@ -2201,11 +2201,11 @@
 		"name": "Gloves of the Trickster",
 		"type": "Hands",
 		"rarity": 2,
-		"sellPrice": [36],
+		"price": [36],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": -10},
 			{"attribute": "Faith", "value": -8},
 			{"attribute": "Defense", "value": 5},
@@ -2221,11 +2221,11 @@
 		"name": "Mask of the Vampire",
 		"type": "Head",
 		"rarity": 3,
-		"sellPrice": [39],
+		"price": [39],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeLeechPercentage", "value": 15},
 			{"attribute": "ManaLeechPercentage", "value": 15},
 			{"attribute": "RegenLife", "value": -2},
@@ -2238,11 +2238,11 @@
 		"name": "Gloves of the Leech",
 		"type": "Hands",
 		"rarity": 2,
-		"sellPrice": [24],
+		"price": [24],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "LifeLeechPercentage", "value": 10},
 			{"attribute": "ManaLeechPercentage", "value": 10},
 			{"attribute": "RegenLife", "value": -1},
@@ -2253,11 +2253,11 @@
 		"name": "Snake Belt",
 		"type": "Belt",
 		"rarity": 2,
-		"sellPrice": [27],
+		"price": [27],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Strength", "value": 1},
 			{"attribute": "Defense", "value": 2},
 			{"attribute": "Precision", "value": 4},
@@ -2271,11 +2271,11 @@
 		"name": "Earrings with Feathers",
 		"type": "Earrings",
 		"rarity": 1,
-		"sellPrice": [6],
+		"price": [6],
 		"dimensInvent": {
 			"width": 1, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 3},
 			{"attribute": "Precision", "value": 2},
 			{"attribute": "Constitution", "value": 1}
@@ -2285,11 +2285,11 @@
 		"name": "Leggins",
 		"type": "Legs",
 		"rarity": 2,
-		"sellPrice": [23],
+		"price": [23],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 7},
 			{"attribute": "Health", "value": 2},
 			{"attribute": "Strength", "value": 1},
@@ -2300,11 +2300,11 @@
 		"name": "Helenite Belt",
 		"type": "Belt",
 		"rarity": 3,
-		"sellPrice": [40],
+		"price": [40],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Dexterity", "value": 7},
 			{"attribute": "Defense", "value": 2},
 			{"attribute": "Strength", "value": 2}
@@ -2314,11 +2314,11 @@
 		"name": "Loath Mask",
 		"type": "Head",
 		"rarity": 2,
-		"sellPrice": [15],
+		"price": [15],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "RegenLife", "value": -2}
 			{"attribute": "Strength", "value": 2},
 			{"attribute": "Intelligence", "value": 2},
@@ -2336,11 +2336,11 @@
 		"description": "Gloves belonged to a bloody madman, who always became crazy and frenzy if he cannot satisfy his cruelty upon missing the target.",
 		"type": "Hands",
 		"rarity": 3,
-		"sellPrice": [5],
+		"price": [5],
 		"dimensInvent": {
 			"width": 2, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Defense", "value": 3},
 			{"attribute": "Strength", "value": 4},
 			{"attribute": "Precision", "value": 2},
@@ -2351,11 +2351,11 @@
 		"name": "Necklace of devoted vampire",
 		"type": "Necklace",
 		"rarity": 3,
-		"sellPrice": [76],
+		"price": [76],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Faith", "value": 4},
 			{"attribute": "LifeLeechPercentage", "value": 10},
 			{"attribute": "Precision", "value": 7},
@@ -2369,11 +2369,11 @@
 		"description": "",
 		"type": "Necklace",
 		"rarity": 3,
-		"sellPrice": [63],
+		"price": [63],
 		"dimensInvent": {
 			"width": 1, "height": 2
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Wisdom", "value": 4},
 			{"attribute": "Faith", "value": 7},
 			{"attribute": "ShieldMax", "value": 15},
@@ -2386,11 +2386,11 @@
 		"description": "",
 		"type": "Bracelet",
 		"rarity": 3,
-		"sellPrice": [63],
+		"price": [63],
 		"dimensInvent": {
 			"width": 2, "height": 1
 		},
-		"attributeMods": [
+		"attributeModifiers": [
 			{"attribute": "Wisdom", "value": 2},
 			{"attribute": "Faith", "value": 3},
 			{"attribute": "ShieldMax", "value": 25},

@@ -1,4 +1,4 @@
-package games.theRisingAngel.inventory;
+package games.theRisingAngel.inventory.equipsWithAbilities;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsProvidersHolder;
@@ -7,6 +7,8 @@ import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
+import games.theRisingAngel.inventory.EINotJewelry;
+import games.theRisingAngel.inventory.EquipmentTypesTRAn;
 import games.theRisingAngel.misc.DamageTypesTRAn;
 
 public class HelmetOfPlanetaryMeteors extends EINotJewelry {

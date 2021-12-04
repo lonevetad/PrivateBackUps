@@ -1,4 +1,4 @@
-package games.theRisingAngel.inventory;
+package games.theRisingAngel.inventory.equipsWithAbilities;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GameObjectsProvidersHolder;
@@ -6,6 +6,8 @@ import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
+import games.theRisingAngel.inventory.EIJewelry;
+import games.theRisingAngel.inventory.EquipmentTypesTRAn;
 
 /** See {@link AMoreDamageReceivedMoreLifeRegen} */
 public class NecklaceOfPainRinvigoring extends EIJewelry {

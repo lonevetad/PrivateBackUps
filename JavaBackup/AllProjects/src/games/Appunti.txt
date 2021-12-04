@@ -1,6 +1,42 @@
+
+30/11/2021
+
+l' "estrattore di essenze", cioè l' NPC adibito ad estrarre gli "EquipmentUpgrades" dai pezzi di Equipaggiamento
+per poi stoccarli nel EssenceStorage.
+Le estrazioni ed applicazioni potrebbero essere implementate come singolarmente e/o come "bulk": "tutto o niente".
+  Cioè, o si rimuovono TUTTI gli upgrade o nisba, ovviamente provvedendo abbastanza Storage idonei.
+Gli EssenceStorage potrebbero avere dei livelli massimi di rarità di contenimento (ma è un ulteriore casino .. evitabile)
+Si potrebbero implementare dei costi di estrazione ed applicazione:
+- lineari sul numero di cose da estrarre / applicare
+- il costo potrebbe invece dipendere linearmente dal "peso" complessivo dell'operazione, come segue:
+- - la rarita' dell'Upgrade ha peso pari ad una funzione positiva monotona crescente applicata alla rarita' (es: il suo quadrato)
+- - il peso totale di un "bulk" di estrazioni/applicazioni è la somma dei pesi individuali
+- - il prezzo è quindi lineare alla somma dei pesi
+- DISCOUNT:
+  in caso di soppesazione delle rarità, si potrebbero applicare dei discount:
+- - una funzione sigmoide che sconta fino al 50%, come "cap"
+
+                  
+50%                        ____|_____ fixed at 50% after 32
+                      _--''
+                    o'
+                  ,/
+25%               |
+                 /'
+                o'
+              _-
+00% ____---°°'
+   0 1 2 3 4 6 8 16 24 30 31 32
+
+proposte:
+a) (50/(1+1.375^(-(x-16))))
+b) 2+(49/(1+1.1875^(-(x-17)))
+c) 1.75+(49/(1+1.1875^(-(x-17))))
+best: c
+
 TODO 28/05/2020
 Il ISOM potrebbe essere formata da un insieme di sotto-isom-matrix, ciascuno avente una lista di adiacenza di altre matrix (inserite a mano)
-tale ISOM-WRAPPER ï¿½ anch'esso un "point provider", esattamente come le sotto-matrici, con la differenza che la prima fa cose del tipo
+tale ISOM-WRAPPER e' anch'esso un "point provider", esattamente come le sotto-matrici, con la differenza che la prima fa cose del tipo
 
 public NodeIsom getAt(int x, int y){
 	ISOM matrix = getMatrixHolding(x,y);
@@ -13,7 +49,7 @@ Per fare RunShape sulla ISOM si fa
 
 TODO 10/05/2020
 -) cambiare TRAn LoaderGeneric cosï¿½ che il JSON abbia un oggetto (il ProbabilityOfContextesHolders appunto)
-	avente un array di oggetti: di coppie <nome, arraiDiProbabilitï¿½> (ossia RandomWeightedIndexes)
+	avente un array di oggetti: di coppie <nome, arraiDiProbabilita'> (ossia RandomWeightedIndexes)
 -) utilizzare in modo decente questa mappa in GModalityTRAn
 
 

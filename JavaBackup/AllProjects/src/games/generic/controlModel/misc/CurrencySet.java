@@ -50,7 +50,14 @@ public abstract class CurrencySet {
 
 	public void setGameModaliy(GModality gameModality) { this.gameModality = gameModality; }
 
-	/***/
+	/**
+	 * Set the currency amount of a given type, identified by the first parameter,
+	 * to the provided amount, which is the second parameter.
+	 * 
+	 * @param indexType an identifier, usually an index, that identifies the
+	 *                  currency type
+	 * @param newAmount the amount of the type of currency intended to set
+	 */
 	public void setCurrencyAmount(int indexType, int newAmount) {
 		int old;
 		old = this.values[indexType];

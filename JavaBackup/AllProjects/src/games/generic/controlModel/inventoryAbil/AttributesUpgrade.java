@@ -6,7 +6,7 @@ import dataStructures.minorUtils.SortedSetEnhancedDelegating;
 import games.generic.controlModel.ObjectNamed;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CurrencySet;
-import games.generic.controlModel.misc.EssenceVial;
+import games.generic.controlModel.misc.EssenceStorage;
 import games.generic.controlModel.misc.RarityHolder;
 
 /**
@@ -17,7 +17,7 @@ import games.generic.controlModel.misc.RarityHolder;
  * to increase (or decrease) the quality (and the value, maybe) of the equipment
  * having it. <br>
  * (Also, in some game this upgrade could be extracted in some kind of
- * potion-essence like {@link EssenceVial} and applied to another equipment,
+ * potion-essence like {@link EssenceStorage} and applied to another equipment,
  * that is a very useful and cool feature).
  */
 public interface AttributesUpgrade

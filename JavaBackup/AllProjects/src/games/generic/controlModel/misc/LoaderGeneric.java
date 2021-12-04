@@ -9,6 +9,9 @@ import java.util.Iterator;
 
 import games.generic.controlModel.GController;
 
+/**
+ * Class that loads something, usually from file
+ */
 public abstract class LoaderGeneric {
 
 	public static final char sc = File.separatorChar;
@@ -32,7 +35,10 @@ public abstract class LoaderGeneric {
 
 	//
 
-	/** Just read lines by lines */
+	/**
+	 * Reads lines by lines, providing each of them for each invocation of
+	 * {@link #next()}.
+	 */
 	public static class JSONLineReader implements Iterator<String> {
 		String path, filename, line;
 		BufferedReader reader;

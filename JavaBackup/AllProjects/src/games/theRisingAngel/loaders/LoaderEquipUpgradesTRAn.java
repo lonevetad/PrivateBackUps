@@ -1,166 +1,135 @@
 package games.theRisingAngel.loaders;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Consumer;
+import java.util.Map;
 
 import games.generic.controlModel.GController;
-import games.generic.controlModel.GModality;
 import games.generic.controlModel.inventoryAbil.AttributeModification;
 import games.generic.controlModel.inventoryAbil.EquipmentUpgrade;
+import games.generic.controlModel.inventoryAbil.EquipmentUpgradesProvider;
+import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
-import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GameObjectsProvider;
-import games.generic.controlModel.misc.LoaderGeneric;
-import games.generic.controlModel.subimpl.EquipmentUpgradeImpl;
 import games.generic.controlModel.subimpl.LoaderEquipUpgrades;
+import games.theRisingAngel.LoaderConfigurations;
+import games.theRisingAngel.loaders.factories.FactoryEquipUpgrade;
 import games.theRisingAngel.misc.AttributesTRAn;
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
 import games.theRisingAngel.misc.EquipItemRaritiesTRAn;
+import tools.json.JSONParser;
+import tools.json.types.JSONArray;
+import tools.json.types.JSONObject;
 
 public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 
-	public LoaderEquipUpgradesTRAn(GameObjectsProvider<EquipmentUpgrade> objProvider) {
-		super(objProvider);
-		// TODO Auto-generated constructor stub
-	}
+	public LoaderEquipUpgradesTRAn(GameObjectsProvider<EquipmentUpgrade> objProvider) { super(objProvider); }
 
 	@Override
 	public void loadInto(GController gc) {
-		LoaderEquipUpgradeFromFile leuff;
-		LinkedList<FactoryEquipUpgrade> factories;
-		FactoryEquipUpgrade fe;
-		// TODO prendere ispirazione da LoaderEquipments
+		int[] index = { 0 };
+		JSONArray equipments;
+		final LoaderEquipUpgradesTRAn thisLoader = this;
 
-		// e poi
-		leuff = new LoaderEquipUpgradeFromFile("", "equipUpgradesTRAr.json");
-		leuff.readAllFile();
-		factories = (LinkedList<FactoryEquipUpgrade>) leuff.factories;
-		System.out.println("total equip-upgrades loaded: " + factories.size());
-		while (!factories.isEmpty()) {
-			fe = factories.removeFirst();
-			objProvider.addObj(fe.name, fe.rarity, fe);
-		}
-	}
+		try {
+			equipments = (JSONArray) JSONParser
+					.parseFile(LoaderConfigurations.RESOURCE_REPOSITORY_PULL_FACT + "equipUpgrades.json");
 
-	protected static class LoaderEquipUpgradeFromFile extends JSONFileConsumer {
-		List<FactoryEquipUpgrade> factories;
+			equipments.forEach((indexEquip, rawEquip) -> {
+				FactoryEquipUpgrade factory;
+				JSONObject equipEquipJSON, attributeModsJSON;
+				AttributeModification[] attrMods;
+				equipEquipJSON = (JSONObject) rawEquip;
+				factory = new FactoryEquipUpgrade();
+				factory.name = equipEquipJSON.getFieldValue("name").asString();
+				factory.rarity = equipEquipJSON.getFieldValue("rarity").asInt();
+				factory.bonusPriceSell = equipEquipJSON.getFieldValue("price").asArrayInt();
 
-		protected LoaderEquipUpgradeFromFile(String subPath, String filename) { super(subPath, filename); }
+				attributeModsJSON = (JSONObject) equipEquipJSON.getFieldValue("attributeModifiers");
+				attrMods = new AttributeModification[attributeModsJSON.getFieldsAmount()];
+				index[0] = 0;
+				attributeModsJSON.forEachField((fieldName, attrValueJSON) -> {
+					AttributeIdentifier attribute;
+					attribute = AttributesTRAn.valueOf(fieldName);
+					attrMods[index[0]++] = new AttributeModification(attribute, attrValueJSON.asInt());
+				});
+				factory.attrMods = attrMods;
+				if (equipEquipJSON.hasField("description")) {
+					factory.description = equipEquipJSON.getFieldValue("description").asString();
+				}
 
-		@Override
-		protected void readAllFileImpl(String line) {
-//			String temp;
-			int indexComma;
-			String[] splitted;
-			FactoryEquipUpgrade fe;
-			factories = new LinkedList<>();
-			while (line.contains("{")) { // start of an equip, must start at the previous end if any
-				fe = new FactoryEquipUpgrade();
-				do {
-					line = getLineReader().next().trim();
-					indexComma = line.indexOf(':');
-					if (indexComma >= 0) {
-//						splitted = line.split(":"); //
-						splitted = new String[] { line.substring(0, indexComma), line.substring(indexComma + 1) };
-						trimAll(splitted);
-						line = LoaderGeneric.removeQuotes(splitted[0]).trim();// as cache
-						switch (line) {
-						case "name":
-							fe.name = LoaderGeneric.removeQuotes(splitted[1]);
-							break;
-						case "description":
-							fe.description = LoaderGeneric.removeQuotes(splitted[1]);
-							break;
-						case "modifiers":
-							fe.attrMods = LoaderFunctionsTRAn.extractAttributeModifications(getLineReader());
-							break;
-						case "rarity":
-							fe.rarity = LoaderGeneric.extractIntValue(splitted[1]);
-							break;
-						case "bonusPrice":
-							fe.bonusPriceSell = LoaderFunctionsTRAn.extractSellPrices(splitted[1].trim());
-							break;
-						default:
-							break;
-						}
-					}
-				} while (!line.contains("}")); // to the end
-				factories.add(fe);
-			}
-		}
-	}
-
-	protected static class FactoryEquipUpgrade implements FactoryObjGModalityBased<EquipmentUpgrade> {
-		int rarity;
-		int[] bonusPriceSell = null;
-		String name, description = null;
-		List<AttributeModification> attrMods = null;
-
-		@Override
-		public EquipmentUpgrade newInstance(GModality gm) {
-			EquipmentUpgrade eu;
-			eu = new EquipmentUpgradeImpl(rarity, name);
-			if (description != null) { eu.setDescription(description); }
-			if (attrMods != null) {
-				for (AttributeModification am : attrMods)
-					eu.addAttributeModifier(am);
-			}
-			if (bonusPriceSell != null) {
-				int n;
-				CurrencySet cs;
-				cs = gm.newCurrencyHolder();
-				cs.setGameModaliy(gm); // not needed
-				n = bonusPriceSell.length;
-				while (--n >= 0)
-					cs.setCurrencyAmount(n, bonusPriceSell[n]);
-				eu.setPricesModifications(cs);
-			}
-			return eu;
-		}
-
-		@Override
-		public String toString() {
-			return "FactoryEquipUpgrade [\n name=" + name + ",\n rarity=" + rarity + ",\n attrMods=\n\t" + attrMods
-					+ "]";
+				thisLoader.saveObjectFactory(factory.name, factory.rarity, factory);
+			});
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) {
-		int size, positive, negative;
-		int[] rarities;
-		LoaderEquipUpgradeFromFile leuff;
-		LinkedList<FactoryEquipUpgrade> factories;
-		FactoryEquipUpgrade fe;
+		int size;
+		int[] rarities, positiveNegative;
+//		LoaderEquipUpgradeFromFile leuff;
+//		LinkedList<FactoryEquipUpgrade> factories;
+//		FactoryEquipUpgrade fe;
+		LoaderEquipUpgradesTRAn loader;
+		EquipmentUpgradesProvider equipUpgradeProvider;
+		Map<String, FactoryObjGModalityBased<EquipmentUpgrade>> allObjectFactories;
 		final CreatureAttributes ca;
-		Consumer<AttributeModification> attrModAdder;
-		leuff = new LoaderEquipUpgradeFromFile("", "equipUpgradesTRAr.json");
-		leuff.readAllFile();
-		size = leuff.factories.size();
-		System.out.println("LoaderEquipUpgradeFromFile we read:");
+
+		equipUpgradeProvider = new EquipmentUpgradesProvider();
+		loader = new LoaderEquipUpgradesTRAn(equipUpgradeProvider);
+		ca = new CreatureAttributesTRAn();
+
+		System.out.println("Starting reading Equip Upgrades TRAn");
+
+		loader.loadInto(null);
+		allObjectFactories = loader.objProvider.getObjectsIdentified();
+		size = allObjectFactories.size();
 		rarities = new int[EquipItemRaritiesTRAn.values().length];
 		Arrays.fill(rarities, 0);
-		positive = negative = 0;
-		factories = (LinkedList<FactoryEquipUpgrade>) leuff.factories;
-		ca = new CreatureAttributesTRAn();
-		attrModAdder = // am -> ca.applyAttributeModifier(am);
-				ca::applyAttributeModifier;
-		while (!factories.isEmpty()) {
-			fe = factories.removeFirst();
+		positiveNegative = new int[] { 0, 0 };
+
+//				Consumer<AttributeModification> attrModAdder;
+//		leuff = new LoaderEquipUpgradeFromFile("TheRisingAngel\\", "equipUpgrades.json");
+//		leuff.readAllFile();
+//		size = leuff.factories.size();
+		System.out.println("LoaderEquipUpgradeFromFile we read:");
+//		factories = (LinkedList<FactoryEquipUpgrade>) leuff.factories;
+//		attrModAdder = // am -> ca.applyAttributeModifier(am);
+//				ca::applyAttributeModifier;
+//		while (!factories.isEmpty()) {
+//			fe = factories.removeFirst();
+//			System.out.println();
+//			System.out.println(fe);
+//			rarities[fe.rarity]++;
+//			if (fe.bonusPriceSell[0] >= 0) {
+//				positive++;
+//			} else {
+//				negative++;
+//			}
+//			fe.attrMods.forEach(attrModAdder);
+//		}
+		allObjectFactories.forEach((name, factoryEquip) -> {
+			FactoryEquipUpgrade fe;
+			fe = (FactoryEquipUpgrade) factoryEquip;
 			System.out.println();
 			System.out.println(fe);
+
 			rarities[fe.rarity]++;
 			if (fe.bonusPriceSell[0] >= 0) {
-				positive++;
+				positiveNegative[0]++;
 			} else {
-				negative++;
+				positiveNegative[1]++;
 			}
-			fe.attrMods.forEach(attrModAdder);
-		}
+			for (AttributeModification am : fe.attrMods) {
+				ca.applyAttributeModifier(am);
+			}
+		});
+
 		System.out.println("total: " + size);
-		System.out.println("Which " + positive + " are positive, and " + negative + " are negative.");
+		System.out.println(
+				"Which " + positiveNegative[0] + " are positive, and " + positiveNegative[1] + " are negative.");
 		System.out.println("RARITIES proportion:");
 		System.out.println(Arrays.toString(rarities));
 		System.out.println("Total attributes, summing all upgrades' modifications:");
