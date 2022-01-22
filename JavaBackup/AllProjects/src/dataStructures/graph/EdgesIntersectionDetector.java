@@ -10,7 +10,7 @@ import java.util.Objects;
  * Used to split all of {@link GraphSimple}'s edges to create new nodes and
  * non-intersecting edges.
  */
-public interface EdgesIntersectionDetector<E, D> {
+public interface EdgesIntersectionDetector<E, D extends Number> {
 
 	/**
 	 * See
@@ -63,7 +63,7 @@ public interface EdgesIntersectionDetector<E, D> {
 	 * {@link #computeValueOnIntersection(GraphSimple, Object, Object, Object, Object)}
 	 * documentation.
 	 */
-	public static interface IntersectionInstantiator<T, D> {
+	public static interface IntersectionInstantiator<T, Dd extends Number> {
 		/**
 		 * Assuming that:
 		 * <ul>
@@ -89,7 +89,7 @@ public interface EdgesIntersectionDetector<E, D> {
 		 * @return the value representing the intersection, if any, of the two given
 		 *         edges
 		 */
-		public T computeValueOnIntersection(GraphSimple<T, D> graphSource, T start1, T end1, T start2, T end2);
+		public T computeValueOnIntersection(GraphSimple<T, Dd> graphSource, T start1, T end1, T start2, T end2);
 	}
 
 	public static class IntersectionResult<T> {
@@ -101,12 +101,8 @@ public interface EdgesIntersectionDetector<E, D> {
 			this.valuesAtIntersection = valuesAtIntersection;
 		}
 
-		public boolean isIntersecting() {
-			return isIntersecting;
-		}
+		public boolean isIntersecting() { return isIntersecting; }
 
-		public T getValuesAtIntersection() {
-			return valuesAtIntersection;
-		}
+		public T getValuesAtIntersection() { return valuesAtIntersection; }
 	}
 }

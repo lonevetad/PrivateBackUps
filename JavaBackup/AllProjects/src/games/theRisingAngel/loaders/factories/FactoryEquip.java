@@ -4,52 +4,71 @@ import java.util.Arrays;
 import java.util.List;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
-import games.generic.controlModel.inventoryAbil.AttributeModification;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.abilities.AbilityGeneric;
+import games.generic.controlModel.holders.GameObjectsProvidersHolderRPG;
+import games.generic.controlModel.items.EquipmentItem;
+import games.generic.controlModel.misc.AttributeModification;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
+import games.generic.controlModel.providers.AbilitiesProvider;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
-import games.theRisingAngel.inventory.EquipmentTypesTRAn;
+import games.theRisingAngel.enums.EquipmentTypesTRAn;
 
 public class FactoryEquip implements FactoryObjGModalityBased<EquipmentItem> {
-	FactoryItems fi = new FactoryItems();
-	EquipmentTypesTRAn type;
-	List<String> abilities = null;
-	List<AttributeModification> attrMods = null;
+	public final FactoryItems fi;
+	public EquipmentTypesTRAn type;
+	public List<AbilityData> abilities = null;
+	public AttributeModification[] attrMods = null;
+
+	public FactoryEquip() {
+		super();
+		this.fi = new FactoryItems();
+	}
 
 	@Override
 	public EquipmentItem newInstance(GModality gm) {
 		EquipmentItem ei;
-//		ei = new EquipmentItemImpl((GModalityRPG) gm, type, name);
-		ei = type.factory.newEquipItem((GModalityRPG) gm, type, fi.name);
-		setValues(gm, ei);
+//	ei = new EquipmentItemImpl((GModalityRPG) gm, type, name);
+		ei = type.factory.newEquipItem((GModalityRPG) gm, type, getFactoryItem().name, attrMods);
+		setValuesInto(gm, ei);
 		return ei;
 	}
 
-	protected void setValues(GModality gm, EquipmentItem ei) {
-//		EquipmentItem ei;
-//		ei = (EquipmentItem) ii;
-		fi.setValues(gm, ei);
-		if (attrMods != null) {
-			for (AttributeModification am : attrMods)
-				ei.addAttributeModifier(am);
-		}
+	protected void setValuesInto(GModality gm, EquipmentItem ei) {
+//	EquipmentItem ei;
+//	ei = (EquipmentItem) ii;
+		AbilityGeneric abil;
+		getFactoryItem().setValuesInto(gm, ei);
 		if (abilities != null) {
 			GameObjectsProvidersHolderRPG gophRpg;
 			AbilitiesProvider ap;
 			gophRpg = (GameObjectsProvidersHolderRPG) gm.getGameObjectsProvider();
 			ap = gophRpg.getAbilitiesProvider();
-			for (String an : abilities) {
-				ei.addAbility(ap.getAbilityByName(gm, an));
+			for (AbilityData ad : abilities) {
+				abil = ap.getAbilityByName(gm, ad.name);
+				abil.setLevel(ad.level);
+				ei.addAbility(abil);
 			}
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "FactoryEquip [\n name=" + fi.name + ", type=" + type + ",\n rarity=" + fi.rarity + ", sell price: "
-				+ Arrays.toString(fi.price) + ",\n dimensions in inventory: " + fi.dimensionInInventory
-				+ ",\n abilities=\n\t" + abilities + ",\n attrMods=\n\t" + attrMods + "]";
+		return "FactoryEquip [\n name=" + getFactoryItem().name + ", type=" + type + ",\n rarity="
+				+ getFactoryItem().rarity + ", sell price: " + Arrays.toString(getFactoryItem().price)
+				+ ",\n dimensions in inventory: " + getFactoryItem().dimensionInInventory + ",\n abilities=\n\t"
+				+ (abilities == null ? "null" : Arrays.toString(abilities.toArray()))//
+				+ ",\n attrMods=\n\t" + Arrays.toString(attrMods) + "]";
+	}
+
+	public FactoryItems getFactoryItem() { return fi; }
+
+	//
+
+	public static class AbilityData {
+		public int level;
+		public String name;
+
+		@Override
+		public String toString() { return "AbilityData [level=" + level + ", name=" + name + "]"; }
 	}
 }

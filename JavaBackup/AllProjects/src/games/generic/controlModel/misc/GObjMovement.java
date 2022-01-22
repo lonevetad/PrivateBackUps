@@ -1,7 +1,7 @@
 package games.generic.controlModel.misc;
 
-import games.generic.controlModel.gObj.MovingObject;
-import games.generic.controlModel.gObj.TimedObject;
+import games.generic.controlModel.objects.MovingObject;
+import games.generic.controlModel.objects.TimedObject;
 
 /**
  * Generic definition of a "movement" and its implementation.<br>

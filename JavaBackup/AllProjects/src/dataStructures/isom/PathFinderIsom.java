@@ -21,10 +21,7 @@ import tools.NumberManager;
 import tools.PathFinder;
 
 public interface PathFinderIsom<Distance extends Number> extends PathFinder<Point, ObjectLocated, Distance> {
-	// NodeContent extends Point2D not needed
 
-//	public InSpaceObjectsManager<Distance> getSpaceToRunThrough();
-//	public default NodeIsomProvider getNodeIsomProvider() { return getSpaceToRunThrough(); }
 	public NodeIsomProvider<Distance> getNodeIsomProvider();
 
 	//
@@ -46,7 +43,7 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 				objPlanningToMove, dest);
 	}
 
-	// here defined
+	//
 
 	public default List<Point> getPath(final NodeIsomProvider<Distance> nodeProvider,
 			NumberManager<Distance> distanceManager, Predicate<ObjectLocated> isWalkableTester,

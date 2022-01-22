@@ -5,7 +5,7 @@ import java.util.Set;
 import dataStructures.isom.InSpaceObjectsManager;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GObjectsInSpaceManager;
-import games.generic.controlModel.gObj.ObjectInSpace;
+import games.generic.controlModel.objects.ObjectInSpace;
 import geometry.pointTools.HeuristicManhattan;
 import oldToBeDeleted.PathFinderIsomAStar_Naive;
 import tools.ObjectWithID;
@@ -25,6 +25,8 @@ public abstract class GObjectsInSpaceManagerImpl implements GObjectsInSpaceManag
 	protected InSpaceObjectsManager<Double> isom;
 	protected GModality gameModality;
 
+	//
+
 	@Override
 	public InSpaceObjectsManager<Double> getOIMManager() { return isom; }
 
@@ -37,11 +39,18 @@ public abstract class GObjectsInSpaceManagerImpl implements GObjectsInSpaceManag
 		return this.objWID;
 	}
 
+	//
+
 	@Override
 	public void setGameModality(GModality gameModality) { this.gameModality = gameModality; }
 
+	//
+
 	@Override
 	public int objectsHeldCount() { return this.objWID.size(); }
+
+	@Override
+	public ObjectWithID get(Long id) { return this.getOIMManager().getObjectLocated(id); }
 
 	@Override
 	public boolean contains(ObjectWithID o) { return (o == null) ? false : this.getObjects().contains(o); }

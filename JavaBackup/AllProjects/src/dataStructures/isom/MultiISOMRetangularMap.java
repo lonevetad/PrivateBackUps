@@ -60,37 +60,38 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		this.ID = ID_PROV_MULTIISOM.getNewID();
 		this.maximumSubmapsEachSection = maximumSubmapsEachSection;
 		mapsLocatedInSpace = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
-				Comparators.INTEGER_COMPARATOR);
+				Comparators.LONG_COMPARATOR);
 		mapsAsList = mapsLocatedInSpace.toListValue(r -> r.ID);
 		misomsHeld = new SetMapped<>(mapsLocatedInSpace.toSetValue(w -> w.ID), w -> w.misom);
-		setObjectsAddedMap(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR));
+		setObjectsAddedMap(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR));
 		shapeBoundingBox = null;// new ShapeRectangle()
 		clear();
 		setPathFinder(newPathFinder());
 //		this.pathOptimizer = new PathOptimizer<Point>() 
 	}
 
-	protected int idProg = 0;
+	protected long idProg = 0;
 //	protected PathFinderIsomAdapter<NodeIsom, D> pathFinder;
 	// multi-misom stuffs
 	// protected boolean neverBuilt;
 	protected int maximumSubmapsEachSection;
 	protected int maxDepth, xLeftTop, yLeftTop, xRightBottom, yRightBottom, width, height;
 	protected NodeQuadtreeMultiISOMRectangular root;
-	protected final MapTreeAVL<Integer, MatrixISOMLocatedInSpace<Distance>> mapsLocatedInSpace;
+	protected final MapTreeAVL<Long, MatrixISOMLocatedInSpace<Distance>> mapsLocatedInSpace;
 	protected final Set<MatrixInSpaceObjectsManager<Distance>> misomsHeld;
 	protected final List<MatrixISOMLocatedInSpace<Distance>> mapsAsList;
 	protected ShapeRectangle shapeBoundingBox;
 	// from isom
-	protected final Integer ID;
-	protected Map<Integer, ObjectLocated> objectsAddedMap;
+	protected final Long ID;
+	protected Map<Long, ObjectLocated> objectsAddedMap;
 	protected Set<ObjectLocated> objectsAddedSet;
 
 	//
 
 	// GETTER
+
 	@Override
-	public Integer getID() { return ID; }
+	public Long getID() { return ID; }
 
 	@Override
 	public AbstractShape2D getBoundingShape() { return shapeBoundingBox; }
@@ -124,7 +125,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	@Override
 	public int getHeight() { return height; }
 
-	public Map<Integer, MatrixISOMLocatedInSpace<Distance>> getMapsLocatedInSpace() { return mapsLocatedInSpace; }
+	public Map<Long, MatrixISOMLocatedInSpace<Distance>> getMapsLocatedInSpace() { return mapsLocatedInSpace; }
 
 	public ShapeRectangle getShapeRect() { return shapeBoundingBox; }
 
@@ -136,13 +137,13 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	public void setShape(AbstractShape2D shape) { throw new UnsupportedOperationException("Shape is self-defined"); }
 
 	/** Sets the map holding all objects in this space. */
-	protected void setObjectsAddedMap(Map<Integer, ObjectLocated> objectsAdded) {
+	protected void setObjectsAddedMap(Map<Long, ObjectLocated> objectsAdded) {
 		this.objectsAddedMap = objectsAdded;
 		if (objectsAdded == null) // here and below, update the set
 			this.objectsAddedSet = null;
 		else {
 			if (objectsAdded instanceof MapTreeAVL<?, ?>)
-				this.objectsAddedSet = ((MapTreeAVL<Integer, ObjectLocated>) objectsAdded).toSetValue(ol -> ol.getID());
+				this.objectsAddedSet = ((MapTreeAVL<Long, ObjectLocated>) objectsAdded).toSetValue(ol -> ol.getID());
 			else
 				this.objectsAddedSet = new SetMapped<>(objectsAdded.entrySet(), e -> e.getValue());
 		}
@@ -216,7 +217,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	public Set<ObjectLocated> getAllObjectLocated() { return this.objectsAddedSet; }
 
 	@Override
-	public ObjectLocated getObjectLocated(Integer ID) { return this.objectsAddedMap.get(ID); }
+	public ObjectLocated getObjectLocated(Long ID) { return this.objectsAddedMap.get(ID); }
 
 	@Override
 	public void forEachAdjacents(NodeIsom<Distance> node,
@@ -495,6 +496,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		clearDimensionCache();
 		mapsAsList.forEach(this::updateBoundingBox);
 	}
+
 	/**
 	 * Update the bounding box. Returns a negative value if the shape are illegal
 	 * (null or negative height or width), 0 if the bounding box is not changed and
@@ -755,7 +757,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 	 */
 	public static class MatrixISOMLocatedInSpace<Dd extends Number> extends Rectangle implements ObjectLocated {
 		private static final long serialVersionUID = 560804524L;
-		public static final Function<MatrixISOMLocatedInSpace<?>, Integer> ID_EXTRACTOR = w -> w.ID;
+		public static final Function<MatrixISOMLocatedInSpace<?>, Long> ID_EXTRACTOR = w -> w.ID;
 		public static final Function<MatrixISOMLocatedInSpace<?>, MatrixInSpaceObjectsManager<?>> MISOM_EXTRACTOR = w -> w.misom;
 
 		/** See calls the constructor considering */
@@ -784,12 +786,12 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 
 		/** In Degreed */
 		protected double angleRotationDegrees, sinCache, cosCache, sinInverseCache, cosInverseCache;
-		public final Integer ID;
+		public final Long ID;
 		protected final MultiISOMRetangularMap<Dd> multi;
 		public final MatrixInSpaceObjectsManager<Dd> misom;
 
 		@Override
-		public Integer getID() { return ID; }
+		public Long getID() { return ID; }
 
 		public MatrixInSpaceObjectsManager<Dd> getMatrix() { return misom; }
 

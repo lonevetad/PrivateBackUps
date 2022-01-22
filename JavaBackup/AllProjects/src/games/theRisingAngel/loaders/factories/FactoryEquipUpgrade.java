@@ -3,8 +3,9 @@ package games.theRisingAngel.loaders.factories;
 import java.util.Arrays;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.inventoryAbil.AttributeModification;
-import games.generic.controlModel.inventoryAbil.EquipmentUpgrade;
+import games.generic.controlModel.items.EquipmentUpgrade;
+import games.generic.controlModel.misc.AttributeModification;
+import games.generic.controlModel.misc.Currency;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.subimpl.EquipmentUpgradeImpl;
@@ -35,11 +36,14 @@ public class FactoryEquipUpgrade implements FactoryObjGModalityBased<EquipmentUp
 		if (bonusPriceSell != null) {
 			int n;
 			CurrencySet cs;
+			Currency[] currencies;
 			cs = gm.newCurrencyHolder();
+			currencies = cs.getCurrencies();
 			cs.setGameModaliy(gm); // not needed
 			n = bonusPriceSell.length;
-			while (--n >= 0)
-				cs.setCurrencyAmount(n, bonusPriceSell[n]);
+			while (--n >= 0) {
+				cs.setCurrencyAmount(currencies[n], bonusPriceSell[n]);
+			}
 			eu.setPricesModifications(cs);
 		}
 		return eu;

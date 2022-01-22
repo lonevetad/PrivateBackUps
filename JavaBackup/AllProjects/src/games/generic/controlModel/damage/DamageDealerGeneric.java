@@ -1,6 +1,6 @@
 package games.generic.controlModel.damage;
 
-import games.generic.controlModel.gObj.CreatureSimple;
+import games.generic.controlModel.objects.creature.CreatureSimple;
 import tools.ObjectNamedID;
 
 /**
@@ -26,7 +26,7 @@ public interface DamageDealerGeneric extends ObjectNamedID {
 
 	/**
 	 * Similar to {@link #getProbabilityPerThousandHit(DamageTypeGeneric)}, it's a
-	 * percentage to calculate if a critical strike will occour.
+	 * per-thousand probability to calculate if a critical strike will occur.
 	 */
 	public int getProbabilityPerThousandCriticalStrike(DamageTypeGeneric damageType);
 
@@ -34,4 +34,6 @@ public interface DamageDealerGeneric extends ObjectNamedID {
 	public int getPercentageCriticalStrikeMultiplier(DamageTypeGeneric damageType);
 
 	// TODO altro?
+
+	public default int getLuck() { return 0; }
 }

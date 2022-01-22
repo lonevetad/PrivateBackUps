@@ -63,6 +63,10 @@ public class JSONArray extends JSONValue {
 
 	public JSONValue getAt(int i) { return array[i]; }
 
+	public int getElementsAmount() { return this.length(); }
+
+	public int length() { return this.array.length; }
+
 	public void setElementsTypes(JSONTypes elementsTypes) { this.elementsTypes = elementsTypes; }
 
 	//

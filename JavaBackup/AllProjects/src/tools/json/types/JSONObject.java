@@ -19,6 +19,8 @@ public class JSONObject extends JSONValue {
 
 	public int getFieldsAmount() { return (this.fields == null) ? 0 : this.fields.size(); }
 
+	public int size() { return this.getFieldsAmount(); }
+
 	public boolean hasField(String name) { return (this.fields != null) && this.fields.containsKey(name); }
 
 	public void addField(String name, JSONValue v) {

@@ -23,6 +23,23 @@ import geometry.ObjectShaped;
 public interface PathFinder<NodeType, NodeContent, Distance extends Number> { // NodeContent extends Point2D not needed
 
 	/**
+	 * Calls {@link #getPath(Object, Object, NumberManager, Predicate)} passing
+	 * <code>null</code> to {@link Predicate}.
+	 */
+	public default List<NodeType> getPath(NodeType start, NodeType dest, NumberManager<Distance> distanceManager) {
+		return getPath(start, dest, distanceManager, null, false);
+	}
+
+	/**
+	 * Calls {@link #getPath(ObjectShaped, Object, NumberManager, Predicate)}
+	 * passing <code>null</code> to {@link Predicate}.
+	 */
+	public default List<NodeType> getPath(ObjectShaped objPlanningToMove, NodeType dest,
+			NumberManager<Distance> distanceManager) {
+		return getPath(objPlanningToMove, dest, distanceManager, null, false);
+	}
+
+	/**
 	 * Get the shortest path from one starting point to a destination (first two
 	 * parameters), managing distances types through the third parameter and
 	 * providing a way to recognize when a node is a "free, walkable node" or a
@@ -48,14 +65,6 @@ public interface PathFinder<NodeType, NodeContent, Distance extends Number> { //
 	 */
 	public List<NodeType> getPath(NodeType start, NodeType dest, NumberManager<Distance> distanceManager,
 			Predicate<NodeContent> isWalkableTester, boolean returnPathToClosestNodeIfNotFound);
-
-	/**
-	 * Calls {@link #getPath(Object, Object, NumberManager, Predicate)} passing
-	 * <code>null</code> to {@link Predicate}.
-	 */
-	public default List<NodeType> getPath(NodeType start, NodeType dest, NumberManager<Distance> distanceManager) {
-		return getPath(start, dest, distanceManager, null, false);
-	}
 
 	/**
 	 * As
@@ -92,12 +101,4 @@ public interface PathFinder<NodeType, NodeContent, Distance extends Number> { //
 			NumberManager<Distance> distanceManager, Predicate<NodeContent> isWalkableTester,
 			boolean returnPathToClosestNodeIfNotFound);
 
-	/**
-	 * Calls {@link #getPath(ObjectShaped, Object, NumberManager, Predicate)}
-	 * passing <code>null</code> to {@link Predicate}.
-	 */
-	public default List<NodeType> getPath(ObjectShaped objPlanningToMove, NodeType dest,
-			NumberManager<Distance> distanceManager) {
-		return getPath(objPlanningToMove, dest, distanceManager, null, false);
-	}
 }

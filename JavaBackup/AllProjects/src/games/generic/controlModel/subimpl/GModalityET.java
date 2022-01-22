@@ -3,17 +3,17 @@ package games.generic.controlModel.subimpl;
 import java.util.Queue;
 
 import games.generic.controlModel.GController;
-import games.generic.controlModel.GEventInterface;
-import games.generic.controlModel.GEventManager;
-import games.generic.controlModel.GEventObserver;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
-import games.generic.controlModel.IGEvent;
-import games.generic.controlModel.gEvents.GEvent;
-import games.generic.controlModel.gObj.GameObjectGeneric;
-import games.generic.controlModel.gObj.TimedObject;
+import games.generic.controlModel.events.GEvent;
+import games.generic.controlModel.events.GEventInterface;
+import games.generic.controlModel.events.GEventManager;
+import games.generic.controlModel.events.GEventObserver;
+import games.generic.controlModel.events.IGEvent;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.misc.GThread.GTRunnableSimplestImplementation;
+import games.generic.controlModel.objects.GameObjectGeneric;
+import games.generic.controlModel.objects.TimedObject;
 import geometry.ObjectLocated;
 
 /**

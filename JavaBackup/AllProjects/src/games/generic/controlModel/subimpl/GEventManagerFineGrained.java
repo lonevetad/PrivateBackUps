@@ -10,9 +10,9 @@ import java.util.function.Function;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.PriorityQueueKey;
-import games.generic.controlModel.GEventManager;
-import games.generic.controlModel.GEventObserver;
-import games.generic.controlModel.IGEvent;
+import games.generic.controlModel.events.GEventManager;
+import games.generic.controlModel.events.GEventObserver;
+import games.generic.controlModel.events.IGEvent;
 import games.generic.controlModel.subimpl.GEventManagerSimple.EventNotifier;
 import tools.Comparators;
 import tools.ObjectWithID;
@@ -38,10 +38,10 @@ public class GEventManagerFineGrained extends GEventManager {
 
 	public GEventManagerFineGrained(GModalityET gameModality) {
 		super(gameModality);
-		this.observersByTypes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
-				Comparators.STRING_COMPARATOR);
-		this.genericObservers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
-		allObsMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR);
+		this.observersByTypes = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
+		this.genericObservers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
+				Comparators.LONG_COMPARATOR);
+		allObsMap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR);
 		this.observersSet = allObsMap.toSetValue(ObjectWithID.KEY_EXTRACTOR);
 		// used to optimize iterations
 		this.notifierGeneric = new EventNotifier(this);
@@ -52,9 +52,9 @@ public class GEventManagerFineGrained extends GEventManager {
 
 	protected int objCount;
 	protected Set<ObjectWithID> observersSet;
-	protected MapTreeAVL<Integer, ObjectWithID> allObsMap;
+	protected MapTreeAVL<Long, ObjectWithID> allObsMap;
 	/** id observer -> observer */
-	protected Map<Integer, GEventObserver> genericObservers;
+	protected Map<Long, GEventObserver> genericObservers;
 	/** event id -> queue of observer, ordered by their priorities */
 	protected Map<String, PriorityQueueKey<GEventObserver, Integer>> observersByTypes;
 	protected EventNotifier notifierGeneric;
@@ -68,7 +68,7 @@ public class GEventManagerFineGrained extends GEventManager {
 
 	@Override
 	public boolean addEventObserver(GEventObserver geo) {
-		Integer idGeo;
+		Long idGeo;
 		List<String> l;
 		idGeo = geo.getObserverID();
 		observersSet.add(geo);
@@ -100,7 +100,7 @@ public class GEventManagerFineGrained extends GEventManager {
 
 	@Override
 	public boolean removeEventObserver(GEventObserver geo) {
-		Integer idGeo;
+		Long idGeo;
 		List<String> l;
 		idGeo = geo.getObserverID();
 		observersSet.remove(geo);
@@ -133,7 +133,7 @@ public class GEventManagerFineGrained extends GEventManager {
 	public Set<ObjectWithID> getObjects() { return observersSet; }
 
 	@Override
-	public ObjectWithID get(Integer id) { return this.allObsMap.get(id); }
+	public ObjectWithID get(Long id) { return this.allObsMap.get(id); }
 
 	@Override
 	public boolean contains(ObjectWithID o) { return observersSet.contains(o); }

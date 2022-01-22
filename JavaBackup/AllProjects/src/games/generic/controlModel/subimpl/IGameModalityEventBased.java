@@ -1,6 +1,6 @@
 package games.generic.controlModel.subimpl;
 
-import games.generic.controlModel.GEventInterface;
+import games.generic.controlModel.events.GEventInterface;
 
 /**
  * Specify that this Game <br>

@@ -3,9 +3,10 @@ package games.generic.controlModel;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import games.generic.controlModel.misc.uidp.GMapUIDProvider;
+import games.generic.controlModel.misc.uidp.UIDPCollector.UIDProviderLoadedListener;
 import tools.ObjectNamedID;
 import tools.ObjectWithID;
+import tools.UniqueIDProvider;
 
 /**
  * Holds and manages all objects in the current game, as described by
@@ -14,18 +15,26 @@ import tools.ObjectWithID;
  */
 public class GMap implements GObjectsHolder, ObjectNamedID {
 	private static final long serialVersionUID = -4521201066L;
+	private static UniqueIDProvider UIDP_GMAP = null;
+	public static final UIDProviderLoadedListener UIDP_LOADED_LISTENER_GMAP = uidp -> {
+		if (uidp != null) { UIDP_GMAP = uidp; }
+	};
+
+	public static UniqueIDProvider getUniqueIDProvider_GMap() { return UIDP_GMAP; }
+
+	//
 
 	public GMap(String mapName) {
 		this.mapName = mapName;
-		ID = GMapUIDProvider.newID();
+		ID = UIDP_GMAP.getNewID();
 	}
 
-	protected Integer ID;
+	protected Long ID;
 	protected String mapName;
 	protected GObjectsInSpaceManager goismDelegated;
 
 	@Override
-	public Integer getID() { return ID; }
+	public Long getID() { return ID; }
 
 	@Override
 	public String getName() { return mapName; }
@@ -62,7 +71,7 @@ public class GMap implements GObjectsHolder, ObjectNamedID {
 	public boolean contains(ObjectWithID o) { return goismDelegated.contains(o); }
 
 	@Override
-	public ObjectWithID get(Integer id) { return goismDelegated.get(id); }
+	public ObjectWithID get(Long id) { return goismDelegated.get(id); }
 
 	@Override
 	public void forEach(Consumer<ObjectWithID> action) { goismDelegated.forEach(action); }

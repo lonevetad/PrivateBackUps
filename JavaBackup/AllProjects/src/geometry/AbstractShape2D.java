@@ -26,7 +26,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 		this.ID = ShapeUIDProvider.SHAPE_UNIQUE_ID_PROVIDER.getNewID();
 	}
 
-	protected Integer ID;
+	protected Long ID;
 	protected final ShapeRunnersImplemented shapeImplementing;
 	protected Polygon polygonCache;
 
@@ -48,7 +48,7 @@ public abstract class AbstractShape2D implements ObjectLocated, Serializable, Cl
 	public final boolean contains(Point2D p) { return contains((int) p.getX(), (int) p.getY()); }
 
 	@Override
-	public Integer getID() { return ID; }
+	public Long getID() { return ID; }
 
 	/** The x-component of {@link #getCenter()}. */
 	public int getXCenter() { return getx(); }

@@ -18,14 +18,6 @@ import tools.ObjectWithID;
  * </ul>
  */
 public interface GObjectsHolder {
-//	 OLD
-//<T extends ObjectWithID> {
-//	public Set<T> getObjects();
-//	public boolean add(T o);
-//	public boolean remove(T o);
-//	public boolean contains(T o);
-//	public T get(Integer id);
-//	public void forEach(Consumer<T> action);
 
 	/**
 	 * Returns all {@link ObjectWithID} held by this specific holder.<br>
@@ -40,8 +32,19 @@ public interface GObjectsHolder {
 
 	public int objectsHeldCount();
 
+	/**
+	 * 
+	 * @param o the object to being added
+	 * @return wether the addition is successful (if the provided object is not
+	 *         suited for this hodelr, then {@code false} has to be returned).
+	 */
 	public boolean add(ObjectWithID o);
 
+	/***
+	 * 
+	 * @param o
+	 * @return whether the object has been removed or not.
+	 */
 	public boolean remove(ObjectWithID o);
 
 	/** Similar to {@link Collection#clear()}. */
@@ -49,7 +52,7 @@ public interface GObjectsHolder {
 
 	public boolean contains(ObjectWithID o);
 
-	public ObjectWithID get(Integer id);
+	public ObjectWithID get(Long id);
 
 	public void forEach(Consumer<ObjectWithID> action);
 }

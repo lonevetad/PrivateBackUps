@@ -1,9 +1,11 @@
 package games.theRisingAngel.misc;
 
+import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
-import games.theRisingAngel.GModalityTRAn;
-import tools.RandomWeightedIndexes;
+import games.theRisingAngel.GModalityTRAnBaseWorld;
+import games.theRisingAngel.enums.AttributesTRAn;
+import tools.WeightedSetOfRandomOutcomes;
 
 // TODO : aggiornare la tabella qua sotto
 /**
@@ -24,7 +26,7 @@ import tools.RandomWeightedIndexes;
  * for each 1/f points of this".</li>
  * <li>Strength:
  * <ul>
- * <li>+1/16 LifeMax</li>
+ * <li>+1/2 LifeMax</li>
  * <li>+0.25 DamageReductionPhysical</li>
  * <li>+1.25 DamageBonusPhysical</li>
  * <li>+0.25 CriticalMultiplierPercentage</li>
@@ -34,7 +36,7 @@ import tools.RandomWeightedIndexes;
  * </li>
  * <li>Constitution:
  * <ul>
- * <li>+10 LifeMax</li>
+ * <li>+5 LifeMax</li>
  * <li>+0.75 DamageReductionPhysical</li>
  * <li>+0.25 RegenLife</li>
  * <li>+0.25 DamageBonusPhysical</li>
@@ -44,9 +46,9 @@ import tools.RandomWeightedIndexes;
  * </li>
  * <li>Health:
  * <ul>
- * <li>+4.5 LifeMax</li>
+ * <li>+2 LifeMax</li>
  * <li>+0.75 RegenLife</li>
- * <li>+ 0.125 RegenMana</li>
+ * <li>+ 0.125 ManaRegen</li>
  * <li>+0.03125 Luck</li>
  * </ul>
  * </li>
@@ -83,7 +85,7 @@ import tools.RandomWeightedIndexes;
  * <li>Intelligence:
  * <ul>
  * <li>+0.75 ManaMax</li>
- * <li>+1/16 RegenMana</li>
+ * <li>+1/16 ManaRegen</li>
  * <li>+1 DamageBonusMagical</li>
  * <li>+0.25 DamageReductionMagical</li>
  * <li>+0.25 CriticalProbabilityPerThousand</li>
@@ -96,12 +98,12 @@ import tools.RandomWeightedIndexes;
  * <li>Wisdom:
  * <ul>
  * <li>+1.5 ManaMax</li>
- * <li>+0.25 RegenMana</li>
+ * <li>+0.25 ManaRegen</li>
  * <li>+0.5 DamageBonusMagical</li>
  * <li>+0.5 DamageReductionMagical</li>
  * <li>+0.125 CriticalProbabilityPerThousand</li>
  * <li>+0.125 CriticalMultiplierPercentage</li>
- * <li>+0.25 LifeMax</li>
+ * <li>+0.125 LifeMax</li>
  * <li>+1/32 RegenLife</li>
  * <li>+0.0625 Luck</li>
  * <li>+0.125 CriticalProbabilityPerThousandAvoid</li>
@@ -111,16 +113,16 @@ import tools.RandomWeightedIndexes;
  * <li>Faith:
  * <ul>
  * <li>+4 ManaMax</li>
- * <li>+0.75 RegenMana</li>
+ * <li>+0.75 ManaRegen</li>
  * <li>+0.125 Luck
  * </ul>
  * </li>
  * <li>Velocity: "space-unit per time-unit", corresponds to the numbers of
  * sub-unit expressed in
- * {@link GModalityTRAn#SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN}</li>
+ * {@link GModalityTRAnBaseWorld#SPACE_SUB_UNITS_EVERY_UNIT_EXAMPLE_TRAN}</li>
  * <li>Luck: as for CriticalProbability, it's not meant as a percentage, but
  * "per 10 thousand", so it should divided by 100. Used to alter
- * {@link RandomWeightedIndexes} in some way.<br>
+ * {@link WeightedSetOfRandomOutcomes} in some way.<br>
  * It receives the following bonuses (fraction for each point):
  * <ul>
  * <li>Faith: 1/8</li>
@@ -147,11 +149,15 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 	public void markCacheAsDirty() {}
 
 	@Override
-	public int getBonusFor(int index) {
+	public int getBonusFor(AttributeIdentifier identifier) {
 		int v;
 		AttributesTRAn a;
 		CreatureAttributes c;
-		a = AttributesTRAn.VALUES[index];
+		if (identifier instanceof AttributesTRAn) {
+			a = (AttributesTRAn) identifier;
+		} else {
+			a = AttributesTRAn.ALL_ATTRIBUTES[identifier.getIndex()];
+		}
 		c = creatureAttributesSet;
 		switch (a) {
 		case Luck: {
@@ -170,11 +176,16 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			cost = c.getValue(AttributesTRAn.Constitution);
 			str = c.getValue(AttributesTRAn.Strength);
 			h = c.getValue(AttributesTRAn.Health);
+			// V4
+			/** 2*h + 5*cost + str/2 + wisdom/8 */
+			v = (((c.getValue(AttributesTRAn.Wisdom) >> 2) + str) >> 1) //
+					+ (cost + (((cost << 1) + h) << 1) //
+					);
 			// V3
 			/** 4.5*h + 10*cost + 2*str + wisdom/4 */
-			v = (((c.getValue(AttributesTRAn.Wisdom) >> 1) + h) >> 1) //
-					+ ((str + cost + (((cost << 1) + h) << 1)// str + h-2 cost*5
-					) << 1); // *2
+//			v = (((c.getValue(AttributesTRAn.Wisdom) >> 1) + h) >> 1) //
+//					+ ((str + cost + (((cost << 1) + h) << 1)// str + h-2 cost*5
+//					) << 1); // *2
 			// v2
 //			v = +c.getValue(AttributesTRAn.Defense) //
 //					+ (( // *2
@@ -189,19 +200,31 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //					) >> 1);
 			break;
 		}
-		case RegenLife: {
-			// V3
-			int h;
+		case LifeRegen: {
+			int h, cons;
+			// V4
 			h = c.getValue(AttributesTRAn.Health);
-			/** h*0.75 + (cons/4) + (str/16) + (wisdom/32) */
+			cons = c.getValue(AttributesTRAn.Constitution);
+			/** h*0.375 (cioe' 3/8) + (cons/12) + (str/16) + (wisdom/32) */
 			v = (//
 			(((c.getValue(AttributesTRAn.Wisdom) >> 1)//
 					+ c.getValue(AttributesTRAn.Strength))//
 					>> 2) // fatta la parte str+wis , /4
-					+ c.getValue(AttributesTRAn.Constitution) + //
-					(h << 1) + h // h*3
+					+ (cons / 3) + //
+					(((h << 1) + h) >> 1) // h*3/2
 			) >> 2 // another /4
 			;
+			// V3
+//			h = c.getValue(AttributesTRAn.Health);
+//			/** h*0.75 + (cons/4) + (str/16) + (wisdom/32) */
+//			v = (//
+//			(((c.getValue(AttributesTRAn.Wisdom) >> 1)//
+//					+ c.getValue(AttributesTRAn.Strength))//
+//					>> 2) // fatta la parte str+wis , /4
+//					+ c.getValue(AttributesTRAn.Constitution) + //
+//					(h << 1) + h // h*3
+//			) >> 2 // another /4
+//			;
 //			V2
 //			v = +((// 0.25
 //			+(c.getValue(AttributesTRAn.Wisdom) >> 1) //
@@ -215,7 +238,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //					+ ((c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Faith)) >> 3)) >> 3);
 //			v >>= 1; // to highbreak;
 		}
-		case DamageReductionPhysical: {
+		case PhysicalDamageReduction: {
 			int cons;
 			// def + (cons*3 +str+dex)/4
 			cons = c.getValue(AttributesTRAn.Constitution);
@@ -233,10 +256,10 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //			) >> 1;
 			break;
 		}
-		case DamageBonusPhysical: {
+		case PhysicalDamageBonus: {
 			int str;
 			str = c.getValue(AttributesTRAn.Strength);
-			/** 1.25*str + (const+prec)/4 */
+			/** 1.25*str + (cost+prec)/4 */
 			v = str //
 					+ ((str + c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Precision))//
 							>> 2);
@@ -248,16 +271,20 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			break;
 		}
 		case ManaMax: {
+//			V4
+			/** faith + wisdom/3 + int/4 */
+			v = c.getValue(AttributesTRAn.Faith) + (c.getValue(AttributesTRAn.Wisdom) / 3)
+					+ (c.getValue(AttributesTRAn.Intelligence) >> 2);
 //			V3
-			int wis, intell;
-			wis = c.getValue(AttributesTRAn.Wisdom);
-			intell = c.getValue(AttributesTRAn.Intelligence);
-			/** faith*4 + wisdom*1.5 + int*0.75 */ // == faith<<2 + wis*6/4 + int*3/4
-			v = (wis << 1) + intell; // 2*wis + intell
-			v = (c.getValue(AttributesTRAn.Faith) << 2) + //
-					(((v << 1) + v)// == *3
-							>> 2) // == /4
-			;
+//			int wis, intell;
+//			wis = c.getValue(AttributesTRAn.Wisdom);
+//			intell = c.getValue(AttributesTRAn.Intelligence);
+//			/** faith*4 + wisdom*1.5 + int*0.75 */ // == faith<<2 + wis*6/4 + int*3/4
+//			v = (wis << 1) + intell; // 2*wis + intell
+//			v = (c.getValue(AttributesTRAn.Faith) << 2) + //
+//					(((v << 1) + v)// == *3
+//							>> 2) // == /4
+//			;
 //			int faith;
 //			faith = c.getValue(AttributesTRAn.Faith);
 //			v = c.getValue(AttributesTRAn.Intelligence) //
@@ -265,18 +292,23 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //					+ (faith >> 2);
 			break;
 		}
-		case RegenMana: {
+		case ManaRegen: {
 //			V3
-			int f;
-			f = c.getValue(AttributesTRAn.Faith);
-			/** faith*0.75 + wis/4 + health/8 + int/16 */
+			int intell;
+			intell = c.getValue(AttributesTRAn.Intelligence);
+			/** faith*0.25 + wis/8 + health/16 + int*3/32 */
 			v = (//
-			((c.getValue(AttributesTRAn.Health) + (c.getValue(AttributesTRAn.Intelligence) >> 1))//
-					>> 1) + //
-					c.getValue(AttributesTRAn.Wisdom) + //
-					(f << 1) + f // *3
-			) >> 2;
+			(// int + health + wis
+			(( // int + health
+			((intell + (intell << 1)) >> 1) // *1.5
+					+ c.getValue(AttributesTRAn.Health) //
+			) >> 1) //
+					+ (c.getValue(AttributesTRAn.Wisdom) //
+					) >> 1) + //
+					c.getValue(AttributesTRAn.Faith) //
+			) >> 2; // /4
 			// v2
+//			int f;
 			// health/8 + wisdom/4 + faith/2
 //			v = //
 //					+(((c.getValue(AttributesTRAn.Wisdom) //
@@ -285,12 +317,12 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //							+ c.getValue(AttributesTRAn.Faith) ) >> 1 //
 //			;
 			break;
-//		;}case RegenMana : {v= ((c.getValue(AttributesTRAn.Faith))
+//		;}case ManaRegen : {v= ((c.getValue(AttributesTRAn.Faith))
 //				+ (c.getValue(AttributesTRAn.Wisdom) >> 1)
 //				+ (c.getValue(AttributesTRAn.Intelligence) >> 2)
 //				+ (c.getValue(AttributesTRAn.Health) >> 3)) / 10;break;
 		}
-		case DamageBonusMagical: {
+		case MagicalDamageBonus: {
 			/** int + wisd/2 + prec/8 */
 			v = c.getValue(AttributesTRAn.Intelligence) //
 					+ (( //
@@ -302,7 +334,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //			) >> 1;
 			break;
 		}
-		case DamageReductionMagical: {
+		case MagicalDamageReduction: {
 			// def + (cons+wis)/2 + (int+dex)/4
 			v = +c.getValue(AttributesTRAn.Defense) //
 					+ (( //
@@ -328,7 +360,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //					+ c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Luck);
 			break;
 		}
-		case CriticalProbabilityPerThousand: {
+		case CriticalProbabilityPerThousandHit: {
 			v = +c.getValue(AttributesTRAn.Precision) //
 					+ ((// start 1/2
 					+((// start 1/4
@@ -383,7 +415,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //			);
 			break;
 		}
-		case ProbabilityPerThousandHitPhysical: {
+		case PhysicalProbabilityPerThousandHit: {
 			v = +c.getValue(AttributesTRAn.Precision) //
 					+ ((// 1/2
 					+c.getValue(AttributesTRAn.Dexterity) //
@@ -399,7 +431,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //									+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
 			break;
 		}
-		case ProbabilityPerThousandAvoidPhysical: {
+		case PhysicalProbabilityPerThousandAvoid: {
 			v = +c.getValue(AttributesTRAn.Dexterity) //
 					+ ((// 1/2
 					+c.getValue(AttributesTRAn.Precision) //
@@ -415,7 +447,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //									+ (c.getValue(AttributesTRAn.Intelligence) >> 2)) >> 1);
 			break;
 		}
-		case ProbabilityPerThousandHitMagical: {
+		case MagicalProbabilityPerThousandHit: {
 			v = +c.getValue(AttributesTRAn.Wisdom) //
 					+ ((// 1/2
 					+c.getValue(AttributesTRAn.Intelligence) //
@@ -430,7 +462,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //									+ (c.getValue(AttributesTRAn.Precision) >> 2)) >> 1);
 			break;
 		}
-		case ProbabilityPerThousandAvoidMagical: {
+		case MagicalProbabilityPerThousandAvoid: {
 			v = +c.getValue(AttributesTRAn.Wisdom) //
 					+ ((// 1/2
 					+c.getValue(AttributesTRAn.Intelligence) //
@@ -446,6 +478,14 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //							+ (c.getValue(AttributesTRAn.Dexterity) >> 3)) >> 1);
 			break;
 		}
+		case VelocityAttackStrikePercentage: {
+			v = +((c.getValue(AttributesTRAn.Strength) >> 1) + c.getValue(AttributesTRAn.Dexterity) >> 4);
+			break;
+		}
+		case VelocitySpellCastPercentage: {
+			v = +((c.getValue(AttributesTRAn.Intelligence) >> 1) + c.getValue(AttributesTRAn.Dexterity) >> 4);
+			break;
+		}
 		case Velocity: {
 			v = ((//
 			(((c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Strength)) << 1) / 3)
@@ -453,6 +493,35 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			) / 5) //
 			;
 			break;
+		}
+		case CostCastReductionPercentage: {
+			final int MAX_REDUCTION = 50;
+			int sum;
+			sum = (c.getValue(AttributesTRAn.Intelligence) + c.getValue(AttributesTRAn.Wisdom)) >> 2;
+			if (sum <= 0) {
+				v = 0;
+			} else if (sum >= MAX_REDUCTION) {
+				v = MAX_REDUCTION;
+			} else {
+				v = MAX_REDUCTION - (MAX_REDUCTION / sum);
+			}
+			break;
+		}
+		case StaminaMax: {
+			v = ( //
+			((c.getValue(AttributesTRAn.Health) >> 1) + (c.getValue(AttributesTRAn.Strength) >> 1)) //
+					+ c.getValue(AttributesTRAn.Constitution) //
+			) >> 1;
+			break;
+		}
+		case StaminaRegen: {
+			v = ((//
+			(c.getValue(AttributesTRAn.Health) >> 1) + c.getValue(AttributesTRAn.Strength)
+			//
+			) >> 2) //
+					+ (c.getValue(AttributesTRAn.Constitution) / 6);
+			break;
+
 		}
 		default:
 			v = 0;

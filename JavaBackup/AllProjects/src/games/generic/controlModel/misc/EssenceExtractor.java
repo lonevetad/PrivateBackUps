@@ -3,9 +3,10 @@ package games.generic.controlModel.misc;
 import java.util.Map;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.inventoryAbil.AbilityGeneric;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import games.generic.controlModel.inventoryAbil.EquipmentUpgrade;
+import games.generic.controlModel.abilities.AbilityGeneric;
+import games.generic.controlModel.items.EquipmentItem;
+import games.generic.controlModel.items.EquipmentUpgrade;
+import games.generic.controlModel.items.impl.EssenceStorage;
 
 /**
  * NPC-like that manipulates {@link EquipmentItem} to extract (for example,

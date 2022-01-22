@@ -1,9 +1,11 @@
 package tests;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.util.function.BiConsumer;
 
 import tools.json.JSONParser;
 import tools.json.JSONValue;
@@ -33,7 +35,8 @@ public class TestJSONParser {
 				"{ \"hotel ID\" : \"sdg4s8g54g84w0g\", \"description\": {\"it\": \"molto brutto\" , \"en\": \"ugly hotel\", } , \"price\": 7e2}", //
 				"{    \"name\": \"of the Hurry one\", \"rarity\": 1, \"price\": [4\n ],  \"attributeModifiers\": {    \"Strength\": 3,    \"Precision\": -2,   \"ProbabilityPerThousandAvoidPhysical\": 15, \"ProbabilityPerThousandAvoidMagical\": 15,    \"ProbabilityPerThousandHitPhysical\": -20, \"ProbabilityPerThousandHitMagical\": -20, \"CriticalProbabilityPerThousand\": 10 } }", //
 				//
-				"[ {\"name\": \"meow\",\"animal type\":\"cat\"} ,\n {\"name\": \"bau\",\"animal type\":\"dog\", \"age\":7 } , {\"name\": \"chip\",\n \"animal type\":\"bird\", \"color\": \"blue\"}  ]" };
+				"[ {\"name\": \"meow\",\"animal type\":\"cat\"} ,\n {\"name\": \"bau\",\"animal type\":\"dog\", \"age\":7 } , {\"name\": \"chip\",\n \"animal type\":\"bird\", \"color\": \"blue\"}  ]" //
+		};
 
 		JSONValue o;
 		for (String t : texts) {
@@ -77,5 +80,37 @@ public class TestJSONParser {
 			e.printStackTrace();
 		}
 		System.out.println("\n\n\n\nFINE");
+
+		String arrayExample = texts[texts.length - 1];
+		BiConsumer<Integer, JSONValue> printer;
+
+		printer = (index, element) -> {
+			if (element != null) {
+				System.out.print("type " + element.getType() + " --> ");
+				System.out.println(element);
+			} else {
+				System.out.println("NULL");
+			}
+		};
+		System.out.println("\n\n\n START TEST ARRAY & STREAM WITH:");
+		System.out.println(arrayExample);
+		System.out.println();
+		System.out.println("\n\ntest array");
+		JSONParser.forEachInArray(JSONParser.charactersIteratorFrom(arrayExample), printer);
+
+		System.out.println("\n\n test stream");
+		JSONParser.forEachInArray(
+				JSONParser.charactersIteratorFrom(arrayExample.chars().mapToObj(b -> Character.valueOf((char) b))),
+				printer);
+
+		System.out.println("\n\nfor-eaching the whole file");
+
+		try {
+			JSONParser.forEachInArray(JSONParser.charactersIteratorFrom(new File(fullPath)), printer);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		;
 	}
 }

@@ -6,11 +6,11 @@ import java.util.function.BiConsumer;
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.ObjectNamed;
-import games.generic.controlModel.gObj.CreatureSimple;
-import games.generic.controlModel.inventoryAbil.AbilityGeneric;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
+import games.generic.controlModel.abilities.AbilityGeneric;
+import games.generic.controlModel.items.EquipmentItem;
+import games.generic.controlModel.objects.creature.CreatureSimple;
 import tools.Comparators;
-import tools.RandomWeightedIndexes;
+import tools.WeightedSetOfRandomOutcomes;
 
 /**
  * Defines a "database-like" holder of a specific hierarchy of game objects (all
@@ -31,7 +31,7 @@ import tools.RandomWeightedIndexes;
  * <li>Tiles for maps</li>
  * <li>Maps</li>
  * </ul>
- * Randomness can be manipulated through {@link RandomWeightedIndexes}.
+ * Randomness can be manipulated through {@link WeightedSetOfRandomOutcomes}.
  */
 public class GameObjectsProvider<E extends ObjectNamed> {
 	protected final MapTreeAVL<String, FactoryObjGModalityBased<E>> objsByName;

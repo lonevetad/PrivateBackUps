@@ -17,25 +17,17 @@ public abstract class UserAccountGeneric implements ObjectNamedID {
 		// TODO
 	}
 
-	protected Integer ID;
+	protected Long ID;
 	protected String name;
 	protected List<Object> allCharacters; // all characters played, all saves
 
 	@Override
-	public Integer getID() {
-		return ID;
-	}
+	public Long getID() { return ID; }
 
 	@Override
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 
-	public void setID(Integer iD) {
-		ID = iD;
-	}
+	public void setID(Long iD) { ID = iD; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public void setName(String name) { this.name = name; }
 }

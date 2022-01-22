@@ -10,9 +10,9 @@ import dataStructures.SetMapped;
 import dataStructures.isom.InSpaceObjectsManager;
 import dataStructures.isom.InSpaceObjectsManagerImpl;
 import dataStructures.isom.NodeIsom;
-import games.generic.controlModel.gEvents.GEvent;
-import games.generic.controlModel.gObj.GModalityHolder;
-import games.generic.controlModel.gObj.ObjectInSpace;
+import games.generic.controlModel.events.GEvent;
+import games.generic.controlModel.holders.GModalityHolder;
+import games.generic.controlModel.objects.ObjectInSpace;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.IGameModalityEventBased;
 import geometry.AbstractShape2D;
@@ -29,7 +29,7 @@ import tools.ObjectWithID;
  * object management, to let {@link GEvent}s to be fired through subclasses of
  * {@link GModality} returned by {@link #getGameModality()}.
  */
-public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder {
+public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder, Cloneable {
 
 	public static final String OISM_NAME = "oism";
 
@@ -181,7 +181,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 	public default boolean removeAll() { return this.getOIMManager().removeAllObjects(); }
 
 	@Override
-	public default ObjectWithID get(Integer id) { return this.getOIMManager().getObjectLocated(id); }
+	public default ObjectWithID get(Long id) { return this.getOIMManager().getObjectLocated(id); }
 
 	@Override
 	public default void forEach(Consumer<ObjectWithID> action) { this.getObjects().forEach(action); }
@@ -226,5 +226,5 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder 
 		getOIMManager().runOnShape(shape, action);
 	}
 
-	public default NodeIsom getNodeAt(Point location) { return getOIMManager().getNodeAt(location); }
+	public default NodeIsom<Double> getNodeAt(Point location) { return getOIMManager().getNodeAt(location); }
 }

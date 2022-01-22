@@ -2,7 +2,7 @@ package tools.json.charIters;
 
 import java.util.NoSuchElementException;
 
-public class StringCharsIters extends CommonCharsIterator {
+public class StringCharsIters extends CharsIterator {
 
 	public StringCharsIters() { this(""); }
 

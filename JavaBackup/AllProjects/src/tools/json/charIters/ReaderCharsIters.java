@@ -6,7 +6,7 @@ import java.io.Reader;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class ReaderCharsIters extends CommonCharsIterator {
+public class ReaderCharsIters extends CharsIterator {
 	public static final boolean IS_ASYNC_FILE_READING = false;
 
 	protected ReaderCharsIters() {

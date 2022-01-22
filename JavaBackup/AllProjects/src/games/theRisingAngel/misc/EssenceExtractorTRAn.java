@@ -1,9 +1,9 @@
 package games.theRisingAngel.misc;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
-import games.generic.controlModel.inventoryAbil.EquipmentUpgradesProvider;
 import games.generic.controlModel.misc.EssenceExtractor;
+import games.generic.controlModel.providers.AbilitiesProvider;
+import games.generic.controlModel.providers.EquipmentUpgradesProvider;
 
 /**
  * 

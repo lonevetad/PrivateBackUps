@@ -1,8 +1,8 @@
 package games.generic.controlModel.damage;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.gObj.GameObjectGeneric;
-import games.generic.controlModel.heal.resExample.LifeHavingObject;
+import games.generic.controlModel.objects.GameObjectGeneric;
+import games.generic.controlModel.rechargeable.resources.holders.LifeHavingObject;
 
 /**
  * Marker interface for an entity capable of receiving damage, analog and
@@ -28,10 +28,14 @@ public interface DamageReceiverGeneric extends LifeHavingObject, GameObjectGener
 	/**
 	 * Similar to
 	 * {@link DamageDealerGeneric#getProbabilityPerThousandHit(DamageTypeGeneric)},
-	 * see it for further informations.
+	 * but about avoiding the critical damage. <br>
+	 * See it for further informations.
 	 */
 	public int getProbabilityPerThousandAvoidCritical(DamageTypeGeneric damageType);
 
-	/** Percentage amount of multiplication of the damage. Should be positive. */
+	/**
+	 * Percentage amount of multiplication of the damage. Should be positive but
+	 * it's not mandatory.
+	 */
 	public int getPercentageCriticalStrikeReduction(DamageTypeGeneric damageType);
 }

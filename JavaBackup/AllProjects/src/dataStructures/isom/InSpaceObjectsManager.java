@@ -92,7 +92,7 @@ public interface InSpaceObjectsManager<Distance extends Number>
 
 	// TODO OTHER
 
-	public abstract ObjectLocated getObjectLocated(Integer ID);
+	public abstract ObjectLocated getObjectLocated(Long ID);
 
 	public default boolean removeAllObjects() {
 		clearAllNodes();

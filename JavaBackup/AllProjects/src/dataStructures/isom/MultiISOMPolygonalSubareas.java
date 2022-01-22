@@ -54,21 +54,21 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		this.maximumSubmapsEachSection = maximumSubmapsEachSection;
 		this.uidProvider = UniqueIDProvider.newBasicIDProvider();
 		mapsLocatedInSpace = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
-				Comparators.INTEGER_COMPARATOR);
+				Comparators.LONG_COMPARATOR);
 		mapsAsList = mapsLocatedInSpace.toListValue(r -> r.ID);
 		isomsHeldCenterLocated = new SetMapped<>(mapsLocatedInSpace.toSetValue(w -> w.ID), w -> w.isomAndLocation);
-		setObjectsAddedMap(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.INTEGER_COMPARATOR));
+		setObjectsAddedMap(MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR));
 	}
 
 	protected final int maximumSubmapsEachSection;
 	protected int maxDepth, xLeftTop, yLeftTop, xRightBottom, yRightBottom, width, height;
-	protected final Integer ID;
+	protected final Long ID;
 	protected NodeQuadtreeISOM root;
-	protected final MapTreeAVL<Integer, ISOMWrapperLocated> mapsLocatedInSpace;
+	protected final MapTreeAVL<Long, ISOMWrapperLocated> mapsLocatedInSpace;
 	protected final Set<Entry<InSpaceObjectsManager<Distance>, PointInt>> isomsHeldCenterLocated;
 	protected final List<ISOMWrapperLocated> mapsAsList;
 	protected ShapeRectangle shapeBoundingBox;
-	protected Map<Integer, ObjectLocated> objectsAddedMap;
+	protected Map<Long, ObjectLocated> objectsAddedMap;
 	protected Set<ObjectLocated> objectsAddedSet;
 	//
 	protected final UniqueIDProvider uidProvider;
@@ -85,7 +85,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 	//
 
 	@Override
-	public Integer getID() { return ID; }
+	public Long getID() { return ID; }
 
 	public ISOMWrapperLocated getCachedMisom() { return cachedIsom == null ? null : cachedIsom /* .misom */; }
 
@@ -122,7 +122,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 	public Set<ObjectLocated> getAllObjectLocated() { return this.objectsAddedSet; }
 
 	@Override
-	public ObjectLocated getObjectLocated(Integer ID) { return this.objectsAddedMap.get(ID); }
+	public ObjectLocated getObjectLocated(Long ID) { return this.objectsAddedMap.get(ID); }
 
 	/**
 	 * Returns a set of pairs of {@link InSpaceObjectsManager} and its absolute
@@ -163,13 +163,13 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 	}
 
 	/** Sets the map holding all objects in this space. */
-	protected void setObjectsAddedMap(Map<Integer, ObjectLocated> objectsAdded) {
+	protected void setObjectsAddedMap(Map<Long, ObjectLocated> objectsAdded) {
 		this.objectsAddedMap = objectsAdded;
 		if (objectsAdded == null) // here and below, update the set
 			this.objectsAddedSet = null;
 		else {
 			if (objectsAdded instanceof MapTreeAVL<?, ?>)
-				this.objectsAddedSet = ((MapTreeAVL<Integer, ObjectLocated>) objectsAdded).toSetValue(ol -> ol.getID());
+				this.objectsAddedSet = ((MapTreeAVL<Long, ObjectLocated>) objectsAdded).toSetValue(ol -> ol.getID());
 			else
 				this.objectsAddedSet = new SetMapped<>(objectsAdded.entrySet(), e -> e.getValue());
 		}
@@ -757,7 +757,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 //		protected int xLeftTop, yLeftTop, width, height
 		/** In Degreed */
 		protected double angleRotationDegrees, sinCache, cosCache, sinInverseCache, cosInverseCache;
-		public final Integer ID;
+		public final Long ID;
 		protected final InSpaceObjectsManager<Distance> isomHeld;
 		protected Entry<InSpaceObjectsManager<Distance>, PointInt> isomAndLocation;
 
@@ -775,7 +775,7 @@ public class MultiISOMPolygonalSubareas<Distance extends Number> extends InSpace
 		public AbstractShape2D getShape() { return isomHeld.getShape(); }
 
 		@Override
-		public Integer getID() { return ID; }
+		public Long getID() { return ID; }
 
 		@Override
 		public Point getLocation() { return isomHeld.getLocation(); }

@@ -4,7 +4,8 @@ import java.awt.Dimension;
 import java.util.Arrays;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.inventoryAbil.InventoryItem;
+import games.generic.controlModel.items.InventoryItem;
+import games.generic.controlModel.misc.Currency;
 import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 
@@ -19,24 +20,28 @@ public class FactoryItems implements FactoryObjGModalityBased<InventoryItem> {
 	@Override
 	public InventoryItem newInstance(GModality gm) {
 		InventoryItem ii;
-		ii = inventoryItemFactory.newItem(gm, name);
-		ii.setDescription(description);
-		this.setValues(gm, ii);
+		ii = inventoryItemFactory.newInstance(gm);
+		this.setValuesInto(gm, ii);
 		return ii;
 	}
 
-	protected void setValues(GModality gm, InventoryItem ii) {
+	public void setValuesInto(GModality gm, InventoryItem ii) {
+		ii.setName(name);
+		ii.setDescription(description);
 		ii.setRarityIndex(rarity);
 		if (dimensionInInventory != null)
 			ii.setDimensionInInventory(dimensionInInventory);
 		if (price != null) {
 			int n;
 			CurrencySet cs;
+			Currency[] currencies;
+			cs = gm.newCurrencyHolder();
+			currencies = cs.getCurrencies();
 			cs = gm.newCurrencyHolder();
 			cs.setGameModaliy(gm); // not needed
 			n = price.length;
 			while (--n >= 0)
-				cs.setCurrencyAmount(n, price[n]);
+				cs.setCurrencyAmount(currencies[n], price[n]);
 			ii.setSellPrice(cs);
 		}
 	}

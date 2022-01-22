@@ -1,13 +1,15 @@
 package games.theRisingAngel.inventory.equipsWithAbilities;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.GameObjectsProvidersHolder;
-import games.generic.controlModel.inventoryAbil.AbilitiesProvider;
+import games.generic.controlModel.holders.GameObjectsProvidersHolder;
+import games.generic.controlModel.holders.GameObjectsProvidersHolderRPG;
+import games.generic.controlModel.misc.AttributeModification;
+import games.generic.controlModel.providers.AbilitiesProvider;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.generic.controlModel.subimpl.GameObjectsProvidersHolderRPG;
 import games.theRisingAngel.abilities.AMoreDamageReceivedMoreLifeRegen;
+import games.theRisingAngel.enums.AttributesTRAn;
+import games.theRisingAngel.enums.EquipmentTypesTRAn;
 import games.theRisingAngel.inventory.EIJewelry;
-import games.theRisingAngel.inventory.EquipmentTypesTRAn;
 
 /** See {@link AMoreDamageReceivedMoreLifeRegen} */
 public class NecklaceOfPainRinvigoring extends EIJewelry {
@@ -15,7 +17,11 @@ public class NecklaceOfPainRinvigoring extends EIJewelry {
 	public static final String NAME = "Necklace of Pain Rinvigoring";
 	protected AMoreDamageReceivedMoreLifeRegen abilityDamageToLifeRegen;
 
-	public NecklaceOfPainRinvigoring(GModalityRPG gmrpg) { super(gmrpg, EquipmentTypesTRAn.Necklace, NAME); }
+	public NecklaceOfPainRinvigoring(GModalityRPG gmrpg) {
+		super(gmrpg, EquipmentTypesTRAn.Necklace, NAME, //
+				new AttributeModification[] { new AttributeModification(AttributesTRAn.LifeMax, 35),
+						new AttributeModification(AttributesTRAn.LifeRegen, 1), });
+	}
 
 	@Override
 	protected void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder) {

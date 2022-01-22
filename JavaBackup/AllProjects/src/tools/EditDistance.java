@@ -33,6 +33,28 @@ public interface EditDistance {
 		return editDistance(firstSequence, secondSequence, equalityChecker, CollectionAlteringCosts.newDefaultCAC());
 	}
 
+	public default int editDistance(String firstSequence, String secondSequence,
+			EqualityChecker<Byte> equalityChecker) {
+		return editDistance(firstSequence, secondSequence, equalityChecker, CollectionAlteringCosts.newDefaultCAC());
+	}
+
+	public default int editDistance(String firstSequence, String secondSequence, EqualityChecker<Byte> equalityChecker,
+			CollectionAlteringCosts<Byte> cac) {
+		int i;
+		final Byte[] c1, c2;
+		i = 0;
+		c1 = new Byte[i = firstSequence.length()];
+		for (byte b : firstSequence.getBytes()) {
+			c1[i++] = Byte.valueOf(b);
+		}
+		i = 0;
+		c2 = new Byte[i = secondSequence.length()];
+		for (byte b : secondSequence.getBytes()) {
+			c2[i++] = Byte.valueOf(b);
+		}
+		return editDistance(c1, c2, equalityChecker, cac);
+	}
+
 	//
 
 	public <T> int editDistance(T[] firstSequence, T[] secondSequence, EqualityChecker<T> equalityChecker,

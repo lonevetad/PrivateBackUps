@@ -10,7 +10,7 @@ import srl.parsers.impl.SRLParser1;
 import srl.parsers.impl.SRLTokenStream1;
 import tests.tSrl.MockData.ISRLProgramTextSupplier;
 import tools.LoggerMessages;
-import tools.LoggerOnFile;
+import tools.impl.LoggerOnFile;
 
 public class TestSRLParserInterpreter_Mocked extends TestSRLParserInterpreter {
 

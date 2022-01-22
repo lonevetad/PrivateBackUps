@@ -3,8 +3,9 @@ package games.theRisingAngel.inventory;
 import java.awt.Point;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.inventoryAbil.EquipmentItem;
-import games.generic.controlModel.inventoryAbil.EquipmentSet;
+import games.generic.controlModel.items.EquipmentItem;
+import games.generic.controlModel.items.EquipmentSet;
+import games.theRisingAngel.enums.EquipmentTypesTRAn;
 
 /**
  * 
