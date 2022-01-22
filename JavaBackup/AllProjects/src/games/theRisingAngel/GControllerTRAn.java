@@ -7,10 +7,6 @@ import games.generic.controlModel.loaders.LoaderManager;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GControllerRPG;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.loaders.LoaderAbilityTRAn;
-import games.theRisingAngel.loaders.LoaderCreatureTRAn;
-import games.theRisingAngel.loaders.LoaderEquipTRAn;
-import games.theRisingAngel.loaders.LoaderEquipUpgradesTRAn;
 import games.theRisingAngel.loaders.LoaderManagerTRAn;
 
 public class GControllerTRAn extends GControllerRPG {
@@ -54,10 +50,6 @@ public class GControllerTRAn extends GControllerRPG {
 	protected void initNonFinalStuffs() {
 		((GameObjectsProvidersHolderTRAn) getGameObjectsProvidersHolder())
 				.setgModality((GModalityRPG) getCurrentGameModality());
-		super.addLoader(new LoaderAbilityTRAn(this.gameObjectsProvidersHolderRPG.getAbilitiesProvider()));
-		super.addLoader(new LoaderEquipUpgradesTRAn(this.gameObjectsProvidersHolderRPG.getEquipUpgradesProvider()));
-		super.addLoader(new LoaderEquipTRAn(this.gameObjectsProvidersHolderRPG.getEquipmentsProvider()));
-		super.addLoader(new LoaderCreatureTRAn(this.gameObjectsProvidersHolderRPG.getCreaturesProvider()));
 
 		super.initNonFinalStuffs();
 		System.out.println("GControllerTRAn init non final stuff done\n\n");

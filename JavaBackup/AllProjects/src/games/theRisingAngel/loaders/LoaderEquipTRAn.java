@@ -198,6 +198,8 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 				throw new IllegalArgumentException("Unexpected value: " + TRIBE_EQUIP_LOAD_MODE);
 			}
 		}
+
+		System.out.println("::: LOADED " + thisLoader.objProvider.getObjectsFactoriesCount() + " equip factories");
 		return LoadStatusResult.Success;
 	}
 

@@ -7,6 +7,7 @@ import games.generic.controlModel.damage.DamageReceiverGeneric;
 import games.generic.controlModel.events.event.EventDamage;
 import games.generic.controlModel.holders.ResourceRechargeableHolder;
 import games.generic.controlModel.rechargeable.resources.RechargeableResourceType;
+import games.generic.controlModel.rechargeable.resources.ResourceRechargeableStrategy;
 import games.generic.controlModel.rechargeable.resources.holders.LifeHavingObject;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityRPG;
@@ -83,4 +84,9 @@ public interface LivingObject
 
 	@Override
 	public default boolean shouldBeDestroyed() { return this.getLife() <= 0; }
+
+	@Override
+	public default void initSetRechargeableResources() {
+		ResourceRechargeableHolder.super.initSetRechargeableResources();
+	}
 }

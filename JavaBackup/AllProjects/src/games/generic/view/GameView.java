@@ -120,6 +120,9 @@ public abstract class GameView {
 	 * </ol>
 	 */
 	public final void initAndShow() {
+		List<LoaderGeneric> loaders;
+		List<LoadingObserver> loadersObservers;
+
 		this.loadingProcessView = this.newLoadingProcessView();
 
 		this.gameController.addLoadingProcessObserver(this.loadingProcessView);
@@ -127,9 +130,11 @@ public abstract class GameView {
 		this.initializeNonGUIParts();
 		this.continueViewInitialization();
 
-		this.getAllViewRelatedLoaders().forEach(this.gameController::addLoader);
+		loaders = this.getAllViewRelatedLoaders();
+		if (loaders != null) { loaders.forEach(this.gameController::addLoader); }
 
-		this.getAllLoadersObservers().forEach(this.gameController::addLoadingProcessObserver);
+		loadersObservers = this.getAllLoadersObservers();
+		if (loadersObservers != null) { loadersObservers.forEach(this.gameController::addLoadingProcessObserver); }
 
 		this.finishViewSetupAndShow();
 	}

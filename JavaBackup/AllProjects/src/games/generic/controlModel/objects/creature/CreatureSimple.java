@@ -81,4 +81,8 @@ public interface CreatureSimple
 		this.getAbilitiesAllocations().forEach(action);
 	}
 
+	//
+
+	@Override
+	public default void initSetRechargeableResources() { LivingObject.super.initSetRechargeableResources(); }
 }

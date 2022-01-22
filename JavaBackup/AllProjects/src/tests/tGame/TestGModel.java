@@ -34,9 +34,9 @@ public class TestGModel {
 		System.out.println("helooo 2.0 " + gmt.addObjHolder("MEMORYLESS", new GOH()));
 		gmt.addTimedObject(new TO(777));
 		gmt.addTimedObject(new TO(12));
-		gmt.add(() -> Integer.valueOf(44));
-		gmt.add(() -> Integer.valueOf(33));
-		gmt.add(() -> Integer.valueOf(-55));
+		gmt.add(() -> Long.valueOf(44));
+		gmt.add(() -> Long.valueOf(33));
+		gmt.add(() -> Long.valueOf(-55));
 		System.out.println("fine 2, stampa di tutto");
 		gmt.forEach(printer);
 		System.out.println("ora stampa solo i timed by " + GModelTimeBased.TIMED_OBJECT_HOLDER_NAME);
@@ -49,12 +49,12 @@ public class TestGModel {
 
 	static class TO implements TimedObject {
 		private static final long serialVersionUID = 1L;
-		Integer id;
+		Long id;
 
-		public TO(Integer id) { this.id = id; }
+		public TO(long id) { this.id = id; }
 
 		@Override
-		public Integer getID() { return id; }
+		public Long getID() { return id; }
 
 		@Override
 		public void act(GModality modality, int timeUnits) { System.out.println("time " + timeUnits); }
@@ -67,6 +67,15 @@ public class TestGModel {
 
 		@Override
 		public String getName() { return null; }
+
+		@Override
+		public GModality getGameModality() { // TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setGameModality(GModality gameModality) { // TODO Auto-generated method stub
+		}
 	}
 
 	static class GOH implements GObjectsHolder {
@@ -86,7 +95,7 @@ public class TestGModel {
 		public void forEach(Consumer<ObjectWithID> action) {}
 
 		@Override
-		public ObjectWithID get(Integer id) { return null; }
+		public ObjectWithID get(Long id) { return null; }
 
 		@Override
 		public Set<ObjectWithID> getObjects() { return null; }

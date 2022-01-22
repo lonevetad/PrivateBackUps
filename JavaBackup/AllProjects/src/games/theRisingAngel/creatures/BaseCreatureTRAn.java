@@ -11,9 +11,9 @@ import games.generic.controlModel.items.EquipmentSet;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.IndexableObject.IndexToObjectBackmapping;
+import games.generic.controlModel.rechargeable.resources.RechargableResource;
 import games.generic.controlModel.rechargeable.resources.RechargeableResourceType;
 import games.generic.controlModel.rechargeable.resources.holders.StaminaHavingObject;
-import games.generic.controlModel.rechargeable.resources.impl.RechargableResourceImpl;
 import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
@@ -81,6 +81,15 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 	}
 
 	// TODO GETTER
+
+	@Override
+	public int getLife() { return this.life; }
+
+	@Override
+	public int getLifeMax() { return this.getAttributes().getValue(AttributesTRAn.LifeMax); }
+
+	@Override
+	public int getLifeRegeneration() { return this.getAttributes().getValue(AttributesTRAn.LifeRegen); }
 
 	@Override
 	public int getMana() { return this.mana; }
@@ -169,8 +178,11 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 
 	@Override
 	public void setLife(int life) {
-		super.setLife(life);
-		if (getLife() <= 0) {
+		if (life < this.getLifeResourceType().getLowerBound()) { life = this.getLifeResourceType().getLowerBound(); }
+		if (life > this.getLifeMax()) { life = this.getLifeMax(); }
+		this.life = life;
+
+		if (life <= 0) {
 			EventDestructionObj de;
 			de = fireDestructionEvent(getgModalityRPG());
 			if (de == null || de.isDestructionValid()) { destroy(); }
@@ -179,11 +191,12 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 
 	@Override
 	public void setLifeMax(int lifeMax) {
-		if (lifeMax > 0) {
-			this.getAttributes().setOriginalValue(AttributesTRAn.LifeMax, lifeMax);
-			if (this.getLife() > lifeMax)
-				this.setLife(lifeMax);
-		}
+		RechargeableResourceType type;
+		type = this.getLifeResourceType();
+		if (lifeMax < type.getLowerBound()) { lifeMax = type.getLowerBound(); }
+		if (lifeMax > type.getUpperBound()) { lifeMax = type.getUpperBound(); }
+		if (this.life > lifeMax) { this.life = lifeMax; }
+		this.getAttributes().setOriginalValue(AttributesTRAn.LifeMax, lifeMax);
 	}
 
 	@Override
@@ -275,16 +288,77 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 
 	@Override
 	public void initSetRechargeableResources() {
+		this.addRechargableResource(new RechargableResource(this, getLifeResourceType()) {
+			private static final long serialVersionUID = 4444444444L;
+
+			@Override
+			public void setRechargeAmount(int regenerationAmount) { setLifeRegeneration(regenerationAmount); }
+
+			@Override
+			public void setAmountMax(int resourceAmountMax) { setLifeMax(resourceAmountMax); }
+
+			@Override
+			public void setAmount(int resourceAmount) { setLife(resourceAmount); }
+
+			@Override
+			public int getRechargeAmount() { return getLifeRegeneration(); }
+
+			@Override
+			public int getMaxAmount() { return getLifeMax(); }
+
+			@Override
+			public int getAmount() { return getLife(); }
+		});
+
+		this.addRechargableResource(new RechargableResource(this, getManaResourceType()) {
+			private static final long serialVersionUID = 55555555555555L;
+
+			@Override
+			public void setRechargeAmount(int regenerationAmount) { setManaRegeneration(regenerationAmount); }
+
+			@Override
+			public void setAmountMax(int resourceAmountMax) { setManaMax(resourceAmountMax); }
+
+			@Override
+			public void setAmount(int resourceAmount) { setMana(resourceAmount); }
+
+			@Override
+			public int getRechargeAmount() { return getManaRegeneration(); }
+
+			@Override
+			public int getMaxAmount() { return getManaMax(); }
+
+			@Override
+			public int getAmount() { return getMana(); }
+		});
+
+		this.addRechargableResource(new RechargableResource(this, getShieldResourceType()) {
+			private static final long serialVersionUID = 6666666666L;
+
+			@Override
+			public void setRechargeAmount(int regenerationAmount) { setShieldRegeneration(regenerationAmount); }
+
+			@Override
+			public void setAmountMax(int resourceAmountMax) { setShieldMax(resourceAmountMax); }
+
+			@Override
+			public void setAmount(int resourceAmount) { setShield(resourceAmount); }
+
+			@Override
+			public int getRechargeAmount() { return getShieldRegeneration(); }
+
+			@Override
+			public int getMaxAmount() { return getShieldMax(); }
+
+			@Override
+			public int getAmount() { return getShield(); }
+		});
 		super.initSetRechargeableResources();
-		for (RechargeableResourcesTRAn res : RechargeableResourcesTRAn.values()) {
-			if (!super.hasRechargableResource(res)) {
-				super.addRechargableResource(new RechargableResourceImpl(this, res));
-			}
-		}
 	}
 
 	@Override
 	public void initSetRechargeableResourcesType() {
+		checkSetRRTypes();
 		// NOTHING: DEFAULT_SET_RECHARGEABLE_RESOURCE_TYPE is already set
 	}
 

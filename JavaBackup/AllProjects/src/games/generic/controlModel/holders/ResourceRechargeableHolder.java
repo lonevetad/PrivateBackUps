@@ -10,6 +10,7 @@ import games.generic.controlModel.rechargeable.resources.RechargableResource;
 import games.generic.controlModel.rechargeable.resources.RechargeableResourceType;
 import games.generic.controlModel.rechargeable.resources.ResourceAmountRecharged;
 import games.generic.controlModel.rechargeable.resources.ResourceRechargeableStrategy;
+import games.generic.controlModel.rechargeable.resources.impl.RechargableResourceImpl;
 import games.generic.controlModel.subimpl.GModalityET;
 import tools.ObjectWithID;
 
@@ -41,7 +42,10 @@ public interface ResourceRechargeableHolder extends ObjectWithID, GModalityHolde
 	/**
 	 * Initialize the {@link Set} returned by {@link #getRechargableResources()}.
 	 */
-	public void initSetRechargeableResources();
+	public default void initSetRechargeableResources() {
+		this.getRechargableResourcesType()
+				.forEach(rrt -> { this.addRechargableResource(new RechargableResourceImpl(this, rrt)); });
+	}
 
 	//
 

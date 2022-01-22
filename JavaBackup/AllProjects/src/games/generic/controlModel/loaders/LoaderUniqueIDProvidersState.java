@@ -1,9 +1,7 @@
 package games.generic.controlModel.loaders;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +21,9 @@ import tools.Comparators;
 import tools.ObjectWithID;
 import tools.UniqueIDProvider;
 import tools.UniqueIDProvider.BaseUniqueIDProvider;
+import tools.json.types.JSONLong;
+import tools.json.types.JSONObject;
+import tools.json.types.JSONString;
 
 /**
  * Class that loads every {@link UIDPState} in order to load the state of the
@@ -91,14 +92,15 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 	 * 
 	 * <pre>
 	<code>
-	protected void enrichAllKnownUIDPLoadedListenerList(List&#60;Map.Entry&#60;Class&#60;&#63;&#62;, UIDProviderLoadedListener&#62;&#62; list) {
+	protected void enrichAllKnownUIDPLoadedListenerList(
+	Map&#60;Class&#60;?&#62;, UIDProviderLoadedListener&#62; list) {
 		
 		// MANDATORY
 		super.enrichAllKnownUIDPLoadedListenerList(list);
 	
 		// ADD HERE THE NEW ONES , like :
-		list.add(Map.entry(MyFancyFooClass.class, MyFancyFooClass.UIDP_LOADED_LISTENER_MFFC));
-		list.add(Map.entry(MyFancyBarInterface.class, MyFancyBarInterface.UIDP_LOADED_LISTENER_MFBI));
+		list.put(MyFancyFooClass.class, MyFancyFooClass.UIDP_LOADED_LISTENER_MFFC));
+		list.put(MyFancyBarInterface.class, MyFancyBarInterface.UIDP_LOADED_LISTENER_MFBI));
 	}
 	</code>
 	
@@ -147,21 +149,18 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 	 * 
 	 * @param list the list to be enriched using {@link List#add(Object)}.
 	 */
-	public void enrichAllKnownUIDPLoadedListenerList(List<Map.Entry<Class<?>, UIDProviderLoadedListener>> list) {
-		list.addAll(Arrays.asList(
-				//
-				Map.entry(AbilityGeneric.class, AbilityGeneric.UIDP_LOADED_LISTENER_ABILITY),
-				Map.entry(GEvent.class, GEvent.UIDP_LOADED_LISTENER_EVENT),
-				Map.entry(GMap.class, GMap.UIDP_LOADED_LISTENER_GMAP),
-				Map.entry(InventoryItem.class, InventoryItem.UIDP_LOADED_LISTENER_INVENTORY),
-				// special cases / subclasses
-				Map.entry(OrbitingInteractiveObject.class,
-						OrbitingInteractiveObject.UIDP_LOADED_LISTENER_ORBITING_INTERACTIVE_OBJECT),
-				// GUI
-				Map.entry(DrawableObjProviderEventsObserver.class,
-						DrawableObjProviderEventsObserver.UIDP_LOADED_LISTENER_DOPEO)
+	public void enrichAllKnownUIDPLoadedListenerList(Map<Class<?>, UIDProviderLoadedListener> list) {
+		//
+		list.put(AbilityGeneric.class, AbilityGeneric.UIDP_LOADED_LISTENER_ABILITY);
+		list.put(GEvent.class, GEvent.UIDP_LOADED_LISTENER_EVENT);
+		list.put(GMap.class, GMap.UIDP_LOADED_LISTENER_GMAP);
+		list.put(InventoryItem.class, InventoryItem.UIDP_LOADED_LISTENER_INVENTORY);
+		// special cases / subclasses
+		list.put(OrbitingInteractiveObject.class,
+				OrbitingInteractiveObject.UIDP_LOADED_LISTENER_ORBITING_INTERACTIVE_OBJECT);
+		// GUI
+		list.put(DrawableObjProviderEventsObserver.class, DrawableObjProviderEventsObserver.UIDP_LOADED_LISTENER_DOPEO);
 
-		));
 	}
 
 	/***
@@ -178,9 +177,9 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 	 * 
 	 * @return
 	 */
-	protected final List<Map.Entry<Class<?>, UIDProviderLoadedListener>> getAllKnownUIDPLoadedListener() {
-		List<Map.Entry<Class<?>, UIDProviderLoadedListener>> list;
-		list = new LinkedList<>();
+	protected final Map<Class<?>, UIDProviderLoadedListener> getAllKnownUIDPLoadedListener() {
+		Map<Class<?>, UIDProviderLoadedListener> list;
+		list = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.CLASS_COMPARATOR);
 		this.enrichAllKnownUIDPLoadedListenerList(list);
 		return list;
 	}
@@ -194,7 +193,7 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 	@Override
 	public LoadStatusResult loadInto(GController gc) {
 
-		this.getAllKnownUIDPLoadedListener().forEach(e -> this.registerClassAsUsingUIDP(e.getKey(), e.getValue()));
+		this.getAllKnownUIDPLoadedListener().forEach((clazz, u) -> this.registerClassAsUsingUIDP(clazz, u));
 
 		try {
 			for (UIDPState state : this.readSavedUIDPStates()) {
@@ -235,6 +234,14 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 		 * used to identify that class.
 		 */
 		public final String classIdentifier;
+
+		public JSONObject toJSON() {
+			JSONObject o;
+			o = new JSONObject();
+			o.addField("state", new JSONLong(state));
+			o.addField("classIdentifier", new JSONString(classIdentifier));
+			return o;
+		}
 	}
 
 	//

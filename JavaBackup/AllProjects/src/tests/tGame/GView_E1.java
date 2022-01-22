@@ -3,6 +3,8 @@ package tests.tGame;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,11 +13,17 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import games.generic.controlModel.GController;
+import games.generic.controlModel.loaders.LoaderGeneric;
+import games.generic.controlModel.loaders.LoaderGeneric.LoadStatusResult;
+import games.generic.controlModel.loaders.LoaderManager.LoadingObserver;
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.GThread.GTRunnable;
-import games.generic.controlModel.rechargeable.resources.example.ExampleHealingType;
+import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.view.GameView;
+import games.generic.view.ViewOptions;
+import games.generic.view.misc.LoadingProcessView;
 import games.theRisingAngel.enums.AttributesTRAn;
+import games.theRisingAngel.enums.RechargeableResourcesTRAn;
 import games.theRisingAngel.misc.CurrencySetTRAn;
 
 public class GView_E1 extends GameView {
@@ -31,11 +39,71 @@ public class GView_E1 extends GameView {
 //	JScrollPane jspPlayerAttributes;
 	JLabel jlMoneyText, jlMoneyValue;
 	JLabel[] jlPlayerStatText, jlPlayerStatValue;
-	ExampleHealingType[] curableResource = { ExampleHealingType.Life, ExampleHealingType.Mana,
-			ExampleHealingType.Shield };
+	RechargeableResourcesTRAn[] curableResource = { RechargeableResourcesTRAn.Life, RechargeableResourcesTRAn.Mana,
+			RechargeableResourcesTRAn.Shield };
 
 	@Override
-	public void initAndShow() {
+	protected ViewOptions newViewOptions() { // TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected LoadingProcessView newLoadingProcessView() { // TODO Auto-generated method stub
+		return new LoadingProcessView(this) {
+
+			@Override
+			public void onRemovingOnView(GameView view) { // TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onAddingOnView(GameView view) { // TODO Auto-generated method stub
+			}
+
+			@Override
+			public void notifyLoadingProcessCompleted(LoaderGeneric loader, LoadStatusResult completitionResult) {
+				System.out.println("LOADED " + loader.getClass().getName() + " --> " + completitionResult.name());
+			}
+
+			@Override
+			public void notifyAllLoadingProcessStarted(int loadersAmount) {
+				System.out.println("START Loading " + loadersAmount + " loaders");
+			}
+
+			@Override
+			public void notifyAllLoadingProcessEnded(List<LoaderGeneric> failedLoaders) { // TODO Auto-generated method
+																							// stub
+				System.out.println("END LOADERS");
+				System.out.print("\tfailed:");
+				if (failedLoaders == null) {
+					System.out.println("NONE :D");
+				} else {
+					System.out.println(Arrays.toString(failedLoaders.toArray()));
+				}
+			}
+		};
+	}
+
+	@Override
+	public void initializeNonGUIParts() { // TODO Auto-generated method stub
+	}
+
+	@Override
+	public void beginsPlayesInteraction(PlayerGeneric thisPlayer, PlayerGeneric otherPlayer) { // TODO Auto-generated
+																								// method stub
+	}
+
+	@Override
+	public List<LoaderGeneric> getAllViewRelatedLoaders() { // TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<LoadingObserver> getAllLoadersObservers() { // TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void continueViewInitialization() {
 //		Container panel;
 		int n, startYStats;
 		JPanel jpNorth;
@@ -120,11 +188,17 @@ public class GView_E1 extends GameView {
 		 * stats
 		 */
 
+	}
+
+	@Override
+	public void finishViewSetupAndShow() {
 		fin.setSize(500, 700);
 		jpBigContainer.setSize(fin.getSize());
 		fin.setVisible(true);
 //		fin.pack();
 	}
+
+	//
 
 	protected void startSimulation() {
 		if (gameController == null) {
@@ -158,7 +232,7 @@ public class GView_E1 extends GameView {
 //		StringBuilder sb;
 		CreatureAttributes ca;
 		JProgressBar jpb;
-		ExampleHealingType curRes;
+		RechargeableResourcesTRAn curRes;
 		gmodalitye1 = (GModality_E1) super.gameController.getCurrentGameModality();
 		if (gmodalitye1 == null)
 			return;
@@ -166,8 +240,8 @@ public class GView_E1 extends GameView {
 		for (int i = 0; i < curableResource.length; i++) {
 			jpb = jpbCurableResources[i];
 			curRes = curableResource[i];
-			jpb.setMaximum(max = p.getHealableResourceAmountMax(curRes));
-			jpb.setValue(v = p.getHealableResourceAmount(curRes));
+			jpb.setMaximum(max = p.getMaxAmount(curRes));
+			jpb.setValue(v = p.getAmount(curRes));
 			textDisplayed = curRes.getName() + ": " + v + " / " + max;
 			jpb.setToolTipText(textDisplayed);
 			jpb.setString(textDisplayed);
@@ -180,8 +254,8 @@ public class GView_E1 extends GameView {
 //			sb.append(AttributesTRAr.VALUES[i].name()).append("\t: ").append(ca.getValue(i)).append('\n');
 //		}
 //		jtaPlayerStats.setText(sb.toString());
-		jlMoneyValue
-				.setText(Integer.toString(p.getCurrencies().getCurrencyAmount(CurrencySetTRAn.BASE_CURRENCY_INDEX)));
+		jlMoneyValue.setText(Integer.toString(p.getCurrencies().getCurrencyAmount( //
+				p.getCurrencies().getCurrencies()[CurrencySetTRAn.BASE_CURRENCY_INDEX])));
 		n = AttributesTRAn.ALL_ATTRIBUTES.length;
 		while (--n >= 0) {
 			jlPlayerStatValue[n].setText(Integer.toString(ca.getValue(AttributesTRAn.ALL_ATTRIBUTES[n])));
@@ -210,6 +284,8 @@ public class GView_E1 extends GameView {
 		gmodalitye1.addGameThreadSimplyStoppable(this::singleRepaintCycle);
 	}
 
+	//
+
 	protected class PlayerInfoRepainter implements GTRunnable {
 		final GModality_E1 gmodalitye1;
 
@@ -234,11 +310,5 @@ public class GView_E1 extends GameView {
 		@Override
 		public void restart() {}
 
-	}
-
-	public static void main(String[] args) {
-		GView_E1 view;
-		view = new GView_E1(null);
-		view.initAndShow();
 	}
 }

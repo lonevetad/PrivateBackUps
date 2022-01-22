@@ -16,6 +16,9 @@ public class JSONInt extends JSONValue {
 	public int asInt() { return this.value; }
 
 	@Override
+	public long asLong() { return this.value; }
+
+	@Override
 	public JSONTypes getType() { return JSONTypes.Int; }
 
 	@Override

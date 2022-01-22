@@ -9,10 +9,12 @@ public class ObjPrinterTO implements TimedObjectPeriodic {
 	private static final long serialVersionUID = 1L;
 	long timeThreshold, accumulatedTimeElapsed;
 	String text;
-	Integer ID;
+	final Long ID;
+	final GModality gm;
 
-	public ObjPrinterTO(long timeThreshold, String text) {
+	public ObjPrinterTO(GModality gm, long timeThreshold, String text) {
 		super();
+		this.gm = gm;
 		this.ID = UniqueIDProvider.UDIP_GENERAL.getNewID();
 		this.timeThreshold = timeThreshold;
 		this.text = text;
@@ -20,7 +22,7 @@ public class ObjPrinterTO implements TimedObjectPeriodic {
 	}
 
 	@Override
-	public Integer getID() { return ID; }
+	public Long getID() { return ID; }
 
 	public String getText() { return text; }
 
@@ -46,4 +48,11 @@ public class ObjPrinterTO implements TimedObjectPeriodic {
 
 	@Override
 	public String getName() { return "PRINTEEEEEEEEEEEEEEEEEEER"; }
+
+	@Override
+	public GModality getGameModality() { return gm; }
+
+	@Override
+	public void setGameModality(GModality gameModality) { // TODO Auto-generated method stub
+	}
 }

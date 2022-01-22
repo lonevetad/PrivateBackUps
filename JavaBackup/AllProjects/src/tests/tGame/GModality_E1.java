@@ -97,7 +97,7 @@ public class GModality_E1 extends GModalityTRAnBaseWorld {
 //		p.getCurrencies().setMoneyAmount(0, 100);
 
 		this.addGameObject(p);
-		this.addGameObject(new ObjPrinterTO(1250, "LongWaiting"));
+		this.addGameObject(new ObjPrinterTO(this, 1250, "LongWaiting"));
 //		this.addGameObject(new ObjPrinterTO(333, "Short") {
 //
 //			@Override
@@ -107,7 +107,7 @@ public class GModality_E1 extends GModalityTRAnBaseWorld {
 //		});
 //		this.addGameObject(new ObjPrinter_EventDeliver(250, "Tiny"));
 		// gModelE.addTimeProgressingObject(odd);
-		printerPlayer = new ObjPrinter_EventDeliver(2000, "HAKUNA MATATA") {
+		printerPlayer = new ObjPrinter_EventDeliver(this, 2000, "HAKUNA MATATA") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -162,8 +162,11 @@ public class GModality_E1 extends GModalityTRAnBaseWorld {
 
 		equipmentName = "Plated Armor of Stonefying Skin";
 		equip = goph.getEquipmentsProvider().getNewObjByName(this, equipmentName);
-		equip.addAbility(goph.getAbilitiesProvider().getAbilityByName(this,
-				ADamageReductionOnLifeLowerToPhysicalAttributes.NAME));
+		if (equip != null) {
+			equip.addAbility( //
+					goph.getAbilitiesProvider().//
+							getAbilityByName(this, ADamageReductionOnLifeLowerToPhysicalAttributes.NAME));
+		}
 		System.out.println("\n\n equipping: " + equipmentName);
 		System.out.println(equip.toString());
 		System.out.println("\n\n");

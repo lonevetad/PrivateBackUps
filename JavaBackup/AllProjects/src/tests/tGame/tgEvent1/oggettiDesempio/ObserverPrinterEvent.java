@@ -10,7 +10,7 @@ import games.generic.controlModel.objects.GameObjectGeneric;
 import tools.UniqueIDProvider;
 
 public class ObserverPrinterEvent implements GEventObserver, GameObjectGeneric {
-	protected Integer ID;
+	protected Long ID;
 	protected List<String> eventsWatching;
 
 	public ObserverPrinterEvent() {
@@ -27,7 +27,7 @@ public class ObserverPrinterEvent implements GEventObserver, GameObjectGeneric {
 	}
 
 	@Override
-	public Integer getID() { return ID; }
+	public Long getID() { return ID; }
 
 	@Override
 	public List<String> getEventsWatching() { return this.eventsWatching; }

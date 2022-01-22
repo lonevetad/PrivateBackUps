@@ -113,6 +113,8 @@ public abstract class LoaderManager {
 
 	// getters
 
+	public GController getGameController() { return gameController; }
+
 	public List<LoaderGeneric> getLoaders() { return otherLoaders; }
 
 	public boolean isLoadOnlyOnce() { return loadOnlyOnce; }
@@ -155,7 +157,7 @@ public abstract class LoaderManager {
 
 	protected abstract LoaderUniqueIDProvidersState newLoaderUniqueIDProvidersState();
 
-	protected LoaderConfigurations newLoaderConfigurations() { return null; }
+	protected abstract LoaderConfigurations newLoaderConfigurations();
 
 	protected abstract LoaderGMod newLoaderGameMods();
 
@@ -221,6 +223,7 @@ public abstract class LoaderManager {
 		final BiConsumer<LoaderGeneric, LoaderGeneric.LoadStatusResult> allObserversNotifier;
 		int[] index = { 0 };
 
+		System.out.println("\n\n\n\n start loading :D \n\n\n");
 		if (loadOnlyOnce && this.hasAlreadyLoaded) { return null; }
 
 //		getAllKnownLoaders().forEach(this::addLoader);
@@ -238,8 +241,13 @@ public abstract class LoaderManager {
 		this.loadersAndStatusObservers
 				.forEach(lo -> lo.notifyAllLoadingProcessStarted(results.length + this.prioritaryLoaders.length));
 
+		int ii = 0;
 		for (LoaderGeneric loaderPrioritary : this.prioritaryLoaders) {
 			LoadStatusResult res;
+
+			System.out.println("\nLOADING prioritary: " + ii++ + ", "
+					+ (loaderPrioritary == null ? "NULL!!" : loaderPrioritary.getClass().getName()));
+
 			res = loaderPrioritary.loadInto(this.gameController);
 			if (res == LoadStatusResult.CriticalFail) {
 				throw new RuntimeException("The loader " + loaderPrioritary.getClass() + " failed loading.");
