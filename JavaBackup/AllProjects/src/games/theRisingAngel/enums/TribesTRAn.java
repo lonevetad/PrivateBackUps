@@ -179,44 +179,67 @@ public class TribesTRAn {
 		// GENERATORS
 
 		public EquipmentUpgrade newEquipmentUpgradeForRarity(RaritiesTRAn rar, GModalityRPG gmrpg) {
-			int n;
+			return this.newEquipmentUpgradeForRarity(rar, gmrpg, ReligionAlignment.Canon);
+		}
+
+		public EquipmentUpgrade newEquipmentUpgradeForRarity(RaritiesTRAn rar, GModalityRPG gmrpg,
+				ReligionAlignment religAlign) {
+			int n, addedPrice;
 			EquipmentUpgrade eu;
 			AttributesVariationTribeEquip variation;
 			CurrencySet cs;
 			Currency[] currencies;
 			TribeReligion rel;
+			TribeReligionAlignmentModification relAlMod;
 
 			rel = this.religion;
 			variation = MAP_RARITY_TO_ATTRIBUTE_UPGRADES_TRIBE.get(rar);
 			eu = new EquipmentUpgradeImpl(rar.getIndex(), getNameEquipUgradeFor(this, rar));
 
-			eu.addAttributeModifier(new AttributeModification(rel.religionDevotedTo, variation.bonus));
-			eu.addAttributeModifier(new AttributeModification(rel.religionHated, variation.malus));
+			relAlMod = new TribeReligionAlignmentModification(variation, religAlign);
+			eu.addAttributeModifier(new AttributeModification(rel.religionDevotedTo, relAlMod.getBonus()));
+			eu.addAttributeModifier(new AttributeModification(rel.religionHated, relAlMod.getMalus()));
 
 			cs = gmrpg.newCurrencyHolder();
 			currencies = cs.getCurrencies();
 			cs.setGameModaliy(gmrpg);
 			n = variation.addedPrices.length;
 			while (--n >= 0) {
-				cs.setCurrencyAmount(currencies[n], variation.addedPrices[n]);
+				addedPrice = variation.addedPrices[n];
+				if (relAlMod.isIsnegativePriceChanging()) { addedPrice = -addedPrice; }
+				cs.setCurrencyAmount(currencies[n], addedPrice);
 			}
 			eu.setPricesModifications(cs);
 
 			return eu;
 		}
 
+		// TODO : a parameters refactoring may be needed in case of new ones (explosion
+		// of combinatorics)
+
 		protected static EquipmentItem newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType) {
+			return newEquipItemFor(gmrpg, tribe, pieceType, null, null, ReligionAlignment.Canon);
+		}
+
+		protected static EquipmentItem newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType,
+				ReligionAlignment religAlign) {
 			return newEquipItemFor(gmrpg, tribe, pieceType, null, null);
 		}
 
 		protected static EquipmentItem newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType,
 				PieceOfEquipmentSetData ped, AttributesVariationTribeEquip variation) {
-			int n;
+			return newEquipItemFor(gmrpg, tribe, pieceType, ped, variation, ReligionAlignment.Canon);
+		}
+
+		protected static EquipmentItem newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType,
+				PieceOfEquipmentSetData ped, AttributesVariationTribeEquip variation, ReligionAlignment religAlign) {
+			int n, price;
 			AttributeModification[] allAttributes;
 			EquipmentItem equipPiece;
 			CurrencySet cs;
 			Currency[] currencies;
 			TribeReligion rel;
+			TribeReligionAlignmentModification relAlMod;
 
 			Objects.requireNonNull(gmrpg);
 
@@ -227,8 +250,9 @@ public class TribesTRAn {
 
 			rel = tribe.religion;
 			allAttributes = new AttributeModification[2 + ped.additionalAttributeModifiers.length];
-			allAttributes[0] = new AttributeModification(rel.religionDevotedTo, variation.bonus);
-			allAttributes[1] = new AttributeModification(rel.religionHated, variation.malus);
+			relAlMod = new TribeReligionAlignmentModification(variation, religAlign);
+			allAttributes[0] = new AttributeModification(rel.religionDevotedTo, relAlMod.getBonus());
+			allAttributes[1] = new AttributeModification(rel.religionHated, relAlMod.getMalus());
 			System.arraycopy(ped.additionalAttributeModifiers, 0, allAttributes, 2,
 					ped.additionalAttributeModifiers.length);
 
@@ -241,7 +265,9 @@ public class TribesTRAn {
 			cs.setGameModaliy(gmrpg);
 			n = variation.addedPrices.length;
 			while (--n >= 0) {
-				cs.setCurrencyAmount(currencies[n], variation.addedPrices[n] << 1);
+				price = variation.addedPrices[n];
+				if (!relAlMod.isIsnegativePriceChanging()) { price <<= 1; }
+				cs.setCurrencyAmount(currencies[n], price);
 			}
 			equipPiece.setSellPrice(cs);
 			return equipPiece;
@@ -251,7 +277,17 @@ public class TribesTRAn {
 			return newEquipItemFor(gmrpg, this, pieceType);
 		}
 
+		public EquipmentItem newEquipmentPiece(GModalityRPG gmrpg, EquipmentTypesTRAn pieceType,
+				ReligionAlignment religAlign) {
+			return newEquipItemFor(gmrpg, this, pieceType, religAlign);
+		}
+
 		public MapTreeAVL<EquipmentTypesTRAn, EquipmentItem> newEquipmentSet(GModalityRPG gmrpg) {
+			return this.newEquipmentSet(gmrpg, ReligionAlignment.Canon);
+		}
+
+		public MapTreeAVL<EquipmentTypesTRAn, EquipmentItem> newEquipmentSet(GModalityRPG gmrpg,
+				ReligionAlignment religAlign) {
 			final MapTreeAVL<EquipmentTypesTRAn, EquipmentItem> m;
 			final AttributesVariationTribeEquip variation;
 			final Tribe thisTribe;
@@ -263,7 +299,8 @@ public class TribesTRAn {
 			variation = MAP_RARITY_TO_ATTRIBUTE_UPGRADES_TRIBE.get(RARITY_TRIBE_EQUIPMENT_PIECES);
 
 			MAP_EQUIPMENT_PIECE_TO_DATA_TRIBE.forEach( //
-					(eqType, ped) -> m.put(eqType, newEquipItemFor(gmrpg, thisTribe, eqType, ped, variation)) //
+					(eqType, ped) -> m.put(eqType,
+							newEquipItemFor(gmrpg, thisTribe, eqType, ped, variation, religAlign)) //
 			);
 
 			return m;
@@ -293,7 +330,7 @@ public class TribesTRAn {
 
 //
 
-	// TODO : TribeWarStatus enum
+// TODO : TribeWarStatus enum
 	public static enum TribeWarStatus implements IndexableObject {
 		Neutral, War, Ally;
 
@@ -316,7 +353,40 @@ public class TribesTRAn {
 
 		@Override
 		public IndexToObjectBackmapping getFromIndexBackmapping() { return INDEX_TO_TRIBE_WAR_STATUS; }
+	}
 
+	/**
+	 * A {@link TribeReligion} worship may vary.
+	 */
+	public static enum ReligionAlignment {
+		/**
+		 * Usual values, no changes in amounts and naming
+		 */
+		Canon(""),
+		/**
+		 * Turns the Upgrade no negative:
+		 * <ul>
+		 * <li>Flip the prices modifications to negative</li>
+		 * <li>swap bonus (which is greater than malus) with malus</li>
+		 * <li>flips the sign of the new bonus and malus</li>
+		 * </ul>
+		 */
+		Fanatic,
+		/**
+		 * Turns malus into positive values. In order to balance the alteration, the
+		 * bonus is subtracted by twice the "new malus" (the bonus amount is more than
+		 * twice the absolute value of the malus)
+		 */
+		Heretic;
+
+		private ReligionAlignment() { this(null); }
+
+		private ReligionAlignment(String na) {
+			this.nameAlteration = (na != null) ? na : //
+					(this.name() + ' ');
+		}
+
+		public final String nameAlteration;
 	}
 
 	// TODO : TribeWarStatusTRAn enum
@@ -378,6 +448,51 @@ public class TribesTRAn {
 		public String toString() {
 			return "TribeReligion [religionDevotedTo=" + religionDevotedTo + ", religionHated=" + religionHated + "]";
 		}
+	}
+
+	public static class TribeReligionAlignmentModification {
+		public TribeReligionAlignmentModification(AttributesVariationTribeEquip variation,
+				ReligionAlignment religAlign) {
+			if (religAlign == null) { religAlign = ReligionAlignment.Canon; }
+			switch (religAlign) {
+			case Canon: {
+				isnegativePriceChanging = true;
+				bonus = variation.bonus;
+				malus = variation.malus;
+				break;
+			}
+			case Fanatic: {
+				isnegativePriceChanging = false;
+				// swap both bonus/malus and signs
+				bonus = -variation.malus;
+				malus = -variation.bonus;
+				break;
+			}
+			case Heretic: {
+				isnegativePriceChanging = true;
+				// turns positive
+				malus = -variation.malus;
+				/*
+				 * then balance: remove the "new malus" and how the bonus have balanced the
+				 * original malus; in total, it's twice the Math.abs of the original malus
+				 */
+				bonus = variation.bonus - (malus << 1);
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Unexpected religion: " + religAlign);
+			}
+		}
+
+		final boolean isnegativePriceChanging;
+		final int bonus, malus;
+
+		public boolean isIsnegativePriceChanging() { return isnegativePriceChanging; }
+
+		public int getBonus() { return bonus; }
+
+		public int getMalus() { return malus; }
+
 	}
 
 	public static class AttributesVariationTribeEquip {

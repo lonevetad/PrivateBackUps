@@ -24,6 +24,7 @@ import games.theRisingAngel.GModalityTRAnBaseWorld;
 import games.theRisingAngel.enums.AttributesTRAn;
 import games.theRisingAngel.enums.RaritiesTRAn;
 import games.theRisingAngel.enums.TribesTRAn;
+import games.theRisingAngel.enums.TribesTRAn.ReligionAlignment;
 import games.theRisingAngel.enums.TribesTRAn.Tribe;
 import games.theRisingAngel.loaders.factories.FactoryEquipUpgrade;
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
@@ -33,7 +34,14 @@ import tools.json.JSONParser;
 import tools.json.types.JSONObject;
 
 public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
+
+	// START COMBINATORIC GENERATION SETUP
+
 	public static final boolean ADD_TRIBES_UPGRADES = true;
+	// TODO: make it false and implement that case
+	public static final boolean RELIGION_ALIGNMENT_CANON_ONLY = false;
+
+	// end COMBINATORIC GENERATION SETUP
 
 	public LoaderEquipUpgradesTRAn(GameObjectsProvider<EquipmentUpgrade> objProvider) { super(objProvider); }
 
@@ -85,15 +93,21 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 		}
 
 		if (ADD_TRIBES_UPGRADES) {
+			final ReligionAlignment[] rel;
+			rel = RELIGION_ALIGNMENT_CANON_ONLY ? new ReligionAlignment[] { ReligionAlignment.Canon }
+					: ReligionAlignment.values();
+
 //			for(Tribe tribe: TribesTRAn.ALL_TRIBES) {
 //				tribe.newEquipmentSet(null)
 //				thisLoader.saveObjectFactory(startPath, sc, null);
 //			}
-			TribesTRAn.MAP_RARITY_TO_ATTRIBUTE_UPGRADES_TRIBE.forEach((r, attrVariationForUpgrade) -> {
+			TribesTRAn.MAP_RARITY_TO_ATTRIBUTE_UPGRADES_TRIBE.forEach((rarity, attrVariationForUpgrade) -> {
 				if (attrVariationForUpgrade.isCanBeEquipUpgrade()) {
-					for (Tribe tribe : TribesTRAn.ALL_TRIBES) {
-						thisLoader.saveObjectFactory(TribesTRAn.getNameEquipUgradeFor(tribe, r), r.getIndex(),
-								new EquipUpgradeTRnFactory(tribe, r));
+					for (ReligionAlignment religAlign : rel) {
+						for (Tribe tribe : TribesTRAn.ALL_TRIBES) {
+							thisLoader.saveObjectFactory(TribesTRAn.getNameEquipUgradeFor(tribe, rarity),
+									rarity.getIndex(), new EquipUpgradeTRnFactory(tribe, rarity, religAlign));
+						}
 					}
 				}
 			});
@@ -104,11 +118,13 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 	public static class EquipUpgradeTRnFactory implements FactoryObjGModalityBased<EquipmentUpgrade> {
 		protected final Tribe tribe;
 		protected final RaritiesTRAn rarity;
+		protected final ReligionAlignment religionAlignment;
 
-		public EquipUpgradeTRnFactory(Tribe tribe, RaritiesTRAn rarity) {
+		public EquipUpgradeTRnFactory(Tribe tribe, RaritiesTRAn rarity, ReligionAlignment religionAlignment) {
 			super();
 			this.tribe = tribe;
 			this.rarity = rarity;
+			this.religionAlignment = religionAlignment;
 		}
 
 		public Tribe getTribe() { return tribe; }

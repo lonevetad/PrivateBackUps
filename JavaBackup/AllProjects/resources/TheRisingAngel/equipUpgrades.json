@@ -4757,5 +4757,13 @@
 		"attributeModifiers":{
 			"StaminaMax":15
 		}
+	}, {
+		"name": "of A Bit of Satisfaction",
+		"rarity":1,
+		"price":[9],
+		"attributeModifiers":{
+			"Health":3,
+			"ManaRegen":2
+		}
 	}
 ]
