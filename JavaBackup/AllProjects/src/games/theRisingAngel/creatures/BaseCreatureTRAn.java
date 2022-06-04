@@ -130,7 +130,54 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 	@Override
 	public RechargeableResourceType getStaminaResourceType() { return RechargeableResourcesTRAn.Stamina; }
 
+	@Override
+	public int getLuckPerThousand() { return this.getAttributes().getValue(AttributesTRAn.Luck); }
+
 	// TODO damage dealer receiver
+
+	/**
+	 * Returns the raw/absolute amount of damage bonus.
+	 */
+	@Override
+	public int getDamageBonus(DamageTypeGeneric damageType) {
+		AttributeIdentifier ai;
+		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.PhysicalDamageBonus
+				: AttributesTRAn.MagicalDamageBonus;
+		return this.getAttributes().getValue(ai);
+	}
+
+	/**
+	 * Returns the relative (percentage) amount of damage bonus.
+	 */
+	@Override
+	public int getDamageBonusPercentage(DamageTypeGeneric damageType) {
+		AttributeIdentifier ai;
+		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.PhysicalDamageMultiplierPercentageBonus
+				: AttributesTRAn.MagicalDamageMultiplierPercentageBonus;
+		return this.getAttributes().getValue(ai);
+	}
+
+	/**
+	 * Returns the raw/absolute amount of damage reduction.
+	 */
+	@Override
+	public int getDamageReduction(DamageTypeGeneric damageType) {
+		AttributeIdentifier ai;
+		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.PhysicalDamageReduction
+				: AttributesTRAn.MagicalDamageReduction;
+		return this.getAttributes().getValue(ai);
+	}
+
+	/**
+	 * Returns the relative (percentage) amount of damage reduction.
+	 */
+	@Override
+	public int getDamageReductionPercentage(DamageTypeGeneric damageType) {
+		AttributeIdentifier ai;
+		ai = damageType == DamageTypesTRAn.Physical ? AttributesTRAn.PhysicalDamageMultiplierPercentageReduction
+				: AttributesTRAn.MagicalDamageMultiplierPercentageReduction;
+		return this.getAttributes().getValue(ai);
+	}
 
 	@Override
 	public int getProbabilityPerThousandAvoid(DamageTypeGeneric damageType) {
@@ -168,9 +215,6 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 	public int getPercentageCriticalStrikeReduction(DamageTypeGeneric damageType) {
 		return this.getAttributes().getValue(AttributesTRAn.CriticalMultiplierPercentageReduction);
 	}
-
-	@Override
-	public int getLuck() { return this.getAttributes().getValue(AttributesTRAn.Luck); }
 
 	//
 

@@ -32,17 +32,20 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	Velocity(1, 1000), //
 	LifeMax(1), LifeRegen, ManaMax(0), ManaRegen, ShieldMax(0), ShieldRegen, StaminaMax(0), StaminaRegen, //
 	//
-	PhysicalDamageBonus, PhysicalDamageMultiplierPercentage, PhysicalDamageReduction, //
+	PhysicalDamageBonus, PhysicalDamageMultiplierPercentageBonus, PhysicalDamageReduction,
+	PhysicalDamageMultiplierPercentageReduction, //
 	PhysicalProbabilityPerThousandHit, PhysicalProbabilityPerThousandAvoid, //
 	VelocityAttackStrikePercentage(1), //
-	MagicalDamageBonus, MagicalDamageMultiplierPercentage, MagicalDamageReduction, //
+	MagicalDamageBonus, MagicalDamageMultiplierPercentageBonus, MagicalDamageReduction,
+	MagicalDamageMultiplierPercentageReduction, //
 	MagicalProbabilityPerThousandHit, MagicalProbabilityPerThousandAvoid, //
-	VelocitySpellCastPercentage(1, 10000), //
+	VelocitySpellCastPercentage(-99, 10000), //
 	CostCastReductionPercentage(-10000, 99), //
 	//
 	CriticalProbabilityPerThousandHit, CriticalMultiplierPercentage(0), //
 	CriticalProbabilityPerThousandAvoid, CriticalMultiplierPercentageReduction, //
-	LifeLeechPercentage(-1000, 1000), ManaLeechPercentage(-1000, 1000), ShieldLeechPercentage(-1000, 1000), //
+	LifeLeechPercentage(-1000, 1000), ManaLeechPercentage(-1000, 1000), ShieldLeechPercentage(-1000, 1000),
+	StaminaLeechPercentage(-1000, 1000), //
 	ReflectionDamagePercentage(0), ExperienceBonusPercentage(0, 10000);
 
 	//
@@ -82,6 +85,9 @@ public enum AttributesTRAn implements AttributeIdentifier {
 
 	@Override
 	public Long getID() { return (long) this.ordinal(); }
+
+	@Override
+	public boolean setID(Long newID) { return false; }
 
 	@Override
 	public int upperBound() { return this.maximum; }

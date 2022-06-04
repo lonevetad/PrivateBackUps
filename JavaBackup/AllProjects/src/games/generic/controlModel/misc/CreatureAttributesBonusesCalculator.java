@@ -6,7 +6,7 @@ import games.generic.controlModel.misc.IndexableObject.IndexToObjectBackmapping;
 
 /**
  * Some implementations of {@link CreatureAttributes} could compute some
- * attributes depending on other attributes. This interface generalize it.
+ * Attribute depending on other attributes. This interface generalize it.
  */
 public interface CreatureAttributesBonusesCalculator {
 	public CreatureAttributes getCreatureAttributesSet();

@@ -2,6 +2,7 @@ package games.theRisingAngel.enums;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Objects;
 
 import dataStructures.MapTreeAVL;
 import games.generic.controlModel.items.EquipmentType;
@@ -119,4 +120,10 @@ public enum EquipmentTypesTRAn implements EquipmentType {
 
 	@Override
 	public IndexToObjectBackmapping getFromIndexBackmapping() { return INDEX_TO_EQUIP_TYPE_TRAn; }
+
+	public static boolean isJewelry(EquipmentTypesTRAn et) {
+		Objects.requireNonNull(et);
+		return (et == EquipmentTypesTRAn.Earrings || et == EquipmentTypesTRAn.Necklace
+				|| et == EquipmentTypesTRAn.Bracelet || et == EquipmentTypesTRAn.Ring);
+	}
 }

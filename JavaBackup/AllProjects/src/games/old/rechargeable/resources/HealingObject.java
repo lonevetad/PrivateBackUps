@@ -8,7 +8,7 @@ import games.generic.controlModel.objects.TimedObject;
 import games.generic.controlModel.objects.creature.CreatureSimple;
 import games.generic.controlModel.rechargeable.resources.RechargeableResourceType;
 import games.generic.controlModel.rechargeable.resources.ResourceAmountRecharged;
-import games.generic.controlModel.rechargeable.resources.example.ExampleHealingType;
+import games.generic.controlModel.rechargeable.resources.examples.ExampleHealingType;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import tools.ObjectWithID;

@@ -61,11 +61,11 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	public MatrixInSpaceObjectsManager(Long ID, boolean isLazyNodeInstancing, int width, int height,
 			NumberManager<Distance> weightManager) {
 		super();
+		this.setID(ID);
 		this.isLazyNodeInstancing = isLazyNodeInstancing;
 //		this.height = height;
 //		this.width = width;
 		this.weightManager = weightManager;
-		this.id = ID;
 		onCreate(width, height);
 		// TODO create intersectors and runners
 //		ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
@@ -74,8 +74,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 //	protected Comparator IDOwidComparator;
 	protected final boolean isLazyNodeInstancing;
-//	protected int width, height;
-	protected Long id;
+//	protected int width, height; 
 	protected NodeIsom<Distance>[][] matrix;
 	protected AbstractShape2D shape;
 	protected ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
@@ -95,9 +94,6 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	//
-
-	@Override
-	public Long getID() { return id; }
 
 	@Override
 	public AbstractShape2D getBoundingShape() { return shape; }
@@ -125,8 +121,6 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	//
 
 	// TODO SETTER
-
-	public void setId(Long id) { this.id = id; }
 
 	@Override
 	public void setShape(AbstractShape2D shape) {}
@@ -257,6 +251,11 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	}
 
 	@Override
+	public ObjectLocated getAt(int x, int y) { return getNodeAt(x, y).getObject(0); }
+
+	//
+
+	@Override
 	public void runOnWholeMap(PointConsumer action) {
 		Point p;
 		p = new Point();
@@ -380,7 +379,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 			List<Point> path) {
 		ObjLocatedCollectorMatrix<Distance> coll;
 		coll = new ObjLocatedCollectorMatrix<>(this, objectFilter);
-		return this.findInPath(areaToLookInto, coll, path);
+		return this.collectInPath(areaToLookInto, coll, path);
 	}
 
 	@Override

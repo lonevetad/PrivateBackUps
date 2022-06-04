@@ -17,6 +17,7 @@ import games.generic.controlModel.providers.AbilitiesProvider;
 import games.generic.controlModel.providers.CreaturesProvider;
 import games.generic.controlModel.providers.EquipItemProvider;
 import games.generic.controlModel.providers.EquipmentUpgradesProvider;
+import games.generic.controlModel.providers.ItemProvider;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import tools.Comparators;
 
@@ -50,25 +51,28 @@ import tools.Comparators;
 public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvidersHolder {
 
 	public GameObjectsProvidersHolderRPG(GModalityRPG gModality) {
-		this.gModality = gModality;
+		this.gameModality = gModality;
 		this.providers = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.STRING_COMPARATOR);
 		this.abilitiesProvider = newAbilitiesProvider();
 		this.equipmentsProvider = newEquipItemProvider();
 		this.creaturesProvider = newCreatureProvider();
 		this.equipUpgradesProvider = newEquipUpgradesProvider();
 		this.mapsProvider = newMapsProvider();
-		this.providers.put(AbilitiesProvider.NAME, abilitiesProvider);
+		this.itemsProvider = newItemProvider();
 		this.providers.put(EquipItemProvider.NAME, equipmentsProvider);
 		this.providers.put(EquipmentUpgradesProvider.NAME, equipUpgradesProvider);
+		this.providers.put(AbilitiesProvider.NAME, abilitiesProvider);
+		this.providers.put(ItemProvider.NAME, itemsProvider);
 		this.providers.put(CreaturesProvider.NAME, creaturesProvider);
 		this.providers.put(GMapProvider.NAME_FOR_GOPROVIDER, mapsProvider);
 //		this.random = new Random();
 	}
 
-	protected GModalityRPG gModality;
+	protected GModalityRPG gameModality;
 	protected Map<String, GameObjectsProvider<? extends ObjectNamed>> providers;
 	protected AbilitiesProvider abilitiesProvider;
 	protected EquipItemProvider equipmentsProvider;
+	protected ItemProvider itemsProvider;
 	protected EquipmentUpgradesProvider equipUpgradesProvider;
 	protected CreaturesProvider<BaseCreatureRPG> creaturesProvider;
 	protected GMapProvider mapsProvider;
@@ -80,9 +84,11 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 	@Override
 	public Map<String, GameObjectsProvider<? extends ObjectNamed>> getProviders() { return providers; }
 
-	public GModalityRPG getgModality() { return gModality; }
+	public GModalityRPG getGameModality() { return gameModality; }
 
 	public AbilitiesProvider getAbilitiesProvider() { return abilitiesProvider; }
+
+	public ItemProvider getItemsProvider() { return itemsProvider; }
 
 	public EquipItemProvider getEquipmentsProvider() { return equipmentsProvider; }
 
@@ -90,7 +96,7 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 
 	public CreaturesProvider<BaseCreatureRPG> getCreaturesProvider() { return creaturesProvider; }
 
-	public Random getRandom() { return gModality.getRandom(); }
+	public Random getRandom() { return gameModality.getRandom(); }
 
 //
 
@@ -108,23 +114,27 @@ public abstract class GameObjectsProvidersHolderRPG implements GameObjectsProvid
 		this.creaturesProvider = creaturesProvider;
 	}
 
+	public GMapProvider getMapsProvider() { return mapsProvider; }
+
 //	public void setEquipItemsWeights(RandomWeightedIndexes equipItemsWeights) {this.equipItemsWeights = equipItemsWeights;}
 
 	//
 
-	public void setgModality(GModalityRPG gModality) { this.gModality = gModality; }
+	public void setItemsProvider(ItemProvider itemsProvider) { this.itemsProvider = itemsProvider; }
+
+	public void setGameModality(GModalityRPG gModality) { this.gameModality = gModality; }
+
+	// TODO new-methods
 
 	public AbilitiesProvider newAbilitiesProvider() { return new AbilitiesProvider(); }
 
-	public abstract EquipItemProvider newEquipItemProvider();
+	public EquipItemProvider newEquipItemProvider() { return new EquipItemProvider(); }
 
-	public abstract EquipmentUpgradesProvider newEquipUpgradesProvider();
+	public EquipmentUpgradesProvider newEquipUpgradesProvider() { return new EquipmentUpgradesProvider(); }
 
-	/**
-	 * Should return something based on {@link BaseCreatureRPG}.
-	 */
-	public abstract CreaturesProvider<BaseCreatureRPG> newCreatureProvider();
-//	public abstract CreaturesProvider<? extends CreatureSimple> newCreatureProvider();
+	public CreaturesProvider<BaseCreatureRPG> newCreatureProvider() { return new CreaturesProvider<>(); }
 
-	public abstract GMapProvider newMapsProvider();
+	public GMapProvider newMapsProvider() { return new GMapProvider(); }
+
+	public ItemProvider newItemProvider() { return new ItemProvider(); }
 }

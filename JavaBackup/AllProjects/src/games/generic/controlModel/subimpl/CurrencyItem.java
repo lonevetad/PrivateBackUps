@@ -6,14 +6,14 @@ import games.generic.controlModel.misc.Currency;
 import games.generic.controlModel.objects.InteractableObject;
 import geometry.ObjectLocated;
 import tools.ObjectNamedID;
+import tools.impl.OWIDLongImpl;
 
-public abstract class CurrencyItem implements InteractableObject, ObjectLocated, ObjectNamedID {
+public abstract class CurrencyItem extends OWIDLongImpl implements InteractableObject, ObjectLocated, ObjectNamedID {
 	private static final long serialVersionUID = 1L;
 
 	public CurrencyItem() {}
 
 	protected int amount;
-	protected Long ID;
 	protected String name;
 	protected Point location; // in "space" (GOM)
 	protected Currency currency;
@@ -21,9 +21,6 @@ public abstract class CurrencyItem implements InteractableObject, ObjectLocated,
 	//
 
 	public int getAmount() { return amount; }
-
-	@Override
-	public Long getID() { return ID; }
 
 	@Override
 	public String getName() { return name; }
@@ -42,8 +39,6 @@ public abstract class CurrencyItem implements InteractableObject, ObjectLocated,
 			this.amount = amount;
 		}
 	}
-
-	public void setID(Long iD) { ID = iD; }
 
 	public void setName(String name) { this.name = name; }
 

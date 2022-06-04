@@ -23,7 +23,7 @@ public class MessageTRJ_ConnectionStatus extends MessageTestRoomJoiner {
 	//
 
 	public void setConnectionStatus(ConnectionStatus cs) {
-		connectionStatus = (cs == null ? ConnectionStatus.UNDEFINED : cs).id;
+		connectionStatus = (cs == null ? ConnectionStatus.UNDEFINED : cs).ID;
 	}
 
 	public int getConnectionStatusID() {

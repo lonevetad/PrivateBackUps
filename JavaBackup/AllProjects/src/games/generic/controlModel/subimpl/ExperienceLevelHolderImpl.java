@@ -1,4 +1,4 @@
-package games.generic.controlModel.holders.impl;
+package games.generic.controlModel.subimpl;
 
 import java.util.Arrays;
 

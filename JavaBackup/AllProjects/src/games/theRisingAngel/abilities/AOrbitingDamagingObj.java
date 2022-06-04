@@ -95,5 +95,10 @@ public abstract class AOrbitingDamagingObj extends AOrbitingSpawningBlobs {
 
 		}
 
+		@Override
+		public int getDamageBonus(DamageTypeGeneric damageType) { return 0; }
+
+		@Override
+		public int getDamageBonusPercentage(DamageTypeGeneric damageType) { return 0; }
 	}
 }

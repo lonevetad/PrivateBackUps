@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import games.generic.controlModel.rechargeable.resources.RechargeableResourceType;
-import games.generic.controlModel.rechargeable.resources.example.ExampleHealingType;
+import games.generic.controlModel.rechargeable.resources.examples.ExampleHealingType;
 
 /**
  * Defines a way to hold some types of {@link HealableResource}s.<br>

@@ -2,15 +2,15 @@ package games.theRisingAngel.loaders;
 
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.items.EssenceStorage;
 import games.generic.controlModel.items.InventoryItem;
-import games.generic.controlModel.items.impl.EssenceStorage;
-import games.generic.controlModel.misc.GameObjectsProvider;
+import games.generic.controlModel.providers.ItemProvider;
 import games.generic.controlModel.subimpl.LoaderItems;
 import games.theRisingAngel.inventory.InventoryItemBaseTRAn;
 
 public class LoaderItemsTRAn extends LoaderItems {
 
-	public LoaderItemsTRAn(GameObjectsProvider<InventoryItem> objProvider) { super(objProvider); }
+	public LoaderItemsTRAn(ItemProvider objProvider) { super(objProvider); }
 
 	@Override
 	public LoadStatusResult loadInto(GController gm) {

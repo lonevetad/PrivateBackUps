@@ -34,6 +34,7 @@ import games.theRisingAngel.enums.RaritiesTRAn;
 import games.theRisingAngel.enums.TribesTRAn;
 import games.theRisingAngel.enums.TribesTRAn.ReligionAlignment;
 import games.theRisingAngel.enums.TribesTRAn.Tribe;
+import games.theRisingAngel.inventory.EquipItemTRAn;
 import games.theRisingAngel.inventory.equipsWithAbilities.ArmProtectionShieldingDamageByMoney;
 import games.theRisingAngel.inventory.equipsWithAbilities.HelmetOfPlanetaryMeteors;
 import games.theRisingAngel.inventory.equipsWithAbilities.NecklaceOfPainRinvigoring;
@@ -189,7 +190,7 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 					for (Tribe tribe : TribesTRAn.ALL_TRIBES) {
 						for (ReligionAlignment relAl : RELIGION_ALIGMENTS_TO_LOAD) {
 							thisLoader.saveObjectFactory(TribesTRAn.getNameEquipFor(tribe, equipType), rarityIndex,
-									new EquipTRAnFactory(tribe, equipType, relAl));
+									new EquipTRAnFactoryTribeBased(tribe, equipType, relAl));
 						}
 					}
 				});
@@ -258,7 +259,7 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 	public static class EquipTRAnFullSetFactory implements FactoryObjGModalityBased<EquipmentItem> {
 		protected final Tribe tribe;
 		protected final static Random rand = GController.RANDOM;
-		protected final MapTreeAVL<EquipmentTypesTRAn, EquipmentItem>[] piecesNotYetDroppedByReligionAlign;
+		protected final MapTreeAVL<EquipmentTypesTRAn, EquipItemTRAn>[] piecesNotYetDroppedByReligionAlign;
 		protected final int[] piecesLeftCacheByReligionAlign; // stores the caches
 
 		@SuppressWarnings("unchecked")
@@ -281,7 +282,7 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 //			}
 
 			final int indexReligionAlignment;
-			final MapTreeAVL<EquipmentTypesTRAn, EquipmentItem> newSetOfPieces;
+			final MapTreeAVL<EquipmentTypesTRAn, EquipItemTRAn> newSetOfPieces;
 			indexReligionAlignment = relAl.ordinal();
 			if (this.piecesNotYetDroppedByReligionAlign[indexReligionAlignment] == null || //
 					this.piecesLeftCacheByReligionAlign[indexReligionAlignment] <= 0 // piecesNotYetDropped.isEmpty()
@@ -309,8 +310,8 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 		@Override
 		public EquipmentItem newInstance(GModality gm) {
 			int size, indexReligAlign;
-			MapTreeAVL<EquipmentTypesTRAn, EquipmentItem> pnyd;
-			Entry<EquipmentTypesTRAn, EquipmentItem> e;
+			MapTreeAVL<EquipmentTypesTRAn, EquipItemTRAn> pnyd;
+			Entry<EquipmentTypesTRAn, EquipItemTRAn> e;
 //			EquipmentTypesTRAn equipType;
 
 			this.checkAndRefill((GModalityRPG) gm);
@@ -357,12 +358,13 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 
 	}
 
-	public static class EquipTRAnFactory implements FactoryObjGModalityBased<EquipmentItem> {
+	public static class EquipTRAnFactoryTribeBased implements FactoryObjGModalityBased<EquipmentItem> {
 		protected final Tribe tribe;
 		protected final EquipmentTypesTRAn equipType;
 		protected final ReligionAlignment religionAlignment;
 
-		public EquipTRAnFactory(Tribe tribe, EquipmentTypesTRAn equipType, ReligionAlignment religionAlignment) {
+		public EquipTRAnFactoryTribeBased(Tribe tribe, EquipmentTypesTRAn equipType,
+				ReligionAlignment religionAlignment) {
 			super();
 			this.tribe = tribe;
 			this.equipType = equipType;
@@ -378,8 +380,9 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 	//
 
 	public static void main(String[] args) {
-		int size;
-		int[] rarities;
+		int size, raritiesAmount;
+		int[] rarities, raritiesEachEquipType; // let's collect some statistics
+		RaritiesTRAn[] allRarities;
 //		LoaderEquipFromFile leff;
 //		LinkedList<FactoryEquip> factories;
 //		FactoryEquip fe;
@@ -411,6 +414,8 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 			log = logTemp;
 		}
 
+		allRarities = RaritiesTRAn.values();
+
 		gc = new GControllerTRAn();
 		gm = (GModalityTRAnBaseWorld) gc.newModalityByName(GModalityTRAnBaseWorld.NAME);
 		Objects.requireNonNull(gm);
@@ -422,29 +427,64 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 		loader.loadInto(gc);
 		allObjectFactories = loader.objProvider.getObjectsIdentified();
 		size = allObjectFactories.size();
-		rarities = new int[RaritiesTRAn.values().length];
+
+		raritiesAmount = allRarities.length;
+		rarities = new int[raritiesAmount];
+		raritiesEachEquipType = new int[ //
+		/**
+		 * All rarities plus the total amount of times an equip type is found
+		 */
+		(raritiesAmount + 1) //
+				* EquipmentTypesTRAn.ALL_EQUIP_TYPES_TRAn.length //
+		];
 		Arrays.fill(rarities, 0);
+		Arrays.fill(raritiesEachEquipType, 0);
 
 		allObjectFactories.forEach((name, factoryEquip) -> {
-			if (factoryEquip instanceof FactoryEquip) {
-				FactoryEquip fe;
-				fe = (FactoryEquip) factoryEquip;
+			try {
+				int rarity;
+				EquipmentTypesTRAn eqType;
+				rarity = -1;
+				eqType = null;
+				if (factoryEquip instanceof FactoryEquip) {
+					FactoryEquip fe;
+					FactoryItems fi;
+					fe = (FactoryEquip) factoryEquip;
 //				log.logAndPrint(fe.toString());
 //				log.logAndPrint("\n");
-				rarities[fe.getFactoryItem().rarity]++;
-			} else {
-				try {
-					EquipmentItem ei;
-					ei = factoryEquip.newInstance(gm);
-					rarities[ei.getRarityIndex()]++;
-					// log.logAndPrint(ei.toString());
-				} catch (Exception e) {
-					log.logAndPrint("ERROR WITH EQUIP: ");
-					log.logAndPrint(name);
-					log.logAndPrint("\n");
-					log.logException(e);
-					log.logAndPrint("\n");
+					fi = fe.getFactoryItem();
+					rarity = fi.rarity;
+					eqType = fe.type;
+				} else {
+					try {
+						EquipmentItem ei;
+						ei = factoryEquip.newInstance(gm);
+						rarity = ei.getRarityIndex();
+						eqType = (EquipmentTypesTRAn) ei.getEquipmentType();
+						// log.logAndPrint(ei.toString());
+					} catch (Exception e) {
+						log.logAndPrint("ERROR WITH EQUIP: ");
+						log.logAndPrint(name);
+						log.logAndPrint("\n");
+						log.logException(e);
+						log.logAndPrint("\n");
+					}
 				}
+				if (eqType != null) {
+					int equipIndexOnMatrix;
+
+					rarities[rarity]++;
+
+					equipIndexOnMatrix = eqType.getIndex() * (raritiesAmount + 1);
+					raritiesEachEquipType[equipIndexOnMatrix + rarity]++; // trace the rarity
+					raritiesEachEquipType[equipIndexOnMatrix + raritiesAmount]++; // trace the equip type itself
+				}
+			} catch (Exception e) {
+				log.logAndPrint("ERROR WITH EQUIP: ");
+				log.logAndPrint(name);
+				log.logAndPrint("\n");
+				log.logException(e);
+				log.logAndPrint("\n");
 			}
 		});
 
@@ -455,6 +495,30 @@ public class LoaderEquipTRAn extends LoaderEquipments implements ObjectLoadable 
 		log.logAndPrint("RARITIES proportion:");
 		log.logAndPrint("\n");
 		log.logAndPrint(Arrays.toString(rarities));
-		log.logAndPrint("\n");
+
+		log.logAndPrint(
+				"\n\n\n-----------------\ntable of equipment types X [rarities + total of usage of equip type]\n\t\t\t");
+		for (RaritiesTRAn r : allRarities) {
+			log.logAndPrint("|");
+			log.logAndPrint(r.getName());
+			log.logAndPrint("\t");
+		}
+		log.logAndPrint("||TOTAL\n");
+
+		int rarityGrainedIndexIterator = 0;
+		for (EquipmentTypesTRAn e : EquipmentTypesTRAn.ALL_EQUIP_TYPES_TRAn) {
+			int tabsPadding;
+			tabsPadding = 3 - ((e.getName().length() - 4) >> 2);
+			log.logAndPrint(e.getName());
+			while (tabsPadding-- > 0) {
+				log.logAndPrint("\t");
+			}
+			for (int i = raritiesAmount + 1; i > 0; i--) {
+				log.logAndPrint("|\t");
+				log.logAndPrint(Integer.toString(raritiesEachEquipType[rarityGrainedIndexIterator++]));
+				log.logAndPrint("\t");
+			}
+			log.logAndPrint("\n");
+		}
 	}
 }

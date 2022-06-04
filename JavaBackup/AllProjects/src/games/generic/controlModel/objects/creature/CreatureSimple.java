@@ -85,4 +85,7 @@ public interface CreatureSimple
 
 	@Override
 	public default void initSetRechargeableResources() { LivingObject.super.initSetRechargeableResources(); }
+
+	@Override
+	public default int getLuckPerThousand() { return LivingObject.super.getLuckPerThousand(); }
 }

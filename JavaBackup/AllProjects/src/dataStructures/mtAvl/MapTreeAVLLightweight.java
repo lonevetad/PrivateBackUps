@@ -853,7 +853,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 	// TODO range query, closest match, forEachSimilar ... yay complex stuffs
 
-
 	@Override
 	public MapTreeAVL<K, V> rangeQuery(K lowerBound, boolean isLowerBoundIncluded, K upperBound,
 			boolean isUpperBoundIncluded) throws IllegalArgumentException {
@@ -2382,9 +2381,6 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		public Object[] toArray() { return MapTreeAVLLightweight.this.toArray(); }
 
 		@Override
-		public <T> T[] toArray(T[] a) { return MapTreeAVLLightweight.this.toArray(a); }
-
-		@Override
 		public boolean containsAll(Collection<?> c) { return MapTreeAVLLightweight.this.containsAll(c); }
 
 		@Override
@@ -2483,6 +2479,29 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		 * the iterator.
 		 */
 		public K pickOne() { return isEmpty() ? null : first(); }
+
+		@Override
+		@SuppressWarnings("unchecked")
+		public <T> T[] toArray(T[] aOrig) {
+			final int s;
+			final T[] a;
+			if (aOrig == null)
+				throw new NullPointerException("Cannot provide a null array, gives at least an 0-size array");
+			s = size;
+			if (s == 0)
+				return (new ArrayList<T>(0)).toArray(aOrig);
+			if (s != aOrig.length) {
+				a = (T[]) Array.newInstance(aOrig.getClass().getComponentType(), s);
+			} else
+				a = aOrig;
+			MapTreeAVLLightweight.this.forEach(new Consumer<Entry<K, V>>() {
+				int index = 0;
+
+				@Override
+				public void accept(Entry<K, V> t) { a[index++] = (T) t.getKey(); }
+			});
+			return a;
+		}
 	}
 
 	protected class SortedSetEntryWrapper extends SortedSetWrapper<Entry<K, V>> {
@@ -2547,6 +2566,29 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 		@Override
 		public Entry<K, V> last() { return MapTreeAVLLightweight.this.peekMaximum(); }
+
+		@Override
+		@SuppressWarnings("unchecked")
+		public <T> T[] toArray(T[] aOrig) {
+			final int s;
+			final T[] a;
+			if (aOrig == null)
+				throw new NullPointerException("Cannot provide a null array, gives at least an 0-size array");
+			s = size;
+			if (s == 0)
+				return (new ArrayList<T>(0)).toArray(aOrig);
+			if (s != aOrig.length) {
+				a = (T[]) Array.newInstance(aOrig.getClass().getComponentType(), s);
+			} else
+				a = aOrig;
+			MapTreeAVLLightweight.this.forEach(new Consumer<Entry<K, V>>() {
+				int index = 0;
+
+				@Override
+				public void accept(Entry<K, V> t) { a[index++] = (T) t; }
+			});
+			return a;
+		}
 	}
 
 	protected class SortedSetValueWrapper extends SortedSetWrapper<V> {
@@ -2650,6 +2692,28 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public V last() { return MapTreeAVLLightweight.this.peekMaximum().getValue(); }
 
+		@Override
+		@SuppressWarnings("unchecked")
+		public <T> T[] toArray(T[] aOrig) {
+			final int s;
+			final T[] a;
+			if (aOrig == null)
+				throw new NullPointerException("Cannot provide a null array, gives at least an 0-size array");
+			s = size;
+			if (s == 0)
+				return (new ArrayList<T>(0)).toArray(aOrig);
+			if (s != aOrig.length) {
+				a = (T[]) Array.newInstance(aOrig.getClass().getComponentType(), s);
+			} else
+				a = aOrig;
+			MapTreeAVLLightweight.this.forEach(new Consumer<Entry<K, V>>() {
+				int index = 0;
+
+				@Override
+				public void accept(Entry<K, V> t) { a[index++] = (T) t.getValue(); }
+			});
+			return a;
+		}
 	}
 
 	// TODO submaps

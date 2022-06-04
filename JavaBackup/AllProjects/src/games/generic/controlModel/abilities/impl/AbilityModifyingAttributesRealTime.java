@@ -111,8 +111,10 @@ public abstract class AbilityModifyingAttributesRealTime extends AbilityBaseWith
 		ca = ah.getAttributes();
 		if (ca == null)
 			return;
-		updateAttributeModifications(modality, ah, ca, targetLevel);
+		this.updateAttributeModifications(modality, ah, ca, targetLevel);
 	}
+
+	protected void actionPreAttributeModificationUpdates() {}
 
 	/**
 	 * Update the values of all {@link AttributeModification} (returned by
@@ -127,6 +129,7 @@ public abstract class AbilityModifyingAttributesRealTime extends AbilityBaseWith
 	 */
 	protected final void updateAttributeModifications(GModality gm, CreatureSimple ah, CreatureAttributes ca,
 			int targetLevel) {
+		this.actionPreAttributeModificationUpdates();
 		for (AttributeModification am : this.attributesToModify) {
 			ca.removeAttributeModifier(am);
 		}

@@ -1,22 +1,18 @@
 package videogamesOldVersion.common.abstractCommon.referenceHolderAC;
 
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 
-import videogamesOldVersion.common.gui.TileImage;
+import games.generic.view.TileImage;
+import tools.ObjectWithID;
 import videogamesOldVersion.common.mainTools.AnimatedImage;
 
 /**
  * Represent a class holding an image, more precisely {@link BufferedImage},
  * and/or an {@link AnimatedImage}.
  */
-public interface ImageAnimationHolder extends Serializable {
+public interface ImageAnimationHolder extends ObjectWithID {
 
-	public static ImageAnimationHolder newDefaultImplementation() {
-		return new TileImage();
-	}
-
-	public Integer getID();
+	public static ImageAnimationHolder newDefaultImplementation() { return new TileImage(); }
 
 	/** Get the name associated to this image/animation. */
 	public String getImageName();
@@ -107,9 +103,7 @@ public interface ImageAnimationHolder extends Serializable {
 	 * Update any possible animation with the given amount of time (expressed in
 	 * milliseconds).
 	 */
-	public default void updateAnimation(int millis) {
-		getNextImage(millis);
-	}
+	public default void updateAnimation(int millis) { getNextImage(millis); }
 
 	/**
 	 * Update any possible animation with the given amount of time (expressed in

@@ -1,5 +1,6 @@
 package games.theRisingAngel.loaders.factories;
 
+import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,16 +52,35 @@ public class FactoryEquip implements FactoryObjGModalityBased<EquipmentItem> {
 		}
 	}
 
+	public FactoryItems getFactoryItem() { return fi; }
+
+	public int getRarity() { return fi.getRarity(); }
+
+	public String getName() { return fi.getName(); }
+
+	public String getDescription() { return fi.getDescription(); }
+
+	public Dimension getDimensionInInventory() { return fi.getDimensionInInventory(); }
+
+	public int[] getPrice() { return fi.getPrice(); }
+
+	public InventoryItemFactory getInventoryItemFactory() { return fi.getInventoryItemFactory(); }
+
+	public EquipmentTypesTRAn getType() { return type; }
+
+	public List<AbilityData> getAbilities() { return abilities; }
+
+	public AttributeModification[] getAttrMods() { return attrMods; }
+
 	@Override
 	public String toString() {
-		return "FactoryEquip [\n name=" + getFactoryItem().name + ", type=" + type + ",\n rarity="
-				+ getFactoryItem().rarity + ", sell price: " + Arrays.toString(getFactoryItem().price)
+		return "FactoryEquip [\n name=" + getName() + ", type=" + type + //
+				",\n description: " + getDescription() + ",\n rarity=" + getRarity() + ", sell price: "
+				+ Arrays.toString(getPrice())//
 				+ ",\n dimensions in inventory: " + getFactoryItem().dimensionInInventory + ",\n abilities=\n\t"
 				+ (abilities == null ? "null" : Arrays.toString(abilities.toArray()))//
 				+ ",\n attrMods=\n\t" + Arrays.toString(attrMods) + "]";
 	}
-
-	public FactoryItems getFactoryItem() { return fi; }
 
 	//
 

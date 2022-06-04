@@ -132,6 +132,7 @@
 		"dimensionInventory": { "width": 2, "height": 2 },
 		"abilities": [],
 		"attributeModifiers": {
+			"LifeMax":10,
 			"Constitution": 4,
 			"Health": 1,
 			"Defense": 5,
@@ -143,11 +144,12 @@
 	}, {
 		"name": "Wool Gloves",
 		"rarity": 1,
-		"price": [25],
+		"price": [15],
 		"type": "Hands",
 		"dimensionInventory": { "width": 2, "height": 2 },
 		"abilities": [],
 		"attributeModifiers": {
+			"LifeMax":5,
 			"Strength": 2,
 			"Constitution": 2,
 			"Health": 1,
@@ -182,7 +184,7 @@
 		"dimensionInventory": { "width": 2, "height": 3 },
 		"abilities": [],
 		"attributeModifiers": {
-			"LifeMax": 10,
+			"LifeMax": 20,
 			"Defense": 7,
 			"Constitution": 3,
 			"Health": 2,
@@ -197,10 +199,10 @@
 		"rarity": 1,
 		"price": [28],
 		"type": "Chest",
-		"dimensionInventory": { "width": 2, "height": 3 },
+		"dimensionInventory": { "width": 3, "height": 3 },
 		"abilities": [],
 		"attributeModifiers": {
-			"LifeMax": 15,
+			"LifeMax": 25,
 			"Defense": 7,
 			"Constitution": 4,
 			"Health": 2,
@@ -235,6 +237,7 @@
 		"dimensionInventory": { "width": 2, "height": 4 },
 		"abilities": [],
 		"attributeModifiers": {
+			"LifeMax": 15,
 			"Defense": 8,
 			"Constitution": 5,
 			"Health": 2,
@@ -252,14 +255,14 @@
 		"dimensionInventory": { "width": 2, "height": 3 },
 		"abilities": [],
 		"attributeModifiers": {
-			"LifeMax": 23,
+			"LifeMax": 25,
 			"Defense": 6,
 			"Constitution": 7,
 			"Health": -2,
 			"Dexterity": -3,
 			"Velocity": -3,
-			"PhysicalDamageReduction": 3,
-			"MagicalDamageReduction": 1
+			"PhysicalDamageReduction": 4,
+			"MagicalDamageReduction": 2
 		}
 	}, {
 		"name": "Leather Jacket",
@@ -269,13 +272,14 @@
 		"dimensionInventory": { "width": 2, "height": 3 },
 		"abilities": [],
 		"attributeModifiers": {
-			"LifeMax": 18,
+			"LifeMax": 35,
 			"Defense": 7,
 			"Constitution": 8,
 			"Health": -3,
 			"Precision": 2,
 			"Dexterity": -5,
-			"PhysicalDamageReduction": 4
+			"PhysicalDamageReduction": 5,
+			"MagicalDamageReduction": 3
 		}
 	}, {
 		"name": "Leather Shoes",
@@ -285,13 +289,15 @@
 		"dimensionInventory": { "width": 2, "height": 2 },
 		"abilities": [],
 		"attributeModifiers": {
+			"LifeMax":10,
 			"Defense": 5,
 			"Constitution": 7,
 			"Dexterity": 5,
 			"Health": -1,
 			"Velocity": 10,
 			"ManaMax": -10,
-			"PhysicalDamageReduction": 3
+			"PhysicalDamageReduction": 3,
+			"MagicalDamageReduction": 1
 		}
 	}, {
 		"name": "Leather Boots",
@@ -306,8 +312,10 @@
 			"Health": -2,
 			"Dexterity": 3,
 			"Velocity": 7,
-			"ManaMax": -5,
-			"PhysicalDamageReduction": 3
+			"ManaMax": -15,
+			"StaminaMax":-5,
+			"PhysicalDamageReduction": 4,
+			"MagicalDamageReduction": 1
 		}
 	}, {
 		"name": "Leather Cap",
@@ -322,7 +330,7 @@
 			"Constitution": 5,
 			"Health": -2,
 			"PhysicalDamageReduction": 3,
-			"MagicalDamageReduction": 1,
+			"MagicalDamageReduction": 2,
 			"CriticalMultiplierPercentageReduction": 7
 		}
 	}, {
@@ -333,6 +341,7 @@
 		"dimensionInventory": { "width": 2, "height": 2 },
 		"abilities": [],
 		"attributeModifiers": {
+			"LifeMax":10,
 			"Defense": 3,
 			"Constitution": 2,
 			"Health": -2,
@@ -340,7 +349,7 @@
 			"Dexterity": 4,
 			"PhysicalDamageReduction": 2,
 			"PhysicalProbabilityPerThousandHit": 3,
-			"MagicalProbabilityPerThousandHit": 3
+			"MagicalProbabilityPerThousandHit": 4
 		}
 	}, {
 		"name": "Leather Sleeve",
@@ -350,6 +359,7 @@
 		"dimensionInventory": { "width": 1, "height": 2 },
 		"abilities": [],
 		"attributeModifiers": {
+			"LifeMax":5,
 			"Strength": 3,
 			"Defense": 4,
 			"Constitution": 6,
@@ -358,24 +368,25 @@
 			"Dexterity": -5,
 			"PhysicalDamageReduction": 2,
 			"CriticalMultiplierPercentageReduction": 5,
-			"MagicalDamageReduction": 2
+			"MagicalDamageReduction": 3
 		}
 	}, {
 		"name": "Leather Cloak",
 		"rarity": 2,
 		"price": [35],
 		"type": "Shoulder",
-		"dimensionInventory": { "width": 2, "height": 4 },
+		"dimensionInventory": { "width": 3, "height": 4 },
 		"abilities": [],
 		"attributeModifiers": {
+			"LifeMax":40,
 			"Defense": 10,
 			"Constitution": 10,
 			"Dexterity": -6,
 			"Precision": -4,
 			"Faith": -3,
 			"Velocity": -10,
-			"PhysicalDamageReduction": 4,
-			"MagicalDamageReduction": 5
+			"PhysicalDamageReduction": 5,
+			"MagicalDamageReduction": 6
 		}
 	}, {
 		"name": "Chainmail Trousers",
@@ -1266,17 +1277,18 @@
 		"dimensionInventory": { "width": 2, "height": 3 },
 		"abilities": [
 			{
-				"name": "Stonefying Skin",
+				"name": "Trained to Endure",
 				"level": 0
 			}
 		],
 		"attributeModifiers": {
-			"Constitution": 2,
-			"Health": -5,
-			"Defense": 7,
+			"LifeMax":200,
+			"Constitution": 4,
+			"Defense": 15,
 			"Dexterity": -6,
-			"PhysicalDamageReduction": 3,
-			"MagicalDamageReduction": 3
+			"PhysicalDamageReduction": 15,
+			"MagicalDamageReduction": 15,
+			"PhysicalDamageMultiplierPercentageReduction": 15
 		}
 	}, {
 		"name": "Belt with Limph-made Walled",
@@ -2311,6 +2323,217 @@
 			"ShieldRegen":8,
 			"PhysicalDamageReduction":1,
 			"MagicalDamageReduction":4,
+		}
+	}, {
+		"name": "Ring with Mystic Dense Stones",
+		"rarity":4,
+		"price":[85],
+		"type": "Ring",
+		"dimensionInventory": { "width": 1, "height": 1 },
+		"abilities": [],
+		"attributeModifiers":{
+			"VelocitySpellCastPercentage": -7,
+			"CostCastReductionPercentage": -25,
+			"ManaMax":-125,
+			"ManaRegen":-6,
+			"MagicalDamageMultiplierPercentageBonus":40
+		}
+	}, {
+		"name": "Collar with Mystic Dense Stones",
+		"rarity":4,
+		"price":[105],
+		"type": "Earrings",
+		"dimensionInventory": { "width": 2, "height": 1 },
+		"abilities": [],
+		"attributeModifiers":{
+			"VelocitySpellCastPercentage": -15,
+			"CostCastReductionPercentage": -40,
+			"ManaMax":-200,
+			"ManaRegen":-10,
+			"MagicalDamageMultiplierPercentageBonus":60
+		}
+	}, {
+		"name": "Sonars with Mystic Dense Stones",
+		"rarity":4,
+		"price":[95],
+		"type": "Earrings",
+		"dimensionInventory": { "width": 1, "height": 1 },
+		"abilities": [],
+		"attributeModifiers":{
+			"VelocitySpellCastPercentage": -10,
+			"CostCastReductionPercentage": -32,
+			"ManaMax":-175,
+			"ManaRegen":-8,
+			"MagicalDamageMultiplierPercentageBonus":50
+		}
+	}, {
+		"name": "Top of Unholy Syndome",
+		"rarity":4,
+		"price":[77],
+		"type": "Chest",
+		"dimensionInventory": { "width": 2, "height": 2 },
+		"abilities": [],
+		"attributeModifiers":{
+			"PhysicalDamageReduction":5,
+			"MagicalDamageReduction":5,
+			"Defense": 2,
+			"CostCastReductionPercentage": -30,
+			"LifeLeechPercentage":65,
+			"MagicalDamageBonus":15,
+			"MagicalDamageMultiplierPercentageBonus":10
+		}
+	}, {
+		"name": "Trousers of the Lightning",
+		"rarity":4,
+		"price":[53],
+		"type": "Chest",
+		"dimensionInventory": { "width": 2, "height": 2 },
+		"abilities": [],
+		"attributeModifiers":{
+			"PhysicalDamageReduction":2,
+			"MagicalDamageReduction":2,
+			"Defense": 2,
+			"Dexterity":30,
+			"Precision":-15,
+			"Velocity": 50,
+			"VelocityAttackStrikePercentage":50,
+			"PhysicalDamageBonus":27
+		}
+	}, {
+		"name": "Top Coatings of the Bloodthirsty Hedgehog",
+		"rarity":4,
+		"price":[77],
+		"type": "Shoulder",
+		"dimensionInventory": { "width": 2, "height": 2 },
+		"abilities": [],
+		"attributeModifiers":{
+			"PhysicalDamageReduction":8,
+			"MagicalDamageReduction":8,
+			"PhysicalDamageMultiplierPercentageReduction":7,
+			"MagicalDamageMultiplierPercentageReduction":7,
+			"LifeMax":-250,
+			"LifeRegen":-10,
+			"Defense": 4,
+			"ManaLeechPercentage":5,
+			"LifeLeechPercentage":35,
+			"PhysicalDamageBonus":25,
+			"PhysicalDamageMultiplierPercentageBonus":10,
+			"CriticalMultiplierPercentage": 17
+		}
+	}, {
+		"name": "Sollerets of The Martial Artist",
+		"rarity":3,
+		"price":[48],
+		"type": "Legs",
+		"dimensionInventory": { "width": 2, "height": 2 },
+		"abilities": [],
+		"attributeModifiers":{
+			"PhysicalDamageReduction":8,
+			"MagicalDamageReduction":8,
+			"PhysicalDamageMultiplierPercentageReduction":7,
+			"MagicalDamageMultiplierPercentageReduction":7,
+			"LifeMax":-150,
+			"Defense": 4,
+			"Dexterity": 6,
+			"Precision": 3,
+			"Velocity":15,
+			"ManaLeechPercentage":15,
+			"VelocityAttackStrikePercentage": 20,
+			"PhysicalDamageBonus":5,
+			"PhysicalDamageMultiplierPercentageBonus":10,
+			"CriticalMultiplierPercentage": 50
+		}
+	}, {
+		"name": "Helmet of The Furious",
+		"rarity":4,
+		"price":[7],
+		"type": "Head",
+		"dimensionInventory": { "width": 2, "height": 2 },
+		"abilities": [],
+		"attributeModifiers":{
+			"PhysicalDamageReduction":7,
+			"MagicalDamageReduction":-2,
+			"LifeMax":-50,
+			"ManaMax":-50,
+			"StaminaMax":25,
+			"StaminaRegen":5,
+			"Defense":8,
+			"Constitution":10,
+			"Strength":25,
+			"Precision":-8,
+			"Wisdom":-15,
+			"StaminaLeechPercentage":15,
+			"VelocityAttackStrikePercentage": 25,
+			"PhysicalDamageBonus":8,
+			"PhysicalDamageMultiplierPercentageBonus":8
+		}
+	}, {
+		"name": "Thoughts Whisperer",
+		"rarity":3,
+		"price":[17],
+		"type": "Earrings",
+		"dimensionInventory": { "width": 1, "height": 1 },
+		"description":"They provide pure and evil advices. Constantly. Without being asked.",
+		"abilities": [],
+		"attributeModifiers":{
+			"StaminaRegen":-1,
+			"Wisdom":20,
+			"Intelligence":-5,
+			"Health":-5,
+			"Luck":2,
+			"ExperienceBonusPercentage":10
+		}
+	}, {
+		"name": "Simple Ring",
+		"rarity":0,
+		"price":[2],
+		"type": "Ring",
+		"dimensionInventory": { "width": 1, "height": 1 },
+		"description":"A small wire of metal.",
+		"abilities": [],
+		"attributeModifiers":{
+			"Health":1,
+			"Faith":1,
+			"Luck":1
+		}
+	}, {
+		"name": "Simple Necklace",
+		"rarity":0,
+		"price":[2],
+		"type": "Necklace",
+		"dimensionInventory": { "width": 1, "height": 1 },
+		"description":"A small wire of metal.",
+		"abilities": [],
+		"attributeModifiers":{
+			"Health":2,
+			"Faith":2,
+			"Luck":2
+		}
+	}, {
+		"name": "Simple Bracelet",
+		"rarity":0,
+		"price":[2],
+		"type": "Bracelet",
+		"dimensionInventory": { "width": 1, "height": 1 },
+		"description":"A small wire of metal.",
+		"abilities": [],
+		"attributeModifiers":{
+			"Health":2,
+			"Faith":2,
+			"Luck":2
+		}
+	}, {
+		"name": "Simple Earrings",
+		"rarity":0,
+		"price":[2],
+		"type": "Earrings",
+		"dimensionInventory": { "width": 1, "height": 1 },
+		"description":"A small wire of metal.",
+		"abilities": [],
+		"attributeModifiers":{
+			"Health":2,
+			"Faith":2,
+			"Luck":2
 		}
 	}
 ]

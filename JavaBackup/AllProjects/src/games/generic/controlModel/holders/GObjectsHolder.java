@@ -1,4 +1,4 @@
-package games.generic.controlModel;
+package games.generic.controlModel.holders;
 
 import java.util.Collection;
 import java.util.Set;
@@ -17,7 +17,7 @@ import tools.ObjectWithID;
  * <li></li>
  * </ul>
  */
-public interface GObjectsHolder {
+public interface GObjectsHolder<T extends ObjectWithID> {
 
 	/**
 	 * Returns all {@link ObjectWithID} held by this specific holder.<br>
@@ -28,9 +28,11 @@ public interface GObjectsHolder {
 	 * {@link #forEach(Consumer)} to assure to process the wanted object or all
 	 * objects.
 	 */
-	public Set<ObjectWithID> getObjects();
+	public Set<T> getObjects();
 
 	public int objectsHeldCount();
+
+	public default int size() { return this.objectsHeldCount(); }
 
 	/**
 	 * 
@@ -38,21 +40,21 @@ public interface GObjectsHolder {
 	 * @return wether the addition is successful (if the provided object is not
 	 *         suited for this hodelr, then {@code false} has to be returned).
 	 */
-	public boolean add(ObjectWithID o);
+	public boolean add(T o);
 
 	/***
 	 * 
 	 * @param o
 	 * @return whether the object has been removed or not.
 	 */
-	public boolean remove(ObjectWithID o);
+	public boolean remove(T o);
 
 	/** Similar to {@link Collection#clear()}. */
 	public boolean removeAll();
 
-	public boolean contains(ObjectWithID o);
+	public boolean contains(T o);
 
-	public ObjectWithID get(Long id);
+	public T get(Long id);
 
-	public void forEach(Consumer<ObjectWithID> action);
+	public void forEach(Consumer<T> action);
 }

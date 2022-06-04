@@ -10,7 +10,7 @@ import tools.ObjWithRarityWeight;
 import tools.WeightedSetOfRandomOutcomes;
 
 public enum RaritiesTRAn implements RarityHolder, ObjWithRarityWeight, IndexableObject {
-	Scrap(200), Common(750), WellManifactured(280), HighQuality(150), Rare(60), Epic(25), Legendary(10);
+	Scrap(200), Common(550), Good(280), Awesome(150), Rare(60), Epic(25), Legendary(10);
 
 	public static final RaritiesTRAn[] ALL_RARITIES_TRAn;
 	public static final IndexToObjectBackmapping INDEX_TO_RARITY_TRAn;

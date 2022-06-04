@@ -8,6 +8,7 @@ import games.generic.controlModel.player.UserAccountGeneric;
 import games.generic.controlModel.subimpl.GControllerRPG;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.loaders.LoaderManagerTRAn;
+import games.theRisingAngel.providers.GameObjectsProvidersHolderTRAn;
 
 public class GControllerTRAn extends GControllerRPG {
 
@@ -49,7 +50,7 @@ public class GControllerTRAn extends GControllerRPG {
 	@Override
 	protected void initNonFinalStuffs() {
 		((GameObjectsProvidersHolderTRAn) getGameObjectsProvidersHolder())
-				.setgModality((GModalityRPG) getCurrentGameModality());
+				.setGameModality((GModalityRPG) getCurrentGameModality());
 
 		super.initNonFinalStuffs();
 		System.out.println("GControllerTRAn init non final stuff done\n\n");

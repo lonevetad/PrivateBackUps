@@ -15,6 +15,7 @@ import geometry.AbstractShape2D;
 import geometry.ObjectShaped;
 import tools.ObjectWithID;
 import tools.UniqueIDProvider;
+import tools.impl.OWIDLongImpl;
 
 /**
  * Defines a complex object as a collection of other object(s) orbiting around
@@ -23,7 +24,7 @@ import tools.UniqueIDProvider;
  * <p>
  * NOTE: This is NOT an instance of {@link InteractableObject}.
  */
-public abstract class OrbitingInteractiveObject implements TimedObject, MovingObject {
+public abstract class OrbitingInteractiveObject extends OWIDLongImpl implements TimedObject, MovingObject {
 	private static final long serialVersionUID = -36278285897000123L;
 
 	private static UniqueIDProvider UIDP_ORBITING_INTERACTIVE_OBJECT = null;
@@ -40,7 +41,6 @@ public abstract class OrbitingInteractiveObject implements TimedObject, MovingOb
 
 	protected int millisRotation; // max is 5000, ora instance field
 	protected double angRad; // radians
-	protected final Long ID;
 	protected final String name;
 	protected GModality gameModality;
 	protected List<ObjectShaped> orbitingObjects; // può averne al massimo N, tipo 5
@@ -49,7 +49,7 @@ public abstract class OrbitingInteractiveObject implements TimedObject, MovingOb
 
 	protected OrbitingInteractiveObject(GModality gameModality, String name) {
 		setGameModality(gameModality);
-		this.ID = UIDP_ORBITING_INTERACTIVE_OBJECT.getNewID();
+		this.setID(UIDP_ORBITING_INTERACTIVE_OBJECT.getNewID());
 		this.orbitingObjects = new LinkedList<>();
 		this.name = name;
 	}
@@ -65,9 +65,6 @@ public abstract class OrbitingInteractiveObject implements TimedObject, MovingOb
 
 	@Override
 	public AbstractShape2D getShape() { return shape; }
-
-	@Override
-	public Long getID() { return ID; }
 
 	@Override
 	public String getName() { return name; }

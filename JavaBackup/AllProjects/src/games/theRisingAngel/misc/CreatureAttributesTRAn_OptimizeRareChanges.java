@@ -15,7 +15,6 @@ public class CreatureAttributesTRAn_OptimizeRareChanges extends CreatureAttribut
 	public CreatureAttributesTRAn_OptimizeRareChanges() {
 		super(AttributesTRAn.ALL_ATTRIBUTES.length, AttributesTRAn.INDEX_TO_ATTRIBUTE_TRAn);
 		super.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAn_OptimizeRareChanges());
-		this.cacheValues = null;
 
 	}
 
@@ -28,6 +27,11 @@ public class CreatureAttributesTRAn_OptimizeRareChanges extends CreatureAttribut
 
 	@Override
 	public int getValue(int index) { return this.getValue(AttributesTRAn.ALL_ATTRIBUTES[index]); }
+
+	//
+
+	@Override
+	protected int[] newCacheValues(int length) { return null; }
 
 	@Override
 	protected void recalculateCache() {

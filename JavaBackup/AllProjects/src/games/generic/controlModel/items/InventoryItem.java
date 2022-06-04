@@ -17,16 +17,17 @@ import geometry.AbstractShape2D;
 import tools.ObjectNamedID;
 import tools.ObjectWithID;
 import tools.UniqueIDProvider;
+import tools.impl.OWIDLongImpl;
 
 /**
  * Marker interface for elements that can be placed into the inventory. <br>
  * Used in RPGS
  */
-public abstract class InventoryItem
+public abstract class InventoryItem extends OWIDLongImpl
 		implements ObjectNamedID, RarityHolder, GModalityHolder, DroppableObj, AssignableObject {
 	private static final long serialVersionUID = 47104252L;
 
-	private static UniqueIDProvider UIDP_INVENTORY = null;
+	private static UniqueIDProvider UIDP_INVENTORY = UniqueIDProvider.newBasicIDProvider();
 	public static final UIDProviderLoadedListener UIDP_LOADED_LISTENER_INVENTORY = uidp -> {
 		if (uidp != null) { UIDP_INVENTORY = uidp; }
 	};
@@ -43,7 +44,6 @@ public abstract class InventoryItem
 	}
 
 	protected int rarityIndex;
-	protected Long ID;
 	protected String name, description;
 	protected Point locationInInventory;
 	protected Dimension dimensionInInventory;
@@ -53,9 +53,6 @@ public abstract class InventoryItem
 	protected AbstractShape2D shape;
 
 	protected void assignID() { this.ID = UIDP_INVENTORY.getNewID(); }
-
-	@Override
-	public Long getID() { return ID; }
 
 	@Override
 	public String getName() { return name; }

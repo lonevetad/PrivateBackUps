@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
-import games.generic.controlModel.GObjectsHolder;
+import games.generic.controlModel.holders.GObjectsHolder;
 import games.generic.controlModel.objects.TimedObject;
 import games.generic.controlModel.subimpl.GModelTimeBased;
 import tools.ObjectWithID;

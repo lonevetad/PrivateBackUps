@@ -32,7 +32,7 @@ public class AShieldingButWeakining extends AbilityAttributesModsVanishingOverTi
 	private static final long serialVersionUID = -5898625452208602145L;
 	public static final boolean IS_TESTING = false;
 	public static final String NAME = "Stonefying Skin";
-	public static final RaritiesTRAn RARITY = RaritiesTRAn.WellManifactured;
+	public static final RaritiesTRAn RARITY = RaritiesTRAn.Good;
 	public static final int DURATION_EFFECT = IS_TESTING ? 2000 : 5000; // 750
 	protected static final AttributeIdentifier[] WHAT_TO_MODIFY = new AttributeIdentifier[] { AttributesTRAn.LifeRegen,
 			AttributesTRAn.PhysicalDamageReduction, AttributesTRAn.MagicalDamageReduction };

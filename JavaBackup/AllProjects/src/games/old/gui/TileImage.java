@@ -1,4 +1,4 @@
-package videogamesOldVersion.common.gui;
+package games.generic.view;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -22,20 +22,21 @@ import videogamesOldVersion.common.mainTools.AnimatedImage;
  * affected.<br>
  * Call once the method {@link #cloneAnimationFromThis()} to make the
  * {@link AnimatedImage} stored independent.
+ * 
+ * @deprecated too old and clugged
  */
+@Deprecated
 public class TileImage implements ImageAnimationHolder {
 	private static final long serialVersionUID = 5418910009096512990L;
 
-	public TileImage() {
-		super();
-	}
+	public TileImage() { super(); }
 
 	public TileImage(ImageAnimationHolder iah) {
 		this();
 		setFrom(iah);
 	}
 
-	protected Integer ID;
+	protected Long ID;
 	protected String imageName;
 	protected transient AnimatedImage animatedImage;
 	protected transient BufferedImage imageResized;
@@ -46,19 +47,13 @@ public class TileImage implements ImageAnimationHolder {
 	// TODO GETTER
 
 	@Override
-	public Integer getID() {
-		return ID;
-	}
+	public Long getID() { return ID; }
 
 	@Override
-	public String getImageName() {
-		return imageName;
-	}
+	public String getImageName() { return imageName; }
 
 	@Override
-	public AnimatedImage getAnimatedImage() {
-		return animatedImage;
-	}
+	public AnimatedImage getAnimatedImage() { return animatedImage; }
 
 	@Override
 	public BufferedImage getImageOriginal() {
@@ -209,7 +204,5 @@ public class TileImage implements ImageAnimationHolder {
 	}
 
 	@Override
-	public TileImage clone() {
-		return new TileImage(this);
-	}
+	public TileImage clone() { return new TileImage(this); }
 }

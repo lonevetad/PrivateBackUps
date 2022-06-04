@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import dataStructures.MapTreeAVL;
+import games.generic.controlModel.holders.GObjectsHolder;
 import tools.Comparators;
 import tools.ObjectWithID;
 
@@ -13,9 +14,10 @@ import tools.ObjectWithID;
  * One of the core classes.
  * <p>
  */
-public abstract class GModel implements GObjectsHolder {
+public abstract class GModel implements GObjectsHolder<ObjectWithID> {
 	protected MapTreeAVL<Long, ObjectWithID> backmapAllObjectsUnfiltered;
 	protected Set<ObjectWithID> allObjectsUnfiltered;
+	@SuppressWarnings("rawtypes")
 	protected MapTreeAVL<String, GObjectsHolder> objectsHoldersSpecialized;
 	protected GMap mapCurrent;
 
@@ -25,7 +27,7 @@ public abstract class GModel implements GObjectsHolder {
 		this.allObjectsUnfiltered = this.backmapAllObjectsUnfiltered.toSetValue(ObjectWithID.KEY_EXTRACTOR);
 		this.objectsHoldersSpecialized = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				Comparators.STRING_COMPARATOR);
-		onCreate();
+		this.onCreate();
 	}
 
 	//
@@ -63,7 +65,7 @@ public abstract class GModel implements GObjectsHolder {
 
 	@Override
 	public boolean add(ObjectWithID o) {
-		boolean added[];
+		final boolean added[];
 		if (o == null)
 			return false;
 		/*
@@ -109,6 +111,7 @@ public abstract class GModel implements GObjectsHolder {
 		return someoneRemoved[0];
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean contains(ObjectWithID o) {
 		if (o == null)
@@ -116,7 +119,8 @@ public abstract class GModel implements GObjectsHolder {
 		if (this.backmapAllObjectsUnfiltered.containsKey(o.getID()))
 			return true;
 //		if(this.objectsHoldersSpecialized.containsKey(o))
-		for (Entry<String, GObjectsHolder> e : this.objectsHoldersSpecialized) {
+		for (@SuppressWarnings("rawtypes")
+		Entry<String, GObjectsHolder> e : this.objectsHoldersSpecialized) {
 			if (e.getValue().contains(o))
 				return true;
 		}
@@ -131,7 +135,8 @@ public abstract class GModel implements GObjectsHolder {
 		o = this.backmapAllObjectsUnfiltered.get(id);
 		if (o != null)
 			return o;
-		for (Entry<String, GObjectsHolder> e : this.objectsHoldersSpecialized) {
+		for (@SuppressWarnings("rawtypes")
+		Entry<String, GObjectsHolder> e : this.objectsHoldersSpecialized) {
 			ObjectWithID oo;
 			oo = e.getValue().get(id);
 			if (oo != null)
@@ -142,21 +147,9 @@ public abstract class GModel implements GObjectsHolder {
 
 	@Override
 	public void forEach(final Consumer<ObjectWithID> action) {
-		final MapTreeAVL<Long, ObjectWithID> usedObjects;
 		final Consumer<ObjectWithID> innerConsumer;
-		usedObjects = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.LONG_COMPARATOR);
-		this.backmapAllObjectsUnfiltered.forEach((id, owid) -> {
-//			usedObjects.put(id, owid);
-			action.accept(owid);
-		});
-		innerConsumer = owid -> {
-			Long id;
-			id = owid.getID();
-			if (!usedObjects.containsKey(id)) {
-				usedObjects.put(id, owid);
-				action.accept(owid);
-			}
-		};
+		this.backmapAllObjectsUnfiltered.forEach((id, owid) -> { action.accept(owid); });
+		innerConsumer = action::accept;
 		this.objectsHoldersSpecialized.forEach((str, goh) -> { goh.forEach(innerConsumer); });
 	}
 

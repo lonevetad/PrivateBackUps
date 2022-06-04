@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import games.generic.controlModel.holders.ResourceRechargeableHolder;
 import games.generic.controlModel.misc.IndexableObject;
-import games.generic.controlModel.rechargeable.resources.example.ExampleHealingType;
+import games.generic.controlModel.rechargeable.resources.examples.ExampleHealingType;
 import tools.Comparators;
 import tools.ObjectNamedID;
 

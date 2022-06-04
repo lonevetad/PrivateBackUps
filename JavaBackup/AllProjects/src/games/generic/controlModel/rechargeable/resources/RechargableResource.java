@@ -47,6 +47,9 @@ public abstract class RechargableResource implements ObjectNamedID {
 
 	public abstract void setAmount(int resourceAmount);
 
+	@Override
+	public boolean setID(Long newID) { return this.resourceType.setID(newID); }
+
 	public abstract void setAmountMax(int resourceAmountMax);
 
 	/** Sets the amount of resources that can be recharged each time. */

@@ -6,7 +6,7 @@ import dataStructures.minorUtils.SortedSetEnhancedDelegating;
 import games.generic.controlModel.ObjectNamed;
 import games.generic.controlModel.holders.RarityHolder;
 import games.generic.controlModel.items.EquipmentItem;
-import games.generic.controlModel.items.impl.EssenceStorage;
+import games.generic.controlModel.items.EssenceStorage;
 
 /**
  * Simply consists in a named collection of {@link AttributeModification}.<br>
@@ -38,8 +38,7 @@ public interface AttributesUpgrade
 	//
 
 	public default AttributesUpgrade addAttributeModifier(AttributeModification am) {
-		if (am == null)
-			return null;
+		if (am == null) { return null; }
 		getAttributeModifiers().add(am);
 		return this;
 	}

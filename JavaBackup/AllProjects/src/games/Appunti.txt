@@ -1,4 +1,75 @@
 
+2022-04-20
+
+HUGE REFACTORING:
+ogni OWID dovrà impostare dinamicamente il proprio ID, cioè renderlo non final:
+(aggiunto setter nell'interfaccia ObjWithIDGeneric
+
+
+2022-04-11
+EnumerationsManager + EnumerationGroup
+raccoglitore di enumerazioni, raggruppate in gruppi, per meglio gestire le "estensioni" (es, le creature di varie mappe, o le magie suddivise per tematica / classe di PG [druido, guerriero, assassino, etc])
+
+
+
+
+
+2022-04-09
+
+REFACTORING sistema di eventi
+separarli in due:
+- gli Event non sono eseguiti subito quando vengono creati, ma messi in una coda
+- vengono eseguiti dopo i TimedObject, cioe' "dispatch-ati" ai vari Listener
+- (forse gia' avviene cosi)
+- il Dispatcher potrebbe far ascoltare gli i alle varie "famiglie" di listener in parallelismo
+
+
+
+
+2022-04-02
+
+Per la meccanica di "riservare mana/vita/etc come costo di una abilita'", progettare
+un'altra abilita' che riduca l'ammontare di risorsa riservata.
+Tale abilita' applica delle riduzioni alla percentuale di "riservamento" del mana,
+piu' dei costi circa fissi come prezzo, che dipendono dal livello della abilita' allocata.
+Conviene quando si ha abbastanza mana. La formula e':
+
+m   = mana max
+r   = fattore di "riservamento" del mana \in [0, 1] ( 25% -> 0.25 )
+c   = fattore di conversione/riduzione
+f_c = costo fisso, da riservare, per la conversione
+m_c = costo fisso, da riservare, per la conversione MA dipendente dal fattore di conversione
+
+m * r >= 
+  m * r * (1 - c)  +  ( c * f_c + m_c )
+->
+  m*r*(1- [1-c]) >= c * f_c + m_c
+->
+  m*r*c >= ...
+-> m >= ( c * f_c + m_c ) / (r*c)
+
+ipotizando che "c" dipenda dal livello allocato "l \in N | 0 <= l <= 19" come
+  c = c_(l) := l / 5.0
+  f_c = 100 - (10 - l)*10  ->  (10-(10-l))*10 -> l*10
+  m_c = 15
+
+diventa:
+  m >= ((l/5) * l*10 + 15) / (r*l/5)
+  m >= ( 2*l^2 + 15 ) / (r*l/5)
+  m >= (10*l/r) + (75 / (l*r))
+
+
+old:
+  m >= ( (l/5) * (100-(10-l)*10) + 15 ) / (r*l/5)
+  m >= ( (l*(10-(10-l)))/2 + 15 ) / (r*l/5)
+  m >= ( ( 10*l - l*(10-l) )/2 +15) / (r*l/5)
+  m >= ( 5*l^2 + 15
+
+
+
+27/01/2022
+
+
 TODOOOOOOOOOO
 sostituire _quasi_ ogni estensione di AbilityBaseImpl con AbilityBaseWithCustomName
 
@@ -92,7 +163,7 @@ public static class TimedObjectCategoryRunner implements Runnable {
 }
 
 
-13/02/2022
+13/01/2022
 
 abilità che per da' ha dei bonus bassi e cresce col tempo:
  - Status 0 - 10 secondi : +1 di tutti e 9 gli attributi, + 0 di velocità,
@@ -148,7 +219,6 @@ Ogni personaggio inizia con l'oggetto "Sandals of the Novice" già equipaggiato
 
 
 
-
 29/12/2021
 
 Creare un minion che ha un invwntario suo, MovingObj, Interacting, che ascolta gli eventi
@@ -182,9 +252,10 @@ the sum of all attribute modifiers has to follow this recursive function
 	 * 7) 44
 
 how rarity determines:
--) life  : 20 + level*25
--) mana  : 10 + level*20
--) shield: 10 + level*15
+-) Life  : 40 + level*25
+-) Mana  : 20 + level*20
+-) Shield: 30 + level*15
+-) Stamina: 10 + level*10
 
 
 

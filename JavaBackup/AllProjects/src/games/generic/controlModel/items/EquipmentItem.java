@@ -111,10 +111,7 @@ public abstract class EquipmentItem extends InventoryItem implements AbilitiesHo
 	 */
 	protected abstract void enrichEquipment(GModality gm, GameObjectsProvidersHolder providersHolder);
 
-	protected void onCreate(GModality gm) {
-		gm.getGameController();
-		enrichEquipment(gm, gm.getGameObjectsProvider());
-	}
+	protected void onCreate(GModality gm) { enrichEquipment(gm, gm.getGameObjectsProvider()); }
 
 	/** Just check the instances of sets and backmaps. */
 	protected void checkAbilitiesSet() {

@@ -1,7 +1,7 @@
 package games.generic.controlModel.subimpl;
 
-import games.generic.controlModel.GObjectsHolder;
 import games.generic.controlModel.events.GEventManager;
+import games.generic.controlModel.holders.GObjectsHolder;
 
 /**
  * <p>

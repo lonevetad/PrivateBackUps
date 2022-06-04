@@ -1,7 +1,5 @@
 package games.generic.controlModel.subimpl;
 
-import java.util.Queue;
-
 import games.generic.controlModel.GController;
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.GModel;
@@ -9,7 +7,6 @@ import games.generic.controlModel.events.GEvent;
 import games.generic.controlModel.events.GEventInterface;
 import games.generic.controlModel.events.GEventManager;
 import games.generic.controlModel.events.GEventObserver;
-import games.generic.controlModel.events.IGEvent;
 import games.generic.controlModel.misc.GThread;
 import games.generic.controlModel.misc.GThread.GTRunnableSimplestImplementation;
 import games.generic.controlModel.objects.GameObjectGeneric;
@@ -286,14 +283,6 @@ public abstract class GModalityET extends GModality implements IGameModalityTime
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	public boolean doOnExceedingEventsProcessedInStep() {
-		Queue<IGEvent> q;
-		q = this.getEventManager().getEventsQueued();
-		q.clear();
-		return false;
 	}
 
 	//

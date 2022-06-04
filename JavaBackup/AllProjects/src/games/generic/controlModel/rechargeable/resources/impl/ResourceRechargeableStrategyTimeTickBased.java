@@ -14,6 +14,7 @@ import games.generic.controlModel.rechargeable.resources.RechargeableResourceTyp
 import games.generic.controlModel.rechargeable.resources.ResourceAmountRecharged;
 import games.generic.controlModel.rechargeable.resources.ResourceRechargeableStrategy;
 import tools.ObjectWithID;
+import tools.impl.OWIDLongImpl;
 
 /**
  * 
@@ -22,7 +23,7 @@ import tools.ObjectWithID;
  * @param <Source>: the object is providing the healing: the
  *                  {@link PlayerGeneric} itself, a {@link AbilityGeneric}, etc
  */
-public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWithID>
+public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWithID> extends OWIDLongImpl
 		implements ResourceRechargeableStrategy, TimedObject {
 	private static final long serialVersionUID = 45364398705219L;
 	private static long idProg = 0;
@@ -31,7 +32,7 @@ public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWith
 	public ResourceRechargeableStrategyTimeTickBased(Source whoIsPerformingTheRecharge,
 			ResourceRechargeableHolder resourceRechargeableHolder) {
 		super();
-		this.ID = idProg++;
+		this.setID(idProg++);
 		this.whoIsPerformingTheRecharge = whoIsPerformingTheRecharge;
 		this.resourceRechargeableHolder = resourceRechargeableHolder;
 		this.theResourceRecharger = (resType, res) -> this.rechargeAResource(res);
@@ -42,7 +43,6 @@ public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWith
 	/** Taken from the {@link #act(GModality, int)} */
 	protected int subUnitTimeElapsed;
 	protected GModality gameModality;
-	protected final Long ID;
 	protected final Source whoIsPerformingTheRecharge;
 	protected final ResourceRechargeableHolder resourceRechargeableHolder;
 	protected final BiConsumer<RechargeableResourceType, RechargableResource> theResourceRecharger;
@@ -62,9 +62,6 @@ public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWith
 
 	@Override
 	public void onRemovedFromGame(GModality gm) {}
-
-	@Override
-	public Long getID() { return this.ID; }
 
 	@Override
 	public String getName() {

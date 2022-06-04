@@ -26,8 +26,8 @@ public class EquipmentUpgradeImpl implements EquipmentUpgrade {
 	protected int rarityIndex;
 	protected String name, description;
 	protected final MapTreeAVL<String, AttributeModification> backMapAttrMods;
-	protected EquipmentItem equipmentAssigned;
 	protected final SortedSet<AttributeModification> attributeModifiers;
+	protected EquipmentItem equipmentAssigned;
 	protected CurrencySet priceModifications;
 
 	@Override

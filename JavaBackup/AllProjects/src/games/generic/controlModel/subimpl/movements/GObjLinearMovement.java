@@ -11,6 +11,7 @@ public class GObjLinearMovement extends GObjMovement {
 	private static final long serialVersionUID = 1L;
 
 	public GObjLinearMovement() {
+		super();
 		distanceTraveled = 0;
 		startingPoint = null;
 	}
@@ -22,9 +23,6 @@ public class GObjLinearMovement extends GObjMovement {
 
 	@Override
 	public int getDistanceTraveled() { return distanceTraveled; }
-
-	@Override
-	public Long getID() { return null; }
 
 	@Override
 	public int getVelocity() { return velocity; }

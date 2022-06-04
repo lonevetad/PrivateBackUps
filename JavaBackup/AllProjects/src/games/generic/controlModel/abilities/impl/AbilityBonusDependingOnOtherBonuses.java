@@ -68,5 +68,4 @@ public class AbilityBonusDependingOnOtherBonuses extends AbilityModifyingAttribu
 		// ignore am, not needed by default
 		return bonusCalc.getBonusFor(ai.getIndex()) >> 2;
 	}
-
 }

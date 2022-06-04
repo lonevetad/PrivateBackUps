@@ -3,6 +3,10 @@ package tools;
 import java.util.Comparator;
 import java.util.function.Function;
 
+/**
+ * Marks an object as identified with an "ID", which currently (2022/04/23) is a
+ * {@link Long} instance.
+ */
 public interface ObjectWithID extends ObjWithIDGeneric<Long> {
 	public static final Comparator<ObjectWithID> COMPARATOR_OWID = (o1, o2) -> {
 		if (o1 == o2) { return 0; }

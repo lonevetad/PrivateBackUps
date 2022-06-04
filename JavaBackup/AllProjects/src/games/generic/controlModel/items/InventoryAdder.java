@@ -62,5 +62,8 @@ public interface InventoryAdder extends ObjectWithID {
 			if ((i = this.inventory) == null) { this.inventory = i = this.inventoryFactory.newInventoryItems(); }
 			return i;
 		}
+
+		@Override
+		public boolean setID(Long newID) { return false; }
 	}
 }

@@ -213,21 +213,23 @@
 			"Intelligence": 5,
 			"Wisdom": 5,
 			"Faith": 5,
-			"MagicalDamageBonus": 20,
-			"MagicalDamageReduction": 20
+			"MagicalDamageBonus": 10,
+			"MagicalDamageReduction": 10,
+			"MagicalDamageMultiplierPercentageBonus":5
 		}
 	}, {
 		"name": "Sun runed",
 		"rarity":3,
 		"price": [100],
 		"attributeModifiers": {
-			"LifeMax": 150,
-			"LifeRegen": 15,
+			"LifeMax": 100,
+			"LifeRegen": 10,
 			"Strength": 5,
 			"Constitution": 5,
 			"Health": 5,
-			"PhysicalDamageBonus": 20,
-			"PhysicalDamageReduction": 20
+			"PhysicalDamageBonus": 10,
+			"PhysicalDamageReduction": 10,
+			"PhysicalDamageMultiplierPercentageBonus":5
 		}
 	}, {
 		"name": "Earth runed",
@@ -717,10 +719,10 @@
 	}, {
 		"name": "Sharp",
 		"rarity":1,
-		"price": [9],
+		"price": [15],
 		"attributeModifiers": {
-			"PhysicalDamageBonus": 4,
-			"MagicalDamageBonus": 4,
+			"PhysicalDamageBonus": 5,
+			"PhysicalDamageMultiplierPercentageBonus":10,
 			"CriticalMultiplierPercentage": 7
 		}
 	}, {
@@ -728,10 +730,10 @@
 		"rarity":2,
 		"price": [15],
 		"attributeModifiers": {
-			"PhysicalDamageBonus": 7,
-			"MagicalDamageBonus": 7,
+			"PhysicalDamageBonus": 8,
 			"CriticalMultiplierPercentage": 10,
-			"CriticalProbabilityPerThousandHit": 32
+			"PhysicalDamageMultiplierPercentageBonus":15,
+			"CriticalProbabilityPerThousandHit": 20
 		}
 	}, {
 		"name": "Leather stuffed",
@@ -1427,7 +1429,7 @@
 			"Faith": -3
 		}
 	}, {
-		"name": "With a story",
+		"name": "with a story",
 		"rarity":1,
 		"price": [10],
 		"attributeModifiers": {
@@ -1807,7 +1809,7 @@
 			"Faith": 8
 		}
 	}, {
-		"name": "With Crystal Glass Marquetry",
+		"name": "with Crystal Glass Marquetry",
 		"rarity":2,
 		"price": [33],
 		"attributeModifiers": {
@@ -4336,7 +4338,7 @@
 			"ShieldRegen": 3,
 		}
 	}, {
-		"name": "With a Good Smell",
+		"name": "with a Good Smell",
 		"rarity":1,
 		"price":[4],
 		"attributeModifiers":{
@@ -4344,7 +4346,7 @@
 			"Faith": 1
 		}
 	}, {
-		"name": "With a Channeling Rune",
+		"name": "with a Channeling Rune",
 		"rarity":2,
 		"price":[23],
 		"attributeModifiers":{
@@ -4352,7 +4354,7 @@
 			"CostCastReductionPercentage": 5
 		}
 	}, {
-		"name": "With a Channeling Stone",
+		"name": "with a Channeling Stone",
 		"rarity":3,
 		"price":[37],
 		"attributeModifiers":{
@@ -4360,7 +4362,7 @@
 			"CostCastReductionPercentage": 10
 		}
 	}, {
-		"name": "Of the Gaea Toddler",
+		"name": "of the Gaea Toddler",
 		"rarity":4,
 		"price":[65],
 		"attributeModifiers":{
@@ -4498,17 +4500,19 @@
 		"price":[35],
 		"attributeModifiers":{
 			"CostCastReductionPercentage": -20,
-			"MagicalDamageBonus":15
+			"MagicalDamageBonus":15,
+			"MagicalDamageMultiplierPercentageBonus": 5
 		}
 	}, {
-		"name": "of Overcharge",
+		"name": "of Overflowing Overcharge",
 		"rarity":4,
 		"price":[55],
 		"attributeModifiers":{
 			"CostCastReductionPercentage": -40,
-			"ManaMax":-35,
+			"ManaMax":-70,
 			"ManaRegen":-7,
-			"MagicalDamageBonus":50
+			"MagicalDamageBonus":40,
+			"MagicalDamageMultiplierPercentageBonus": 20
 		}
 	}, {
 		"name": "Studded",
@@ -4764,6 +4768,337 @@
 		"attributeModifiers":{
 			"Health":3,
 			"ManaRegen":2
+		}
+	}, {
+		"name": "with a Mystic Dense Stone",
+		"rarity":3,
+		"price":[50],
+		"attributeModifiers":{
+			"VelocitySpellCastPercentage": -5,
+			"CostCastReductionPercentage": -15,
+			"ManaMax":-80,
+			"ManaRegen":-4,
+			"MagicalDamageMultiplierPercentageBonus":20
+		}
+	}, {
+		"name": "with Veins of Mystic Dense Stone",
+		"rarity":4,
+		"price":[67],
+		"attributeModifiers":{
+			"VelocitySpellCastPercentage": -10,
+			"CostCastReductionPercentage": -20,
+			"ManaMax":-120,
+			"ManaRegen":-5,
+			"MagicalDamageMultiplierPercentageBonus":25
+		}
+	}, {
+		"name": "of Mind Over Matter",
+		"rarity":3,
+		"price":[60],
+		"attributeModifiers":{
+			"VelocitySpellCastPercentage": 10,
+			"CostCastReductionPercentage": -10,
+			"ManaMax":150,
+			"ManaRegen":4,
+			"MagicalDamageMultiplierPercentageBonus":5,
+			"MagicalDamageBonus": 10,
+			"LifeMax": -300,
+			"LifeRegen": -2,
+			"Intelligence": 10,
+			"Wisdom": 5,
+			"Faith":3
+		}
+	}, {
+		"name": "of Meet the Meat",
+		"rarity":3,
+		"price":[60],
+		"attributeModifiers":{
+			"VelocityAttackStrikePercentage": -15,
+			"CostCastReductionPercentage": -10,
+			"LifeMax": 350,
+			"LifeRegen": 8,
+			"ManaMax":-150,
+			"ManaRegen":-2,
+			"StaminaMax": 25,
+			"StaminaRegen":1,
+			"PhysicalDamageMultiplierPercentageBonus":12,
+			"PhysicalDamageBonus": 15,
+			"PhysicalDamageMultiplierPercentageReduction":10,
+			"PhysicalDamageReduction":10,
+			"Strength": 10,
+			"Constitution": 6,
+			"Defense":2
+		}
+	}, {
+		"name": "of Mesh with Flesh",
+		"rarity":3,
+		"price":[60],
+		"attributeModifiers":{
+			"VelocitySpellCastPercentage": 5,
+			"PhysicalDamageBonus":10,
+			"PhysicalDamageMultiplierPercentageBonus":5,
+			"PhysicalDamageMultiplierPercentageReduction":-5,
+			"MagicalDamageMultiplierPercentageBonus":5,
+			"MagicalDamageMultiplierPercentageReduction": -5,
+			"MagicalDamageBonus": 10,
+			"CriticalProbabilityPerThousandHit":100,
+			"CriticalMultiplierPercentage":5,
+			"CriticalProbabilityPerThousandAvoid":20,
+			"CriticalMultiplierPercentageReduction":15,
+			"Dexterity":7,
+			"Precision":7,
+			"Defense":3,
+			"Health":3,
+			"StaminaMax":5,
+			"StaminaRegen":3,
+			"LifeRegen":2
+		}
+	}, {
+		"name": "with Some Dirt",
+		"rarity":0,
+		"price": [-2],
+		"attributeModifiers": {
+			"ManaMax": 10
+		}
+	}, {
+		"name": "Making a Swiiiish Sound",
+		"rarity":1,
+		"price": [2],
+		"attributeModifiers": {
+			"VelocityAttackStrikePercentage":4 
+		}
+	}, {
+		"name": "Making a Bzzzz Sound",
+		"rarity":1,
+		"price": [2],
+		"attributeModifiers": {
+			"VelocitySpellCastPercentage":4 
+		}
+	}, {
+		"name": "of Vein Flux",
+		"rarity":4,
+		"price": [44],
+		"attributeModifiers": {
+			"LifeMax":50,
+			"LifeRegen":10,
+			"ManaMax":50,
+			"ManaRegen":10,
+			"Velocity":5
+		}
+	}, {
+		"name": "of Amplification",
+		"rarity":4,
+		"price": [50],
+		"attributeModifiers": {
+			"PhysicalDamageMultiplierPercentageBonus":10,
+			"MagicalDamageMultiplierPercentageBonus":10
+		}
+	}, {
+		"name": "of Reduction",
+		"rarity":4,
+		"price": [45],
+		"attributeModifiers": {
+			"PhysicalDamageMultiplierPercentageReduction":10,
+			"MagicalDamageMultiplierPercentageReduction":10
+		}
+	}, {
+		"name": "Calm Down!",
+		"rarity":3,
+		"price": [-30],
+		"attributeModifiers": {
+			"PhysicalDamageMultiplierPercentageBonus":-7,
+			"MagicalDamageMultiplierPercentageBonus":-7,
+			"CriticalMultiplierPercentage":3
+		}
+	}, {
+		"name": "of Pure Luck",
+		"rarity":5,
+		"price": [50],
+		"attributeModifiers": { "Luck":16 }
+	}, {
+		"name": "of the Little Bully Euphoria",
+		"rarity":1,
+		"price": [5],
+		"attributeModifiers": {
+			"StaminaMax":8,
+			"StaminaLeechPercentage":5
+		}
+	}, {
+		"name": "of the Bully Euphoria",
+		"rarity":2,
+		"price": [5],
+		"attributeModifiers": {
+			"VelocityAttackStrikePercentage":2,
+			"VelocitySpellCastPercentage":2,
+			"StaminaMax":15,
+			"StaminaLeechPercentage":10,
+			"Wisdom":-5,
+			"Faith":-5
+		}
+	}, {
+		"name": "of Good Speech",
+		"rarity":3,
+		"price": [25],
+		"attributeModifiers": {
+			"CriticalProbabilityPerThousandAvoid":-25,
+			"CriticalMultiplierPercentageReduction":-5,
+			"Intelligence":5,
+			"Wisdom":5,
+			"Faith":5
+		}
+	}, {
+		"name": "of Slow Meal",
+		"rarity":1,
+		"price": [15],
+		"attributeModifiers": {
+			"Health":3,
+			"Wisdom":2
+		}
+	}, {
+		"name": "Bark Coated",
+		"rarity":1,
+		"price": [7],
+		"attributeModifiers": {
+			"LifeRegen":1,
+			"ManaRegen":1,
+			"StaminaRegen":1
+		}
+	}, {
+		"name": "Shooting Stars In Da Face",
+		"rarity":3,
+		"price": [35],
+		"attributeModifiers": {
+			"LifeMax":-50,
+			"ManaMax":-50,
+			"Luck":4
+		}
+	}, {
+		"name": "with Repulsive Tendencies",
+		"rarity":4,
+		"price": [20],
+		"attributeModifiers": {
+			"ShieldMax":35,
+			"ShieldRegen":3,
+			"Precision":-5,
+			"Defense":3,
+			"Dexterity":-1,
+			"Luck":5
+		}
+	}, {
+		"name": "of Eagle's Eye",
+		"rarity":4,
+		"price": [40],
+		"attributeModifiers": {
+			"Precision":20
+		}
+	}, {
+		"name": "of The Educated Librarian",
+		"rarity":3,
+		"price": [37],
+		"attributeModifiers": {
+			"Health":5,
+			"Intelligence":5,
+			"Wisdom":7,
+			"Luck":1
+		}
+	}, {
+		"name": "of Grulladur's Advice",
+		"rarity":1,
+		"price": [24],
+		"attributeModifiers": {
+			"Health":4,
+			"Constitution":4,
+			"Faith":-2
+		}
+	}, {
+		"name": "of Planning Over Brute Force",
+		"rarity":3,
+		"price": [32],
+		"attributeModifiers": {
+			"Strength":-8,
+			"Intelligence":13,
+			"Wisdom": 10,
+			"Faith":-5,
+			"PhysicalProbabilityPerThousandHit": 100,
+			"MagicalProbabilityPerThousandHit": 100,
+			"CriticalProbabilityPerThousandHit": 100,
+			"PhysicalProbabilityPerThousandAvoid": 100,
+			"MagicalProbabilityPerThousandAvoid": 100,
+			"CriticalProbabilityPerThousandAvoid": 100
+		}
+	}, {
+		"name": "Feeling the Force",
+		"rarity":3,
+		"price": [32],
+		"attributeModifiers": {
+			"ShieldMax":20,
+			"ShieldRegen":10
+		}
+	}, {
+		"name": "Flowing the Force",
+		"rarity":4,
+		"price": [44],
+		"attributeModifiers": {
+			"ShieldMax":30,
+			"ShieldRegen":15
+		}
+	}, {
+		"name": "of the Dash",
+		"rarity":3,
+		"price": [37],
+		"attributeModifiers": {
+			"PhysicalDamageMultiplierPercentageBonus":5
+		}
+	}, {
+		"name": "of the Synergy",
+		"rarity":3,
+		"price": [37],
+		"attributeModifiers": {
+			"MagicalDamageMultiplierPercentageBonus":5
+		}
+	}, {
+		"name": "More!",
+		"rarity":2,
+		"price": [20],
+		"attributeModifiers": {
+			"PhysicalDamageMultiplierPercentageBonus":4,
+			"MagicalDamageMultiplierPercentageBonus":4,
+			"Luck":-2
+		}
+	}, {
+		"name": "of Breath of Focus",
+		"rarity":3,
+		"price": [30],
+		"attributeModifiers": {
+			"Precision":5,
+			"ManaRegen": 5
+		}
+	}, {
+		"name": "of Breath of Dance",
+		"rarity":3,
+		"price": [30],
+		"attributeModifiers": {
+			"Dexterity": 5,
+			"StaminaRegen":5
+		}
+	}, {
+		"name": "of Breath of Tightening",
+		"rarity":3,
+		"price": [30],
+		"attributeModifiers": {
+			"Defense":5,
+			"LifeRegen": 5
+		}
+	}, {
+		"name": "of Lucky Breath",
+		"rarity":3,
+		"price": [30],
+		"attributeModifiers": {
+			"Luck":5,
+			"Health":-2,
+			"Faith":-2,
+			"ShieldMax":5,
+			"ShieldRegen": 5
 		}
 	}
 ]

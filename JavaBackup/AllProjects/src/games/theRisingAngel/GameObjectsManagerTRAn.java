@@ -28,12 +28,13 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 			THRESHOLD_PROBABILITY_BASE_TO_HIT_PER_THOUSAND = THRESHOLD_PROBABILITY_BASE_TO_HIT * 10,
 			MAX_PROBABILITY_VALUE = 100, MAX_PROBABILITY_VALUE_PER_THOUSAND = 10 * MAX_PROBABILITY_VALUE;
 
-	/** DO NOT TOUCH */
+	/** DO NOT ALTER */
 	public static final AttributesTRAn[] leechableResources = { AttributesTRAn.LifeLeechPercentage,
-			AttributesTRAn.ManaLeechPercentage, AttributesTRAn.ShieldLeechPercentage };
-	/** DO NOT TOUCH */
+			AttributesTRAn.ManaLeechPercentage, AttributesTRAn.ShieldLeechPercentage,
+			AttributesTRAn.StaminaLeechPercentage };
+	/** DO NOT ALTER */
 	public static final RechargeableResourcesTRAn[] leechableResourcesType = { RechargeableResourcesTRAn.Life,
-			RechargeableResourcesTRAn.Mana, RechargeableResourcesTRAn.Shield };
+			RechargeableResourcesTRAn.Mana, RechargeableResourcesTRAn.Shield, RechargeableResourcesTRAn.Stamina };
 
 	public GameObjectsManagerTRAn(GModalityTRAnBaseWorld gmodalityTrar) {
 		super();
@@ -93,10 +94,30 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 		EventDamage ed;
 		GModalityET gm;
 		GEventInterface eventInterface;
+
 		rand = this.getGameModality().getRandom();
-		luckAdvantage = (source.getLuck() - target.getLuck());
+		luckAdvantage = (source.getLuckPerThousand() - target.getLuckPerThousand());
 		rollOfHitting = rand.nextInt(MAX_PROBABILITY_VALUE_PER_THOUSAND);
 		damageType = damage.getDamageType();
+
+		// apply bonus, multipliers, reductions, etc ..
+		{
+			int damageAmount, multiplierPercentage;
+			damageAmount = damage.getDamageAmount();
+			// bonus and reductions
+			damageAmount += source.getDamageBonus(damageType) - target.getDamageReduction(damageType);
+			if (damageAmount <= 0) { return; }
+			multiplierPercentage = source.getDamageBonusPercentage(damageType)
+					- target.getDamageBonusPercentage(damageType);
+			if (multiplierPercentage != 0) {
+				damageAmount = (int) (//
+				((100 + multiplierPercentage) * (long) damageAmount) //
+						/ 100);
+			}
+			if (damageAmount <= 0) { return; }
+			damage.setDamageAmount(damageAmount);
+		}
+
 		// consider source and target chances
 		thresholdWithinHitting = THRESHOLD_PROBABILITY_BASE_TO_HIT_PER_THOUSAND + luckAdvantage + //
 				(source.getProbabilityPerThousandHit(damageType) - target.getProbabilityPerThousandAvoid(damageType));
@@ -115,16 +136,18 @@ public class GameObjectsManagerTRAn implements GameObjectsManager {
 				// use "rollOfHitting" as a "multiplier"
 				rollOfHitting = (source.getPercentageCriticalStrikeMultiplier(damageType)
 						- target.getPercentageCriticalStrikeReduction(damageType));
+
 				// now uses "r" as a "temp"
 				if (rollOfHitting > 0) { // no positive multiplier -> no crit applied
 					thresholdWithinHitting = luckAdvantage + //
 							(source.getPercentageCriticalStrikeMultiplier(damageType)
 									- target.getPercentageCriticalStrikeReduction(damageType));
+
 					// use thresholdWithinHitting as "is positive: crit"
 					thresholdWithinHitting = luckAdvantage + //
 							(source.getProbabilityPerThousandCriticalStrike(damageType)
 									- target.getProbabilityPerThousandCriticalStrike(damageType));
-//			source.getProbabilityPerThousandCriticalStrike(damageType);
+
 					thresholdWithinHitting -= rand.nextInt(MAX_PROBABILITY_VALUE_PER_THOUSAND);
 					if (thresholdWithinHitting >= 0) {
 						// crit dealt !

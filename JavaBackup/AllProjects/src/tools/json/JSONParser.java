@@ -139,7 +139,7 @@ public class JSONParser {
 		}
 	}
 
-	protected static void checkAndConsumeRightToken(CharactersIterator source, int[] indexLineColumn, char c) {
+	protected static void checkAndConsumeExpectedToken(CharactersIterator source, int[] indexLineColumn, char c) {
 		char currentChar;
 		currentChar = source.currentCharAndMove();
 		if (currentChar != c) {
@@ -255,6 +255,38 @@ public class JSONParser {
 		jumpComment(source, indexLineColumn);
 	}
 
+	protected static Character parseEscapedChar(CharactersIterator source, int[] indexLineColumn) {
+		final char c;
+		Character cc = null;
+		c = source.currentCharAndMove();
+		switch (c) {
+		case '\"': {
+			cc = '\"';
+			break;
+		}
+		case 't': {
+			cc = '\t';
+			break;
+		}
+		case 'n': {
+			cc = '\n';
+			break;
+		}
+		case 'r': {
+			cc = '\r';
+			break;
+		}
+		case '0': {
+			cc = '\0';
+			break;
+		}
+		// TODO : add unicode, utf-8, utf-16, html ones, etc encodings
+		default:
+			checkAndConsumeExpectedToken(source, indexLineColumn, '\"'); // will surely fire an exception
+		}
+		return cc;
+	}
+
 	protected static String extractString(CharactersIterator source, int[] indexLineColumn) {
 		char c;
 		int start;
@@ -266,7 +298,11 @@ public class JSONParser {
 		start = source.currentIndex();
 		while (source.hasMoreChars() && (c = source.currentCharAndMove()) != '\"'
 		/* && c != ':' && c != '}' && c != ']' */ /* && (!isWhitespace(c)) */) {
-			sb.append(c);
+			if (c == '\\') {
+				sb.append(parseEscapedChar(source, indexLineColumn));
+			} else {
+				sb.append(c);
+			}
 		}
 		text = sb.toString();
 		sb = null;
@@ -294,7 +330,7 @@ public class JSONParser {
 			jumpWhitespaces(source, indexLineColumn);
 			jumpComment(source, indexLineColumn);
 			val = parseObj(source, indexLineColumn);
-			checkAndConsumeRightToken(source, indexLineColumn, '}');
+			checkAndConsumeExpectedToken(source, indexLineColumn, '}');
 			jumpWhitespaces(source, indexLineColumn);
 			jumpComment(source, indexLineColumn);
 		} else if (c == '[') {
@@ -302,7 +338,7 @@ public class JSONParser {
 			jumpComment(source, indexLineColumn);
 			val = parseArray(source, indexLineColumn);
 			// try to see if the next token is ']'
-			checkAndConsumeRightToken(source, indexLineColumn, ']');
+			checkAndConsumeExpectedToken(source, indexLineColumn, ']');
 			jumpWhitespaces(source, indexLineColumn);
 			jumpComment(source, indexLineColumn);
 		} else if (c == '\"') {
@@ -382,9 +418,9 @@ public class JSONParser {
 	 */
 	protected static JSONValue parseString(CharactersIterator source, int[] indexLineColumn) {
 		JSONString stringVal;
-		checkAndConsumeRightToken(source, indexLineColumn, '\"');
+		checkAndConsumeExpectedToken(source, indexLineColumn, '\"');
 		stringVal = new JSONString(extractString(source, indexLineColumn));
-		checkAndConsumeRightToken(source, indexLineColumn, '\"');
+		checkAndConsumeExpectedToken(source, indexLineColumn, '\"');
 		return stringVal;
 	}
 
@@ -500,7 +536,7 @@ public class JSONParser {
 				jumpWhitespaces(source, indexLineColumn);
 				jumpComment(source, indexLineColumn);
 				try {
-					checkAndConsumeRightToken(source, indexLineColumn, ':');
+					checkAndConsumeExpectedToken(source, indexLineColumn, ':');
 				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(e.getMessage() + "\n\tDid you miss a double comma (\")?");
 				}
@@ -654,7 +690,7 @@ public class JSONParser {
 					hasNextElement = true;
 				} else {
 					hasNextElement = pas.arrayOk && cache != null;
-					checkAndConsumeRightToken(source, indexLineColumn, ']');
+					checkAndConsumeExpectedToken(source, indexLineColumn, ']');
 					jumpWhitespaces(source, indexLineColumn);
 					jumpComment(source, indexLineColumn);
 				}

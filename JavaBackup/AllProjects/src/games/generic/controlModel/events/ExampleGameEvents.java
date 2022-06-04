@@ -25,6 +25,9 @@ public enum ExampleGameEvents implements IGEvent { // implements GameEventFactor
 	@Override
 	public String getName() { return name(); }
 
+	@Override
+	public boolean setID(Long newID) { return false; }
+
 //	public GameEvent newGameEvent(Integer id, String name) {
 //		return delegate.newGameEvent(ordinal(), name());
 //	}

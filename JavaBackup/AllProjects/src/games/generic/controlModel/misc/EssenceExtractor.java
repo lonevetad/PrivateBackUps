@@ -6,7 +6,7 @@ import games.generic.controlModel.GModality;
 import games.generic.controlModel.abilities.AbilityGeneric;
 import games.generic.controlModel.items.EquipmentItem;
 import games.generic.controlModel.items.EquipmentUpgrade;
-import games.generic.controlModel.items.impl.EssenceStorage;
+import games.generic.controlModel.items.EssenceStorage;
 
 /**
  * NPC-like that manipulates {@link EquipmentItem} to extract (for example,

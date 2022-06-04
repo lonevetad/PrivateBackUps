@@ -158,4 +158,7 @@ public interface BaseCreatureRPG
 //		});
 		CreatureSimple.super.initSetRechargeableResources();
 	}
+
+	@Override
+	public default int getLuckPerThousand() { return CreatureSimple.super.getLuckPerThousand(); }
 }

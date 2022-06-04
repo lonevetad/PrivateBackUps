@@ -2,6 +2,7 @@
 package games.theRisingAngel.enums;
 
 import java.awt.Dimension;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
@@ -18,7 +19,8 @@ import games.generic.controlModel.misc.IndexableObject;
 import games.generic.controlModel.misc.IndexableObject.IndexToObjectBackmapping;
 import games.generic.controlModel.subimpl.EquipmentUpgradeImpl;
 import games.generic.controlModel.subimpl.GModalityRPG;
-import games.theRisingAngel.inventory.EINotJewelry;
+import games.theRisingAngel.inventory.EquipItemFactory;
+import games.theRisingAngel.inventory.EquipItemTRAn;
 import tools.Comparators;
 
 public class TribesTRAn {
@@ -42,18 +44,22 @@ public class TribesTRAn {
 		ALL_TRIBES = Tribe.values();
 		INDEX_TO_TRIBE_TRAn = (int i) -> TribesTRAn.ALL_TRIBES[i];
 
-		RARITY_TRIBE_EQUIPMENT_PIECES = RaritiesTRAn.HighQuality;
+		RARITY_TRIBE_EQUIPMENT_PIECES = RaritiesTRAn.Rare;
 
 		mrta = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, RaritiesTRAn.COMPARATOR_RARITY_TRAn);
 
-		mrta.put(RaritiesTRAn.Scrap, new AttributesVariationTribeEquip("Memory", 3, -1, new int[] { 4 }, true));
-		mrta.put(RaritiesTRAn.Common, new AttributesVariationTribeEquip("Trade", 7, -2, new int[] { 8 }, true));
-		mrta.put(RaritiesTRAn.WellManifactured,
-				new AttributesVariationTribeEquip("Essence", 12, -3, new int[] { 15 }, true));
-		mrta.put(RaritiesTRAn.HighQuality,
-				new AttributesVariationTribeEquip("Original", 19, -5, new int[] { 20 }, false));
+		mrta.put(RaritiesTRAn.Common,
+				new AttributesVariationTribeEquip(VariationLevels.Memory, 3, -1, new int[] { 4 }));
+		mrta.put(RaritiesTRAn.Good, new AttributesVariationTribeEquip(VariationLevels.Trade, 7, -2, new int[] { 8 }));
+		mrta.put(RaritiesTRAn.Awesome,
+				new AttributesVariationTribeEquip(VariationLevels.Essence, 12, -3, new int[] { 15 }));
+		mrta.put(RaritiesTRAn.Rare,
+				new AttributesVariationTribeEquip(VariationLevels.Original, 19, -5, new int[] { 20 }));
+
 		ALL_EQUIP_UPGRADES_RARITIES = Collections.unmodifiableSet(mrta.keySet());
 		MAP_RARITY_TO_ATTRIBUTE_UPGRADES_TRIBE = Collections.unmodifiableMap(mrta);
+
+		//
 
 		metd = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, EquipmentTypesTRAn.COMPARATOR_EQUIP_TYPES_TRAn);
 
@@ -87,8 +93,8 @@ public class TribesTRAn {
 								new AttributeModification(AttributesTRAn.PhysicalDamageReduction, 2),
 								new AttributeModification(AttributesTRAn.MagicalDamageReduction, 2),
 								new AttributeModification(AttributesTRAn.VelocityAttackStrikePercentage, 10) }));
-		metd.put(EquipmentTypesTRAn.Bracelet,
-				new PieceOfEquipmentSetData("Sleeve", EquipmentTypesTRAn.Bracelet, new Dimension(1, 2), //
+		metd.put(EquipmentTypesTRAn.Arms,
+				new PieceOfEquipmentSetData("Sleeve", EquipmentTypesTRAn.Arms, new Dimension(1, 2), //
 						new AttributeModification[] { new AttributeModification(AttributesTRAn.LifeMax, 45),
 								new AttributeModification(AttributesTRAn.ManaMax, 10),
 								new AttributeModification(AttributesTRAn.PhysicalDamageReduction, 2),
@@ -109,8 +115,11 @@ public class TribesTRAn {
 								new AttributeModification(AttributesTRAn.PhysicalDamageReduction, 2),
 								new AttributeModification(AttributesTRAn.MagicalDamageReduction, 2),
 								new AttributeModification(AttributesTRAn.Velocity, 10) }));
+
 		ALL_EQUIP_TYPES_ON_TRIBE_SETS = Collections.unmodifiableSet(metd.keySet());
 		MAP_EQUIPMENT_PIECE_TO_DATA_TRIBE = Collections.unmodifiableMap(metd);
+
+		//
 
 		mrtt = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, TribeReligion.COMPARATOR_TRIBE_RELIGION);
 		for (Tribe t : ALL_TRIBES) {
@@ -194,7 +203,7 @@ public class TribesTRAn {
 
 			rel = this.religion;
 			variation = MAP_RARITY_TO_ATTRIBUTE_UPGRADES_TRIBE.get(rar);
-			eu = new EquipmentUpgradeImpl(rar.getIndex(), getNameEquipUgradeFor(this, rar));
+			eu = new EquipmentUpgradeImpl(rar.getIndex(), getNameEquipUgradeFor(this, rar, religAlign));
 
 			relAlMod = new TribeReligionAlignmentModification(variation, religAlign);
 			eu.addAttributeModifier(new AttributeModification(rel.religionDevotedTo, relAlMod.getBonus()));
@@ -217,25 +226,26 @@ public class TribesTRAn {
 		// TODO : a parameters refactoring may be needed in case of new ones (explosion
 		// of combinatorics)
 
-		protected static EquipmentItem newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType) {
+		protected static EquipItemTRAn newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType) {
 			return newEquipItemFor(gmrpg, tribe, pieceType, null, null, ReligionAlignment.Canon);
 		}
 
-		protected static EquipmentItem newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType,
+		protected static EquipItemTRAn newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType,
 				ReligionAlignment religAlign) {
 			return newEquipItemFor(gmrpg, tribe, pieceType, null, null);
 		}
 
-		protected static EquipmentItem newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType,
+		protected static EquipItemTRAn newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType,
 				PieceOfEquipmentSetData ped, AttributesVariationTribeEquip variation) {
 			return newEquipItemFor(gmrpg, tribe, pieceType, ped, variation, ReligionAlignment.Canon);
 		}
 
-		protected static EquipmentItem newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType,
+		protected static EquipItemTRAn newEquipItemFor(GModalityRPG gmrpg, Tribe tribe, EquipmentTypesTRAn pieceType,
 				PieceOfEquipmentSetData ped, AttributesVariationTribeEquip variation, ReligionAlignment religAlign) {
 			int n, price;
 			AttributeModification[] allAttributes;
-			EquipmentItem equipPiece;
+			EquipItemTRAn equipPiece;
+			EquipItemFactory equipFactory;
 			CurrencySet cs;
 			Currency[] currencies;
 			TribeReligion rel;
@@ -256,7 +266,9 @@ public class TribesTRAn {
 			System.arraycopy(ped.additionalAttributeModifiers, 0, allAttributes, 2,
 					ped.additionalAttributeModifiers.length);
 
-			equipPiece = new EINotJewelry(gmrpg, pieceType, getNameEquipFor(tribe, pieceType), allAttributes);
+			equipFactory = EquipItemFactory.getDefaultFactoryFor(pieceType);
+			equipPiece = equipFactory.newEquipItem(gmrpg, pieceType, getNameEquipFor(tribe, pieceType, religAlign),
+					allAttributes);
 
 			equipPiece.setDimensionInInventory(ped.dimensionInventory);
 
@@ -273,7 +285,7 @@ public class TribesTRAn {
 			return equipPiece;
 		}
 
-		public EquipmentItem newEquipmentPiece(GModalityRPG gmrpg, EquipmentTypesTRAn pieceType) {
+		public EquipItemTRAn newEquipmentPiece(GModalityRPG gmrpg, EquipmentTypesTRAn pieceType) {
 			return newEquipItemFor(gmrpg, this, pieceType);
 		}
 
@@ -282,13 +294,13 @@ public class TribesTRAn {
 			return newEquipItemFor(gmrpg, this, pieceType, religAlign);
 		}
 
-		public MapTreeAVL<EquipmentTypesTRAn, EquipmentItem> newEquipmentSet(GModalityRPG gmrpg) {
+		public MapTreeAVL<EquipmentTypesTRAn, EquipItemTRAn> newEquipmentSet(GModalityRPG gmrpg) {
 			return this.newEquipmentSet(gmrpg, ReligionAlignment.Canon);
 		}
 
-		public MapTreeAVL<EquipmentTypesTRAn, EquipmentItem> newEquipmentSet(GModalityRPG gmrpg,
+		public MapTreeAVL<EquipmentTypesTRAn, EquipItemTRAn> newEquipmentSet(GModalityRPG gmrpg,
 				ReligionAlignment religAlign) {
-			final MapTreeAVL<EquipmentTypesTRAn, EquipmentItem> m;
+			final MapTreeAVL<EquipmentTypesTRAn, EquipItemTRAn> m;
 			final AttributesVariationTribeEquip variation;
 			final Tribe thisTribe;
 
@@ -389,6 +401,16 @@ public class TribesTRAn {
 		public final String nameAlteration;
 	}
 
+	public static enum VariationLevels {
+		Original(false), Memory, Trade, Essence;
+
+		public final boolean canProduceEquipUpgrade;
+
+		VariationLevels() { this(true); }
+
+		VariationLevels(boolean canProduceEquipUpgrade) { this.canProduceEquipUpgrade = canProduceEquipUpgrade; }
+	}
+
 	// TODO : TribeWarStatusTRAn enum
 
 	//
@@ -401,17 +423,27 @@ public class TribesTRAn {
 	}
 
 	public static String getNameEquipUgradeFor(Tribe tribe, RaritiesTRAn rarity) {
+		return getNameEquipUgradeFor(tribe, rarity, null);
+	}
+
+	public static String getNameEquipUgradeFor(Tribe tribe, RaritiesTRAn rarity, ReligionAlignment religAlign) {
 		AttributesVariationTribeEquip variation;
+		if (religAlign == null) { religAlign = ReligionAlignment.Canon; }
 		variation = MAP_RARITY_TO_ATTRIBUTE_UPGRADES_TRIBE.get(rarity);
 		if (variation == null) { throw new IllegalArgumentException("Not accepted rarity: " + rarity); }
-		return "of " + tribe.getName() + " Tribe " + variation.getVariationName();
+		return "of " + religAlign.nameAlteration + tribe.getName() + " Tribe " + variation.getVariationName();
 	}
 
 	public static String getNameEquipFor(Tribe tribe, EquipmentTypesTRAn equipType) {
+		return getNameEquipFor(tribe, equipType, null);
+	}
+
+	public static String getNameEquipFor(Tribe tribe, EquipmentTypesTRAn equipType, ReligionAlignment religAlign) {
 		PieceOfEquipmentSetData ped;
+		if (religAlign == null) { religAlign = ReligionAlignment.Canon; }
 		ped = MAP_EQUIPMENT_PIECE_TO_DATA_TRIBE.get(equipType);
 		if (ped == null) { throw new IllegalArgumentException("Not accepted equipment type: " + equipType); }
-		return ped.namePrefix + " Cosplay of " + tribe.getName() + " Tribe";
+		return ped.namePrefix + " Cosplay of " + religAlign.nameAlteration + tribe.getName() + " Tribe";
 	}
 
 	//
@@ -456,7 +488,7 @@ public class TribesTRAn {
 			if (religAlign == null) { religAlign = ReligionAlignment.Canon; }
 			switch (religAlign) {
 			case Canon: {
-				isnegativePriceChanging = true;
+				isnegativePriceChanging = false;
 				bonus = variation.bonus;
 				malus = variation.malus;
 				break;
@@ -496,14 +528,13 @@ public class TribesTRAn {
 	}
 
 	public static class AttributesVariationTribeEquip {
-		public AttributesVariationTribeEquip(String variationName, int bonus, int malus, int[] addedPrices,
-				boolean canBeEquipUpgrade) {
+		public AttributesVariationTribeEquip(VariationLevels variationLevel, int bonus, int malus, int[] addedPrices) {
 			super();
-			this.variationName = variationName;
+			this.variationName = variationLevel.name();
 			this.bonus = bonus;
 			this.malus = malus;
 			this.addedPrices = addedPrices;
-			this.canBeEquipUpgrade = canBeEquipUpgrade;
+			this.canBeEquipUpgrade = variationLevel.canProduceEquipUpgrade;
 		}
 
 		protected boolean canBeEquipUpgrade;
@@ -528,6 +559,12 @@ public class TribesTRAn {
 //		public void setMalus(int malus) { this.malus = malus; }
 //		public void setAddedPrices(int[] addedPrices) { this.addedPrices = addedPrices; }
 //		public void setCanBeEquipUpgrade(boolean canBeEquipUpgrade) { this.canBeEquipUpgrade = canBeEquipUpgrade; }
+
+		@Override
+		public String toString() {
+			return "AttributesVariationTribeEquip [variationName=" + variationName + ", addedPrices="
+					+ Arrays.toString(addedPrices) + ", bonus=" + bonus + ", malus=" + malus + "]";
+		}
 	}
 
 	//
@@ -565,6 +602,14 @@ public class TribesTRAn {
 		// public void setAdditionalAttributeModifiers(AttributeModification[]
 		// additionalAttributeModifiers) { this.additionalAttributeModifiers =
 		// additionalAttributeModifiers; }
+
+		@Override
+		public String toString() {
+			return "PieceOfEquipmentSetData [namePrefix=" + namePrefix + ", equipType=" + equipType
+					+ ", dimensionInventory=" + dimensionInventory + ", additionalAttributeModifiers="
+					+ Arrays.toString(additionalAttributeModifiers) + "]";
+		}
+
 	}
 
 	public static void main(String[] args) {
@@ -572,5 +617,22 @@ public class TribesTRAn {
 		for (Tribe t : Tribe.values()) {
 			System.out.println(i++ + "\t-> " + t.stringify());
 		}
+
+		System.out.println("\n\n");
+		MAP_EQUIPMENT_PIECE_TO_DATA_TRIBE.forEach((et, poesd) -> {
+			System.out.print("equip type ");
+			System.out.print(et.getName());
+			System.out.print(", -> ");
+			System.out.println(poesd);
+		});
+
+		System.out.println("\n\n");
+		MAP_RARITY_TO_ATTRIBUTE_UPGRADES_TRIBE.forEach((et, av) -> {
+			System.out.print("rarity ");
+			System.out.print(et.getName());
+			System.out.print(", -> ");
+			System.out.println(av);
+		});
+
 	}
 }

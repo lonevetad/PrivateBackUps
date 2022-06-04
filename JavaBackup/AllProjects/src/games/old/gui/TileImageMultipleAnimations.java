@@ -1,12 +1,13 @@
-package common.gui;
+package games.old.gui;
 
-import common.abstractCommon.AnimationName;
-import common.mainTools.Comparators;
-import tools.RedBlackTree;
+import dataStructures.MapTreeAVL;
+import games.generic.view.TileImage;
+import tools.Comparators;
+import videogamesOldVersion.common.abstractCommon.AnimationName;
 
 /**
- * Classe che tiene piu' animazioni per lo stesso oggetto. Sia che esse siano immagini statiche sia
- * che siano animazioni, esse devono essere della forma:
+ * Classe che tiene piu' animazioni per lo stesso oggetto. Sia che esse siano
+ * immagini statiche sia che siano animazioni, esse devono essere della forma:
  * "{@link AnimationName#fileNameImage(TileImageMultipleAnimations)}".
  */
 public class TileImageMultipleAnimations extends TileImage {
@@ -14,29 +15,26 @@ public class TileImageMultipleAnimations extends TileImage {
 
 	public TileImageMultipleAnimations() { // EnumGameObjectTileImageCollection egotic) {
 		/*
-		 * this(null, egotic); } public TileImageMultipleAnimations(AnimationName[] animationsList,
-		 * TileImageFactoryMultipleAnimation factory) { this.egotic = egotic;
+		 * this(null, egotic); } public TileImageMultipleAnimations(AnimationName[]
+		 * animationsList, TileImageFactoryMultipleAnimation factory) { this.egotic =
+		 * egotic;
 		 */
-		animations = new RedBlackTree<>(Comparators.STRING_COMPARATOR);
+		animations = MapTreeAVL.newMap(Comparators.STRING_COMPARATOR);
 		/*
-		 * if (animationsList != null && animationsList.length > 0) { for (AnimationName an :
-		 * animationsList) { } }
+		 * if (animationsList != null && animationsList.length > 0) { for (AnimationName
+		 * an : animationsList) { } }
 		 */
 	}
 
 	protected String currentAnimationName;
-	protected RedBlackTree<String, TileImage> animations;
+	protected MapTreeAVL<String, TileImage> animations;
 	// protected EnumGameObjectTileImageCollection egotic;
 
 	//
 
-	public String getCurrentAnimationName() {
-		return currentAnimationName;
-	}
+	public String getCurrentAnimationName() { return currentAnimationName; }
 
-	public RedBlackTree<String, TileImage> getAnimations() {
-		return animations;
-	}
+	public MapTreeAVL<String, TileImage> getAnimations() { return animations; }
 
 	//
 
@@ -58,7 +56,8 @@ public class TileImageMultipleAnimations extends TileImage {
 		this.currentAnimationName = currentAnimationName;
 		if (currentAnimationName != null) {
 			ti = getAnimationByName(currentAnimationName);
-			if (ti != null) copyImagesFrom(ti);
+			if (ti != null)
+				copyImagesFrom(ti);
 		}
 		return this;
 	}
@@ -71,9 +70,7 @@ public class TileImageMultipleAnimations extends TileImage {
 	 * Calls <code>getAnimationByName(name.fileNameImage(this))</code>.<br>
 	 * See{@link AnimationName#fileNameImage(TileImageMultipleAnimations)}.
 	 */
-	public TileImage getAnimationByName(AnimationName name) {
-		return getAnimationByName(name.fileNameImage(this));
-	}
+	public TileImage getAnimationByName(AnimationName name) { return getAnimationByName(name.fileNameImage(this)); }
 
 	/** See {@link #getAnimationByName(AnimationName)} for how to use it. */
 	public TileImage getAnimationByName(String name) {
@@ -81,7 +78,8 @@ public class TileImageMultipleAnimations extends TileImage {
 	}
 
 	public TileImage addTileImageAnimation(AnimationName name, TileImage ti) {
-		if (name == null || ti == null) return null;
+		if (name == null || ti == null)
+			return null;
 		return addTileImageAnimation(name.name(), ti);
 	}
 
@@ -89,14 +87,16 @@ public class TileImageMultipleAnimations extends TileImage {
 		TileImage old;
 		old = null;
 		if (name != null && ti != null) {
-			if (animations.isEmpty()) copyImagesFrom(ti);
+			if (animations.isEmpty())
+				copyImagesFrom(ti);
 			animations.add(name, ti);
 		}
 		return old;
 	}
 
 	public TileImage removeTileImageAnimation(AnimationName name) {
-		if (name == null) return null;
+		if (name == null)
+			return null;
 		return removeTileImageAnimation(name.name());
 	}
 

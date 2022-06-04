@@ -9,20 +9,19 @@ public class CreatureAttributesTRAn extends CreatureAttributesBaseAndDerivedCach
 
 	public CreatureAttributesTRAn() {
 		super(AttributesTRAn.ALL_ATTRIBUTES.length, AttributesTRAn.INDEX_TO_ATTRIBUTE_TRAn);
-		this.cacheValues = null; // not needed
 		super.setBonusCalculator(new CreatureAttributesBonusesCalculatorTRAn());
 	}
 
 	@Override
-	public int getValue(AttributeIdentifier identifier) {
+	public int getValue(AttributeIdentifier attributeIdentifier) {
 		int v, i;
 		CreatureAttributesBonusesCalculator bc;
-		i = identifier.getIndex();
+		i = attributeIdentifier.getIndex();
 		v = super.getOriginalValue(i) + super.attributesModificationsApplied[i];
-		if ((bc = this.bonusCalculator) != null) { v += bc.getBonusFor(i); }
-		if (v > identifier.upperBound()) {
-			v = identifier.upperBound();
-		} else if (v < identifier.lowerBound()) { v = identifier.lowerBound(); }
+		if ((bc = this.bonusCalculator) != null) { v += bc.getBonusFor(attributeIdentifier); }
+		if (v > attributeIdentifier.upperBound()) {
+			v = attributeIdentifier.upperBound();
+		} else if (v < attributeIdentifier.lowerBound()) { v = attributeIdentifier.lowerBound(); }
 		return v;
 	}
 
@@ -31,6 +30,11 @@ public class CreatureAttributesTRAn extends CreatureAttributesBaseAndDerivedCach
 
 	@Override
 	protected void recalculateCache() {}
+
+	//
+
+	@Override
+	protected int[] newCacheValues(int length) { return null; }
 
 	@Override
 	public String toString() {

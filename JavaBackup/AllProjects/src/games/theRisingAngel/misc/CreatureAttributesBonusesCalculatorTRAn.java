@@ -159,6 +159,8 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			a = AttributesTRAn.ALL_ATTRIBUTES[identifier.getIndex()];
 		}
 		c = creatureAttributesSet;
+		// note: use upper case characters for open parenthesis, lower cases ones for
+		// closings
 		switch (a) {
 		case Luck: {
 			v = (+c.getValue(AttributesTRAn.Faith)// start 1/8
@@ -177,7 +179,11 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			str = c.getValue(AttributesTRAn.Strength);
 			h = c.getValue(AttributesTRAn.Health);
 			// V4
-			/** 2*h + 5*cost + str/2 + wisdom/8 */
+			/**
+			 * 2*h + 5*cost + str/2 + wisdom/8 <br>
+			 * By providing a total of 60 points, which is 15 points each attributes, it
+			 * produces a bonus of 114.375
+			 */
 			v = (((c.getValue(AttributesTRAn.Wisdom) >> 2) + str) >> 1) //
 					+ (cost + (((cost << 1) + h) << 1) //
 					);
@@ -257,12 +263,25 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 			break;
 		}
 		case PhysicalDamageBonus: {
-			int str;
+			int str, cost;
 			str = c.getValue(AttributesTRAn.Strength);
-			/** 1.25*str + (cost+prec)/4 */
-			v = str //
-					+ ((str + c.getValue(AttributesTRAn.Constitution) + c.getValue(AttributesTRAn.Precision))//
-							>> 2);
+			cost = c.getValue(AttributesTRAn.Constitution);
+			/**
+			 * 1.5*str + cost*0.625(5/8) + prec/4 + (wisdom+dext+int)/32 <br>
+			 * By providing a total of 60 points, which is 10 points each attributes,
+			 * produces a bonus of 23,4375
+			 */
+			v = str + ( // A
+			(str + cost // B
+					+ ( // C
+					(c.getValue(AttributesTRAn.Precision) // D
+							+ ((cost // E, F
+									+ ((c.getValue(AttributesTRAn.Wisdom) + c.getValue(AttributesTRAn.Intelligence)
+											+ c.getValue(AttributesTRAn.Dexterity)) // G, H, g
+											>> 2) // h
+							) >> 1) // f, e
+					) >> 1) // d, c
+			) >> 1); // b , a
 //			( //
 //			+((c.getValue(AttributesTRAn.Strength) + c.getValue(AttributesTRAn.Constitution)) >> 1)
 //					+ ((c.getValue(AttributesTRAn.Precision) + c.getValue(AttributesTRAn.Intelligence)) / 5)
@@ -272,9 +291,17 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 		}
 		case ManaMax: {
 //			V4
-			/** faith + wisdom/3 + int/4 */
-			v = c.getValue(AttributesTRAn.Faith) + (c.getValue(AttributesTRAn.Wisdom) / 3)
-					+ (c.getValue(AttributesTRAn.Intelligence) >> 2);
+			/**
+			 * faith*2 + wisdom + int/2<br>
+			 * By providing a total of 60 points, which is 20 points each attributes,
+			 * produces a bonus of 60
+			 */
+			v = (c.getValue(AttributesTRAn.Faith) << 1) + (// A
+			( // B
+			c.getValue(AttributesTRAn.Wisdom) //
+					+ (c.getValue(AttributesTRAn.Intelligence) >> 1) // C, c
+			) // b
+					>> 1); // a
 //			V3
 //			int wis, intell;
 //			wis = c.getValue(AttributesTRAn.Wisdom);
@@ -323,11 +350,20 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 //				+ (c.getValue(AttributesTRAn.Health) >> 3)) / 10;break;
 		}
 		case MagicalDamageBonus: {
-			/** int + wisd/2 + prec/8 */
+			/**
+			 * 1.25*int + wisdom/2 + faith/4 + (prec+dext)/32 <br>
+			 * By providing a total of 60 points, which is 12 points each attributes,
+			 * produces a bonus of 24,75
+			 */
 			v = c.getValue(AttributesTRAn.Intelligence) //
 					+ (( //
 					+(c.getValue(AttributesTRAn.Precision) >> 2) //
 							+ c.getValue(AttributesTRAn.Wisdom)) >> 1);
+//			/** V3: int + wisd/2 + prec/8 */
+//			v = c.getValue(AttributesTRAn.Intelligence) //
+//					+ (( //
+//					+(c.getValue(AttributesTRAn.Precision) >> 2) //
+//							+ c.getValue(AttributesTRAn.Wisdom)) >> 1);
 //					( //
 //			(c.getValue(AttributesTRAn.Precision) / 5) + c.getValue(AttributesTRAn.Intelligence)
 //					+ ((c.getValue(AttributesTRAn.Wisdom) + (c.getValue(AttributesTRAn.Faith) >> 1)) >> 1)//

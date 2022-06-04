@@ -6,7 +6,7 @@ import tools.ObjectNamedID;
 
 /***
  * Defines an object that can be dropped into the ground
- * ({@link GameObjectsManager} in a {@link GModalityRPG} game.
+ * ({@link GameObjectsManager}) in a {@link GModalityRPG} game.
  * 
  * @author ottin
  *

@@ -67,7 +67,7 @@ public interface ObjectLocated extends ObjectWithID {
 		protected static long idProg = 0;
 
 		{
-			this.id = idProg++;
+			this.ID = idProg++;
 		}
 
 		protected PointWrapper() { super(); }
@@ -76,15 +76,18 @@ public interface ObjectLocated extends ObjectWithID {
 
 		protected PointWrapper(Point p) { super(p); }
 
-		protected final Long id;
-
-		@Override
-		public Long getID() { return id; }
+		protected final Long ID;
 
 		@Override
 		public int getx() { return x; }
 
 		@Override
 		public int gety() { return y; }
+
+		@Override
+		public Long getID() { return this.ID; }
+
+		@Override
+		public boolean setID(Long newID) { return false; }
 	}
 }

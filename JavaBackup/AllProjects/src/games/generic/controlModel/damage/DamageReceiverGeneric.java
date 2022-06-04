@@ -11,6 +11,12 @@ import games.generic.controlModel.rechargeable.resources.holders.LifeHavingObjec
  */
 public interface DamageReceiverGeneric extends LifeHavingObject, GameObjectGeneric {
 
+	/**
+	 * Make this object receiving a non-negative amount of damage, in a context
+	 * expressed by {@link GModality}, which could be used to fire events.
+	 */
+	public void receiveDamage(GModality gm, DamageGeneric damage, DamageDealerGeneric source);
+
 	/***
 	 * NOTE: this is NOT a percentage (i.e. "%"), but a "per thousand" probability!!
 	 * <p>
@@ -20,10 +26,14 @@ public interface DamageReceiverGeneric extends LifeHavingObject, GameObjectGener
 	public int getProbabilityPerThousandAvoid(DamageTypeGeneric damageType);
 
 	/**
-	 * Make this object receiving a non-negative amount of damage, in a context
-	 * expressed by {@link GModality}, which could be used to fire events.
+	 * Returns the raw/absolute amount of damage reduction.
 	 */
-	public void receiveDamage(GModality gm, DamageGeneric damage, DamageDealerGeneric source);
+	public int getDamageReduction(DamageTypeGeneric damageType);
+
+	/**
+	 * Returns the relative (percentage) amount of damage reduction.
+	 */
+	public int getDamageReductionPercentage(DamageTypeGeneric damageType);
 
 	/**
 	 * Similar to
@@ -38,4 +48,13 @@ public interface DamageReceiverGeneric extends LifeHavingObject, GameObjectGener
 	 * it's not mandatory.
 	 */
 	public int getPercentageCriticalStrikeReduction(DamageTypeGeneric damageType);
+
+	/**
+	 * Returns a "per-thousand" value, as
+	 * {@link DamageDealerGeneric#getLuckPerThousand()}.
+	 * 
+	 * @return a "per-thousand" value, as
+	 *         {@link DamageDealerGeneric#getLuckPerThousand()}.
+	 */
+	public default int getLuckPerThousand() { return 0; }
 }

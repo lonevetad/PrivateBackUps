@@ -1,4 +1,4 @@
-package common.gui;
+package games.generic.view.guiSwing;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -9,10 +9,10 @@ import java.io.Serializable;
 public class ContainerListener_AutoAdapterSize extends ContainerAdapter implements Serializable {
 
 	private static final long serialVersionUID = 84022534257031L;
-	final Component comp;
+	final Component componentToResize;
 
-	private ContainerListener_AutoAdapterSize(Component comp) {
-		this.comp = comp;
+	private ContainerListener_AutoAdapterSize(Component componentToResize) {
+		this.componentToResize = componentToResize;
 	}
 
 	@Override
@@ -24,27 +24,26 @@ public class ContainerListener_AutoAdapterSize extends ContainerAdapter implemen
 		try {
 			c = e.getChild();
 			if (c != null) {
-				d = comp.getPreferredSize();
+				d = componentToResize.getPreferredSize();
 
 				neww = Math.max(d.width, (c.getWidth() + c.getX()));
 				newh = Math.max(d.height, (c.getHeight() + c.getY()));
 				if (neww != d.width || newh != d.height) {
 					d = null;
 					c = null;
-					comp.setPreferredSize(new Dimension(neww, newh));
+					componentToResize.setPreferredSize(new Dimension(neww, newh));
 				}
 				// System.out.println("\tneww = " + neww + " ___ newh = " + newh
 				// + "____ xx = " + xx + "__ yy = " + yy);
 			}
 			/*
-			 * Object o = e.getSource(); if (o != null && o instanceof
-			 * Component) { c = (Component) o; d = comp.getPreferredSize(); neww
-			 * = Math.max(d.width, xx = (c.getWidth() + c.getX())); newh =
-			 * Math.max(d.height, yy = (c.getHeight() + c.getY())); if (neww !=
-			 * d.width || newh != d.height) { d = null; c = null;
+			 * Object o = e.getSource(); if (o != null && o instanceof Component) { c =
+			 * (Component) o; d = comp.getPreferredSize(); neww = Math.max(d.width, xx =
+			 * (c.getWidth() + c.getX())); newh = Math.max(d.height, yy = (c.getHeight() +
+			 * c.getY())); if (neww != d.width || newh != d.height) { d = null; c = null;
 			 * comp.setPreferredSize(new Dimension(neww, newh)); }
-			 * System.out.println("\tneww = " + neww + " ___ newh = " + newh +
-			 * "____ xx = " + xx + "__ yy = " + yy); }
+			 * System.out.println("\tneww = " + neww + " ___ newh = " + newh + "____ xx = "
+			 * + xx + "__ yy = " + yy); }
 			 */
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -53,8 +52,8 @@ public class ContainerListener_AutoAdapterSize extends ContainerAdapter implemen
 	}
 
 	public static ContainerListener_AutoAdapterSize newInstance(Component com) {
-		if (com == null) throw new IllegalArgumentException("The given component is null.");
+		if (com == null)
+			throw new IllegalArgumentException("The given component is null.");
 		return new ContainerListener_AutoAdapterSize(com);
 	}
-
 }

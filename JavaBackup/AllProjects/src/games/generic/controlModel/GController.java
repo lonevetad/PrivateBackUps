@@ -170,7 +170,7 @@ public abstract class GController {
 	/**
 	 * Delegates to {@link LoaderManager#loadAll()}).
 	 */
-	public List<LoaderGeneric> loadAll() { return this.loaderManager.loadAll(); }
+	public final List<LoaderGeneric> loadAll() { return this.loaderManager.loadAll(); }
 
 //
 

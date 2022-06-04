@@ -1,55 +1,186 @@
 package tests.tGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GController;
+import games.generic.controlModel.items.EquipmentItem;
+import games.generic.controlModel.items.EquipmentUpgrade;
 import games.generic.controlModel.loaders.LoaderGeneric;
 import games.generic.controlModel.loaders.LoaderGeneric.LoadStatusResult;
 import games.generic.controlModel.loaders.LoaderManager.LoadingObserver;
+import games.generic.controlModel.misc.AttributeModification;
 import games.generic.controlModel.misc.CreatureAttributes;
+import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GThread.GTRunnable;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.view.GameView;
 import games.generic.view.ViewOptions;
+import games.generic.view.guiSwing.LoggerMessagesJTextArea;
 import games.generic.view.misc.LoadingProcessView;
 import games.theRisingAngel.enums.AttributesTRAn;
 import games.theRisingAngel.enums.RechargeableResourcesTRAn;
+import games.theRisingAngel.loaders.LoaderEquipUpgradesTRAn;
+import games.theRisingAngel.loaders.factories.FactoryEquip;
 import games.theRisingAngel.misc.CurrencySetTRAn;
+import games.theRisingAngel.providers.GameObjectsProvidersHolderTRAn;
+import tests.tGame.tgEvent1.GC_E1;
+import tools.Comparators;
+import tools.gui.swing.JListModelTreeMap;
 
 public class GView_E1 extends GameView {
 
-	public GView_E1(GController gc) { super(gc); }
+	public GView_E1(GController gc) {
+		super(gc);
+		this.inspectorsViewNeverInit = true;
 
+	}
+
+	boolean inspectorsViewNeverInit;
 	JFrame fin;
 	JButton jbCloseAll, jbStartPause;
-	JPanel jpBigContainer;
+	JPanel jpBigContainer; // jpStatistics, jpCollectionsInspector, jpLog;
+	List<Map.Entry<String, JPanel>> jpTabs;
+	JTabbedPane jtpHoldingAll;
 	JPanel jpStartStop, jpPlayerStats;
-	JProgressBar[] jpbCurableResources; // jpbPlayerLife, jpbPlayerMana;
+	JProgressBar jpbRechargeableResources[], jpLoader; // jpbPlayerLife, jpbPlayerMana;
 //	JTextArea jtaPlayerStats;
 //	JScrollPane jspPlayerAttributes;
 	JLabel jlMoneyText, jlMoneyValue;
 	JLabel[] jlPlayerStatText, jlPlayerStatValue;
-	RechargeableResourcesTRAn[] curableResource = { RechargeableResourcesTRAn.Life, RechargeableResourcesTRAn.Mana,
+//	TextArea taLog;
+	JTextArea jtaLog;
+	JTextArea taInspector;
+	LoggerMessagesJTextArea logTextArea;
+	RechargeableResourcesTRAn[] rechargeableResource = { RechargeableResourcesTRAn.Life, RechargeableResourcesTRAn.Mana,
 			RechargeableResourcesTRAn.Shield };
+	List<LoadingObserver> loaderObservers;
+	InspectorElements<?>[] inspectors;
+	JListModelTreeMap<String, InspectorElements<?>> listInspectorModel;
+	JList<InspectorElements<?>> listInspectors;
+	ListModel<String> listInspElemStrModel;
+	JList<String> listInspectedElementString;
 
 	@Override
 	protected ViewOptions newViewOptions() { // TODO Auto-generated method stub
 		return null;
 	}
 
+	// TODO initInspectors
+	public void initInspectors() {
+		final Consumer<String> stringifiedElementPrinter;
+		final GC_E1 gc;
+		final GameObjectsProvidersHolderTRAn goph;
+		final GView_E1 view = this;
+		gc = (GC_E1) this.getGameController();
+		stringifiedElementPrinter = this::logInspectedElementStringified;
+
+		goph = (GameObjectsProvidersHolderTRAn) gc.getGameObjectsProvidersHolder();
+
+		this.inspectors = new InspectorElements[] { //
+				new InspectorElements<FactoryObjGModalityBased<EquipmentUpgrade>>("Equipment Upgrades", //
+						elemCons -> {
+							System.out.println("GView_E1 - running inspector - equip upgrades - "
+									+ goph.getEquipUpgradesProvider().getObjectsFactoriesCount() + " elements");
+							goph.getEquipUpgradesProvider()
+									.forEachFactory((nameEqUpgr, factory) -> elemCons.accept(factory));
+						}, //
+						factory -> {
+							StringBuilder sb;
+							final GModality_E1 gm;
+							sb = new StringBuilder();
+
+							gm = (GModality_E1) view.getGameController().getCurrentGameModality();
+							Objects.requireNonNull(gm);
+							goph.setGameModality(gm);
+
+							LoaderEquipUpgradesTRAn.factoryToLinesString(gm, factory)
+									.forEach(line -> sb.append(line).append('\n'));
+							sb.append('\n').append('\n');
+							return sb.toString();
+						}, //
+						stringifiedElementPrinter), //
+				//
+				new InspectorElements<FactoryObjGModalityBased<EquipmentItem>>("Equipments", //
+						elemCons -> {
+							System.out.println("GView_E1 - running inspector - equip - "
+									+ goph.getEquipmentsProvider().getObjectsFactoriesCount() + " elements");
+							goph.getEquipmentsProvider()
+									.forEachFactory((nameEqUpgr, factory) -> elemCons.accept(factory));
+						}, //
+						factory -> {
+							StringBuilder sb;
+							FactoryEquip fe;
+							fe = (FactoryEquip) factory;
+							sb = new StringBuilder();
+
+							sb.append(fe.getName());
+							sb.append('\n').append('\t').append("rarity :").append(fe.getRarity());
+							sb.append('\n').append('\t').append("type :").append(fe.getType().name());
+							sb.append('\n').append('\t').append("price :").append(fe.getPrice()[0]);
+							sb.append('\n').append('\t').append("dimension :")
+									.append(fe.getDimensionInInventory().toString());
+							sb.append('\n').append('\t').append("description :").append(fe.getDescription());
+							sb.append('\n').append('\t').append("attribute modifications :\n");
+							for (AttributeModification am : fe.attrMods) {
+								sb.append('\t').append('\t').append(am.getName()).append(" -> ").append(am.getValue())
+										.append('\n');
+							}
+							sb.append('\n').append('\t').append("abilities:\n");
+							if (fe.abilities == null || fe.abilities.isEmpty()) {
+								sb.append("\t\t[]\n");
+							} else {
+								fe.abilities.forEach(a -> { sb.append('\t').append('\t').append(a).append('\n'); });
+							}
+							sb.append('\n').append('\n');
+							return sb.toString();
+						}, //
+						stringifiedElementPrinter), //
+
+		};
+
+	}
+
 	@Override
 	protected LoadingProcessView newLoadingProcessView() { // TODO Auto-generated method stub
 		return new LoadingProcessView(this) {
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onRemovingOnView(GameView view) { // TODO Auto-generated method stub
@@ -62,19 +193,22 @@ public class GView_E1 extends GameView {
 			@Override
 			public void notifyLoadingProcessCompleted(LoaderGeneric loader, LoadStatusResult completitionResult) {
 				System.out.println("LOADED " + loader.getClass().getName() + " --> " + completitionResult.name());
+				jpLoader.setValue(jpLoader.getValue() + 1);
+				jpLoader.setToolTipText(jpLoader.getValue() + " / " + jpLoader.getMaximum());
 			}
 
 			@Override
 			public void notifyAllLoadingProcessStarted(int loadersAmount) {
-				System.out.println("START Loading " + loadersAmount + " loaders");
+				System.out.println("START Loading " + loadersAmount + " loaders (in LoadingProcessView class)");
+				jpLoader.setMaximum(loadersAmount);
+				jpLoader.setValue(0);
 			}
 
 			@Override
-			public void notifyAllLoadingProcessEnded(List<LoaderGeneric> failedLoaders) { // TODO Auto-generated method
-																							// stub
+			public void notifyAllLoadingProcessEnded(List<LoaderGeneric> failedLoaders) {
 				System.out.println("END LOADERS");
 				System.out.print("\tfailed:");
-				if (failedLoaders == null) {
+				if (failedLoaders == null || failedLoaders.size() == 0) {
 					System.out.println("NONE :D");
 				} else {
 					System.out.println(Arrays.toString(failedLoaders.toArray()));
@@ -84,13 +218,13 @@ public class GView_E1 extends GameView {
 	}
 
 	@Override
-	public void initializeNonGUIParts() { // TODO Auto-generated method stub
+	public void initializeNonGUIParts() {
+		this.loaderObservers = new LinkedList<>();
+		this.initInspectors();
 	}
 
 	@Override
-	public void beginsPlayesInteraction(PlayerGeneric thisPlayer, PlayerGeneric otherPlayer) { // TODO Auto-generated
-																								// method stub
-	}
+	public void beginsPlayesInteraction(PlayerGeneric thisPlayer, PlayerGeneric otherPlayer) {}
 
 	@Override
 	public List<LoaderGeneric> getAllViewRelatedLoaders() { // TODO Auto-generated method stub
@@ -114,12 +248,46 @@ public class GView_E1 extends GameView {
 		fin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		panel = fin.getContentPane();
 		jpBigContainer = new JPanel();
-		jpBigContainer.setLayout(new BorderLayout());
+//		jpBigContainer.setLayout(new BorderLayout());
 		fin.add(jpBigContainer);
+
+		jtpHoldingAll = new JTabbedPane();
+		jpBigContainer.add(jtpHoldingAll);
+		jpTabs = new ArrayList<>();
+
+		fin.addComponentListener(new ComponentAdapter() {
+			final BiConsumer<Dimension, JComponent> resizer = (size, e) -> {
+				e.setSize(size);
+				e.setPreferredSize(size);
+				e.setLocation(0, 0);
+			};
+			final Function<Entry<String, JPanel>, JComponent> panelGetter = e -> e.getValue();
+
+			@Override
+			public void componentResized(ComponentEvent ce) {
+				Dimension size;
+				size = fin.getSize();
+				jpBigContainer.setSize(fin.getSize());
+				jpBigContainer.setLocation(0, 0);
+				jpTabs.forEach(e -> this.resizer.accept(size, panelGetter.apply(e)));
+			}
+		});
+
+		jtaLog = new JTextArea();
+		this.logTextArea = new LoggerMessagesJTextArea(jtaLog);
+		JPanel jpLog = new JPanel();
+//		jpLog
+		jpLog.add(logTextArea.getTextArea());
+		jpTabs.add(Map.entry("Log", jpLog));
+
+		JPanel jpStatistics = new JPanel();
+		jpStatistics.setLayout(new BorderLayout());
+		jpTabs.add(Map.entry("Statistics & log", jpStatistics));
+//		jpStatistics,jpCollectionsInspector;
 
 		//
 		jpNorth = new JPanel();
-		jpBigContainer.add(jpNorth, BorderLayout.NORTH);
+		jpStatistics.add(jpNorth, BorderLayout.NORTH);
 		jbStartPause = new JButton("Start");
 		jpNorth.add(jbStartPause);
 		jbCloseAll = new JButton("CLOSE ALL");
@@ -132,22 +300,25 @@ public class GView_E1 extends GameView {
 			jbStartPause.setText("START");
 		});
 
+		jpLoader = new JProgressBar(0, 2);
+		jpNorth.add(jpLoader);
+		jpLoader.setToolTipText("loading status");
 		//
 
 		GridBagConstraints constr;
 		constr = new GridBagConstraints();
 		jpPlayerStats = new JPanel(new GridBagLayout());
-		jpBigContainer.add(jpPlayerStats, BorderLayout.EAST);
+		jpStatistics.add(jpPlayerStats, BorderLayout.EAST);
 
-		jpbCurableResources = new JProgressBar[curableResource.length];
+		jpbRechargeableResources = new JProgressBar[rechargeableResource.length];
 
 		constr.gridx = 0;
 		constr.gridwidth = 2;
 		constr.gridheight = 1;
 		constr.weightx = constr.weighty = 1;
-		for (int i = 0; i < curableResource.length; i++) {
+		for (int i = 0; i < rechargeableResource.length; i++) {
 			JProgressBar jpb;
-			jpbCurableResources[i] = jpb = new JProgressBar(0, 100);
+			jpbRechargeableResources[i] = jpb = new JProgressBar(0, 100);
 			jpb.setStringPainted(true);
 			constr.gridy = i;
 			jpPlayerStats.add(jpb, constr);
@@ -188,10 +359,125 @@ public class GView_E1 extends GameView {
 		 * stats
 		 */
 
+		initInspectorsView();
+
+		jpTabs.forEach(e -> { jtpHoldingAll.addTab(e.getKey(), e.getValue()); });
+	}
+
+	public void initInspectorsView() {
+		JPanel jpInsp, jpInspectors;
+		if (inspectorsViewNeverInit) {
+			this.inspectorsViewNeverInit = false;
+		} else {
+			return;
+		}
+		jpInsp = new JPanel();
+		jpInsp.setLayout(new BorderLayout());
+		jpTabs.add(Map.entry("Inspector", jpInsp));
+
+		taInspector = new JTextArea("test");
+		JScrollPane jsp;
+		jsp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		jsp.setViewportView(taInspector);
+		jpInsp.add(jsp, BorderLayout.CENTER);
+		taInspector.setSize(new Dimension(300, 400));
+		taInspector.setPreferredSize(taInspector.getSize());
+
+		jpInspectors = new JPanel();
+//		jpInspectors.setLayout(null);
+		jpInsp.add(jpInspectors, BorderLayout.WEST);
+		jpInspectors.setSize(new Dimension(150, 400));
+		jpInspectors.setPreferredSize(jpInspectors.getSize());
+
+		for (int i = 0; i < inspectors.length; i++) {
+			InspectorElements<?> ie;
+			JButton jb;
+			ie = inspectors[i];
+			jb = new JButton(ie.collectionName);
+			jb.setSize(150, 50);
+			jb.setLocation(0, i * jb.getHeight());
+			jpInspectors.add(jb);
+			jb.addActionListener(new ActionListener() {
+				final InspectorElements<?> inspectorCurrent = ie;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("RUNNING GView_E1.InspectorElements: " + inspectorCurrent.getCollectionName());
+					inspectorCurrent.run();
+				}
+			});
+		}
+
+		// alternatives
+//		listInspElemStrModel = new DefaultListModel<>();
+	}
+
+	@Deprecated
+	public void initInspectorsView_V1() {
+		JPanel jpInsp;
+		if (inspectorsViewNeverInit) {
+			this.inspectorsViewNeverInit = false;
+		} else {
+			return;
+		}
+		jpInsp = new JPanel();
+		jpInsp.setLayout(new BorderLayout());
+		jpTabs.add(Map.entry("Inspector", jpInsp));
+
+		taInspector = new JTextArea();
+		jpInsp.add(taInspector, BorderLayout.CENTER);
+		taInspector.setSize(new Dimension(300, 400));
+		taInspector.setPreferredSize(taInspector.getSize());
+
+		listInspectorModel = JListModelTreeMap.newInstance(//
+				MapTreeAVL.newMap( //
+						MapTreeAVL.Optimizations.QueueFIFOIteration, //
+						Comparators.STRING_COMPARATOR), //
+//				InspectorElements::getCollectionName //
+				(InspectorElements<?> ie) -> ie.getCollectionName() //
+		);
+		listInspectors = new JList<>(listInspectorModel);
+		jpInsp.add(listInspectors, BorderLayout.WEST);
+		listInspectorModel.addElements(inspectors);
+//		listInspectorModel.addListDataListener(new ListDataListener() {
+//			@Override
+//			public void intervalRemoved(ListDataEvent e) { }
+//			@Override
+//			public void intervalAdded(ListDataEvent e) { }
+//			@Override
+//			public void contentsChanged(ListDataEvent e) { }
+//		});
+		listInspectors.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				taInspector.setText("");
+				inspectors[e.getFirstIndex()].run();
+			}
+		});
+		listInspectors.setCellRenderer(new ListCellRenderer<InspectorElements<?>>() {
+			final JTextField jlCell = new JTextField();
+
+			@Override
+			public Component getListCellRendererComponent(JList<? extends InspectorElements<?>> list,
+					InspectorElements<?> value, int index, boolean isSelected, boolean cellHasFocus) {
+				if (cellHasFocus) {
+					jlCell.setBorder(BorderFactory.createLineBorder(isSelected ? Color.RED : Color.BLUE, 2));
+				} else if (isSelected) {
+					jlCell.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+				} else {
+					jlCell.setBorder(null);
+				}
+				jlCell.setText(value.collectionName);
+				return jlCell;
+			}
+		});
+		listInspectors.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 	}
 
 	@Override
 	public void finishViewSetupAndShow() {
+
 		fin.setSize(500, 700);
 		jpBigContainer.setSize(fin.getSize());
 		fin.setVisible(true);
@@ -237,9 +523,9 @@ public class GView_E1 extends GameView {
 		if (gmodalitye1 == null)
 			return;
 		p = gmodalitye1.getPlayerRPG();
-		for (int i = 0; i < curableResource.length; i++) {
-			jpb = jpbCurableResources[i];
-			curRes = curableResource[i];
+		for (int i = 0; i < rechargeableResource.length; i++) {
+			jpb = jpbRechargeableResources[i];
+			curRes = rechargeableResource[i];
 			jpb.setMaximum(max = p.getMaxAmount(curRes));
 			jpb.setValue(v = p.getAmount(curRes));
 			textDisplayed = curRes.getName() + ": " + v + " / " + max;
@@ -262,6 +548,12 @@ public class GView_E1 extends GameView {
 		}
 		jpPlayerStats.repaint();
 		// TODO
+	}
+
+// TODO logInspectedElementStringified
+	protected void logInspectedElementStringified(String text) {
+		System.out.println(text);
+		taInspector.append(text);
 	}
 
 	void singleRepaintCycle() {
@@ -309,6 +601,51 @@ public class GView_E1 extends GameView {
 
 		@Override
 		public void restart() {}
+	}
 
+	//
+
+	// TODO inspector
+	/**
+	 * Class that inspect all elements on a class which has the ability E
+	 * 
+	 * @author ottin
+	 *
+	 * @param <E>
+	 */
+	public static class InspectorElements<E> implements Runnable {
+		public final String collectionName;
+//		public final LoggerMessages log;
+		public final Function<E, String> toStringer;
+		public final Consumer<Consumer<E>> forEachCallFunction;
+		public final Consumer<E> inspectedElementConsumer;
+		public final Consumer<String> elementStringifiedConsumer;
+
+		public InspectorElements(String collectionName, //
+//				LoggerMessages log, //
+				Consumer<Consumer<E>> forEachCallFunction, //
+				Function<E, String> toStringer, //
+				Consumer<String> elementStringifiedConsumer) {
+			super();
+			this.collectionName = collectionName;
+//			this.log = log;
+			this.toStringer = ( //
+			(toStringer != null) ? toStringer : e -> e.toString() //
+			);
+			this.forEachCallFunction = forEachCallFunction;
+			this.elementStringifiedConsumer = elementStringifiedConsumer;
+			this.inspectedElementConsumer = e -> this.elementStringifiedConsumer.accept(this.toStringer.apply(e));
+		}
+
+		public String getCollectionName() { return collectionName; }
+
+		public Function<E, String> getToStringer() { return toStringer; }
+
+		public Consumer<Consumer<E>> getForEachCallFunction() { return forEachCallFunction; }
+
+		public Consumer<E> getInspectedElementConsumer() { return inspectedElementConsumer; }
+
+		@Override
+		public void run() { this.forEachCallFunction.accept(inspectedElementConsumer); }
 	}
 }

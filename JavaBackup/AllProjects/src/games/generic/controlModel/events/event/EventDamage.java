@@ -43,7 +43,8 @@ public class EventDamage extends EventInfo_SourceToTarget<DamageDealerGeneric, L
 	public DamageTypeGeneric getDamageType() { return damageOriginal.getDamageType(); }
 
 	/**
-	 * Proxy for calling <code>{@link #getDamageOriginal()}.getDamageAmount()</code>.
+	 * Proxy for calling
+	 * <code>{@link #getDamageOriginal()}.getDamageAmount()</code>.
 	 */
 	public int getDamageAmountOriginal() { return damageOriginal.getDamageAmount(); }
 
@@ -80,8 +81,24 @@ public class EventDamage extends EventInfo_SourceToTarget<DamageDealerGeneric, L
 	@Override
 	public boolean isRequirigImmediateProcessing() { return true; }
 
+	/**
+	 * Check if the provided object is the source of the {@link Damage AAAAAA TODO
+	 * }, which is the one who is dealing damaged. .</br>
+	 * Compares the references only.
+	 * 
+	 * @param ddg the object that may be the source of this damage event.
+	 * @return the check result
+	 */
 	public boolean isSource(DamageDealerGeneric ddg) { return super.source == ddg; }
 
+	/**
+	 * Check if the provided object is the target of the {@link Damage AAAAAA TODO
+	 * }, which is the one who is being damaged. .</br>
+	 * Compares the references only.
+	 * 
+	 * @param ddg the object that may be the target of this damage event.
+	 * @return the check result
+	 */
 	public boolean isTarget(LivingObject ddg) { return super.target == ddg; }
 
 	@Override

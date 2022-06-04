@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
+import dataStructures.MapTreeAVL;
 import games.generic.controlModel.GController;
 import games.generic.controlModel.loaders.LoaderGeneric.LoadStatusResult;
+import tools.Comparators;
 import tools.LoggerMessages;
 
 /**
@@ -173,6 +176,13 @@ public abstract class LoaderManager {
 
 	// TODO ABSTRACT methods
 
+	/**
+	 * Override designed BUT call for <i>super</i>.
+	 * 
+	 * @param loaders
+	 */
+	protected abstract void enrichSetLoaderManagers(Map<Class<?>, LoaderGeneric> loaders);
+
 	//
 
 	/**
@@ -197,6 +207,18 @@ public abstract class LoaderManager {
 
 	public void addLoadingProcessObserver(LoadingObserver lo) {
 		if (lo != null) { this.loadersAndStatusObservers.add(lo); }
+	}
+
+	/**
+	 * Delegates to {@link LoaderManager#loadAll()}).
+	 */
+	public final void defineSetLoaders() {
+		Map<Class<?>, LoaderGeneric> loaders;
+		loaders = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight, Comparators.CLASS_COMPARATOR);
+
+		enrichSetLoaderManagers(loaders);
+
+		loaders.forEach((c, loader) -> { this.addLoader(loader); });
 	}
 
 	//
@@ -228,6 +250,8 @@ public abstract class LoaderManager {
 
 //		getAllKnownLoaders().forEach(this::addLoader);
 
+		this.defineSetLoaders();
+
 		results = new LoaderGeneric.LoadStatusResult[this.otherLoaders.size()];
 
 		allObserversNotifier = (loader, status) -> {
@@ -256,6 +280,7 @@ public abstract class LoaderManager {
 		}
 
 		// now non-prioritary loaders
+		System.out.println("this.otherLoaders size: " + this.otherLoaders.size());
 		if (this.poolParallelLoaders == null) { this.poolParallelLoaders = this.newExecutorForParallelLoading(); }
 		if (this.poolParallelLoaders != null) {
 

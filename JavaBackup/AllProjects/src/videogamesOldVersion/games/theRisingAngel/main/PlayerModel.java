@@ -1,6 +1,6 @@
 package videogamesOldVersion.games.theRisingAngel.main;
 
-import games.generic.controlModel.holders.impl.ExperienceLevelHolderImpl;
+import games.generic.controlModel.subimpl.ExperienceLevelHolderImpl;
 import videogamesOldVersion.games.theRisingAngel.equipment.AbstractEquipment;
 
 public class PlayerModel {

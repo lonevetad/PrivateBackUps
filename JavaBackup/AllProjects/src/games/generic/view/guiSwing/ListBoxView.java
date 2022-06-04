@@ -1,4 +1,4 @@
-package common.gui;
+package games.generic.view.guiSwing;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -23,7 +23,9 @@ import java.util.EventListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import javax.swing.BorderFactory;
@@ -35,16 +37,16 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import common.abstractCommon.behaviouralObjectsAC.MyComparator;
-import common.mainTools.Comparators;
-import tools.RedBlackTree;
-import tools.RedBlackTree.DoSomethingWithKeyValue;
+import dataStructures.MapTreeAVL;
+import tools.Comparators;
+import tools.Comparators.MyComparator;
 
 public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> {
 	private static final long serialVersionUID = -180455L;
 
 	/**
-	 * Return a string that describes the item, as like as {@link Object#toString()} does.<br>
+	 * Return a string that describes the item, as like as {@link Object#toString()}
+	 * does.<br>
 	 * By default, this returns <code>String.valueOf(this.getItem())</code>.
 	 */
 	public static interface DescriptionExtractor {
@@ -63,9 +65,10 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 		JPanel(null));
 	}
 
-	private ListBoxView(MyComparator<I> comp, JComponent view) {
+	private ListBoxView(MyComparator<I> comparator, JComponent view) {
 		super(view, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		if (comp == null) throw new IllegalArgumentException("Comparator is null");
+		if (comparator == null)
+			throw new IllegalArgumentException("Comparator is null");
 		this.view = view;
 		this.setViewportView(view);
 		view.setLayout(null);
@@ -73,7 +76,8 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 		setBorderSelectedItem(BORDER_SELECTED);
 		setBorderUnselectedItems(BORDER_UNSELECTED);
 		setDescriptionExtractor(DescriptionExtractor.DEFAULT_DescriptionExtractor);
-		allItems = new RedBlackTree<>(comp);
+		this.comparator = comparator;
+		allItems = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration, comparator);
 		unselecter = new Unselecter();
 		genericListenerItemVis = new LinkedList<>();
 		adderEventListenerToJPIV = new AdderEventListenerToJPIV();
@@ -81,16 +85,17 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 
 	JComponent view;
 	I selectItem;
-	RedBlackTree<I, /* ? extends */JPanelItemVisualizer> allItems;
-	RedBlackTree.DoSomethingWithKeyValue<I, JPanelItemVisualizer> resizer;
+	Map<I, /* ? extends */JPanelItemVisualizer> allItems;
+	BiConsumer<I, JPanelItemVisualizer> resizer;
+	MyComparator<I> comparator;
 	Unselecter unselecter;
 	// protected JPanelItemVisualizer selectedJPanel;
 	Border borderSelectedItem, borderUnselectedItems;
 	protected DescriptionExtractor descriptionExtractor;
 	/*
 	 * List<MouseListener> mouseListenerItemVis; List<MouseMotionListener>
-	 * mouseMotionListenerItemVis; List<MouseWheelListener> mouseWheelListenerItemVis;
-	 * List<KeyListener> keyListenerItemVis;
+	 * mouseMotionListenerItemVis; List<MouseWheelListener>
+	 * mouseWheelListenerItemVis; List<KeyListener> keyListenerItemVis;
 	 */
 	List<EventListener> genericListenerItemVis;
 	AdderEventListenerToJPIV adderEventListenerToJPIV;
@@ -101,29 +106,17 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 
 	// TODO GETTER
 
-	public I getSelectItem() {
-		return selectItem;
-	}
+	public I getSelectItem() { return selectItem; }
 
-	public Unselecter getUnselecter() {
-		return unselecter;
-	}
+	public Unselecter getUnselecter() { return unselecter; }
 
-	public Border getBorderSelectedItem() {
-		return borderSelectedItem;
-	}
+	public Border getBorderSelectedItem() { return borderSelectedItem; }
 
-	public Border getBorderUnselectedItems() {
-		return borderUnselectedItems;
-	}
+	public Border getBorderUnselectedItems() { return borderUnselectedItems; }
 
-	public DescriptionExtractor getItemDescriptionExtractor() {
-		return descriptionExtractor;
-	}
+	public DescriptionExtractor getItemDescriptionExtractor() { return descriptionExtractor; }
 
-	public Comparator<? super I> comparator() {
-		return allItems.comparator();
-	}
+	public Comparator<? super I> comparator() { return comparator; }
 
 	//
 
@@ -149,13 +142,9 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 
 	public abstract JPanelItemVisualizer newRow(I item);
 
-	public boolean hasItems() {
-		return !allItems.isEmpty();
-	}
+	public boolean hasItems() { return !allItems.isEmpty(); }
 
-	public int countItems() {
-		return allItems.size();
-	}
+	public int countItems() { return allItems.size(); }
 
 	public void removeItems() {
 		allItems.clear();
@@ -167,8 +156,8 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 	public boolean addNewItem(I item) {
 		JPanelItemVisualizer jpe;
 		if (item != null) {
-			if (!allItems.hasKey(item)) {
-				allItems.add(item, jpe = newRow(item));
+			if (!allItems.containsKey(item)) {
+				allItems.put(item, jpe = newRow(item));
 				jpe.setVisible(true);
 				// jpe.setSize(100, 50);
 				jpe.updateItemShow();
@@ -182,9 +171,10 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 
 	public boolean removeItem(I item) {
 		if (item != null) {
-			if (allItems.hasKey(item)) {
-				view.remove(allItems.delete(item));
-				if (allItems.isEmpty()) view.removeAll();
+			if (allItems.containsKey(item)) {
+				view.remove(allItems.remove(item));
+				if (allItems.isEmpty())
+					view.removeAll();
 				resizeAndRelocate();
 				return true;
 			}
@@ -192,9 +182,7 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 		return false;
 	}
 
-	public JPanelItemVisualizer getItem(I item) {
-		return allItems.fetch(item);
-	}
+	public JPanelItemVisualizer getItem(I item) { return allItems.get(item); }
 
 	public boolean addListenerToItemVisualizers(EventListener el) {
 		if (el != null) {
@@ -202,9 +190,7 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 				genericListenerItemVis.add(el);
 				// add to prev item
 				adderEventListenerToJPIV.el = el;
-				if (allItems.size() > 0) {
-					forEachJPanelItem(adderEventListenerToJPIV);
-				}
+				if (allItems.size() > 0) { forEachJPanelItem(adderEventListenerToJPIV); }
 			}
 		}
 		return false;
@@ -225,19 +211,17 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 	public void forEachJPanelItem(Consumer</* ? extends */JPanelItemVisualizer> action) {
 		if (allItems != null && allItems.size() > 0) {
 			// tl = new ToLister();
-			if (action instanceof RedBlackTree.DoSomethingWithKeyValue<?, ?>)
-				allItems.forEach((DoSomethingWithKeyValue<I, ListBoxView<I>.JPanelItemVisualizer>) action);
+			if (action instanceof BiConsumer<?, ?>)
+				allItems.forEach((BiConsumer<I, ListBoxView<I>.JPanelItemVisualizer>) action);
 			else
-				allItems.forEach(
-						(RedBlackTree.DoSomethingWithKeyValue<I, JPanelItemVisualizer>) (k, v) -> action.accept(v));
+				allItems.forEach((BiConsumer<I, JPanelItemVisualizer>) (k, v) -> action.accept(v));
 		}
 		// else System.out.println("ERROR all items null or empty");
 	}
 
 	@Override
-	public Iterator<I> iterator() {
-		return this.allItems.iterator();
-	}
+	public Iterator<I> iterator() { return this.allItems.keySet().iterator(); }
+
 	// protected
 
 	/* alla aggiunta/rimozione */
@@ -280,8 +264,9 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 
 	/*
 	 * @Override public Dimension getPreferredSize() { Dimension d, dv; d =
-	 * super.getPreferredSize(); dv = view.getPreferredSize(); d.width = Math.min(d.width,
-	 * dv.width); d.height = Math.min(d.height, dv.height); return d; }
+	 * super.getPreferredSize(); dv = view.getPreferredSize(); d.width =
+	 * Math.min(d.width, dv.width); d.height = Math.min(d.height, dv.height); return
+	 * d; }
 	 */
 
 	// TODO STATIC
@@ -292,52 +277,36 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 
 	// TODO CLASSES
 
-	class Unselecter implements RedBlackTree.DoSomethingWithKeyValue<I, JPanelItemVisualizer> {
-		private static final long serialVersionUID = 208488088110L;
+	class Unselecter implements BiConsumer<I, JPanelItemVisualizer> {
 
-		Unselecter() {
-		}
+		Unselecter() {}
 
 		@Override
-		public void accept(I key, JPanelItemVisualizer value) {
-			value.setBorder(getBorderUnselectedItems());
-		}
+		public void accept(I key, JPanelItemVisualizer value) { value.setBorder(getBorderUnselectedItems()); }
 	}
 
-	class ToLister implements RedBlackTree.DoSomethingWithKeyValue<I, JPanelItemVisualizer> {
-		private static final long serialVersionUID = 747466209208012L;
+	class ToLister implements BiConsumer<I, JPanelItemVisualizer> {
 		List<I> list;
 
-		ToLister() {
-			list = new /* Linked */ArrayList<>();
-		}
+		ToLister() { list = new /* Linked */ArrayList<>(); }
 
 		@Override
-		public void accept(I key, JPanelItemVisualizer value) {
-			list.add(key);
-		}
+		public void accept(I key, JPanelItemVisualizer value) { list.add(key); }
 	}
 
-	class ToListerJPanelItemVisualizer implements RedBlackTree.DoSomethingWithKeyValue<I, JPanelItemVisualizer> {
-		private static final long serialVersionUID = 4818906209898021L;
+	class ToListerJPanelItemVisualizer implements BiConsumer<I, JPanelItemVisualizer> {
 		List<JPanelItemVisualizer> list;
 
-		ToListerJPanelItemVisualizer() {
-			list = new /* Linked */ArrayList<>();
-		}
+		ToListerJPanelItemVisualizer() { list = new /* Linked */ArrayList<>(); }
 
 		@Override
-		public void accept(I key, JPanelItemVisualizer value) {
-			list.add(value);
-		}
+		public void accept(I key, JPanelItemVisualizer value) { list.add(value); }
 	}
 
 	public abstract class JPanelItemVisualizer extends JPanel {
 		private static final long serialVersionUID = 503159561L;
 
-		public JPanelItemVisualizer(I item) {
-			this(item, new FlowLayout());
-		}
+		public JPanelItemVisualizer(I item) { this(item, new FlowLayout()); }
 
 		public JPanelItemVisualizer(I item, LayoutManager layout) {
 			super(layout);
@@ -353,18 +322,14 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 		I item;
 		OnMouseClickSelectMe onMouseClickSelectMe;
 
-		public I getItem() {
-			return item;
-		}
+		public I getItem() { return item; }
 
 		public void setItem(I item) {
 			this.item = item;
 			updateItemShow();
 		}
 
-		public OnMouseClickSelectMe getOnMouseClickSelectMe() {
-			return onMouseClickSelectMe;
-		}
+		public OnMouseClickSelectMe getOnMouseClickSelectMe() { return onMouseClickSelectMe; }
 
 		/** Aggiorna il contenuto di item da visualizzare */
 		public abstract void updateItemShow();
@@ -372,11 +337,10 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 		public abstract void initGUI();
 
 		/**
-		 * Return a string that describes the item, as like as {@link Object#toString()} does.<br>
+		 * Return a string that describes the item, as like as {@link Object#toString()}
+		 * does.<br>
 		 */
-		public String getItemDescription() {
-			return getItemDescriptionExtractor().getDescription(this.getItem());
-		}
+		public String getItemDescription() { return getItemDescriptionExtractor().getDescription(this.getItem()); }
 
 		@Override
 		public void addMouseListener(MouseListener ml) {
@@ -417,23 +381,15 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 		JPanelItemVisualizer jpiv;
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
-			setMeSelected(jpiv);
-		}
+		public void mouseClicked(MouseEvent e) { setMeSelected(jpiv); }
 
 	}
 
-	protected class ResizerAndRelocater implements RedBlackTree.DoSomethingWithKeyValue<I, JPanelItemVisualizer> {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
+	protected class ResizerAndRelocater implements BiConsumer<I, JPanelItemVisualizer> {
 		JPanelItemVisualizer prev;
 		Dimension d;
 
-		ResizerAndRelocater() {
-			prev = null;
-		}
+		ResizerAndRelocater() { prev = null; }
 
 		@Override
 		public void accept(I key, ListBoxView<I>.JPanelItemVisualizer value) {
@@ -447,50 +403,42 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 
 				dd = d;
 				ps = value.getPreferredSize();// Preferred
-				if (dd.width < (t = (value.getX() + ps.width))) {
-					dd.width = t;
-				}
-				if (dd.height < (t = (value.getY() + ps.height))) {
-					dd.height = t;
-				}
+				if (dd.width < (t = (value.getX() + ps.width))) { dd.width = t; }
+				if (dd.height < (t = (value.getY() + ps.height))) { dd.height = t; }
 			}
 			prev = value;
 		}
 	}
 
 	protected class AdderEventListenerToJPIV implements Consumer</* ? extends */JPanelItemVisualizer>,
-			RedBlackTree.DoSomethingWithKeyValue<I, JPanelItemVisualizer>, Serializable {
+			BiConsumer<I, JPanelItemVisualizer>, Serializable {
 		private static final long serialVersionUID = 48950516022030L;
 		private EventListener el;
 
-		AdderEventListenerToJPIV() {
-			this(null);
-		}
+		AdderEventListenerToJPIV() { this(null); }
 
-		AdderEventListenerToJPIV(EventListener el) {
-			this.el = el;
-		}
+		AdderEventListenerToJPIV(EventListener el) { this.el = el; }
 
-		void setEventListener(EventListener el) {
-			if (el != null) {
-				this.el = el;
-			}
-		}
+		void setEventListener(EventListener el) { if (el != null) { this.el = el; } }
 
 		@Override
 		public void accept(ListBoxView<I>.JPanelItemVisualizer t) {
-			if (el instanceof MouseListener) t.addMouseListener((MouseListener) el);
-			if (el instanceof MouseMotionListener) t.addMouseMotionListener((MouseMotionListener) el);
-			if (el instanceof MouseWheelListener) t.addMouseWheelListener((MouseWheelListener) el);
-			if (el instanceof KeyListener) t.addKeyListener((KeyListener) el);
-			if (el instanceof ComponentListener) t.addComponentListener((ComponentListener) el);
-			if (el instanceof ContainerListener) t.addContainerListener((ContainerListener) el);
+			if (el instanceof MouseListener)
+				t.addMouseListener((MouseListener) el);
+			if (el instanceof MouseMotionListener)
+				t.addMouseMotionListener((MouseMotionListener) el);
+			if (el instanceof MouseWheelListener)
+				t.addMouseWheelListener((MouseWheelListener) el);
+			if (el instanceof KeyListener)
+				t.addKeyListener((KeyListener) el);
+			if (el instanceof ComponentListener)
+				t.addComponentListener((ComponentListener) el);
+			if (el instanceof ContainerListener)
+				t.addContainerListener((ContainerListener) el);
 		}
 
 		@Override
-		public void accept(I key, ListBoxView<I>.JPanelItemVisualizer value) {
-			accept(value);
-		}
+		public void accept(I key, ListBoxView<I>.JPanelItemVisualizer value) { accept(value); }
 	}
 
 	//
@@ -500,22 +448,16 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 	public static class ListBoxView_DEFAULT<I> extends ListBoxView<I> {
 		private static final long serialVersionUID = 621031520150L;
 
-		public ListBoxView_DEFAULT(MyComparator<I> comp) {
-			super(comp);
-		}
+		public ListBoxView_DEFAULT(MyComparator<I> comp) { super(comp); }
 
 		@Override
-		public JPanelItemVisualizer newRow(I item) {
-			return new DefaultJPanelVisual(item);
-		}
+		public JPanelItemVisualizer newRow(I item) { return new DefaultJPanelVisual(item); }
 
 		public class DefaultJPanelVisual extends JPanelItemVisualizer {
 
 			private static final long serialVersionUID = 11111214522L;
 
-			DefaultJPanelVisual(I item) {
-				super(item);
-			}
+			DefaultJPanelVisual(I item) { super(item); }
 
 			JLabel jl = null;
 
@@ -532,11 +474,7 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 			}
 
 			@Override
-			public void updateItemShow() {
-				if (jl != null) {
-					jl.setText(getItemDescription());
-				}
-			}
+			public void updateItemShow() { if (jl != null) { jl.setText(getItemDescription()); } }
 
 			@Override
 			public void initGUI() {

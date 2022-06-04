@@ -19,6 +19,7 @@ import games.theRisingAngel.abilities.AAttrSingleBonusMalusRandomPercentage;
 import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
 import games.theRisingAngel.abilities.ADamageReductionOnLifeLowerToPhysicalAttributes;
 import games.theRisingAngel.abilities.AFireShpereOrbiting;
+import games.theRisingAngel.abilities.AIntelligenceToShield;
 import games.theRisingAngel.abilities.ALifeHealingMakesEarnBaseCurrency;
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.AMeditationMoreRegen;
@@ -306,6 +307,9 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 
 		objProvider.addObj(ARegenBonusPayingPrecisionBasedOnLifeMissing.NAME,
 				ARegenBonusPayingPrecisionBasedOnLifeMissing.RARITY, ARegenBonusPayingPrecisionBasedOnLifeMissing::new);
+
+		this.saveObjectFactory(AIntelligenceToShield.NAME, AIntelligenceToShield.RARITY.getIndex(),
+				AIntelligenceToShield::new);
 
 		//
 

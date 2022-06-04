@@ -1,7 +1,6 @@
 package games.generic.controlModel.events;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.misc.uidp.UIDPCollector.UIDProviderLoadedListener;
 import tools.UniqueIDProvider;
 
 /**
@@ -14,23 +13,26 @@ import tools.UniqueIDProvider;
 public abstract class GEvent implements IGEvent {
 	private static final long serialVersionUID = -53224778410585340L;
 
-	private static UniqueIDProvider UIDP_EVENT = null;
-	public static final UIDProviderLoadedListener UIDP_LOADED_LISTENER_EVENT = uidp -> {
-		if (uidp != null) { UIDP_EVENT = uidp; }
-	};
-
-	public static UniqueIDProvider getUniqueIDProvider_Event() { return UIDP_EVENT; }
-
+	private static UniqueIDProvider UIDP_EVENT = UniqueIDProvider.newBasicIDProvider();
+	/*
+	 * null; public static final UIDProviderLoadedListener
+	 * UIDP_LOADED_LISTENER_EVENT = uidp -> { if (uidp != null) { UIDP_EVENT = uidp;
+	 * } };
+	 * 
+	 * public static UniqueIDProvider getUniqueIDProvider_Event() { return
+	 * UIDP_EVENT; }
+	 */
 	//
 
 	public GEvent() {
 		super();
-		assignID();
+//		assignID();
+		this.ID = UIDP_EVENT.getNewID();
 	}
 
-	protected Long ID;
+	protected final Long ID;
 
-	protected void assignID() { this.ID = UIDP_EVENT.getNewID(); }
+//	protected void assignID() { this.ID = UIDP_EVENT.getNewID(); }
 
 	/**
 	 * This is an INSTANCE identifier, i.e. two events of the same type are
@@ -50,4 +52,7 @@ public abstract class GEvent implements IGEvent {
 	 */
 	/* DEPRECATED since events DO NOT PERFORMS ACTIONS */
 	// public void performEvent(GameModality gm);
+
+	@Override
+	public boolean setID(Long newID) { return false; }
 }

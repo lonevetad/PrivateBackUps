@@ -1,4 +1,4 @@
-package videogamesOldVersion.common.gui;
+package games.generic.view.guiSwing;
 
 import java.awt.Color;
 import java.awt.Dimension;

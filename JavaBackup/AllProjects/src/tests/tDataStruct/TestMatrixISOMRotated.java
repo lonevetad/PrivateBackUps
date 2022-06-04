@@ -156,7 +156,8 @@ public class TestMatrixISOMRotated {
 //	protected	static class 
 
 	protected static class ColoredOL implements ObjectLocated {
-		Integer ID;
+		private static final long serialVersionUID = 1L;
+		Long ID;
 		Color color;
 		Point location;
 
@@ -177,7 +178,7 @@ public class TestMatrixISOMRotated {
 		}
 
 		@Override
-		public Integer getID() { return ID; }
+		public Long getID() { return ID; }
 
 		@Override
 		public Point getLocation() { return location; }

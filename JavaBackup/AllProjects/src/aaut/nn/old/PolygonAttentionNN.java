@@ -43,13 +43,9 @@ public class PolygonAttentionNN<NNMI_Input extends MatrixInput, E> extends Perce
 	}
 
 	@Override
-	public Function<MatrixInput, E> getLayerOutputCaster() {
-		return layerOutputCaster;
-	}
+	public Function<MatrixInput, E> getLayerOutputCaster() { return layerOutputCaster; }
 
-	public ActivationFunction getActivationFunction() {
-		return activationFunction;
-	}
+	public ActivationFunction getActivationFunction() { return activationFunction; }
 
 	public void setActivationFunction(ActivationFunction activationFunction) {
 		this.activationFunction = activationFunction;
@@ -326,8 +322,8 @@ public class PolygonAttentionNN<NNMI_Input extends MatrixInput, E> extends Perce
 		si.p1y = p1y = nexty - sin2;
 		si.p2x = p2x = nextx - cos2;
 		si.p2y = p2y = nexty + sin2;
-		si.isP1Inside = isP1Inside = PolygonUtilities.isPointInsidePolygon(p1x, p1y, poly);
-		si.isP2Inside = isP2Inside = PolygonUtilities.isPointInsidePolygon(p2x, p2y, poly);
+		si.isP1Inside = isP1Inside = PolygonUtilities.isInside(p1x, p1y, poly);
+		si.isP2Inside = isP2Inside = PolygonUtilities.isInside(p2x, p2y, poly);
 
 		if (isP1Inside == isP2Inside) {
 			si.classification = SideClassification.Uncertain;
@@ -380,8 +376,8 @@ public class PolygonAttentionNN<NNMI_Input extends MatrixInput, E> extends Perce
 //		Point2D.Double p_1, p_2;
 
 		/*
-		 * valore che ha senso essere considerato se e solo se positivenessCoefficient è
-		 * "Positive" o "Negative"
+		 * valore che ha senso essere considerato se e solo se positivenessCoefficient
+		 * è "Positive" o "Negative"
 		 */
 		SideInfo(int i, double[] row) {
 			this.index = i;

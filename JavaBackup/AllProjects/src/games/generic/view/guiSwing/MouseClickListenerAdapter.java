@@ -1,8 +1,8 @@
-package common.gui;
+package games.generic.view.guiSwing;
 
 import java.awt.event.MouseEvent;
 
-import common.abstractCommon.MouseClickListener;
+import videogamesOldVersion.common.abstractCommon.MouseClickListener;
 
 public class MouseClickListenerAdapter implements MouseClickListener {
 	private static final long serialVersionUID = -700237989429624L;
@@ -12,21 +12,15 @@ public class MouseClickListenerAdapter implements MouseClickListener {
 		public void performMouseEvent(MouseEvent e);
 	}
 
-	public MouseClickListenerAdapter() {
-		this(null);
-	}
+	public MouseClickListenerAdapter() { this(null); }
 
-	public MouseClickListenerAdapter(MouseEventPerformer mep) {
-		this.mouseEventPerformer = mep;
-	}
+	public MouseClickListenerAdapter(MouseEventPerformer mep) { this.mouseEventPerformer = mep; }
 
 	protected MouseEventPerformer mouseEventPerformer;
 
 	//
 
-	public MouseEventPerformer getMouseEventPerformer() {
-		return mouseEventPerformer;
-	}
+	public MouseEventPerformer getMouseEventPerformer() { return mouseEventPerformer; }
 
 	public void setMouseEventPerformer(MouseEventPerformer mouseEventPerformer) {
 		this.mouseEventPerformer = mouseEventPerformer;
@@ -42,7 +36,8 @@ public class MouseClickListenerAdapter implements MouseClickListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (mouseEventPerformer != null) mouseEventPerformer.performMouseEvent(e);
+		if (mouseEventPerformer != null)
+			mouseEventPerformer.performMouseEvent(e);
 	}
 
 }

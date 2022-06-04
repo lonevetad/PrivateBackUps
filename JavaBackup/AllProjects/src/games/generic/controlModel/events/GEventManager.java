@@ -1,14 +1,13 @@
 package games.generic.controlModel.events;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 import java.util.function.Consumer;
 
 import games.generic.controlModel.GModality;
-import games.generic.controlModel.GObjectsHolder;
+import games.generic.controlModel.holders.GObjectsHolder;
 import games.generic.controlModel.subimpl.GModalityET;
-import tools.ObjectWithID;
 
 /**
  * One of the core classes.
@@ -24,10 +23,10 @@ import tools.ObjectWithID;
  * are posted, without putting them to a hypothetical queue and waiting to be
  * performed. See {@link GEvent#isRequirigImmediateProcessing()}.
  */
-public abstract class GEventManager implements GObjectsHolder {
+public abstract class GEventManager implements GObjectsHolder<GEventObserver> {
 	protected GModalityET gameModality; // back reference
 //	protected MapTreeAVL<Integer, Queue<IGEvent>> eventsQueued;
-	protected Queue<IGEvent> eventsQueued;
+	protected List<IGEvent> eventsQueued;
 
 	public GEventManager(GModalityET gameModality) {
 		this.gameModality = gameModality;
@@ -36,7 +35,7 @@ public abstract class GEventManager implements GObjectsHolder {
 		 * MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 		 * Comparators.INTEGER_COMPARATOR);
 		 */
-		eventsQueued = new LinkedList<>();
+		eventsQueued = new ArrayList<IGEvent>(16);
 	}
 
 	//
@@ -46,7 +45,7 @@ public abstract class GEventManager implements GObjectsHolder {
 	public GModality getGameModality() { return gameModality; }
 
 	/** Use with care */
-	public Queue<IGEvent> getEventsQueued() { return eventsQueued; }
+//	public Queue<IGEvent> getEventsQueued() { return eventsQueued; }
 
 	/**
 	 * Use with caution.
@@ -88,20 +87,18 @@ public abstract class GEventManager implements GObjectsHolder {
 	}
 
 	@Override
-	public void forEach(Consumer<ObjectWithID> action) { forEachEventObservers(geo -> action.accept(geo)); }
+	public void forEach(Consumer<GEventObserver> action) { forEachEventObservers(geo -> action.accept(geo)); }
 
 	@Override
-	public boolean add(ObjectWithID o) {
-		if (o == null || (!(o instanceof GEventObserver)))
-			return false;
-		return addEventObserver((GEventObserver) o);
+	public boolean add(GEventObserver o) {
+		if (o == null) { return false; }
+		return addEventObserver(o);
 	}
 
 	@Override
-	public boolean remove(ObjectWithID o) {
-		if (o == null || (!(o instanceof GEventObserver)))
-			return false;
-		return removeEventObserver((GEventObserver) o);
+	public boolean remove(GEventObserver o) {
+		if (o == null) { return false; }
+		return removeEventObserver(o);
 	}
 
 	/**
@@ -113,7 +110,7 @@ public abstract class GEventManager implements GObjectsHolder {
 		if (ge.isRequirigImmediateProcessing()) {
 			this.notifyEventObservers(ge);
 		} else {
-			eventsQueued.add(ge); // like "offer"
+			this.enqueueEvent(ge);
 		}
 	}
 
@@ -124,17 +121,17 @@ public abstract class GEventManager implements GObjectsHolder {
 	 */
 	public void performAllEvents() {
 		boolean canCycle;
-		int eventsCount, eventsMax;
+		int eventsCount, eventsMax, eventsLeft;
 		final GModalityET gm;
-		Queue<IGEvent> q;
+		List<IGEvent> q;
 		IGEvent event;
 		gm = this.gameModality;
 		q = this.eventsQueued;
+		eventsLeft = q.size();
 		canCycle = true;
 		eventsCount = 0;
 		eventsMax = this.gameModality.getMaxEventProcessedEachStep();
-//		this.eventsQueued.forEach((id, q) -> {
-		while (!q.isEmpty()) {
+		while (eventsLeft > 0) {
 
 			// make me sleep and waiting the game to be resumed
 			/**
@@ -145,15 +142,16 @@ public abstract class GEventManager implements GObjectsHolder {
 			 * two different threads, then this check is way more required, to synchronize
 			 * both threads upon sleeping and awakening.
 			 */
-			while (canCycle && (!q.isEmpty()) && gm.isRunningOrSleep()) {
+			while (canCycle && (eventsLeft > 0) && gm.isRunningOrSleep()) {
 //					l.remove(0).performEvent(gm);
-				this.notifyEventObservers(event = q.poll()); // remove the first event
+				this.notifyEventObservers(event = q.remove(--eventsLeft)); // remove the first event
 				event.onProcessingEnded();
 				if (eventsMax > 0 && ++eventsCount > eventsMax) {
-					canCycle = this.gameModality.doOnExceedingEventsProcessedInStep();
+					canCycle = this.gameModality.handleExceedingEventsEnqueued(q);
 				}
 			}
 		}
-//		});
 	}
+
+	protected void enqueueEvent(IGEvent e) { this.eventsQueued.add(e); }
 }

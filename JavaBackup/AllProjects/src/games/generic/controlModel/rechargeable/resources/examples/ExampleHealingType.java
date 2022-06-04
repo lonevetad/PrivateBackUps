@@ -1,4 +1,4 @@
-package games.generic.controlModel.rechargeable.resources.example;
+package games.generic.controlModel.rechargeable.resources.examples;
 
 import games.generic.controlModel.holders.ResourceRechargeableHolder;
 import games.generic.controlModel.rechargeable.resources.RechargableResource;
@@ -32,4 +32,7 @@ public enum ExampleHealingType implements RechargeableResourceType {
 
 	@Override
 	public IndexToObjectBackmapping getFromIndexBackmapping() { return BACKMAPPING; }
+
+	@Override
+	public boolean setID(Long newID) { return false; }
 }

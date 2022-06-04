@@ -1,9 +1,7 @@
-package games.generic.controlModel.items.impl;
+package games.generic.controlModel.items;
 
 import games.generic.controlModel.GModality;
 import games.generic.controlModel.abilities.AbilityGeneric;
-import games.generic.controlModel.items.EquipmentUpgrade;
-import games.generic.controlModel.items.InventoryItem;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import tools.ObjectNamedID;
 

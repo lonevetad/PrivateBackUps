@@ -53,4 +53,11 @@ public abstract class AbilityBaseImpl implements AbilityGeneric {
 			onAddingToOwner(((GModalityHolder) owner).getGameModality());
 		}
 	}
+
+	@Override
+	public boolean setID(Long newID) {
+		if (this.ID != null || newID == null) { return false; }
+		this.ID = newID;
+		return true;
+	}
 }

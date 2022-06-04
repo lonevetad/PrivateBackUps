@@ -1,7 +1,7 @@
 package games.generic.controlModel.player;
 
 import games.generic.controlModel.holders.ExperienceLevelHolder;
-import games.generic.controlModel.holders.impl.ExperienceLevelHolderImpl;
+import games.generic.controlModel.subimpl.ExperienceLevelHolderImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;

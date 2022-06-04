@@ -1,6 +1,5 @@
 package games.theRisingAngel.inventory;
 
-import games.generic.controlModel.items.EquipmentItem;
 import games.generic.controlModel.misc.AttributeModification;
 import games.generic.controlModel.subimpl.GModalityRPG;
 import games.theRisingAngel.enums.EquipmentTypesTRAn;
@@ -21,14 +20,28 @@ public interface EquipItemFactory {
 		DefaultEIF(EquipItemFactory f) { this.fact = f; }
 
 		@Override
-		public EquipmentItem newEquipItem(GModalityRPG gmrpg, EquipmentTypesTRAn et, String name,
+		public EquipItemTRAn newEquipItem(GModalityRPG gmrpg, EquipmentTypesTRAn et, String name,
 				AttributeModification[] baseAttributeMods) {
 			return fact.newEquipItem(gmrpg, et, name, baseAttributeMods);
 		}
-	}
+	} // end of enum
 
 	//
 
-	public EquipmentItem newEquipItem(GModalityRPG gmrpg, EquipmentTypesTRAn et, String name,
+	public EquipItemTRAn newEquipItem(GModalityRPG gmrpg, EquipmentTypesTRAn et, String name,
 			AttributeModification[] baseAttributeMods);
+
+	public static EquipItemFactory getDefaultFactoryFor(EquipmentTypesTRAn et) {
+		if (et == null)
+			return null;
+		if (et == EquipmentTypesTRAn.MainWeapon || et == EquipmentTypesTRAn.SecodaryWeapon) {
+			return EquipItemFactory.DefaultEIF.WeaponFactory;
+		}
+		if (et == EquipmentTypesTRAn.Ring) { return EquipItemFactory.DefaultEIF.RingFactory; }
+		if (EquipmentTypesTRAn.isJewelry(et)) {
+			return EquipItemFactory.DefaultEIF.JewelryFactory;
+		} else {
+			return EquipItemFactory.DefaultEIF.NonJewelryFacory;
+		}
+	}
 }

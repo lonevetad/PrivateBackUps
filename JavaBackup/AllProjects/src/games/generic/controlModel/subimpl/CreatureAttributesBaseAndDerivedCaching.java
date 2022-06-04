@@ -1,5 +1,7 @@
 package games.generic.controlModel.subimpl;
 
+import java.util.Objects;
+
 import games.generic.controlModel.CreatureAttributesBaseAndDerived;
 import games.generic.controlModel.misc.AttributeIdentifier;
 import games.generic.controlModel.misc.AttributeModification;
@@ -11,20 +13,24 @@ public class CreatureAttributesBaseAndDerivedCaching extends CreatureAttributesB
 	public CreatureAttributesBaseAndDerivedCaching(int attributesCount, IndexToObjectBackmapping itai) {
 		super(attributesCount, itai);
 		this.attributesModificationsApplied = new int[attributesCount];
-		this.cacheValues = new int[attributesCount];
+		this.cacheValues = this.newCacheValues(attributesCount);
 		this.isCacheAvailable = false;
 	}
 
 	protected transient boolean isCacheAvailable = false;
 //protected transient int attributesCountLeftToUpdate;
 //protected final boolean[] attributesUpdated;
-	protected int[] attributesModificationsApplied, cacheValues;
+	protected final int[] attributesModificationsApplied, cacheValues;
 
 	@Override
 	public int getValue(AttributeIdentifier identifier) {
 		if (!isCacheAvailable) { recalculateCache(); }
 		return this.cacheValues[identifier.getIndex()];
 	}
+
+	//
+
+	protected int[] newCacheValues(int length) { return new int[length]; }
 
 	protected void recalculateCache() {
 		int i, tempAttr, tempBound;
@@ -78,6 +84,9 @@ public class CreatureAttributesBaseAndDerivedCaching extends CreatureAttributesB
 	@Override
 	public void applyAttributeModifier(AttributeModification eam) {
 		this.isCacheAvailable = false;
+		Objects.requireNonNull(this.attributesModificationsApplied);
+		Objects.requireNonNull(eam);
+		Objects.requireNonNull(eam.getAttributeModified());
 		this.attributesModificationsApplied[eam.getAttributeModified().getIndex()] += eam.getValue();
 	}
 

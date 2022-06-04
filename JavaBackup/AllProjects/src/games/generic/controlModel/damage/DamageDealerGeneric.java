@@ -13,6 +13,16 @@ import tools.ObjectNamedID;
  */
 public interface DamageDealerGeneric extends ObjectNamedID {
 	/**
+	 * Returns the raw/absolute amount of damage bonus.
+	 */
+	public int getDamageBonus(DamageTypeGeneric damageType);
+
+	/**
+	 * Returns the relative (percentage) amount of damage bonus.
+	 */
+	public int getDamageBonusPercentage(DamageTypeGeneric damageType);
+
+	/**
 	 * NOTE: this is NOT a percentage (i.e. "%"), but a "per thousand" probability!!
 	 * <p>
 	 * Related to
@@ -35,5 +45,12 @@ public interface DamageDealerGeneric extends ObjectNamedID {
 
 	// TODO altro?
 
-	public default int getLuck() { return 0; }
+	/**
+	 * Returns a "per-thousand" value, as
+	 * {@link DamageReceiverGeneric#getLuckPerThousand()}.
+	 * 
+	 * @return a "per-thousand" value, as
+	 *         {@link DamageReceiverGeneric#getLuckPerThousand()}.
+	 */
+	public default int getLuckPerThousand() { return 0; }
 }

@@ -46,6 +46,18 @@ public class FactoryItems implements FactoryObjGModalityBased<InventoryItem> {
 		}
 	}
 
+	public int getRarity() { return rarity; }
+
+	public String getName() { return name; }
+
+	public String getDescription() { return description; }
+
+	public Dimension getDimensionInInventory() { return dimensionInInventory; }
+
+	public int[] getPrice() { return price; }
+
+	public InventoryItemFactory getInventoryItemFactory() { return inventoryItemFactory; }
+
 	@Override
 	public String toString() {
 		return "FactoryEquip [\n name=" + name + ",\n rarity=" + rarity + ", sell price: " + Arrays.toString(price)

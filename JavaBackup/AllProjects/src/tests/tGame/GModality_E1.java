@@ -18,7 +18,6 @@ import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
 import games.generic.controlModel.player.PlayerGeneric;
 import games.generic.controlModel.player.UserAccountGeneric;
 import games.theRisingAngel.GModalityTRAnBaseWorld;
-import games.theRisingAngel.GameObjectsProvidersHolderTRAn;
 import games.theRisingAngel.abilities.ADamageReductionOnLifeLowerToPhysicalAttributes;
 import games.theRisingAngel.abilities.ALoseManaBeforeLife;
 import games.theRisingAngel.abilities.AProtectButMakesSoft;
@@ -28,6 +27,7 @@ import games.theRisingAngel.inventory.equipsWithAbilities.ArmProtectionShielding
 import games.theRisingAngel.inventory.equipsWithAbilities.NecklaceOfPainRinvigoring;
 import games.theRisingAngel.misc.CreatureAttributesTRAn;
 import games.theRisingAngel.misc.PlayerCharacterTypesTRAn.PlayerCharacterTypes;
+import games.theRisingAngel.providers.GameObjectsProvidersHolderTRAn;
 import geometry.implementations.shapes.ShapeRectangle;
 import tests.tGame.tgEvent1.GEventInterface_E1;
 import tests.tGame.tgEvent1.oggettiDesempio.ObjDamageDeliverE1;
