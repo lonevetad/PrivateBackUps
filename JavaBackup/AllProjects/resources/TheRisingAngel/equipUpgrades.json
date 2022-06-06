@@ -5100,5 +5100,87 @@
 			"ShieldMax":5,
 			"ShieldRegen": 5
 		}
+	}, {
+		"name": "Inciting",
+		"rarity":0,
+		"price": [5],
+		"attributeModifiers": {
+			"LifeMax":5,
+			"Strength":1
+		}
+	}, {
+		"name": "a Bit Warmer",
+		"rarity":0,
+		"price": [5],
+		"attributeModifiers": {
+			"LifeMax":5,
+			"Constitution":1
+		}
+	}, {
+		"name": "with Bandage",
+		"rarity":0,
+		"price": [5],
+		"attributeModifiers": {
+			"LifeMax":5,
+			"Health":1
+		}
+	}, {
+		"name": "Translucent",
+		"rarity":0,
+		"price": [5],
+		"attributeModifiers": {
+			"LifeMax":5,
+			"Defense":1
+		}
+	}, {
+		"name": "a Bit Lighter",
+		"rarity":0,
+		"price": [5],
+		"attributeModifiers": {
+			"LifeMax":5,
+			"Dexterity":1
+		}
+	}, {
+		"name": "a Bit More Rigid",
+		"rarity":0,
+		"price": [5],
+		"attributeModifiers": {
+			"LifeMax":5,
+			"Precision":1
+		}
+	}, {
+		"name": "a Little Shiny",
+		"rarity":0,
+		"price": [5],
+		"attributeModifiers": {
+			"LifeMax":5,
+			"Intelligence":1
+		}
+	}, {
+		"name": "with Material Composition",
+		"rarity":0,
+		"price": [5],
+		"attributeModifiers": {
+			"LifeMax":5,
+			"Wisdom":1
+		}
+	}, {
+		"name": "Supportive",
+		"rarity":0,
+		"price": [5],
+		"attributeModifiers": {
+			"LifeMax":5,
+			"Faith":1
+		}
+	}, {
+		"name": "of Good Coordination",
+		"rarity":2,
+		"price": [18],
+		"attributeModifiers": {
+			"Dexterity":2,
+			"Precision":1,
+			"StaminaMax": 5,
+			"StaminaRegen":2
+		}
 	}
 ]

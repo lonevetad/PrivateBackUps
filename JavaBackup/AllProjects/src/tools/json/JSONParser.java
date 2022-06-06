@@ -264,6 +264,14 @@ public class JSONParser {
 			cc = '\"';
 			break;
 		}
+		case '\'': {
+			cc = '\'';
+			break;
+		}
+		case '\\': {
+			cc = '\\';
+			break;
+		}
 		case 't': {
 			cc = '\t';
 			break;
@@ -274,6 +282,10 @@ public class JSONParser {
 		}
 		case 'r': {
 			cc = '\r';
+			break;
+		}
+		case 'b': {
+			cc = '\b';
 			break;
 		}
 		case '0': {
