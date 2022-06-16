@@ -35,7 +35,7 @@ public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWith
 		this.setID(idProg++);
 		this.whoIsPerformingTheRecharge = whoIsPerformingTheRecharge;
 		this.resourceRechargeableHolder = resourceRechargeableHolder;
-		this.theResourceRecharger = (resType, res) -> this.rechargeAResource(res);
+		this.theResourceRecharger = (resType, res) -> this.rechargeResource(res);
 		this.rechargedProgressTracker = MapTreeAVL.newMap(MapTreeAVL.Optimizations.Lightweight,
 				RechargeableResourceType.COMPARATOR_RECHARGEABLE_RESOURCE_TYPE);
 	}
@@ -106,7 +106,7 @@ public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWith
 		if (this.subUnitTimeElapsed > 0) { resources.forEach(this.theResourceRecharger); }
 	}
 
-	protected void rechargeAResource(RechargableResource resource) {
+	protected void rechargeResource(RechargableResource resource) {
 		int subunitTimeEachUnit, amountToRecharge, fractionAmountToRecharge;
 		final int rechargeTarget, ticksPerTimeUnit, timeSubunitPerTick;
 		ResourceRechargeInProgress progress;
@@ -117,6 +117,9 @@ public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWith
 			progress.targetRegenPerTimeUnit = rechargeTarget;
 //			progress.reset(regenTarget);
 		}
+
+		resource.elapseTime(this.subUnitTimeElapsed);
+		if (!resource.canBeRecharged()) { return; }
 
 		// TODO:refactor as ...
 		/**

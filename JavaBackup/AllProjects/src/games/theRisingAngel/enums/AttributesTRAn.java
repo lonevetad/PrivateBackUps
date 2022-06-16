@@ -31,6 +31,10 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	 */
 	Velocity(1, 1000), //
 	LifeMax(1), LifeRegen, ManaMax(0), ManaRegen, ShieldMax(0), ShieldRegen, StaminaMax(0), StaminaRegen, //
+	/**
+	 * Expressed in milliseconds
+	 */
+	ShieldDelay, //
 	//
 	PhysicalDamageBonus, PhysicalDamageMultiplierPercentageBonus, PhysicalDamageReduction,
 	PhysicalDamageMultiplierPercentageReduction, //

@@ -18,6 +18,7 @@ import games.generic.controlModel.subimpl.BaseCreatureRPGImpl;
 import games.generic.controlModel.subimpl.GEventInterfaceRPG;
 import games.generic.controlModel.subimpl.GModalityET;
 import games.generic.controlModel.subimpl.GModalityRPG;
+import games.theRisingAngel.GameOptionsTRAn;
 import games.theRisingAngel.enums.AttributesTRAn;
 import games.theRisingAngel.enums.DamageTypesTRAn;
 import games.theRisingAngel.enums.EventsTRAn;
@@ -332,6 +333,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 
 	@Override
 	public void initSetRechargeableResources() {
+		RechargableResource res;
 		this.addRechargableResource(new RechargableResource(this, getLifeResourceType()) {
 			private static final long serialVersionUID = 4444444444L;
 
@@ -376,7 +378,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 			public int getAmount() { return getMana(); }
 		});
 
-		this.addRechargableResource(new RechargableResource(this, getShieldResourceType()) {
+		res = new RechargableResource(this, getShieldResourceType()) {
 			private static final long serialVersionUID = 6666666666L;
 
 			@Override
@@ -396,7 +398,10 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 
 			@Override
 			public int getAmount() { return getShield(); }
-		});
+		};
+		res.setDelayBeforeRecharge(((GameOptionsTRAn) this.gModalityRPG.getGameController().getGameOptions())
+				.getShieldDelayMilliseconds());
+		this.addRechargableResource(res);
 		super.initSetRechargeableResources();
 	}
 

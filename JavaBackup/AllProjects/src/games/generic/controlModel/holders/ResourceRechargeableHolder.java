@@ -14,6 +14,13 @@ import games.generic.controlModel.rechargeable.resources.impl.RechargableResourc
 import games.generic.controlModel.subimpl.GModalityET;
 import tools.ObjectWithID;
 
+/**
+ * Defines an object having a set of {@link RechargableResource} that can be
+ * recharged over time
+ * 
+ * @author ottin
+ *
+ */
 public interface ResourceRechargeableHolder extends ObjectWithID, GModalityHolder {
 	public Set<RechargeableResourceType> getRechargableResourcesType();
 
@@ -43,8 +50,9 @@ public interface ResourceRechargeableHolder extends ObjectWithID, GModalityHolde
 	 * Initialize the {@link Set} returned by {@link #getRechargableResources()}.
 	 */
 	public default void initSetRechargeableResources() {
-		this.getRechargableResourcesType()
-				.forEach(rrt -> { this.addRechargableResource(new RechargableResourceImpl(this, rrt)); });
+		this.getRechargableResourcesType().forEach(rrt -> {
+			this.addRechargableResource(new RechargableResourceImpl(this, rrt));
+		});
 	}
 
 	//

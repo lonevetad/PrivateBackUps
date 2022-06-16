@@ -43,6 +43,22 @@ public abstract class RechargableResource implements ObjectNamedID {
 
 	public RechargeableResourceType getResourceType() { return resourceType; }
 
+	/**
+	 * Returns a time amount, representing the delay it needs to be elapsed after
+	 * the depletion of this resource before the recharging process may begin or be
+	 * resumed.
+	 * 
+	 * @return
+	 */
+	public int getDelayBeforeRecharge() { return 0; }
+
+	/**
+	 * See {@link #getDelayBeforeRecharge()}, tells if this resource can be
+	 * recharged. if {@link #getDelayBeforeRecharge()} is greater than zero and not
+	 * enough time has been elapsed, then {@code false} must be returned.
+	 */
+	public boolean canBeRecharged() { return true; }
+
 	//
 
 	public abstract void setAmount(int resourceAmount);
@@ -54,6 +70,18 @@ public abstract class RechargableResource implements ObjectNamedID {
 
 	/** Sets the amount of resources that can be recharged each time. */
 	public abstract void setRechargeAmount(int regenerationAmount);
+
+	/**
+	 * See {@link #getDelayBeforeRecharge()}
+	 * 
+	 * @param delayBeforeRecharge
+	 */
+	public void setDelayBeforeRecharge(int delayBeforeRecharge) {}
+
+	/**
+	 * See {@link #canBeRecharged()}
+	 */
+	public void setCanBeRecharged(boolean canBeRecharged) {}
 
 	//
 
@@ -69,5 +97,9 @@ public abstract class RechargableResource implements ObjectNamedID {
 		if (a < (t = this.resourceType.getLowerBound())) { a = t; }
 		if (a > (t = this.resourceType.getUpperBound())) { a = t; }
 		this.setAmount(a);
+	}
+
+	public void elapseTime(int timeUnits) {
+
 	}
 }
