@@ -7,4 +7,6 @@ import games.generic.controlModel.misc.IndexableObject;
  * "weapon" is not a "shoes" or a "ring").
  */
 public interface EquipmentType extends IndexableObject {
+	@Override
+	public default boolean setID(Long ID) { return false; }
 }

@@ -131,5 +131,8 @@ public class PlayerCharacterTypesTRAn {
 				ca.setOriginalValue(am.getAttributeModified(), am.getValue());
 			}
 		}
+
+		@Override
+		public boolean setID(Long newID) { return false; }
 	}
 }

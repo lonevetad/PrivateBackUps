@@ -65,4 +65,7 @@ public interface IGEvent extends ObjectNamedID {
 	 * finisthing processing this event.
 	 */
 	public default void onProcessingEnded() {}
+
+	@Override
+	public default boolean setID(Long ID) { return false; }
 }

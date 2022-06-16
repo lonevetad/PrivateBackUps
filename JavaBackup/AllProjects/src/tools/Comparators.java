@@ -11,7 +11,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import tools.EditDistance.EqualityChecker;
+import dataStructures.EditCosts;
 import tools.impl.EditDistanceLevenshtein;
 
 public final class Comparators {
@@ -21,7 +21,7 @@ public final class Comparators {
 	private Comparators() {}
 
 	public static final EditDistance DEFAULT_EDIT_DISTANCE = new EditDistanceLevenshtein();
-	private static final EqualityChecker<Byte> BYTE_EqC;
+	private static final EditCosts<Byte> BYTE_EC = EditCosts.newDefaultCosts();;
 
 	public static final MyComparator<String> STRING_COMPARATOR = new GenericComparator<>()//
 			, STRING_COMPARATOR_2 = //
@@ -60,7 +60,7 @@ public final class Comparators {
 		if (d2 == null) { return 1; }
 		if (d1.height == d2.height) {
 			return (d1.width == d2.width) ? 0 : //
-			(d1.width > d2.width ? 1 : -1);
+					(d1.width > d2.width ? 1 : -1);
 		} else {
 			return d1.height > d2.height ? 1 : -1;
 		}
@@ -70,7 +70,7 @@ public final class Comparators {
 		if (d2 == null) { return 1; }
 		if (d1.width == d2.width) {
 			return (d1.height == d2.height) ? 0 : //
-			(d1.height > d2.height ? 1 : -1);
+					(d1.height > d2.height ? 1 : -1);
 		} else {
 			return d1.width > d2.width ? 1 : -1;
 		}
@@ -198,12 +198,9 @@ public final class Comparators {
 		return Integer.compare(l1, l2);
 	};
 
-	static {
-		BYTE_EqC = EqualityChecker.fromComparator(BYTE_COMPARATOR);
-	}
 	public static final MyComparator<String> STRING_COMPARATOR_EDIT_DISTANCE = (s1,
 			s2) -> ((s1 == s2) ? 0 : ((s1 == null) ? (s2 == null ? 0 : -1) : (s2 == null ? 1 : //
-					DEFAULT_EDIT_DISTANCE.editDistance(s1, s2, BYTE_EqC)//
+					(int) DEFAULT_EDIT_DISTANCE.editDistance(s1, s2, BYTE_EC)//
 	)));
 	/*
 	 * public static final Comparator<Long> LONG_COMPARATOR = (e1, e2) -> { if (e1
@@ -233,7 +230,7 @@ public final class Comparators {
 			iter2 = l2.iterator();
 			c = 0;
 			while (iter1.hasNext() && iter2.hasNext() && //
-			(c = keyComparator.compare(iter1.next(), iter2.next())) == 0) {
+					(c = keyComparator.compare(iter1.next(), iter2.next())) == 0) {
 			}
 			return (c != 0) ? c : (s1 - s2);
 		};

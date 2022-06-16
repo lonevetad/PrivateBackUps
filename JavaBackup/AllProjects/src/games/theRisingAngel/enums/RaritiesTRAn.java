@@ -50,6 +50,9 @@ public enum RaritiesTRAn implements RarityHolder, ObjWithRarityWeight, Indexable
 		return this;
 	}
 
+	@Override
+	public boolean setID(Long ID) { return false; }
+
 	//
 
 	private static void checkAndReinstanceRWI(Random r) {

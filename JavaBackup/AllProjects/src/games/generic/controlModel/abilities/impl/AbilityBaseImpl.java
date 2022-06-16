@@ -1,5 +1,6 @@
 package games.generic.controlModel.abilities.impl;
 
+import games.generic.controlModel.GModality;
 import games.generic.controlModel.abilities.AbilityGeneric;
 import games.generic.controlModel.holders.GModalityHolder;
 import tools.ObjectWithID;
@@ -18,6 +19,7 @@ public abstract class AbilityBaseImpl implements AbilityGeneric {
 	protected int level;
 	protected Long ID;
 	protected ObjectWithID owner;
+	protected GModality gameModality;
 
 	/**
 	 * Overload-designed.
@@ -41,6 +43,9 @@ public abstract class AbilityBaseImpl implements AbilityGeneric {
 	@Override
 	public int getLevel() { return level; }
 
+	@Override
+	public GModality getGameModality() { return gameModality; }
+
 	//
 
 	@Override
@@ -53,6 +58,9 @@ public abstract class AbilityBaseImpl implements AbilityGeneric {
 			onAddingToOwner(((GModalityHolder) owner).getGameModality());
 		}
 	}
+
+	@Override
+	public void setGameModality(GModality gameModality) { this.gameModality = gameModality; }
 
 	@Override
 	public boolean setID(Long newID) {

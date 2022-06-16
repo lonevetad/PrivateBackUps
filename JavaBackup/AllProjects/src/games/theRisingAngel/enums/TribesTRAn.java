@@ -338,6 +338,9 @@ public class TribesTRAn {
 			or = otherTribe.religion;
 			return (tr.religionDevotedTo == or.religionHated) && (tr.religionHated == or.religionDevotedTo);
 		}
+
+		@Override
+		public boolean setID(Long newID) { return false; }
 	}
 
 //
@@ -365,6 +368,9 @@ public class TribesTRAn {
 
 		@Override
 		public IndexToObjectBackmapping getFromIndexBackmapping() { return INDEX_TO_TRIBE_WAR_STATUS; }
+
+		@Override
+		public boolean setID(Long ID) { return false; }
 	}
 
 	/**

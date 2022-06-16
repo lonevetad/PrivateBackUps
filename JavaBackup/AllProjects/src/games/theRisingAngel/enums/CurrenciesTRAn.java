@@ -32,4 +32,13 @@ public enum CurrenciesTRAn implements Currency {
 
 	@Override
 	public IndexToObjectBackmapping getFromIndexBackmapping() { return INDEX_TO_CURRENCY_TRAn; }
+
+	@Override
+	public boolean setID(Long newID) {
+		if (newID == null || newID == this.ID || (this.ID != null && this.ID.longValue() == newID.longValue())) {
+			return false;
+		}
+		this.ID = newID;
+		return true;
+	}
 }

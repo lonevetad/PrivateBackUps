@@ -58,4 +58,13 @@ public enum RechargeableResourcesTRAn implements RechargeableResourceType {
 
 	@Override
 	public IndexToObjectBackmapping getFromIndexBackmapping() { return INDEX_TO_RECHARGEABLE_RESOURCES_TRAn; }
+
+	@Override
+	public boolean setID(Long newID) {
+		if (newID == null || newID == this.ID || (this.ID != null && this.ID.longValue() == newID.longValue())) {
+			return false;
+		}
+		this.ID = newID;
+		return true;
+	}
 }

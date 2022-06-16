@@ -2,7 +2,7 @@ package tests.tDataStruct;
 
 import java.util.Arrays;
 
-import dataStructures.CollectionAlteringCosts;
+import dataStructures.EditCosts;
 import tools.Comparators;
 import tools.EditDistance;
 import tools.EditDistance.EqualityChecker;
@@ -47,7 +47,7 @@ public class TestEditDistance {
 	//
 
 	public static final EditDistance ED = new EditDistanceLevenshtein();
-	public static final CollectionAlteringCosts<Character> CAC = CollectionAlteringCosts.newDefaultCAC();
+	public static final EditCosts<Character> CAC = EditCosts.newDefaultCosts();
 	public static final EqualityChecker<Character> EC_CHAR = EqualityChecker
 			.fromComparator(Comparators.CHAR_COMPARATOR);
 

@@ -37,5 +37,8 @@ public class ShapesTRAn {
 
 		@Override
 		public String getName() { return this.name(); }
+
+		@Override
+		public boolean setID(Long ID) { return false; }
 	}
 }

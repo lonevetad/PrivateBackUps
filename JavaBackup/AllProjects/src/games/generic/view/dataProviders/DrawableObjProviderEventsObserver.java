@@ -79,6 +79,11 @@ public abstract class DrawableObjProviderEventsObserver extends DrawableObjProvi
 	public DrawableObj getDrawableFor(ObjectLocated ol) { return drawablePartsForGameObjects.get(ol); }
 
 	@Override
+	public boolean setID(Long newID) { return false; }
+
+	//
+
+	@Override
 	public void notifyEvent(GModality modality, IGEvent ge) {
 		if (isEventEnteredInGame(ge)) {
 			ObjectLocated ol;

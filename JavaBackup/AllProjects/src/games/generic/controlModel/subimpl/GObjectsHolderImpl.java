@@ -56,7 +56,7 @@ public class GObjectsHolderImpl<K, T extends ObjectWithID> implements GObjectsHo
 		k = keyExtractor.apply(o);
 		if (this.objectsHeld.containsKey(k)) {
 			this.objectsHeld.remove(id);
-			this.objectsByID.remove(o);
+			this.objectsByID.remove(id);
 			return true;
 		}
 		return false;

@@ -12,4 +12,6 @@ import tools.ObjectNamedID;
  */
 public interface CreatureTypeTRAn extends ObjectNamedID, IndexableObject {
 
+	@Override
+	public default boolean setID(Long ID) { return false; }
 }

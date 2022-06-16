@@ -43,4 +43,7 @@ public enum AllEnumsOfProbabilitiesTRAn implements IndexableObject {
 
 	@Override
 	public IndexToObjectBackmapping getFromIndexBackmapping() { return INDEX_TO_OBJECT_BACKMAP; }
+
+	@Override
+	public boolean setID(Long ID) { return false; }
 }
