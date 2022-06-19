@@ -93,21 +93,33 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	// TODO GETTER
 
 	@Override
-	public GModality getGameModality() { return gModalityRPG; }
+	public GModality getGameModality() {
+		return gModalityRPG;
+	}
 
-	public GModalityRPG getgModalityRPG() { return gModalityRPG; }
-
-	@Override
-	public Long getID() { return ID; }
-
-	@Override
-	public String getName() { return name; }
+	public GModalityRPG getgModalityRPG() {
+		return gModalityRPG;
+	}
 
 	@Override
-	public List<String> getEventsWatching() { return eventsWatching; }
+	public Long getID() {
+		return ID;
+	}
 
 	@Override
-	public CreatureAttributes getAttributes() { return attributes; }
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public List<String> getEventsWatching() {
+		return eventsWatching;
+	}
+
+	@Override
+	public CreatureAttributes getAttributes() {
+		return attributes;
+	}
 
 	@Override
 	public Map<String, AbilityGeneric> getAbilities() {
@@ -116,16 +128,24 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	}
 
 	@Override
-	public AbstractShape2D getShape() { return shape; }
+	public AbstractShape2D getShape() {
+		return shape;
+	}
 
 	@Override
-	public boolean isDestroyed() { return this.isDestroyed; }
+	public boolean isDestroyed() {
+		return this.isDestroyed;
+	}
 
 	@Override
-	public EquipmentSet getEquipmentSet() { return equipmentSet; }
+	public EquipmentSet getEquipmentSet() {
+		return equipmentSet;
+	}
 
 	@Override
-	public Map<String, AbilityAllocation> getAbilitiesAllocations() { return this.abilityAllocations; }
+	public Map<String, AbilityAllocation> getAbilitiesAllocations() {
+		return this.abilityAllocations;
+	}
 
 	@Override
 	public Map<RechargeableResourceType, RechargableResource> getRechargableResources() {
@@ -140,24 +160,38 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	// TODO SETTER
 
 	@Override
-	public void setGameModality(GModality gameModality) { this.gModalityRPG = (GModalityRPG) gameModality; }
+	public void setGameModality(GModality gameModality) {
+		this.gModalityRPG = (GModalityRPG) gameModality;
+	}
 
-	public void setName(String name) { this.name = name; }
-
-	@Override
-	public void setEquipmentSet(EquipmentSet equips) {
-		if (this.equipmentSet != null) { this.equipmentSet.setCreatureWearingEquipments(null); }
-		this.equipmentSet = equips;
-		if (equips != null) { equips.setCreatureWearingEquipments(this); }
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
-	public void setAttributes(CreatureAttributes attributes) { this.attributes = attributes; }
+	public void setEquipmentSet(EquipmentSet equips) {
+		if (this.equipmentSet != null) {
+			this.equipmentSet.setCreatureWearingEquipments(null);
+		}
+		this.equipmentSet = equips;
+		if (equips != null) {
+			equips.setCreatureWearingEquipments(this);
+		}
+	}
 
 	@Override
-	public void setShape(AbstractShape2D shape) { this.shape = shape; }
+	public void setAttributes(CreatureAttributes attributes) {
+		this.attributes = attributes;
+	}
 
-	public void setDestroyed(boolean isDestroyed) { this.isDestroyed = isDestroyed; }
+	@Override
+	public void setShape(AbstractShape2D shape) {
+		this.shape = shape;
+	}
+
+	public void setDestroyed(boolean isDestroyed) {
+		this.isDestroyed = isDestroyed;
+	}
 
 	public void setMovementImplementation(GObjMovement movementImplementation) {
 		this.movementImplementation = movementImplementation;
@@ -190,14 +224,12 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 	@Override
 	public void initRechargeableResourceHolderStuffs() {
 		MapTreeAVL<RechargeableResourceType, RechargableResource> backmapRechRes;
-		this.rechargeStrategy = new ResourceRechargeableStrategyTimeTickBased<ObjectWithID>(this, this);
+//		this.rechargeStrategy = new ResourceRechargeableStrategyTimeTickBased<ObjectWithID>(this, this);
+		this.setResourceRechargeableStrategy(
+				new ResourceRechargeableStrategyTimeTickBased<BaseCreatureRPGImpl>(this, this));
 		backmapRechRes = MapTreeAVL.newMap(Optimizations.MinMaxIndexIteration,
 				RechargeableResourceType.COMPARATOR_RECHARGEABLE_RESOURCE_TYPE);
 		this.rechargableResources = backmapRechRes;
-//		this.rechargableResources = backmapRechRes.toSetValue(RechargableResource::getResourceType);
-
-		this.setResourceRechargeableStrategy(
-				new ResourceRechargeableStrategyTimeTickBased<BaseCreatureRPGImpl>(this, this));
 
 		//
 		BaseCreatureRPG.super.initRechargeableResourceHolderStuffs();
@@ -237,14 +269,18 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 
 	@Override
 	public BaseCreatureRPG addAbility(AbilityGeneric ability) {
-		if (ability == null) { return this; }
+		if (ability == null) {
+			return this;
+		}
 		this.getAbilitiesAllocations().put(ability.getName(), new AbilityAllocationImpl(ability));
 		return this;
 	}
 
 	@Override
 	public BaseCreatureRPG removeAbilityByName(String abilityName) {
-		if (abilityName == null) { return this; }
+		if (abilityName == null) {
+			return this;
+		}
 		this.getAbilitiesAllocations().remove(abilityName);
 		return this;
 	}
@@ -292,7 +328,9 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 			Source whoIsPerformingTheRecharge) {
 		RechargableResource res;
 		res = this.rechargableResources.get(recharge.getRechargedResource());
-		if (res == null) { throw new IllegalArgumentException("Resource to recharge not found: " + recharge); }
+		if (res == null) {
+			throw new IllegalArgumentException("Resource to recharge not found: " + recharge);
+		}
 		res.performRechargeBy(recharge.getRechargedAmount());
 		this.fireRechargeEvent(recharge, whoIsPerformingTheRecharge);
 	}

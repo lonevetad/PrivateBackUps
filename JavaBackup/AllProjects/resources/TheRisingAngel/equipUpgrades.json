@@ -3583,7 +3583,7 @@
 		"rarity":1,
 		"price": [4],
 		"attributeModifiers": {
-			"ShieldMax": 5,
+			"ShieldMax": 10,
 			"ShieldLeechPercentage": 3,
 		}
 	}, {
@@ -3593,7 +3593,7 @@
 		"attributeModifiers": {
 			"ShieldMax": 5,
 			"ShieldLeechPercentage": 2,
-			"ReflectionDamagePercentage": 1
+			"ReflectionDamagePercentage": 2
 		}
 	}, {
 		"name": "of the Shrewd ones",
@@ -5181,6 +5181,15 @@
 			"Precision":1,
 			"StaminaMax": 5,
 			"StaminaRegen":2
+		}
+	}, {
+		"name": "Metallic",
+		"rarity":2,
+		"price": [20],
+		"attributeModifiers": {
+			"ShieldMax": 10,
+			"ShieldDelay": 200,
+			"Defense": 2
 		}
 	}
 ]

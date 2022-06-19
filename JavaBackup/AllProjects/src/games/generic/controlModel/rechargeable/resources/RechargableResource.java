@@ -1,6 +1,7 @@
 package games.generic.controlModel.rechargeable.resources;
 
 import games.generic.controlModel.holders.ResourceRechargeableHolder;
+import games.generic.controlModel.objects.TimedObject;
 import tools.ObjectNamedID;
 
 /**
@@ -11,24 +12,21 @@ import tools.ObjectNamedID;
  * other ones) or delegates the updates to some other class holding the altered
  * fields value.
  */
-public abstract class RechargableResource implements ObjectNamedID {
-	private static final long serialVersionUID = -475214589669875230L;
+public interface RechargableResource extends ObjectNamedID {
 
-	public RechargableResource(ResourceRechargeableHolder resourceHolder, RechargeableResourceType resourceType) {
-		super();
-		this.resourceHolder = resourceHolder;
-		this.resourceType = resourceType;
+	public RechargeableResourceType getResourceType();
+
+	public ResourceRechargeableHolder getResourceHolder();
+
+	@Override
+	public default Long getID() {
+		return getResourceType().getID();
 	}
 
-	protected final RechargeableResourceType resourceType;
-	/** The one who owns this resource. */
-	protected final ResourceRechargeableHolder resourceHolder;
-
 	@Override
-	public Long getID() { return resourceType.getID(); }
-
-	@Override
-	public String getName() { return resourceType.getName(); }
+	public default String getName() {
+		return getResourceType().getName();
+	}
 
 	public abstract int getAmount();
 
@@ -37,11 +35,13 @@ public abstract class RechargableResource implements ObjectNamedID {
 	/** Returns the amount of resources that can be recharged each time. */
 	public abstract int getRechargeAmount();
 
-	public int getLowerBound() { return resourceType.getLowerBound(); }
+	public default int getLowerBound() {
+		return getResourceType().getLowerBound();
+	}
 
-	public int getUpperBound() { return resourceType.getUpperBound(); }
-
-	public RechargeableResourceType getResourceType() { return resourceType; }
+	public default int getUpperBound() {
+		return getResourceType().getUpperBound();
+	}
 
 	/**
 	 * Returns a time amount, representing the delay it needs to be elapsed after
@@ -50,21 +50,38 @@ public abstract class RechargableResource implements ObjectNamedID {
 	 * 
 	 * @return
 	 */
-	public int getDelayBeforeRecharge() { return 0; }
+	public default int getDelayBeforeRecharge() {
+		return 0;
+	}
 
 	/**
 	 * See {@link #getDelayBeforeRecharge()}, tells if this resource can be
 	 * recharged. if {@link #getDelayBeforeRecharge()} is greater than zero and not
 	 * enough time has been elapsed, then {@code false} must be returned.
+	 * <p>
+	 * NOTE: as stated in {@link #setRechargeDelayIndependence(boolean)}, may use
+	 * some flag to force the no-delay recharge policy. For instance:
+	 * 
+	 * <pre>
+	 * <code>
+	 * public boolean canBeRecharged() {
+	 *     return this.canBeRechargedFlag || this.getDelayBeforeRecharge() <= 0;
+	 * }
+	 * </code>
+	 * </pre>
 	 */
-	public boolean canBeRecharged() { return true; }
+	public default boolean canBeRecharged() {
+		return true;
+	}
 
 	//
 
 	public abstract void setAmount(int resourceAmount);
 
 	@Override
-	public boolean setID(Long newID) { return this.resourceType.setID(newID); }
+	public default boolean setID(Long newID) {
+		return this.getResourceType().setID(newID);
+	}
 
 	public abstract void setAmountMax(int resourceAmountMax);
 
@@ -76,12 +93,16 @@ public abstract class RechargableResource implements ObjectNamedID {
 	 * 
 	 * @param delayBeforeRecharge
 	 */
-	public void setDelayBeforeRecharge(int delayBeforeRecharge) {}
+	public default void setDelayBeforeRecharge(int delayBeforeRecharge) {
+	}
 
 	/**
-	 * See {@link #canBeRecharged()}
+	 * See {@link #canBeRecharged()}.<br>
+	 * May set a flag to force the no-delay recharge policy.
 	 */
-	public void setCanBeRecharged(boolean canBeRecharged) {}
+	public default void forceRechargeDelayIndependence() {
+		this.setDelayBeforeRecharge(0);
+	}
 
 	//
 
@@ -91,15 +112,33 @@ public abstract class RechargableResource implements ObjectNamedID {
 	 * 
 	 * @param delta The amount of resource that will be recharged.
 	 */
-	public void performRechargeBy(int delta) {
+	public default void performRechargeBy(int delta) {
 		int a, t;
+		RechargeableResourceType rrt;
+		rrt = this.getResourceType();
 		a = this.getAmount() + delta;
-		if (a < (t = this.resourceType.getLowerBound())) { a = t; }
-		if (a > (t = this.resourceType.getUpperBound())) { a = t; }
+		if (a < (t = rrt.getLowerBound())) {
+			a = t;
+		}
+		if (a > (t = rrt.getUpperBound())) {
+			a = t;
+		}
 		this.setAmount(a);
 	}
 
-	public void elapseTime(int timeUnits) {
+	/**
+	 * Similar to {@link TimedObject#act(games.generic.controlModel.GModality, int)}
+	 * in almost every aspects, let some processes to advance over time by a delta
+	 * of time units. For example, may deplete the delay imposed by
+	 * {@link #getDelayBeforeRecharge()} before the recharging process starts again.
+	 * 
+	 * @param timeUnits
+	 */
+	public void advanceElapseTime(int timeUnits);
 
-	}
+	/**
+	 * A possibly empty function that notify this rechargeable resource that it has
+	 * to stop getting recharged and has to pause, waiting the delay to be depleted.
+	 */
+	public void stopRechargeStartDelaying();
 }

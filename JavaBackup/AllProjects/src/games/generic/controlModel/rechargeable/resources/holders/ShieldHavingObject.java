@@ -1,5 +1,6 @@
 package games.generic.controlModel.rechargeable.resources.holders;
 
+import games.generic.controlModel.misc.AttributeIdentifier;
 import tools.ObjectNamedID;
 
 public interface ShieldHavingObject extends ObjectNamedID {
@@ -29,4 +30,10 @@ public interface ShieldHavingObject extends ObjectNamedID {
 	/** See {@link #getShieldRegeneration()}. */
 	public void setShieldRegeneration(int shieldRegenation);
 
+	/**
+	 * Returns an {@link AttributeIdentifier} specifying the shield recharge delay.
+	 * 
+	 * @return
+	 */
+	public AttributeIdentifier getShieldDelayAttribute();
 }

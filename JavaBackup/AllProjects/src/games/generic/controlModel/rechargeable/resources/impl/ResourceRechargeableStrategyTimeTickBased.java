@@ -118,7 +118,7 @@ public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWith
 //			progress.reset(regenTarget);
 		}
 
-		resource.elapseTime(this.subUnitTimeElapsed);
+		resource.advanceElapseTime(this.subUnitTimeElapsed);
 		if (!resource.canBeRecharged()) { return; }
 
 		// TODO:refactor as ...
