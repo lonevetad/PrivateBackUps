@@ -34,7 +34,7 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	/**
 	 * Expressed in milliseconds
 	 */
-	ShieldDelay, //
+	ShieldDelayReduction, //
 	//
 	PhysicalDamageBonus, PhysicalDamageMultiplierPercentageBonus, PhysicalDamageReduction,
 	PhysicalDamageMultiplierPercentageReduction, //
@@ -70,9 +70,13 @@ public enum AttributesTRAn implements AttributeIdentifier {
 
 //
 
-	AttributesTRAn() { this(Integer.MIN_VALUE + 1); }
+	AttributesTRAn() {
+		this(Integer.MIN_VALUE + 1);
+	}
 
-	AttributesTRAn(int minimum) { this(minimum, Integer.MAX_VALUE - 1); }
+	AttributesTRAn(int minimum) {
+		this(minimum, Integer.MAX_VALUE - 1);
+	}
 
 	AttributesTRAn(int minimum, int maximum) {
 		this.minimum = minimum;
@@ -82,25 +86,39 @@ public enum AttributesTRAn implements AttributeIdentifier {
 	public final int minimum, maximum;
 
 	@Override
-	public int getIndex() { return this.ordinal(); }
+	public int getIndex() {
+		return this.ordinal();
+	}
 
 	@Override
-	public String getName() { return this.name(); }
+	public String getName() {
+		return this.name();
+	}
 
 	@Override
-	public Long getID() { return (long) this.ordinal(); }
+	public Long getID() {
+		return (long) this.ordinal();
+	}
 
 	@Override
-	public boolean setID(Long newID) { return false; }
+	public boolean setID(Long newID) {
+		return false;
+	}
 
 	@Override
-	public int upperBound() { return this.maximum; }
+	public int upperBound() {
+		return this.maximum;
+	}
 
 	@Override
-	public int lowerBound() { return this.minimum; }
+	public int lowerBound() {
+		return this.minimum;
+	}
 
 	@Override
-	public IndexToObjectBackmapping getFromIndexBackmapping() { return INDEX_TO_ATTRIBUTE_TRAn; }
+	public IndexToObjectBackmapping getFromIndexBackmapping() {
+		return INDEX_TO_ATTRIBUTE_TRAn;
+	}
 
 	public static AttributesTRAn getAttributeTRArByName(String name) {
 		AttributesTRAn a;
@@ -119,7 +137,9 @@ public enum AttributesTRAn implements AttributeIdentifier {
 		return a;
 	}
 
-	public static AttributesTRAn getAttributeTRArByIndex(int index) { return ALL_ATTRIBUTES[index]; }
+	public static AttributesTRAn getAttributeTRArByIndex(int index) {
+		return ALL_ATTRIBUTES[index];
+	}
 
 	public static AttributesTRAn damageReductionByType(DamageTypesTRAn dt) {
 		return (dt == DamageTypesTRAn.Physical) ? AttributesTRAn.PhysicalDamageReduction

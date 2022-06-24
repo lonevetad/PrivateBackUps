@@ -204,7 +204,7 @@
 			"Luck": 5
 		}
 	}, {
-		"name": "Moon runed",
+		"name": "Moon Runed",
 		"rarity":3,
 		"price": [100],
 		"attributeModifiers": {
@@ -218,7 +218,7 @@
 			"MagicalDamageMultiplierPercentageBonus":5
 		}
 	}, {
-		"name": "Sun runed",
+		"name": "Sun Runed",
 		"rarity":3,
 		"price": [100],
 		"attributeModifiers": {
@@ -232,7 +232,7 @@
 			"PhysicalDamageMultiplierPercentageBonus":5
 		}
 	}, {
-		"name": "Earth runed",
+		"name": "Earth Runed",
 		"rarity":3,
 		"price": [100],
 		"attributeModifiers": {
@@ -244,7 +244,7 @@
 			"CriticalMultiplierPercentageReduction": 15
 		}
 	}, {
-		"name": "Blood runed",
+		"name": "Blood Runed",
 		"rarity":3,
 		"price": [30],
 		"attributeModifiers": {
@@ -257,7 +257,7 @@
 			"Luck": -5
 		}
 	}, {
-		"name": "Wind runed",
+		"name": "Wind Runed",
 		"rarity":3,
 		"price": [50],
 		"attributeModifiers": {
@@ -3306,7 +3306,7 @@
 			"ManaMax": 80
 		}
 	}, {
-		"name": "of Health",
+		"name": "of Better Health",
 		"rarity":1,
 		"price": [11],
 		"attributeModifiers": {
@@ -5188,8 +5188,71 @@
 		"price": [20],
 		"attributeModifiers": {
 			"ShieldMax": 10,
-			"ShieldDelay": 200,
+			"ShieldDelayReduction": 200,
 			"Defense": 2
+		}
+	}, {
+		"name": "of Healer Novice",
+		"rarity":2,
+		"price": [17],
+		"attributeModifiers": {
+			"Strength": -3,
+			"LifeRegen": 3,
+			"StaminaRegen": 2
+		}
+	}, {
+		"name": "of Healer",
+		"rarity":3,
+		"price": [25],
+		"attributeModifiers": {
+			"Health": 5,
+			"LifeMax":20,
+			"LifeRegen": 5,
+			"StaminaMax": 10,
+			"StaminaRegen": 3,
+			"PhysicalDamageBonus": -3,
+			"MagicalDamageBonus": -3
+		}
+	}, {
+		"name": "Enhancing the Magnetic Field",
+		"rarity":4,
+		"price": [50],
+		"attributeModifiers": {
+			"ManaMax": -35,
+			"ManaRegen": -6,
+			"ShieldMax": 55,
+			"ShieldRegen": 7,
+			"ShieldDelayReduction": 500
+		}
+	}, {
+		"name": "of Isolating Capacitor",
+		"rarity":3,
+		"price": [30],
+		"attributeModifiers": {
+			"ManaRegen": -1,
+			"ShieldMax": 100,
+			"ShieldRegen": 2,
+			"ShieldDelayReduction": -300
+		}
+	}, {
+		"name": "of Dissipation Cycle",
+		"rarity":4,
+		"price": [45],
+		"attributeModifiers": {
+			"ShieldMax": 35,
+			"ShieldRegen": 15,
+			"ShieldDelayReduction": -1000
+		}
+	}, {
+		"name": "of Metallic Blood",
+		"rarity":2,
+		"price": [27],
+		"attributeModifiers": {
+			"LifeMax": -25,
+			"LifeRegen": -3,
+			"ShieldMax": 35,
+			"ShieldRegen": 4,
+			"ShieldDelayReduction": 150
 		}
 	}
 ]

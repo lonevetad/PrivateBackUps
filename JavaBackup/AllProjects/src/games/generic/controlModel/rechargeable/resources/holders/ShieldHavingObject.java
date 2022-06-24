@@ -35,5 +35,5 @@ public interface ShieldHavingObject extends ObjectNamedID {
 	 * 
 	 * @return
 	 */
-	public AttributeIdentifier getShieldDelayAttribute();
+	public AttributeIdentifier getShieldDelayReductionAttribute();
 }

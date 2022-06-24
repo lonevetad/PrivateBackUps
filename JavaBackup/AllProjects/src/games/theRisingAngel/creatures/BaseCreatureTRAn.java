@@ -173,8 +173,8 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 	}
 
 	@Override
-	public AttributeIdentifier getShieldDelayAttribute() {
-		return AttributesTRAn.ShieldDelay;
+	public AttributeIdentifier getShieldDelayReductionAttribute() {
+		return AttributesTRAn.ShieldDelayReduction;
 	}
 
 	// TODO damage dealer receiver
@@ -538,7 +538,7 @@ public abstract class BaseCreatureTRAn extends BaseCreatureRPGImpl implements St
 			public int getDelayBeforeRecharge() {
 				int sd, d;
 				d = super.getDelayBeforeRecharge();
-				sd = getAttributes().getValue(getShieldDelayAttribute());
+				sd = getAttributes().getValue(getShieldDelayReductionAttribute());
 				return sd > d ? 0 : (d - sd);
 			}
 
