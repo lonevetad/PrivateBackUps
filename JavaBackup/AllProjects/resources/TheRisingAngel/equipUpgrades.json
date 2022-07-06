@@ -5254,5 +5254,30 @@
 			"ShieldRegen": 4,
 			"ShieldDelayReduction": 150
 		}
+	}, {
+		"name": "of Mystical Aura",
+		"rarity":1,
+		"price": [10],
+		"attributeModifiers": {
+			"ShieldMax": 15,
+			"ShieldRegen": 3,
+			"ShieldDelayReduction": 100,
+			"PhysicalDamageBonus": -3,
+			"MagicalDamageBonus": -3
+		}
+	}, {
+		"name": "of Fresh Air",
+		"rarity":1,
+		"price": [10],
+		"attributeModifiers": {
+			"LifeMax": -15,
+			"ManaMax": -10,
+			"StaminaMax": -5,
+			"LifeRegen": 1,
+			"ManaRegen": 1,
+			"StaminaRegen": 1,
+			"ShieldMax": 5,
+			"ShieldRegen": 1
+		}
 	}
 ]
