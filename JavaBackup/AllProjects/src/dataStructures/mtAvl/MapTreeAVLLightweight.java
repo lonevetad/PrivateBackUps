@@ -357,7 +357,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		NodeAVL n;
 		n = NIL;
 		try {
-			n = getNode((K) key);
+			n = getNode(key);
 		} catch (Exception e) {
 //			n = NIL;
 			return null;
@@ -369,7 +369,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 	@Override
 	public int indexOf(Object o) {
 		NodeAVL n;
-		n = this.getNode((K) o);
+		n = this.getNode(o);
 		return (n == null) ? -1 : n.index();
 	}
 
@@ -461,7 +461,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public V remove(Object key) { return delete((K) key); }
+	public V remove(Object key) { return delete(key); }
 
 	/**
 	 * If the given key is stored inside the map, then that key and associated value
@@ -1218,7 +1218,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean containsKey(Object key) { return getNode((K) key) != NIL; }
+	public boolean containsKey(Object key) { return getNode(key) != NIL; }
 
 	@Override
 	public Object[] toArray() {
@@ -1842,9 +1842,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public E next() {
 			E e;
-			if (isEmpty)
-				return null;
-			if (!hasNext())
+			if (isEmpty || !hasNext())
 				return null;
 //			// NOTE: all methods' call shown in comments are explicity copied due to
 			// performance enhancements (following idea "one, two, may")
@@ -2015,7 +2013,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				k = (K) o;
 			} else if (irt == IteratorReturnType.Value) {
 				k = hasKeyExtractor ? //
-						((K) (keyExtractor.apply((V) o)))//
+						((K) (keyExtractor.apply(o)))//
 						: ((K) o);
 			}
 			return k;
@@ -2118,7 +2116,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				en = (Entry<K, V>) e;
 				put(en.getKey(), en.getValue());
 			} else if (irt == IteratorReturnType.Key) {
-				put((K) e, (V) e);
+				put(e, e);
 			} else if (irt == IteratorReturnType.Value && hasKeyExtractor) {
 				V v;
 				v = (V) e;
@@ -2225,7 +2223,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				put(en.getKey(), en.getValue());
 				break;
 			case Key:
-				put((K) e, (V) e);
+				put(e, e);
 				break;
 			case Value:
 				if (this.hasKeyExtractor) {
@@ -2446,7 +2444,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@Override
 		public boolean remove(Object key) {
 			NodeAVL n;
-			n = getNode((K) key);
+			n = getNode(key);
 			if (n != NIL) {
 				MapTreeAVLLightweight.this.delete(n);
 				return true; // n!=NIL;
@@ -2609,7 +2607,7 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				return;
 			entryConsumer = e -> { if (keyComp.compare(key, e.getValue()) == 0) { action.accept(e.getValue()); } };
 			try {
-				MapTreeAVLLightweight.this.forEachSimilar((K) key, entryConsumer);
+				MapTreeAVLLightweight.this.forEachSimilar(key, entryConsumer);
 			} catch (ClassCastException cce) {
 				MapTreeAVLLightweight.this.forEach(entryConsumer);
 			}
@@ -2663,14 +2661,14 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 		@SuppressWarnings("unchecked")
 		@Override
 		public boolean contains(Object o) {
-			return MapTreeAVLLightweight.this.containsKey(this.keyExtractor.apply((V) o));
+			return MapTreeAVLLightweight.this.containsKey(this.keyExtractor.apply(o));
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public boolean remove(Object key) {
 			NodeAVL n;
-			n = getNode(this.keyExtractor.apply((V) key));
+			n = getNode(this.keyExtractor.apply(key));
 			if (n != NIL) {
 				MapTreeAVLLightweight.this.delete(n);
 				return true; // n!=NIL;

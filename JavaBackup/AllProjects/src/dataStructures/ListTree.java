@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * <code>O(n)</code>. Further implementations could enhance those two methods if
  * the given generic class is implementing {@link Comparable}. <br>
  * It uses a binary balanced AVL-like tree.
- * 
+ *
  * @deprecated use {@link MapTreeAVL#toListValue(java.util.function.Function)}
  *             unless memory optimization due to non-hierarchy.
  */
@@ -53,7 +53,7 @@ public class ListTree<E> implements List<E> {
 	@Override
 	public boolean contains(Object o) {
 		NodeListTree n;
-		n = getNode((E) o);
+		n = getNode(o);
 		return n != null && n != NIL;
 	}
 
@@ -93,7 +93,7 @@ public class ListTree<E> implements List<E> {
 	@Override
 	public int indexOf(Object o) {
 		NodeListTree n;
-		n = getNode((E) o);
+		n = getNode(o);
 		return n == NIL ? -1 : n.index();
 	}
 
@@ -171,7 +171,7 @@ public class ListTree<E> implements List<E> {
 			n.prev = x;
 			n.next = NIL;
 //			last.height++;
-//			x.sizeRight++;	
+//			x.sizeRight++;
 			x = n;
 			insertFixup(x); // n is yet balanced: it's a leaf
 		} else {
@@ -237,7 +237,7 @@ public class ListTree<E> implements List<E> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean remove(Object key) { return delete((E) key); }
+	public boolean remove(Object key) { return delete(key); }
 
 	/**
 	 * If the given key is stored inside the map, then that key and associated value

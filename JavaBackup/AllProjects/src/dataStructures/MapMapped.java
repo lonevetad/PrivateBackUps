@@ -67,7 +67,7 @@ public class MapMapped<K, OriginalType, T> implements Map<K, T> {
 //			Tt[] newArray;
 //			Iterator<T> iter = this.iterator();
 //			newArray = (Tt[]) Array.newInstance(a.getClass(), len);
-////			
+////
 //			while (i < len && iter.hasNext()) {
 //				newArray[i++] = (Tt) iter.next();
 //			}
