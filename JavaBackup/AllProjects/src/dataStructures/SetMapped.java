@@ -77,7 +77,7 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 			Tt[] newArray;
 			Iterator<T> iter = this.iterator();
 			newArray = (Tt[]) Array.newInstance(a.getClass(), len);
-//			
+//
 			while (i < len && iter.hasNext()) {
 				newArray[i++] = (Tt) iter.next();
 			}
@@ -97,7 +97,7 @@ public class SetMapped<OriginalType, T> implements Set<T> {
 	public boolean remove(Object o) {
 		if (reverseMapper == null)
 			throw new UnsupportedOperationException("Cannot modify the original set without a reverse-mapper");
-		return backSet.remove(reverseMapper.apply((T) o));
+		return backSet.remove(reverseMapper.apply(o));
 	}
 
 	/**

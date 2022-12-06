@@ -206,7 +206,7 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 		//
 
 		//
-		Optimizations(MapTreeAVLFactory delegator) { this.delegator = delegator; }
+		Optimizations(MapTreeAVLFactory delegator) { MapTreeAVL.delegator = delegator; }
 
 		final MapTreeAVLFactory delegator;
 
@@ -266,7 +266,7 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 			public <Kk, Vv> Object extract(Entry<Kk, Vv> n) { return n; }
 		});
 
-		IteratorReturnType(ExtracterValueFromNodeByIRT e) { this.delegate = e; }
+		IteratorReturnType(ExtracterValueFromNodeByIRT e) { MapTreeAVL.delegate = e; }
 
 		final ExtracterValueFromNodeByIRT delegate;
 
@@ -459,7 +459,7 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 	 * parameters are true) or an empty map. Otherwise, <code>throws</code>
 	 * <p>
 	 * NOTE: the returned map is NOT backed by this one! It's "use and discard".
-	 * 
+	 *
 	 * @throws IllegalArgumentException if the lower bound is greater than upper
 	 *                                  bound, or some bound is null
 	 */
@@ -590,10 +590,10 @@ public interface MapTreeAVL<K, V> extends Serializable, SortedMap<K, V>, Functio
 				thisList.put(e.getKey(), e.getValue());
 			} catch (ClassCastException e1) {
 				try {
-					thisList.put((K) o, null);
+					thisList.put(o, null);
 				} catch (ClassCastException e2) {
 					try {
-						thisList.put(null, (V) o);
+						thisList.put(null, o);
 					} catch (ClassCastException e3) {
 						throw new ClassCastException("Cannot determine and use the class of " + o.getClass());
 					}

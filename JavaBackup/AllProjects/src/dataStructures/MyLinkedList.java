@@ -370,7 +370,7 @@ public class MyLinkedList<E> implements Serializable, List<E>, Deque<E> {
 	 * } // <br>
 	 * return -1; // <br>
 	 * } // <br>
-	 * 
+	 *
 	 */
 
 	/** If not present, this method return -1 */
