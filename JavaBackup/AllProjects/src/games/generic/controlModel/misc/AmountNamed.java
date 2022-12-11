@@ -9,7 +9,7 @@ import tools.ObjectNamedID;
  * {@code name} associated. That {@code name} is provided by {@link #getName()},
  * which delegates the call to the delegated value {@link ObjectNamedID}
  * (returned by {@link #getType()}) .
- * 
+ *
  * @author ottin
  *
  */

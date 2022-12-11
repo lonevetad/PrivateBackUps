@@ -7,7 +7,7 @@ import tools.ObjectNamedID;
 /**
  * A set of {@link GEnumInstance}, all belonging to the same "theme" or
  * sub-group (for instance, some animals, belonging to different MAP regions).
- * 
+ *
  * @author ottin
  *
  */

@@ -17,7 +17,7 @@ import tools.ObjectWithID;
 import tools.impl.OWIDLongImpl;
 
 /**
- * 
+ *
  * @author ottin
  *
  * @param <Source>: the object is providing the healing: the
@@ -49,7 +49,7 @@ public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWith
 	protected final Map<RechargeableResourceType, ResourceRechargeInProgress> rechargedProgressTracker;
 
 	protected void reset() {
-//		this.subUnitTimeTotal = 
+//		this.subUnitTimeTotal =
 		this.subUnitTimeElapsed = 0;
 	}
 
@@ -71,7 +71,7 @@ public class ResourceRechargeableStrategyTimeTickBased<Source extends ObjectWith
 
 	/**
 	 * Returns the amount of "ticks" each {@link TimedObject}'s "time units"
-	 * 
+	 *
 	 * @return
 	 */
 	public int getTicksEachTimeUnit() { return TICKS_EACH_TIME_UNIT; }

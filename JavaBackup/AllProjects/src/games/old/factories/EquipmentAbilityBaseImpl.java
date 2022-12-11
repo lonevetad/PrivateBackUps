@@ -9,7 +9,7 @@ import games.old.EquipItemAbility;
 import tools.ObjectWithID;
 
 /**
- * 
+ *
  * @author ottin
  *
  * @deprecated because of {@link EquipItemAbility}

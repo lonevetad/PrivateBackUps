@@ -48,7 +48,7 @@ public interface DamageDealerGeneric extends ObjectNamedID {
 	/**
 	 * Returns a "per-thousand" value, as
 	 * {@link DamageReceiverGeneric#getLuckPerThousand()}.
-	 * 
+	 *
 	 * @return a "per-thousand" value, as
 	 *         {@link DamageReceiverGeneric#getLuckPerThousand()}.
 	 */

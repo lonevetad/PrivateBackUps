@@ -244,7 +244,7 @@ public abstract class BaseCreatureRPGImpl implements BaseCreatureRPG {
 			this.abilityAllocations = me;
 			abil = new MapMapped<String, AbilityAllocation, AbilityGeneric>(me,
 					AbilityAllocation.ABILITY_ALLOCATED_EXTRACTOR);
-			;
+
 			abil.setReverseMapper(ag -> this.abilityAllocations.get(ag.getName()));
 			this.abilities = abil;
 		}

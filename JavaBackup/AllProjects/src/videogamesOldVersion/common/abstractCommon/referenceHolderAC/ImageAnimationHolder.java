@@ -21,10 +21,10 @@ public interface ImageAnimationHolder extends ObjectWithID {
 	 * Returns the current image. <br>
 	 * If the implementor has a field of type {@link BufferedImage} called
 	 * {@code image}, then this method should be implemented as following:
-	 * 
+	 *
 	 * <pre>
 	 * <code>
-	 * public BufferedImage getImageResized() { 
+	 * public BufferedImage getImageResized() {
 	 * 	AnimatedImage ai;
 	 * 	ai = getAnimatedImage();
 	 * 	return ai != null ? ai.getImage() : image;
@@ -40,7 +40,7 @@ public interface ImageAnimationHolder extends ObjectWithID {
 	 * Get the {@link AnimatedImage} associated to this image holder.
 	 * <p>
 	 * Usual use:
-	 * 
+	 *
 	 * <pre>
 	 * <code>
 	AnimatedImage animatedImage;
@@ -75,7 +75,7 @@ public interface ImageAnimationHolder extends ObjectWithID {
 	 * Set the animation. <br>
 	 * If the implementor has a field of type {@link BufferedImage} called
 	 * {@code image}, then this method should be implemented as following:
-	 * 
+	 *
 	 * <pre>
 	 * <code>
 	 * public default ObjectTiled setAnimatedImage(AnimatedImage ai) {
@@ -110,7 +110,7 @@ public interface ImageAnimationHolder extends ObjectWithID {
 	 * milliseconds) and get the current image (that is a animation's frame if that
 	 * animation exists, or a "static" image otherwise).<br>
 	 * Beware of <code>null</code>s.
-	 * 
+	 *
 	 * @param millis update the progression of animation by given amount of time in
 	 *               milliseconds, then return the current frame
 	 */

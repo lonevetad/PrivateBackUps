@@ -17,7 +17,7 @@ public interface PlayerGeneric extends GEventObserver, GameObjectGeneric, GModal
 
 	/**
 	 * Do some action, for instance
-	 * 
+	 *
 	 * @param otherPlayer
 	 */
 	public default void interactWithAnotherPlayer(PlayerGeneric otherPlayer) {

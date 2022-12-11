@@ -32,7 +32,7 @@ public interface ShieldHavingObject extends ObjectNamedID {
 
 	/**
 	 * Returns an {@link AttributeIdentifier} specifying the shield recharge delay.
-	 * 
+	 *
 	 * @return
 	 */
 	public AttributeIdentifier getShieldDelayReductionAttribute();

@@ -8,7 +8,7 @@ import games.generic.controlModel.rechargeable.resources.RechargableResource;
  * Note: may be used as a delegated instance inside another
  * {@link RechargableResource} that simply manages the delay-related stuff,
  * while it invokes the container class for the other aspects
- * 
+ *
  * @author marcoottina
  *
  */

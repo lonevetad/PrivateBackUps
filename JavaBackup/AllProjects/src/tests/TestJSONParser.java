@@ -110,7 +110,5 @@ public class TestJSONParser {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		;
 	}
 }

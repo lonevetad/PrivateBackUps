@@ -97,7 +97,7 @@ public abstract class GModality implements ObjectNamed {
 	/**
 	 * Simply return a flag. Used to check if the game is running or not (i.e.: the
 	 * game is NOT running if {@link #pause()} has been invoked).
-	 * 
+	 *
 	 * <br>
 	 * Differs from {@link #isAlive()}, see it for differences.
 	 */
@@ -258,7 +258,7 @@ public abstract class GModality implements ObjectNamed {
 	/**
 	 * Removes the given object to this game instance and fire the related event
 	 * ({@link GameObjectGeneric#onRemovedFromGame(GModality)}) upon removal.
-	 * 
+	 *
 	 * @param o object to be removed
 	 * @return {@code true} if the object have been removes
 	 */

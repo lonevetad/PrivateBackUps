@@ -16,7 +16,7 @@ public class EditDistanceLevenshtein implements EditDistance {
 
 	/**
 	 * Runs the Levenshtein distance.
-	 * 
+	 *
 	 * @param <T>
 	 * @param firstSequence
 	 * @param secondSequence
@@ -103,7 +103,7 @@ public class EditDistanceLevenshtein implements EditDistance {
 
 	/**
 	 * Runs the Levenshtein distance.
-	 * 
+	 *
 	 * @param <T>
 	 * @param firstSequence
 	 * @param secondSequence

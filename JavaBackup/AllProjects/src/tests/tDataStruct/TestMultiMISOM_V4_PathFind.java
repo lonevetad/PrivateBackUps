@@ -26,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 
 import dataStructures.MapTreeAVL;
 import dataStructures.isom.MultiISOMRetangularCaching;
@@ -581,7 +582,7 @@ public class TestMultiMISOM_V4_PathFind {
 			MouseAdapter ma;
 			KeyAdapter ka;
 			win = new JFrame("Test Multi ISOM");
-			win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			jp = new JPanel(new BorderLayout());
 			win.add(jp);
 			jpNorthPart = new JPanel(new FlowLayout());

@@ -17,7 +17,7 @@ public interface IndexableObject extends ObjectNamedID {
 
 	/**
 	 * Returns an instance of {@link IndexToObjectBackmapping}.
-	 * 
+	 *
 	 * @return an instance of {@link IndexToObjectBackmapping}.
 	 */
 	public IndexToObjectBackmapping getFromIndexBackmapping();
@@ -25,7 +25,7 @@ public interface IndexableObject extends ObjectNamedID {
 	/**
 	 * Simple function that returns an {@link IndexableObject} given the index that
 	 * instance would return by calling {@link IndexableObject#getIndex().}
-	 * 
+	 *
 	 * @author ottin
 	 *
 	 */

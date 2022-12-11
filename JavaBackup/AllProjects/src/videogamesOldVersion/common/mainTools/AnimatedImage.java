@@ -324,7 +324,7 @@ public class AnimatedImage implements Serializable {
 		// while (Character.isDigit(nomeImmagine.charAt(++j)))
 		while (++j < len && (c = nomeImmagine.charAt(j)) >= '0' && c <= '9')
 			;
-		;
+
 		i = j;
 		/* get the amount of milliseconds */
 		// otteniamo l'indice dell'ultima cifra (senza altri caratteri nel

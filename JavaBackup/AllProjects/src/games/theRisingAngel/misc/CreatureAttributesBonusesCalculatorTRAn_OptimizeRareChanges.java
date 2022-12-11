@@ -6,7 +6,7 @@ import games.theRisingAngel.enums.AttributesTRAn;
 
 /**
  * See {@link CreatureAttributesBonusesCalculatorTRAn}.
- * 
+ *
  * @deprecated Deprecated because in real game the values, due to abilities,
  *             could change frequently over time.
  */

@@ -104,7 +104,7 @@ public abstract class GController {
 
 	/**
 	 * Returns a new {@link GameOptions} instance.
-	 * 
+	 *
 	 * @return
 	 */
 	protected abstract GameOptions newGameOptions();
@@ -236,7 +236,7 @@ public abstract class GController {
 
 	/**
 	 * Begins the interaction between players. May notify the {@link GameView}
-	 * 
+	 *
 	 * @param thisPlayer  the current player, the one playing
 	 * @param otherPlayer another player from somewhere else (a remote one, maybe)
 	 */

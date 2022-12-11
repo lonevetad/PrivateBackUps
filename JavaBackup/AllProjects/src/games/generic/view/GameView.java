@@ -84,7 +84,7 @@ public abstract class GameView {
 	 * {@link Thread} <br>
 	 * See also
 	 * {@link GController#beginsPlayesInteraction(PlayerGeneric, PlayerGeneric)}.
-	 * 
+	 *
 	 * @param thisPlayer
 	 * @param otherPlayer
 	 */

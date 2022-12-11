@@ -53,7 +53,7 @@ public interface LivingObject_OLD extends DestructibleObject, DamageReceiverGene
 		if (gm == null || (!(gm instanceof GModalityRPG)))
 			return null;
 		gmodrpg = (GModalityRPG) gm;
-//		gom = gmodrpg.getGameObjectsManagerDelegated(); 
+//		gom = gmodrpg.getGameObjectsManagerDelegated();
 		geie1 = (GEventInterfaceRPG) gmodrpg.getGameObjectsManager().getGEventInterface();
 
 		//

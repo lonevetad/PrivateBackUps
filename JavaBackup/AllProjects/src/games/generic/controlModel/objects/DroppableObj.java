@@ -7,7 +7,7 @@ import tools.ObjectNamedID;
 /***
  * Defines an object that can be dropped into the ground
  * ({@link GameObjectsManager}) in a {@link GModalityRPG} game.
- * 
+ *
  * @author ottin
  *
  */
@@ -15,7 +15,7 @@ public interface DroppableObj extends ObjectNamedID, InteractableObject, ObjectI
 
 	/**
 	 * Defines the actions to take upon dropping this item into the ground
-	 * 
+	 *
 	 * @param gmRPG
 	 */
 	public void onDrop(GModalityRPG gmRPG);
@@ -28,7 +28,7 @@ public interface DroppableObj extends ObjectNamedID, InteractableObject, ObjectI
 	/**
 	 * Defomes the action performed upon being picked up by the
 	 * {@link InteractingObj} (second parameter)-
-	 * 
+	 *
 	 * @param gmRPG
 	 * @param pickingUpPerformer
 	 */

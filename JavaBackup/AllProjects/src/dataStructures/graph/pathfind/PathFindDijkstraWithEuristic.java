@@ -203,7 +203,7 @@ public class PathFindDijkstraWithEuristic<E, Distance extends Number> implements
 				if (neighbourInfo.father == null ||
 //					distToNo < neighbourInfo.distFromStart
 						distanceManager.getComparator().compare(distToNo, neighbourInfo.distFromStart) < 0) {
-//				final Double newDistanceFromStart, 
+//				final Double newDistanceFromStart,
 					Distance fScore;
 					// update
 //				newDistanceFromStart = Double.valueOf(distToNo);

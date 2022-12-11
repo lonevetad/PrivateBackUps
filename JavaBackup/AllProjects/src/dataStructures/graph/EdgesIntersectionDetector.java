@@ -29,7 +29,7 @@ public interface EdgesIntersectionDetector<E, D extends Number> {
 	 * {@link #computeIntersection(GraphSimple, Object, Object, Object, Object, IntersectionInstantiator)}
 	 * and, if so, modify the given graph to add the intersection.<br>
 	 * Returns true if the intersection happened.
-	 * 
+	 *
 	 * @parameter distanceCalculator a function computing the distance between two
 	 *            nodes
 	 */
@@ -79,7 +79,7 @@ public interface EdgesIntersectionDetector<E, D extends Number> {
 		 * If the values are 2D-points (like {@link Point2D}, then the new value is the
 		 * point lying at the intersection of the two straight lines connecting the two
 		 * edges.
-		 * 
+		 *
 		 * @parameter graphSource the {@link GraphSimple} where it's ASSUMED the four
 		 *            values belongs to
 		 * @parameter start1 the starting point of the first edge

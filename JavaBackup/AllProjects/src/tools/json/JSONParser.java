@@ -64,7 +64,7 @@ public class JSONParser {
 	 * over them. This helpa to improve memory management in case of huge arrays
 	 * since the array values are consumed and then discarded, rather than being
 	 * held into the array as long as the paraing is not finished.
-	 * 
+	 *
 	 * @param source
 	 */
 	public static Iterator<JSONValue> iterableArrayElements(CharsIterator source) {
@@ -105,7 +105,7 @@ public class JSONParser {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param source
 	 * @param arrayElementConsumer
 	 */
@@ -423,7 +423,7 @@ public class JSONParser {
 
 	/**
 	 * Note: requires, checks and consumes the '\"' char surrounding the string.
-	 * 
+	 *
 	 * @param source
 	 * @param indexLineColumn
 	 * @return

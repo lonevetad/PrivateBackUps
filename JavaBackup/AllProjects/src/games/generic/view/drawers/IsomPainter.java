@@ -132,11 +132,8 @@ public abstract class IsomPainter extends GuiComponent {
 		if (gm == null)
 			return;
 		goism = gm.getGObjectInSpaceManager();
-		if (goism == null)
-			return;
-
 		// check if it's currently painting
-		if (iterationPainting < 0) // currently in painting
+		if ((goism == null) || (iterationPainting < 0)) // currently in painting
 			return;
 		// increase the tick
 		if (++iterationPainting < 0) { // overflow

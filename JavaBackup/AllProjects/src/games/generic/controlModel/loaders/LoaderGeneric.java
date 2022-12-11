@@ -13,7 +13,7 @@ public abstract class LoaderGeneric {
 //	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 *
 	 * @author ottin
 	 *
 	 */

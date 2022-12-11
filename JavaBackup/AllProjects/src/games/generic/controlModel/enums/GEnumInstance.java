@@ -8,7 +8,7 @@ import games.generic.controlModel.misc.IndexableObject;
  * performed just on load time).<br>
  * <p>
  * Instances should be grouped in {@link GEnumeration}
- * 
+ *
  * @author ottin
  *
  */
@@ -17,12 +17,12 @@ public interface GEnumInstance extends IndexableObject {
 	/**
 	 * Set the ID of this enumeration instance. Should be invoked only by the
 	 * {@link EnumsManager}.
-	 * 
+	 *
 	 * <p>
 	 * Inherited documentation:
 	 * <p>
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @param ID
 	 */
 	@Override
@@ -30,14 +30,14 @@ public interface GEnumInstance extends IndexableObject {
 
 	/**
 	 * Get the {@link Enum}-like instance which this instance is belonging to.
-	 * 
+	 *
 	 * @return
 	 */
 	public GEnumeration getGroupBelonging();
 
 	/**
 	 * Implementation note: should be set once only.
-	 * 
+	 *
 	 * @param groupBelonging
 	 */
 	public void setGroupBelonging(GEnumeration groupBelonging);

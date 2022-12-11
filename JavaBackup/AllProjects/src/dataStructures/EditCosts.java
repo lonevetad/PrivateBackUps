@@ -7,7 +7,7 @@ import tools.EditDistance;
  * etc if any).
  * <P>
  * Mainly used in {@link EditDistance}.
- * 
+ *
  * @author ottin
  *
  * @param <T>

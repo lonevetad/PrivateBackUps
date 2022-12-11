@@ -41,7 +41,7 @@ public interface IGameModalityTimeBased {
 	/**
 	 * See {@link GameOptionsRPG#getTimeSubunitsEachUnit()} and
 	 * {@link TimedObject#getTimeSubunitsEachUnit()}.
-	 * 
+	 *
 	 * @return
 	 */
 	public int getTimeSubunitsEachUnit();

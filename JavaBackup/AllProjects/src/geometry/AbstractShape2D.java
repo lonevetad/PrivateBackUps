@@ -128,7 +128,7 @@ public abstract class AbstractShape2D extends OWIDLongImpl implements ObjectLoca
 	 * Returns the radius, got by dividing (and rounding down) the diameter returned
 	 * by {@link #getDiameter()}.
 	 */
-	public int getRadius() { return getDiameter() >> 1; };
+	public int getRadius() { return getDiameter() >> 1; }
 
 	/**
 	 * Returns the amount of corners represented by this regular polygon. A value

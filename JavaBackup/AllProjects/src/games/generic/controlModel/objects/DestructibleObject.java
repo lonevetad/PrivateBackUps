@@ -47,7 +47,7 @@ public interface DestructibleObject extends GameObjectGeneric, GModalityHolder, 
 	public default int getObserverPriority() { return GEventObserver.MIN_PRIORITY; }
 
 	/**
-	 * Simply checks if the given é{@link IGEvent} is a destruction event.<<br>
+	 * Simply checks if the given ï¿½{@link IGEvent} is a destruction event.<<br>
 	 * Used in {@link #checkAndFireDestruction()}.
 	 */
 	public boolean isDestructionEvent(IGEvent maybeDestructionEvent);
@@ -68,7 +68,7 @@ public interface DestructibleObject extends GameObjectGeneric, GModalityHolder, 
 	 * <p>
 	 * Note: Originally, the parameter was an instance of {@link GEventManager}, now
 	 * it's generalized to allow simpler event notification systems.
-	 * 
+	 *
 	 * @return an instance of {@link EventDestructionObj} that indicates if
 	 *         <code>this</code> object should really call {@link #destroy()} or not
 	 *         (through {@link EventDestructionObj#isDestructionValid()}).

@@ -2,7 +2,6 @@ package games.generic.controlModel;
 
 import games.generic.controlModel.misc.CreatureAttributes;
 import games.generic.controlModel.misc.CreatureAttributesBonusesCalculator;
-import games.generic.controlModel.misc.IndexableObject;
 import games.generic.controlModel.misc.IndexableObject.IndexToObjectBackmapping;
 
 public abstract class CreatureAttributesBaseAndDerived extends CreatureAttributes {

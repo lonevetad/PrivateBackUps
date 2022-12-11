@@ -16,30 +16,30 @@ import tools.UniqueIDProvider;
  * <p>
  * For example, as shown in
  * {@link LoaderUniqueIDProvidersState#enrichAllKnownUIDPLoadedListenerList(java.util.List)}:
- * 
+ *
  * <pre>
 	<code>
 	public interface MyFancyBarInterface {
-		 
+
 		public static final UniqueIDProvider UIDP_MFBI = new UIDPLoadableFromCollector&#60;&#62;(MyFancyBarInterface.class);
-		
+
 		&#64;SuppressWarnings("unchecked")
 		public static final UIDProviderLoadedListener UIDP_LOADED_LISTENER_MFBI = ((UIDPLoadableFromCollector&#60;MyFancyBarInterface&#62;) UIDP_MyFancyBarInterface)
 			.getUidpLoaderListener();
-		
+
 		public static UniqueIDProvider getUniqueIDProvider_MyFancyBarInterface(){
 			return UIDP_MFBI;
 		}
-		
+
 		// other stuffs
 	}
 	</code>
  * </pre>
- * 
+ *
  * @author ottin
  *
  * @param <C>
- * 
+ *
  */
 public final class UIDPLoadableFacade<C> implements UniqueIDProvider {
 

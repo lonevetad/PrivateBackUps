@@ -22,7 +22,7 @@ import videogamesOldVersion.common.mainTools.AnimatedImage;
  * affected.<br>
  * Call once the method {@link #cloneAnimationFromThis()} to make the
  * {@link AnimatedImage} stored independent.
- * 
+ *
  * @deprecated too old and clugged
  */
 @Deprecated

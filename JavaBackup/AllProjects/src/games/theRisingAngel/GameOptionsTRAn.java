@@ -5,7 +5,7 @@ import games.generic.controlModel.subimpl.GameOptionsRPG;
 
 /**
  * Configuration-like class, holding some settings of the games mechanic
- * 
+ *
  * @author ottin
  *
  */

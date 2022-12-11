@@ -28,7 +28,7 @@ public class WeightedSetOfRandomOutcomes {
 	//
 
 	/**
-	 * 
+	 *
 	 * @param indexesWeights weights of each indexes
 	 */
 	public WeightedSetOfRandomOutcomes(int[] indexesWeights, Random r) {
@@ -40,13 +40,13 @@ public class WeightedSetOfRandomOutcomes {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param indexesWeights weights of each indexes
 	 */
 	public WeightedSetOfRandomOutcomes(int[] indexesWeights) { this(indexesWeights, new Random()); }
 
 	/**
-	 * 
+	 *
 	 * @param indexesWeights weights of each indexes
 	 */
 	public WeightedSetOfRandomOutcomes(int[] indexesWeights, long seed) { this(indexesWeights, new Random(seed)); }

@@ -12,7 +12,7 @@ import games.generic.controlModel.subimpl.EquipmentUpgradeImpl;
 
 /**
  * A factory for {@link EquipmentUpgrade}.
- * 
+ *
  * @author ottin
  *
  */

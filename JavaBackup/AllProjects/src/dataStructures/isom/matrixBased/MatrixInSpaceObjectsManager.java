@@ -74,7 +74,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 
 //	protected Comparator IDOwidComparator;
 	protected final boolean isLazyNodeInstancing;
-//	protected int width, height; 
+//	protected int width, height;
 	protected NodeIsom<Distance>[][] matrix;
 	protected AbstractShape2D shape;
 	protected ProviderShapesIntersectionDetector shapeIntersectionDetectorProvider;
@@ -311,9 +311,7 @@ public abstract class MatrixInSpaceObjectsManager<Distance extends Number> exten
 	@Override
 	public boolean remove(ObjectLocated o) {
 		RemoverObjLocated<Distance> r;
-		if (o == null)
-			return false;
-		if (this.getObjectsAdded().remove(o.getID()) != null)
+		if ((o == null) || (this.getObjectsAdded().remove(o.getID()) != null))
 			return false;
 		r = new RemoverObjLocated<>(this, o);
 		if (r instanceof ObjectShaped) {

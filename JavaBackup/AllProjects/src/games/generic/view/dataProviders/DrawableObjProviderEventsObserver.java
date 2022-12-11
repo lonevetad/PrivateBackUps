@@ -21,7 +21,7 @@ import tools.UniqueIDProvider;
 /**
  * Class that provides {@link DrawableObj}, as described in superclass
  * {@link DrawableObjProvider}, to some purpose.
- * 
+ *
  * <p>
  * This class relies on a helper class (the second constructor's parameter)
  * which create a {@link DrawableObj} given a {@link ObjectLocated}.

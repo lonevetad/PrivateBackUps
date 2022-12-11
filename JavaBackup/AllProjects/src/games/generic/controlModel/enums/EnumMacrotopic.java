@@ -9,7 +9,7 @@ import tools.ObjectNamedID;
  * Cluster / collection of {@link GEnumeration} following the same "theme" (for
  * instance, all creatures in game, which may be divided depending on the in-map
  * regions, or all spells, divided into classes and shared among classes).
- * 
+ *
  * @author ottin
  *
  */
@@ -35,14 +35,14 @@ public class EnumMacrotopic extends GObjectsHolderImpl<Long, GEnumeration> imple
 	 * Name of the "macrotopic / theme", like "creatures", "spells", "runes", etc.
 	 * <p>
 	 * {@inheritDoc}
-	 * 
+	 *
 	 */
 	@Override
 	public String getName() { return name; }
 
 	/**
 	 * See {@link #getName()}.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(String name) { this.name = name; }

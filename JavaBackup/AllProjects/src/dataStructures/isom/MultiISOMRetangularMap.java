@@ -37,8 +37,8 @@ import tools.UniqueIDProvider;
  * <p>
  * To implement {@link NodeIsomProvider#getNodeAt(Point)}, use the
  * {@link Test_MultiISOMRetangularMap_V1
- * 
- * 
+ *
+ *
  * #getMapContaining(Point)} code.
  */
 public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMultiOISMRectangular<Distance>
@@ -68,7 +68,7 @@ public class MultiISOMRetangularMap<Distance extends Number> extends AbstractMul
 		shapeBoundingBox = null;// new ShapeRectangle()
 		clear();
 		setPathFinder(newPathFinder());
-//		this.pathOptimizer = new PathOptimizer<Point>() 
+//		this.pathOptimizer = new PathOptimizer<Point>()
 	}
 
 	protected long idProg = 0;

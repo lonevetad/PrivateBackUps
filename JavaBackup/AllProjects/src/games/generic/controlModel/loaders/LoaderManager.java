@@ -19,11 +19,11 @@ import tools.LoggerMessages;
 /**
  * A Manager that manages all {@link LoaderGeneric}, loads them and manages the
  * events during loading (like success / failure)
- * 
+ *
  * <p>
  * NOTE: as stated in its JavaDocs, the loader
  * {@link LoaderUniqueIDProvidersState} HAS to be the first one
- * 
+ *
  * @author ottin
  *
  */
@@ -42,7 +42,7 @@ public abstract class LoaderManager {
 	 * invoked providing the loading result (success or fail, more or less).</li>
 	 * <li>All {@link LoaderGeneric} has ended</li>
 	 * </ol>
-	 * 
+	 *
 	 * @author ottin
 	 *
 	 */
@@ -50,7 +50,7 @@ public abstract class LoaderManager {
 		/**
 		 * Notifies the observer (the class implementing this {@link LoadingObserver}
 		 * instance.<br>
-		 * 
+		 *
 		 * @param loader
 		 * @param completitionResult
 		 */
@@ -60,7 +60,7 @@ public abstract class LoaderManager {
 		/**
 		 * Notify the start the loading process, providing the amount of loaders that
 		 * will be run.
-		 * 
+		 *
 		 * @param loadersAmount the amount of loader that will run.
 		 */
 		public void notifyAllLoadingProcessStarted(int loadersAmount);
@@ -77,7 +77,7 @@ public abstract class LoaderManager {
 	/**
 	 * Define the {@link LoaderGeneric} priority. Those loaders has to be loaded
 	 * BEFORE any other ones returned by {@link }
-	 * 
+	 *
 	 * @author ottin
 	 *
 	 */
@@ -167,7 +167,7 @@ public abstract class LoaderManager {
 	/**
 	 * Create and returns an {@link ExecutorService} used to perform the parallel
 	 * loading of all {@link LoaderGeneric} (added through {@link}
-	 * 
+	 *
 	 * @return
 	 */
 	protected ExecutorService newExecutorForParallelLoading() { return Executors.newWorkStealingPool(); }
@@ -178,7 +178,7 @@ public abstract class LoaderManager {
 
 	/**
 	 * Override designed BUT call for <i>super</i>.
-	 * 
+	 *
 	 * @param loaders
 	 */
 	protected abstract void enrichSetLoaderManagers(Map<Class<?>, LoaderGeneric> loaders);
@@ -200,7 +200,7 @@ public abstract class LoaderManager {
 	/**
 	 * Add the provided loader to the list of loaders (returned by
 	 * {@link #getLoaders()}).
-	 * 
+	 *
 	 * @param loader the loader that is desired to be run
 	 */
 	public void addLoader(LoaderGeneric loader) { if (loader != null) { this.otherLoaders.add(loader); } }
@@ -232,7 +232,7 @@ public abstract class LoaderManager {
 	 * <p>
 	 * Load everything that needs to be loaded. Return whether the whole loading
 	 * process is successful.
-	 * 
+	 *
 	 * @return as stated here
 	 *         {@link #manageLoadersStatusResults(LoadStatusResult[])}, it returns
 	 *         the list of {@link LoaderGeneric} that failed the loading process: if
@@ -321,7 +321,7 @@ public abstract class LoaderManager {
 	 * returns the list of {@link LoaderGeneric} that failed the loading process: if
 	 * empty or null, then the whole loading process was successful and no loader
 	 * failed.
-	 * 
+	 *
 	 * @param results the loader loading results
 	 * @return the list of {@link LoaderGeneric} that failed the loading process: if
 	 *         empty or null, then the whole loading process was successful and no

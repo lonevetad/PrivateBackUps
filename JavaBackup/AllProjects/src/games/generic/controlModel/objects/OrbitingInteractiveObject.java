@@ -43,7 +43,7 @@ public abstract class OrbitingInteractiveObject extends OWIDLongImpl implements 
 	protected double angRad; // radians
 	protected final String name;
 	protected GModality gameModality;
-	protected List<ObjectShaped> orbitingObjects; // può averne al massimo N, tipo 5
+	protected List<ObjectShaped> orbitingObjects; // puï¿½ averne al massimo N, tipo 5
 	protected AbstractShape2D shape;
 	protected ObjectWithID owner;
 
@@ -85,13 +85,13 @@ public abstract class OrbitingInteractiveObject extends OWIDLongImpl implements 
 
 	//
 
-//	int tempSpawnBlob; 
+//	int tempSpawnBlob;
 
 	@Override
 	public void setGameModality(GModality gameModality) { this.gameModality = gameModality; }
 
 	public void setName(String name) {
-//		this.name = name; 
+//		this.name = name;
 	}
 
 	public void setOwner(ObjectWithID owner) { this.owner = owner; }

@@ -41,11 +41,11 @@ import tools.json.types.JSONString;
  * (like {@link AbilityGeneric}, {@link GEvent}, {@link GMap}, etc) to the
  * definition of a static but non-final {@link UniqueIDProvider}, initialized to
  * null, and a {@link UIDProviderLoadedListener} static final instance
- * 
+ *
  * <p>
  * NOTE: this class is a {@link LoaderGeneric} but it HAS to be invoked as the
  * FIRST loader EVER
- * 
+ *
  * @author ottin
  *
  */
@@ -58,7 +58,7 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 		this.classesUsingUIDPLoadableBackmap = MapTreeAVL.newMap(MapTreeAVL.Optimizations.MinMaxIndexIteration,
 				Comparators.STRING_COMPARATOR);
 		this.classesUsingUIDPLoadable = Collections.unmodifiableSet(this.classesUsingUIDPLoadableBackmap.entrySet());
-	};
+	}
 
 	protected final MapTreeAVL<String, UIDProviderLoadedListener> classesUsingUIDPLoadableBackmap;
 	protected final Set<Map.Entry<String, UIDProviderLoadedListener>> classesUsingUIDPLoadable;
@@ -69,9 +69,9 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 	 * {@link UniqueIDProvider} for them (and their subclasses) AND the
 	 * {@link UniqueIDProvider} state (a {@link UIDPState} has to be saved and
 	 * restored between game runs.
-	 * 
+	 *
 	 * It can also be used by the {@link ModGa}
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<Map.Entry<String, UIDProviderLoadedListener>> getClassesUsingUIDPLoadable() {
@@ -82,63 +82,63 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 
 	/**
 	 * Read all {@link UIDPState} stored somewhere
-	 * 
+	 *
 	 * @return
 	 */
 	protected abstract Iterable<UIDPState> readSavedUIDPStates();
 
 	/**
 	 * NOTE FOR OVERRIDING:
-	 * 
+	 *
 	 * <pre>
 	<code>
 	protected void enrichAllKnownUIDPLoadedListenerList(
 	Map&#60;Class&#60;?&#62;, UIDProviderLoadedListener&#62; list) {
-		
+
 		// MANDATORY
 		super.enrichAllKnownUIDPLoadedListenerList(list);
-	
+
 		// ADD HERE THE NEW ONES , like :
 		list.put(MyFancyFooClass.class, MyFancyFooClass.UIDP_LOADED_LISTENER_MFFC));
 		list.put(MyFancyBarInterface.class, MyFancyBarInterface.UIDP_LOADED_LISTENER_MFBI));
 	}
 	</code>
-	
+
 	where
-	
+
 	<code>
 	public class MyFancyFooClass {
 		private static UniqueIDProvider UIDP_MFFC = null;
-		
+
 		public static final UIDProviderLoadedListener UIDP_LOADED_LISTENER_MFFC =
 			uidp -> { if(uidp != null) { UIDP_MFFC = uidp; } };
-		
+
 		// since the provider is not final, it's not advised to make it public:
 		// this function makes it accessible without exposing the non-final pointer
 		public static UniqueIDProvider getUniqueIDProvider_MyFancyFooClass(){
 			return UIDP_MFFC;
 		}
-		
+
 		// other stuffs
 	}
 	</code>
-	
+
 	and
-	
+
 	<code>
 	public interface MyFancyBarInterface {
 		// suggested implementation: using UIDPLoadableFromCollector
-		 
+
 		public static final UniqueIDProvider UIDP_MFBI = new UIDPLoadableFromCollector&#60;&#62;(MyFancyBarInterface.class);
-		
+
 		&#64;SuppressWarnings("unchecked")
 		public static final UIDProviderLoadedListener UIDP_LOADED_LISTENER_MFBI = ((UIDPLoadableFromCollector&#60;MyFancyBarInterface&#62;) UIDP_MyFancyBarInterface)
 			.getUidpLoaderListener();
-		
+
 		public static UniqueIDProvider getUniqueIDProvider_MyFancyBarInterface(){
 			return UIDP_MFBI;
 		}
-		
+
 		// other stuffs
 	}
 	</code>
@@ -146,7 +146,7 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 	 * <p>
 	 * Add new {@link UIDProviderLoadedListener} taken somewhere, probably as a
 	 * static field of some class
-	 * 
+	 *
 	 * @param list the list to be enriched using {@link List#add(Object)}.
 	 */
 	public void enrichAllKnownUIDPLoadedListenerList(Map<Class<?>, UIDProviderLoadedListener> list) {
@@ -171,10 +171,10 @@ public abstract class LoaderUniqueIDProvidersState extends LoaderGeneric {
 		// ADD HERE THE NEW ONES
 		return list;
 	}
-	 * 
-	 * 
+	 *
+	 *
 	 * </code>
-	 * 
+	 *
 	 * @return
 	 */
 	protected final Map<Class<?>, UIDProviderLoadedListener> getAllKnownUIDPLoadedListener() {

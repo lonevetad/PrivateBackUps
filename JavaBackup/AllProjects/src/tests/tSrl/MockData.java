@@ -119,7 +119,7 @@ public class MockData {
 //" init r1 1 init r2 0 init r3 0 for r0 { for r1 { incr r3 } swap(r1,r2) for r1 { decr r3 } swap(r1,r2) }"
 //				" init r1 1 init r2 0 init r3 0 init r4 0;" //
 //						+ "\n incr r3 for r0 { incr r3 incr r3 dec r4 } " //
-//						+ "\nfor r3 { swap(r1,r2) for r1 inc r4 } swap(r1,r2)" 
+//						+ "\nfor r3 { swap(r1,r2) for r1 inc r4 } swap(r1,r2)"
 //						// /|\ the core -- ERRORE: r4 vale sempre il numero di "inc r4 che precedono questo ciclo (se assente, 0)"
 //						+ "\n for r0 { dec r3 dec r3 } " // portiamo r3 ad 1
 //						+ "\n for r4 { dec r3 } " // solo uno varra' 1
@@ -178,7 +178,7 @@ public class MockData {
 				 */
 
 //						+ "\nfor r0 { inc r3 incr r4 inc r4 } inc r4 " //
-//						+ "\nfor r4 { dec r3 } " 
+//						+ "\nfor r4 { dec r3 } "
 //						+ "\n inc r0 for r0{ for r0 { inc r3 }} dec r0" //
 //						+ "\n for r0{ for r0 { dec r3 } dec r3 dec r3 } " // se N >=0 -> r3 = 1
 
@@ -195,8 +195,8 @@ public class MockData {
 						+ "\n\t\nswap(r1,r3) " //
 						+ "\n\t} " //
 						+ "\n} "
-//				+ "\nfor r0{ swap(r3,r4) } " 
-//				+ "\ninc r1 for r4 { dec r3 } " 
+//				+ "\nfor r0{ swap(r3,r4) } "
+//				+ "\ninc r1 for r4 { dec r3 } "
 		};
 
 		a = new String[fixedTests[0].length + fixedTests[1].length + //

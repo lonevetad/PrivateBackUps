@@ -17,7 +17,7 @@ import tools.ObjectWithID;
  * {@link Currency} makes the {@link PlayerGeneric} to earn money, an
  * {@link InventoryItem} has to
  * {@link InventoryHolder#addToInventory(InventoryItem)}, etc).
- * 
+ *
  * @author ottin
  *
  */

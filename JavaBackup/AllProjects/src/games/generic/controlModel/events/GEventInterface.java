@@ -59,7 +59,7 @@ public interface GEventInterface extends Cloneable {
 	 * Fire a damage event and returns it, so informations like reductions and malus
 	 * can be applied by listeners and processed by the injured living object
 	 * (usually, a creature).
-	 * 
+	 *
 	 * @param damageAmountToBeApplied: damage original subtracted by the amount of
 	 *                                 damage reduction provided by the target
 	 *                                 (usually, those two damages amounts are the
@@ -80,7 +80,7 @@ public interface GEventInterface extends Cloneable {
 
 	/**
 	 * After someone's resource is being recharge, fire this event.<br>
-	 * 
+	 *
 	 * @param <SourceRecharge>           The type of the object is performing the
 	 *                                   recharge operation.
 	 * @param gaModality                 {@link GModalityET}
@@ -102,8 +102,8 @@ public interface GEventInterface extends Cloneable {
 	 * recharge is the fourth parameter while the second parameter is the target;
 	 * the target is the same of
 	 * {@link #fireResourceRechargeReceivedEvent(GModalityET, ObjectWithID, LivingObject, ResourceAmountRecharged)}).
-	 * 
-	 * 
+	 *
+	 *
 	 * @param <SourceRecharge>           The type of the object is performing the
 	 *                                   recharge operation.
 	 * @param gaModality                 {@link GModalityET}

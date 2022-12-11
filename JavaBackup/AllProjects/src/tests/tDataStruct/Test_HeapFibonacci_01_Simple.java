@@ -16,6 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 
 import dataStructures.HeapFibonacci;
 import tools.gui.swing.HeapFibonacciVisualizerHelper;
@@ -29,7 +31,7 @@ public class Test_HeapFibonacci_01_Simple {
 
 	protected static <T> void setupGUI(HeapFibonacci<T> h) {
 		fin = new JFrame("test heap fibonacci 01");
-		fin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fin.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		fin.setLayout(new BorderLayout());
 
 		JButton jbExtractMin;
@@ -76,8 +78,8 @@ public class Test_HeapFibonacci_01_Simple {
 		});
 		jsp = new JScrollPane(jp);
 		jsp.setViewportView(jp);
-		jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		fin.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent arg0) {

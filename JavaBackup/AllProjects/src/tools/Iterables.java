@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  * <p>
  * It would be deprecated because it's almost useless, except for the array
  * wrappers.
- * 
+ *
  * @author ottin
  *
  */

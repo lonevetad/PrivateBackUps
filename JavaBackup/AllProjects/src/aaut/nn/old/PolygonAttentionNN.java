@@ -64,7 +64,7 @@ public class PolygonAttentionNN<NNMI_Input extends MatrixInput, E> extends Perce
 	 * This produces a vertical array of <code>double</code> with the same size
 	 * (height) of <code>N</code>, that is provided to the {@link Function} returned
 	 * by {@link #getLayerOutputCaster()}.
-	 * 
+	 *
 	 * @returns the computation of the application of the {@link Function} returned
 	 *          by {@link #getLayerOutputCaster()} to a vertical array of
 	 *          <code>double</code> with the same height of this funciont's input,
@@ -162,7 +162,7 @@ public class PolygonAttentionNN<NNMI_Input extends MatrixInput, E> extends Perce
 		xx = poly.xpoints;
 		yy = poly.ypoints;
 //		if(np==3) {
-//			
+//
 //		}
 		polyWeigths = new double[np][3]; // 3 = {bias, x, y}
 		this.polygonWeightsTrasposed = pwm = new MatrixInput2D(polyWeigths);

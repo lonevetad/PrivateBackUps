@@ -48,7 +48,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder<
 	 * The "space" concept could not be atomic and so could be divided in smaller
 	 * parts, like the <i>meter</i> could be divided in <i>centimeters</i> or even
 	 * <i>millimeters</i>. See the "return" section for further informations.
-	 * 
+	 *
 	 * @return The amount of <i>sub-units</i> that each <i>"space macro-unit"</i> is
 	 *         subdivided into. A number greater than one means that the space has a
 	 *         concept of <i>macro sections</i>, like <i>meter</i> has
@@ -100,7 +100,7 @@ public interface GObjectsInSpaceManager extends GModalityHolder, GObjectsHolder<
 
 	/**
 	 * Set the object's location before adding it.
-	 * 
+	 *
 	 * @param fireEvent specify if a "add" event should be fired
 	 */
 	public default boolean addObject(boolean fireEvent, ObjectInSpace o) {

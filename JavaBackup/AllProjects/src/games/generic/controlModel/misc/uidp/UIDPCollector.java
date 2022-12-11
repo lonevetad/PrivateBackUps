@@ -15,9 +15,9 @@ public class UIDPCollector {
 	/**
 	 * Defines a listener of a {@link UniqueIDProvider} that listens when the
 	 * provided is loaded.
-	 * 
+	 *
 	 * May behave like a "setter"
-	 * 
+	 *
 	 * @author ottin
 	 *
 	 */

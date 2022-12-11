@@ -40,7 +40,7 @@ public interface AbstractObjectsInSpaceManager<Distance extends Number> extends 
 
 	/**
 	 * See {@link #getAt(int, int)};
-	 * 
+	 *
 	 * @param location the location to look at
 	 * @return
 	 */
@@ -49,7 +49,7 @@ public interface AbstractObjectsInSpaceManager<Distance extends Number> extends 
 	/**
 	 * Returns the first available object which occupies that location, or
 	 * {@code null} if none is available.
-	 * 
+	 *
 	 * @param x the x-component of the location to look at
 	 * @param y the y-component of the location to look at
 	 * @return the first available object which occupies that location, or
@@ -186,7 +186,7 @@ public interface AbstractObjectsInSpaceManager<Distance extends Number> extends 
 	 * Quereis all objects located in the given area, if any, moving that area along
 	 * a specific path, that requires at least two point (the starting point must be
 	 * provided, the last point is the end.
-	 * 
+	 *
 	 * @param areaToLookInto area to query
 	 * @param collector      methodology to collect the objects found
 	 */

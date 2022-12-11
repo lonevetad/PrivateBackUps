@@ -58,7 +58,7 @@ public abstract class InventoryItems implements GModalityHolder {
 
 	/**
 	 * The size of the inventory, since it's a grid.
-	 * 
+	 *
 	 * @return
 	 */
 	public Dimension getInventorySize() { return inventorySize; }
@@ -71,7 +71,7 @@ public abstract class InventoryItems implements GModalityHolder {
 
 	/**
 	 * The size may depend on the level, which is returned.
-	 * 
+	 *
 	 * @return
 	 */
 	public int getLevelInventory() { return level; }
@@ -108,7 +108,7 @@ public abstract class InventoryItems implements GModalityHolder {
 	/**
 	 * Add the item without any check on the region denoted by the point (first two
 	 * parameters) and {@link InventoryItem#getDimensionInInventory()}.
-	 * 
+	 *
 	 * @param row
 	 * @param column
 	 * @param item
@@ -157,7 +157,7 @@ public abstract class InventoryItems implements GModalityHolder {
 	public boolean hasItem(InventoryItem item) { return this.allItems.containsKey(item.getID()); }
 
 	/**
-	 * 
+	 *
 	 * @param item
 	 * @return the location inside the inventory grid of the top-left corner of the
 	 *         shape of the provided {@link InventoryItem}. {@code null} if the
@@ -183,7 +183,7 @@ public abstract class InventoryItems implements GModalityHolder {
 	public boolean removeItem(InventoryItem item) {
 		if (item == null || (!this.allItemsLocated.containsKey(item.getID()))) { return false; }
 		this.removeItemImpl(item);
-//		allItems.remove(item.getID());		
+//		allItems.remove(item.getID());
 		return true;
 	}
 
@@ -192,7 +192,7 @@ public abstract class InventoryItems implements GModalityHolder {
 	/**
 	 * Defines the size (in {@link Dimension}) of this inventory depending on the
 	 * provided level.
-	 * 
+	 *
 	 * @param levelTarget
 	 * @return
 	 */
@@ -208,12 +208,12 @@ public abstract class InventoryItems implements GModalityHolder {
 	 * Resize the current inventory to the provided dimension, if not null.<br>
 	 * Returns the items that do no more fits. An automatic relocation may occur, if
 	 * available.
-	 * 
+	 *
 	 * <p>
 	 * The invoker of this method should call
 	 * {@link GModalityRPG#dropItem(InventoryItem)} on the returned
 	 * {@link InventoryItem}s (used to drop the object to the ground).
-	 * 
+	 *
 	 * @return all the dropped and removed items, if any
 	 */
 	public List<InventoryItem> resizeBy(Dimension d) {
@@ -306,7 +306,7 @@ public abstract class InventoryItems implements GModalityHolder {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param itemsToDropCollector
 	 * @param grid
 	 * @param xStart
@@ -449,7 +449,7 @@ public abstract class InventoryItems implements GModalityHolder {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param item
 	 * @return the location inside the inventory grid of the top-left corner of the
 	 *         shape of the provided {@link InventoryItem}. {@code null} if the
@@ -492,7 +492,7 @@ public abstract class InventoryItems implements GModalityHolder {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param item
 	 * @return the location inside the inventory grid of the top-left corner of the
 	 *         shape of the provided {@link InventoryItem}. {@code null} if the
@@ -548,7 +548,7 @@ public abstract class InventoryItems implements GModalityHolder {
 
 	public static interface InventoryCellConsumer {
 		/**
-		 * 
+		 *
 		 * @param row         first parameter, the row of the grid
 		 * @param column      second parameter, the column of the grid
 		 * @param cellContent the actual content of the pointed cell. May be
@@ -559,7 +559,7 @@ public abstract class InventoryItems implements GModalityHolder {
 		/**
 		 * Beware: the point may be recycled, do a copy before comparison between
 		 * different invocations of this method.
-		 * 
+		 *
 		 * @param p
 		 * @param cellContent
 		 */

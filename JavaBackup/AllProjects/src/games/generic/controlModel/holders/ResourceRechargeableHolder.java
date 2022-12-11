@@ -17,7 +17,7 @@ import tools.ObjectWithID;
 /**
  * Defines an object having a set of {@link RechargableResource} that can be
  * recharged over time
- * 
+ *
  * @author ottin
  *
  */
@@ -110,7 +110,7 @@ public interface ResourceRechargeableHolder extends ObjectWithID, GModalityHolde
 	 * addition is successful: returns {@code false} if there already exists a
 	 * resource with that type (providede by
 	 * {@link RechargableResource#getResourceType()}).
-	 * 
+	 *
 	 * @param resource
 	 * @return
 	 */
@@ -124,7 +124,7 @@ public interface ResourceRechargeableHolder extends ObjectWithID, GModalityHolde
 
 	/**
 	 * See {@link #removeRechargableResource(RechargeableResourceType)}
-	 * 
+	 *
 	 * @param resource
 	 * @return
 	 */
@@ -135,7 +135,7 @@ public interface ResourceRechargeableHolder extends ObjectWithID, GModalityHolde
 	/**
 	 * Similar to {@link #addRechargableResource(RechargableResource)}, but for the
 	 * removal.
-	 * 
+	 *
 	 * @param resource
 	 * @return
 	 */
@@ -153,7 +153,7 @@ public interface ResourceRechargeableHolder extends ObjectWithID, GModalityHolde
 
 	/**
 	 * Fires the recharge event. Should invoke
-	 * 
+	 *
 	 * @param <SourceRecharge>           The type of the object is performing the
 	 *                                   recharge operation.
 	 * @param recharge                   The recharge operation, specifying the
@@ -183,7 +183,7 @@ public interface ResourceRechargeableHolder extends ObjectWithID, GModalityHolde
 	 * The second parameter defines <i>who</i> is performing that recharge operation
 	 * in order to fire the related event (see
 	 * {@link #fireRechargeEvent(ResourceAmountRecharged, ObjectWithID)}).
-	 * 
+	 *
 	 * @param <Source>                   The type of the object is performing the
 	 *                                   recharge operation.
 	 * @param recharge                   The recharge operation, specifying the

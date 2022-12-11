@@ -17,7 +17,7 @@ public abstract class RechargeableTimeBased implements TimedObject {
 	 * recharge rate. <br>
 	 * For example, this instance may have a cooldown of 3.5 seconds and a bonus of
 	 * 20%, which turns the cooldown down to 2.8 seconds.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract int getBonusRechargeVelocityPercentage();
@@ -26,7 +26,7 @@ public abstract class RechargeableTimeBased implements TimedObject {
 
 	/**
 	 * Returns wether this instance is fully charged or not.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract boolean isCharged();
@@ -38,12 +38,12 @@ public abstract class RechargeableTimeBased implements TimedObject {
 	}
 
 	/**
-	 * °
-	 * 
+	 * ï¿½
+	 *
 	 * Set the amount of "time units" that should elapse in order to recharge this
 	 * instances (that means, fire {@link #peformFullRecharge(GModality)}). <br>
 	 * Also known as <i>cooldown</i>.
-	 * 
+	 *
 	 * @param timeUnitsCooldown
 	 */
 	public void setRechargeTime(int timeUnitsCooldown) {

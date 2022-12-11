@@ -57,7 +57,7 @@ public class LoaderEquipUpgradesTRAn extends LoaderEquipUpgrades {
 //			equipments = (JSONArray) JSONParser
 //					.parseFile(LoaderConfigurations.RESOURCE_REPOSITORY_PULL_FACT + "equipUpgrades.json");
 //
-//			equipments.forEach( 
+//			equipments.forEach(
 
 			JSONParser.forEachInArray(//
 					JSONParser.charactersIteratorFrom(

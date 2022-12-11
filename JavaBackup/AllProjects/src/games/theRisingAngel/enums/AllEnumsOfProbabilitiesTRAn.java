@@ -8,7 +8,7 @@ import tools.ObjWithRarityWeight;
  * Gathers ALL enums whose values may appear at random, in order to organize
  * them (for example, load their values upon loading through
  * {@link GameOptionsTRAn}).
- * 
+ *
  * @author ottin
  *
  */

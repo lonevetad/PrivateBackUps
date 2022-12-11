@@ -183,8 +183,12 @@ public class HeapFibonacci<T> implements Collection<T> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void cleanUp() {
+		this.cleanUp(null);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void cleanUp(NodeHF<T> removedNode) {
 		boolean hasMoreNodes;
 		int max_degrees;
 		NodeHF<T> nIter, sameDegreeNode, nextNode;
@@ -193,6 +197,13 @@ public class HeapFibonacci<T> implements Collection<T> {
 		if (this.roots == null || this.min == null || this.roots.next == this.roots) { // 0 or 1 element
 			return;
 		}
+
+		if (removedNode != null) {
+			// due to a previous "extract min" or remove
+			removedNode.unlinkHorizontally();
+			removedNode.father = null;
+		}
+
 		max_degrees = 1 + bitsAmount(this.size);
 		degrees = new Object[max_degrees];
 		Arrays.fill(degrees, null);
@@ -329,35 +340,49 @@ public class HeapFibonacci<T> implements Collection<T> {
 		return n;
 	}
 
+	@SuppressWarnings("unchecked")
 	public T extractMin() {
 		NodeHF<T> m, firstChild;
 		if (this.min == null) {
 			return null;
 		}
 		m = this.min;
-		if (m == this.roots) {
-			if (m == this.roots.next) {
-				this.roots = null; // it was the only one node
-			} else {
-				this.roots = m.next;
-			}
+
+		if (this.roots == this.roots.next && this.roots.lastChild == null) {
+			// just one node, simple case
+			this.roots = null;
+			this.min = null;
+			this.size = 0;
+			m.father = null;
+			m.unlinkHorizontally();
+			return m.data;
 		}
-		m.unlinkHorizontally();
-		m.father = null;
+
+		if (m == this.roots) {
+			this.roots = m.next;
+		}
 
 		firstChild = m.lastChild;
 		if (firstChild != null) {
-//			NodeHF<T> nIter;
-//			nIter = firstChild.next;
-//			do {
-//				addToRoots(nIter);
-//			} while ((nIter = nIter.next) != firstChild);
-			m.forEachChild(this::addToRoots);
+			// v2
+			// m.forEachChild(this::addToRoots);
+			// v3
+			@SuppressWarnings("rawtypes")
+			NodeHF[] children;
+			final int[] index = { 0 };
+			children = new NodeHF[m.childrenAmount];
+			m.forEachChild(c -> children[index[0]++] = c);
+			for (@SuppressWarnings("rawtypes")
+			NodeHF child : children) {
+				this.addToRoots(child);
+			}
 		}
 
-		this.cleanUp();
-
 		this.removeFromCache(m);
+
+		this.cleanUp(m);
+
+		this.size--;
 
 		return m.data;
 	}
@@ -431,8 +456,8 @@ public class HeapFibonacci<T> implements Collection<T> {
 	/**
 	 * Based on {@link #iteratorNode()}, so it's not "fast fail-safe" with
 	 * "modifications count": do not modify the heap while iterating
-	 * 
-	 * 
+	 *
+	 *
 	 * @return
 	 */
 	@Override
@@ -456,7 +481,7 @@ public class HeapFibonacci<T> implements Collection<T> {
 	/***
 	 * Warning: no "fast fail-safe" with "modifications count": do not modify the
 	 * heap while iterating
-	 * 
+	 *
 	 * @return
 	 */
 	public Iterator<NodeHF<T>> iteratorNode() {

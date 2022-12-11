@@ -35,6 +35,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -47,6 +49,7 @@ import games.generic.controlModel.loaders.LoaderGeneric.LoadStatusResult;
 import games.generic.controlModel.loaders.LoaderManager.LoadingObserver;
 import games.generic.controlModel.misc.AttributeModification;
 import games.generic.controlModel.misc.CreatureAttributes;
+import games.generic.controlModel.misc.CurrencySet;
 import games.generic.controlModel.misc.FactoryObjGModalityBased;
 import games.generic.controlModel.misc.GThread.GTRunnable;
 import games.generic.controlModel.player.PlayerGeneric;
@@ -245,7 +248,7 @@ public class GView_E1 extends GameView {
 		c = super.gameController;
 
 		fin = new JFrame("Test Event loop 1");
-		fin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fin.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 //		panel = fin.getContentPane();
 		jpBigContainer = new JPanel();
 //		jpBigContainer.setLayout(new BorderLayout());
@@ -331,7 +334,7 @@ public class GView_E1 extends GameView {
 //		jspPlayerAttributes.setViewportView(jtaPlayerStats);
 //		jspPlayerAttributes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 //		jpPlayerStats.add(jspPlayerAttributes, constr);
-//		jtaPlayerStats.setLineWrap(false); 
+//		jtaPlayerStats.setLineWrap(false);
 		constr.gridy++;
 		constr.gridwidth = 1;
 		jlMoneyText = new JLabel("Currency: ");
@@ -377,7 +380,7 @@ public class GView_E1 extends GameView {
 
 		taInspector = new JTextArea("test");
 		JScrollPane jsp;
-		jsp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		jsp = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		jsp.setViewportView(taInspector);
 		jpInsp.add(jsp, BorderLayout.CENTER);
 		taInspector.setSize(new Dimension(300, 400));
@@ -541,7 +544,7 @@ public class GView_E1 extends GameView {
 //		}
 //		jtaPlayerStats.setText(sb.toString());
 		jlMoneyValue.setText(Integer.toString(p.getCurrencies().getCurrencyAmount( //
-				p.getCurrencies().getCurrencies()[CurrencySetTRAn.BASE_CURRENCY_INDEX])));
+				p.getCurrencies().getCurrencies()[CurrencySet.BASE_CURRENCY_INDEX])));
 		n = AttributesTRAn.ALL_ATTRIBUTES.length;
 		while (--n >= 0) {
 			jlPlayerStatValue[n].setText(Integer.toString(ca.getValue(AttributesTRAn.ALL_ATTRIBUTES[n])));
@@ -608,7 +611,7 @@ public class GView_E1 extends GameView {
 	// TODO inspector
 	/**
 	 * Class that inspect all elements on a class which has the ability E
-	 * 
+	 *
 	 * @author ottin
 	 *
 	 * @param <E>

@@ -21,7 +21,7 @@ import tools.WeightedSetOfRandomOutcomes;
 import tools.json.JSONParser;
 import tools.json.types.JSONObject;
 
-/** 
+/**
  */
 public class LoaderConfigurationsTRAn extends LoaderConfigurationsRPG {
 

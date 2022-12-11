@@ -6,7 +6,7 @@ import tools.ObjectNamedID;
 
 /**
  * A generic event that occours in the game
- * 
+ *
  * @author ottin
  *
  */
@@ -49,7 +49,7 @@ public interface IGEvent extends ObjectNamedID {
 	 * usually</li>
 	 * </ul>
 	 *
-	 * 
+	 *
 	 * @return <code>true</code> if the event is urgent, <code>false</code>
 	 *         otherwise
 	 */

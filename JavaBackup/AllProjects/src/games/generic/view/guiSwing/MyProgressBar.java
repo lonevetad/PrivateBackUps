@@ -30,9 +30,9 @@ public class MyProgressBar extends JLabel {
 			System.out.println(writeImage(nomeImmagine + " _immagine ORIGINALE", matricePixelOriginal));
 			/*
 			 * getMatrixPixelOriginal() ) );
-			 * 
+			 *
 			 * CastingClass.
-			 * 
+			 *
 			 * File.separatorChar +
 			 */
 			MyProgressBar mpb = new MyProgressBar(500, 200, 0, 5, 0);
@@ -937,7 +937,7 @@ public class MyProgressBar extends JLabel {
 
 	/*
 	 * class JLBProgBar extends JLabel {
-	 * 
+	 *
 	 * @Override public void paintComponent(Graphics g) { Graphics2D g2 =
 	 * (Graphics2D)g; g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 	 * RenderingHints.VALUE_ANTIALIAS_ON); AffineTransform aT = g2.getTransform();
@@ -946,7 +946,7 @@ public class MyProgressBar extends JLabel {
 	 * sono le coordinate relative all'origine di default, aventi coordinate
 	 * P(getX(), getY()) g2.setTransform(aT); g2.setClip(oldshape);
 	 * super.paintComponent(g); }
-	 * 
+	 *
 	 * @Override public void setSize( int width, int height) { super.setSize(width,
 	 * height); setSizeProgBar( jl.getWidth(), jl.getHeight() ); } }
 	 */

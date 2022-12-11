@@ -52,7 +52,7 @@ public interface DamageReceiverGeneric extends LifeHavingObject, GameObjectGener
 	/**
 	 * Returns a "per-thousand" value, as
 	 * {@link DamageDealerGeneric#getLuckPerThousand()}.
-	 * 
+	 *
 	 * @return a "per-thousand" value, as
 	 *         {@link DamageDealerGeneric#getLuckPerThousand()}.
 	 */

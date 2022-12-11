@@ -11,7 +11,7 @@ import games.theRisingAngel.enums.AttributesTRAn;
 /**
  * Apply a bonus and a malus of some attribute, at random, changing those two
  * values each time.
- * 
+ *
  * @author ottin
  *
  */

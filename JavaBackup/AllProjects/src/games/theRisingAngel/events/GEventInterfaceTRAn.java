@@ -50,7 +50,7 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 		return doe;
 	}
 
-// TODOOOOOOOOO dc'è da spostare molti eventi in un luogo più idoneo
+// TODOOOOOOOOO dc'ï¿½ da spostare molti eventi in un luogo piï¿½ idoneo
 
 	@Override
 	public void firePlayerEnteringInMap(GModalityET gameModality, PlayerGeneric p) {
@@ -132,7 +132,7 @@ public class GEventInterfaceTRAn implements GEventInterfaceRPG {
 				receiver, rechargeInstance);
 		this.getGameEventManager().fireEvent(eventRecharge);
 		return eventRecharge;
-	};
+	}
 
 	@Override
 	public <SourceRecharge extends ObjectWithID> EventResourceRecharge<SourceRecharge> fireResourceRechargeReceivedEvent(

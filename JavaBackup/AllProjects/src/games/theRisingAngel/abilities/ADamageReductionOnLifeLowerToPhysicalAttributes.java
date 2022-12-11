@@ -19,7 +19,7 @@ import tools.ObjectWithID;
  */
 //*  <code>a = 4; b = 1</code> and <code>c = d = e = 1</code>.
 public class ADamageReductionOnLifeLowerToPhysicalAttributes extends AbilityModifyingAttributesRealTime
-//		implements GEventObserver 
+//		implements GEventObserver
 {
 	private static final long serialVersionUID = -4521020230699090L;
 	public static final String NAME = "Trained to Endure";

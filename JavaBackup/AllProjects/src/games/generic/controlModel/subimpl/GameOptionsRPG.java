@@ -20,7 +20,7 @@ public class GameOptionsRPG extends GameOptions {
 	 * <i>centimeters</i>) which could be used to build up
 	 * {@link InSpaceObjectsManagerImpl} instances and to calculate object
 	 * movements.
-	 * 
+	 *
 	 * <p>
 	 */
 	public int getSpaceSubunitsEachUnit() { return spaceSubunitsEachUnit; }
@@ -34,7 +34,7 @@ public class GameOptionsRPG extends GameOptions {
 
 	/**
 	 * BEWARE OF CHANGING THE VALUE!!
-	 * 
+	 *
 	 * @param spaceSubunitsEachUnit
 	 */
 	public void setSpaceSubunitsEachUnit(int spaceSubunitsEachUnit) {
@@ -43,7 +43,7 @@ public class GameOptionsRPG extends GameOptions {
 
 	/**
 	 * BEWARE OF CHANGING THE VALUE!!
-	 * 
+	 *
 	 * @param timeSubunitsEachUnit
 	 */
 	public void setTimeSubunitsEachUnit(int timeSubunitsEachUnit) {

@@ -13,14 +13,14 @@ import tools.ObjectWithID;
  * life the more its level grows. The ability cost may grow in the same way.
  * <p>
  * It delegates
- * 
+ *
  * @author ottin
  */
 public interface AbiliyAllocation_V1 extends AbilityGeneric {
 
 	/**
 	 * Returns the ability this allocation is meant to.
-	 * 
+	 *
 	 * @return
 	 */
 	public AbilityGeneric getAllocatedAbility();

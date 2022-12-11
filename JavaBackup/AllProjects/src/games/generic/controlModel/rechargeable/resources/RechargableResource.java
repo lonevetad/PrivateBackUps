@@ -47,7 +47,7 @@ public interface RechargableResource extends ObjectNamedID {
 	 * Returns a time amount, representing the delay it needs to be elapsed after
 	 * the depletion of this resource before the recharging process may begin or be
 	 * resumed.
-	 * 
+	 *
 	 * @return
 	 */
 	public default int getDelayBeforeRecharge() {
@@ -61,7 +61,7 @@ public interface RechargableResource extends ObjectNamedID {
 	 * <p>
 	 * NOTE: as stated in {@link #setRechargeDelayIndependence(boolean)}, may use
 	 * some flag to force the no-delay recharge policy. For instance:
-	 * 
+	 *
 	 * <pre>
 	 * <code>
 	 * public boolean canBeRecharged() {
@@ -90,7 +90,7 @@ public interface RechargableResource extends ObjectNamedID {
 
 	/**
 	 * See {@link #getDelayBeforeRecharge()}
-	 * 
+	 *
 	 * @param delayBeforeRecharge
 	 */
 	public default void setDelayBeforeRecharge(int delayBeforeRecharge) {
@@ -109,7 +109,7 @@ public interface RechargableResource extends ObjectNamedID {
 	/**
 	 * Alter the current amount ({@link #getAmount()} by the provided integer delta
 	 * (could be a negative value).
-	 * 
+	 *
 	 * @param delta The amount of resource that will be recharged.
 	 */
 	public default void performRechargeBy(int delta) {
@@ -131,7 +131,7 @@ public interface RechargableResource extends ObjectNamedID {
 	 * in almost every aspects, let some processes to advance over time by a delta
 	 * of time units. For example, may deplete the delay imposed by
 	 * {@link #getDelayBeforeRecharge()} before the recharging process starts again.
-	 * 
+	 *
 	 * @param timeUnits
 	 */
 	public void advanceElapseTime(int timeUnits);

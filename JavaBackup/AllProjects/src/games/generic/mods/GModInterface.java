@@ -12,7 +12,7 @@ import games.generic.controlModel.misc.GModalityFactory;
  * Represent the point where a "mod" of a game can be defined, collected and
  * added to the main original game.<br>
  * It has to provide a set of features, interfaces, definitions, loaders etc.
- * 
+ *
  * @author ottin
  *
  */

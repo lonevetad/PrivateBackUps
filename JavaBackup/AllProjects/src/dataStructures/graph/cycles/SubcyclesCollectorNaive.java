@@ -340,7 +340,7 @@ public class SubcyclesCollectorNaive<E, Distance extends Number> implements Subc
 			 * the sub-cycle must be a "cycle": commonAncestor has a adjacent-based chain of
 			 * nodes connecting it to both "n" and "adj" and also "n" is connected to "adj,
 			 * but it's needed to check if there exist also
-			 * 
+			 *
 			 * from at least one "side" (i.e. from ancestor to n or from ancestor to adj)
 			 * there must exist
 			 */

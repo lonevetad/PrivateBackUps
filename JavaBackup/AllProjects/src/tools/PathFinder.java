@@ -44,7 +44,7 @@ public interface PathFinder<NodeType, NodeContent, Distance extends Number> { //
 	 * parameters), managing distances types through the third parameter and
 	 * providing a way to recognize when a node is a "free, walkable node" or a
 	 * "wall" (using the fourth parameter: a {@link Predicate}).
-	 * 
+	 *
 	 * @param start                             mandatory, the starting point of the
 	 *                                          path
 	 * @param dest                              mandatory, the destination of the
@@ -72,8 +72,8 @@ public interface PathFinder<NodeType, NodeContent, Distance extends Number> { //
 	 * but the starting point depends on the first parameter's location, who has
 	 * also a {@link AbstractShape2D} AND this implementation must take into account
 	 * that shape, checking if the shape can "walk" over the specified space.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param objPlanningToMove                 mandatory, the object having a
 	 *                                          {@link AbstractShape2D} and
 	 *                                          providing the starting point of the

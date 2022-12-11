@@ -6,7 +6,7 @@ import games.generic.controlModel.providers.AbilitiesProvider;
 import games.generic.controlModel.providers.EquipmentUpgradesProvider;
 
 /**
- * 
+ *
  * May apply some prices and discounts to bulk of extraction / appliance.
  */
 public class EssenceExtractorTRAn extends EssenceExtractor {

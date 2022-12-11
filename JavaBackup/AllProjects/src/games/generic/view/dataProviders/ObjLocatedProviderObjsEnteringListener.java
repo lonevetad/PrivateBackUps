@@ -17,7 +17,7 @@ import tools.UniqueIDProvider;
 
 /**
  * Instead of simply scanning, just ... deprecated
- * 
+ *
  * @deprecated 17/01/2022 Don't remember why
  */
 @Deprecated

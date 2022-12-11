@@ -15,7 +15,7 @@ import tools.UniqueIDProvider;
  * <p>
  * NOTE: all "mods" that wants to extend the set of creatures HAS to use
  * {@link #getUniqueIDProvider_CreatureTypesTRAn()}.
- * 
+ *
  * @author ottin
  *
  */

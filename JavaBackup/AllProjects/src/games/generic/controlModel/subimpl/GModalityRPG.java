@@ -52,7 +52,7 @@ public abstract class GModalityRPG extends GModalityET {
 
 	/**
 	 * See {@link GameOptionsRPG#getSpaceSubunitsEachUnit()}.
-	 * 
+	 *
 	 * @return
 	 */
 	public int getSpaceSubunitsEachUnit() {
@@ -63,7 +63,7 @@ public abstract class GModalityRPG extends GModalityET {
 
 	/**
 	 * See {@link GameOptionsRPG#getTimeSubunitsEachUnit()}.
-	 * 
+	 *
 	 * @return
 	 */
 	@Override

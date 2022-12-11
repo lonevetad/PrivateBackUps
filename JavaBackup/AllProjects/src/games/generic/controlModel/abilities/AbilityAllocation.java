@@ -11,7 +11,7 @@ import games.generic.controlModel.GModality;
  * life the more its level grows. The ability cost may grow in the same way.
  * <p>
  * It delegates
- * 
+ *
  * @author ottin
  */
 public interface AbilityAllocation {
@@ -19,7 +19,7 @@ public interface AbilityAllocation {
 
 	/**
 	 * Returns the ability this allocation is meant to.
-	 * 
+	 *
 	 * @return
 	 */
 	public AbilityGeneric getAllocatedAbility();

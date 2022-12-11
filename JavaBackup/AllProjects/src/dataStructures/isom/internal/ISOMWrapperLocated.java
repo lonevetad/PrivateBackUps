@@ -23,7 +23,7 @@ import geometry.PointInt;
  * top-left corner location, the angle of rotation and the coordinates offsets
  * while adding, removing and querying {@link ObjectInSpace} instances depending
  * of the said angle of rotation and the location offset .<br>
- * 
+ *
  * <p>
  * OLD DOCUMENTATION
  * <p>
@@ -51,12 +51,12 @@ public class ISOMWrapperLocated<Distance extends Number> implements ObjectLocate
 			 * horizontal axes.
 			 * <p>
 			 * Top Left corner<br>
-			 * 
+			 *
 			 * <pre>
 			 * |____________________________<br>
 			 * |  \                        |<br>
 			 * |     \                     |<br>
-			 * |        \---,angle ; > 180°|<br>
+			 * |        \---,angle ; > 180ï¿½|<br>
 			 * |-----------\--'------------|<br>
 			 * |                           |<br>
 			 * |                           |<br>
@@ -364,7 +364,7 @@ public class ISOMWrapperLocated<Distance extends Number> implements ObjectLocate
 			h = this.isomCacheHeight = isomDimension.height;
 			if (h == 0) {
 				this.angleTopLeftCornerCache = Math.PI / 2.0;
-				;
+
 			} else if (w == 0) {
 				this.angleTopLeftCornerCache = Math.PI;
 			} else {

@@ -123,7 +123,7 @@ public interface PathFinderIsom<Distance extends Number> extends PathFinder<Poin
 		return l;
 	}
 
-// 
+//
 
 	/**
 	 * The real implementation part of the path-finding that will be implemented. If

@@ -8,7 +8,7 @@ import games.generic.controlModel.items.EquipmentSet;
 import games.theRisingAngel.enums.EquipmentTypesTRAn;
 
 /**
- * 
+ *
  * Each Equipment should implements the set of "character statistics modifiers"
  * as follows (maybe through a class")
  * <p>

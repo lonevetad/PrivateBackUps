@@ -32,7 +32,7 @@ public interface CreatureSharingAbilities extends BaseCreatureRPG, GEventObserve
 	/**
 	 * Returns the "class" this creature belongs to. It's used to share the
 	 * abilities with the correct group,
-	 * 
+	 *
 	 * @return
 	 */
 	public ObjectNamedID getCreatureGroupBelonging();

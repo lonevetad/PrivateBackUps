@@ -438,7 +438,7 @@ public class CreatureAttributesBonusesCalculatorTRAn implements CreatureAttribut
 									+ ((+c.getValue(AttributesTRAn.Wisdom)) >> 1) // 1/8
 							) >> 1)) //
 							>> 1);
-			;
+
 //					(//
 //			+c.getValue(AttributesTRAn.Constitution) //
 //					+ ((//

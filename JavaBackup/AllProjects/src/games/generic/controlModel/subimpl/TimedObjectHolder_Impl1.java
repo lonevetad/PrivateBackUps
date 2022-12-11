@@ -9,9 +9,9 @@ import games.generic.controlModel.objects.TimedObject;
 import tools.Comparators;
 
 /**
- * 
+ *
  * @deprecated replaced by
- * 
+ *
  * @author ottin
  *
  */
@@ -35,9 +35,7 @@ public class TimedObjectHolder_Impl1 extends TimedObjectHolder {
 
 	@Override
 	public boolean add(TimedObject o) {
-		if (o == null || (!(o instanceof TimedObject)))
-			return false;
-		if (timedObjects.containsKey(o.getID())) { return false; }
+		if (o == null || (!(o instanceof TimedObject)) || timedObjects.containsKey(o.getID())) { return false; }
 		timedObjects.put(o.getID(), o);
 		return true;
 	}

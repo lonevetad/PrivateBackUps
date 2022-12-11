@@ -110,7 +110,7 @@ public abstract class InventoryItem extends OWIDLongImpl
 
 	/**
 	 * See {@link #getDimensionInInventory()};
-	 * 
+	 *
 	 * @param locationInInventory
 	 */
 	public void setLocationInInventory(Point locationInInventory) { this.locationInInventory = locationInInventory; }

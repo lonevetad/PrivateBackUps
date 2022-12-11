@@ -14,6 +14,7 @@ import games.generic.controlModel.misc.GameObjectsProvider;
 import games.generic.controlModel.objects.LivingObject;
 import games.generic.controlModel.subimpl.LoaderAbilities;
 import games.theRisingAngel.GModalityTRAnBaseWorld;
+import games.theRisingAngel.abilities.AAttrSingleBonusMalusRandom;
 import games.theRisingAngel.abilities.AAttrSingleBonusMalusRandomFixedAmount;
 import games.theRisingAngel.abilities.AAttrSingleBonusMalusRandomPercentage;
 import games.theRisingAngel.abilities.ADamageReductionCurrencyBased;
@@ -166,9 +167,9 @@ public class LoaderAbilityTRAn extends LoaderAbilities {
 				gm -> new AShieldingEachRchargeableResources());
 		objProvider.addObj(AVampireBerserker.NAME, AVampireBerserker.RARITY, AVampireBerserker::new);
 		objProvider.addObj(ARegenToLeech.NAME, ARegenToLeech.RARITY, ARegenToLeech::new);
-		objProvider.addObj(AAttrSingleBonusMalusRandomFixedAmount.NAME, AAttrSingleBonusMalusRandomFixedAmount.RARITY,
+		objProvider.addObj(AAttrSingleBonusMalusRandomFixedAmount.NAME, AAttrSingleBonusMalusRandom.RARITY,
 				AAttrSingleBonusMalusRandomFixedAmount::new);
-		objProvider.addObj(AAttrSingleBonusMalusRandomPercentage.NAME, AAttrSingleBonusMalusRandomPercentage.RARITY,
+		objProvider.addObj(AAttrSingleBonusMalusRandomPercentage.NAME, AAttrSingleBonusMalusRandom.RARITY,
 				AAttrSingleBonusMalusRandomPercentage::new);
 
 		//

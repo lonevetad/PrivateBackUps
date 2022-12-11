@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import games.generic.controlModel.GModality;
+import games.generic.controlModel.abilities.impl.AbilityModifyingAttributesRealTime;
 import games.generic.controlModel.abilities.impl.AbilityModifyingSingleAttributeRealTime;
 import games.generic.controlModel.events.GEventObserver;
 import games.generic.controlModel.events.IGEvent;
@@ -33,7 +34,7 @@ public class AMoreDamageReceivedMoreLifeRegen extends AbilityModifyingSingleAttr
 		this.eventsWatching = new ArrayList<>(2);
 		this.addEventWatched(EventsTRAn.DamageReceived);
 //		this.ticks = 0;
-		this.thresholdTime = AbilityModifyingSingleAttributeRealTime.MILLISEC_ATTRIBUTE_UPDATE;
+		this.thresholdTime = AbilityModifyingAttributesRealTime.MILLISEC_ATTRIBUTE_UPDATE;
 		this.accumulatedLifeRegen = 0;
 		setRarityIndex(RARITY);
 	}

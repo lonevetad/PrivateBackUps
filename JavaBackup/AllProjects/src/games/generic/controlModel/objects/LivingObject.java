@@ -69,7 +69,7 @@ public interface LivingObject
 		if (gm == null || (!(gm instanceof GModalityRPG)))
 			return null;
 		gmodrpg = (GModalityRPG) gm;
-//		gom = gmodrpg.getGameObjectsManagerDelegated(); 
+//		gom = gmodrpg.getGameObjectsManagerDelegated();
 		geie1 = (GEventInterfaceRPG) gmodrpg.getGameObjectsManager().getGEventInterface();
 		return geie1.fireDamageReceivedEvent(gmodrpg, source, this, originalDamage, damageAmountToBeApplied);
 //		gom.dealsDamageTo(source, this, originalDamage);// cannot "deals" damage because it's already dealt

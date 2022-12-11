@@ -18,7 +18,7 @@ public abstract class GEvent implements IGEvent {
 	 * null; public static final UIDProviderLoadedListener
 	 * UIDP_LOADED_LISTENER_EVENT = uidp -> { if (uidp != null) { UIDP_EVENT = uidp;
 	 * } };
-	 * 
+	 *
 	 * public static UniqueIDProvider getUniqueIDProvider_Event() { return
 	 * UIDP_EVENT; }
 	 */

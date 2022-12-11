@@ -60,19 +60,19 @@ public interface EquipItemAbility extends AbilityGeneric {
 	 * <p>
 	 * NOTE: to obtain the {@link BaseCreatureRPG} which this equipment's ability is
 	 * applied on, use the following chain code:
-	 * 
+	 *
 	 * <pre>
 	 * <code>
 	 * BaseCreatureRPG creatureHolder;
 	 * creatureHolder = {@link #getEquipItem()}.getBelongingEquipmentSet().getCreatureWearingEquipments();
-	 * // use creatureHolder ... , but beware of nulls 
-	 * 
+	 * // use creatureHolder ... , but beware of nulls
+	 *
 	 * // or the shorthand
 	 * creatureHolder = {@link #getEquipItem()}.getCreatureWearingEquipments();
 	 * // use creatureHolder ... , but beware of nulls
 	 * </code>
 	 * </pre>
-	 * 
+	 *
 	 * See {@link EquipmentItem#getBelongingEquipmentSet()} and
 	 * {@link EquipmentSet#getCreatureWearingEquipments()} for further
 	 * informations.>

@@ -17,7 +17,7 @@ import games.generic.controlModel.player.UserAccountGeneric;
  * defined in a static way), like a list of {@link UserAccountGeneric} saved
  * somewhere, then this class implementation should implement
  * {@link LoadingObserver}.
- * 
+ *
  * @author ottin
  *
  */

@@ -35,7 +35,7 @@ public interface GObjectsHolder<T extends ObjectWithID> {
 	public default int size() { return this.objectsHeldCount(); }
 
 	/**
-	 * 
+	 *
 	 * @param o the object to being added
 	 * @return wether the addition is successful (if the provided object is not
 	 *         suited for this hodelr, then {@code false} has to be returned).
@@ -43,7 +43,7 @@ public interface GObjectsHolder<T extends ObjectWithID> {
 	public boolean add(T o);
 
 	/***
-	 * 
+	 *
 	 * @param o
 	 * @return whether the object has been removed or not.
 	 */

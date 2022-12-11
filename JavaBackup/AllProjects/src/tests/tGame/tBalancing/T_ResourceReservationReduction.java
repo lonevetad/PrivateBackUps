@@ -89,7 +89,7 @@ public class T_ResourceReservationReduction {
 		doAndPrintTest(c, f_c, m_c);
 
 		/**
-		 * 
+		 *
 		 * <ul>
 		 * <li>15 .. l: 20, m: 2080</li>
 		 * <li>25 .. l: 11, m: 1248</li>
@@ -104,7 +104,7 @@ public class T_ResourceReservationReduction {
 	/***
 	 * 2022-04-02
 	 * <p>
-	 * 
+	 *
 	 * Per la meccanica di "riservare mana/vita/etc come costo di una abilita'",
 	 * progettare un'altra abilita' che riduca l'ammontare di risorsa riservata.<br>
 	 * Tale abilita' applica delle riduzioni alla percentuale di "riservamento" del
@@ -120,9 +120,9 @@ public class T_ResourceReservationReduction {
 	 * <p>
 	 * Quindi il mana rimanente e': <<br>
 	 * m*(1-r) <= m*(1 - r*(1-c)) - c*f_c - m_c<br>
-	 * 
+	 *
 	 * m*[ 1-r - (1 - r*(1-c)) ] <= -c*f_c + m_c <br>
-	 * 
+	 *
 	 * m*[ -r + r*(1-c) ] <= ..<br>
 	 * m*r*(-c) <= ...<br>
 	 * m <= (-c*f_c - m_c) / ( -r*c )<br>

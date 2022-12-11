@@ -34,6 +34,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -66,7 +68,7 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 	}
 
 	private ListBoxView(MyComparator<I> comparator, JComponent view) {
-		super(view, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		super(view, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		if (comparator == null)
 			throw new IllegalArgumentException("Comparator is null");
 		this.view = view;
@@ -500,7 +502,7 @@ public abstract class ListBoxView<I> extends JScrollPane implements Iterable<I> 
 		l = ListBoxView.getDefaultImplementation(Comparators.INTEGER_COMPARATOR);
 
 		fin = new JFrame("axfjsbgdfvhjsbdfv");
-		fin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fin.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		fin.add(l);
 		fin.addComponentListener(new ComponentAdapter() {
 			@Override

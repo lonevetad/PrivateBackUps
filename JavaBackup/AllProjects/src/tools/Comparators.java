@@ -21,7 +21,7 @@ public final class Comparators {
 	private Comparators() {}
 
 	public static final EditDistance DEFAULT_EDIT_DISTANCE = new EditDistanceLevenshtein();
-	private static final EditCosts<Byte> BYTE_EC = EditCosts.newDefaultCosts();;
+	private static final EditCosts<Byte> BYTE_EC = EditCosts.newDefaultCosts();
 
 	public static final MyComparator<String> STRING_COMPARATOR = new GenericComparator<>()//
 			, STRING_COMPARATOR_2 = //

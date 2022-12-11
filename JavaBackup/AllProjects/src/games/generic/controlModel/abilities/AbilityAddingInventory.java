@@ -7,7 +7,7 @@ import games.generic.controlModel.items.InventoryItems;
 
 /**
  * Ability that adds an
- * 
+ *
  * @author ottin
  *
  */
@@ -36,6 +36,6 @@ public abstract class AbilityAddingInventory extends AbilityBaseWithCustomName i
 
 	@Override
 	public void resetAbility() {
-//		this.getInventoryToAdd().empty(); 
+//		this.getInventoryToAdd().empty();
 	}
 }

@@ -6,7 +6,7 @@ import tools.ObjectNamedID;
 
 /**
  * Marker interface, used in the enum {@link CreatureTypesTRAn}.
- * 
+ *
  * @author ottin
  *
  */
