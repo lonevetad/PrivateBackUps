@@ -101,7 +101,6 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 			sizeRight = sizeLeft = 0;
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public void rotate(boolean isRight) {
 			int hl, hr;
@@ -142,13 +141,8 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 					NIL.left = NIL.right = NIL.father = NIL;
 					if (a == root) {
 						root = c;
-						c.father = NIL; // not necessary, but done to be sure
+						//c.father = NIL; // not necessary, but done to be sure
 					}
-					// adjust sizes
-//					if (c.right == NIL) c.sizeRight = 0;
-//					if (c.left == NIL) c.sizeLeft = 0;
-//					if (a.right == NIL) a.sizeRight = 0;
-//					if (b.left == NIL) b.sizeLeft = 0;
 					a.sizeLeft = c.sizeRight;
 					b.sizeRight = c.sizeLeft;
 					c.sizeRight += 1 + a.sizeRight;
@@ -209,8 +203,7 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 					c.sizeRight += 1 + b.sizeRight;
 					return;
 				}
-				right = right.left; // i could have put "nSide. .." but the whole piece of code would be less clear
-//				if (right == NIL) sizeRight = 0;
+				right = right.left;
 				nSide.left.father = this;
 				nSide.left = this;
 				// adjust sizes
@@ -237,12 +230,22 @@ public abstract class MapTreeAVLIndexable<K, V> extends MapTreeAVLLightweight<K,
 
 		@Override
 		protected int index() {
-			int i;
+			int i, indexNodeLeftInorder;
 			i = 0;
-			if (sizeLeft > 0)
-				i = sizeLeft + 1;
-			if (father != NIL && father.right == this)
-				i += father.index();
+			if (sizeLeft > 0){
+				i = sizeLeft;
+			}
+			indexNodeLeftInorder = -1;
+			NodeAVL_Indexable nodeLeftInOrder = this; 
+			while( nodeLeftInOrder != NIL && nodeLeftInOrder.father != NIL && nodeLeftInOrder.father.right != nodeLeftInOrder) {
+				nodeLeftInOrder = (MapTreeAVLIndexable<K, V>.NodeAVL_Indexable) nodeLeftInOrder.father;
+			}
+			if (nodeLeftInOrder != NIL && nodeLeftInOrder.father != NIL ){
+				indexNodeLeftInorder = nodeLeftInOrder.father.index();
+			}
+			if( indexNodeLeftInorder >= 0) {
+				i += indexNodeLeftInorder + 1;
+			}
 			return i;
 		}
 
