@@ -1623,8 +1623,19 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 				// right
 				nSide = left;
 				if (nSide.right.height > nSide.left.height) {
+					// left-right rotation (left on b, right on c)
 					// three-rotation : ignoring this difference would cause the tree to be
-					// umbalanced again
+					// umbalanced again. x,y,z and w might be (all or none) NIL
+					//h  :   .   n=a
+					//   .   ./  .  \.
+					//h+1:  b.   .   x
+					//h+2:y  .c
+					//h+3:   z w
+					// ->
+					//h  :   c
+					//   .  /.\
+					//h+1: b . a
+					//h+2:y z.w x.
 					final NodeAVL a, b, c;
 					a = this;
 					b = nSide;
@@ -1658,14 +1669,40 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 					}
 					return;
 				}
-				left = left.right; // i could have put "nSide. .." but the whole piece of code would be less clear
+				// right rotation on b
+				//h  :   .   n=a
+				//   .   ./  .  \.
+				//h+1:  b.   .   x
+				//h+2: c .y
+				//h+3:z w
+				// ->
+				//h  :   b
+				//   .  /.\
+				//h+1: c . a
+				//h+2:z w.y x.
+		
+				// note: oldFather pointers moved outside
+				left = left.right; // a.left == y
 				nSide.right.father = this;
-				nSide.right = this;
+				nSide.right = this; // b.right == a
 				// adjust sizes
 			} else {
 				// left
 				nSide = right;
 				if (nSide.left.height > nSide.right.height) {
+					// right-left rotation (right on b, left on c)
+					// three-rotation : ignoring this difference would cause the tree to be
+					// umbalanced again. x,y,z and w might be (all or none) NIL
+					//h  :   .   n=a
+					//   .   ./  .  \.
+					//h+1:  x.   .   b
+					//h+2:   .   .c  .  y
+					//h+3:   .   z w
+					// ->
+					//h  :   c
+					//   .  /.\
+					//h+1: a . b
+					//h+2:x z.w y.
 					final NodeAVL a, b, c;
 					a = this;
 					b = nSide;
@@ -1700,6 +1737,19 @@ public class MapTreeAVLLightweight<K, V> implements MapTreeAVL<K, V> {
 					}
 					return;
 				}
+				// left rotation on b
+				//h  :   .   n=a
+				//   .   ./  .  \.
+				//h+1:  x.   .   b
+				//h+2:   .   . y . c
+				//h+3:   .   .   .z w
+				// ->
+				//h  :   b
+				//   .  /.\
+				//h+1: a . c
+				//h+2:x y.z w.
+		
+				// note: oldFather pointers moved outside
 				right = right.left; // i could have put "nSide. .." but the whole piece of code would be less clear
 				nSide.left.father = this;
 				nSide.left = this;
